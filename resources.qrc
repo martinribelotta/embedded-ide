@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/api">
+        <file>keywords</file>
+        <file>prepro</file>
+    </qresource>
+</RCC>
