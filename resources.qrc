@@ -1,6 +1,20 @@
 <RCC>
-    <qresource prefix="/api">
-        <file>keywords</file>
-        <file>prepro</file>
+    <qresource prefix="/help">
+        <file>about.txt</file>
+    </qresource>
+    <qresource prefix="/icon-theme">
+        <file>icon-theme/application-exit.png</file>
+        <file>icon-theme/document-export-table.png</file>
+        <file>icon-theme/document-export.png</file>
+        <file>icon-theme/document-new.png</file>
+        <file>icon-theme/edit-copy.png</file>
+        <file>icon-theme/edit-cut.png</file>
+        <file>icon-theme/edit-paste.png</file>
+        <file>icon-theme/edit-redo.png</file>
+        <file>icon-theme/edit-undo.png</file>
+        <file>icon-theme/help-about.png</file>
+        <file>icon-theme/project-development-close-all.png</file>
+        <file>icon-theme/project-development-new-template.png</file>
+        <file>icon-theme/project-open.png</file>
     </qresource>
 </RCC>

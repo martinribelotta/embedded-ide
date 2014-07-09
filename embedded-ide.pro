@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-05-11T19:01:05
+# Project created by QtCreator 2014-06-29T17:36:01
 #
 #-------------------------------------------------
 
@@ -8,36 +8,34 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = eide
+TARGET = embedded-ide
 TEMPLATE = app
 
-CONFIG += qscintilla2
-
-LIBS += -lqscintilla2
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    documentarea.cpp \
+    documentview.cpp \
+    editorwidget.cpp \
     codeeditor.cpp \
-    documentmanager.cpp \
-    configuredialog.cpp \
-    buildmanager.cpp \
-    buildconfig.cpp
+    highlighter.cpp \
+    projectnewdialog.cpp
 
 HEADERS  += mainwindow.h \
+    documentarea.h \
+    documentview.h \
+    editorwidget.h \
     codeeditor.h \
-    documentmanager.h \
-    configuredialog.h \
-    buildmanager.h \
-    buildconfig.h \
-    programmsettings.h
+    highlighter.h \
+    projectnewdialog.h
 
 FORMS    += mainwindow.ui \
-    configuredialog.ui
+    documentview.ui \
+    editorwidget.ui \
+    projectnewdialog.ui
 
 RESOURCES += \
     resources.qrc
 
 OTHER_FILES += \
-    Makefile.template \
-    keywords \
-    prepro
+    about.txt

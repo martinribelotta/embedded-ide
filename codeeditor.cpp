@@ -1,115 +1,264 @@
 #include "codeeditor.h"
 
-#include <Qsci/qsciapis.h>
-#include <Qsci/qscilexer.h>
-#include <Qsci/qscilexercpp.h>
-
-#include <QVariant>
+#include <QPainter>
+#include <QTextBlock>
+#include <QCompleter>
+#include <QAbstractItemView>
+#include <QScrollBar>
+#include <QShortcut>
+#include <QKeyEvent>
+#include <QProcess>
 #include <QFileInfo>
 
-static bool isFixedPitch(const QFont & font) {
-    const QFontInfo fi(font);
-    return fi.fixedPitch();
-}
+#include <QHBoxLayout>
+#include <QListView>
+#include <QStringListModel>
 
-static QFont getMonospaceFont(int z = 10){
-    QFont font("Monospace");
-    font.setPointSize(z);
-    if (isFixedPitch(font)) return font;
-    font.setStyleHint(QFont::Monospace);
-    if (isFixedPitch(font)) return font;
-    font.setStyleHint(QFont::TypeWriter);
-    if (isFixedPitch(font)) return font;
-    font.setFamily("courier");
-    if (isFixedPitch(font)) return font;
-    return font;
-}
-
-static void loadApiFrom(QsciAPIs *api, const QString& name) {
-    QFile apiFile(name);
-    if (apiFile.open(QFile::ReadOnly)) {
-        QString line;
-        while(!(line = apiFile.readLine()).isEmpty())
-            api->add(line);
-    }
-}
-
-static void loadApis(QsciAPIs *api) {
-    loadApiFrom(api, ":/api/keywords");
-    loadApiFrom(api, ":/api/prepro");
-}
+#include <QtDebug>
 
 CodeEditor::CodeEditor(QWidget *parent) :
-    QsciScintilla(parent)
+    QPlainTextEdit(parent)
 {
-    initializeEditor();
-    setFileName(QString());
-    connect(this, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
+    m_completer = new QCompleter(this);
+    m_completer->setObjectName("completer");
+    m_completer->setCompletionMode(QCompleter::PopupCompletion);
+    m_completer->setWidget(this);
+    m_completer->setModel(new QStringListModel(m_completer));
+    connect(m_completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
+
+    completionProc = new QProcess(this);
+    connect(completionProc, SIGNAL(readyRead()), this, SLOT(completionDone()));
+
+    QFont f("monospace");
+    f.setStyleHint(QFont::Monospace);
+    setFont(f);
+    setWordWrapMode(QTextOption::NoWrap);
+
+    lineNumberArea = new LineNumberArea(this);
+
+    connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
+    connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
+    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+
+    updateLineNumberAreaWidth(0);
+    highlightCurrentLine();
 }
 
-CodeEditor::~CodeEditor()
+int CodeEditor::lineNumberAreaWidth()
 {
-}
-
-QFont CodeEditor::defaultFont()
-{
-    return getMonospaceFont();
-}
-
-CodeEditor::Context_t CodeEditor::context() const
-{
-    Context_t ctx;
-    QFileInfo info(fileName());
-    info.makeAbsolute();
-    if (info.exists()) {
-        ctx["filename"] = info.fileName();
-        ctx["path"] = info.path();
-        ctx["filepath"] = info.filePath();
-        ctx["basename"] = info.baseName();
-        ctx["suffix"] = info.suffix();
+    int digits = 1;
+    int max = qMax(1, blockCount());
+    while (max >= 10) {
+        max /= 10;
+        ++digits;
     }
-    return ctx;
+
+    int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+
+    return space;
 }
 
-void CodeEditor::initializeEditor()
+void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
-    setAutoIndent(true);
-    setBraceMatching(StrictBraceMatch);
-    setIndentationGuides(true);
-    setIndentationsUseTabs(false);
-    setIndentationWidth(4);
-    setEdgeMode(EdgeLine);
-    setEdgeColumn(80);
-    setAnnotationDisplay(AnnotationBoxed);
-
-    setFont(defaultFont());
-
-    setLexer(new QsciLexerCPP());
-    lexer()->setDefaultFont(defaultFont());
-    lexer()->setFont(defaultFont());
-    lexer()->setAutoIndentStyle(AiClosing|AiOpening);
-
-    setAutoCompletionSource(AcsAll);
-    setAutoCompletionThreshold(1);
-    QsciAPIs *cApi = new QsciAPIs(lexer());
-    loadApis(cApi);
-    cApi->prepare();
-
-    setMarginsFont(font());
-    setMarginWidth(0, QFontMetrics(font()).width(QString::number(lines())) + 6);
-    setMarginLineNumbers(0, true);
-    setMarginsBackgroundColor(QColor("#cccccc"));
-
-    setCaretLineVisible(true);
-    setCaretLineBackgroundColor(lexer()->defaultPaper().lighter(110));
-
-    FoldStyle state = static_cast<FoldStyle>((!folding()) * 5);
-    if (!state)
-        foldAll(false);
-    setFolding(state);
+    setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
 
-void CodeEditor::onTextChanged()
+void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
 {
-    setMarginWidth(0, fontMetrics().width(QString::number(lines())) + 6);
+    if (dy)
+        lineNumberArea->scroll(0, dy);
+    else
+        lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());
+
+    if (rect.contains(viewport()->rect()))
+        updateLineNumberAreaWidth(0);
+}
+
+void CodeEditor::insertCompletion(const QString &completion)
+{
+    qDebug() << "Complete with" << completion;
+    QTextCursor tc = textUnderCursor();
+    tc.insertText(completion);
+    setTextCursor(tc);
+    m_completer->popup()->hide();
+}
+
+static QStringList parseClangOut(const QString& out) {
+    qDebug() << "clang out:" << out;
+    QStringList list;
+    QRegExp re("COMPLETION\\: ([^\\n]*)");
+    int pos = 0;
+    while(re.indexIn(out, pos) != -1) {
+        list.append(re.cap(1));
+        pos += re.matchedLength();
+    }
+    return list;
+}
+
+void CodeEditor::completionDone()
+{
+    QStringListModel *m = qobject_cast<QStringListModel*>(m_completer->model());
+    m->setStringList(parseClangOut(completionProc->readAll()));
+    completionShow();
+}
+
+void CodeEditor::completionActivate()
+{
+    QString llvmPath = "/opt/llvm/bin/"; // FIXME Configure it
+    completionProc->start(QString("%4clang -cc1 -code-completion-at %1:%2:%3 %1")
+                          .arg(m_documentFile)
+                          .arg(textCursor().blockNumber() + 1)
+                          .arg(textCursor().columnNumber() + 1)
+                          .arg(llvmPath));
+}
+
+void CodeEditor::completionShow()
+{
+    QString underCursor = textUnderCursor().selectedText();
+    m_completer->setCompletionPrefix(underCursor);
+    qDebug() << "under cursor" << underCursor;
+    int w = m_completer->popup()->sizeHintForColumn(0) +
+            m_completer->popup()->verticalScrollBar()->sizeHint().width();
+    QRect r = cursorRect();
+    r.setWidth(w);
+    m_completer->complete(r);
+}
+
+bool CodeEditor::load(const QString &fileName)
+{
+    QFile f(fileName);
+    if (f.open(QFile::ReadOnly)) {
+        setPlainText(f.readAll());
+        if (f.error() == QFile::NoError) {
+           m_documentFile = f.fileName();
+           return true;
+        }
+    }
+    emit fileError(f.errorString());
+    return false;
+}
+
+bool CodeEditor::save()
+{
+    if (m_documentFile.isEmpty())
+        return true;
+    QFile f(m_documentFile);
+    if (f.open(QFile::WriteOnly)) {
+        f.write(toPlainText().toLocal8Bit());
+        if (f.error() == QFile::NoError) {
+            document()->setModified(false);
+            return true;
+        }
+    }
+    emit fileError(f.errorString());
+    return false;
+}
+
+QTextCursor CodeEditor::textUnderCursor() const
+{
+    QTextCursor tc = textCursor();
+    QTextDocument *doc = document();
+    do {
+        if (!tc.movePosition(QTextCursor::Left))
+            break;
+    } while(!doc->characterAt(tc.position()).isSpace());
+    if (doc->characterAt(tc.position()).isSpace())
+        tc.movePosition(QTextCursor::Right);
+    while (!doc->characterAt(tc.position()).isSpace())
+        tc.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+    return tc;
+}
+
+QString CodeEditor::lineUnderCursor() const
+{
+    QTextCursor tc = textCursor();
+    tc.select(QTextCursor::LineUnderCursor);
+    return tc.selectedText();
+}
+
+void CodeEditor::resizeEvent(QResizeEvent *e)
+{
+    QPlainTextEdit::resizeEvent(e);
+
+    QRect cr = contentsRect();
+    lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+}
+
+void CodeEditor::keyPressEvent(QKeyEvent *e)
+{
+    if (m_completer->popup()->isVisible()) {
+        switch(e->key()) {
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
+        case Qt::Key_Escape:
+        case Qt::Key_Tab:
+        case Qt::Key_Backtab:
+            e->ignore();
+            return;
+        }
+        QPlainTextEdit::keyPressEvent(e);
+        completionShow();
+    } else if (e->modifiers() == Qt::CTRL && e->key() == Qt::Key_Space) {
+        completionActivate();
+    } else {
+        QString line;
+        if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)
+            line = lineUnderCursor();
+        QPlainTextEdit::keyPressEvent(e);
+        if (!line.isEmpty()) {
+            int i=0;
+            QString nextIndend;
+            while(i<line.length() && line.at(i).isSpace()) {
+                nextIndend += line.at(i);
+                i++;
+            }
+            if (i<line.length() && !line.at(i).isSpace())
+                insertPlainText(nextIndend);
+        }
+    }
+}
+
+void CodeEditor::highlightCurrentLine()
+{
+    QList<QTextEdit::ExtraSelection> extraSelections;
+
+    if (!isReadOnly()) {
+        QTextEdit::ExtraSelection selection;
+
+        QColor lineColor = QColor(Qt::yellow).lighter(160);
+
+        selection.format.setBackground(lineColor);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+        selection.cursor = textCursor();
+        selection.cursor.clearSelection();
+        extraSelections.append(selection);
+    }
+
+    setExtraSelections(extraSelections);
+}
+
+void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
+{
+    QPainter painter(lineNumberArea);
+    painter.fillRect(event->rect(), Qt::lightGray);
+
+
+    QTextBlock block = firstVisibleBlock();
+    int blockNumber = block.blockNumber();
+    int top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
+    int bottom = top + (int) blockBoundingRect(block).height();
+
+    while (block.isValid() && top <= event->rect().bottom()) {
+        if (block.isVisible() && bottom >= event->rect().top()) {
+            QString number = QString::number(blockNumber + 1);
+            painter.setPen(Qt::black);
+            painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(),
+                             Qt::AlignRight, number);
+        }
+
+        block = block.next();
+        top = bottom;
+        bottom = top + (int) blockBoundingRect(block).height();
+        ++blockNumber;
+    }
 }

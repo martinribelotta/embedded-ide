@@ -3,8 +3,6 @@
 
 #include <QMainWindow>
 
-class BuildManager;
-
 namespace Ui {
 class MainWindow;
 }
@@ -18,29 +16,35 @@ public:
     ~MainWindow();
 
 protected:
-    virtual QMenu *createPopupMenu();
+    virtual void closeEvent(QCloseEvent *e);
 
 private slots:
-    void on_centralWidget_tabCloseRequested(int n);
+    void on_projectView_fileOpen(const QString &);
 
-    void on_actionNew_triggered();
+    void on_actionProjectNew_triggered();
 
-    void on_actionOpen_triggered();
+    void on_actionProjectOpen_triggered();
 
-    void on_actionExit_triggered();
+    void on_actionHelp_triggered();
 
-    void on_actionSave_triggered();
+    void on_actionProjectExport_triggered();
 
-    void on_actionBuild_triggered();
+    void on_projectView_startBuild(const QString &target);
 
-    void on_actionConfigure_triggered();
+    void on_actionProjectClose_triggered();
 
-    void on_textBrowser_customContextMenuRequested(const QPoint &pos);
+    void on_buildStop_clicked();
 
-    void toggle_lockWidgets(bool lock);
+    void on_projectView_buildStdout(const QString& text);
+
+    void on_projectView_buildStderr(const QString& text);
+
+    void on_projectView_buildEnd(int status);
+
+    void on_actionSave_All_triggered();
+
 private:
     Ui::MainWindow *ui;
-    BuildManager *runner;
 };
 
 #endif // MAINWINDOW_H
