@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QFile>
 #include <QPushButton>
+#include <QFileDialog>
 
 #include <QtDebug>
 
@@ -42,4 +43,27 @@ void ProjectNewDialog::refreshProjectName()
             QFileInfo(ui->projectPath->text()).exists() &&
             !ui->projectName->text().isEmpty();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(en);
+}
+
+void ProjectNewDialog::on_toolFindProjectPath_clicked()
+{
+    QString path = QFileDialog::getExistingDirectory(this, tr("Project location"));
+    if (!path.isEmpty())
+        ui->projectPath->setText(path);
+}
+
+void ProjectNewDialog::on_toolLoadTemplate_clicked()
+{
+    QString templateName = QFileDialog::getOpenFileName(this,
+                                                        tr("Open template"),
+                                                        QString(),
+                                                        tr("Template files (*.template);;"
+                                                           "Diff files (*.diff);;"
+                                                           "All files (*)"));
+    if (!templateName.isEmpty()) {
+        int idx = ui->templateFile->findText(templateName);
+        if (idx == -1)
+            ui->templateFile->insertItem(idx = 0, templateName);
+        ui->templateFile->setCurrentIndex(idx);
+    }
 }

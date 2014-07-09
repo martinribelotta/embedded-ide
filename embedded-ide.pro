@@ -8,6 +8,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+DESTDIR = build
+
 TARGET = embedded-ide
 TEMPLATE = app
 

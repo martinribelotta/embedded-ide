@@ -20,6 +20,10 @@ public:
 private slots:
     void refreshProjectName();
 
+    void on_toolFindProjectPath_clicked();
+
+    void on_toolLoadTemplate_clicked();
+
 private:
     Ui::ProjectNewDialog *ui;
 };
