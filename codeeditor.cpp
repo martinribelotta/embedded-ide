@@ -16,6 +16,30 @@
 
 #include <QtDebug>
 
+class LineNumberArea : public QWidget
+{
+public:
+    LineNumberArea(CodeEditor *editor) : QWidget(editor) {
+        codeEditor = editor;
+    }
+
+    QSize sizeHint() const {
+        return QSize(codeEditor->lineNumberAreaWidth(), 0);
+    }
+
+protected:
+    void paintEvent(QPaintEvent *event) {
+        codeEditor->lineNumberAreaPaintEvent(event);
+    }
+
+    void mouseDoubleClickEvent(QMouseEvent *e) {
+        codeEditor->lineNumberAreaDoubleClick(e->pos());
+    }
+
+private:
+    CodeEditor *codeEditor;
+};
+
 CodeEditor::CodeEditor(QWidget *parent) :
     QPlainTextEdit(parent)
 {
@@ -28,6 +52,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
 
     completionProc = new QProcess(this);
     connect(completionProc, SIGNAL(readyRead()), this, SLOT(completionDone()));
+    connect(completionProc, SIGNAL(started()), this, SLOT(sendCurrentCode()));
 
     QFont f("monospace");
     f.setStyleHint(QFont::Monospace);
@@ -38,10 +63,10 @@ CodeEditor::CodeEditor(QWidget *parent) :
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
-    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
+    connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(refreshHighlighterLines()));
 
     updateLineNumberAreaWidth(0);
-    highlightCurrentLine();
+    refreshHighlighterLines();
 }
 
 int CodeEditor::lineNumberAreaWidth()
@@ -53,7 +78,7 @@ int CodeEditor::lineNumberAreaWidth()
         ++digits;
     }
 
-    int space = 3 + fontMetrics().width(QLatin1Char('9')) * digits;
+    int space = 16 + fontMetrics().width(QLatin1Char('9')) * digits;
 
     return space;
 }
@@ -72,6 +97,13 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
 
     if (rect.contains(viewport()->rect()))
         updateLineNumberAreaWidth(0);
+}
+
+void CodeEditor::sendCurrentCode()
+{
+    completionProc->write(toPlainText().toLocal8Bit());
+    completionProc->write("\r\n"); // XXX REquired by completion on EOF. Whi?
+    completionProc->closeWriteChannel();
 }
 
 void CodeEditor::insertCompletion(const QString &completion)
@@ -105,8 +137,7 @@ void CodeEditor::completionDone()
 void CodeEditor::completionActivate()
 {
     QString llvmPath = "/opt/llvm/bin/"; // FIXME Configure it
-    completionProc->start(QString("%4clang -cc1 -code-completion-at %1:%2:%3 %1")
-                          .arg(m_documentFile)
+    completionProc->start(QString("%3clang -cc1 -code-completion-at -:%1:%2 -")
                           .arg(textCursor().blockNumber() + 1)
                           .arg(textCursor().columnNumber() + 1)
                           .arg(llvmPath));
@@ -218,7 +249,7 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
     }
 }
 
-void CodeEditor::highlightCurrentLine()
+void CodeEditor::refreshHighlighterLines()
 {
     QList<QTextEdit::ExtraSelection> extraSelections;
 
@@ -234,14 +265,42 @@ void CodeEditor::highlightCurrentLine()
         extraSelections.append(selection);
     }
 
+    QList<int> invalids;
+    QHashIterator<int, QColor> i(highlightLines);
+    while (i.hasNext()) {
+        i.next();
+        int line = i.key();
+        QColor c = i.value();
+        QTextEdit::ExtraSelection selection;
+
+        QColor lineColor = c;
+
+        selection.format.setBackground(lineColor);
+        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+        selection.cursor = textCursor();
+        selection.cursor.setPosition(0);
+        if (selection.cursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, line - 1)) {
+            selection.cursor.clearSelection();
+            extraSelections.append(selection);
+        } else {
+            qDebug() << "invalid line" << line;
+            invalids.append(line); // Don't modify hash table over loop
+        }
+    }
+    foreach(int invalidLine, invalids)
+        highlightLines.remove(invalidLine);
+
     setExtraSelections(extraSelections);
+}
+
+static inline const QColor transparent(const QColor& c, float a) {
+    return QColor(c.red(), c.green(), c.blue(), (int) (255*a));
 }
 
 void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(lineNumberArea);
     painter.fillRect(event->rect(), Qt::lightGray);
-
 
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
@@ -252,8 +311,35 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
             painter.setPen(Qt::black);
-            painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(),
+            painter.setBrush(QBrush(QColor(0, 0, 0, 0)));
+            painter.drawText(0, top, lineNumberArea->width() - 8, fontMetrics().height(),
                              Qt::AlignRight, number);
+            if (highlightLines.contains(blockNumber + 1)) {
+                painter.setPen(QPen(Qt::NoPen));
+                painter.setBrush(QBrush(transparent(QColor(Qt::red).lighter(160), 0.5)));
+                QRect r(QPoint(0, top), QSize(lineNumberArea->width(), fontMetrics().height()));
+                painter.drawRect(r);
+            }
+        }
+
+        block = block.next();
+        top = bottom;
+        bottom = top + (int) blockBoundingRect(block).height();
+        ++blockNumber;
+    }
+}
+
+void CodeEditor::lineNumberAreaDoubleClick(const QPoint &p)
+{
+    QTextBlock block = firstVisibleBlock();
+    int blockNumber = block.blockNumber();
+    int top = (int) blockBoundingGeometry(block).translated(contentOffset()).top();
+    int bottom = top + (int) blockBoundingRect(block).height();
+
+    while (block.isValid()) {
+        if (block.isVisible() && p.y() >= top && p.y() <= bottom) {
+            toggleHighlightLine(blockNumber + 1, QColor(Qt::green).lighter(160));
+            break;
         }
 
         block = block.next();

@@ -24,8 +24,12 @@ private slots:
 
     void on_toolLoadTemplate_clicked();
 
+    void on_templateFile_editTextChanged(const QString &fileName);
+
 private:
     Ui::ProjectNewDialog *ui;
+
+    QString replaceTemplates(const QString& text) const;
 };
 
 #endif // PROJECTNEWDIALOG_H

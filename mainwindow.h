@@ -19,6 +19,8 @@ protected:
     virtual void closeEvent(QCloseEvent *e);
 
 private slots:
+    void actionNewFromTemplateEnd(const QString& project, const QString& error);
+
     void on_projectView_fileOpen(const QString &);
 
     void on_actionProjectNew_triggered();
@@ -42,6 +44,8 @@ private slots:
     void on_projectView_buildEnd(int status);
 
     void on_actionSave_All_triggered();
+
+    void on_actionDocumentNew_triggered();
 
 private:
     Ui::MainWindow *ui;

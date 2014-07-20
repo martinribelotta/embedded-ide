@@ -21,7 +21,10 @@ SOURCES += main.cpp\
     editorwidget.cpp \
     codeeditor.cpp \
     highlighter.cpp \
-    projectnewdialog.cpp
+    projectnewdialog.cpp \
+    targetupdatediscover.cpp \
+    projetfromtemplate.cpp \
+    projectexporter.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -29,7 +32,10 @@ HEADERS  += mainwindow.h \
     editorwidget.h \
     codeeditor.h \
     highlighter.h \
-    projectnewdialog.h
+    projectnewdialog.h \
+    targetupdatediscover.h \
+    projetfromtemplate.h \
+    projectexporter.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \

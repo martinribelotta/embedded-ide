@@ -23,14 +23,13 @@ public:
 public slots:
     void closeProject();
     void openProject(const QString& projectFile);
-    QString newTemplateProject(const QString &projectPath, const QString& patchText);
     QString makeTemplate(const QString& diffFile);
     void buildStart(const QString& target);
     void buildStop();
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);
-    void updateTargets();
+    void updateTargets(const QStringList& targetList);
 
     void on_targetList_doubleClicked(const QModelIndex &index);
 

@@ -10,6 +10,8 @@
 
 #include <QtDebug>
 
+#include "targetupdatediscover.h"
+
 static const QStringList PROJECT_FILES = QString("*.c *.cpp *.h *.hpp *.cc *.hh Makefile").split(' ');
 
 DocumentView::DocumentView(QWidget *parent) :
@@ -33,30 +35,6 @@ QString DocumentView::project() const
     if (!m)
         return QString();
     return m->rootDirectory().absoluteFilePath("Makefile");
-}
-
-static QStringList projectTargets(const QString& projectFile)
-{
-    QStringList targets;
-    QFileInfo f(projectFile);
-    if (f.absoluteDir().exists()) {
-        QProcess proc;
-        proc.setWorkingDirectory(f.absolutePath());
-        proc.start("make -prn");
-        if (proc.waitForStarted(1000)) {
-          if (proc.waitForFinished(1000)) {
-              QRegExp re("^(\\w+)\\:");
-              QString line;
-              while(!(line = proc.readLine()).isEmpty()) {
-                  if (line.trimmed().startsWith("# "))
-                      proc.readLine();
-                  else if (re.indexIn(line) == 0)
-                      targets += re.cap(1).trimmed().split(' ');
-              }
-          }
-        }
-    }
-    return targets.toSet().toList();
 }
 
 void DocumentView::closeProject()
@@ -86,35 +64,8 @@ void DocumentView::openProject(const QString &projectFile)
 #else
         ui->treeView->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 #endif
-        updateTargets();
+        (new TargetUpdateDiscover(this, SLOT(updateTargets(QStringList))))->start(project());
     }
-}
-
-QString DocumentView::newTemplateProject(const QString& projectPath, const QString &patchText)
-{
-    // FIXME Esto no tiene porque estar aca
-    QProcess patch;
-    QString error = tr("Unknow error");
-    if (QDir::root().mkpath(projectPath)) {
-        patch.setWorkingDirectory(projectPath);
-        patch.start(QString("patch -p0"));
-        if (!patch.waitForStarted(500)) {
-            error = tr("Cant execute patch");
-        } else {
-            patch.write(patchText.toLocal8Bit());
-            if (patch.waitForBytesWritten(5000)) {
-                patch.closeWriteChannel();
-                if (patch.waitForFinished(3000))
-                    return QString();
-                else
-                    error = tr("patch cant finished correct");
-            } else
-                error = tr("Cant wirte any");
-        }
-        QDir::root().rmdir(projectPath);
-    } else
-        error = tr("Cant create path %1").arg(projectPath);
-    return error;
 }
 
 static QString tmpName() {
@@ -199,11 +150,11 @@ void DocumentView::on_treeView_activated(const QModelIndex &index)
     }
 }
 
-void DocumentView::updateTargets()
+void DocumentView::updateTargets(const QStringList &targetList)
 {
     QIcon icon = QIcon::fromTheme("run-build-configure");
     ui->targetList->clear();
-    foreach(QString t, projectTargets(project()))
+    foreach(QString t, targetList)
         ui->targetList->addItem(new QListWidgetItem(icon, t));
 }
 

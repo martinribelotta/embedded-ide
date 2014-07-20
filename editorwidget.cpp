@@ -14,6 +14,10 @@ EditorWidget::EditorWidget(QWidget *parent) :
     ui(new Ui::EditorWidget)
 {
     ui->setupUi(this);
+    QAction *saveAction = new QAction(this);
+    saveAction->setShortcut(QKeySequence("ctrl+s"));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
+    ui->editor->addAction(saveAction);
     connect(ui->editor, SIGNAL(fileError(QString)), this, SIGNAL(editorError(QString)));
 }
 
@@ -40,5 +44,6 @@ bool EditorWidget::load(const QString &fileName)
 
 bool EditorWidget::save()
 {
+    qDebug() << "****** saving ******";
     return ui->editor->save();
 }

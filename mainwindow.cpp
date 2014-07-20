@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "projectexporter.h"
 #include "projectnewdialog.h"
+#include "projetfromtemplate.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -25,6 +27,14 @@ void MainWindow::closeEvent(QCloseEvent *e)
     e->accept();
 }
 
+void MainWindow::actionNewFromTemplateEnd(const QString &project, const QString &error)
+{
+    if (error.isEmpty()) {
+        ui->projectView->openProject(project + QDir::separator() + "Makefile");
+    } else
+        QMessageBox::critical(this, tr("Error"), error);
+}
+
 void MainWindow::on_projectView_fileOpen(const QString &file)
 {
     ui->centralWidget->fileOpen(file);
@@ -35,13 +45,8 @@ void MainWindow::on_actionProjectNew_triggered()
     ProjectNewDialog w(this);
     switch(w.exec()) {
     case QDialog::Accepted:
-        do {
-            QString error = ui->projectView->newTemplateProject(w.projectPath(), w.templateText());
-            if (error.isEmpty()) {
-                ui->projectView->openProject(w.projectPath() + QDir::separator() + "Makefile");
-            } else
-                QMessageBox::critical(this, tr("error"), error);
-        } while(0);
+        (new ProjetFromTemplate(w.projectPath(), w.templateText(),
+                                this, SLOT(actionNewFromTemplateEnd(QString,QString))))->start();
         break;
     default:
         break;
@@ -75,6 +80,21 @@ void MainWindow::on_actionHelp_triggered()
 void MainWindow::on_actionProjectExport_triggered()
 {
     if (!ui->projectView->project().isEmpty())
+#if 1
+        (new ProjectExporter(
+                QFileDialog::
+                getSaveFileName(this,
+                                tr("Export file"),
+                                tr("Unknown.template"),
+                                tr("Tempalte files (*.template);;"
+                                   "Diff files (*.diff);;"
+                                   "All files (*)")
+                                ),
+                QFileInfo(ui->projectView->project()).absolutePath(),
+                this,
+                SLOT(actionExportFinish(QString)))
+            )->start();
+#else
         ui->projectView->makeTemplate(QFileDialog::
                                       getSaveFileName(this,
                                                       tr("Export file"),
@@ -84,6 +104,7 @@ void MainWindow::on_actionProjectExport_triggered()
                                                          "All files (*)")
                                                       )
                                       );
+#endif
 }
 
 void MainWindow::on_projectView_startBuild(const QString &target)
@@ -133,5 +154,26 @@ void MainWindow::on_projectView_buildEnd(int status)
 
 void MainWindow::on_actionSave_All_triggered()
 {
+    ui->centralWidget->saveAll();
+}
 
+void MainWindow::on_actionDocumentNew_triggered()
+{
+    QString projectPath = QFileInfo(ui->projectView->project()).absolutePath();
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("New file"),
+                                                    projectPath,
+                                                    tr("C file (*.c);;"
+                                                       "C++ file (*.cpp);;"
+                                                       "Header (*.h);;"
+                                                       "All files (*)"));
+    if (!fileName.isEmpty()) {
+        QFile f(fileName);
+        if (!f.open(QFile::WriteOnly)) {
+            QMessageBox::critical(this, tr("Error creating file"), f.errorString());
+        } else {
+            f.close();
+            ui->centralWidget->fileOpen(fileName);
+        }
+    }
 }

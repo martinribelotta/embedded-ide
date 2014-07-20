@@ -20,6 +20,7 @@ public:
     explicit CodeEditor(QWidget *parent = 0);
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
+    void lineNumberAreaDoubleClick(const QPoint &p);
     int lineNumberAreaWidth();
 
 protected:
@@ -28,14 +29,37 @@ protected:
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
-    void highlightCurrentLine();
+    void refreshHighlighterLines();
     void updateLineNumberArea(const QRect &, int);
+    void sendCurrentCode();
     void insertCompletion(const QString &completion);
     void completionDone();
 
 public slots:
     bool load(const QString &fileName);
     bool save();
+
+    void addHighlightLine(int line, const QColor& c) {
+        highlightLines.insert(line, c);
+        refreshHighlighterLines();
+    }
+
+    void delHighlightLine(int line) {
+        highlightLines.remove(line);
+        refreshHighlighterLines();
+    }
+
+    void clearHighlightLines() {
+        highlightLines.clear();
+        refreshHighlighterLines();
+    }
+
+    void toggleHighlightLine(int line, const QColor& c) {
+        if (highlightLines.contains(line))
+            delHighlightLine(line);
+        else
+            addHighlightLine(line, c);
+    }
 
 signals:
     void fileError(const QString& errorText);
@@ -50,26 +74,7 @@ private:
     QCompleter *m_completer;
     QString m_documentFile;
     QProcess *completionProc;
-};
-
-class LineNumberArea : public QWidget
-{
-public:
-    LineNumberArea(CodeEditor *editor) : QWidget(editor) {
-        codeEditor = editor;
-    }
-
-    QSize sizeHint() const {
-        return QSize(codeEditor->lineNumberAreaWidth(), 0);
-    }
-
-protected:
-    void paintEvent(QPaintEvent *event) {
-        codeEditor->lineNumberAreaPaintEvent(event);
-    }
-
-private:
-    CodeEditor *codeEditor;
+    QHash<int, QColor> highlightLines;
 };
 
 #endif // CODEEDITOR_H
