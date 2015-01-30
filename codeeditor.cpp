@@ -13,6 +13,7 @@
 #include <QHBoxLayout>
 #include <QListView>
 #include <QStringListModel>
+#include <QSortFilterProxyModel>
 
 #include <QtDebug>
 
@@ -47,15 +48,18 @@ CodeEditor::CodeEditor(QWidget *parent) :
     m_completer->setObjectName("completer");
     m_completer->setCompletionMode(QCompleter::PopupCompletion);
     m_completer->setWidget(this);
-    m_completer->setModel(new QStringListModel(m_completer));
+
+    QSortFilterProxyModel *pModel = new QSortFilterProxyModel(m_completer);
+    pModel->setSourceModel(new QStringListModel(m_completer));
+    m_completer->setModel(pModel);
     connect(m_completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
 
     completionProc = new QProcess(this);
     connect(completionProc, SIGNAL(readyRead()), this, SLOT(completionDone()));
     connect(completionProc, SIGNAL(started()), this, SLOT(sendCurrentCode()));
 
-    QFont f("monospace");
-    f.setStyleHint(QFont::Monospace);
+    QFont f("DejaVu Sans Mono");
+    //f.setStyleHint(QFont::Monospace);
     setFont(f);
     setWordWrapMode(QTextOption::NoWrap);
 
@@ -124,19 +128,25 @@ static QStringList parseClangOut(const QString& out) {
         list.append(re.cap(1));
         pos += re.matchedLength();
     }
+    qDebug() << "Completion" << list;
     return list;
 }
 
 void CodeEditor::completionDone()
 {
+#if 0
     QStringListModel *m = qobject_cast<QStringListModel*>(m_completer->model());
+#else
+    QSortFilterProxyModel *pModel = qobject_cast<QSortFilterProxyModel*>(m_completer->model());
+    QStringListModel *m = qobject_cast<QStringListModel*>(pModel->sourceModel());
+#endif
     m->setStringList(parseClangOut(completionProc->readAll()));
     completionShow();
 }
 
 void CodeEditor::completionActivate()
 {
-    QString llvmPath = "/opt/llvm/bin/"; // FIXME Configure it
+    QString llvmPath = ""; // FIXME Configure it
     completionProc->start(QString("%3clang -cc1 -code-completion-at -:%1:%2 -")
                           .arg(textCursor().blockNumber() + 1)
                           .arg(textCursor().columnNumber() + 1)
@@ -146,7 +156,9 @@ void CodeEditor::completionActivate()
 void CodeEditor::completionShow()
 {
     QString underCursor = textUnderCursor().selectedText();
-    m_completer->setCompletionPrefix(underCursor);
+    QSortFilterProxyModel *pModel = qobject_cast<QSortFilterProxyModel*>(m_completer->model());
+    pModel->setFilterFixedString(underCursor);
+    // m_completer->setCompletionPrefix(underCursor);
     qDebug() << "under cursor" << underCursor;
     int w = m_completer->popup()->sizeHintForColumn(0) +
             m_completer->popup()->verticalScrollBar()->sizeHint().width();
@@ -256,7 +268,7 @@ void CodeEditor::refreshHighlighterLines()
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(Qt::yellow).lighter(160);
+        QColor lineColor = QColor(0xe0, 0xee, 0xf6); //QColor(Qt::yellow).lighter(160);
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);

@@ -8,6 +8,10 @@
 DocumentArea::DocumentArea(QWidget *parent) :
     QTabWidget(parent)
 {
+    QToolButton *closeAll = new QToolButton(this);
+    closeAll->setIcon(QIcon::fromTheme("tab-close-other"));
+    connect(closeAll, SIGNAL(clicked()), this, SLOT(closeAll()));
+    setCornerWidget(closeAll, Qt::TopRightCorner);
     setDocumentMode(true);
     setTabsClosable(true);
     setMovable(true);
@@ -43,6 +47,11 @@ void DocumentArea::documentToClose(int idx)
         w->deleteLater();
     }
     removeTab(idx);
+}
+
+void DocumentArea::closeAll()
+{
+    clear();
 }
 
 int DocumentArea::documentFind(const QString &file)

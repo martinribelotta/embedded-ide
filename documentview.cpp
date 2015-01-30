@@ -12,7 +12,7 @@
 
 #include "targetupdatediscover.h"
 
-static const QStringList PROJECT_FILES = QString("*.c *.cpp *.h *.hpp *.cc *.hh Makefile").split(' ');
+static const QStringList PROJECT_FILES = QString("*.c *.cpp *.h *.hpp *.cc *.hh Makefile *.ld *.dox").split(' ');
 
 DocumentView::DocumentView(QWidget *parent) :
     QWidget(parent),

@@ -17,6 +17,7 @@ public slots:
 
 private slots:
     void documentToClose(int idx);
+    void closeAll();
 
 private:
     int documentFind(const QString& file);

@@ -28,8 +28,9 @@ Highlighter::Highlighter(QTextDocument *parent)
 {
     HighlightingRule rule;
 
+
     priv->keywordFormat.setForeground(Qt::darkBlue);
-    priv->keywordFormat.setFontWeight(QFont::Bold);
+    //priv->keywordFormat.setFontWeight(QFont::Bold);
     QStringList keywordPatterns;
     keywordPatterns << "\\balignas\\b"
                     << "\\balignof\\b"
@@ -113,7 +114,7 @@ Highlighter::Highlighter(QTextDocument *parent)
     //! [1]
 
     //! [2]
-    priv->classFormat.setFontWeight(QFont::Bold);
+    //priv->classFormat.setFontWeight(QFont::Bold);
     priv->classFormat.setForeground(Qt::darkMagenta);
     rule.pattern = QRegExp("\\bQ[A-Za-z]+\\b");
     rule.format = priv->classFormat;
@@ -137,7 +138,7 @@ Highlighter::Highlighter(QTextDocument *parent)
     //! [4]
 
     //! [5]
-    priv->functionFormat.setFontItalic(true);
+    //priv->functionFormat.setFontItalic(true);
     priv->functionFormat.setForeground(Qt::blue);
     rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
     rule.format = priv->functionFormat;
@@ -148,8 +149,8 @@ Highlighter::Highlighter(QTextDocument *parent)
     priv->commentStartExpression = QRegExp("/\\*");
     priv->commentEndExpression = QRegExp("\\*/");
 
-    priv->preprocessorFormat.setFontItalic(true);
-    priv->preprocessorFormat.setForeground(Qt::gray);
+    //priv->preprocessorFormat.setFontItalic(true);
+    priv->preprocessorFormat.setForeground(Qt::darkRed);
     rule.pattern = QRegExp("^\\s*\\#[a-zA-Z]+\\s*.*$");
     rule.format = priv->preprocessorFormat;
     priv->highlightingRules.append(rule);
