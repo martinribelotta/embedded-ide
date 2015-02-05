@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<itemDatas name="GEdit" description="Color scheme compatible with GEdit" version="1.0" author="Diego Iastrubni (elcuco@kde.org)" >
+	<itemData defStyleNum="dsNormal"   name="Normal"         color="#000000" selColor="#ffffff" bold="0" italic="0" />
+	<itemData defStyleNum="dsKeyword"  name="Keyword"        color="#a62d2d" selColor="#ffffff" bold="1" italic="0" />
+	<itemData defStyleNum="dsDataType" name="Data type"      color="#2e8b56" selColor="#ffffff" bold="1" italic="0" />
+	<itemData defStyleNum="dsDecVal"   name="Decimal/Value"  color="#ff19ff" selColor="#00ffff" bold="0" italic="0" />
+	<itemData defStyleNum="dsBaseN"    name="Base-N Integer" color="#ff19ff" selColor="#00ffff" bold="0" italic="0" />
+	<itemData defStyleNum="dsFloat"    name="Floating point" color="#ff19ff" selColor="#00ffff" bold="0" italic="0" />
+	<itemData defStyleNum="dsChar"     name="Character"      color="#ff00ff" selColor="#ff00ff" bold="0" italic="0" />
+	<itemData defStyleNum="dsString"   name="String"         color="#ff00ff" selColor="#ff0000" bold="0" italic="0" />
+	<itemData defStyleNum="dsComment"  name="Comment"        color="#0000ff" selColor="#A0A0A4" bold="0" italic="0" />
+	<itemData defStyleNum="dsOthers"   name="Others"         color="#a020f0" selColor="#00ff00" bold="0" italic="0" />
+	<itemData defStyleNum="dsAlert"    name="Alert"          color="#0000ff" selColor="#ffcccc" bold="1" italic="0" />
+	<itemData defStyleNum="dsFunction" name="Function"       color="#000000" selColor="#ffffff" bold="0" italic="0" />
+	<itemData defStyleNum="dsRegion"   name="Region marker"  color="#ffffff" selColor="#A0A0A4" bold="0" italic="0" />
+	<itemData defStyleNum="dsError"    name="Error "         color="#ff0000" selColor="#ff0000" bold="0" italic="0" underline="1" />
+
+	<itemData defStyleNum="dsOthers2"  name="Diff added"     color="#008000" selColor="#00ff00" bold="0" italic="0" />
+	<itemData defStyleNum="dsOthers3"  name="Diff removed"   color="#800000" selColor="#00ff00" bold="0" italic="0" />
+	
+<!-- these are not syntax definitions, but defintions for the text editor -->
+	<itemData defStyleNum="dsWidgetBackground"   name="Widget background"         background="#ffffff"  />
+	<itemData defStyleNum="dsWidgetCurLine"      name="Widget current line"       background="#eeeff2"  />
+	<itemData defStyleNum="dsWidgetBookmark"     name="Widget bookmark line"      background="#0000FF"  />
+	<itemData defStyleNum="dsWidgetActiveBreakpoint"   name="Widget active breakpoint line"    background="#FF0000"  />
+	<itemData defStyleNum="dsWidgetReachedbreakpoint"  name="Widget reached breackpoint line"  background="#FFFF00"  />
+	<itemData defStyleNum="dsWidgetDisabledBreakpoint" name="Widget disabled breakpoint line"  background="#FF00FF"  />
+	<itemData defStyleNum="dsWidgetExecuion"           name="Widget execution line"            background="#A0A0A4"  />
+	<itemData defStyleNum="dsWidgetWarning"            name="Widget warning line"              background="#00FF00"  />
+	<itemData defStyleNum="dsWidgetError"              name="Widget error line"                background="#FF0000"  />
+
+	<itemData defStyleNum="dsWidgetLinesPanel"   name="Widget lines marker"       background="#e8e8e8"  />
+	<itemData defStyleNum="dsWidgetModifiedLine" name="Line modification marker"  background="#00ff00"  />
+	<itemData defStyleNum="dsWhiteSpace"         name="White spaces color"        color="#E0E0E0"  />
+	<itemData defStyleNum="dsCurrectBracket"     name="Mark current bracket"      background="#FFFF00" />
+</itemDatas>

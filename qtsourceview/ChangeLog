@@ -1,0 +1,18 @@
+QtSourceView - 30 Jul 2011 - 0.0.3
+ * Hilight engine: Support for non case-sensitve languages
+ * new demos: a text editor control (demo4, demo5)
+ * Qate: a new highlighter based on the highlighter from QtCreator (uses kate 
+   language definitions)
+ * About bloody time
+ 
+ 
+QtSourceView - 18 Aug 06 - 0.0.2
+ * Second release
+ * Added 3 new language definitions from GtkSourceView: scheme, octave, changelog
+ * Added 1 new original language: Qt project file
+ * Several bug fixes
+ * All examples are made with the designer now
+ * Minimal doxygen documentation
+ 
+QtSourceView - 22 Jul 06 - 0.0.1
+ * First release

@@ -13,6 +13,9 @@ DESTDIR = build
 TARGET = embedded-ide
 TEMPLATE = app
 
+QATE_SRC_DIR=qtsourceview/src
+QTSOURCEVIEW_SRC_DIR=qtsourceview/src
+include(qtsourceview/src/qsvsh.pri)
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -20,30 +23,34 @@ SOURCES += main.cpp\
     documentview.cpp \
     editorwidget.cpp \
     codeeditor.cpp \
-    highlighter.cpp \
     projectnewdialog.cpp \
     targetupdatediscover.cpp \
     projetfromtemplate.cpp \
-    projectexporter.cpp
+    projectexporter.cpp \
+    configdialog.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
     documentview.h \
     editorwidget.h \
     codeeditor.h \
-    highlighter.h \
     projectnewdialog.h \
     targetupdatediscover.h \
     projetfromtemplate.h \
-    projectexporter.h
+    projectexporter.h \
+    configdialog.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \
     editorwidget.ui \
-    projectnewdialog.ui
+    projectnewdialog.ui \
+    configdialog.ui
 
 RESOURCES += \
     resources.qrc
 
 OTHER_FILES += \
     about.txt
+
+DISTFILES += \
+    reference-code-c.txt

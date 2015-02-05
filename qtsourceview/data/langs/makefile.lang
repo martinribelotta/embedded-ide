@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Makefile" version="1.0" _section="Sources" mimetypes="text/x-makefile">
+<!--
+	Authors:   Ricardo Lenz  <riclc@hotmail.com>
+	           Paolo Borelli  <pborelli@katamail.com>
+-->
+
+	<escape-char>\</escape-char>
+
+	<line-comment _name ="Line Comment" style="Comment">
+		<start-regex>#</start-regex>
+	</line-comment>
+
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<string _name = "String 2" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+	<string _name = "Backtick String" style = "Function" end-at-line-end = "TRUE">
+		<start-regex>`</start-regex>
+		<end-regex>`</end-regex>
+	</string>
+
+	<keyword-list _name = "Variable1" style = "Others 3" match-empty-string-at-beginning = "FALSE" match-empty-string-at-end = "FALSE">
+		<keyword>[$]+[&lt;&gt;@?*{\(a-zA-Z0-9_][}\)a-zA-Z0-9_]*</keyword>
+	</keyword-list>
+	
+	<keyword-list _name = "Variable2" style = "Others 2" match-empty-string-at-beginning = "FALSE" match-empty-string-at-end = "FALSE">
+		<keyword>^[ \t]*[a-zA-Z_][a-zA-Z0-9_]*[ \t]*\=</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Directives" style="Keyword" case-sensitive="TRUE">
+		<keyword>define</keyword>
+		<keyword>else</keyword>
+		<keyword>endef</keyword>
+		<keyword>endif</keyword>
+		<!-- <keyword>export</keyword> FIXME: too many false positives -->
+		<keyword>ifdef</keyword>
+		<keyword>ifeq</keyword>
+		<keyword>ifndef</keyword>
+		<keyword>ifneq</keyword>
+		<!-- <keyword>include</keyword> FIXME: too many false positives -->
+		<keyword>override</keyword>
+		<keyword>unexport</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Functions" style="Function" case-sensitive="TRUE">
+		<keyword>addprefix</keyword>
+		<keyword>addsuffix</keyword>
+		<keyword>basename</keyword>
+		<keyword>call</keyword>
+		<keyword>dir</keyword>
+		<keyword>error</keyword>
+		<keyword>filter</keyword>
+		<keyword>filter-out</keyword>
+		<keyword>findstring</keyword>
+		<keyword>firstword</keyword>
+		<keyword>foreach</keyword>
+		<keyword>join</keyword>
+		<keyword>notdir</keyword>
+		<keyword>origin</keyword>
+		<keyword>patsubst</keyword>
+		<keyword>shell</keyword>
+		<keyword>sort</keyword>
+		<keyword>strip</keyword>
+		<keyword>subst</keyword>
+		<keyword>suffix</keyword>
+		<keyword>warning</keyword>
+		<keyword>wildcard</keyword>
+		<keyword>word</keyword>
+		<keyword>words</keyword>
+	</keyword-list>
+	
+	<pattern-item _name = "Targets" style = "Function">
+		<regex>^[ \t]*([a-zA-Z0-9_\.\-]+)[ \t]*\:</regex>
+	</pattern-item>
+
+	<keyword-list _name="Special Targets" style="Keyword" case-sensitive="TRUE"
+	 match-empty-string-at-beginning="FALSE" match-empty-string-at-end="TRUE"
+	 beginning-regex = "^">
+		<keyword>\.DEFAULT</keyword>
+		<keyword>\.EXPORT_ALL_VARIABLES</keyword>
+		<keyword>\.IGNORE</keyword>
+		<keyword>\.PHONY</keyword>
+		<keyword>\.PRECIOUS</keyword>
+		<keyword>\.SILENT</keyword>
+		<keyword>\.SUFFIXES</keyword>
+	</keyword-list>
+
+</language>

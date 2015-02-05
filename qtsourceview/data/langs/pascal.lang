@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Pascal" version="1.0" _section="Sources" mimetypes="text/x-pascal">
+
+	<string _name = "String" style = "String" end-at-line-end = "FALSE">
+		<start-regex>[uUrR]?&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+	<pattern-item _name = "Number" style = "Decimal">
+		<regex>\b(([0-9]+)|([0-9]+\.[0-9]+([Ee][-]?[0-9]+)?))\b</regex>
+	</pattern-item>
+
+	<!-- FIXME WHY DOESN'T THIS WORK? -->
+	<pattern-item _name = "Hex Number" style = "Decimal">
+		<regex>\b\$[0-9a-fA-F]*\b</regex>
+	</pattern-item>
+
+	<line-comment _name = "Line Comment" style= "Comment" end-at-line-end = "TRUE">
+		<start-regex>//</start-regex>
+	</line-comment>
+
+	<block-comment _name = "Block Comment 1" style= "Comment" end-at-line-end = "FALSE">
+		<start-regex>\(\*</start-regex>
+		<end-regex>\*\)</end-regex>
+	</block-comment>
+
+	<block-comment _name = "Block Comment 2" style= "Comment" end-at-line-end = "FALSE">
+		<start-regex>\{[^\$]</start-regex>
+		<end-regex>\}</end-regex>
+	</block-comment>
+
+	<block-comment _name = "Preprocessor Defines" style= "Preprocessor" end-at-line-end = "TRUE">
+		<start-regex>\{\$</start-regex>
+		<end-regex>\}</end-regex>
+	</block-comment>
+
+	<keyword-list _name = "General Format" style = "Keyword" case-sensitive="FALSE">
+		<!-- File Header -->
+		<keyword>Program</keyword>
+		<keyword>Library</keyword>
+		<keyword>Unit</keyword>
+		
+		<!-- File Sections -->
+		<keyword>Uses</keyword>
+		<keyword>Interface</keyword>
+		<keyword>Implementation</keyword>
+		
+		<!-- Unit Initialization/Finalization -->
+		<keyword>Initialization</keyword>
+		<keyword>Finalization</keyword>
+		
+		<!-- Code Block -->
+		<keyword>Begin</keyword>
+		<keyword>End</keyword>
+		
+		<!-- Variable and Constant -->
+		<keyword>Var</keyword>
+		<keyword>Const</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Functions and Function Modifiers" style = "Keyword" case-sensitive="FALSE">
+		<!-- Function Declarations -->
+		<keyword>Function</keyword>
+		<keyword>Procedure</keyword>
+		
+		<!-- Function Modifiers -->
+		<keyword>Overload</keyword>
+
+		<keyword>cdecl</keyword>		
+	</keyword-list>
+
+	<keyword-list _name = "Boolean Bitwise Operators" style = "Keyword" case-sensitive="FALSE">
+		<keyword>if</keyword>
+		<keyword>then</keyword>
+		<keyword>else</keyword>
+
+		<keyword>is</keyword>
+
+		<keyword>and</keyword>
+		<keyword>not</keyword>
+		<keyword>or</keyword>
+		<keyword>xor</keyword>
+
+		<keyword>shr</keyword>
+		<keyword>shl</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Math Operators" style = "Keyword" case-sensitive="FALSE">
+		<keyword>div</keyword>
+		<keyword>mod</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Loop, Flow, and Exceptions Keywords" style = "Keyword" case-sensitive="FALSE">
+		<keyword>while</keyword>
+		<keyword>do</keyword>
+
+		<keyword>for</keyword>
+		<keyword>to</keyword>
+
+		<keyword>case</keyword>
+		<keyword>of</keyword>
+
+		<keyword>repeat</keyword>
+		<keyword>until</keyword>
+
+		<keyword>break</keyword>
+		<keyword>continue</keyword>
+		
+		<keyword>try</keyword>
+		<keyword>except</keyword>
+		<keyword>finally</keyword>
+		<keyword>raise</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Type, Class and Object Keywords" style = "Keyword" case-sensitive="FALSE">
+		<keyword>Type</keyword>
+
+		<!-- Arrays and Records -->
+		<keyword>Packed</keyword>
+
+		<keyword>Array</keyword>
+		<keyword>Record</keyword>
+
+		<!-- Object, Class, and Interface  -->
+		<keyword>Object</keyword>
+		<keyword>Class</keyword>
+		<keyword>Interface</keyword>
+
+		<!-- Class Visibility Sections -->
+		<keyword>Public</keyword>
+		<keyword>Private</keyword>
+		<keyword>Protected</keyword>
+
+		<!-- Class Instance Initialization/Finalization -->
+		<keyword>Constructor</keyword>
+		<keyword>Destructor</keyword>
+
+		<!-- Class Function Modifiers -->
+		<keyword>Virtual</keyword>
+		<keyword>Abstract</keyword>
+		<keyword>Override</keyword>
+
+		<!-- Class Properties -->
+		<keyword>Property</keyword>
+		<keyword>Read</keyword>
+		<keyword>Write</keyword>
+		<keyword>default</keyword>
+				
+		<!-- Type casting -->
+		<keyword>With</keyword>
+		<keyword>As</keyword>
+		
+		<!-- Class Instance Reference-->
+		<keyword>self</keyword>
+
+		<!-- Class Inherited Functions -->
+		<keyword>Inherited</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Builtin Types" style = "Data Type" case-sensitive="FALSE">
+		<keyword>Char</keyword>
+		<keyword>String</keyword>
+		<keyword>Integer</keyword>
+		<keyword>Real</keyword>
+		<keyword>Boolean</keyword>
+		<keyword>Pointer</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Builtin Functions" style = "Keyword" case-sensitive="FALSE">
+		<!--  Conversions -->
+		<keyword>chr</keyword>
+		<keyword>ord</keyword>
+		<keyword>succ</keyword>
+		<keyword>pred</keyword>
+
+		<!-- Absolute Unsigned Value -->
+		<keyword>abs</keyword>
+
+		<!-- Rounding/Truncating -->
+		<keyword>round</keyword>
+		<keyword>trunc</keyword>
+
+		<!-- Square & Square Root -->
+		<keyword>sqr</keyword>
+		<keyword>sqrt</keyword>
+
+		<!-- Trig Functions -->
+		<keyword>arctan</keyword>
+		<keyword>cos</keyword>
+		<keyword>sin</keyword>
+
+		<!-- Exponents -->
+		<keyword>exp</keyword>
+		<keyword>ln</keyword>
+
+		<!-- Predicates -->
+		<keyword>odd</keyword>
+		<keyword>eof</keyword>
+		<keyword>eoln</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Builtin Values" style = "Keyword" case-sensitive="FALSE">
+		<keyword>nil</keyword>
+		<keyword>False</keyword>
+		<keyword>True</keyword>
+	</keyword-list>
+</language>

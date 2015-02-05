@@ -8,6 +8,10 @@ namespace Ui {
 class EditorWidget;
 }
 
+class QsvColorDefFactory;
+class QsvLangDef;
+class QsvSyntaxHighlighter;
+
 class EditorWidget : public QWidget
 {
     Q_OBJECT
@@ -25,6 +29,9 @@ signals:
 
 private:
     Ui::EditorWidget *ui;
+    QsvColorDefFactory *defColors;
+    QsvLangDef *langDef;
+    QsvSyntaxHighlighter *syntax;
 };
 
 #endif // EDITORWIDGET_H

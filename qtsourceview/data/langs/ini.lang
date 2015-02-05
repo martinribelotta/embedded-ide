@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name=".ini" version="1.0" _section="Others" mimetypes="text/x-ini-file;application/x-ini-file">
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>;</start-regex>
+	</line-comment>
+
+	<syntax-item _name = "Group" style = "Keyword">
+		<start-regex>^\[</start-regex>
+		<end-regex>\]$</end-regex>
+	</syntax-item>
+
+	<pattern-item _name = "Non Standard Key" style = "Data Type">
+		<regex>^_?X\-[a-zA-Z\-]+</regex>
+	</pattern-item>
+
+	<pattern-item _name = "Language" style = "Decimal">
+		<regex>\[[a-zA-Z_]+\]</regex>
+	</pattern-item>
+
+        <pattern-item _name = "Variable" style = "Data Type">
+                <regex>^[a-zA-Z_][a-zA-Z0-9_.]*</regex>
+        </pattern-item>
+
+	<keyword-list _name = "Boolean Value" style = "Preprocessor" case-sensitive="false">
+		<keyword>true</keyword>
+		<keyword>false</keyword>
+		<keyword>on</keyword>
+		<keyword>off</keyword>
+		<keyword>yes</keyword>
+		<keyword>no</keyword>
+	</keyword-list>
+                                                                                                                                               
+        <string _name="Single Quote String" style="String" end-at-line-end="FALSE">
+                <start-regex>&apos;</start-regex>
+                <end-regex>&apos;</end-regex>
+        </string>
+
+	 <string _name="Double Quote String" style="String" end-at-line-end="FALSE">
+                <start-regex>&quot;</start-regex>
+                <end-regex>&quot;</end-regex>
+        </string>                                                                                                                                              
+        <pattern-item _name="Integer" style="Decimal">
+                <regex>\b[0-9]+\b</regex>
+        </pattern-item>
+                                                                                                                                               
+        <pattern-item _name="Decimal Number" style="Floating Point">
+                <regex>(\b[0-9]+(\.[0-9]+)?|\.[0-9]+)([Ee][\+-]?[0-9]+)?\b</regex>
+        </pattern-item>
+
+</language>

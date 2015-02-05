@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="VHDL" version="1.0" _section="Sources" mimetypes="text/x-vhdl">
+	
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>--</start-regex>
+	</line-comment>
+
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<pattern-item _name = "Character Constant" style = "String">
+		<regex>&apos;.&apos;</regex>
+	</pattern-item>
+
+	<keyword-list _name = "Keyword" style = "Keyword" case-sensitive="FALSE">
+		<keyword>access</keyword>
+		<keyword>after</keyword>
+		<keyword>alias</keyword>
+		<keyword>all</keyword>
+		<keyword>architecture</keyword>
+		<keyword>array</keyword>
+		<keyword>assert</keyword>
+		<keyword>attribute</keyword>
+		<keyword>begin</keyword>
+		<keyword>block</keyword>
+		<keyword>body</keyword>
+		<keyword>buffer</keyword>
+		<keyword>bus</keyword>
+		<keyword>case</keyword>
+		<keyword>component</keyword>
+		<keyword>configuration</keyword>
+		<keyword>constant</keyword>
+		<keyword>disconnect</keyword>
+		<keyword>downto</keyword>
+		<keyword>else</keyword>
+		<keyword>elsif</keyword>
+		<keyword>end</keyword>
+		<keyword>entity</keyword>
+		<keyword>exit</keyword>
+		<keyword>file</keyword>
+		<keyword>for</keyword>
+		<keyword>function</keyword>
+		<keyword>generate</keyword>
+		<keyword>generic</keyword>
+		<keyword>group</keyword>
+		<keyword>guarded</keyword>
+		<keyword>if</keyword>
+		<keyword>impure</keyword>
+		<keyword>in</keyword>
+		<keyword>inertial</keyword>
+		<keyword>inout</keyword>
+		<keyword>is</keyword>
+		<keyword>label</keyword>
+		<keyword>library</keyword>
+		<keyword>linkage</keyword>
+		<keyword>literal</keyword>
+		<keyword>loop</keyword>
+		<keyword>map</keyword>
+		<keyword>new</keyword>
+		<keyword>next</keyword>
+		<keyword>null</keyword>
+		<keyword>of</keyword>
+		<keyword>on</keyword>
+		<keyword>open</keyword>
+		<keyword>others</keyword>
+		<keyword>out</keyword>
+		<keyword>package</keyword>
+		<keyword>port</keyword>
+		<keyword>postponed</keyword>
+		<keyword>procedure</keyword>
+		<keyword>process</keyword>
+		<keyword>pure</keyword>
+		<keyword>range</keyword>
+		<keyword>record</keyword>
+		<keyword>register</keyword>
+		<keyword>reject</keyword>
+		<keyword>report</keyword>
+		<keyword>return</keyword>
+		<keyword>select</keyword>
+		<keyword>severity</keyword>
+		<keyword>signal</keyword>
+		<keyword>shared</keyword>
+		<keyword>subtype</keyword>
+		<keyword>then</keyword>
+		<keyword>to</keyword>
+		<keyword>transport</keyword>
+		<keyword>type</keyword>
+		<keyword>unaffected</keyword>
+		<keyword>units</keyword>
+		<keyword>until</keyword>
+		<keyword>use</keyword>
+		<keyword>variable</keyword>
+		<keyword>wait</keyword>
+		<keyword>when</keyword>
+		<keyword>while</keyword>
+		<keyword>with</keyword>
+		<keyword>note</keyword>
+		<keyword>warning</keyword>
+		<keyword>error</keyword>
+		<keyword>failure</keyword>
+		<keyword>and</keyword>
+		<keyword>nand</keyword>
+		<keyword>or</keyword>
+		<keyword>nor</keyword>
+		<keyword>xor</keyword>
+		<keyword>xnor</keyword>
+		<keyword>rol</keyword>
+		<keyword>ror</keyword>
+		<keyword>sla</keyword>
+		<keyword>sll</keyword>
+		<keyword>sra</keyword>
+		<keyword>srl</keyword>
+		<keyword>mod</keyword>
+		<keyword>rem</keyword>
+		<keyword>abs</keyword>
+		<keyword>not</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Type" style = "Data Type" case-sensitive="FALSE">
+		<keyword>bit</keyword>
+		<keyword>bit_vector</keyword>
+		<keyword>character</keyword>
+		<keyword>boolean</keyword>
+		<keyword>integer</keyword>
+		<keyword>real</keyword>
+		<keyword>time</keyword>
+		<keyword>string</keyword>
+		<keyword>severity_level</keyword>
+		<keyword>positive</keyword>
+		<keyword>natural</keyword>
+		<keyword>signed</keyword>
+		<keyword>unsigned</keyword>
+		<keyword>line</keyword>
+		<keyword>text</keyword>
+		<keyword>std_logc</keyword>
+		<keyword>std_logic_vector</keyword>
+		<keyword>std_ulogic</keyword>
+		<keyword>std_ulogic_vector</keyword>
+		<keyword>qsim_state</keyword>
+		<keyword>qsim_state_vector</keyword>
+		<keyword>qsim_12state</keyword>
+		<keyword>qsim_12state_vector</keyword>
+		<keyword>qsim_strength</keyword>
+		<keyword>mux_bit</keyword>
+		<keyword>mux_vectory</keyword>
+		<keyword>reg_bit</keyword>
+		<keyword>reg_vector</keyword>
+		<keyword>wor_bit</keyword>
+		<keyword>wor_vector</keyword>
+	</keyword-list>
+
+	<pattern-item _name = "Number" style = "Decimal">
+		<regex>\b[0-9]+(\b|\.|\.[0-9]*\b)</regex>
+	</pattern-item>
+
+	<keyword-list _name = "True and False" style = "Specials" case-sensitive="FALSE">
+		<keyword>true</keyword>
+		<keyword>false</keyword>
+	</keyword-list>
+
+</language>

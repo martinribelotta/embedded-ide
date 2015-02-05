@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/help">
         <file>about.txt</file>
+        <file>reference-code-c.txt</file>
     </qresource>
     <qresource prefix="/icon-theme">
         <file>icon-theme/application-exit.png</file>
@@ -16,5 +17,53 @@
         <file>icon-theme/project-development-close-all.png</file>
         <file>icon-theme/project-development-new-template.png</file>
         <file>icon-theme/project-open.png</file>
+    </qresource>
+    <qresource prefix="/qsvsh">
+        <file>qtsourceview/data/mime.types</file>
+        <file>qtsourceview/data/langs/ada.lang</file>
+        <file>qtsourceview/data/langs/c.lang</file>
+        <file>qtsourceview/data/langs/changelog.lang</file>
+        <file>qtsourceview/data/langs/cpp.lang</file>
+        <file>qtsourceview/data/langs/csharp.lang</file>
+        <file>qtsourceview/data/langs/css.lang</file>
+        <file>qtsourceview/data/langs/desktop.lang</file>
+        <file>qtsourceview/data/langs/diff.lang</file>
+        <file>qtsourceview/data/langs/fortran.lang</file>
+        <file>qtsourceview/data/langs/gtkrc.lang</file>
+        <file>qtsourceview/data/langs/haskell.lang</file>
+        <file>qtsourceview/data/langs/html.lang</file>
+        <file>qtsourceview/data/langs/idl.lang</file>
+        <file>qtsourceview/data/langs/ini.lang</file>
+        <file>qtsourceview/data/langs/java.lang</file>
+        <file>qtsourceview/data/langs/javascript.lang</file>
+        <file>qtsourceview/data/langs/language.dtd</file>
+        <file>qtsourceview/data/langs/latex.lang</file>
+        <file>qtsourceview/data/langs/lua.lang</file>
+        <file>qtsourceview/data/langs/makefile.lang</file>
+        <file>qtsourceview/data/langs/msil.lang</file>
+        <file>qtsourceview/data/langs/nemerle.lang</file>
+        <file>qtsourceview/data/langs/octave.lang</file>
+        <file>qtsourceview/data/langs/pascal.lang</file>
+        <file>qtsourceview/data/langs/perl.lang</file>
+        <file>qtsourceview/data/langs/php.lang</file>
+        <file>qtsourceview/data/langs/po.lang</file>
+        <file>qtsourceview/data/langs/pro.lang</file>
+        <file>qtsourceview/data/langs/python.lang</file>
+        <file>qtsourceview/data/langs/R.lang</file>
+        <file>qtsourceview/data/langs/ruby.lang</file>
+        <file>qtsourceview/data/langs/scheme.lang</file>
+        <file>qtsourceview/data/langs/sh.lang</file>
+        <file>qtsourceview/data/langs/sql.lang</file>
+        <file>qtsourceview/data/langs/tcl.lang</file>
+        <file>qtsourceview/data/langs/texinfo.lang</file>
+        <file>qtsourceview/data/langs/vbnet.lang</file>
+        <file>qtsourceview/data/langs/verilog.lang</file>
+        <file>qtsourceview/data/langs/vhdl.lang</file>
+        <file>qtsourceview/data/langs/xml.lang</file>
+        <file>qtsourceview/data/colors/gedit.xml</file>
+        <file>qtsourceview/data/colors/kate.xml</file>
+        <file>qtsourceview/data/colors/turbo.xml</file>
+        <file>qtsourceview/data/colors/vim.xml</file>
+        <file>qtsourceview/data/colors/visual.xml</file>
     </qresource>
 </RCC>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language name="R" version="1.0" _section="Scripts" mimetypes="text/x-R">
+  <escape-char>\</escape-char>
+  <string _name="Double Quote String" style="String" end-at-line-end="TRUE">
+    <start-regex>&quot;</start-regex>
+    <end-regex>&quot;</end-regex>
+  </string>
+  <string _name="Single Quote String" style="String" end-at-line-end="TRUE">
+    <start-regex>&apos;</start-regex>
+    <end-regex>&apos;</end-regex>
+  </string>
+  <line-comment _name="Line Comment" style="Comment">
+    <start-regex>#</start-regex>
+  </line-comment>
+  <keyword-list _name="Reserved Constant" style="String" case-sensitive="TRUE">
+    <keyword>FALSE</keyword>
+    <keyword>TRUE</keyword>
+    <keyword>T</keyword>
+    <keyword>F</keyword>
+    <keyword>NULL</keyword>
+    <keyword>NA</keyword>
+    <keyword>Inf</keyword>
+   </keyword-list>
+  <keyword-list _name="Keyword" style="Keyword" case-sensitive="TRUE">
+    <keyword>break</keyword>
+    <keyword>next</keyword>
+    <keyword>return</keyword>
+    <keyword>for</keyword>
+    <keyword>while</keyword>
+    <keyword>repeat</keyword>
+    <keyword>if</keyword>
+    <keyword>else</keyword>
+    <keyword>try</keyword>
+    <keyword>switch</keyword>
+    <keyword>in</keyword>
+</keyword-list>
+  <keyword-list _name="Reserved Class" style="Data Type" case-sensitive="TRUE">
+	<keyword>array</keyword>
+	<keyword>character</keyword>
+	<keyword>complex</keyword>
+	<keyword>data.frame</keyword>
+	<keyword>double</keyword>
+	<keyword>factor</keyword>
+	<keyword>function</keyword>
+	<keyword>integer</keyword>
+	<keyword>list</keyword>
+	<keyword>logical</keyword>
+	<keyword>matrix</keyword>
+    	<keyword>numeric</keyword>
+	<keyword>vector</keyword>
+    </keyword-list>
+  <pattern-item _name="Integer Number" style="Decimal">
+    <regex>\b([1-9][0-9]*|0)[i]?\b</regex>
+  </pattern-item>
+  <pattern-item _name="Floating Point Number" style="Floating Point">
+    <regex>\b([0-9]+[Ee][-+]?[0-9]+|([0-9]*\.[0-9]+|[0-9]+\.)([Ee][-+]?[0-9]+)?)[i]?\b</regex>
+  </pattern-item>
+  <pattern-item _name="Assignment Operator" style="Keyword">
+      <regex>(&lt;){1,2}-</regex>
+  </pattern-item>
+  <pattern-item _name="Delimiter" style="Others 3">
+      <regex>[\)\(]+|[\{\}]+|[][]+</regex>
+  </pattern-item>
+</language>

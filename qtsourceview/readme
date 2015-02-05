@@ -1,0 +1,67 @@
+This is a demo of a syntax highlighter done in C++/Qt.
+The code is extraeamly non optimized, but it does work most of the time.
+The class is very slow, so please don't use it on large files.
+
+The syntax highlighter definitions are the same ones used by the gtksourceview library
+for gtk. The difinitions are passed to a class which does the highligting. This means 
+that the engine is not aware of what he is coloring, and adding new languages is as
+trivial as adding new XML to the langs directory.
+
+There are 2 abstract factories on this code:
+
+1) highligh factory: 
+   Loads a directory which *.lang files, and you can query it later,
+   and it will return you the languae definition for your language
+   (you give it a file name and it returns a pointer to the language definition
+   you need to apply to the syntax highliter)
+   
+   
+2) colors factory:
+   The language definition conatins class names for coloring, and not the actual style
+   used on screen. To convert that name into color + font style we use this class.
+   While this is not trully an abstract factory, in the future it may change. 
+   
+ 
+To use this code in your application:
+
+1) Generate a colors definition class and load a file:
+
+    QsvColorDefFactory *defaultColors = new QsvColorDefFactory( dataPath + "/data/colors/kate.xml" );
+    
+2) Intiailize the highlight factory with a directory to load the language definitions from:
+
+    QsvLangDefFactory::getInstanse()->loadDirectory( dataPath + "/data/langs/" )
+
+3) Query for a language definition: 
+
+    QsvLangDef *lang = QsvLangDefFactory::getInstanse()->getHighlight( fileName );
+        
+
+   Another alternative, is to load the language definition yourself, in this case
+   step (2) is not needed:
+   
+    QsvLangDef *lang   = new QsvLangDef( dataPath + "/data/langs/cpp.lang" );
+    
+4) Generate a QSyntaxHighliter:
+
+    QSyntaxHighliter *highlight = new QsvSyntaxHighlighter( textEdit, defColors, langCpp );
+
+    
+All code is licensed under the terms of the LGPL.
+
+The tests available in this release are taken from the Kate project.
+
+The color definitions are self made, and released to the public domain (the 
+syntax is part of the kate syntax definitions)
+
+The highlight definitions are part of the gtksourceview library:
+    http://gtksourceview.sourceforge.net/
+
+The idea for highliting the current line was discussed here:
+    http://www.qtcentre.org/forum/showthread.php?t=456
+
+The code does not contain anything from the GTK source view library. In fact, I have not still
+seen the code, nor used it once. I am planing of pikking inside when my library is stable and
+usable enough, to see how they did it, maybe I can get some better ideas, maybe they can :)
+
+Diego Iastrubni <elcuco@kde.org>,  4-2-2006, 22-7-2006

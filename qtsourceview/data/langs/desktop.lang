@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name=".desktop" version="1.0" _section="Others" mimetypes="application/x-gnome-app-info;application/x-desktop">
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>#</start-regex>
+	</line-comment>
+
+	<syntax-item _name = "Group" style = "Keyword">
+		<start-regex>^\[</start-regex>
+		<end-regex>\]$</end-regex>
+	</syntax-item>
+
+	<keyword-list _name = "Standard Key" style = "Data Type" case-sensitive="TRUE"
+		match-empty-string-at-beginning = "FALSE"
+		match-empty-string-at-end = "FALSE"
+		beginning-regex = "^_?">
+		<keyword>Encoding</keyword>
+		<keyword>Version</keyword>
+		<keyword>Name</keyword>
+		<keyword>GenericName</keyword>
+		<keyword>Type</keyword>
+		<keyword>FilePattern</keyword>
+		<keyword>TryExec</keyword>
+		<keyword>NoDisplay</keyword>
+		<keyword>Comment</keyword>
+		<keyword>Exec</keyword>
+		<keyword>Actions</keyword>
+		<keyword>Icon</keyword>
+		<keyword>MiniIcon</keyword>
+		<keyword>Hidden</keyword>
+		<keyword>Path</keyword>
+		<keyword>Terminal</keyword>
+		<keyword>TerminalOptions</keyword>
+		<keyword>SwallowTitle</keyword>
+		<keyword>SwallowExec</keyword>
+		<keyword>MimeType</keyword>
+		<keyword>Patterns</keyword>
+		<keyword>DefaultApp</keyword>
+		<keyword>Dev</keyword>
+		<keyword>FSType</keyword>
+		<keyword>MountPoint</keyword>
+		<keyword>ReadOnly</keyword>
+		<keyword>UnmountIcon</keyword>
+		<keyword>SortOrder</keyword>
+		<keyword>URL</keyword>
+		<keyword>StartupNotify</keyword>
+		<keyword>Categories</keyword>
+	</keyword-list>
+
+	<pattern-item _name = "Non Standard Key" style = "Data Type">
+		<regex>^_?X\-[a-zA-Z\-]+</regex>
+	</pattern-item>
+
+
+	<pattern-item _name = "Language" style = "Decimal">
+		<regex>\[[a-zA-Z_]+\]</regex>
+	</pattern-item>
+
+	<keyword-list _name = "Boolean Value" style = "Preprocessor" case-sensitive="TRUE">
+		<keyword>true</keyword>
+		<keyword>false</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Exec Parameter" style = "Preprocessor" case-sensitive="TRUE" 
+		match-empty-string-at-beginning="FALSE">
+		<keyword>%f</keyword>
+		<keyword>%F</keyword>
+		<keyword>%u</keyword>
+		<keyword>%U</keyword>
+		<keyword>%d</keyword>
+		<keyword>%D</keyword>
+		<keyword>%n</keyword>
+		<keyword>%N</keyword>
+		<keyword>%i</keyword>
+		<keyword>%m</keyword>
+		<keyword>%c</keyword>
+		<keyword>%k</keyword>
+		<keyword>%v</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Encoding" style = "Preprocessor" case-sensitive="TRUE">
+		<keyword>UTF\-8</keyword>
+		<keyword>Legacy\-Mixed</keyword>
+	</keyword-list>
+
+	<pattern-item _name = "Number" style = "Floating Point">
+		<regex>(.\b[0-9]+([Ll]?|[Ff]?)\b)|(b[0-9]*\.\W)</regex>
+	</pattern-item>
+
+</language>
+
+
+

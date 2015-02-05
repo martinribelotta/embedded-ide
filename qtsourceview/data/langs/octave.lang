@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Octave" version="1.0" _section="Scripts" mimetypes="text/x-octave;text/x-matlab">
+	
+	<escape-char>\</escape-char>
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>#|%</start-regex>
+	</line-comment>
+
+	<string _name = "Multiline Double Quoted String" style = "String" end-at-line-end = "FALSE">
+		<start-regex>[uUrR]?&quot;&quot;&quot;</start-regex>
+		<end-regex>&quot;&quot;&quot;</end-regex>
+	</string>
+
+	<string _name = "Multiline Single Quoted String" style = "String" end-at-line-end = "FALSE">
+		<start-regex>[uUrR]?&apos;&apos;&apos;</start-regex>
+		<end-regex>&apos;&apos;&apos;</end-regex>
+	</string>
+
+	<string _name = "Double Quoted String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>[uUrR]?&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<string _name = "Single Quoted String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>[uUrR]?&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+	<keyword-list _name="Reserved Constant" style="Preprocessor" case-sensitive="TRUE">
+        	<keyword>false</keyword>
+	        <keyword>true</keyword>
+        	<keyword>Inf</keyword>
+	        <keyword>inf</keyword>
+	        <keyword>NaN</keyword>
+        	<keyword>NA</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Keyword" style = "Keyword" case-sensitive="TRUE">		
+		<keyword>function</keyword>
+		<keyword>endfunction</keyword>
+
+		<keyword>switch</keyword>
+		<keyword>case</keyword>
+		<keyword>endswitch</keyword>
+		<keyword>otherwise</keyword>
+
+		<keyword>unwind_protect</keyword>
+		<keyword>unwind_protect_cleanup</keyword>
+		<keyword>end_unwind_protect</keyword>
+
+		<keyword>try</keyword>
+		<keyword>catch</keyword>
+		<keyword>end_try_catch</keyword>
+		<keyword>end</keyword>
+
+		<keyword>if</keyword>
+      		<keyword>else</keyword>
+		<keyword>elseif</keyword>
+		<keyword>endif</keyword>
+
+		<keyword>break</keyword>
+		<keyword>continue</keyword>
+
+		<keyword>for</keyword>
+		<keyword>endfor</keyword>
+		<keyword>return</keyword>
+
+		<keyword>do</keyword>
+		<keyword>until</keyword>
+
+		<keyword>while</keyword>
+		<keyword>endwhile</keyword>
+
+		<keyword>global</keyword>
+		<keyword>nargin</keyword>
+		<keyword>nargout</keyword>
+		<keyword>assert</keyword>
+	</keyword-list>
+
+	<pattern-item _name = "Decimal" style = "Decimal">
+		<regex>\b([1-9][0-9]*|0)([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\b</regex>
+	</pattern-item>
+
+	<pattern-item _name = "Floating Point Number" style = "Floating Point">
+		<regex>\b([0-9]+[Ee][-]?[0-9]+|([0-9]*\.[0-9]+|[0-9]+\.)([Ee][-]?[0-9]+)?)[fFlL]?</regex>
+	</pattern-item>
+
+	<pattern-item _name = "Octal Number" style = "Base-N Integer">
+		<regex>\b0[0-7]+([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\b</regex>
+	</pattern-item>
+
+	<pattern-item _name = "Hex Number" style = "Base-N Integer">
+		<regex>\b0[xX][0-9a-fA-F]+([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\b</regex>
+	</pattern-item>
+
+	<keyword-list _name="Function" style="Function" case-sensitive="TRUE">
+		<keyword>size</keyword>
+		<keyword>zeros</keyword>
+		<keyword>ones</keyword>
+		<keyword>min</keyword>
+		<keyword>max</keyword>
+		<keyword>varargs</keyword>
+		<keyword>sqrt</keyword>
+		<keyword>atan2</keyword>
+		<keyword>asin</keyword>
+		<keyword>acos</keyword>
+		<keyword>log10</keyword>
+		<keyword>log</keyword>
+		<keyword>real</keyword>
+		<keyword>error</keyword>
+		<keyword>isscalar</keyword>
+		<keyword>isstr</keyword>
+		<keyword>strcmp</keyword>
+		<keyword>log2</keyword>
+		<keyword>Inf</keyword>
+		<keyword>isvector</keyword>
+		<keyword>strcat</keyword>
+		<keyword>fsolve</keyword>
+		<keyword>islogical</keyword>
+		<keyword>isempty</keyword>
+		<keyword>isnumeric</keyword>
+		<keyword>prod</keyword>
+		<keyword>round</keyword>
+		<keyword>dims</keyword>
+		<keyword>cumprod</keyword>
+		<keyword>ismatrix</keyword>
+		<keyword>floor</keyword>
+		<keyword>sort</keyword>
+		<keyword>ceil</keyword>
+		<keyword>linspace</keyword>
+		<keyword>isnan</keyword>
+		<keyword>isinf</keyword>
+		<keyword>nan_inf</keyword>
+		<keyword>repmat</keyword>
+		<keyword>colums</keyword>
+		<keyword>rows</keyword>
+		<keyword>sum</keyword>
+		<keyword>rem</keyword>
+		<keyword>reshape</keyword>
+		<keyword>conv</keyword>
+		<keyword>length</keyword>
+		<keyword>usage</keyword>
+		<keyword>log2</keyword>
+		<keyword>abs</keyword>
+		<keyword>setstr</keyword>
+		<keyword>printf</keyword>
+		<keyword>sprintf</keyword>
+		<keyword>fprintf</keyword>
+		<keyword>fread</keyword>
+		<keyword>fopen</keyword>
+		<keyword>fclose</keyword>
+		<keyword>system</keyword>
+		<keyword>unlink</keyword>
+		<keyword>error</keyword>
+		<keyword>warning</keyword>
+	</keyword-list>
+</language>

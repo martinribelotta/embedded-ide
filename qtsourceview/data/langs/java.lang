@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Java" version="1.0" _section="Sources" mimetypes="text/x-java">
+	
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<string _name = "String 2" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>//</start-regex>
+	</line-comment>
+
+	<block-comment _name = "Block Comment" style = "Comment">
+		<start-regex>/\*</start-regex>
+        	<end-regex>\*/</end-regex>
+	</block-comment>
+
+	<keyword-list _name = "Declarations" style = "Keyword" case-sensitive="TRUE">
+		<keyword>class</keyword>
+		<keyword>extends</keyword>
+		<keyword>implements</keyword>
+		<keyword>import</keyword>
+		<keyword>instanceof</keyword>
+		<keyword>interface</keyword>
+		<keyword>native</keyword>
+		<keyword>package</keyword>
+		<keyword>volatile</keyword>
+		<keyword>throws</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Primitives" style = "Data Type" case-sensitive="TRUE">
+		<keyword>boolean</keyword>
+		<keyword>byte</keyword>
+		<keyword>char</keyword>
+		<keyword>double</keyword>
+		<keyword>float</keyword>
+		<keyword>int</keyword>
+		<keyword>long</keyword>
+		<keyword>short</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Flow" style = "Keyword" case-sensitive="TRUE">
+		<keyword>break</keyword>
+		<keyword>case</keyword>
+		<keyword>catch</keyword>
+		<keyword>continue</keyword>
+		<keyword>default</keyword>
+		<keyword>do</keyword>
+      		<keyword>else</keyword>
+		<keyword>for</keyword>
+		<keyword>goto</keyword>
+		<keyword>if</keyword>
+		<keyword>return</keyword>
+		<keyword>synchronized</keyword>
+		<keyword>throw</keyword>
+		<keyword>switch</keyword>
+		<keyword>try</keyword>
+		<keyword>while</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Modifiers" style = "Keyword" case-sensitive="TRUE">
+		<keyword>abstract</keyword>
+		<keyword>final</keyword>
+		<keyword>finally</keyword>
+		<keyword>private</keyword>
+		<keyword>protected</keyword>
+		<keyword>public</keyword>
+		<keyword>static</keyword>
+		<keyword>const</keyword>
+		<keyword>gotol</keyword>
+		<keyword>transient</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Memory" style = "Others" case-sensitive="TRUE">
+		<keyword>new</keyword>
+		<keyword>null</keyword>
+		<keyword>super</keyword>
+		<keyword>this</keyword>
+		<keyword>void</keyword>
+	</keyword-list>
+
+	<pattern-item _name = "Numeric" style = "Decimal">
+		<regex>(\b([0-9]+|0[xX][0-9a-fA-F]+)[Ll]?\b|\b(([0-9]+[Ee][-]?[0-9]+|([0-9]*\.[0-9]+|[0-9]+\.)([Ee][-]?[0-9]+)?)[fFdD]?|[0-9]+[FfDd]))</regex>
+	</pattern-item>
+
+</language>

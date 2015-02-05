@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="LaTeX" version="1.0" _section="Markup" mimetypes="text/x-tex">
+
+	<escape-char>\</escape-char>
+
+	<line-comment _name="Comment" style="Comment">
+		<start-regex>%</start-regex>
+	</line-comment>
+
+	<block-comment _name = "Math" style = "Comment">
+		<start-regex>\$</start-regex>
+        	<end-regex>\$</end-regex>
+	</block-comment>
+
+	<block-comment _name = "Comment Environment" style = "Comment">
+		<start-regex>\\begin\{comment\}</start-regex>
+        	<end-regex>\\end\{comment\}</end-regex>
+	</block-comment>
+
+	<keyword-list _name="Include" style="Preprocessor" case-sensitive="TRUE"
+		match-empty-string-at-beginning="FALSE"
+		match-empty-string-at-end="FALSE"
+		beginning-regex="\\">
+		<keyword>input</keyword>
+		<keyword>include</keyword>
+		<keyword>includeonly</keyword>
+		<keyword>usepackage</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Most Used Commands" style="Keyword" case-sensitive="TRUE"
+		match-empty-string-at-beginning="FALSE"
+		match-empty-string-at-end="FALSE"
+		beginning-regex="\\">
+		<keyword>\\</keyword>
+		<keyword>begin</keyword>
+		<keyword>end</keyword>
+		<keyword>documentclass</keyword>
+		<keyword>newcommand</keyword>
+		<keyword>newenvironment</keyword>
+		<keyword>newtheorem</keyword>
+		<keyword>newfont</keyword>
+		<keyword>part</keyword>
+		<keyword>chapter</keyword>
+		<keyword>section</keyword>
+		<keyword>subsection</keyword>
+		<keyword>subsubsection</keyword>
+		<keyword>paragraph</keyword>
+		<keyword>subparagraph</keyword>
+		<keyword>page</keyword>
+		<keyword>equation</keyword>
+		<keyword>figure</keyword>
+		<keyword>table</keyword>
+		<keyword>footnote</keyword>
+		<keyword>footnotemark</keyword>
+		<keyword>footnotetext</keyword>
+		<keyword>mpfootnote</keyword>
+		<keyword>enumi</keyword>
+		<keyword>enumii</keyword>
+		<keyword>enumiii</keyword>
+		<keyword>enumiv</keyword>
+		<keyword>label</keyword>
+		<keyword>pageref</keyword>
+		<keyword>ref</keyword>
+		<keyword>onecolumn</keyword>
+		<keyword>twocolumn</keyword>
+	</keyword-list>
+
+	<pattern-item _name="Keyword" style="Others">
+		<regex>\\[a-zA-Z]+</regex>
+	</pattern-item>
+
+</language>

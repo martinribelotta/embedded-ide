@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Verilog" version="1.0" _section="Sources" mimetypes="text/x-verilog-src">
+
+	<escape-char>\</escape-char>
+
+	<line-comment _name="Line Comment" style="Comment">
+		<start-regex>//</start-regex>
+	</line-comment>
+
+	<block-comment _name="Block Comment" style="Comment">
+		<start-regex>/\*</start-regex>
+        	<end-regex>\*/</end-regex>
+	</block-comment>
+
+	<keyword-list _name="Keywords" style="Keyword" case-sensitive="TRUE">
+		<keyword>always</keyword>
+		<keyword>assign</keyword>
+		<keyword>case</keyword>
+		<keyword>casex</keyword>
+		<keyword>casez</keyword>
+		<keyword>deassign</keyword>
+		<keyword>default</keyword>
+		<keyword>defparam</keyword>
+		<keyword>disable</keyword>
+		<keyword>edge</keyword>
+		<keyword>else</keyword>
+		<keyword>end</keyword>
+		<keyword>endcase</keyword>
+		<keyword>endmodule</keyword>
+      		<keyword>endfunction</keyword>
+		<keyword>endprimitive</keyword>
+		<keyword>endspecify</keyword>
+		<keyword>endtable</keyword>
+		<keyword>endtask</keyword>
+		<keyword>for</keyword>
+		<keyword>force</keyword>
+		<keyword>forever</keyword>
+		<keyword>for</keyword>
+		<keyword>function</keyword>
+		<keyword>highz0</keyword>
+		<keyword>highz1</keyword>
+		<keyword>if</keyword>
+		<keyword>ifnone</keyword>
+		<keyword>initial</keyword>
+		<keyword>join</keyword>
+		<keyword>large</keyword>
+		<keyword>macromodule</keyword>
+		<keyword>medium</keyword>
+		<keyword>module</keyword>
+		<keyword>negedge</keyword>
+		<keyword>posedge</keyword>
+		<keyword>primitive</keyword>
+		<keyword>pull0</keyword>
+		<keyword>pull1</keyword>
+		<keyword>release</keyword>
+		<keyword>repeat</keyword>
+		<keyword>small</keyword>
+		<keyword>specify</keyword>
+		<keyword>specparam</keyword>
+		<keyword>strong0</keyword>
+		<keyword>strong1</keyword>
+		<keyword>task</keyword>
+		<keyword>wait</keyword>
+		<keyword>weak0</keyword>
+		<keyword>weak1</keyword>
+		<keyword>while</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Gates" style="Keyword" case-sensitive="TRUE">
+		<keyword>and</keyword>
+		<keyword>buf</keyword>
+		<keyword>bufif0</keyword>
+		<keyword>bufif1</keyword>
+		<keyword>cmos</keyword>
+		<keyword>nand</keyword>
+		<keyword>nmos</keyword>
+		<keyword>nor</keyword>
+		<keyword>not</keyword>
+		<keyword>notif0</keyword>
+		<keyword>notif1</keyword>
+		<keyword>or</keyword>
+		<keyword>pmos</keyword>
+		<keyword>pullup</keyword>
+		<keyword>pulldown</keyword>
+		<keyword>rcmos</keyword>
+		<keyword>rnmos</keyword>
+		<keyword>rpmos</keyword>
+		<keyword>rtran</keyword>
+		<keyword>rtranif0</keyword>
+		<keyword>rtranif1</keyword>
+		<keyword>tran</keyword>
+		<keyword>tranif0</keyword>
+		<keyword>tranif1</keyword>
+		<keyword>xnor</keyword>
+		<keyword>xor</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Types" style="Data Type" case-sensitive="TRUE">
+		<keyword>event</keyword>
+		<keyword>inout</keyword>
+		<keyword>input</keyword>
+		<keyword>integer</keyword>
+      		<keyword>output</keyword>
+		<keyword>parameter</keyword>
+		<keyword>reg</keyword>
+		<keyword>real</keyword>
+		<keyword>realtime</keyword>
+		<keyword>scalared</keyword>
+		<keyword>supply0</keyword>
+		<keyword>supply1</keyword>
+		<keyword>time</keyword>
+		<keyword>tri</keyword>
+		<keyword>tri0</keyword>
+		<keyword>tri1</keyword>
+		<keyword>triand</keyword>
+		<keyword>trior</keyword>
+		<keyword>trireg</keyword>
+		<keyword>vectored</keyword>
+		<keyword>wand</keyword>
+		<keyword>wire</keyword>
+		<keyword>wor</keyword>
+	</keyword-list>
+
+	<pattern-item _name="Binary Number" style="Base-N Integer">
+		<regex>\b[1-9][0-9]*&apos;[bB][0-1_xXzZ?]+\b</regex>
+	</pattern-item>
+
+	<pattern-item _name="Octal Number" style="Base-N Integer">
+		<regex>\b[1-9][0-9]*&apos;[oO][0-7_xXzZ?]+\b</regex>
+	</pattern-item>
+
+	<pattern-item _name="Decimal Number" style="Base-N Integer">
+		<regex>\b[1-9][0-9]*&apos;[dD][0-9_xXzZ?]+\b</regex>
+	</pattern-item>
+
+	<pattern-item _name="Hexadecimal Number" style="Base-N Integer">
+		<regex>\b[1-9][0-9]*&apos;[hH][0-9a-fA-F_xXzZ?]+\b</regex>
+	</pattern-item>
+
+</language>

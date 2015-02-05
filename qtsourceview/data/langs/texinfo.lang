@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Texinfo highlighting definition for gedit
+Copyright (C) 2004 Travis A. Snoozy
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version  2.1  of  the  License, or (at your option) any later version.
+ 
+    This library is distributed in the hope that it will be  useful,
+    but  WITHOUT  ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+ 
+    You  should  have  received  a copy of the GNU Lesser General Public
+    License along with this library; if not, write  to  the  Free Software
+    Foundation,  Inc.,  59  Temple  Place,  Suite 330, Boston, MA 02111-1307  USA
+-->
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Texinfo" version="1.0" _section="Markup" mimetypes="text/x-texinfo">
+
+    <escape-char>@</escape-char>
+
+	<line-comment _name="Line Comment" style="Comment">
+		<start-regex>@c(omment)? </start-regex>
+	</line-comment>
+
+    <block-comment _name="Block Comment" style="Comment">
+        <start-regex>^@ignore$</start-regex>
+        <end-regex>^@end ignore$</end-regex>
+    </block-comment>
+
+    <string _name="Macro Parameters" style="String" end-at-line-end="FALSE">
+        <start-regex>\{[^}]</start-regex>
+        <end-regex>\}</end-regex>
+    </string>
+
+	<keyword-list _name="Macros" style="Preprocessor" case-sensitive="TRUE"
+		match-empty-string-at-beginning="FALSE"
+		match-empty-string-at-end="FALSE"
+		beginning-regex="^@">
+        <keyword>alias</keyword>
+        <keyword>bye$</keyword>
+        <keyword>clear</keyword>
+        <keyword>defcodeindex</keyword>
+        <keyword>defindex</keyword>
+        <keyword>definfoenclose</keyword>
+        <keyword>(end )?docbook$</keyword>
+        <keyword>(end )?html$</keyword>
+        <keyword>ifclear</keyword>
+        <keyword>end ifclear$</keyword>
+        <keyword>(end )?if(not)?docbook$</keyword>
+        <keyword>(end )?if(not)?html$</keyword>
+        <keyword>(end )?if(not)?info$</keyword>
+        <keyword>(end )?if(not)?plaintext$</keyword>
+        <keyword>(end )?if(not)?tex$</keyword>
+        <keyword>(end )?if(not)?xml$</keyword>
+        <keyword>ifset</keyword>
+        <keyword>end ifset$</keyword>
+        <keyword>lowersections$</keyword>
+        <keyword>macro</keyword>
+        <keyword>end macro$</keyword>
+        <keyword>raisesections$</keyword>
+        <keyword>set</keyword>
+        <keyword>syncodeindex</keyword>
+        <keyword>synindex</keyword>
+        <keyword>(end )?tex$</keyword>
+        <keyword>(end )?xml$</keyword>
+    </keyword-list>
+
+	<keyword-list _name="Indexing" style="Keyword" case-sensitive="TRUE"
+		match-empty-string-at-beginning="FALSE"
+		match-empty-string-at-end="FALSE"
+		beginning-regex="^@">
+        <keyword>cindex</keyword>
+        <keyword>findex</keyword>
+        <keyword>kindex</keyword>
+        <keyword>pindex</keyword>
+        <keyword>tindex</keyword>
+        <keyword>vindex</keyword>
+    </keyword-list>
+
+	<keyword-list _name="File Attributes" style="Preprocessor" case-sensitive="TRUE"
+		match-empty-string-at-beginning="FALSE"
+		match-empty-string-at-end="FALSE"
+		beginning-regex="^@">
+        <keyword>afivepaper$</keyword>
+        <keyword>afourlatex$</keyword>
+        <keyword>afourpaper$</keyword>
+        <keyword>afourwide$</keyword>
+        <keyword>dircategory</keyword>
+        <keyword>(end )?direntry$</keyword>
+        <keyword>(end )?documentdescription$</keyword>
+        <keyword>documentencoding</keyword>
+        <keyword>documentlanguage</keyword>
+        <keyword>evenfooting</keyword>
+        <keyword>evenheading</keyword>
+        <keyword>everyfooting</keyword>
+        <keyword>everyheading</keyword>
+        <keyword>finalout$</keyword>
+        <keyword>footnotestyle</keyword>
+        <keyword>headings</keyword>
+        <keyword>kbdinputstyle</keyword>
+        <keyword>novalidate$</keyword>
+        <keyword>oddfooting</keyword>
+        <keyword>oddheading</keyword>
+        <keyword>pagesizes</keyword>
+        <keyword>paragraphindent</keyword>
+        <keyword>setchapternewpage</keyword>
+        <keyword>setcontentsaftertitlepage$</keyword>
+        <keyword>setfilename</keyword>
+        <keyword>setshortcontentsaftertitlepage$</keyword>
+        <keyword>settitle</keyword>
+        <keyword>smallbook$</keyword>
+        <keyword>titlefont</keyword>
+    </keyword-list>
+
+	<keyword-list _name="Generated Content" style="Preprocessor" case-sensitive="TRUE"
+		match-empty-string-at-beginning="FALSE"
+		match-empty-string-at-end="FALSE"
+		beginning-regex="">
+        <keyword>^@contents$</keyword>
+        <keyword>^@insertcopying$</keyword>
+        <keyword>^@listoffloats$</keyword>
+        <keyword>^@printindex$</keyword>
+        <keyword>^@shortcontents$</keyword>
+        <keyword>^@shorttitlepage$</keyword>
+        <keyword>^@summarycontents$</keyword>
+        <keyword>@thischapter</keyword>
+        <keyword>@thischaptername</keyword>
+        <keyword>@thisfile</keyword>
+        <keyword>@thispage</keyword>
+        <keyword>@thistitle</keyword>
+        <keyword>@today</keyword>
+        <keyword>@value</keyword>
+        <keyword>@verb</keyword>
+        <keyword>^@(end )?verbatim$</keyword>
+        <keyword>^@verbatiminclude</keyword>
+    </keyword-list>
+
+	<keyword-list _name="Include" style="Preprocessor" case-sensitive="TRUE"
+		match-empty-string-at-beginning="FALSE"
+		match-empty-string-at-end="FALSE"
+		beginning-regex="">
+		<keyword>^\\input</keyword>
+		<keyword>^@include</keyword>
+		<keyword>@image</keyword>
+	</keyword-list>
+
+    <keyword-list _name="Markup (inline)" style="Keyword" case-sensitive="TRUE"
+        match-empty-string-at-beginning="FALSE"
+        match-empty-string-at-end="FALSE"
+        beginning-regex="@">
+        <keyword>acronym</keyword>
+        <keyword>anchor</keyword>
+        <keyword>caption</keyword>
+        <keyword>cite</keyword>
+        <keyword>code</keyword>
+        <keyword>command</keyword>
+        <keyword>dfn</keyword>
+        <keyword>dmn</keyword>
+        <keyword>email</keyword>
+        <keyword>emph</keyword>
+        <keyword>env</keyword>
+        <keyword>file</keyword>
+        <keyword>footnote</keyword>
+        <keyword>indicateurl</keyword>
+        <keyword>inforef</keyword>
+        <keyword>kbd</keyword>
+        <keyword>key</keyword>
+        <keyword>math</keyword>
+        <keyword>option</keyword>
+        <keyword>pxref</keyword>
+        <keyword>ref</keyword>
+        <keyword>samp</keyword>
+        <keyword>strong</keyword>
+        <keyword>uref</keyword>
+        <keyword>url</keyword>
+        <keyword>var</keyword>
+        <keyword>xref</keyword>
+    </keyword-list>
+
+    <keyword-list _name="Markup (block)" style="Keyword" case-sensitive="TRUE"
+        match-empty-string-at-beginning="FALSE"
+        match-empty-string-at-end="FALSE"
+        beginning-regex="^@">
+        <keyword>author</keyword>
+        <keyword>(end )?copying$</keyword>
+        <keyword>defcv(x)?</keyword>
+        <keyword>end defcv$</keyword>
+        <keyword>deff(u)?n(x)?</keyword>
+        <keyword>end def(u)?n$</keyword>
+        <keyword>defivar(x)?</keyword>
+        <keyword>end defivar$</keyword>
+        <keyword>defmac(x)?</keyword>
+        <keyword>end defmac$</keyword>
+        <keyword>defmethod(x)?</keyword>
+        <keyword>end defmethod$</keyword>
+        <keyword>defop(x)?</keyword>
+        <keyword>end defop$</keyword>
+        <keyword>defopt(x)?</keyword>
+        <keyword>end defopt$</keyword>
+        <keyword>defspec(x)?</keyword>
+        <keyword>end defspec$</keyword>
+        <keyword>deftp(x)?</keyword>
+        <keyword>end deftp$</keyword>
+        <keyword>deftypecv(x)?</keyword>
+        <keyword>end deftypecv$</keyword>
+        <keyword>deftypef(u)?n(x)?</keyword>
+        <keyword>end deftypef(u)?n$</keyword>
+        <keyword>deftypeivar(x)?</keyword>
+        <keyword>end deftypevar$</keyword>
+        <keyword>deftypemethod(x)?</keyword>
+        <keyword>end deftypemethod$</keyword>
+        <keyword>deftypeop(x)?</keyword>
+        <keyword>end deftypeop$</keyword>
+        <keyword>deftypevar(x)?</keyword>
+        <keyword>end deftypevar$</keyword>
+        <keyword>deftypevr(x)?</keyword>
+        <keyword>end deftypevr$</keyword>
+        <keyword>defv(a)?r(x)?</keyword>
+        <keyword>end defv(a)?r$</keyword>
+        <keyword>(end )?display$</keyword>
+        <keyword>enumerate</keyword>
+        <keyword>end enumerate$</keyword>
+        <keyword>(end )?example$</keyword>
+        <keyword>(end )?exampleindent$</keyword>
+        <keyword>(end )?format$</keyword>
+        <keyword>ftable</keyword>
+        <keyword>end ftable$</keyword>
+        <keyword>item$</keyword>
+        <keyword>itemize</keyword>
+        <keyword>end itemize$</keyword>
+        <keyword>itemx$</keyword>
+        <keyword>(end )?lisp$</keyword>
+        <keyword>multitable</keyword>
+        <keyword>end multitable$</keyword>
+        <keyword>(end )?quotation$</keyword>
+        <keyword>(end )?smalldisplay$</keyword>
+        <keyword>(end )?smallexample$</keyword>
+        <keyword>(end )?smallformat$</keyword>
+        <keyword>(end )?smalllisp$</keyword>
+        <keyword>subtitle</keyword>
+        <keyword>tab</keyword>
+        <keyword>table</keyword>
+        <keyword>end table$</keyword>
+        <keyword>title</keyword>
+        <keyword>vtable</keyword>
+        <keyword>end vtable$</keyword>
+    </keyword-list>
+
+    <keyword-list _name="Sectioning" style="Keyword" case-sensitive="TRUE"
+        match-empty-string-at-beginning="FALSE"
+        match-empty-string-at-end="FALSE"
+        beginning-regex="^@">
+        <keyword>appendix</keyword>
+        <keyword>appendixsec(tion)?</keyword>
+        <keyword>appendixsub(sub)?sec</keyword>
+        <keyword>centerchap</keyword>
+        <keyword>chapter</keyword>
+        <keyword>chapheading</keyword>
+        <keyword>(end )?detailmenu$</keyword>
+        <keyword>(end )?group$</keyword>
+        <keyword>heading</keyword>
+        <keyword>majorheading</keyword>
+        <keyword>(end )?menu$</keyword>
+        <keyword>node</keyword>
+        <keyword>section</keyword>
+        <keyword>sub(sub)?heading</keyword>
+        <keyword>sub(sub)?section</keyword>
+        <keyword>(end )?titlepage$</keyword>
+        <keyword>top</keyword>
+        <keyword>unnumbered</keyword>
+        <keyword>unnumberedsec</keyword>
+        <keyword>unnumberedsub(sub)?sec</keyword>
+    </keyword-list>
+
+    <keyword-list _name="Formatting" style="Keyword" case-sensitive="TRUE"
+        match-empty-string-at-beginning="FALSE"
+        match-empty-string-at-end="FALSE"
+        beginning-regex="">
+        <keyword>@(( )|$)</keyword>
+        <keyword>@\*</keyword>
+        <keyword>@\-</keyword>
+        <keyword>@\/</keyword>
+        <keyword>@\:</keyword>
+        <keyword>^@asis$</keyword>
+        <keyword>@b</keyword>
+        <keyword>^@(end )?cartouche$</keyword>
+        <keyword>^@center</keyword>
+        <keyword>^@exdent</keyword>
+        <keyword>^@(end )?float$</keyword>
+        <keyword>^@(end )?flushleft$</keyword>
+        <keyword>^@(end )?flushright$</keyword>
+        <keyword>@hyphenation</keyword>
+        <keyword>@i</keyword>
+        <keyword>^@need</keyword>
+        <keyword>^@noindent$</keyword>
+        <keyword>^@page$</keyword>
+        <keyword>@r</keyword>
+        <keyword>^@refill$</keyword>
+        <keyword>@sc</keyword>
+        <keyword>^@sp</keyword>
+        <keyword>@t</keyword>
+        <keyword>@tie</keyword>
+        <keyword>^@vskip</keyword>
+        <keyword>@w</keyword>
+    </keyword-list>
+
+    <keyword-list _name="Characters" style="Keyword" case-sensitive="TRUE"
+        match-empty-string-at-beginning="FALSE"
+        match-empty-string-at-end="FALSE"
+        beginning-regex="@">
+        <keyword>!</keyword>
+        <keyword>"</keyword>
+        <keyword>'</keyword>
+<!--    FIXME: figure out how to highlight this w/o side-effects -->
+<!--        <keyword>,\{c\}</keyword> -->
+        <keyword>\.</keyword>
+        <keyword>\=</keyword>
+        <keyword>\?</keyword>
+        <keyword>@</keyword>
+        <keyword>\\</keyword>
+        <keyword>\^</keyword>
+        <keyword>`</keyword>
+        <keyword>\{</keyword>
+        <keyword>\}</keyword>
+        <keyword>~</keyword>
+        <keyword>AA\{\}</keyword>
+        <keyword>aa\{\}</keyword>
+        <keyword>AE\{\}</keyword>
+        <keyword>ae\{\}</keyword>
+        <keyword>bullet\{\}</keyword>
+        <keyword>comma\{\}</keyword>
+        <keyword>copyright\{\}</keyword>
+        <keyword>dotaccent</keyword>
+        <keyword>dots\{\}</keyword>
+        <keyword>enddots\{\}</keyword>
+        <keyword>equiv\{\}</keyword>
+        <keyword>error\{\}</keyword>
+        <keyword>exclamdown\{\}</keyword>
+        <keyword>expansion\{\}</keyword>
+        <keyword>H</keyword>
+        <keyword>L\{\}</keyword>
+        <keyword>l\{\}</keyword>
+        <keyword>LaTeX\{\}</keyword>
+        <keyword>minus\{\}</keyword>
+        <keyword>O\{\}</keyword>
+        <keyword>o\{\}</keyword>
+        <keyword>OE\{\}</keyword>
+        <keyword>oe\{\}</keyword>
+        <keyword>point\{\}</keyword>
+        <keyword>pounds\{\}</keyword>
+        <keyword>print\{\}</keyword>
+        <keyword>questiondown\{\}</keyword>
+        <keyword>registeredsymbol\{\}</keyword>
+        <keyword>result\{\}</keyword>
+        <keyword>ringaccent\{\}</keyword>
+        <keyword>ss\{\}</keyword>
+        <keyword>TeX\{\}</keyword>
+        <keyword>tieaccent</keyword>
+        <keyword>u</keyword>
+        <keyword>ubaraccent</keyword>
+        <keyword>udotaccent</keyword>
+        <keyword>v</keyword>
+    </keyword-list>
+
+	<pattern-item _name="Keyword" style="Others">
+		<regex>((^[\\])|([@]))(end )?[a-zA-Z]+(\{\})?</regex>
+	</pattern-item>
+
+</language>

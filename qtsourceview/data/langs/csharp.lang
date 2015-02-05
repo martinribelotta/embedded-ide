@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="C#" version="1.0" _section="Sources" mimetypes="text/x-csharpsrc;text/x-csharp">
+	
+	<escape-char>\</escape-char>
+
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<string _name = "String 2" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+	<string _name = "Multiline String" style = "String" end-at-line-end = "FALSE">
+		<start-regex>@&quot;([^&quot;]|&quot;&quot;)*</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>//</start-regex>
+	</line-comment>
+
+	<block-comment _name = "Block Comment" style = "Comment">
+		<start-regex>/\*</start-regex>
+        	<end-regex>\*/</end-regex>
+	</block-comment>
+	
+	<keyword-list _name = "Keywords" style = "Keyword" case-sensitive="TRUE">
+		<keyword>class</keyword>
+		<keyword>delegate</keyword>
+		<keyword>enum</keyword>
+		<keyword>event</keyword>
+		<keyword>interface</keyword>
+		<keyword>namespace</keyword>
+		<keyword>struct</keyword>
+		<keyword>using</keyword>
+		<!--modifiers -->
+		<keyword>abstract</keyword>
+		<keyword>const</keyword>
+		<keyword>explicit</keyword>
+		<keyword>extern</keyword>
+		<keyword>fixed</keyword>
+		<keyword>implicit</keyword>
+		<keyword>internal</keyword>
+		<keyword>lock</keyword>
+		<keyword>out</keyword>
+		<keyword>override</keyword>
+		<keyword>params</keyword>
+		<keyword>private</keyword>
+		<keyword>protected</keyword>
+		<keyword>public</keyword>
+		<keyword>ref</keyword>
+		<keyword>sealed</keyword>
+		<keyword>static</keyword>
+		<keyword>readonly</keyword>
+		<keyword>unsafe</keyword>
+		<keyword>virtual</keyword>
+		<keyword>volatile</keyword>
+		<!-- others -->
+		<keyword>add</keyword>
+		<keyword>as</keyword>
+		<keyword>assembly</keyword>
+		<keyword>base</keyword>
+		<keyword>break</keyword>
+		<keyword>case</keyword>
+		<keyword>catch</keyword>
+		<keyword>checked</keyword>
+		<keyword>continue</keyword>
+		<keyword>default</keyword>
+		<keyword>do</keyword>
+		<keyword>else</keyword>
+		<keyword>false</keyword>
+		<keyword>finally</keyword>
+		<keyword>for</keyword>
+		<keyword>foreach</keyword>
+		<keyword>get</keyword>
+		<keyword>goto</keyword>
+		<keyword>if</keyword>
+		<keyword>in</keyword>
+		<keyword>is</keyword>
+		<keyword>new</keyword>
+		<keyword>null</keyword>
+		<keyword>remove</keyword>
+		<keyword>return</keyword>
+		<keyword>set</keyword>
+		<keyword>sizeof</keyword>
+		<keyword>stackalloc</keyword>
+		<keyword>super</keyword>
+		<keyword>switch</keyword>
+		<keyword>this</keyword>
+		<keyword>throw</keyword>
+		<keyword>true</keyword>
+		<keyword>try</keyword>
+		<keyword>typeof</keyword>
+		<keyword>unchecked</keyword>
+		<keyword>value</keyword>
+		<keyword>void</keyword>
+		<keyword>while</keyword>
+		<keyword>yield</keyword><!-- version 2 -->
+	</keyword-list>
+
+	<keyword-list _name = "Primitives" style = "Data Type" case-sensitive="TRUE">
+		<keyword>bool</keyword>
+		<keyword>byte</keyword>
+		<keyword>char</keyword>
+		<keyword>decimal</keyword>
+		<keyword>double</keyword>
+		<keyword>float</keyword>
+		<keyword>int</keyword>
+		<keyword>long</keyword>
+		<keyword>object</keyword>
+		<keyword>operator</keyword>
+		<keyword>sbyte</keyword>
+		<keyword>short</keyword>
+		<keyword>string</keyword>
+		<keyword>uint</keyword>
+		<keyword>ulong</keyword>
+		<keyword>ushort</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Preprocessor Definitions" style ="Preprocessor" case-sensitive="TRUE"
+		      match-empty-string-at-beginning = "FALSE" match-empty-string-at-end = "TRUE"
+		      beginning-regex = "^[ \t]*#[ \t]*">
+		<keyword>if</keyword>
+		<keyword>ifdef</keyword>
+		<keyword>ifndef</keyword>
+		<keyword>else</keyword>
+		<keyword>elif</keyword>
+		<keyword>define</keyword>
+		<keyword>endif</keyword>
+		<keyword>undef</keyword>
+		<keyword>error</keyword>
+		<keyword>region</keyword>
+		<keyword>endregion</keyword>
+	</keyword-list>	
+	
+</language>

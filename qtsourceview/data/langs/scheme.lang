@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Scheme" version="1.0" _section="Sources" mimetypes="text/x-scheme">
+
+	<line-comment _name="Line Comment" style="Comment">
+		<start-regex>;</start-regex>
+	</line-comment>
+
+	<string _name="String" style="String" end-at-line-end="FALSE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<!-- We cannot match \b at the end of a keyword automatically
+	  because it fails for let* etc. So we need to manually add it to the
+	  other keywords and match ([ \t]|$) for the one ending with a
+	  special character. Unfortnately this also means that if the highlight
+	  style for keywords sets the background color, for let* etc also the
+	  trailing space will be highlighted. -->
+
+	<keyword-list _name="Keyword" style="Keyword"
+	 case-sensitive="TRUE" match-empty-string-at-end="FALSE">
+		<keyword>and\b</keyword>
+		<keyword>begin\b</keyword>
+		<keyword>case\b</keyword>
+		<keyword>cond-expand\b</keyword>
+		<keyword>cond\b</keyword>
+		<keyword>define-accessor\b</keyword>
+		<keyword>define-class\b</keyword>
+		<keyword>defined\?([ \t]|$)</keyword>
+		<keyword>define-generic\b</keyword>
+		<keyword>define\b</keyword>
+		<keyword>define\*([ \t]|$)</keyword>
+		<keyword>define-macro\b</keyword>
+		<keyword>define-method\b</keyword>
+		<keyword>define-module\b</keyword>
+		<keyword>define-private\b</keyword>
+		<keyword>define-public\b</keyword>
+		<keyword>define\*-public\b</keyword>
+		<keyword>define-reader-ctor\b</keyword>
+		<keyword>define-syntax\b</keyword>
+		<keyword>define-syntax-macro\b</keyword>
+		<keyword>defmacro\b</keyword>
+		<keyword>defmacro\*([ \t]|$)</keyword>
+		<keyword>defmacro\*-public\b</keyword>
+		<keyword>delay\b</keyword>
+		<keyword>do\b</keyword>
+		<keyword>else\b</keyword>
+		<keyword>fluid-let\b</keyword>
+		<keyword>if\b</keyword>
+		<keyword>lambda\b</keyword>
+		<keyword>let\b</keyword>
+		<keyword>let\*([ \t]|$)</keyword>
+		<keyword>letrec\b</keyword>
+		<keyword>letrec-syntax\b</keyword>
+		<keyword>let-syntax\b</keyword>
+		<keyword>or\b</keyword>
+		<keyword>quasiquote\b</keyword>
+		<keyword>quote\b</keyword>
+		<keyword>set!\b</keyword>
+		<keyword>syntax-rules\b</keyword>
+		<keyword>unquote\b</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Function" style="Others"
+	 case-sensitive="TRUE" match-empty-string-at-end="FALSE">
+		<keyword>abs\b</keyword>
+		<keyword>acos\b</keyword>
+		<keyword>angle\b</keyword>
+		<keyword>append\b</keyword>
+		<keyword>apply\b</keyword>
+		<keyword>asin\b</keyword>
+		<keyword>assoc\b</keyword>
+		<keyword>assq\b</keyword>
+		<keyword>assv\b</keyword>
+		<keyword>atan\b</keyword>
+		<keyword>boolean\?([ \t]|$)</keyword>
+		<keyword>caaar\b</keyword>
+		<keyword>caadr\b</keyword>
+		<keyword>caar\b</keyword>
+		<keyword>cadar\b</keyword>
+		<keyword>caddr\b</keyword>
+		<keyword>cadr\b</keyword>
+		<keyword>call\/cc\b</keyword>
+		<keyword>call-with-current-continuation\b</keyword>
+		<keyword>call-with-input-file\b</keyword>
+		<keyword>call-with-output-file\b</keyword>
+		<keyword>call-with-values\b</keyword>
+		<keyword>car\b</keyword>
+		<keyword>catch\b</keyword>
+		<keyword>cdaar\b</keyword>
+		<keyword>cdadr\b</keyword>
+		<keyword>cdar\b</keyword>
+		<keyword>cddar\b</keyword>
+		<keyword>cdddr\b</keyword>
+		<keyword>cddr\b</keyword>
+		<keyword>cdr\b</keyword>
+		<keyword>ceiling\b</keyword>
+		<keyword>char-alphabetic\?([ \t]|$)</keyword>
+		<keyword>char-ci&gt;=\?([ \t]|$)</keyword>
+		<keyword>char-ci&gt;\?([ \t]|$)</keyword>
+		<keyword>char-ci\=\?([ \t]|$)</keyword>
+		<keyword>char-ci&lt;=\?([ \t]|$)</keyword>
+		<keyword>char-ci&lt;\?([ \t]|$)</keyword>
+		<keyword>char-downcase\b</keyword>
+		<keyword>char-&gt;integer\b</keyword>
+		<keyword>char&gt;=\?([ \t]|$)</keyword>
+		<keyword>char&gt;\?([ \t]|$)</keyword>
+		<keyword>char=\?([ \t]|$)</keyword>
+		<keyword>char\?([ \t]|$)</keyword>
+		<keyword>char-lower-case\?([ \t]|$)</keyword>
+		<keyword>char&lt;=\?([ \t]|$)</keyword>
+		<keyword>char&lt;\?([ \t]|$)</keyword>
+		<keyword>char-numeric\?([ \t]|$)</keyword>
+		<keyword>char-ready\?([ \t]|$)</keyword>
+		<keyword>char-upcase\b</keyword>
+		<keyword>char-upper-case\?([ \t]|$)</keyword>
+		<keyword>char-whitespace\?([ \t]|$)</keyword>
+		<keyword>close-input-port\b</keyword>
+		<keyword>close-output-port\b</keyword>
+		<keyword>complex\?([ \t]|$)</keyword>
+		<keyword>cons\b</keyword>
+		<keyword>cos\b</keyword>
+		<keyword>current-input-port\b</keyword>
+		<keyword>current-output-port\b</keyword>
+		<keyword>delete-file\b</keyword>
+		<keyword>display\b</keyword>
+		<keyword>dynamic-wind\b</keyword>
+		<keyword>eof-object\?([ \t]|$)</keyword>
+		<keyword>eq\?([ \t]|$)</keyword>
+		<keyword>equal\?([ \t]|$)</keyword>
+		<keyword>eqv\?([ \t]|$)</keyword>
+		<keyword>eval\b</keyword>
+		<keyword>even\?([ \t]|$)</keyword>
+		<keyword>exact-&gt;inexact\b</keyword>
+		<keyword>exact\?([ \t]|$)</keyword>
+		<keyword>exit\b</keyword>
+		<keyword>exp\b</keyword>
+		<keyword>expt\b</keyword>
+		<keyword>file-exists\?([ \t]|$)</keyword>
+		<keyword>file-or-directory-modify-seconds\b</keyword>
+		<keyword>floor\b</keyword>
+		<keyword>force\b</keyword>
+		<keyword>for-each\b</keyword>
+		<keyword>gcd\b</keyword>
+		<keyword>gensym\b</keyword>
+		<keyword>getenv\b</keyword>
+		<keyword>get-output-string\b</keyword>
+		<keyword>imag-part\b</keyword>
+		<keyword>inexact\?([ \t]|$)</keyword>
+		<keyword>input-port\?([ \t]|$)</keyword>
+		<keyword>integer-&gt;char\b</keyword>
+		<keyword>integer\?([ \t]|$)</keyword>
+		<keyword>lcm\b</keyword>
+		<keyword>length\b</keyword>
+		<keyword>list-&gt;string\b</keyword>
+		<keyword>list-&gt;vector\b</keyword>
+		<keyword>list\b</keyword>
+		<keyword>list\?([ \t]|$)</keyword>
+		<keyword>list-ref\b</keyword>
+		<keyword>list-tail\b</keyword>
+		<keyword>load\b</keyword>
+		<keyword>log\b</keyword>
+		<keyword>magnitude\b</keyword>
+		<keyword>make-polar\b</keyword>
+		<keyword>make-rectangular\b</keyword>
+		<keyword>make-string\b</keyword>
+		<keyword>make-vector\b</keyword>
+		<keyword>map\b</keyword>
+		<keyword>max\b</keyword>
+		<keyword>member\b</keyword>
+		<keyword>memq\b</keyword>
+		<keyword>memv\b</keyword>
+		<keyword>min\b</keyword>
+		<keyword>modulo\b</keyword>
+		<keyword>negative\?([ \t]|$)</keyword>
+		<keyword>newline\b</keyword>
+		<keyword>nil\b</keyword>
+		<keyword>not\b</keyword>
+		<keyword>null\?([ \t]|$)</keyword>
+		<keyword>number-&gt;string\b</keyword>
+		<keyword>number\?([ \t]|$)</keyword>
+		<keyword>odd\?([ \t]|$)</keyword>
+		<keyword>open-input-file\b</keyword>
+		<keyword>open-input-string\b</keyword>
+		<keyword>open-output-file\b</keyword>
+		<keyword>open-output-string\b</keyword>
+		<keyword>output-port\?([ \t]|$)</keyword>
+		<keyword>pair\?([ \t]|$)</keyword>
+		<keyword>peek-char\b</keyword>
+		<keyword>port\?([ \t]|$)</keyword>
+		<keyword>positive\?([ \t]|$)</keyword>
+		<keyword>procedure\?([ \t]|$)</keyword>
+		<keyword>quotient\b</keyword>
+		<keyword>rational\?([ \t]|$)</keyword>
+		<keyword>read-char\b</keyword>
+		<keyword>read\b</keyword>
+		<keyword>read-line\b</keyword>
+		<keyword>real\?([ \t]|$)</keyword>
+		<keyword>real-part\b</keyword>
+		<keyword>remainder\b</keyword>
+		<keyword>reverse\b</keyword>
+		<keyword>reverse\!([ \t]|$)</keyword>
+		<keyword>round\</keyword>
+		<keyword>set-car\!([ \t]|$)</keyword>
+		<keyword>set-cdr\!([ \t]|$)</keyword>
+		<keyword>sin\b</keyword>
+		<keyword>sqrt\b</keyword>
+		<keyword>string-append\b</keyword>
+		<keyword>string-ci&gt;=\?([ \t]|$)</keyword>
+		<keyword>string-ci&gt;\?([ \t]|$)</keyword>
+		<keyword>string-ci=\?([ \t]|$)</keyword>
+		<keyword>string-ci&lt;=\?([ \t]|$)</keyword>
+		<keyword>string-ci&lt;\?([ \t]|$)</keyword>
+		<keyword>string-copy\b</keyword>
+		<keyword>string-fill\!([ \t]|$)</keyword>
+		<keyword>string&gt;=\?([ \t]|$)</keyword>
+		<keyword>string&gt;\?([ \t]|$)</keyword>
+		<keyword>string-&gt;list\b</keyword>
+		<keyword>string-&gt;number\b</keyword>
+		<keyword>string-&gt;symbol\b</keyword>
+		<keyword>string\b</keyword>
+		<keyword>string=\?([ \t]|$)</keyword>
+		<keyword>string\?([ \t]|$)</keyword>
+		<keyword>string-length\b</keyword>
+		<keyword>string&lt;=\?([ \t]|$)</keyword>
+		<keyword>string&lt;\?([ \t]|$)</keyword>
+		<keyword>string-ref\b</keyword>
+		<keyword>string-set\!([ \t]|$)</keyword>
+		<keyword>substring\b</keyword>
+		<keyword>symbol-&gt;string\b</keyword>
+		<keyword>symbol\?([ \t]|$)</keyword>
+		<keyword>system\b</keyword>
+		<keyword>tan\b</keyword>
+		<keyword>truncate\b</keyword>
+		<keyword>values\b</keyword>
+		<keyword>vector-fill\!([ \t]|$)</keyword>
+		<keyword>vector-&gt;list\b</keyword>
+		<keyword>vector\b</keyword>
+		<keyword>vector\?([ \t]|$)</keyword>
+		<keyword>vector-length\b</keyword>
+		<keyword>vector-ref\b</keyword>
+		<keyword>vector-set\!([ \t]|$)</keyword>
+		<keyword>with-input-from-file\b</keyword>
+		<keyword>with-output-to-file\b</keyword>
+		<keyword>write-char\b</keyword>
+		<keyword>write\b</keyword>
+		<keyword>zero\?([ \t]|$)</keyword>
+	</keyword-list>
+
+	<pattern-item _name="Boolean Value" style="Preprocessor">
+		<regex>#(f|t)</regex>
+	</pattern-item>
+
+</language>

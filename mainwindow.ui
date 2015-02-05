@@ -59,6 +59,7 @@
    <addaction name="actionSave_All"/>
    <addaction name="actionDocumentNew"/>
    <addaction name="separator"/>
+   <addaction name="actionConfigure"/>
    <addaction name="actionHelp"/>
    <addaction name="actionExit"/>
   </widget>
@@ -231,6 +232,18 @@
    </property>
    <property name="toolTip">
     <string>Save all files</string>
+   </property>
+  </action>
+  <action name="actionConfigure">
+   <property name="icon">
+    <iconset theme="configure" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/help-about.png</normaloff>:/icon-theme/icon-theme/help-about.png</iconset>
+   </property>
+   <property name="text">
+    <string>Configure</string>
+   </property>
+   <property name="toolTip">
+    <string>Configure</string>
    </property>
   </action>
  </widget>

@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- gtksourceview/language-specs/sql.lang -->
+
+<!-- gtksourceview SQL language specification -->
+
+<!-- Copyright © 2003, 2005 Evert Verhellen -->
+
+<!-- This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version. -->
+
+<!-- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. -->
+
+<!-- You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA. -->
+
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="SQL" version="1.0" _section="Sources" mimetypes="text/x-sql">
+
+	<escape-char>\</escape-char>
+
+<!-- Datatypes -->
+
+	<keyword-list _name="Oracle Built-in Datatypes" style="Data Type" case-sensitive="FALSE">
+		<keyword>N?VARCHAR2</keyword>
+		<keyword>NUMBER</keyword>
+		<keyword>LONG</keyword>
+		<keyword>DATE</keyword>
+		<keyword>TIMESTAMP</keyword>
+		<keyword>INTERVAL</keyword>
+		<keyword>(LONG[ \t\n]+)?RAW</keyword>
+		<keyword>U?ROWID</keyword>
+		<keyword>N?CHAR</keyword>
+		<keyword>(N?C|B)LOB</keyword>
+		<keyword>BFILE</keyword>
+		<keyword>BINARY_(FLOAT|DOUBLE)</keyword>
+	</keyword-list>
+
+	<keyword-list _name="ANSI Datatypes" style="Data Type" case-sensitive="FALSE">
+		<keyword>(NATIONAL[ \t\n]+)?CHAR(ACTER)?([ \t\n]+VARYING)?</keyword>
+		<keyword>NCHAR([ \t\n]+VARYING)?</keyword>
+		<keyword>NUMERIC|DECIMAL</keyword>
+		<keyword>INTEGER|INT|SMALLINT</keyword>
+		<keyword>FLOAT|DOUBLE[ \t\n]+PRECISION|REAL</keyword>
+	</keyword-list>
+
+	<keyword-list _name="SQL/DS and DB2 Datatypes" style="Data Type" case-sensitive="FALSE">
+		<keyword>CHARACTER</keyword>
+		<keyword>(LONG[ \t\n]+)?VARCHAR</keyword>
+		<keyword>DECIMAL</keyword>
+		<keyword>INTEGER|SMALLINT</keyword>
+		<keyword>FLOAT</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Oracle-Supplied Types" style="Data Type" case-sensitive="FALSE">
+		<keyword>SYS\.ANY(TYPE|DATA(SET)?)</keyword>
+		<keyword>XMLType</keyword>
+		<keyword>(HTTP|XDB|DB)?URIType</keyword>
+		<keyword>(MDSYS\.)?SDO_((TOPO_)?GEOMETRY|GEORASTER)</keyword>
+		<keyword>ORDSYS\.ORD(Audio|Doc|Image(Signature)?|Video)</keyword>
+		<keyword>SI_(StillImage|(Average|Positional)?Color|ColorHistogram|Texture|FeatureList)</keyword>
+	</keyword-list>
+
+<!-- Literals -->
+
+	<string _name="Text Literals" style="String" end-at-line-end="FALSE">
+		<start-regex>([Nn]?[Qq]?|[Uu]?)&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+	<pattern-item _name="Integer Literals" style="Decimal">
+		<regex>\b[0-9]+\b</regex>
+	</pattern-item>
+
+	<pattern-item _name="Number Literals" style="Floating Point">
+		<regex>(\b[0-9]+(\.[0-9]+)?|\.[0-9]+)([Ee][\+-]?[0-9]+)?\b</regex>
+	</pattern-item>
+
+	<pattern-item _name="Size Clause" style="Decimal">
+		<regex>\b[0-9]+[ \t]*([Kk]|[Mm]|[Gg]|[Tt])\b</regex>
+	</pattern-item>
+
+	<keyword-list _name="Unlimited" style="Decimal" case-sensitive="FALSE">
+		<keyword>UNLIMITED</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Null" style="Decimal" case-sensitive="FALSE">
+		<keyword>NULL</keyword>
+	</keyword-list>
+
+<!-- Comments -->
+
+	<block-comment _name="Block Comment" style="Comment">
+		<start-regex>/\*</start-regex>
+        	<end-regex>\*/</end-regex>
+	</block-comment>
+	
+	<line-comment _name="Line Comment" style="Comment">
+		<start-regex>--</start-regex>
+	</line-comment>
+
+<!-- Functions -->
+
+	<!-- Single-Row Functions -->
+
+	<keyword-list _name="Numeric Functions" style="Function" case-sensitive="FALSE">
+		<keyword>ABS</keyword>
+		<keyword>A(COS|SIN|TAN2?)</keyword>
+		<keyword>BITAND</keyword>
+		<keyword>CEIL</keyword>
+		<keyword>(COS|SIN|TAN)H?</keyword>
+		<keyword>EXP</keyword>
+		<keyword>FLOOR</keyword>
+		<keyword>LN</keyword>
+		<keyword>LOG</keyword>
+		<keyword>MOD</keyword>
+		<keyword>NANVL</keyword>
+		<keyword>POWER</keyword>
+		<keyword>REMAINDER</keyword>
+		<keyword>ROUND</keyword>
+		<keyword>SIGN</keyword>
+		<keyword>SQRT</keyword>
+		<keyword>TRUNC</keyword>
+		<keyword>WIDTH_BUCKET</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Character Functions Returning Character Values" style="Function" case-sensitive="FALSE">
+		<keyword>N?CHR</keyword>
+		<keyword>CONCAT</keyword>
+		<keyword>(NLS_)?(INITCAP|LOWER|UPPER)</keyword>
+		<keyword>(L|R)PAD</keyword>
+		<keyword>(L|R)?TRIM</keyword>
+		<keyword>NLSSORT</keyword>
+		<keyword>REGEXP_(REPLACE|SUBSTR)</keyword>
+		<keyword>REPLACE</keyword>
+		<keyword>SOUNDEX</keyword>
+		<keyword>SUBSTR</keyword>
+		<keyword>TRANSLATE</keyword>
+		<keyword>TREAT</keyword>
+	</keyword-list>
+
+	<keyword-list _name="NLS Character Functions" style="Function" case-sensitive="FALSE">
+		<keyword>NLS_CHARSET_DECL_LEN</keyword>
+		<keyword>NLS_CHARSET_(ID|NAME)</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Character Functions Returning Number Values" style="Function" case-sensitive="FALSE">
+		<keyword>ASCII</keyword>
+		<keyword>INSTR</keyword>
+		<keyword>LENGTH</keyword>
+		<keyword>REGEXP_INSTR</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Datetime Functions" style="Function" case-sensitive="FALSE">
+		<keyword>ADD_MONTHS</keyword>
+		<keyword>CURRENT_(DATE|TIMESTAMP)</keyword>
+		<keyword>DBTIMEZONE</keyword>
+		<keyword>EXTRACT</keyword>
+		<keyword>FROM_TZ</keyword>
+		<keyword>(LAST|NEXT)_DAY</keyword>
+		<keyword>LOCALTIMESTAMP</keyword>
+		<keyword>MONTHS_BETWEEN</keyword>
+		<keyword>NEW_TIME</keyword>
+		<keyword>NUMTO(DS|YM)INTERVAL</keyword>
+		<keyword>ROUND</keyword>
+		<keyword>SESSIONTIMEZONE</keyword>
+		<keyword>SYS_EXTRACT_UTC</keyword>
+		<keyword>SYS(DATE|TIMESTAMP)</keyword>
+		<keyword>TO_CHAR</keyword>
+		<keyword>TO_(DS|YM)INTERVAL</keyword>
+		<keyword>TO_TIMESTAMP(_TZ)?</keyword>
+		<keyword>TRUNC</keyword>
+		<keyword>TZ_OFFSET</keyword>
+	</keyword-list>
+
+	<keyword-list _name="General Comparison Functions" style="Function" case-sensitive="FALSE">
+		<keyword>GREATEST</keyword>
+		<keyword>LEAST</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Conversion Functions" style="Function" case-sensitive="FALSE">
+		<keyword>ASCIISTR</keyword>
+		<keyword>BIN_TO_NUM</keyword>
+		<keyword>CAST</keyword>
+		<keyword>CHARTOROWID</keyword>
+		<keyword>(DE)?COMPOSE</keyword>
+		<keyword>CONVERT</keyword>
+		<keyword>HEXTORAW</keyword>
+		<keyword>NUMTO(DS|YM)INTERVAL</keyword>
+		<keyword>RAWTON?HEX</keyword>
+		<keyword>ROWIDTON?CHAR</keyword>
+		<keyword>SCN_TO_TIMESTAMP</keyword>
+		<keyword>TIMESTAMP_TO_SCN</keyword>
+		<keyword>TO_BINARY_(DOUBLE|FLOAT)</keyword>
+		<keyword>TO_N?(CHAR|CLOB)</keyword>
+		<keyword>TO_DATE</keyword>
+		<keyword>TO_(DS|YM)INTERVAL</keyword>
+		<keyword>TO_LOB</keyword>
+		<keyword>TO_(MULTI|SINGLE)_BYTE</keyword>
+		<keyword>TO_NUMBER</keyword>
+		<keyword>TRANSLATE</keyword>
+		<keyword>UNISTR</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Large Object Functions" style="Function" case-sensitive="FALSE">
+		<keyword>BFILENAME</keyword>
+		<keyword>EMPTY_(B|C)LOB</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Collection Functions" style="Function" case-sensitive="FALSE">
+		<keyword>CARDINALITY</keyword>
+		<keyword>COLLECT</keyword>
+		<keyword>POWERMULTISET(_BY_CARDINALITY)?</keyword>
+		<!-- SET -->
+	</keyword-list>
+
+	<keyword-list _name="Hierarchical Function" style="Function" case-sensitive="FALSE">
+		<keyword>SYS_CONNECT_BY_PATH</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Data Mining Functions" style="Function" case-sensitive="FALSE">
+		<keyword>CLUSTER_(ID|PROBABILITY|SET)</keyword>
+		<keyword>FEATURE_(ID|SET|VALUE)</keyword>
+		<keyword>PREDICTION</keyword>
+		<keyword>PREDICTION_(COST|DETAILS|PROBABILITY|SET)</keyword>
+	</keyword-list>
+
+	<keyword-list _name="XML Functions" style="Function" case-sensitive="FALSE">
+		<keyword>(APPEND|INSERT)CHILDXML</keyword>
+		<keyword>(DELETE|UPDATE)XML</keyword>
+		<keyword>DEPTH</keyword>
+		<keyword>EXISTSNODE</keyword>
+		<keyword>EXTRACT(VALUE)?</keyword>
+		<keyword>INSERTXMLBEFORE</keyword>
+		<keyword>PATH</keyword>
+		<keyword>SYS_DBURIGEN</keyword>
+		<keyword>SYS_XML(AGG|GEN)</keyword>
+		<keyword>XML(AGG|CDATA|COLATTVAL|COMMENT|CONCAT|ELEMENT|FOREST|PARSE|PI|QUERY|ROOT|SEQUENCE|SERIALIZE|TABLE|TRANSFORM)</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Encoding and Decoding Functions" style="Function" case-sensitive="FALSE">
+		<keyword>DECODE</keyword>
+		<keyword>DUMP</keyword>
+		<keyword>ORA_HASH</keyword>
+		<keyword>VSIZE</keyword>
+	</keyword-list>
+
+	<keyword-list _name="NULL-Related Functions" style="Function" case-sensitive="FALSE">
+		<keyword>COALESCE</keyword>
+		<keyword>LNNVL</keyword>
+		<keyword>NULLIF</keyword>
+		<keyword>NVL2?</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Environment and Identifier Functions" style="Function" case-sensitive="FALSE">
+		<keyword>SYS_CONTEXT</keyword>
+		<keyword>SYS_GUID</keyword>
+		<keyword>SYS_TYPEID</keyword>
+		<keyword>UID</keyword>
+		<keyword>USER</keyword>
+		<keyword>USERENV</keyword>
+	</keyword-list>
+
+	<!-- Aggregate Functions -->
+
+	<keyword-list _name="Aggregate Functions" style="Function" case-sensitive="FALSE">
+		<keyword>AVG</keyword>
+		<!-- COLLECT: See "Collection Functions" -->
+		<keyword>CORR(_(S|K))?</keyword>
+		<keyword>COUNT</keyword>
+		<keyword>COVAR_(POP|SAMP)</keyword>
+		<keyword>CUME_DIST</keyword>
+		<keyword>(DENSE|PERCENT)_RANK</keyword>
+		<keyword>FIRST|LAST</keyword>
+		<keyword>GROUP_ID</keyword>
+		<keyword>GROUPING(_ID)?</keyword>
+		<keyword>MAX|MIN</keyword>
+		<keyword>MEDIAN</keyword>
+		<keyword>PERCENTILE_(CONT|DISC)</keyword>
+		<keyword>RANK</keyword>
+		<keyword>REGR_(SLOPE|INTERCEPT|COUNT|R2|AVGX|AVGY|SXX|SYY|SXY)</keyword>
+		<keyword>STATS_((BINOMIAL|F|KS|MW|WSR)_TEST|CROSSTAB|MODE|ONE_WAY_ANOVA|T_TEST_(ONE|PAIRED|INDEPU?))</keyword>
+		<keyword>STDDEV|VARIANCE</keyword>
+		<keyword>(STDDEV|VAR)_(POP|SAMP)</keyword>
+		<keyword>SUM</keyword>
+	</keyword-list>
+
+	<!-- Analytic Functions -->
+
+	<keyword-list _name="Analytic Functions" style="Function" case-sensitive="FALSE">
+		<keyword>AVG</keyword>
+		<keyword>CORR</keyword>
+		<keyword>COVAR_(POP|SAMP)</keyword>
+		<keyword>COUNT</keyword>
+		<keyword>CUME_DIST</keyword>
+		<keyword>(DENSE|PERCENT)_RANK</keyword>
+		<keyword>(FIRST|LAST)(_VALUE)?</keyword>
+		<keyword>LAG</keyword>
+		<keyword>LEAD</keyword>
+		<keyword>MAX|MIN</keyword>
+		<keyword>NTILE</keyword>
+		<keyword>PERCENTILE_(CONT|DISC)</keyword>
+		<keyword>RANK</keyword>
+		<keyword>RATIO_TO_REPORT</keyword>
+		<keyword>REGR_(SLOPE|INTERCEPT|COUNT|R2|AVGX|AVGY|SXX|SYY|SXY)</keyword>
+		<keyword>ROW_NUMBER</keyword>
+		<keyword>STDDEV|VARIANCE</keyword>
+		<keyword>(STDDEV|VAR)_(POP|SAMP)</keyword>
+		<keyword>SUM</keyword>
+	</keyword-list>
+
+	<!-- Object Reference Functions -->
+
+	<keyword-list _name="Object Reference Functions" style="Function" case-sensitive="FALSE">
+		<keyword>DEREF</keyword>
+		<keyword>MAKE_REF</keyword>
+		<keyword>REF</keyword>
+		<keyword>REFTOHEX</keyword>
+		<keyword>VALUE</keyword>
+	</keyword-list>
+
+	<!-- Model Functions -->
+
+	<keyword-list _name="Model Functions" style="Function" case-sensitive="FALSE">
+		<keyword>CV</keyword>
+		<keyword>ITERATION_NUMBER</keyword>
+		<keyword>PRESENT(NN)?V</keyword>
+		<keyword>PREVIOUS</keyword>
+	</keyword-list>
+
+<!-- Reserved Words -->
+
+	<keyword-list _name="ANSI Reserved Words" style="Keyword" case-sensitive="FALSE">
+		<keyword>ADD</keyword>
+		<keyword>ALL</keyword>
+		<keyword>ALTER</keyword>
+		<keyword>AND</keyword>
+		<keyword>ANY</keyword>
+		<keyword>AS</keyword>
+		<keyword>ASC</keyword>
+		<keyword>BETWEEN</keyword>
+		<keyword>BY</keyword>
+		<!-- CHAR: See "Datatypes" -->
+		<keyword>CHECK</keyword>
+		<!-- CONNECT: See "SQL*Plus" -->
+		<keyword>CREATE</keyword>
+		<keyword>CURRENT</keyword>
+		<!-- DATE: See "Datatypes" -->
+		<keyword>DECIMAL</keyword>
+		<keyword>DEFAULT</keyword>
+		<keyword>DELETE</keyword>
+		<!-- DESC: See "SQL*Plus" -->
+		<keyword>DISTINCT</keyword>
+		<keyword>DROP</keyword>
+		<keyword>ELSE</keyword>
+		<keyword>FLOAT</keyword>
+		<keyword>FOR</keyword>
+		<keyword>FROM</keyword>
+		<keyword>GRANT</keyword>
+		<keyword>GROUP</keyword>
+		<keyword>HAVING</keyword>
+		<keyword>IMMEDIATE</keyword>
+		<keyword>IN</keyword>
+		<keyword>INSERT</keyword>
+		<keyword>INTEGER</keyword>
+		<keyword>INTERSECT</keyword>
+		<keyword>INTO</keyword>
+		<keyword>IS</keyword>
+		<keyword>LEVEL</keyword>
+		<keyword>LIKE</keyword>
+		<keyword>NOT</keyword>
+		<!-- NULL: See "Literals" -->
+		<keyword>OF</keyword>
+		<keyword>ON</keyword>
+		<keyword>OPTION</keyword>
+		<keyword>OR</keyword>
+		<keyword>ORDER</keyword>
+		<keyword>PRIOR</keyword>
+		<keyword>PRIVILEGES</keyword>
+		<keyword>PUBLIC</keyword>
+		<keyword>REVOKE</keyword>
+		<keyword>ROWS</keyword>
+		<keyword>SELECT</keyword>
+		<keyword>SESSION</keyword>
+		<keyword>SET</keyword>
+		<keyword>SIZE</keyword>
+		<keyword>SMALLINT</keyword>
+		<keyword>TABLE</keyword>
+		<keyword>THEN</keyword>
+		<keyword>TO</keyword>
+		<keyword>UNION</keyword>
+		<keyword>UNIQUE</keyword>
+		<keyword>UPDATE</keyword>
+		<!-- USER: See "Functions" -->
+		<keyword>VALUES</keyword>
+		<!-- VARCHAR: See "Datatypes" -->
+		<keyword>VIEW</keyword>
+		<!-- WHENEVER: See "SQL*Plus" -->
+		<keyword>WITH</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Oracle Reserved Words" style="Keyword" case-sensitive="FALSE">
+		<keyword>ACCESS</keyword>
+		<keyword>AUDIT</keyword>
+		<keyword>CLUSTER</keyword>
+		<!-- COLUMN: See "SQL*Plus" -->
+		<keyword>COMMENT</keyword>
+		<keyword>COMPRESS</keyword>
+		<keyword>EXCLUSIVE</keyword>
+		<keyword>EXISTS</keyword>
+		<keyword>FILE</keyword>
+		<keyword>IDENTIFIED</keyword>
+		<keyword>INCREMENT</keyword>
+		<keyword>INDEX</keyword>
+		<keyword>INITIAL</keyword>
+		<keyword>LOCK</keyword>
+		<!-- LONG: See "Datatypes" -->
+		<keyword>MAXEXTENTS</keyword>
+		<keyword>MINUS</keyword>
+		<keyword>MLSLABEL</keyword>
+		<keyword>MODE</keyword>
+		<keyword>MODIFY</keyword>
+		<keyword>NOAUDIT</keyword>
+		<keyword>NOCOMPRESS</keyword>
+		<keyword>NOWAIT</keyword>
+		<!-- NUMBER: See "Datatypes" -->
+		<keyword>OFFLINE</keyword>
+		<keyword>ONLINE</keyword>
+		<keyword>PCTFREE</keyword>
+		<!-- RAW: See "Datatypes" -->
+		<keyword>RENAME</keyword>
+		<keyword>RESOURCE</keyword>
+		<keyword>ROW</keyword>
+		<!-- ROWID: See "Datatypes" -->
+		<keyword>ROWNUM</keyword>
+		<keyword>SHARE</keyword>
+		<!-- START: See "SQL*Plus" -->
+		<keyword>SUCCESSFUL</keyword>
+		<keyword>SYNONYM</keyword>
+		<!-- SYSDATE: See "Functions" -->
+		<keyword>TRIGGER</keyword>
+		<!-- UID: See "Functions" -->
+		<keyword>VALIDATE</keyword>
+		<!-- VARCHAR2: See "Datatypes" -->
+		<keyword>WHERE</keyword>
+	</keyword-list>
+
+	<keyword-list _name="SQL Statements" style="Keyword" case-sensitive="FALSE" match-empty-string-at-beginning="FALSE" beginning-regex="^[ \t]*">
+		<keyword>ALTER[ \t]+(CLUSTER|DATABASE|DIMENSION|DISKGROUP|FUNCTION|INDEX(TYPE)?|JAVA|MATERIALIZED[ \t]+VIEW([ \t]+LOG)?|OPERATOR|OUTLINE|PACKAGE|PROCEDURE|PROFILE|RESOURCE[ \t]+COST|ROLE|ROLLBACK[ \t]+SEGMENT|SEQUENCE|SESSION|SYSTEM|TABLE(SPACE)?|TRIGGER|TYPE|USER|VIEW)</keyword>
+		<keyword>ANALYZE</keyword>
+		<keyword>(DIS)?ASSOCIATE[ \t]+STATISTICS</keyword>
+		<!-- AUDIT: See "Oracle Reserved Words" -->
+		<keyword>CALL</keyword>
+		<!-- COMMENT: See "Oracle Reserved Words" -->
+		<keyword>COMMIT([ \t]+WORK)?</keyword>
+		<keyword>CREATE[ \t]+(CLUSTER|CONTEXT|CONTROLFILE|DATABASE([ \t]+LINK)?|DIMENSION|DIRECTORY|DISKGROUP|FUNCTION|INDEX(TYPE)?|JAVA|LIBRARY|MATERIALIZED[ \t]+VIEW([ \t]+LOG)?|OPERATOR|OUTLINE|PACKAGE([ \t]+BODY)?|S?PFILE|PROCEDURE|PROFILE|RESTORE[ \t]+POINT|ROLE|ROLLBACK[ \t]+SEGMENT|SCHEMA|SEQUENCE|SYNONYM|TABLE(SPACE)?|TRIGGER|TYPE([ \t]+BODY)?|USER|VIEW)</keyword>
+		<!-- DELETE: See "ANSI Reserved Words" -->
+		<keyword>DROP[ \t]+(CLUSTER|CONTEXT|DATABASE([ \t]+LINK)?|DIMENSION|DIRECTORY|DISKGROUP|FUNCTION|INDEX(TYPE)?|JAVA|LIBRARY|MATERIALIZED[ \t]+VIEW([ \t]+LOG)?|OPERATOR|OUTLINE|PACKAGE|PROCEDURE|PROFILE|RESTORE[ \t]+POINT|ROLE|ROLLBACK[ \t]+SEGMENT|SEQUENCE|SYNONYM|TABLE(SPACE)?|TRIGGER|TYPE([ \t]+BODY)?|USER|VIEW)</keyword>
+		<keyword>EXPLAIN[ \t]+PLAN</keyword>
+		<keyword>FLASHBACK[ \t]+(DATABASE|TABLE)</keyword>
+		<!-- GRANT: See "ANSI Reserved Words" -->
+		<!-- INSERT: See "ANSI Reserved Words" -->
+		<keyword>LOCK[ \t]+TABLE</keyword>
+		<keyword>MERGE</keyword>
+		<!-- NOAUDIT: See "Oracle Reserved Words" -->
+		<keyword>PURGE</keyword>
+		<!-- RENAME: See "Oracle Reserved Words" -->
+		<!-- REVOKE: See "ANSI Reserved Words" -->
+		<keyword>ROLLBACK</keyword>
+		<keyword>SAVEPOINT</keyword>
+		<!-- SELECT: See "ANSI Reserved Words" -->
+		<keyword>SET[ \t]+CONSTRAINTS?</keyword>
+		<keyword>SET[ \t]+ROLE</keyword>
+		<keyword>SET[ \t]+TRANSACTION</keyword>
+		<keyword>TRUNCATE</keyword>
+		<!-- UPDATE: See "ANSI Reserved Words" -->
+	</keyword-list>
+
+	<keyword-list _name="Operators" style="Keyword" case-sensitive="FALSE">
+		<!-- PRIOR: See "ANSI Reserved Words" -->
+		<keyword>CONNECT_BY_ROOT</keyword>
+		<!-- UNION: See "ANSI Reserved Words" -->
+		<!-- UNION ALL: See "ANSI Reserved Words" -->
+		<!-- INTERSECT: See "ANSI Reserved Words" -->
+		<!-- MINUS: See "Oracle Reserved Words" -->
+		<keyword>MULTISET[ \t]+(EXCEPT|INTERSECT|UNION)</keyword>
+	</keyword-list>
+
+	<keyword-list _name="Conditions" style="Keyword" case-sensitive="FALSE">
+		<!-- ANY: See "ANSI Reserved Words" -->
+		<keyword>SOME</keyword>
+		<!-- ALL: See "ANSI Reserved Words" -->
+		<keyword>IS[ \t]+(NOT[ \t]+)?(NAN|INFINITE)</keyword>
+		<!-- AND: See "ANSI Reserved Words" -->
+		<!-- OR: See "ANSI Reserved Words" -->
+		<!-- NOT: See "ANSI Reserved Words" -->
+		<!-- BETWEEN: See "ANSI Reserved Words" -->
+		<keyword>IS[ \t]+(NOT[ \t]+)?NULL</keyword>
+		<keyword>(EQUALS|UNDER)_PATH</keyword>
+		<!-- EXISTS: See "Oracle Reserved Words" -->
+		<keyword>(NOT[ \t]+)?IN</keyword>
+		<keyword>IS[ \t]+(NOT[ \t]+)?A[ \t]+SET</keyword>
+		<!-- IS ANY: See "ANSI Reserved Words" -->
+		<keyword>IS[ \t]+(NOT[ \t]+)?EMPTY</keyword>
+		<keyword>IS[ \t]+(NOT[ \t]+)?OF([ \t]+TYPE)?</keyword>
+		<keyword>IS[ \t]+PRESENT</keyword>
+		<keyword>(NOT[ \t]+)?LIKE(C|2|4)?</keyword>
+		<keyword>(NOT[ \t]+)?MEMBER([ \t]+OF)?</keyword>
+		<keyword>REGEXP_LIKE</keyword>
+		<keyword>(NOT[ \t]+)?SUBMULTISET([ \t]+OF)?</keyword>
+	</keyword-list>
+
+<!-- SQL*Plus -->
+
+	<pattern-item _name="SQL*Plus At Sign" style="Preprocessor">
+		<regex>^[ \t]*@</regex>
+	</pattern-item>
+
+	<pattern-item _name="SQL*Plus Double At Sign" style="Preprocessor">
+		<regex>^[ \t]*@@</regex>
+	</pattern-item>
+
+	<pattern-item _name="SQL*Plus Slash" style="Preprocessor">
+		<regex>^[ \t]*/</regex>
+	</pattern-item>
+
+	<keyword-list _name="SQL*Plus Commands" style="Preprocessor" case-sensitive="FALSE" match-empty-string-at-beginning="FALSE" beginning-regex="^[ \t]*">
+		<keyword>ACC(EPT)?</keyword>
+		<keyword>A(PPEND)?</keyword>
+		<keyword>ARCHIVE[ \t]LOG</keyword>
+		<keyword>ATTRIBUTE</keyword>
+		<keyword>BRE(AK)?</keyword>
+		<keyword>BTI(TLE)?</keyword>
+		<keyword>C(HANGE)?</keyword>
+		<keyword>CL(EAR)?</keyword>
+		<keyword>COL(UMN)?</keyword>
+		<keyword>COMP(UTE)?</keyword>
+		<keyword>CONN(ECT)?</keyword>
+		<keyword>COPY</keyword>
+		<keyword>DEF(INE)?</keyword>
+		<keyword>DEL</keyword>
+		<keyword>DESC(RIBE)?</keyword>
+		<keyword>DISC(ONNECT)?</keyword>
+		<keyword>ED(IT)?</keyword>
+		<keyword>EXEC(UTE)?</keyword>
+		<keyword>EXIT|QUIT</keyword>
+		<keyword>GET</keyword>
+		<keyword>HELP</keyword>
+		<keyword>HO(ST)?</keyword>
+		<keyword>I(NPUT)?</keyword>
+		<keyword>L(IST)?</keyword>
+		<keyword>PASSW(ORD)?</keyword>
+		<keyword>PAU(SE)?</keyword>
+		<keyword>PRI(NT)?</keyword>
+		<keyword>PRO(MPT)?</keyword>
+		<!-- QUIT: See "EXIT" -->
+		<keyword>RECOVER</keyword>
+		<keyword>REM(ARK)?</keyword>
+		<keyword>REPF(OOTER)?</keyword>
+		<keyword>REPH(EADER)?</keyword>
+		<keyword>R(UN)?</keyword>
+		<keyword>SAV(E)?</keyword>
+		<keyword>SET[ \t]+(APPI(NFO)?|ARRAY(SIZE)?|AUTO(COMMIT)?|AUTOP(RINT)?|AUTORECOVERY|AUTOT(RACE)?|BLO(CKTERMINATOR)?|CMDS(EP)?|COLSEP|COM(PATIBILITY)?|CON(CAT)?|COPYC(OMMIT)?|COPYTYPECHECK|DEF(INE)?|DESCRIBE|ECHO|EDITF(ILE)?|EMB(EDDED)?|ESC(APE)?|FEED(BACK)?|FLAGGER|FLU(SH)?|HEA(DING)?|HEADS(EP)?|INSTANCE|LIN(ESIZE)?|LOBOF(FSET)?|LOGSOURCE|LONG|LONGC(HUNKSIZE)?|MARK(UP)?|NEWP(AGE)?|NULL|NUMF(ORMAT)?|NUM(WIDTH)?|PAGES(IZE)?|PAU(SE)?|RECSEP|RECSEPCHAR|SERVEROUT(PUT)?|SHIFT(INOUT)?|SHOW(MODE)?|SQLBL(ANKLINES)?|SQLC(ASE)?|SQLCO(NTINUE)?|SQLN(UMBER)?|SQLPLUSCOMPAT(IBILITY)?|SQLPRE(FIX)?|SQLP(ROMPT)?|SQLT(ERMINATOR)?|SUF(FIX)?|TAB|TERM(OUT)?|TI(ME)?|TIMI(NG)?|TRIM(OUT)?|TRIMS(POOL)?|UND(ERLINE)?|VER(IFY)?|WRA(P)?)</keyword> <!-- SET ROLE and SET TRANSACTION are SQL commands. When not followed by the keywords TRANSACTION or ROLE, SET is assumed to be a SQL*Plus command. -->
+		<keyword>SHO(W)?</keyword>
+		<keyword>SHUTDOWN</keyword>
+		<keyword>SPO(OL)?</keyword>
+		<keyword>STA(RT)?</keyword>
+		<keyword>STARTUP</keyword>
+		<keyword>STORE</keyword>
+		<keyword>TIMI(NG)?</keyword>
+		<keyword>TTI(TLE)?</keyword>
+		<keyword>UNDEF(INE)?</keyword>
+		<keyword>VAR(IABLE)?</keyword>
+		<keyword>WHENEVER[ \t]+(OS|SQL)ERROR</keyword>
+	</keyword-list>
+
+</language>

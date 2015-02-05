@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Qt project file" version="1.0" _section="Sources" mimetypes="text/x-pro" author="Diego Iastrubni (elcuco@kde.org)">
+	<escape-char>\</escape-char>
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>#</start-regex>
+	</line-comment>
+
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<keyword-list _name = "Variable" style = "Data Type" match-empty-string-at-beginning = "FALSE" match-empty-string-at-end = "FALSE">
+		<keyword>[a-zA-Z_][\.a-zA-Z0-9_]*[ \t]*\-\=</keyword>
+		<keyword>[a-zA-Z_][\.a-zA-Z0-9_]*[ \t]*\+\=</keyword>
+		<keyword>[a-zA-Z_][\.a-zA-Z0-9_]*[ \t]*\=</keyword>
+		<keyword>[a-zA-Z_][\.a-zA-Z0-9_]*[ \t]*\~\=</keyword>
+		<keyword>\$\$[a-zA-Z_][a-zA-Z0-9_]*</keyword>
+	</keyword-list>
+
+<!--	<syntax-item _name = "Contexts Start" style = "Preprocessor">
+		<start-regex>^[ \t]*[win32|mac|unix]+</start-regex>
+		<end-regex>[ \t]*</end-regex>
+	</syntax-item>-->
+	
+	<keyword-list _name = "Keywords" style = "Function" case-sensitive="TRUE">
+		<keyword>contains[ \t]*\(.*\)</keyword>
+		<keyword>for[ \t]*\(.*\)</keyword>
+		<keyword>include[ \t]*\(.*\)</keyword>
+		<keyword>isEmpty[ \t]*\(.*\)</keyword>
+		<keyword>isEqual[ \t]*\(.*\)</keyword>
+		<keyword>lower[ \t]*\(.*\)</keyword>
+		<keyword>message[ \t]*\(.*\)</keyword>
+		<keyword>upper[ \t]*\(.*\)</keyword>
+		<keyword>warning[ \t]*\(.*\)</keyword>
+		<keyword>else</keyword>
+	</keyword-list>
+
+	<pattern-item _name = "Decimal" style = "Decimal">
+		<regex>\b([1-9][0-9]*|0)([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\b</regex>
+	</pattern-item>
+	
+	<pattern-item _name = "Floating Point Number" style = "Floating Point">
+		<regex>\b([0-9]+[Ee][-]?[0-9]+|([0-9]*\.[0-9]+|[0-9]+\.)([Ee][-]?[0-9]+)?)[fFlL]?</regex>
+	</pattern-item>
+	
+	<pattern-item _name = "Octal Number" style = "Base-N Integer">
+		<regex>\b0[0-7]+([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\b</regex>
+	</pattern-item>
+	
+	<pattern-item _name = "Hex Number" style = "Base-N Integer">
+		<regex>\b0[xX][0-9a-fA-F]+([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\b</regex>
+	</pattern-item>
+	
+	<!--	
+	<string _name = "Character Constant" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+
+	<keyword-list _name = "Common Macro" style = "Preprocessor" case-sensitive="TRUE">
+		<keyword>NULL</keyword>
+		<keyword>TRUE</keyword>
+		<keyword>FALSE</keyword>
+		<keyword>MAX</keyword>
+		<keyword>MIN</keyword>
+		<keyword>__LINE__</keyword>
+		<keyword>__DATA__</keyword>
+		<keyword>__FILE__</keyword>
+		<keyword>__func__</keyword>
+		<keyword>__TIME__</keyword>
+		<keyword>__STDC__</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Preprocessor Definitions" style = "Preprocessor" case-sensitive="TRUE"
+		match-empty-string-at-beginning = "FALSE"
+		match-empty-string-at-end = "TRUE"
+		beginning-regex = "^[ \t]*#[ \t]*">
+		<keyword>if</keyword>
+		<keyword>ifdef</keyword>
+		<keyword>ifndef</keyword>
+		<keyword>else</keyword>
+		<keyword>elif</keyword>
+		<keyword>define</keyword>
+		<keyword>endif</keyword>
+		<keyword>undef</keyword>
+		<keyword>error</keyword>
+		<keyword>pragma</keyword>
+		<keyword>line</keyword>
+	</keyword-list>
+-->
+</language>

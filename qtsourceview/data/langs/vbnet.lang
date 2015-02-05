@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="VB.NET" version="1.0" _section="Sources" mimetypes="text/x-vbnet;text/x-vb">
+	
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<!--<string _name = "String 2" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>-->
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>&apos;</start-regex>
+	</line-comment>
+	
+	<line-comment _name = "Old Style Comment" style= "Comment">
+		<start-regex>^[rR][eE][mM]</start-regex>
+	</line-comment>
+
+	<keyword-list _name = "Keywords" style = "Keyword" case-sensitive="FALSE">
+		<keyword>ADDHANDLER</keyword>
+		<keyword>ADDRESSOF</keyword>
+		<keyword>ALIAS</keyword>
+		<keyword>AND</keyword>
+		<keyword>ANDALSO</keyword>
+		<keyword>ANSI</keyword>
+		<keyword>AS</keyword>
+		<keyword>ASSEMBLY</keyword>
+		<keyword>AUTO</keyword>
+		<keyword>BINARY</keyword>	
+		<keyword>BYREF</keyword>
+		<keyword>BYVAL</keyword>	
+		<keyword>CALL</keyword>
+		<keyword>CASE</keyword>
+		<keyword>CATCH</keyword>
+		<keyword>CBOOL</keyword>
+		<keyword>CBYTE</keyword>
+		<keyword>CCHAR</keyword>
+		<keyword>CDATE</keyword>
+		<keyword>CDEC</keyword>
+		<keyword>CDBL</keyword>
+		<keyword>CINT</keyword>
+		<keyword>CLASS</keyword>
+		<keyword>CLNG</keyword>
+		<keyword>COBJ</keyword>
+		<keyword>COMPARE</keyword>
+		<keyword>CONST</keyword>
+		<keyword>CSHORT</keyword>
+		<keyword>CSNG</keyword>
+		<keyword>CSTR</keyword>
+		<keyword>CTYPE</keyword>
+		<keyword>DECLARE</keyword>
+		<keyword>DEFAULT</keyword>
+		<keyword>DELEGATE</keyword>
+		<keyword>DIM</keyword>
+		<keyword>DO</keyword>
+		<keyword>EACH</keyword>
+		<keyword>ELSE</keyword>
+		<keyword>ELSEIF</keyword>
+		<keyword>END</keyword>
+		<keyword>ENUM</keyword>
+		<keyword>ERASE</keyword>
+		<keyword>ERROR</keyword>
+		<keyword>EVENT</keyword>
+		<keyword>EXIT</keyword>
+		<keyword>EXPLICIT</keyword>	
+		<keyword>FALSE</keyword>
+		<keyword>FINALLY</keyword>
+		<keyword>FOR</keyword>
+		<keyword>FRIEND</keyword>
+		<keyword>FUNCTION</keyword>
+		<keyword>GET</keyword>
+		<keyword>GOTO</keyword>
+		<keyword>HANDLES</keyword>
+		<keyword>IF</keyword>
+		<keyword>IMPLEMENTS</keyword>
+		<keyword>IMPORTS</keyword>
+		<keyword>IN</keyword>
+		<keyword>INHERITS</keyword>
+		<keyword>INTEGER</keyword>
+		<keyword>INTERFACE</keyword>
+		<keyword>IS</keyword>
+		<keyword>LET</keyword>
+		<keyword>LIB</keyword>
+		<keyword>LIKE</keyword>
+		<keyword>LOOP</keyword>
+		<keyword>ME</keyword>
+		<keyword>MOD</keyword>
+		<keyword>MODULE</keyword>
+		<keyword>MUSTINHERIT</keyword>
+		<keyword>MUSTOVERRIDE</keyword>
+		<keyword>MYBASE</keyword>
+		<keyword>MYCLASS</keyword>
+		<keyword>NAMESPACE</keyword>
+		<keyword>NEW</keyword>
+		<keyword>NEXT</keyword>
+		<keyword>NOT</keyword>
+		<keyword>NOTHING</keyword>
+		<keyword>NOTINHERITABLE</keyword>
+		<keyword>NOTOVERRIDABLE</keyword>
+		<keyword>OFF</keyword>
+		<keyword>ON</keyword>
+		<keyword>OPTION</keyword>
+		<keyword>OPTIONAL</keyword>
+		<keyword>OR</keyword>
+		<keyword>ORELSE</keyword>
+		<keyword>OVERLOADS</keyword>
+		<keyword>OVERRIDABLE</keyword>
+		<keyword>OVERRIDES</keyword>
+		<keyword>PARAM_ARRAY</keyword>
+		<keyword>PRESERVE</keyword>
+		<keyword>PRIVATE</keyword>
+		<keyword>PROPERTY</keyword>
+		<keyword>PROTECTED</keyword>
+		<keyword>PUBLIC</keyword>
+		<keyword>RAISEEVENT</keyword>
+		<keyword>READONLY</keyword>
+		<keyword>REDIM</keyword>
+		<keyword>REM</keyword>
+		<keyword>REMOVEHANDLER</keyword>
+		<keyword>RESUME</keyword>
+		<keyword>RETURN</keyword>
+		<keyword>SELECT</keyword>
+		<keyword>SET</keyword>
+		<keyword>SHADOWS</keyword>
+		<keyword>SHARED</keyword>
+		<keyword>SIZEOF</keyword>
+		<keyword>STATIC</keyword>
+		<keyword>STEP</keyword>
+		<keyword>STOP</keyword>
+		<keyword>STRICT</keyword>
+		<keyword>STRUCTURE</keyword>
+		<keyword>SUB</keyword>
+		<keyword>SYNCLOCK</keyword>
+		<keyword>TEXT</keyword>
+		<keyword>THEN</keyword>
+		<keyword>THROW</keyword>
+		<keyword>TO</keyword>
+		<keyword>TRUE</keyword>
+		<keyword>TRY</keyword>
+		<keyword>TYPEOF</keyword>
+		<keyword>UNICODE</keyword>
+		<keyword>UNTIL</keyword>
+		<keyword>VARIANT</keyword>
+		<keyword>WHEN</keyword>
+		<keyword>WHILE</keyword>
+		<keyword>WITH</keyword>
+		<keyword>WITHEVENTS</keyword>
+		<keyword>WRITEONLY</keyword>
+		<keyword>XOR</keyword>
+		<keyword>YIELD</keyword> <!--MonoBASIC extension-->
+	</keyword-list>
+
+	<keyword-list _name = "Primitives" style = "Data Type" case-sensitive="FALSE">
+		<keyword>BOOLEAN</keyword>
+		<keyword>BYTE</keyword>
+		<keyword>CHAR</keyword>
+		<keyword>DATE</keyword>
+		<keyword>DECIMAL</keyword>
+		<keyword>DOUBLE</keyword>
+		<keyword>LONG</keyword>
+		<keyword>OBJECT</keyword>
+		<keyword>SHORT</keyword>
+		<keyword>SINGLE</keyword>
+		<keyword>STRING</keyword>
+	</keyword-list>
+	
+	<keyword-list _name = "Preprocessor Definitions" style ="Preprocessor" case-sensitive="FALSE"
+		      match-empty-string-at-beginning = "TRUE" match-empty-string-at-end = "TRUE"
+		      beginning-regex = "^[ \t]*#[ \t]*">
+		<keyword>if</keyword>
+		<keyword>ifdef</keyword>
+		<keyword>ifndef</keyword>
+		<keyword>else</keyword>
+		<keyword>elif</keyword>
+		<keyword>define</keyword>
+		<keyword>end if</keyword>
+		<keyword>undef</keyword>
+		<keyword>error</keyword>
+		<keyword>region</keyword>
+		<keyword>end region</keyword>
+	</keyword-list>
+	
+</language>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<itemDatas name="Turbo" description="Nostalgic color which resembles the colors of good old Turbo Pascal 7" version="1.0" author="Diego Iastrubni (elcuco@kde.org)" >
+	<itemData defStyleNum="dsNormal"   name="Normal"         color="#FFFF99" selColor="#ffffff" bold="0" italic="0" background="#000080" />
+	<itemData defStyleNum="dsKeyword"  name="Keyword"        color="#ffffff" selColor="#ffffff" bold="1" italic="0" />
+	<itemData defStyleNum="dsDataType" name="Data type"      color="#00a000" selColor="#00ff00" bold="0" italic="0" />
+	<itemData defStyleNum="dsDecVal"   name="Decimal/Value"  color="#800000" selColor="#ff0000" bold="0" italic="0" />
+	<itemData defStyleNum="dsBaseN"    name="Base-N Integer" color="#800000" selColor="#ff0000" bold="0" italic="0" />
+	<itemData defStyleNum="dsFloat"    name="Floating point" color="#800000" selColor="#ff0000" bold="0" italic="0" />
+	<itemData defStyleNum="dsChar"     name="Character"      color="#00C0C0" selColor="#ff0000" bold="0" italic="0" />
+	<itemData defStyleNum="dsString"   name="String"         color="#00C0C0" selColor="#ff0000" bold="0" italic="0" />
+	<itemData defStyleNum="dsComment"  name="Comment"        color="#777777" selColor="#0000ff" bold="0" italic="0" />
+	<itemData defStyleNum="dsOthers"   name="Others"         color="#B218B2" selColor="#00ff00" bold="0" italic="0" />
+	<itemData defStyleNum="dsAlert"    name="Alert"          color="#ffffff" selColor="#ffcccc" bold="1" italic="0" />
+	<itemData defStyleNum="dsFunction" name="Function"       color="#00B0B0" selColor="#ffffff" bold="0" italic="0" />
+	<itemData defStyleNum="dsRegion"   name="Region marker"  color="#ffffff" selColor="#A0A0A4" bold="0" italic="0" />
+	<itemData defStyleNum="dsError"    name="Error "         color="#ff0000" selColor="#ff0000" bold="0" italic="0" underline="1" />
+
+	<itemData defStyleNum="dsOthers2"  name="Diff added"     color="#008000" selColor="#00ff00" bold="0" italic="0" />
+	<itemData defStyleNum="dsOthers3"  name="Diff removed"   color="#800000" selColor="#00ff00" bold="0" italic="0" />
+	
+<!-- these are not syntax definitions, but defintions for the text editor -->
+	<itemData defStyleNum="dsWidgetBackground"   name="Widget background"         background="#000080"  />
+	<itemData defStyleNum="dsWidgetCurLine"      name="Widget current line"       background="#4040B0"  />
+	<itemData defStyleNum="dsWidgetBookmark"     name="Widget bookmark line"      background="#F6F6FF"  />
+	<itemData defStyleNum="dsWidgetActiveBreakpoint"   name="Widget active breakpoint line"    background="#FF0000"  />
+	<itemData defStyleNum="dsWidgetReachedbreakpoint"  name="Widget reached breackpoint line"  background="#FFFF00"  />
+	<itemData defStyleNum="dsWidgetDisabledBreakpoint" name="Widget disabled breakpoint line"  background="#FF00FF"  />
+	<itemData defStyleNum="dsWidgetExecuion"           name="Widget execution line"            background="#A0A0A4"  />
+	<itemData defStyleNum="dsWidgetWarning"            name="Widget warning line"              background="#00FF00"  />
+	<itemData defStyleNum="dsWidgetError"              name="Widget error line"                background="#FF0000"  />
+
+	<itemData defStyleNum="dsWidgetLinesPanel"   name="Widget lines marker"       background="#8080F0"  />
+	<itemData defStyleNum="dsWidgetModifiedLine" name="Line modification marker"  background="#00ff00"  />
+	<itemData defStyleNum="dsWhiteSpace"         name="White spaces color"        color="#0B60C2"  />
+	<itemData defStyleNum="dsCurrectBracket"     name="Mark current bracket"      background="#0000FF" />
+</itemDatas>

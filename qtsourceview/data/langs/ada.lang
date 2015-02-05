@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Ada" version="1.0" _section="Sources" mimetypes="text/x-ada;text/x-adasrc">
+	
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>--</start-regex>
+	</line-comment>
+
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<string _name = "Character Constant" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+	<keyword-list _name = "Preprocessor Keywords" style = "Preprocessor" case-sensitive="FALSE">
+		<keyword>package</keyword>
+		<keyword>pragma</keyword>
+		<keyword>use</keyword>
+		<keyword>with</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Function" style = "Keyword" case-sensitive="FALSE">
+		<keyword>function</keyword>
+		<keyword>procedure</keyword>
+		<keyword>return</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Keywords" style = "Keyword" case-sensitive="FALSE">
+		<keyword>abort</keyword>
+		<keyword>abs</keyword>
+		<keyword>abstract</keyword>
+		<keyword>accept</keyword>
+		<keyword>access</keyword>
+		<keyword>aliased</keyword>
+		<keyword>all</keyword>
+		<keyword>and</keyword>
+		<keyword>array</keyword>
+		<keyword>at</keyword>
+		<keyword>begin</keyword>
+		<keyword>body</keyword>
+		<keyword>case</keyword>
+		<keyword>constant</keyword>
+		<keyword>declare</keyword>
+		<keyword>delay</keyword>
+		<keyword>delta</keyword>
+		<keyword>digits</keyword>
+		<keyword>do</keyword>
+		<keyword>else</keyword>
+		<keyword>elsif</keyword>
+		<keyword>end</keyword>
+		<keyword>entry</keyword>
+		<keyword>exception</keyword>
+		<keyword>exit</keyword>
+		<keyword>for</keyword>
+		<keyword>generic</keyword>
+		<keyword>goto</keyword>
+		<keyword>if</keyword>
+		<keyword>in</keyword>
+		<keyword>is</keyword>
+		<keyword>limited</keyword>
+		<keyword>loop</keyword>
+		<keyword>mod</keyword>
+		<keyword>new</keyword>
+		<keyword>not</keyword>
+		<keyword>null</keyword>
+		<keyword>of</keyword>
+		<keyword>or</keyword>
+		<keyword>others</keyword>
+		<keyword>out</keyword>
+		<keyword>private</keyword>
+		<keyword>protected</keyword>
+		<keyword>raise</keyword>
+		<keyword>range</keyword>
+		<keyword>record</keyword>
+		<keyword>rem</keyword>
+		<keyword>renames</keyword>
+		<keyword>requeue</keyword>
+		<keyword>reverse</keyword>
+		<keyword>select</keyword>
+		<keyword>separate</keyword>
+		<keyword>subtype</keyword>
+		<keyword>tagged</keyword>
+		<keyword>task</keyword>
+		<keyword>terminate</keyword>
+		<keyword>then</keyword>
+		<keyword>type</keyword>
+		<keyword>until</keyword>
+		<keyword>when</keyword>
+		<keyword>while</keyword>
+		<keyword>xor</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Types" style = "Data Type" case-sensitive="FALSE">
+		<keyword>boolean</keyword>
+		<keyword>character</keyword>
+		<keyword>count</keyword>
+		<keyword>duration</keyword>
+		<keyword>float</keyword>
+		<keyword>integer</keyword>
+		<keyword>long_float</keyword>
+		<keyword>long_integer</keyword>
+		<keyword>priority</keyword>
+		<keyword>short_float</keyword>
+		<keyword>short_integer</keyword>
+		<keyword>string</keyword>
+	</keyword-list>
+
+	<pattern-item _name = "Number" style = "Decimal">
+		<regex>\b[0-9][0-9\.]*\b</regex>
+	</pattern-item>
+
+	<keyword-list _name = "True And False" style = "Specials" case-sensitive="FALSE">
+		<keyword>true</keyword>
+		<keyword>false</keyword>
+	</keyword-list>
+
+</language>

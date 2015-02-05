@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="ChangeLog" version="1.0" _section="Others" mimetypes="text/x-changelog">
+
+	<keyword-list _name = "Date" style = "String" case-sensitive="TRUE">
+		<keyword>[0-9-]*[0-9]+</keyword>
+		<keyword>jan</keyword>
+		<keyword>feb</keyword>
+		<keyword>mar</keyword>
+		<keyword>apr</keyword>
+		<keyword>may</keyword>
+		<keyword>jun</keyword>
+		<keyword>jul</keyword>
+		<keyword>aug</keyword>
+		<keyword>sep</keyword>
+		<keyword>oct</keyword>
+		<keyword>nov</keyword>
+		<keyword>dec</keyword>
+		<keyword>mon</keyword>
+		<keyword>tue</keyword>
+		<keyword>wed</keyword>
+		<keyword>thu</keyword>
+		<keyword>fri</keyword>
+		<keyword>sat</keyword>
+		<keyword>sun</keyword>
+	</keyword-list>
+
+	<pattern-item _name="Email" style="Comment">
+		<regex>&lt;[A-Za-z0-9._:+-]+@[A-Za-z0-9._:+-]+\.[A-Za-z0-9]{2,4}&gt;</regex>
+	</pattern-item>
+
+	<syntax-item _name="File" style="Data Type">
+		<start-regex>^[\t ]+[*(]</start-regex>
+		<end-regex>(:|^[\t ]*$)</end-regex>
+	</syntax-item>
+	
+	<syntax-item _name="Marker" style="Keyword">
+		<start-regex>^[\t ]*[=[]</start-regex>
+		<end-regex>$</end-regex>
+	</syntax-item>
+
+</language>

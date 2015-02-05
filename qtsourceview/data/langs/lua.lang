@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Lua" version="1.0" _section="Scripts" mimetypes="text/x-lua">
+
+	<escape-char>\</escape-char>
+
+	<string _name = "Multiline String" style = "String" end-at-line-end = "FALSE">
+		<start-regex>[uUrR]?&quot;&quot;&quot;</start-regex>
+		<end-regex>&quot;&quot;&quot;</end-regex>
+	</string>
+
+	<string _name = "Multiline String 2" style = "String" end-at-line-end = "FALSE">
+		<start-regex>[uUrR]?&apos;&apos;&apos;</start-regex>
+		<end-regex>&apos;&apos;&apos;</end-regex>
+	</string>
+
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>[uUrR]?&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<string _name = "String 2" style = "String" end-at-line-end = "TRUE">
+		<start-regex>[uUrR]?&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+	<block-comment _name = "Block Comment" style = "Comment">
+		<start-regex>--\[\[</start-regex>
+		<end-regex>]]</end-regex>
+	</block-comment>
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>#</start-regex>
+	</line-comment>
+
+	<line-comment _name = "Line Comment 2" style= "Comment">
+		<start-regex>--</start-regex>
+	</line-comment>
+
+	<keyword-list _name = "Keywords" style = "Keyword" case-sensitive="TRUE">
+		<keyword>and</keyword>
+		<keyword>break</keyword>
+		<keyword>do</keyword>
+		<keyword>else</keyword>
+		<keyword>elseif</keyword>
+		<keyword>end</keyword>
+		<keyword>false</keyword>
+		<keyword>for</keyword>
+		<keyword>function</keyword>
+		<keyword>if</keyword>
+		<keyword>in</keyword>
+		<keyword>local</keyword>
+		<keyword>nil</keyword>
+		<keyword>not</keyword>
+		<keyword>or</keyword>
+		<keyword>repeat</keyword>
+		<keyword>return</keyword>
+		<keyword>then</keyword>
+		<keyword>true</keyword>
+		<keyword>until</keyword>
+		<keyword>while</keyword>
+	</keyword-list>
+
+	<keyword-list _name = "Functions" style = "Other" case-sensitive="TRUE">
+		<keyword>assert</keyword>
+		<keyword>collectgarbage</keyword>
+		<keyword>dofile</keyword>
+		<keyword>error</keyword>
+		<keyword>_G</keyword>
+		<keyword>getfenv</keyword>
+		<keyword>getmetatable</keyword>
+		<keyword>gcinfo</keyword>
+		<keyword>ipairs</keyword>
+		<keyword>loadfile</keyword>
+		<keyword>loadlib</keyword>
+		<keyword>loadstring</keyword>
+		<keyword>next</keyword>
+		<keyword>pairs</keyword>
+		<keyword>pcall</keyword>
+		<keyword>print</keyword>
+		<keyword>rawequal</keyword>
+		<keyword>rawget</keyword>
+		<keyword>rawset</keyword>
+		<keyword>require</keyword>
+		<keyword>setfenv</keyword>
+		<keyword>setmetatable</keyword>
+		<keyword>tonumber</keyword>
+		<keyword>tostring</keyword>
+		<keyword>type</keyword>
+		<keyword>unpack</keyword>
+		<keyword>_VERSION</keyword>
+		<keyword>xpcall</keyword>
+	</keyword-list>
+
+</language>

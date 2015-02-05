@@ -4,6 +4,7 @@
 #include "projectexporter.h"
 #include "projectnewdialog.h"
 #include "projetfromtemplate.h"
+#include "configdialog.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -176,4 +177,9 @@ void MainWindow::on_actionDocumentNew_triggered()
             ui->centralWidget->fileOpen(fileName);
         }
     }
+}
+
+void MainWindow::on_actionConfigure_triggered()
+{
+    ConfigDialog(this).exec();
 }
