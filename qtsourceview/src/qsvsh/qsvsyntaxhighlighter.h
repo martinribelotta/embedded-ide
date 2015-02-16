@@ -35,6 +35,8 @@ public:
 	void setHighlight( QsvLangDef *newLang=0 );
 	void setColorsDef( QsvColorDefFactory *newColors=0 );
 
+    QsvColorDefFactory *colorDefFactory() const { return colors; }
+
 protected:
 	void highlightBlock(const QString &text);
 

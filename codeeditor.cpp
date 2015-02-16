@@ -9,6 +9,8 @@
 #include <QKeyEvent>
 #include <QProcess>
 #include <QFileInfo>
+#include <QSettings>
+#include <QTemporaryFile>
 
 #include <QHBoxLayout>
 #include <QListView>
@@ -16,6 +18,10 @@
 #include <QSortFilterProxyModel>
 
 #include <QtDebug>
+
+#include <qsvsh/qsvsyntaxhighlighter.h>
+#include <qsvsh/qsvcolordeffactory.h>
+#include <qsvsh/qsvcolordef.h>
 
 class LineNumberArea : public QWidget
 {
@@ -55,11 +61,11 @@ CodeEditor::CodeEditor(QWidget *parent) :
     connect(m_completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
 
     completionProc = new QProcess(this);
-    connect(completionProc, SIGNAL(readyRead()), this, SLOT(completionDone()));
+    connect(completionProc, SIGNAL(finished(int)), this, SLOT(completionDone()));
     connect(completionProc, SIGNAL(started()), this, SLOT(sendCurrentCode()));
 
-    QFont f("DejaVu Sans Mono");
-    //f.setStyleHint(QFont::Monospace);
+    QFont f(QSettings().value("editor/font/style", "DejaVu Sans Mono").toString());
+    f.setPointSize(QSettings().value("editor/font/size", 10).toInt());
     setFont(f);
     setWordWrapMode(QTextOption::NoWrap);
 
@@ -105,16 +111,23 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
 
 void CodeEditor::sendCurrentCode()
 {
-    completionProc->write(toPlainText().toLocal8Bit());
-    completionProc->write("\r\n"); // XXX REquired by completion on EOF. Whi?
+    completionProc->write(toPlainText().toAscii());
+    //completionProc->write("\r\n"); // XXX REquired by completion on EOF. Whi?
+    completionProc->waitForBytesWritten();
     completionProc->closeWriteChannel();
 }
 
 void CodeEditor::insertCompletion(const QString &completion)
 {
-    qDebug() << "Complete with" << completion;
+    QString s = completion;
+    qDebug() << "Complete with" << s;
     QTextCursor tc = textUnderCursor();
-    tc.insertText(completion);
+    if (s.startsWith("Pattern : ")) {
+        s = s.remove("Pattern : ").remove(QRegExp("[\\<|\\[]\\#[^\\#]*\\#[\\>|\\]]"));
+    } else if (s.contains(':')) {
+        s = s.split(':').at(0).trimmed();
+    }
+    tc.insertText(s);
     setTextCursor(tc);
     m_completer->popup()->hide();
 }
@@ -146,11 +159,13 @@ void CodeEditor::completionDone()
 
 void CodeEditor::completionActivate()
 {
-    QString llvmPath = ""; // FIXME Configure it
-    completionProc->start(QString("%3clang -cc1 -code-completion-at -:%1:%2 -")
-                          .arg(textCursor().blockNumber() + 1)
-                          .arg(textCursor().columnNumber() + 1)
-                          .arg(llvmPath));
+    QString completionCommand =
+            QString("bash -c \"clang -cc1 -code-completion-at -:%1:%2 $(make -Bn |grep -E '\\-I\\S+' -o | sort -u | tr '\\n' ' ') -\"")
+            .arg(textCursor().blockNumber() + 1)
+            .arg(textCursor().columnNumber() + 1)
+    ;
+    qDebug() << completionCommand;
+    completionProc->start(completionCommand);
 }
 
 void CodeEditor::completionShow()
@@ -174,6 +189,7 @@ bool CodeEditor::load(const QString &fileName)
         setPlainText(f.readAll());
         if (f.error() == QFile::NoError) {
            m_documentFile = f.fileName();
+           completionProc->setWorkingDirectory(QFileInfo(f).path());
            return true;
         }
     }
@@ -267,8 +283,14 @@ void CodeEditor::refreshHighlighterLines()
 
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
+        QColor lineColor;
+        QsvSyntaxHighlighter *syntax = findChild<QsvSyntaxHighlighter*>("syntaxer");
+        if (syntax)
+            lineColor = syntax->colorDefFactory()->getColorDef("dsWidgetCurLine").getBackground();
+        //QColor lineColor = QColor(0xe0, 0xee, 0xf6); //QColor(Qt::yellow).lighter(160);
 
-        QColor lineColor = QColor(0xe0, 0xee, 0xf6); //QColor(Qt::yellow).lighter(160);
+        if (!lineColor.isValid())
+            lineColor = QColor(0xe0, 0xee, 0xf6);
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);

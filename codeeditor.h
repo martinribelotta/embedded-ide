@@ -29,13 +29,13 @@ protected:
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
-    void refreshHighlighterLines();
     void updateLineNumberArea(const QRect &, int);
     void sendCurrentCode();
     void insertCompletion(const QString &completion);
     void completionDone();
 
 public slots:
+    void refreshHighlighterLines();
     bool load(const QString &fileName);
     bool save();
 

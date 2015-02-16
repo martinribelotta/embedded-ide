@@ -67,6 +67,7 @@ bool EditorWidget::load(const QString &fileName)
         return false;
     setWindowFilePath(info.absoluteFilePath());
     setWindowTitle(info.fileName());
+
     if (defColors)
         delete defColors;
     if (langDef)
@@ -78,15 +79,17 @@ bool EditorWidget::load(const QString &fileName)
 
     defColors = new QsvColorDefFactory( findStyleByName(QSettings().value("editor/colorstyle", "Kate").toString()) );
     if (C_STYPE.contains(info.suffix())) {
-        langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/cpp.lang" );
+        langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" );
     } else if (info.baseName().toLower() == "makefile" || info.suffix().toLower() == ".mk") {
         langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/makefile.lang" );
     }
     if (defColors && langDef) {
         syntax = new QsvSyntaxHighlighter( ui->editor->document() , defColors, langDef );
+        syntax->setObjectName("syntaxer");
         QPalette p = ui->editor->palette();
         p.setColor(QPalette::Base, defColors->getColorDef("dsWidgetBackground").getBackground());
         ui->editor->setPalette(p);
+        ui->editor->refreshHighlighterLines();
     }
     return true;
 }
