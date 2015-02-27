@@ -17,6 +17,22 @@
         <file>icon-theme/project-development-close-all.png</file>
         <file>icon-theme/project-development-new-template.png</file>
         <file>icon-theme/project-open.png</file>
+        <file>icon-theme/configure.png</file>
+        <file>icon-theme/document-save-all.png</file>
+        <file>icon-theme/document-save-as.png</file>
+        <file>icon-theme/document-save.png</file>
+        <file>icon-theme/logo.svg</file>
+        <file>icon-theme/run-build-configure.png</file>
+        <file>icon-theme/tab-close-other.png</file>
+        <file>icon-theme/edit-clear.png</file>
+        <file>icon-theme/process-stop.png</file>
+        <file>icon-theme/application-x-desktop.png</file>
+        <file>icon-theme/text-x-c++src.png</file>
+        <file>icon-theme/text-x-chdr.png</file>
+        <file>icon-theme/text-x-makefile.png</file>
+        <file>icon-theme/text-x-csrc.png</file>
+        <file>icon-theme/text-x-c++hdr.png</file>
+        <file>icon-theme/inode-directory.png</file>
     </qresource>
     <qresource prefix="/qsvsh">
         <file>qtsourceview/data/mime.types</file>

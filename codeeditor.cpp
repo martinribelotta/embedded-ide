@@ -111,7 +111,7 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
 
 void CodeEditor::sendCurrentCode()
 {
-    completionProc->write(toPlainText().toAscii());
+    completionProc->write(toPlainText().toLocal8Bit());
     //completionProc->write("\r\n"); // XXX REquired by completion on EOF. Whi?
     completionProc->waitForBytesWritten();
     completionProc->closeWriteChannel();

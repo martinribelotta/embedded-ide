@@ -4,18 +4,18 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui widgets
 
 DESTDIR = build
 
 TARGET = embedded-ide
 TEMPLATE = app
 
-QATE_SRC_DIR=qtsourceview/src
 QTSOURCEVIEW_SRC_DIR=qtsourceview/src
 include(qtsourceview/src/qsvsh.pri)
+
+#QATE_SRC_DIR=qtsourceview/src
+#include(qtsourceview/src/qate.pri)
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -27,7 +27,9 @@ SOURCES += main.cpp\
     targetupdatediscover.cpp \
     projetfromtemplate.cpp \
     projectexporter.cpp \
-    configdialog.cpp
+    configdialog.cpp \
+    aboutdialog.cpp \
+    projecticonprovider.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -38,13 +40,16 @@ HEADERS  += mainwindow.h \
     targetupdatediscover.h \
     projetfromtemplate.h \
     projectexporter.h \
-    configdialog.h
+    configdialog.h \
+    aboutdialog.h \
+    projecticonprovider.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \
     editorwidget.ui \
     projectnewdialog.ui \
-    configdialog.ui
+    configdialog.ui \
+    aboutdialog.ui
 
 RESOURCES += \
     resources.qrc

@@ -9,7 +9,7 @@ DocumentArea::DocumentArea(QWidget *parent) :
     QTabWidget(parent)
 {
     QToolButton *closeAll = new QToolButton(this);
-    closeAll->setIcon(QIcon::fromTheme("tab-close-other"));
+    closeAll->setIcon(QIcon::fromTheme("tab-close-other", QIcon(":/icon-theme/icon-theme/tab-close-other.png")));
     connect(closeAll, SIGNAL(clicked()), this, SLOT(closeAll()));
     setCornerWidget(closeAll, Qt::TopRightCorner);
     setDocumentMode(true);

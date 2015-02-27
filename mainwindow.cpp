@@ -5,6 +5,7 @@
 #include "projectnewdialog.h"
 #include "projetfromtemplate.h"
 #include "configdialog.h"
+#include "aboutdialog.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -67,15 +68,18 @@ void MainWindow::on_actionProjectOpen_triggered()
                                  );
 }
 
+#if 0
 static QString resourceText(const QString& res) {
     QFile f(res);
     f.open(QFile::ReadOnly);
     return f.readAll();
 }
+#endif
 
 void MainWindow::on_actionHelp_triggered()
 {
-    QMessageBox::about(this, tr("About IDE"), resourceText(":/help/about.txt"));
+    AboutDialog(this).exec();
+    //QMessageBox::about(this, tr("About IDE"), resourceText(":/help/about.txt"));
 }
 
 void MainWindow::on_actionProjectExport_triggered()

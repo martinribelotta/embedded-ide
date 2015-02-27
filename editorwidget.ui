@@ -130,9 +130,8 @@
      <item>
       <widget class="QToolButton" name="toolButton">
        <property name="icon">
-        <iconset theme="document-save">
-         <normaloff/>
-        </iconset>
+        <iconset theme="document-save" resource="resources.qrc">
+         <normaloff>:/icon-theme/icon-theme/document-save.png</normaloff>:/icon-theme/icon-theme/document-save.png</iconset>
        </property>
        <property name="iconSize">
         <size>

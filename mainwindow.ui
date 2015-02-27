@@ -112,18 +112,16 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset theme="process-stop">
-         <normaloff/>
-        </iconset>
+        <iconset theme="process-stop" resource="resources.qrc">
+         <normaloff>:/icon-theme/icon-theme/process-stop.png</normaloff>:/icon-theme/icon-theme/process-stop.png</iconset>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
       <widget class="QToolButton" name="toolButton">
        <property name="icon">
-        <iconset theme="edit-clear">
-         <normaloff/>
-        </iconset>
+        <iconset theme="edit-clear" resource="resources.qrc">
+         <normaloff>:/icon-theme/icon-theme/edit-clear.png</normaloff>:/icon-theme/icon-theme/edit-clear.png</iconset>
        </property>
       </widget>
      </item>
@@ -223,9 +221,8 @@
   </action>
   <action name="actionSave_All">
    <property name="icon">
-    <iconset theme="document-save-all">
-     <normaloff/>
-    </iconset>
+    <iconset theme="document-save-all" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/document-save-all.png</normaloff>:/icon-theme/icon-theme/document-save-all.png</iconset>
    </property>
    <property name="text">
     <string>Save All</string>
@@ -237,7 +234,7 @@
   <action name="actionConfigure">
    <property name="icon">
     <iconset theme="configure" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/help-about.png</normaloff>:/icon-theme/icon-theme/help-about.png</iconset>
+     <normaloff>:/icon-theme/icon-theme/configure.png</normaloff>:/icon-theme/icon-theme/configure.png</iconset>
    </property>
    <property name="text">
     <string>Configure</string>

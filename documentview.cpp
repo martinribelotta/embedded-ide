@@ -11,6 +11,7 @@
 #include <QtDebug>
 
 #include "targetupdatediscover.h"
+#include "projecticonprovider.h"
 
 static const QStringList PROJECT_FILES = QString("*.c *.cpp *.h *.hpp *.cc *.hh Makefile *.ld *.dox").split(' ');
 
@@ -54,6 +55,7 @@ void DocumentView::openProject(const QString &projectFile)
         model->setFilter(QDir::AllDirs|QDir::NoDotAndDotDot|QDir::Files);
         model->setNameFilterDisables(false);
         model->setNameFilters(PROJECT_FILES);
+        model->setIconProvider(new ProjectIconProvider(this));
         ui->treeView->model()->deleteLater();
         ui->treeView->setModel(model);
         ui->treeView->setRootIndex(model->setRootPath(mk.path()));
@@ -152,7 +154,7 @@ void DocumentView::on_treeView_activated(const QModelIndex &index)
 
 void DocumentView::updateTargets(const QStringList &targetList)
 {
-    QIcon icon = QIcon::fromTheme("run-build-configure");
+    QIcon icon = QIcon::fromTheme("run-build-configure", QIcon(":/icon-theme/icon-theme/run-build-configure.png"));
     ui->targetList->clear();
     foreach(QString t, targetList)
         ui->targetList->addItem(new QListWidgetItem(icon, t));

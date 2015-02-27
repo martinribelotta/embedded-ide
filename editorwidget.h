@@ -2,7 +2,6 @@
 #define EDITORWIDGET_H
 
 #include <QWidget>
-#include <QFile>
 
 namespace Ui {
 class EditorWidget;

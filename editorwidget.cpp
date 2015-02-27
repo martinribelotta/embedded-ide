@@ -11,6 +11,7 @@
 #include <QSettings>
 #include <QCompleter>
 #include <QStringListModel>
+#include <QMimeDatabase>
 
 #include <QtDebug>
 
@@ -38,9 +39,6 @@ EditorWidget::~EditorWidget()
 {
     delete ui;
 }
-
-static const QStringList C_STYPE = QString("c cpp cxx cc h hh hpp").split(' ');
-static const QStringList C_WORDS = QString("if else return goto int void long unsigned return").split(' ');
 
 static QString findStyleByName(const QString& defaultName) {
     QDir d(":/qsvsh/qtsourceview/data/colors/");
@@ -78,9 +76,12 @@ bool EditorWidget::load(const QString &fileName)
     syntax = 0l;
 
     defColors = new QsvColorDefFactory( findStyleByName(QSettings().value("editor/colorstyle", "Kate").toString()) );
-    if (C_STYPE.contains(info.suffix())) {
+    QMimeDatabase db;
+    QMimeType fType = db.mimeTypeForFile(info);
+    qDebug() << fType;
+    if (fType.inherits("text/x-csrc")) {
         langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" );
-    } else if (info.baseName().toLower() == "makefile" || info.suffix().toLower() == ".mk") {
+    } else if (fType.inherits("text/x-makefile")) {
         langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/makefile.lang" );
     }
     if (defColors && langDef) {
