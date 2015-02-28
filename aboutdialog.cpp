@@ -7,6 +7,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle(QCoreApplication::applicationName());
+    setFixedSize(sizeHint());
 }
 
 AboutDialog::~AboutDialog()

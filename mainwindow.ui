@@ -13,6 +13,12 @@
   <property name="windowTitle">
    <string>Embedded IDE</string>
   </property>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
+  </property>
   <widget class="DocumentArea" name="centralWidget"/>
   <widget class="QDockWidget" name="projectDock">
    <property name="features">
@@ -87,21 +93,51 @@
      <property name="bottomMargin">
       <number>0</number>
      </property>
-     <property name="horizontalSpacing">
+     <property name="spacing">
       <number>0</number>
      </property>
-     <item row="2" column="1">
-      <spacer name="verticalSpacer">
+     <item row="0" column="2">
+      <spacer name="horizontalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Vertical</enum>
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
-         <height>245</height>
+         <width>8</width>
+         <height>20</height>
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="0">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>808</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="3">
+      <widget class="QToolButton" name="toolButton">
+       <property name="icon">
+        <iconset theme="edit-clear" resource="resources.qrc">
+         <normaloff>:/icon-theme/icon-theme/edit-clear.png</normaloff>:/icon-theme/icon-theme/edit-clear.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item row="0" column="1">
       <widget class="QToolButton" name="buildStop">
@@ -115,26 +151,18 @@
         <iconset theme="process-stop" resource="resources.qrc">
          <normaloff>:/icon-theme/icon-theme/process-stop.png</normaloff>:/icon-theme/icon-theme/process-stop.png</iconset>
        </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QToolButton" name="toolButton">
-       <property name="icon">
-        <iconset theme="edit-clear" resource="resources.qrc">
-         <normaloff>:/icon-theme/icon-theme/edit-clear.png</normaloff>:/icon-theme/icon-theme/edit-clear.png</iconset>
+       <property name="iconSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
        </property>
       </widget>
      </item>
-     <item row="0" column="0" rowspan="3">
-      <widget class="QPlainTextEdit" name="textLog">
-       <property name="undoRedoEnabled">
+     <item row="1" column="0" colspan="4">
+      <widget class="QTextBrowser" name="textLog">
+       <property name="openLinks">
         <bool>false</bool>
-       </property>
-       <property name="lineWrapMode">
-        <enum>QPlainTextEdit::NoWrap</enum>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -290,12 +318,12 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>866</x>
-     <y>255</y>
+     <x>863</x>
+     <y>311</y>
     </hint>
     <hint type="destinationlabel">
-     <x>810</x>
-     <y>264</y>
+     <x>746</x>
+     <y>406</y>
     </hint>
    </hints>
   </connection>

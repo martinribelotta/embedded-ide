@@ -7,16 +7,22 @@
 #include "configdialog.h"
 #include "aboutdialog.h"
 
+#include <QRegularExpression>
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QMenu>
+#include <QUrl>
+#include <QUrlQuery>
+
+#include <QtDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
 }
 
 MainWindow::~MainWindow()
@@ -35,6 +41,11 @@ void MainWindow::actionNewFromTemplateEnd(const QString &project, const QString 
         ui->projectView->openProject(project + QDir::separator() + "Makefile");
     } else
         QMessageBox::critical(this, tr("Error"), error);
+}
+
+void MainWindow::actionExportFinish(const QString &s)
+{
+    Q_UNUSED(s);
 }
 
 void MainWindow::on_projectView_fileOpen(const QString &file)
@@ -129,8 +140,37 @@ void MainWindow::on_buildStop_clicked()
     ui->projectView->buildStop();
 }
 
+static QString mkUrl(const QString& p, const QString& x, const QString& y) {
+    return QString("file:%1?x=%2&y=%3").arg(p).arg(x).arg(y);
+}
+
+
+static QString errorLink(const QString& s) {
+    QString str(s);
+    QRegularExpression re("^(.+)\\:(\\d+)\\:(\\d+)\\: \\w+\\: .+$");
+    re.setPatternOptions(QRegularExpression::MultilineOption);
+    QRegularExpressionMatchIterator it = re.globalMatch(s);
+    while(it.hasNext()) {
+        QRegularExpressionMatch m = it.next();
+        QString text = m.captured(0);
+        QString path = m.captured(1);
+        QString line = m.captured(2);
+        QString col = m.captured(3);
+        QString url = mkUrl(path, line, col);
+        str.replace(text, QString("<a href=\"%1\">%2</a>").arg(url).arg(text));
+    }
+    return str;
+}
+
 void MainWindow::on_projectView_buildStdout(const QString &text)
 {
+#if 1
+    ui->textLog->append(QString("<font color=\"green\">%1</font>")
+                            .arg(text).replace(QRegExp("[\\r\\n]"), "<br>"));
+    QTextCursor c = ui->textLog->textCursor();
+    c.movePosition(QTextCursor::End);
+    ui->textLog->setTextCursor(c);
+#else
     QTextCursor c = ui->textLog->textCursor();
     QTextCharFormat fmt = c.charFormat();
     fmt.setForeground(Qt::blue);
@@ -138,10 +178,18 @@ void MainWindow::on_projectView_buildStdout(const QString &text)
     ui->textLog->setTextCursor(c);
     ui->textLog->setCurrentCharFormat(fmt);
     ui->textLog->insertPlainText(text);
+#endif
 }
 
 void MainWindow::on_projectView_buildStderr(const QString &text)
 {
+#if 1
+    ui->textLog->append(QString("<font color=\"red\">%1</font>")
+                            .arg(errorLink(text)).replace(QRegExp("[\\r\\n]"), "<br>"));
+    QTextCursor c = ui->textLog->textCursor();
+    c.movePosition(QTextCursor::End);
+    ui->textLog->setTextCursor(c);
+#else
     QTextCursor c = ui->textLog->textCursor();
     QTextCharFormat fmt = c.charFormat();
     fmt.setForeground(Qt::red);
@@ -149,6 +197,7 @@ void MainWindow::on_projectView_buildStderr(const QString &text)
     ui->textLog->setTextCursor(c);
     ui->textLog->setCurrentCharFormat(fmt);
     ui->textLog->insertPlainText(text);
+#endif
 }
 
 void MainWindow::on_projectView_buildEnd(int status)
@@ -186,4 +235,14 @@ void MainWindow::on_actionDocumentNew_triggered()
 void MainWindow::on_actionConfigure_triggered()
 {
     ConfigDialog(this).exec();
+}
+
+void MainWindow::on_textLog_anchorClicked(const QUrl &url)
+{
+    QUrlQuery q(url.query());
+    int row = q.queryItemValue("x").toInt();
+    int col = q.queryItemValue("y").toInt();
+    QString file = ui->projectView->projectPath().absoluteFilePath(url.toLocalFile());
+    // qDebug() << "Opening" << file << row << col;
+    ui->centralWidget->fileOpen(file, row, col);
 }

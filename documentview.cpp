@@ -38,6 +38,14 @@ QString DocumentView::project() const
     return m->rootDirectory().absoluteFilePath("Makefile");
 }
 
+QDir DocumentView::projectPath() const
+{
+    QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
+    if (!m)
+        return QDir();
+    return m->rootDirectory();
+}
+
 void DocumentView::closeProject()
 {
     if (ui->treeView->model()) {

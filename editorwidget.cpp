@@ -33,11 +33,32 @@ EditorWidget::EditorWidget(QWidget *parent) :
             QSettings().value("editor/font/size", 10).toInt());
     ui->editor->setFont(f);
     connect(ui->editor, SIGNAL(fileError(QString)), this, SIGNAL(editorError(QString)));
+    connect(ui->editor, SIGNAL(modificationChanged(bool)), this, SIGNAL(modified(bool)));
 }
 
 EditorWidget::~EditorWidget()
 {
     delete ui;
+}
+
+void EditorWidget::moveCursor(int row, int col)
+{
+    QTextDocument *doc = ui->editor->document();
+    QTextBlock block = doc->begin();
+    int off = 0;
+    for(int y=1 ; y<row; y++ ) {
+        off += block.length();
+        if (block != doc->end())
+            block = block.next();
+        else
+            return;
+    }
+    off+= col;
+
+    QTextCursor c = ui->editor->textCursor();
+    c.setPosition( off );
+    ui->editor->setTextCursor( c );
+    ui->editor->grabKeyboard();
 }
 
 static QString findStyleByName(const QString& defaultName) {
@@ -78,7 +99,6 @@ bool EditorWidget::load(const QString &fileName)
     defColors = new QsvColorDefFactory( findStyleByName(QSettings().value("editor/colorstyle", "Kate").toString()) );
     QMimeDatabase db;
     QMimeType fType = db.mimeTypeForFile(info);
-    qDebug() << fType;
     if (fType.inherits("text/x-csrc")) {
         langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" );
     } else if (fType.inherits("text/x-makefile")) {

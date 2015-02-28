@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QModelIndex>
+#include <QDir>
+#include <QFileInfo>
 
 namespace Ui {
 class DocumentView;
@@ -19,6 +21,7 @@ public:
     ~DocumentView();
 
     QString project() const;
+    QDir projectPath() const;
 
 public slots:
     void closeProject();

@@ -31,7 +31,7 @@ QIcon ProjectIconProvider::icon(const QFileInfo &info) const
 {
     QMimeType t = db->mimeTypeForFile(info);
     if (t.isValid()) {
-        qDebug() << "Required mime for" << info.fileName() << t << t.iconName();
+        // qDebug() << "Required mime for" << info.fileName() << t << t.iconName();
         QIcon c = QIcon::fromTheme(t.iconName(), staticIconDb.icon(t));
         if (!c.isNull())
             return c;

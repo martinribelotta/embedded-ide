@@ -20,11 +20,13 @@ public:
     ~EditorWidget();
 
 public slots:
+    void moveCursor(int row, int col);
     bool load(const QString& fileName);
     bool save();
 
 signals:
     void editorError(const QString& error);
+    void modified(bool isModify);
 
 private:
     Ui::EditorWidget *ui;

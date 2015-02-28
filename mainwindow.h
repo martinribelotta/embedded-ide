@@ -21,6 +21,8 @@ protected:
 private slots:
     void actionNewFromTemplateEnd(const QString& project, const QString& error);
 
+    void actionExportFinish(const QString& s);
+
     void on_projectView_fileOpen(const QString &);
 
     void on_actionProjectNew_triggered();
@@ -48,6 +50,8 @@ private slots:
     void on_actionDocumentNew_triggered();
 
     void on_actionConfigure_triggered();
+
+    void on_textLog_anchorClicked(const QUrl &url);
 
 private:
     Ui::MainWindow *ui;
