@@ -1,8 +1,12 @@
 #include "targetupdatediscover.h"
 
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 #include <QProcess>
 #include <QFileInfo>
 #include <QDir>
+
+#include <QtDebug>
 
 TargetUpdateDiscover::TargetUpdateDiscover(QObject *parent, const char *slotName) :
     QObject(parent), proc(new QProcess(this))
@@ -25,13 +29,23 @@ void TargetUpdateDiscover::finish(int ret)
     Q_UNUSED(ret);
 
     QStringList targets;
-    QRegExp re("^(\\w+)\\:");
+    QRegularExpression re("^(\\w+)\\:");
+    re.setPatternOptions(QRegularExpression::MultilineOption);
     QString line;
     while(!(line = proc->readLine()).isEmpty()) {
-        if (line.trimmed().startsWith("# "))
+        if (line.trimmed().startsWith("#")) {
             proc->readLine();
-        else if (re.indexIn(line) == 0)
-            targets += re.cap(1).trimmed().split(' ');
+        } else {
+            QRegularExpressionMatch m = re.match(line);
+            if (m.hasMatch()) {
+                qDebug() << "Found" << line;
+                QString tgt = m.captured(1).trimmed();
+                if (QFileInfo(tgt).exists())
+                    qDebug() << "File" << tgt << "skip";
+                else
+                    targets.append(tgt);
+            }
+        }
     }
     if (!targets.isEmpty())
         emit updateFinish(targets);

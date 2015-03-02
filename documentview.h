@@ -39,6 +39,10 @@ private slots:
     void on_buildProc_readyReadStandardError();
     void on_buildProc_readyReadStandardOutput();
 
+    void on_filterCombo_activated(int idx);
+
+    void on_filterButton_clicked();
+
 signals:
     void fileOpen(const QString& file);
     void startBuild(const QString& target);

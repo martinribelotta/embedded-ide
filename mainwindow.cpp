@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    ui->dockWidget->setTitleBarWidget(new QWidget(this));
+    ui->projectDock->setTitleBarWidget(new QWidget(this));
 }
 
 MainWindow::~MainWindow()
@@ -166,7 +168,7 @@ void MainWindow::on_projectView_buildStdout(const QString &text)
 {
 #if 1
     ui->textLog->append(QString("<font color=\"green\">%1</font>")
-                            .arg(text).replace(QRegExp("[\\r\\n]"), "<br>"));
+                            .arg(text)); //.replace(QRegExp("[\\r\\n]"), "<br>"));
     QTextCursor c = ui->textLog->textCursor();
     c.movePosition(QTextCursor::End);
     ui->textLog->setTextCursor(c);
@@ -185,7 +187,7 @@ void MainWindow::on_projectView_buildStderr(const QString &text)
 {
 #if 1
     ui->textLog->append(QString("<font color=\"red\">%1</font>")
-                            .arg(errorLink(text)).replace(QRegExp("[\\r\\n]"), "<br>"));
+                            .arg(errorLink(text))); //.replace(QRegExp("[\\r\\n]"), "<br>"));
     QTextCursor c = ui->textLog->textCursor();
     c.movePosition(QTextCursor::End);
     ui->textLog->setTextCursor(c);

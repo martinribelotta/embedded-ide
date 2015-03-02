@@ -12,8 +12,17 @@
 
 #include "targetupdatediscover.h"
 #include "projecticonprovider.h"
+#include <QRegularExpression>
 
-static const QStringList PROJECT_FILES = QString("*.c *.cpp *.h *.hpp *.cc *.hh Makefile *.ld *.dox").split(' ');
+// static const QStringList PROJECT_FILES = QString("*.c *.cpp *.h *.hpp *.cc *.hh Makefile *.ld *.dox").split(' ');
+
+static const struct {
+    const char *name;
+    const char *filter;
+} DEFAULT_FILTERS[] = {
+    { "All files", "*" },
+    { "C Project", "*.c *.cpp *.h *.hpp *.cc *.hh Makefile *.ld *.dox *.mk *.a *.elf *.exe" },
+};
 
 DocumentView::DocumentView(QWidget *parent) :
     QWidget(parent),
@@ -23,6 +32,12 @@ DocumentView::DocumentView(QWidget *parent) :
     buildProc->setObjectName("buildProc");
     connect(buildProc, SIGNAL(finished(int)), this, SIGNAL(buildEnd(int)));
     ui->setupUi(this);
+    for(size_t i=0; i<(sizeof(DEFAULT_FILTERS)/sizeof(*DEFAULT_FILTERS)); i++) {
+        ui->filterCombo->addItem(
+                    QString(DEFAULT_FILTERS[i].name),
+                    QString(DEFAULT_FILTERS[i].filter).split(' ')
+        );
+    }
 }
 
 DocumentView::~DocumentView()
@@ -62,7 +77,7 @@ void DocumentView::openProject(const QString &projectFile)
         QFileSystemModel *model = new QFileSystemModel(this);
         model->setFilter(QDir::AllDirs|QDir::NoDotAndDotDot|QDir::Files);
         model->setNameFilterDisables(false);
-        model->setNameFilters(PROJECT_FILES);
+        model->setNameFilters(QStringList("*"));
         model->setIconProvider(new ProjectIconProvider(this));
         ui->treeView->model()->deleteLater();
         ui->treeView->setModel(model);
@@ -182,4 +197,15 @@ void DocumentView::on_buildProc_readyReadStandardError()
 void DocumentView::on_buildProc_readyReadStandardOutput()
 {
     emit buildStdout(buildProc->readAllStandardOutput());
+}
+
+void DocumentView::on_filterCombo_activated(int idx)
+{
+    QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
+    m->setNameFilters(ui->filterCombo->itemData(idx).toStringList());
+}
+
+void DocumentView::on_filterButton_clicked()
+{
+
 }

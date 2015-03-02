@@ -160,11 +160,11 @@ void CodeEditor::completionDone()
 void CodeEditor::completionActivate()
 {
     QString completionCommand =
-            QString("bash -c \"clang -cc1 -code-completion-at -:%1:%2 $(make -Bn |grep -E '\\-I\\S+' -o | sort -u | tr '\\n' ' ') -\"")
+            QString("sh -c \"clang -cc1 -code-completion-at -:%1:%2 $(make -Bn |grep -E '\\-I\\S+' -o | sort -u | tr '\\n' ' ') -\"")
             .arg(textCursor().blockNumber() + 1)
             .arg(textCursor().columnNumber() + 1)
     ;
-    qDebug() << completionCommand;
+    // qDebug() << completionCommand;
     completionProc->start(completionCommand);
 }
 
@@ -287,7 +287,6 @@ void CodeEditor::refreshHighlighterLines()
         QsvSyntaxHighlighter *syntax = findChild<QsvSyntaxHighlighter*>("syntaxer");
         if (syntax)
             lineColor = syntax->colorDefFactory()->getColorDef("dsWidgetCurLine").getBackground();
-        //QColor lineColor = QColor(0xe0, 0xee, 0xf6); //QColor(Qt::yellow).lighter(160);
 
         if (!lineColor.isValid())
             lineColor = QColor(0xe0, 0xee, 0xf6);

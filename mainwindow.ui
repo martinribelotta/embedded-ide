@@ -20,18 +20,6 @@
    <bool>true</bool>
   </property>
   <widget class="DocumentArea" name="centralWidget"/>
-  <widget class="QDockWidget" name="projectDock">
-   <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
-   </property>
-   <property name="windowTitle">
-    <string>Project</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="DocumentView" name="projectView"/>
-  </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -71,7 +59,7 @@
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::NoDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
     <string>Loggin</string>
@@ -168,6 +156,18 @@
      </item>
     </layout>
    </widget>
+  </widget>
+  <widget class="QDockWidget" name="projectDock">
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
+   </property>
+   <property name="windowTitle">
+    <string>Project</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="DocumentView" name="projectView"/>
   </widget>
   <action name="actionProjectNew">
    <property name="icon">
