@@ -8,15 +8,6 @@
 
 #include <QtDebug>
 
-class MakefileInfo_metatypeHelper_t {
-public:
-    MakefileInfo_metatypeHelper_t() {
-        qRegisterMetaType<MakefileInfo>();
-    }
-};
-
-static MakefileInfo_metatypeHelper_t MakefileInfo_metatypeHelper;
-
 TargetUpdateDiscover::TargetUpdateDiscover(QObject *parent) :
     QObject(parent), proc(new QProcess(this))
 {
@@ -59,21 +50,14 @@ static QStringList unique(const QStringList& list) {
 }
 
 static const QString TARGETS_RE = "(?<!^# Not a target\\:\\n)^([a-zA-Z0-9][^$#\\\\\\/\\t=\\.]*):(?:[^=]|$)";
-static const QString DEFINES_RE = "\\-D(\\S*(\\=\\\"(?:[^\"\\\\]|\\\\.)*\\\")*)\"";
-static const QString INCLUDES_RE = "\\-I(\\S*(\\=\\\"(?:[^\"\\\\]|\\\\.)*\\\")*)\"";
-
-static void writeLog(const QString& text) {
-    QFile f("log");
-    if (f.open(QFile::WriteOnly))
-        f.write(text.toLocal8Bit());
-}
+static const QString DEFINES_RE = "\\-D(\\S*(\\=\\\"(?:[^\"\\\\]|\\\\.)*\\\")*)";
+static const QString INCLUDES_RE = "\\-I(\\S*(\\=\\\"(?:[^\"\\\\]|\\\\.)*\\\")*)";
 
 void TargetUpdateDiscover::finish(int ret)
 {
     Q_UNUSED(ret);
     MakefileInfo info;
     QString text = proc->readAllStandardOutput();
-    writeLog(text);
     info.targets = unique(parseRe(text, TARGETS_RE));
     info.defines = unique(parseRe(text, DEFINES_RE));
     info.include = unique(parseRe(text, INCLUDES_RE));

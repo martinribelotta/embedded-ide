@@ -4,14 +4,14 @@
 #include <QFileDialog>
 #include <QFileSystemModel>
 #include <QStringListModel>
-
+#include <QRegularExpression>
 #include <QTemporaryFile>
 #include <QProcess>
 
 #include <QtDebug>
 
 #include "projecticonprovider.h"
-#include <QRegularExpression>
+#include "targetupdatediscover.h"
 
 // static const QStringList PROJECT_FILES = QString("*.c *.cpp *.h *.hpp *.cc *.hh Makefile *.ld *.dox").split(' ');
 
@@ -178,13 +178,11 @@ void DocumentView::on_treeView_activated(const QModelIndex &index)
 
 void DocumentView::updateMakefileInfo(const MakefileInfo &info)
 {
+    mk_info = info;
     QIcon icon = QIcon::fromTheme("run-build-configure", QIcon(":/icon-theme/icon-theme/run-build-configure.png"));
     ui->targetList->clear();
-    foreach(QString t, info.targets)
+    foreach(QString t, mk_info.targets)
         ui->targetList->addItem(new QListWidgetItem(icon, t));
-    qDebug() << info.targets;
-    qDebug() << info.defines;
-    qDebug() << info.include;
     sender()->deleteLater();
 }
 

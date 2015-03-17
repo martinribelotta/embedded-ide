@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     projectexporter.cpp \
     configdialog.cpp \
     aboutdialog.cpp \
-    projecticonprovider.cpp
+    projecticonprovider.cpp \
+    makefileinfo.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -42,7 +43,8 @@ HEADERS  += mainwindow.h \
     projectexporter.h \
     configdialog.h \
     aboutdialog.h \
-    projecticonprovider.h
+    projecticonprovider.h \
+    makefileinfo.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \

@@ -4,6 +4,8 @@
 #include <QPlainTextEdit>
 #include <QFile>
 
+#include "makefileinfo.h"
+
 class QPaintEvent;
 class QResizeEvent;
 class QSize;

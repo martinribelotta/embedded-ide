@@ -6,7 +6,7 @@
 #include <QDir>
 #include <QFileInfo>
 
-#include "targetupdatediscover.h"
+#include "makefileinfo.h"
 
 namespace Ui {
 class DocumentView;
@@ -24,6 +24,7 @@ public:
 
     QString project() const;
     QDir projectPath() const;
+    MakefileInfo &makeInfo() const;
 
 public slots:
     void closeProject();
@@ -55,6 +56,7 @@ signals:
 private:
     Ui::DocumentView *ui;
     QProcess *buildProc;
+    MakefileInfo mk_info;
 };
 
 #endif // DOCUMENTVIEW_H

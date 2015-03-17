@@ -4,15 +4,9 @@
 #include <QObject>
 #include <QStringList>
 
+#include "makefileinfo.h"
+
 class QProcess;
-
-struct MakefileInfo {
-    QStringList targets;
-    QStringList include;
-    QStringList defines;
-};
-
-Q_DECLARE_METATYPE(MakefileInfo)
 
 class TargetUpdateDiscover : public QObject
 {
