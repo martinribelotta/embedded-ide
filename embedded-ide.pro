@@ -21,7 +21,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     documentarea.cpp \
     documentview.cpp \
-    editorwidget.cpp \
     codeeditor.cpp \
     projectnewdialog.cpp \
     targetupdatediscover.cpp \
@@ -35,7 +34,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     documentarea.h \
     documentview.h \
-    editorwidget.h \
     codeeditor.h \
     projectnewdialog.h \
     targetupdatediscover.h \

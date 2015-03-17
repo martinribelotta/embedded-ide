@@ -1,5 +1,7 @@
 #include "codeeditor.h"
 
+#include <QAction>
+#include <QDir>
 #include <QPainter>
 #include <QTextBlock>
 #include <QCompleter>
@@ -16,12 +18,16 @@
 #include <QListView>
 #include <QStringListModel>
 #include <QSortFilterProxyModel>
+#include <QMimeDatabase>
 
 #include <QtDebug>
 
 #include <qsvsh/qsvsyntaxhighlighter.h>
 #include <qsvsh/qsvcolordeffactory.h>
 #include <qsvsh/qsvcolordef.h>
+#include "qsvsh/qsvlangdef.h"
+
+#undef CLANG_DEBUG
 
 class LineNumberArea : public QWidget
 {
@@ -48,7 +54,11 @@ private:
 };
 
 CodeEditor::CodeEditor(QWidget *parent) :
-    QPlainTextEdit(parent)
+    QPlainTextEdit(parent),
+    defColors(0l),
+    langDef(0l),
+    syntax(0l),
+    mk(0l)
 {
     m_completer = new QCompleter(this);
     m_completer->setObjectName("completer");
@@ -70,6 +80,11 @@ CodeEditor::CodeEditor(QWidget *parent) :
     setWordWrapMode(QTextOption::NoWrap);
 
     lineNumberArea = new LineNumberArea(this);
+
+    QAction *saveAction = new QAction(this);
+    saveAction->setShortcut(QKeySequence("ctrl+s"));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
+    addAction(saveAction);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
@@ -120,7 +135,9 @@ void CodeEditor::sendCurrentCode()
 void CodeEditor::insertCompletion(const QString &completion)
 {
     QString s = completion;
+#ifdef CLANG_DEBUG
     qDebug() << "Complete with" << s;
+#endif
     QTextCursor tc = textUnderCursor();
     if (s.startsWith("Pattern : ")) {
         s = s.remove("Pattern : ").remove(QRegExp("[\\<|\\[]\\#[^\\#]*\\#[\\>|\\]]"));
@@ -133,7 +150,9 @@ void CodeEditor::insertCompletion(const QString &completion)
 }
 
 static QStringList parseClangOut(const QString& out) {
+#ifdef CLANG_DBG
     qDebug() << "clang out:" << out;
+#endif
     QStringList list;
     QRegExp re("COMPLETION\\: ([^\\n]*)");
     int pos = 0;
@@ -141,7 +160,9 @@ static QStringList parseClangOut(const QString& out) {
         list.append(re.cap(1));
         pos += re.matchedLength();
     }
+#ifdef CLANG_DEBUG
     qDebug() << "Completion" << list;
+#endif
     return list;
 }
 
@@ -157,14 +178,44 @@ void CodeEditor::completionDone()
     completionShow();
 }
 
+void CodeEditor::moveTextCursor(int row, int col)
+{
+    QTextDocument *doc = document();
+    QTextBlock block = doc->begin();
+    int off = 0;
+    for(int y=1 ; y<row; y++ ) {
+        off += block.length();
+        if (block != doc->end())
+            block = block.next();
+        else
+            return;
+    }
+    off+= col;
+
+    QTextCursor c = textCursor();
+    c.setPosition( off );
+    setTextCursor( c );
+}
+
+const QStringList prepend(const QString& s, const QStringList& l) {
+    QStringList r;
+    foreach(QString x, l)
+        r.append(s + x);
+    return r;
+}
+
 void CodeEditor::completionActivate()
 {
     QString completionCommand =
-            QString("sh -c \"clang -cc1 -code-completion-at -:%1:%2 $(make -Bn |grep -E '\\-I\\S+' -o | sort -u | tr '\\n' ' ') -\"")
+            QString("clang -cc1 -code-completion-at -:%1:%2 %3 %4 -")
             .arg(textCursor().blockNumber() + 1)
             .arg(textCursor().columnNumber() + 1)
+            .arg(mk? prepend("-D", mk->defines).join(' '): "")
+            .arg(mk? prepend("-I", mk->include).join(' '): "")
     ;
-    // qDebug() << completionCommand;
+#ifdef CLANG_DEBUG
+    qDebug() << completionCommand;
+#endif
     completionProc->start(completionCommand);
 }
 
@@ -174,12 +225,33 @@ void CodeEditor::completionShow()
     QSortFilterProxyModel *pModel = qobject_cast<QSortFilterProxyModel*>(m_completer->model());
     pModel->setFilterFixedString(underCursor);
     // m_completer->setCompletionPrefix(underCursor);
+#ifdef CLANG_DEBUG
     qDebug() << "under cursor" << underCursor;
+#endif
     int w = m_completer->popup()->sizeHintForColumn(0) +
             m_completer->popup()->verticalScrollBar()->sizeHint().width();
     QRect r = cursorRect();
     r.setWidth(w);
     m_completer->complete(r);
+}
+
+
+static QString findStyleByName(const QString& defaultName) {
+    QDir d(":/qsvsh/qtsourceview/data/colors/");
+    foreach(QString name, d.entryList(QStringList("*.xml"))) {
+        QDomDocument doc("mydocument");
+        QFile file(d.filePath(name));
+        if (file.open(QIODevice::ReadOnly) && doc.setContent(&file)) {
+            QDomNodeList itemDatas = doc.elementsByTagName("itemDatas");
+            if (!itemDatas.isEmpty()) {
+                QDomNamedNodeMap attr = itemDatas.at(0).attributes();
+                QString name = attr.namedItem("name").toAttr().value();
+                if (defaultName == name)
+                    return file.fileName();
+            }
+        }
+    }
+    return QString();
 }
 
 bool CodeEditor::load(const QString &fileName)
@@ -189,7 +261,36 @@ bool CodeEditor::load(const QString &fileName)
         setPlainText(f.readAll());
         if (f.error() == QFile::NoError) {
            m_documentFile = f.fileName();
-           completionProc->setWorkingDirectory(QFileInfo(f).path());
+           QFileInfo info(f);
+           completionProc->setWorkingDirectory(info.path());
+           setWindowFilePath(info.absoluteFilePath());
+           setWindowTitle(info.fileName());
+
+           if (defColors)
+               delete defColors;
+           if (langDef)
+               delete langDef;
+           if (syntax)
+               syntax->deleteLater();
+           langDef = 0l;
+           syntax = 0l;
+
+           defColors = new QsvColorDefFactory( findStyleByName(QSettings().value("editor/colorstyle", "Kate").toString()) );
+           QMimeDatabase db;
+           QMimeType fType = db.mimeTypeForFile(info);
+           if (fType.inherits("text/x-csrc")) {
+               langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" );
+           } else if (fType.inherits("text/x-makefile")) {
+               langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/makefile.lang" );
+           }
+           if (defColors && langDef) {
+               syntax = new QsvSyntaxHighlighter( document() , defColors, langDef );
+               syntax->setObjectName("syntaxer");
+               QPalette p = palette();
+               p.setColor(QPalette::Base, defColors->getColorDef("dsWidgetBackground").getBackground());
+               setPalette(p);
+               refreshHighlighterLines();
+           }
            return true;
         }
     }

@@ -39,7 +39,7 @@ static QStringList parseRe(const QString& text, const QString& reText) {
     QRegularExpressionMatchIterator it = re.globalMatch(text);
     while(it.hasNext()) {
         QRegularExpressionMatch me = it.next();
-        qDebug() << text.mid(qMax(0, me.capturedStart()-10), qMin(text.length(), me.capturedLength() + 100));
+        //qDebug() << text.mid(qMax(0, me.capturedStart()-10), qMin(text.length(), me.capturedLength() + 100));
         list.append(me.captured(1));
     }
     return list;
@@ -62,6 +62,6 @@ void TargetUpdateDiscover::finish(int ret)
     info.defines = unique(parseRe(text, DEFINES_RE));
     info.include = unique(parseRe(text, INCLUDES_RE));
     emit updateFinish(info);
-    deleteLater();
+    // deleteLater();
 }
 

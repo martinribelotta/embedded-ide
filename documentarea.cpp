@@ -1,5 +1,5 @@
 #include "documentarea.h"
-#include "editorwidget.h"
+#include "codeeditor.h"
 
 #include <QToolButton>
 #include <QTabBar>
@@ -50,20 +50,21 @@ DocumentArea::DocumentArea(QWidget *parent) :
     connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(documentToClose(int)));
 }
 
-bool DocumentArea::fileOpen(const QString &file, int row, int col)
+bool DocumentArea::fileOpen(const QString &file, int row, int col, const MakefileInfo *mk)
 {
     int idx = documentFind(file);
     if (idx == -1) {
-        EditorWidget *editor = new EditorWidget(this);
+        CodeEditor *editor = new CodeEditor(this);
         if (!editor->load(file))
             return false;
-        idx = addTab(editor, editor->windowTitle());        
-        connect(editor, SIGNAL(modified(bool)), this, SLOT(modifyTab(bool)));
+        idx = addTab(editor, editor->windowTitle());
+        editor->setMakefileInfo(mk);
+        connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modifyTab(bool)));
     }
     setCurrentIndex(idx);
-    EditorWidget *w = qobject_cast<EditorWidget*>(widget(idx));
+    CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
     if (w) {
-        w->moveCursor(row, col);
+        w->moveTextCursor(row, col);
         w->setFocus();
     }
     return true;
@@ -72,7 +73,7 @@ bool DocumentArea::fileOpen(const QString &file, int row, int col)
 void DocumentArea::saveAll()
 {
     for(int i=0; i<count(); i++) {
-        EditorWidget *e = qobject_cast<EditorWidget*>(widget(i));
+        CodeEditor *e = qobject_cast<CodeEditor*>(widget(i));
         if (e)
             e->save();
     }
@@ -80,7 +81,7 @@ void DocumentArea::saveAll()
 
 void DocumentArea::documentToClose(int idx)
 {
-    EditorWidget *w = qobject_cast<EditorWidget*>(widget(idx));
+    CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
     if (w) {
         w->deleteLater();
     }
@@ -94,7 +95,7 @@ void DocumentArea::closeAll()
 
 void DocumentArea::modifyTab(bool isModify)
 {
-    EditorWidget *w = qobject_cast<EditorWidget*>(sender());
+    CodeEditor *w = qobject_cast<CodeEditor*>(sender());
     if (w) {
         int idx = indexOf(w);
         if (idx != -1) {
@@ -105,13 +106,13 @@ void DocumentArea::modifyTab(bool isModify)
         } else
             qWarning("sender is not a tab");
     } else
-        qWarning("sender of modifyTab is not a EditorWidget");
+        qWarning("sender of modifyTab is not a CodeEditor");
 }
 
 int DocumentArea::documentFind(const QString &file)
 {
     for(int i=0; i<count(); i++) {
-        EditorWidget *w = qobject_cast<EditorWidget*>(widget(i));
+        CodeEditor *w = qobject_cast<CodeEditor*>(widget(i));
         if (w) {
             if (w->windowFilePath() == file)
                 return i;

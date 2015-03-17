@@ -24,7 +24,7 @@ public:
 
     QString project() const;
     QDir projectPath() const;
-    MakefileInfo &makeInfo() const;
+    const MakefileInfo &makeInfo() const { return mk_info; }
 
 public slots:
     void closeProject();

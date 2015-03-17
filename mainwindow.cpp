@@ -52,7 +52,7 @@ void MainWindow::actionExportFinish(const QString &s)
 
 void MainWindow::on_projectView_fileOpen(const QString &file)
 {
-    ui->centralWidget->fileOpen(file);
+    ui->centralWidget->fileOpen(file, 0, 0, &ui->projectView->makeInfo());
 }
 
 void MainWindow::on_actionProjectNew_triggered()

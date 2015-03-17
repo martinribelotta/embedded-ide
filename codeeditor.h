@@ -15,6 +15,10 @@ class QCompleter;
 
 class LineNumberArea;
 
+class QsvColorDefFactory;
+class QsvLangDef;
+class QsvSyntaxHighlighter;
+
 class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
@@ -37,6 +41,8 @@ private slots:
     void completionDone();
 
 public slots:
+    void setMakefileInfo(const MakefileInfo *mk) { this->mk = mk; }
+    void moveTextCursor(int row, int col);
     void refreshHighlighterLines();
     bool load(const QString &fileName);
     bool save();
@@ -77,6 +83,10 @@ private:
     QString m_documentFile;
     QProcess *completionProc;
     QHash<int, QColor> highlightLines;
+    QsvColorDefFactory *defColors;
+    QsvLangDef *langDef;
+    QsvSyntaxHighlighter *syntax;
+    const MakefileInfo *mk;
 };
 
 #endif // CODEEDITOR_H

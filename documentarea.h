@@ -3,6 +3,8 @@
 
 #include <QTabWidget>
 
+class MakefileInfo;
+
 class DocumentArea : public QTabWidget
 {
     Q_OBJECT
@@ -12,7 +14,7 @@ public:
 signals:
 
 public slots:
-    bool fileOpen(const QString& file, int row = 0, int col = 0);
+    bool fileOpen(const QString& file, int row = 0, int col = 0, const MakefileInfo *mk = 0l);
     void saveAll();
 
 private slots:
