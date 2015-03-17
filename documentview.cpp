@@ -10,7 +10,6 @@
 
 #include <QtDebug>
 
-#include "targetupdatediscover.h"
 #include "projecticonprovider.h"
 #include <QRegularExpression>
 
@@ -89,7 +88,9 @@ void DocumentView::openProject(const QString &projectFile)
 #else
         ui->treeView->header()->setResizeMode(0, QHeaderView::ResizeToContents);
 #endif
-        (new TargetUpdateDiscover(this, SLOT(updateTargets(QStringList))))->start(project());
+        TargetUpdateDiscover *discover = new TargetUpdateDiscover(this);
+        connect(discover, SIGNAL(updateFinish(MakefileInfo)), this, SLOT(updateMakefileInfo(MakefileInfo)));
+        discover->start(project());
     }
 }
 
@@ -175,12 +176,16 @@ void DocumentView::on_treeView_activated(const QModelIndex &index)
     }
 }
 
-void DocumentView::updateTargets(const QStringList &targetList)
+void DocumentView::updateMakefileInfo(const MakefileInfo &info)
 {
     QIcon icon = QIcon::fromTheme("run-build-configure", QIcon(":/icon-theme/icon-theme/run-build-configure.png"));
     ui->targetList->clear();
-    foreach(QString t, targetList)
+    foreach(QString t, info.targets)
         ui->targetList->addItem(new QListWidgetItem(icon, t));
+    qDebug() << info.targets;
+    qDebug() << info.defines;
+    qDebug() << info.include;
+    sender()->deleteLater();
 }
 
 void DocumentView::on_targetList_doubleClicked(const QModelIndex &index)

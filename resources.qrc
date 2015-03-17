@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/help">
-        <file>about.txt</file>
         <file>reference-code-c.txt</file>
     </qresource>
     <qresource prefix="/icon-theme">

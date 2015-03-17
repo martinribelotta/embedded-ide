@@ -54,8 +54,7 @@ FORMS    += mainwindow.ui \
 RESOURCES += \
     resources.qrc
 
-OTHER_FILES += \
-    about.txt
+OTHER_FILES +=
 
 DISTFILES += \
     reference-code-c.txt

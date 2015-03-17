@@ -6,6 +6,8 @@
 #include <QDir>
 #include <QFileInfo>
 
+#include "targetupdatediscover.h"
+
 namespace Ui {
 class DocumentView;
 }
@@ -32,7 +34,7 @@ public slots:
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);
-    void updateTargets(const QStringList& targetList);
+    void updateMakefileInfo(const MakefileInfo &info);
 
     void on_targetList_doubleClicked(const QModelIndex &index);
 

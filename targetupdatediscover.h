@@ -2,17 +2,26 @@
 #define TARGETUPDATEDISCOVER_H
 
 #include <QObject>
+#include <QStringList>
 
 class QProcess;
+
+struct MakefileInfo {
+    QStringList targets;
+    QStringList include;
+    QStringList defines;
+};
+
+Q_DECLARE_METATYPE(MakefileInfo)
 
 class TargetUpdateDiscover : public QObject
 {
     Q_OBJECT
 public:
-    explicit TargetUpdateDiscover(QObject *parent, const char *slotName);
+    explicit TargetUpdateDiscover(QObject *parent);
 
 signals:
-    void updateFinish(const QStringList& targets);
+    void updateFinish(const MakefileInfo& targets);
 
 public slots:
     void start(const QString &project);

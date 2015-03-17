@@ -58,7 +58,7 @@ void EditorWidget::moveCursor(int row, int col)
     QTextCursor c = ui->editor->textCursor();
     c.setPosition( off );
     ui->editor->setTextCursor( c );
-    ui->editor->grabKeyboard();
+    // ui->editor->grabKeyboard();
 }
 
 static QString findStyleByName(const QString& defaultName) {
