@@ -1,6 +1,7 @@
 #include "documentarea.h"
 #include "codeeditor.h"
 
+#include <QHBoxLayout>
 #include <QToolButton>
 #include <QTabBar>
 #include <QtDebug>
@@ -40,10 +41,19 @@ DocumentArea::DocumentArea(QWidget *parent) :
 //                "    margin-top: 2px; /* make non-selected tabs look smaller */"
 //                "}"
 //                );
-    QToolButton *closeAll = new QToolButton(this);
+    QWidget *buttonBox = new QWidget(this);
+    QHBoxLayout *buttonBoxLayout = new QHBoxLayout(buttonBox);
+    buttonBoxLayout->setMargin(0);
+    QToolButton *closeAll = new QToolButton(buttonBox);
+    QToolButton *saveCurrent = new QToolButton(buttonBox);
+    buttonBoxLayout->addWidget(saveCurrent);
+    buttonBoxLayout->addWidget(closeAll);
+
     closeAll->setIcon(QIcon::fromTheme("tab-close-other", QIcon(":/icon-theme/icon-theme/tab-close-other.png")));
+    saveCurrent->setIcon(QIcon::fromTheme("tab-close-other", QIcon(":/icon-theme/icon-theme/document-save.png")));
     connect(closeAll, SIGNAL(clicked()), this, SLOT(closeAll()));
-    setCornerWidget(closeAll, Qt::TopRightCorner);
+    connect(saveCurrent, SIGNAL(clicked()), this, SLOT(saveCurrent()));
+    setCornerWidget(buttonBox, Qt::TopRightCorner);
     setDocumentMode(true);
     setTabsClosable(true);
     setMovable(true);
@@ -91,6 +101,13 @@ void DocumentArea::documentToClose(int idx)
 void DocumentArea::closeAll()
 {
     clear();
+}
+
+void DocumentArea::saveCurrent()
+{
+    CodeEditor *w = qobject_cast<CodeEditor*>(currentWidget());
+    if (w)
+        w->save();
 }
 
 void DocumentArea::modifyTab(bool isModify)

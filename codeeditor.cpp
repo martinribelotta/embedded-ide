@@ -9,7 +9,6 @@
 #include <QScrollBar>
 #include <QShortcut>
 #include <QKeyEvent>
-#include <QProcess>
 #include <QFileInfo>
 #include <QSettings>
 #include <QTemporaryFile>
@@ -25,7 +24,9 @@
 #include <qsvsh/qsvsyntaxhighlighter.h>
 #include <qsvsh/qsvcolordeffactory.h>
 #include <qsvsh/qsvcolordef.h>
-#include "qsvsh/qsvlangdef.h"
+#include <qsvsh/qsvlangdef.h>
+
+#include "clangcodecontext.h"
 
 #undef CLANG_DEBUG
 
@@ -69,10 +70,6 @@ CodeEditor::CodeEditor(QWidget *parent) :
     pModel->setSourceModel(new QStringListModel(m_completer));
     m_completer->setModel(pModel);
     connect(m_completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
-
-    completionProc = new QProcess(this);
-    connect(completionProc, SIGNAL(finished(int)), this, SLOT(completionDone()));
-    connect(completionProc, SIGNAL(started()), this, SLOT(sendCurrentCode()));
 
     QFont f(QSettings().value("editor/font/style", "DejaVu Sans Mono").toString());
     f.setPointSize(QSettings().value("editor/font/size", 10).toInt());
@@ -124,20 +121,9 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
         updateLineNumberAreaWidth(0);
 }
 
-void CodeEditor::sendCurrentCode()
-{
-    completionProc->write(toPlainText().toLocal8Bit());
-    //completionProc->write("\r\n"); // XXX REquired by completion on EOF. Whi?
-    completionProc->waitForBytesWritten();
-    completionProc->closeWriteChannel();
-}
-
 void CodeEditor::insertCompletion(const QString &completion)
 {
     QString s = completion;
-#ifdef CLANG_DEBUG
-    qDebug() << "Complete with" << s;
-#endif
     QTextCursor tc = textUnderCursor();
     if (s.startsWith("Pattern : ")) {
         s = s.remove("Pattern : ").remove(QRegExp("[\\<|\\[]\\#[^\\#]*\\#[\\>|\\]]"));
@@ -149,32 +135,11 @@ void CodeEditor::insertCompletion(const QString &completion)
     m_completer->popup()->hide();
 }
 
-static QStringList parseClangOut(const QString& out) {
-#ifdef CLANG_DBG
-    qDebug() << "clang out:" << out;
-#endif
-    QStringList list;
-    QRegExp re("COMPLETION\\: ([^\\n]*)");
-    int pos = 0;
-    while(re.indexIn(out, pos) != -1) {
-        list.append(re.cap(1));
-        pos += re.matchedLength();
-    }
-#ifdef CLANG_DEBUG
-    qDebug() << "Completion" << list;
-#endif
-    return list;
-}
-
-void CodeEditor::completionDone()
+void CodeEditor::codeContextUpdate(const QStringList& list)
 {
-#if 0
-    QStringListModel *m = qobject_cast<QStringListModel*>(m_completer->model());
-#else
     QSortFilterProxyModel *pModel = qobject_cast<QSortFilterProxyModel*>(m_completer->model());
     QStringListModel *m = qobject_cast<QStringListModel*>(pModel->sourceModel());
-#endif
-    m->setStringList(parseClangOut(completionProc->readAll()));
+    m->setStringList(list);
     completionShow();
 }
 
@@ -197,44 +162,17 @@ void CodeEditor::moveTextCursor(int row, int col)
     setTextCursor( c );
 }
 
-const QStringList prepend(const QString& s, const QStringList& l) {
-    QStringList r;
-    foreach(QString x, l)
-        r.append(s + x);
-    return r;
-}
-
-void CodeEditor::completionActivate()
-{
-    QString completionCommand =
-            QString("clang -cc1 -code-completion-at -:%1:%2 %3 %4 -")
-            .arg(textCursor().blockNumber() + 1)
-            .arg(textCursor().columnNumber() + 1)
-            .arg(mk? prepend("-D", mk->defines).join(' '): "")
-            .arg(mk? prepend("-I", mk->include).join(' '): "")
-    ;
-#ifdef CLANG_DEBUG
-    qDebug() << completionCommand;
-#endif
-    completionProc->start(completionCommand);
-}
-
 void CodeEditor::completionShow()
 {
     QString underCursor = textUnderCursor().selectedText();
     QSortFilterProxyModel *pModel = qobject_cast<QSortFilterProxyModel*>(m_completer->model());
     pModel->setFilterFixedString(underCursor);
-    // m_completer->setCompletionPrefix(underCursor);
-#ifdef CLANG_DEBUG
-    qDebug() << "under cursor" << underCursor;
-#endif
     int w = m_completer->popup()->sizeHintForColumn(0) +
             m_completer->popup()->verticalScrollBar()->sizeHint().width();
     QRect r = cursorRect();
     r.setWidth(w);
     m_completer->complete(r);
 }
-
 
 static QString findStyleByName(const QString& defaultName) {
     QDir d(":/qsvsh/qtsourceview/data/colors/");
@@ -262,7 +200,6 @@ bool CodeEditor::load(const QString &fileName)
         if (f.error() == QFile::NoError) {
            m_documentFile = f.fileName();
            QFileInfo info(f);
-           completionProc->setWorkingDirectory(info.path());
            setWindowFilePath(info.absoluteFilePath());
            setWindowTitle(info.fileName());
 
@@ -280,6 +217,7 @@ bool CodeEditor::load(const QString &fileName)
            QMimeType fType = db.mimeTypeForFile(info);
            if (fType.inherits("text/x-csrc")) {
                langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" );
+               (new CLangCodeContext(this))->setWorkingDir(info.path());
            } else if (fType.inherits("text/x-makefile")) {
                langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/makefile.lang" );
            }
@@ -359,7 +297,7 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
         QPlainTextEdit::keyPressEvent(e);
         completionShow();
     } else if (e->modifiers() == Qt::CTRL && e->key() == Qt::Key_Space) {
-        completionActivate();
+        emit updateCodeContext();
     } else {
         QString line;
         if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)

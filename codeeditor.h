@@ -10,7 +10,6 @@ class QPaintEvent;
 class QResizeEvent;
 class QSize;
 class QWidget;
-class QProcess;
 class QCompleter;
 
 class LineNumberArea;
@@ -28,6 +27,7 @@ public:
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     void lineNumberAreaDoubleClick(const QPoint &p);
     int lineNumberAreaWidth();
+    const MakefileInfo *makefileInfo() const { return mk; }
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -36,14 +36,17 @@ protected:
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void updateLineNumberArea(const QRect &, int);
-    void sendCurrentCode();
-    void insertCompletion(const QString &completion);
-    void completionDone();
 
 public slots:
+    void insertCompletion(const QString &completion);
+    void codeContextUpdate(const QStringList& list);
+
     void setMakefileInfo(const MakefileInfo *mk) { this->mk = mk; }
+
     void moveTextCursor(int row, int col);
+
     void refreshHighlighterLines();
+
     bool load(const QString &fileName);
     bool save();
 
@@ -71,17 +74,16 @@ public slots:
 
 signals:
     void fileError(const QString& errorText);
+    void updateCodeContext();
 
 private:
     QTextCursor textUnderCursor() const;
     QString lineUnderCursor() const;
-    void completionActivate();
     void completionShow();
 
     QWidget *lineNumberArea;
     QCompleter *m_completer;
     QString m_documentFile;
-    QProcess *completionProc;
     QHash<int, QColor> highlightLines;
     QsvColorDefFactory *defColors;
     QsvLangDef *langDef;

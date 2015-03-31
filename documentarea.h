@@ -20,6 +20,7 @@ public slots:
 private slots:
     void documentToClose(int idx);
     void closeAll();
+    void saveCurrent();
     void modifyTab(bool isModify);
 
 private:
