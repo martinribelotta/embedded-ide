@@ -14,17 +14,57 @@
 #include <QMenu>
 #include <QUrl>
 #include <QUrlQuery>
+#include <QSettings>
+#include <QFont>
+#include <QFontInfo>
+#include <QFontDatabase>
 
 #include <QtDebug>
+
+static bool isFixedPitch(const QFont & font) {
+    const QFontInfo fi(font);
+    qDebug() << fi.family() << fi.fixedPitch();
+    return fi.fixedPitch();
+}
+
+static const QFont monoFont() {
+    QFont font("monospace");
+    if (isFixedPitch(font))
+        return font;
+    font.setStyleHint(QFont::Monospace);
+    if (isFixedPitch(font))
+        return font;
+    font.setStyleHint(QFont::TypeWriter);
+    if (isFixedPitch(font))
+        return font;
+    font.setFamily("courier");
+    if (isFixedPitch(font))
+        return font;
+    qDebug() << font << "fallback";
+    return font;
+}
+
+static QMenu *lastProjects(QWidget *parent) {
+    QMenu *m = new QMenu(parent);
+    QSettings sets;
+    sets.beginGroup("last_projects");
+    foreach(QString k, sets.allKeys()) {
+        QAction *a = m->addAction(k, parent, SLOT(openProject()));
+        a->setData(QVariant(sets.value(k)));
+    }
+    return m;
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->textLog->document()->setDefaultFont(monoFont());
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
     ui->projectDock->setTitleBarWidget(new QWidget(this));
+    ui->actionProjectOpen->setMenu(lastProjects(this));
 }
 
 MainWindow::~MainWindow()
@@ -70,15 +110,17 @@ void MainWindow::on_actionProjectNew_triggered()
 
 void MainWindow::on_actionProjectOpen_triggered()
 {
-    ui->projectView->openProject(QFileDialog::
-                                 getOpenFileName(this,
-                                                 tr("Open Project"),
-                                                 "Makefile",
-                                                 tr("Makefile (Makefile);;"
-                                                    "Make (*.mk);;"
-                                                    "All Files (*)")
-                                                 )
-                                 );
+    QString name = QFileDialog::
+            getOpenFileName(this,
+                            tr("Open Project"),
+                            "Makefile",
+                            tr("Makefile (Makefile);;"
+                               "Make (*.mk);;"
+                               "All Files (*)")
+                            );
+    if (!name.isEmpty()) {
+        ui->projectView->openProject(name);
+    }
 }
 
 #if 0
@@ -88,6 +130,15 @@ static QString resourceText(const QString& res) {
     return f.readAll();
 }
 #endif
+
+void MainWindow::openProject()
+{
+    QAction *a = qobject_cast<QAction*>(sender());
+    if (a) {
+        QString name = a->data().toString();
+        ui->projectView->openProject(name);
+    }
+}
 
 void MainWindow::on_actionHelp_triggered()
 {
@@ -146,8 +197,7 @@ static QString mkUrl(const QString& p, const QString& x, const QString& y) {
     return QString("file:%1?x=%2&y=%3").arg(p).arg(x).arg(y);
 }
 
-
-static QString errorLink(const QString& s) {
+static QString consoleToHtml(const QString& s) {
     QString str(s);
     QRegularExpression re("^(.+)\\:(\\d+)\\:(\\d+)\\: \\w+\\: .+$");
     re.setPatternOptions(QRegularExpression::MultilineOption);
@@ -161,51 +211,40 @@ static QString errorLink(const QString& s) {
         QString url = mkUrl(path, line, col);
         str.replace(text, QString("<a href=\"%1\">%2</a>").arg(url).arg(text));
     }
-    return str;
+    return str.replace("\r\n", "<br>").replace("\n", "<br>").replace("\t", "<tt>    </tt>");
 }
 
 void MainWindow::on_projectView_buildStdout(const QString &text)
 {
-#if 1
-    ui->textLog->append(QString("<font color=\"green\">%1</font>")
-                            .arg(text)); //.replace(QRegExp("[\\r\\n]"), "<br>"));
     QTextCursor c = ui->textLog->textCursor();
     c.movePosition(QTextCursor::End);
+    c.insertHtml(QString("<span style=\"color: green\">%1</span>").arg(consoleToHtml(text)));
     ui->textLog->setTextCursor(c);
-#else
-    QTextCursor c = ui->textLog->textCursor();
-    QTextCharFormat fmt = c.charFormat();
-    fmt.setForeground(Qt::blue);
-    c.movePosition(QTextCursor::End);
-    ui->textLog->setTextCursor(c);
-    ui->textLog->setCurrentCharFormat(fmt);
-    ui->textLog->insertPlainText(text);
-#endif
 }
 
 void MainWindow::on_projectView_buildStderr(const QString &text)
 {
-#if 1
-    ui->textLog->append(QString("<font color=\"red\">%1</font>")
-                            .arg(errorLink(text))); //.replace(QRegExp("[\\r\\n]"), "<br>"));
     QTextCursor c = ui->textLog->textCursor();
     c.movePosition(QTextCursor::End);
+    c.insertHtml(QString("<span style=\"color: red\">%1</span>").arg(consoleToHtml(text)));
     ui->textLog->setTextCursor(c);
-#else
-    QTextCursor c = ui->textLog->textCursor();
-    QTextCharFormat fmt = c.charFormat();
-    fmt.setForeground(Qt::red);
-    c.movePosition(QTextCursor::End);
-    ui->textLog->setTextCursor(c);
-    ui->textLog->setCurrentCharFormat(fmt);
-    ui->textLog->insertPlainText(text);
-#endif
 }
 
 void MainWindow::on_projectView_buildEnd(int status)
 {
     ui->buildStop->setEnabled(false);
     Q_UNUSED(status);
+}
+
+void MainWindow::on_projectView_projectOpened()
+{
+    QString name = ui->projectView->projectPath().dirName();
+    QString path = ui->projectView->project();
+    QSettings sets;
+    sets.beginGroup("last_projects");
+    sets.setValue(name, path);
+    sets.sync();
+    ui->actionProjectOpen->setMenu(lastProjects(this));
 }
 
 void MainWindow::on_actionSave_All_triggered()

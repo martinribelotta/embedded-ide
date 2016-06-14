@@ -29,6 +29,8 @@ private slots:
 
     void on_actionProjectOpen_triggered();
 
+    void openProject();
+
     void on_actionHelp_triggered();
 
     void on_actionProjectExport_triggered();
@@ -44,6 +46,8 @@ private slots:
     void on_projectView_buildStderr(const QString& text);
 
     void on_projectView_buildEnd(int status);
+
+    void on_projectView_projectOpened();
 
     void on_actionSave_All_triggered();
 

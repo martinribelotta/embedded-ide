@@ -300,8 +300,21 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
         emit updateCodeContext();
     } else {
         QString line;
-        if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)
+        switch(e->key()) {
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
             line = lineUnderCursor();
+            break;
+        case Qt::Key_Tab:
+            do {
+                int insertTab = QSettings().value("editor/replaceTabs", 0).toInt();
+                if (insertTab) {
+                    this->insertPlainText(QString(" ").repeated(insertTab));
+                    return;
+                }
+            } while(0);
+            break;
+        }
         QPlainTextEdit::keyPressEvent(e);
         if (!line.isEmpty()) {
             int i=0;

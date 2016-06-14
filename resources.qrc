@@ -81,4 +81,7 @@
         <file>qtsourceview/data/colors/vim.xml</file>
         <file>qtsourceview/data/colors/visual.xml</file>
     </qresource>
+    <qresource prefix="/build">
+        <file>templates/generic-make.template</file>
+    </qresource>
 </RCC>

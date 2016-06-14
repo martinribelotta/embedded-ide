@@ -184,6 +184,7 @@ void DocumentView::updateMakefileInfo(const MakefileInfo &info)
     foreach(QString t, mk_info.targets)
         ui->targetList->addItem(new QListWidgetItem(icon, t));
     sender()->deleteLater();
+    emit projectOpened();
 }
 
 void DocumentView::on_targetList_doubleClicked(const QModelIndex &index)

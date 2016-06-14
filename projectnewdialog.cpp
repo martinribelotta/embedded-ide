@@ -6,7 +6,7 @@
 #include <QFile>
 #include <QPushButton>
 #include <QFileDialog>
-
+#include <QSettings>
 #include <QItemDelegate>
 
 #include <QtDebug>
@@ -106,13 +106,26 @@ private:
     }
 };
 
+QString defaultProjectPath(const QString& path)
+{
+    QDir projecPath(path.isEmpty()? QDir::home().absoluteFilePath(".embedded-ide/projects") : path);
+    if (!projecPath.exists())
+        projecPath.mkpath(".");
+    return projecPath.absolutePath();
+}
+
 ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ProjectNewDialog)
 {
-    ui->setupUi(this);
     DelegateFactory::registerClass<ListEditorDelegate>("items");
     DelegateFactory::registerClass<StringEditorDelegate>("string");
+    QDir defTemplates(":/build/templates/");
+    ui->setupUi(this);
+    foreach(QFileInfo info, defTemplates.entryInfoList(QStringList("*.template"))) {
+        ui->templateFile->addItem(info.absoluteFilePath());
+    }
+    ui->projectPath->setText(defaultProjectPath(QSettings().value("build/defaultprojectpath").toString()));
     refreshProjectName();
 }
 

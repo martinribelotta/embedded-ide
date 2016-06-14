@@ -1,7 +1,7 @@
 #ifndef MAKEFILEINFO_H
 #define MAKEFILEINFO_H
 
-#include <QtGlobal>
+#include <QMetaType>
 #include <QStringList>
 
 struct MakefileInfo {

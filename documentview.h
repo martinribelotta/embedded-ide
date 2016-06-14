@@ -47,6 +47,7 @@ private slots:
     void on_filterButton_clicked();
 
 signals:
+    void projectOpened();
     void fileOpen(const QString& file);
     void startBuild(const QString& target);
     void buildStdout(const QString& text);

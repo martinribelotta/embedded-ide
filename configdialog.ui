@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>573</width>
-    <height>392</height>
+    <height>419</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -97,6 +97,40 @@
          <property name="readOnly">
           <bool>true</bool>
          </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QGroupBox" name="groupReplaceTabs">
+         <property name="title">
+          <string>Replace tabs with spaces</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QSpinBox" name="spinReplaceTabs">
+            <property name="suffix">
+             <string> spaces</string>
+            </property>
+            <property name="prefix">
+             <string>Replace tabs with </string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>80</number>
+            </property>
+            <property name="value">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>

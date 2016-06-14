@@ -1,6 +1,7 @@
 #include "projectexporter.h"
 
-#include <QTemporaryFile>
+#include <QTemporaryDir>
+#include <QtDebug>
 
 static const QString EXCLUDE_LIST = QString(
         "-x .git* "
@@ -20,8 +21,10 @@ ProjectExporter::ProjectExporter(const QString& exportFile,
     QObject(parent),
     m_exportFile(exportFile),
     m_projectPath(projectPath),
-    proc(new QProcess(this))
+    proc(new QProcess(this)),
+    tmpDir("a_XXXXXX")
 {
+    tmpDir.setAutoRemove(true);
     proc->setObjectName("proc");
     QMetaObject::connectSlotsByName(this);
     connect(this, SIGNAL(end(QString)), parent, slotFinish);
@@ -29,33 +32,20 @@ ProjectExporter::ProjectExporter(const QString& exportFile,
     proc->setStandardOutputFile(exportFile);
 }
 
-static QString tmpName() {
-    QTemporaryFile f("empty-XXXXXX");
-    f.open();
-    QString s = QFileInfo(f).fileName();
-    f.remove();
-    return s;
-}
-
 void ProjectExporter::start()
 {
-    tmpDirName = tmpName();
-    if (QDir::root().mkpath(tmpDirName)) {
+    if (tmpDir.isValid()) {
         proc->setWorkingDirectory(m_projectPath);
-        proc->start(QString("diff -Naur %2 %1 .").arg(tmpDirName).arg(EXCLUDE_LIST));
+        QString cmd = QString("diff -Naur %2 %1 .").arg(tmpDir.path()).arg(EXCLUDE_LIST);
+        //qDebug() << cmd;
+        proc->start(cmd);
     } else {
-        emit end(tr("Can not create empty tmp directory %1").arg(tmpDirName));
+        emit end(tr("Can not create empty tmp directory %1").arg(tmpDir.path()));
     }
 }
 
 void ProjectExporter::on_proc_finished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-
-    if (QFileInfo(tmpDirName).exists())
-        if (!QDir::root().rmpath(tmpDirName)) {
-            emit end(tr("Can not remove %1 path").arg(tmpDirName));
-            return;
-        }
     if (exitStatus != QProcess::NormalExit) {
         emit end(tr("Abnormal termination %1").arg(proc->errorString()));
         return;

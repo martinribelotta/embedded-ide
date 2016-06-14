@@ -1,0 +1,64 @@
+diff -Naur -x '.git*' -x '*.o' -x '*.d' -x '*.elf' -x '*.lst' -x '*.map' -x '.config*' -x '*.conf' -x autoconf.h a_16VwRS/inc/main.h ./inc/main.h
+--- a_16VwRS/inc/main.h	1969-12-31 21:00:00.000000000 -0300
++++ ./inc/main.h	2016-06-13 21:59:46.233953335 -0300
+@@ -0,0 +1,8 @@
++#ifndef __MAIN_H__
++#define __MAIN_H__
++
++/*
++ * Add definitions here
++ */
++
++#endif
+diff -Naur -x '.git*' -x '*.o' -x '*.d' -x '*.elf' -x '*.lst' -x '*.map' -x '.config*' -x '*.conf' -x autoconf.h a_16VwRS/Makefile ./Makefile
+--- a_16VwRS/Makefile	1969-12-31 21:00:00.000000000 -0300
++++ ./Makefile	2016-06-13 22:07:40.137966026 -0300
+@@ -0,0 +1,39 @@
++EXEC=${{ExecName string:test}}
++CSRC=$(wildcard src/*.c)
++CCSRC=$(wildcard src/*.cpp)
++
++OBJS=$(CSRC:.c=.o) $(CCSRC:.cpp=.o)
++
++DEPS=$(OBJS:.o=.d)
++
++CROSS=
++CC=$(CROSS)gcc
++CXX=$(CROSS)g++
++
++ifeq ($(strip $(CCSRC)),)
++LD=$(CROSS)gcc
++else
++LD=$(CROSS)g++
++endif
++
++all: $(EXEC)
++
++.PHONY: all clean
++
++-include $(DEPS)
++
++%.o: %.c
++	@echo "CC $^"
++	@$(CC) -MMD -c $(CFLAGS) -o $@ $^
++
++%.o: %.cpp
++	@echo "CXX $^"
++	@$(CXX) -MMD -c $(CFLAGS) $(CXXFLAGS) -o $@ $^
++
++$(EXEC): $(OBJS)
++	@echo "LD $@"
++	@$(LD) -o $@ $(LDFLAGS) $<
++
++clean:
++	@echo "CLEAN"
++	@rm -fR $(OBJS) $(DEPS) $(EXEC)
+diff -Naur -x '.git*' -x '*.o' -x '*.d' -x '*.elf' -x '*.lst' -x '*.map' -x '.config*' -x '*.conf' -x autoconf.h a_16VwRS/src/main.c ./src/main.c
+--- a_16VwRS/src/main.c	1969-12-31 21:00:00.000000000 -0300
++++ ./src/main.c	2016-06-13 21:59:00.661952114 -0300
+@@ -0,0 +1,5 @@
++
++int main(int argc, char **argv)
++{
++	return 0;
++}

@@ -64,6 +64,11 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     ui->fontSpinBox->setValue(set->value("editor/font/size", 10).toInt());
     ui->fontComboBox->setCurrentFont(QFont(set->value("editor/font/style", "DejaVu Sans Mono").toString()));
 
+    int replaceTabs = set->value("editor/replaceTabs", 0).toInt();
+    ui->groupReplaceTabs->setChecked(replaceTabs != 0);
+    if (replaceTabs != 0)
+        ui->spinReplaceTabs->setValue(replaceTabs);
+
     connect(ui->fontComboBox, SIGNAL(activated(int)), this, SLOT(refreshEditor()));
     connect(ui->fontSpinBox, SIGNAL(valueChanged(int)), this, SLOT(refreshEditor()));
     connect(ui->styleComboBox, SIGNAL(activated(int)), this, SLOT(refreshEditor()));
@@ -84,6 +89,7 @@ void ConfigDialog::on_buttonBox_accepted()
     set->setValue("editor/colorstyle", ui->styleComboBox->currentText().split(':').at(0));
     set->setValue("editor/font/size", ui->fontSpinBox->value());
     set->setValue("editor/font/style", ui->fontComboBox->currentFont().family());
+    set->setValue("editor/replaceTabs", ui->groupReplaceTabs->isChecked()? ui->spinReplaceTabs->value() : 0);
 }
 
 void ConfigDialog::refreshEditor()

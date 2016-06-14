@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QProcess>
 #include <QDir>
+#include <QTemporaryDir>
+
+class QTemporaryDir;
 
 class ProjectExporter : public QObject
 {
@@ -28,7 +31,7 @@ private:
     QString m_exportFile;
     QString m_projectPath;
     QProcess *proc;
-    QString tmpDirName;
+    QTemporaryDir tmpDir;
 };
 
 #endif // PROJECTEXPORTER_H
