@@ -40,6 +40,9 @@
            <property name="text">
             <string>Filter:</string>
            </property>
+           <property name="indent">
+            <number>12</number>
+           </property>
           </widget>
          </item>
          <item>
