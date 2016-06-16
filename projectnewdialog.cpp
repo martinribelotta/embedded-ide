@@ -106,9 +106,11 @@ private:
     }
 };
 
-QString defaultProjectPath(const QString& path)
+extern QString defaultProjectPath();
+
+QString projectPath(const QString& path)
 {
-    QDir projecPath(path.isEmpty()? QDir::home().absoluteFilePath(".embedded-ide/projects") : path);
+    QDir projecPath(path.isEmpty()? defaultProjectPath() : path);
     if (!projecPath.exists())
         projecPath.mkpath(".");
     return projecPath.absolutePath();
@@ -125,7 +127,7 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     foreach(QFileInfo info, defTemplates.entryInfoList(QStringList("*.template"))) {
         ui->templateFile->addItem(info.absoluteFilePath());
     }
-    ui->projectPath->setText(defaultProjectPath(QSettings().value("build/defaultprojectpath").toString()));
+    ui->projectPath->setText(::projectPath(QSettings().value("build/defaultprojectpath").toString()));
     refreshProjectName();
 }
 

@@ -25,14 +25,14 @@ private slots:
 
     void refreshEditor();
 
+    void on_toolButton_clicked();
+
 private:
     Ui::ConfigDialog *ui;
     QSettings *set;
     QsvColorDefFactory *defColors;
     QsvLangDef *langCpp;
     QsvSyntaxHighlighter *syntax;
-
-    const QString currentStyle() const;
 };
 
 #endif // CONFIGDIALOG_H

@@ -181,7 +181,9 @@ void DocumentView::updateMakefileInfo(const MakefileInfo &info)
     mk_info = info;
     QIcon icon = QIcon::fromTheme("run-build-configure", QIcon(":/icon-theme/icon-theme/run-build-configure.png"));
     ui->targetList->clear();
-    foreach(QString t, mk_info.targets)
+    QStringList orderedTargets = mk_info.targets;
+    orderedTargets.sort();
+    foreach(QString t, orderedTargets)
         ui->targetList->addItem(new QListWidgetItem(icon, t));
     sender()->deleteLater();
     emit projectOpened();

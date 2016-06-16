@@ -317,5 +317,21 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>toolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>textLog</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>865</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>759</x>
+     <y>389</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>

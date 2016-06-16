@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QFile>
 #include <QDomDocument>
+#include <QFileDialog>
 
 #include "qsvsh/qsvcolordef.h"
 #include "qsvsh/qsvcolordeffactory.h"
@@ -46,20 +47,25 @@ static QString readBundle(const QString& path) {
     return QString();
 }
 
+QString defaultProjectPath()
+{
+    return QDir::home().absoluteFilePath(".embedded-ide/projects");
+}
+
 ConfigDialog::ConfigDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConfigDialog),
     set(new QSettings(this)),
     defColors(0l),
-    syntax(0l),
-    langCpp(new QsvCLangDef())
+    langCpp(new QsvCLangDef()),
+    syntax(0l)
 {
     ui->setupUi(this);
 
     ui->plainTextEdit->setPlainText(readBundle(":/help/reference-code-c.txt"));
-    QString style = getBundledStyles(ui->styleComboBox, set->value("editor/colorstyle", "Kate").toString());
+    QString style = getBundledStyles(ui->colorStyleComboBox, set->value("editor/colorstyle", "Kate").toString());
     if (!style.isEmpty())
-        ui->styleComboBox->setCurrentIndex(ui->styleComboBox->findText(style));
+        ui->colorStyleComboBox->setCurrentIndex(ui->colorStyleComboBox->findText(style));
 
     ui->fontSpinBox->setValue(set->value("editor/font/size", 10).toInt());
     ui->fontComboBox->setCurrentFont(QFont(set->value("editor/font/style", "DejaVu Sans Mono").toString()));
@@ -69,9 +75,11 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     if (replaceTabs != 0)
         ui->spinReplaceTabs->setValue(replaceTabs);
 
+    ui->projectPath->setText(set->value("build/defaultprojectpath", defaultProjectPath()).toString());
+
     connect(ui->fontComboBox, SIGNAL(activated(int)), this, SLOT(refreshEditor()));
     connect(ui->fontSpinBox, SIGNAL(valueChanged(int)), this, SLOT(refreshEditor()));
-    connect(ui->styleComboBox, SIGNAL(activated(int)), this, SLOT(refreshEditor()));
+    connect(ui->colorStyleComboBox, SIGNAL(activated(int)), this, SLOT(refreshEditor()));
 
     refreshEditor();
 }
@@ -86,10 +94,12 @@ ConfigDialog::~ConfigDialog()
 
 void ConfigDialog::on_buttonBox_accepted()
 {
-    set->setValue("editor/colorstyle", ui->styleComboBox->currentText().split(':').at(0));
+    set->setValue("editor/colorstyle", ui->colorStyleComboBox->currentText().split(':').at(0));
     set->setValue("editor/font/size", ui->fontSpinBox->value());
     set->setValue("editor/font/style", ui->fontComboBox->currentFont().family());
     set->setValue("editor/replaceTabs", ui->groupReplaceTabs->isChecked()? ui->spinReplaceTabs->value() : 0);
+    set->setValue("build/defaultprojectpath", ui->projectPath->text());
+
 }
 
 void ConfigDialog::refreshEditor()
@@ -98,7 +108,8 @@ void ConfigDialog::refreshEditor()
         delete defColors;
     if (syntax)
         syntax->deleteLater();
-    defColors = new QsvColorDefFactory( currentStyle() );
+    QString currentStyle = ui->colorStyleComboBox->itemData(ui->colorStyleComboBox->currentIndex()).toString();
+    defColors = new QsvColorDefFactory( currentStyle );
     syntax    = new QsvSyntaxHighlighter( ui->plainTextEdit, defColors, langCpp );
     QPalette p = ui->plainTextEdit->palette();
     p.setColor(QPalette::Base, defColors->getColorDef("dsWidgetBackground").getBackground());
@@ -108,7 +119,10 @@ void ConfigDialog::refreshEditor()
     ui->plainTextEdit->setFont(font);
 }
 
-const QString ConfigDialog::currentStyle() const
+void ConfigDialog::on_toolButton_clicked()
 {
-    return ui->styleComboBox->itemData(ui->styleComboBox->currentIndex()).toString();
+    QString path = QFileDialog::getExistingDirectory(this, tr("Select directory"), QDir::homePath());
+    if (!path.isEmpty()) {
+        ui->projectPath->setText(path);
+    }
 }
