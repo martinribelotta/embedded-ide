@@ -23,7 +23,7 @@
 
 static bool isFixedPitch(const QFont & font) {
     const QFontInfo fi(font);
-    qDebug() << fi.family() << fi.fixedPitch();
+    // qDebug() << fi.family() << fi.fixedPitch();
     return fi.fixedPitch();
 }
 
@@ -40,7 +40,7 @@ static const QFont monoFont() {
     font.setFamily("courier");
     if (isFixedPitch(font))
         return font;
-    qDebug() << font << "fallback";
+    // qDebug() << font << "fallback";
     return font;
 }
 
@@ -286,4 +286,13 @@ void MainWindow::on_textLog_anchorClicked(const QUrl &url)
     QString file = ui->projectView->projectPath().absoluteFilePath(url.toLocalFile());
     // qDebug() << "Opening" << file << row << col;
     ui->centralWidget->fileOpen(file, row, col);
+}
+
+void MainWindow::on_actionStart_Debug_toggled(bool debugOn)
+{
+    ui->projectView->setDebugOn(debugOn);
+    if (debugOn) {
+    } else {
+
+    }
 }

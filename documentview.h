@@ -32,6 +32,7 @@ public slots:
     QString makeTemplate(const QString& diffFile);
     void buildStart(const QString& target);
     void buildStop();
+    void setDebugOn(bool on);
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);

@@ -57,6 +57,8 @@ private slots:
 
     void on_textLog_anchorClicked(const QUrl &url);
 
+    void on_actionStart_Debug_toggled(bool debugOn);
+
 private:
     Ui::MainWindow *ui;
 };

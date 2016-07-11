@@ -13,6 +13,7 @@ TEMPLATE = app
 
 QTSOURCEVIEW_SRC_DIR=qtsourceview/src
 include(qtsourceview/src/qsvsh.pri)
+include(qgdb/qgdb.pri)
 
 #QATE_SRC_DIR=qtsourceview/src
 #include(qtsourceview/src/qate.pri)
@@ -30,7 +31,8 @@ SOURCES += main.cpp\
     aboutdialog.cpp \
     projecticonprovider.cpp \
     makefileinfo.cpp \
-    clangcodecontext.cpp
+    clangcodecontext.cpp \
+    debugmanager.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -44,7 +46,8 @@ HEADERS  += mainwindow.h \
     aboutdialog.h \
     projecticonprovider.h \
     makefileinfo.h \
-    clangcodecontext.h
+    clangcodecontext.h \
+    debugmanager.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \
@@ -56,7 +59,10 @@ FORMS    += mainwindow.ui \
 RESOURCES += \
     resources.qrc
 
-OTHER_FILES +=
+OTHER_FILES += \
+    templates/generic-make.template \
+    templates/sAPI.template \
+    project-filters.txt
 
 DISTFILES += \
     reference-code-c.txt

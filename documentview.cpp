@@ -31,12 +31,18 @@ DocumentView::DocumentView(QWidget *parent) :
     buildProc->setObjectName("buildProc");
     connect(buildProc, SIGNAL(finished(int)), this, SIGNAL(buildEnd(int)));
     ui->setupUi(this);
-    for(size_t i=0; i<(sizeof(DEFAULT_FILTERS)/sizeof(*DEFAULT_FILTERS)); i++) {
-        ui->filterCombo->addItem(
-                    QString(DEFAULT_FILTERS[i].name),
-                    QString(DEFAULT_FILTERS[i].filter).split(' ')
-        );
+    QFile filterFiles(":/build/project-filters.txt");
+    filterFiles.open(QFile::ReadOnly);
+    while (!filterFiles.atEnd()) {
+        QString name = QString(filterFiles.readLine()).remove(':').remove(QRegExp("[\\r\\n]*"));
+        QString filter = QString(filterFiles.readLine()).remove(QRegExp("[\\r\\n]*"));
+        qDebug() << "filter" << name << filter;
+        if (!name.isEmpty() && !filter.isEmpty())
+            ui->filterCombo->addItem(name, filter.split(' '));
+        else
+            break;
     }
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 DocumentView::~DocumentView()
@@ -163,6 +169,15 @@ void DocumentView::buildStop()
             emit buildStderr(tr("Killing process"));
             buildProc->kill();
         }
+    }
+}
+
+void DocumentView::setDebugOn(bool on)
+{
+    if (on) {
+        ui->tabWidget->setCurrentWidget(ui->tabDebug);
+    } else {
+        ui->tabWidget->setCurrentWidget(ui->tabProject);
     }
 }
 

@@ -32,6 +32,15 @@
         <file>icon-theme/text-x-csrc.png</file>
         <file>icon-theme/text-x-c++hdr.png</file>
         <file>icon-theme/inode-directory.png</file>
+        <file>icon-theme/debug-step-over.png</file>
+        <file>icon-theme/debug-step-out.png</file>
+        <file>icon-theme/debug-step-into.png</file>
+        <file>icon-theme/debug-step-into-instruction.png</file>
+        <file>icon-theme/debug-step-instruction.png</file>
+        <file>icon-theme/debug-run.png</file>
+        <file>icon-theme/debug-run-cursor.png</file>
+        <file>icon-theme/debug-execute-to-cursor.png</file>
+        <file>icon-theme/debug-execute-from-cursor.png</file>
     </qresource>
     <qresource prefix="/qsvsh">
         <file>qtsourceview/data/mime.types</file>
@@ -83,5 +92,7 @@
     </qresource>
     <qresource prefix="/build">
         <file>templates/generic-make.template</file>
+        <file>templates/sAPI.template</file>
+        <file>project-filters.txt</file>
     </qresource>
 </RCC>

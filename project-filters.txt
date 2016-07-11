@@ -1,0 +1,4 @@
+All files
+*
+C/C++ Project
+*.c *.cpp *.h *.hpp *.cc *.hh Makefile *.ld *.dox *.mk *.a *.elf *.exe

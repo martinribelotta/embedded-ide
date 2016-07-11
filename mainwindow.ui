@@ -20,15 +20,9 @@
    <bool>true</bool>
   </property>
   <widget class="DocumentArea" name="centralWidget"/>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="projectToolbar">
    <property name="windowTitle">
     <string>toolBar</string>
-   </property>
-   <property name="movable">
-    <bool>false</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::TopToolBarArea</set>
    </property>
    <property name="iconSize">
     <size>
@@ -49,13 +43,6 @@
    <addaction name="actionProjectOpen"/>
    <addaction name="actionProjectExport"/>
    <addaction name="actionProjectClose"/>
-   <addaction name="separator"/>
-   <addaction name="actionSave_All"/>
-   <addaction name="actionDocumentNew"/>
-   <addaction name="separator"/>
-   <addaction name="actionConfigure"/>
-   <addaction name="actionHelp"/>
-   <addaction name="actionExit"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="features">
@@ -175,6 +162,63 @@
    </attribute>
    <widget class="DocumentView" name="projectView"/>
   </widget>
+  <widget class="QToolBar" name="documentToolbar">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionDocumentNew"/>
+   <addaction name="actionSave_All"/>
+  </widget>
+  <widget class="QToolBar" name="debuggerToolbar">
+   <property name="windowTitle">
+    <string>toolBar_3</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionStart_Debug"/>
+  </widget>
+  <widget class="QToolBar" name="programToolbar">
+   <property name="windowTitle">
+    <string>toolBar_4</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionConfigure"/>
+   <addaction name="actionHelp"/>
+   <addaction name="actionExit"/>
+  </widget>
   <action name="actionProjectNew">
    <property name="icon">
     <iconset theme="project-development-new-template" resource="resources.qrc">
@@ -275,6 +319,21 @@
    </property>
    <property name="toolTip">
     <string>Configure</string>
+   </property>
+  </action>
+  <action name="actionStart_Debug">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="debug-run" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/debug-run.png</normaloff>:/icon-theme/icon-theme/debug-run.png</iconset>
+   </property>
+   <property name="text">
+    <string>Start Debug</string>
+   </property>
+   <property name="toolTip">
+    <string>Start Debugger</string>
    </property>
   </action>
  </widget>

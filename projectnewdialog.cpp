@@ -190,6 +190,8 @@ static QString readAll(const QString& fileName) {
 void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
 {
     QString text = readAll(fileName);
+    ui->parameterTable->clear();
+    ui->parameterTable->setRowCount(0);
     if (!text.isEmpty()) {
         QRegExp re("\\$\\{\\{([a-zA-Z0-9_]+)\\s*([a-zA-Z0-9_]+)*\\s*\\:*(.*)\\}\\}");
         re.setMinimal(true);
