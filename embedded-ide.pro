@@ -32,7 +32,9 @@ SOURCES += main.cpp\
     projecticonprovider.cpp \
     makefileinfo.cpp \
     clangcodecontext.cpp \
-    debugmanager.cpp
+    debugmanager.cpp \
+    debuginterface.cpp \
+    qsvtextoperationswidget.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -47,14 +49,19 @@ HEADERS  += mainwindow.h \
     projecticonprovider.h \
     makefileinfo.h \
     clangcodecontext.h \
-    debugmanager.h
+    debugmanager.h \
+    debuginterface.h \
+    qsvtextoperationswidget.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \
     editorwidget.ui \
     projectnewdialog.ui \
     configdialog.ui \
-    aboutdialog.ui
+    aboutdialog.ui \
+    debuginterface.ui \
+    replaceform.ui \
+    searchform.ui
 
 RESOURCES += \
     resources.qrc

@@ -47,6 +47,12 @@ private slots:
 
     void on_filterButton_clicked();
 
+    void on_toolButton_documentNew_clicked();
+
+    void on_toolButton_folderNew_clicked();
+
+    void on_toolButton_elementDel_clicked();
+
 signals:
     void projectOpened();
     void fileOpen(const QString& file);

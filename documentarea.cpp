@@ -67,10 +67,10 @@ bool DocumentArea::fileOpen(const QString &file, int row, int col, const Makefil
     int idx = documentFind(file);
     if (idx == -1) {
         CodeEditor *editor = new CodeEditor(this);
+        editor->setMakefileInfo(mk);
         if (!editor->load(file))
             return false;
         idx = addTab(editor, editor->windowTitle());
-        editor->setMakefileInfo(mk);
         connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modifyTab(bool)));
     }
     setCurrentIndex(idx);

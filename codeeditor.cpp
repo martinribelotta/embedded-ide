@@ -26,6 +26,7 @@
 #include <qsvsh/qsvcolordef.h>
 #include <qsvsh/qsvlangdef.h>
 
+#include "qsvtextoperationswidget.h"
 #include "clangcodecontext.h"
 
 #undef CLANG_DEBUG
@@ -77,7 +78,24 @@ CodeEditor::CodeEditor(QWidget *parent) :
     setWordWrapMode(QTextOption::NoWrap);
 
     lineNumberArea = new LineNumberArea(this);
+    textOpWidget = new QsvTextOperationsWidget(this);
 
+    QAction *findAction = new QAction(this);
+    findAction->setShortcut(QKeySequence("ctrl+f"));
+    connect(findAction, SIGNAL(triggered()), textOpWidget, SLOT(showSearch()));
+    addAction(findAction);
+
+    QAction *replaceAction = new QAction(this);
+    replaceAction->setShortcut(QKeySequence("ctrl+h"));
+    connect(replaceAction, SIGNAL(triggered()), textOpWidget, SLOT(showReplace()));
+    addAction(replaceAction);
+#if 0
+    // TODO
+    QAction *gotoAction = new QAction(this);
+    gotoAction->setShortcut(QKeySequence("ctrl+g"));
+    connect(gotoAction, SIGNAL(triggered()), textOpWidget, SLOT(showGotoLine()));
+    addAction(gotoAction);
+#endif
     QAction *saveAction = new QAction(this);
     saveAction->setShortcut(QKeySequence("ctrl+s"));
     connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
@@ -89,6 +107,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
 
     updateLineNumberAreaWidth(0);
     refreshHighlighterLines();
+
 }
 
 int CodeEditor::lineNumberAreaWidth()
@@ -169,9 +188,10 @@ void CodeEditor::completionShow()
     pModel->setFilterFixedString(underCursor);
     int w = m_completer->popup()->sizeHintForColumn(0) +
             m_completer->popup()->verticalScrollBar()->sizeHint().width();
-    QRect r = cursorRect();
-    r.setWidth(w);
-    m_completer->complete(r);
+    QRect cr = cursorRect();
+    QRect rr = QRect(viewport()->mapTo(this, cr.topLeft()), cr.size());
+    rr.setWidth(std::min(w, size().width() - rr.left()));
+    m_completer->complete(rr);
 }
 
 static QString findStyleByName(const QString& defaultName) {
@@ -217,7 +237,7 @@ bool CodeEditor::load(const QString &fileName)
            QMimeType fType = db.mimeTypeForFile(info);
            if (fType.inherits("text/x-csrc")) {
                langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" );
-               (new CLangCodeContext(this))->setWorkingDir(info.path());
+               (new CLangCodeContext(this))->setWorkingDir(makefileInfo()->workingDir);
            } else if (fType.inherits("text/x-makefile")) {
                langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/makefile.lang" );
            }
@@ -280,6 +300,7 @@ void CodeEditor::resizeEvent(QResizeEvent *e)
 
     QRect cr = contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+    emit widgetResized();
 }
 
 void CodeEditor::keyPressEvent(QKeyEvent *e)

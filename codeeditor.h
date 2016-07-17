@@ -17,10 +17,12 @@ class LineNumberArea;
 class QsvColorDefFactory;
 class QsvLangDef;
 class QsvSyntaxHighlighter;
+class QsvTextOperationsWidget;
 
 class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
+
 public:
     explicit CodeEditor(QWidget *parent = 0);
 
@@ -75,12 +77,14 @@ public slots:
 signals:
     void fileError(const QString& errorText);
     void updateCodeContext();
+    void widgetResized();
 
 private:
     QTextCursor textUnderCursor() const;
     QString lineUnderCursor() const;
     void completionShow();
 
+    QsvTextOperationsWidget *textOpWidget;
     QWidget *lineNumberArea;
     QCompleter *m_completer;
     QString m_documentFile;

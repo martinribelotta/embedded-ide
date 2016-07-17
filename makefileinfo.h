@@ -8,6 +8,7 @@ struct MakefileInfo {
     QStringList targets;
     QStringList include;
     QStringList defines;
+    QString workingDir;
 };
 
 Q_DECLARE_METATYPE(MakefileInfo)

@@ -7,21 +7,13 @@
 #include <QRegularExpression>
 #include <QTemporaryFile>
 #include <QProcess>
+#include <QMessageBox>
+#include <QDir>
 
 #include <QtDebug>
 
 #include "projecticonprovider.h"
 #include "targetupdatediscover.h"
-
-// static const QStringList PROJECT_FILES = QString("*.c *.cpp *.h *.hpp *.cc *.hh Makefile *.ld *.dox").split(' ');
-
-static const struct {
-    const char *name;
-    const char *filter;
-} DEFAULT_FILTERS[] = {
-    { "All files", "*" },
-    { "C Project", "*.c *.cpp *.h *.hpp *.cc *.hh Makefile *.ld *.dox *.mk *.a *.elf *.exe" },
-};
 
 DocumentView::DocumentView(QWidget *parent) :
     QWidget(parent),
@@ -36,7 +28,7 @@ DocumentView::DocumentView(QWidget *parent) :
     while (!filterFiles.atEnd()) {
         QString name = QString(filterFiles.readLine()).remove(':').remove(QRegExp("[\\r\\n]*"));
         QString filter = QString(filterFiles.readLine()).remove(QRegExp("[\\r\\n]*"));
-        qDebug() << "filter" << name << filter;
+        // qDebug() << "filter" << name << filter;
         if (!name.isEmpty() && !filter.isEmpty())
             ui->filterCombo->addItem(name, filter.split(' '));
         else
@@ -223,10 +215,95 @@ void DocumentView::on_buildProc_readyReadStandardOutput()
 void DocumentView::on_filterCombo_activated(int idx)
 {
     QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
-    m->setNameFilters(ui->filterCombo->itemData(idx).toStringList());
+    if (m)
+        m->setNameFilters(ui->filterCombo->itemData(idx).toStringList());
 }
 
 void DocumentView::on_filterButton_clicked()
 {
+}
 
+void DocumentView::on_toolButton_documentNew_clicked()
+{
+    if (!ui->treeView->selectionModel())
+        return;
+    QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
+    if (!m)
+        return;
+    QModelIndex idx = ui->treeView->selectionModel()->selectedIndexes().first();
+    QFileInfo info = m->fileInfo(idx);
+    if (!info.isDir()) {
+        info = QFileInfo(info.absoluteDir().absolutePath());
+    }
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("New file"),
+                                                    info.absoluteFilePath(),
+                                                    tr("C file (*.c);;"
+                                                       "C++ file (*.cpp);;"
+                                                       "Header (*.h);;"
+                                                       "All files (*)"));
+    if (!fileName.isEmpty()) {
+        QFile f(fileName);
+        if (!f.open(QFile::WriteOnly)) {
+            QMessageBox::critical(this, tr("Error creating file"), f.errorString());
+        } else {
+            f.close();
+            fileOpen(fileName);
+        }
+    }
+}
+
+void DocumentView::on_toolButton_folderNew_clicked()
+{
+    if (!ui->treeView->selectionModel())
+        return;
+    QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
+    if (!m)
+        return;
+    QModelIndex idx = ui->treeView->selectionModel()->selectedIndexes().first();
+    if (!QFileInfo(m->fileInfo(idx)).isDir()) {
+        idx = idx.parent();
+        if (!m->fileInfo(idx).isDir()) {
+            qDebug() << "ERROR parent not a dir";
+            return;
+        }
+    }
+    QFileDialog dialog(this->parentWidget());
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setFileMode(QFileDialog::Directory);
+    dialog.setDirectory(m->fileInfo(idx).absoluteFilePath());
+    dialog.setOption(QFileDialog::ShowDirsOnly);
+    dialog.setLabelText(QFileDialog::FileName, tr("Directory"));
+    dialog.setLabelText(QFileDialog::Accept, tr("Create Directory"));
+    dialog.setLabelText(QFileDialog::Reject, tr("Cancel"));
+    dialog.setLabelText(QFileDialog::LookIn, tr("Look in"));
+    dialog.setLabelText(QFileDialog::FileType, tr("Type"));
+    if (dialog.exec() == QDialog::Accepted) {
+        QString name = QFileInfo(dialog.selectedFiles().first()).fileName();
+        qDebug() << "creating" << name << " on " << m->fileName(idx);
+        m->mkdir(idx, name);
+    }
+}
+
+void DocumentView::on_toolButton_elementDel_clicked()
+{
+    if (!ui->treeView->selectionModel())
+        return;
+    QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
+    if (!m)
+        return;
+    QModelIndex idx = ui->treeView->selectionModel()->selectedIndexes().first();
+    QString name = m->filePath(idx);
+    if (QMessageBox::critical(this->parentWidget(), tr("Confirm"),
+                              tr("Realy remove %1").arg(name),
+                              QMessageBox::Yes, QMessageBox::No) ==
+            QMessageBox::Yes) {
+        QModelIndex parent = idx.parent();
+        if (m->fileInfo(idx).isDir()) {
+            m->rmdir(idx);
+        } else {
+            m->remove(idx);
+        }
+        ui->treeView->update(parent);
+    }
 }

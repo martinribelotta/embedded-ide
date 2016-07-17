@@ -34,33 +34,35 @@ void TargetUpdateDiscover::start(const QString& project)
 }
 
 static QStringList parseRe(const QString& text, const QString& reText) {
-    QStringList list;
+    QSet<QString> set;
     QRegularExpression re(reText, QRegularExpression::MultilineOption);
     QRegularExpressionMatchIterator it = re.globalMatch(text);
     while(it.hasNext()) {
         QRegularExpressionMatch me = it.next();
         //qDebug() << text.mid(qMax(0, me.capturedStart()-10), qMin(text.length(), me.capturedLength() + 100));
-        list.append(me.captured(1));
+        set.insert(me.captured(1));
     }
-    return list;
-}
-
-static QStringList unique(const QStringList& list) {
-    return QSet<QString>::fromList(list).toList();
+    return set.toList();
 }
 
 static const QString TARGETS_RE = "(?<!^# Not a target\\:\\n)^([a-zA-Z0-9][^$#\\\\\\/\\t=\\.]*):(?:[^=]|$)";
-static const QString DEFINES_RE = "\\-D(\\S*(\\=\\\"(?:[^\"\\\\]|\\\\.)*\\\")*)";
-static const QString INCLUDES_RE = "\\-I(\\S*(\\=\\\"(?:[^\"\\\\]|\\\\.)*\\\")*)";
+//static const QString DEFINES_RE = "\\-D(\\S*(\\=\\\"(?:[^\"\\\\]|\\\\.)*\\\")*)";
+//static const QString INCLUDES_RE = "\\-I(\\S*(\\=\\\"(?:[^\"\\\\]|\\\\.)*\\\")*)";
+static const QString DEFINES_RE = "\\-D([^\\s\\$]+)";
+static const QString INCLUDES_RE = "\\-I([^\\s\\$]+)";
 
 void TargetUpdateDiscover::finish(int ret)
 {
     Q_UNUSED(ret);
     MakefileInfo info;
     QString text = proc->readAllStandardOutput();
-    info.targets = unique(parseRe(text, TARGETS_RE));
-    info.defines = unique(parseRe(text, DEFINES_RE));
-    info.include = unique(parseRe(text, INCLUDES_RE));
+    info.targets = parseRe(text, TARGETS_RE);
+    info.defines = parseRe(text, DEFINES_RE);
+    info.include = parseRe(text, INCLUDES_RE);
+    qDebug() << info.targets;
+    qDebug() << info.defines;
+    qDebug() << info.include;
+    info.workingDir = proc->workingDirectory();
     emit updateFinish(info);
     // deleteLater();
 }

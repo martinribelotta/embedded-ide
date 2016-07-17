@@ -32,6 +32,9 @@
    <item>
     <widget class="CodeEditor" name="editor"/>
    </item>
+   <item>
+    <widget class="FindReplaceWidget" name="widget" native="true"/>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -39,6 +42,12 @@
    <class>CodeEditor</class>
    <extends>QPlainTextEdit</extends>
    <header>codeeditor.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FindReplaceWidget</class>
+   <extends>QWidget</extends>
+   <header>findreplacewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

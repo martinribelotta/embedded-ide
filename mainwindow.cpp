@@ -60,7 +60,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->textLog->document()->setDefaultFont(monoFont());
+    QFont logFont = monoFont();
+    logFont.setPointSize(10);
+    ui->textLog->document()->setDefaultFont(logFont);
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
     ui->projectDock->setTitleBarWidget(new QWidget(this));
@@ -194,12 +196,12 @@ void MainWindow::on_buildStop_clicked()
 }
 
 static QString mkUrl(const QString& p, const QString& x, const QString& y) {
-    return QString("file:%1?x=%2&y=%3").arg(p).arg(x).arg(y);
+    return QString("file:%1?x=%2&y=%3").arg(p).arg(x).arg(y.toInt() - 1);
 }
 
-static QString consoleToHtml(const QString& s) {
+static QString consoleMarkErrorT1(const QString& s) {
     QString str(s);
-    QRegularExpression re("^(.+)\\:(\\d+)\\:(\\d+)\\: \\w+\\: .+$");
+    QRegularExpression re("^(.+?):(\\d+):(\\d+):(.+?):(.+?)<br>");
     re.setPatternOptions(QRegularExpression::MultilineOption);
     QRegularExpressionMatchIterator it = re.globalMatch(s);
     while(it.hasNext()) {
@@ -211,7 +213,15 @@ static QString consoleToHtml(const QString& s) {
         QString url = mkUrl(path, line, col);
         str.replace(text, QString("<a href=\"%1\">%2</a>").arg(url).arg(text));
     }
-    return str.replace("\r\n", "<br>").replace("\n", "<br>").replace("\t", "<tt>    </tt>");
+    return str;
+}
+
+static QString consoleToHtml(const QString& s) {
+    return consoleMarkErrorT1(QString(s)
+            .replace("\r\n", "<br>")
+            .replace("\n", "<br>")
+            .replace("\t", "&nbsp;")
+            .replace(" ", "&nbsp;"));
 }
 
 void MainWindow::on_projectView_buildStdout(const QString &text)
@@ -252,27 +262,6 @@ void MainWindow::on_actionSave_All_triggered()
     ui->centralWidget->saveAll();
 }
 
-void MainWindow::on_actionDocumentNew_triggered()
-{
-    QString projectPath = QFileInfo(ui->projectView->project()).absolutePath();
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("New file"),
-                                                    projectPath,
-                                                    tr("C file (*.c);;"
-                                                       "C++ file (*.cpp);;"
-                                                       "Header (*.h);;"
-                                                       "All files (*)"));
-    if (!fileName.isEmpty()) {
-        QFile f(fileName);
-        if (!f.open(QFile::WriteOnly)) {
-            QMessageBox::critical(this, tr("Error creating file"), f.errorString());
-        } else {
-            f.close();
-            ui->centralWidget->fileOpen(fileName);
-        }
-    }
-}
-
 void MainWindow::on_actionConfigure_triggered()
 {
     ConfigDialog(this).exec();
@@ -291,6 +280,9 @@ void MainWindow::on_textLog_anchorClicked(const QUrl &url)
 void MainWindow::on_actionStart_Debug_toggled(bool debugOn)
 {
     ui->projectView->setDebugOn(debugOn);
+    QList<QAction*> al = this->findChildren<QAction*>(QRegExp("actionDebug.*"));
+    foreach(QAction *a, al)
+        a->setVisible(debugOn);
     if (debugOn) {
     } else {
 

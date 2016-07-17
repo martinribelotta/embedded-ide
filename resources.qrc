@@ -41,6 +41,7 @@
         <file>icon-theme/debug-run-cursor.png</file>
         <file>icon-theme/debug-execute-to-cursor.png</file>
         <file>icon-theme/debug-execute-from-cursor.png</file>
+        <file>icon-theme/folder-new.png</file>
     </qresource>
     <qresource prefix="/qsvsh">
         <file>qtsourceview/data/mime.types</file>

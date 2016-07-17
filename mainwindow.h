@@ -51,8 +51,6 @@ private slots:
 
     void on_actionSave_All_triggered();
 
-    void on_actionDocumentNew_triggered();
-
     void on_actionConfigure_triggered();
 
     void on_textLog_anchorClicked(const QUrl &url);

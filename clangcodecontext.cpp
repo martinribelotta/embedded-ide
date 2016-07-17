@@ -44,6 +44,8 @@ void CLangCodeContext::startContextUpdate()
             .arg(mk? prepend("-D", mk->defines).join(' '): "")
             .arg(mk? prepend("-I", mk->include).join(' '): "")
     ;
+    qDebug() << clangProc->workingDirectory();
+    qDebug() << completionCommand;
     clangProc->start(completionCommand);
 }
 
