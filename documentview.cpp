@@ -148,7 +148,7 @@ void DocumentView::buildStart(const QString &target)
     if (buildProc->state() != QProcess::NotRunning)
         buildStop();
     buildProc->setWorkingDirectory(QFileInfo(project()).absoluteDir().absolutePath());
-    buildProc->start(QString("make -f %1 %2")
+    buildProc->start(QString("make -f \"%1\" \"%2\"")
                      .arg(project())
                      .arg(target));
 }

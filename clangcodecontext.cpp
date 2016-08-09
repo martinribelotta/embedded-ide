@@ -6,6 +6,7 @@
 #include <QTextBlock>
 #include <QRegularExpression>
 #include <QRegularExpressionMatchIterator>
+#include <QProcessEnvironment>
 
 #include <QtDebug>
 

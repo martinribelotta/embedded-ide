@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui widgets concurrent
 
 DESTDIR = build
 
@@ -13,7 +13,7 @@ TEMPLATE = app
 
 QTSOURCEVIEW_SRC_DIR=qtsourceview/src
 include(qtsourceview/src/qsvsh.pri)
-include(qgdb/qgdb.pri)
+#include(qgdb/qgdb.pri)
 
 #QATE_SRC_DIR=qtsourceview/src
 #include(qtsourceview/src/qate.pri)

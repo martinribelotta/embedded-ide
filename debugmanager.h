@@ -1,6 +1,6 @@
 #ifndef DEBUGMANAGER_H
 #define DEBUGMANAGER_H
-
+#if 0
 #include <QObject>
 
 #include <qgdb/core.h>
@@ -42,5 +42,5 @@ private:
     struct DebugManagerPriv;
     DebugManagerPriv *priv;
 };
-
+#endif
 #endif // DEBUGMANAGER_H

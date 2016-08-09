@@ -42,6 +42,8 @@
         <file>icon-theme/debug-execute-to-cursor.png</file>
         <file>icon-theme/debug-execute-from-cursor.png</file>
         <file>icon-theme/folder-new.png</file>
+        <file>icon-theme/list-add.png</file>
+        <file>icon-theme/list-remove.png</file>
     </qresource>
     <qresource prefix="/qsvsh">
         <file>qtsourceview/data/mime.types</file>
@@ -96,4 +98,5 @@
         <file>templates/sAPI.template</file>
         <file>project-filters.txt</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

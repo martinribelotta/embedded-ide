@@ -1,477 +1,405 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author>Thomas_-_S</author>
- <class>MainWindowUi</class>
- <widget class="QMainWindow" name="MainWindowUi">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>949</width>
-    <height>633</height>
+    <width>1000</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>UniversalIndentGUI</string>
+   <string>Embedded IDE</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="../resources/Icons.qrc">
-    <normaloff>:/mainWindow/universalIndentGUI.svg</normaloff>:/mainWindow/universalIndentGUI.svg</iconset>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout">
-    <property name="spacing">
-     <number>6</number>
-    </property>
-    <property name="margin">
-     <number>0</number>
-    </property>
-    <item>
-     <layout class="QHBoxLayout">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="margin">
-       <number>2</number>
-      </property>
-     </layout>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>949</width>
-     <height>21</height>
-    </rect>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
+  </property>
+  <widget class="DocumentArea" name="centralWidget"/>
+  <widget class="QToolBar" name="projectToolbar">
+   <property name="windowTitle">
+    <string>toolBar</string>
    </property>
-   <widget class="QMenu" name="menuIndenter">
-    <property name="title">
-     <string>Indenter</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <widget class="QMenu" name="menuExport">
-     <property name="title">
-      <string>Export</string>
-     </property>
-     <addaction name="actionExportPDF"/>
-     <addaction name="actionExportHTML"/>
-    </widget>
-    <widget class="QMenu" name="menuRecently_Opened_Files">
-     <property name="title">
-      <string>Recently Opened Files</string>
-     </property>
-     <addaction name="separator"/>
-     <addaction name="actionClear_Recently_Opened_List"/>
-    </widget>
-    <widget class="QMenu" name="encodingMenu">
-     <property name="title">
-      <string>Reopen File with other Encoding</string>
-     </property>
-    </widget>
-    <widget class="QMenu" name="saveEncodedMenu">
-     <property name="title">
-      <string>Save Source File As with other Encoding</string>
-     </property>
-    </widget>
-    <addaction name="actionOpen_Source_File"/>
-    <addaction name="menuRecently_Opened_Files"/>
-    <addaction name="encodingMenu"/>
-    <addaction name="separator"/>
-    <addaction name="actionSave_Source_File"/>
-    <addaction name="actionSave_Source_File_As"/>
-    <addaction name="saveEncodedMenu"/>
-    <addaction name="separator"/>
-    <addaction name="menuExport"/>
-    <addaction name="actionExit"/>
-   </widget>
-   <widget class="QMenu" name="menuSettings">
-    <property name="title">
-     <string>Settings</string>
-    </property>
-    <widget class="QMenu" name="highlighterMenu">
-     <property name="title">
-      <string>Set Syntax Highlighter</string>
-     </property>
-    </widget>
-    <addaction name="actionLive_Indent_Preview"/>
-    <addaction name="enableSyntaxHighlightingAction"/>
-    <addaction name="whiteSpaceIsVisibleAction"/>
-    <addaction name="highlighterMenu"/>
-    <addaction name="indenterParameterTooltipsEnabledAction"/>
-    <addaction name="loadLastOpenedFileOnStartupAction"/>
-    <addaction name="actionShowSettings"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionCheck_for_update"/>
-    <addaction name="actionShowLog"/>
-    <addaction name="separator"/>
-    <addaction name="actionAbout_UniversalIndentGUI"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuIndenter"/>
-   <addaction name="menuSettings"/>
-   <addaction name="menuHelp"/>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget">
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   <property name="movable">
+    <bool>false</bool>
    </property>
    <property name="allowedAreas">
-    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
-   </property>
-   <property name="windowTitle">
-    <string>Indenter Settings</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents">
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>6</number>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <item>
-      <layout class="QVBoxLayout">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="margin">
-        <number>0</number>
-       </property>
-      </layout>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="contextMenuPolicy">
-    <enum>Qt::PreventContextMenu</enum>
-   </property>
-   <property name="windowTitle">
-    <string>Main Toolbar</string>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+    <set>Qt::LeftToolBarArea</set>
    </property>
    <property name="iconSize">
     <size>
-     <width>16</width>
-     <height>16</height>
+     <width>32</width>
+     <height>32</height>
     </size>
    </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextBesideIcon</enum>
-   </property>
    <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
+    <enum>LeftToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionProjectNew"/>
+   <addaction name="actionProjectOpen"/>
+   <addaction name="actionProjectExport"/>
+   <addaction name="actionProjectClose"/>
+   <addaction name="actionSave_All"/>
   </widget>
-  <action name="actionOpen_Source_File">
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
+   </property>
+   <property name="windowTitle">
+    <string>Loggin</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>808</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="3">
+      <widget class="QToolButton" name="toolButton">
+       <property name="icon">
+        <iconset theme="edit-clear" resource="resources.qrc">
+         <normaloff>:/icon-theme/icon-theme/edit-clear.png</normaloff>:/icon-theme/icon-theme/edit-clear.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QToolButton" name="buildStop">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="process-stop" resource="resources.qrc">
+         <normaloff>:/icon-theme/icon-theme/process-stop.png</normaloff>:/icon-theme/icon-theme/process-stop.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>8</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="0" colspan="4">
+      <widget class="QTextBrowser" name="textLog">
+       <property name="lineWrapMode">
+        <enum>QTextEdit::NoWrap</enum>
+       </property>
+       <property name="acceptRichText">
+        <bool>false</bool>
+       </property>
+       <property name="placeholderText">
+        <string>Console...</string>
+       </property>
+       <property name="openLinks">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="projectDock">
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
+   </property>
+   <property name="windowTitle">
+    <string>Project</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="DocumentView" name="projectView"/>
+  </widget>
+  <widget class="QToolBar" name="debuggerToolbar">
+   <property name="windowTitle">
+    <string>toolBar_3</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftToolBarArea</set>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionStart_Debug"/>
+   <addaction name="actionDebugStep_Over"/>
+   <addaction name="actionDebugStep_Into"/>
+   <addaction name="actionDebugStep_Out"/>
+  </widget>
+  <widget class="QToolBar" name="programToolbar">
+   <property name="windowTitle">
+    <string>toolBar_4</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftToolBarArea</set>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionConfigure"/>
+   <addaction name="actionHelp"/>
+   <addaction name="actionExit"/>
+  </widget>
+  <action name="actionProjectNew">
    <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/document-open.png</normaloff>:/mainWindow/document-open.png</iconset>
+    <iconset theme="project-development-new-template" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/project-development-new-template.png</normaloff>:/icon-theme/icon-theme/project-development-new-template.png</iconset>
    </property>
    <property name="text">
-    <string>Open Source File</string>
-   </property>
-   <property name="statusTip">
-    <string>Opens a dialog for selecting a source code file.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
-   </property>
-  </action>
-  <action name="actionSave_Source_File">
-   <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/document-save.png</normaloff>:/mainWindow/document-save.png</iconset>
-   </property>
-   <property name="text">
-    <string>Save Source File</string>
-   </property>
-   <property name="statusTip">
-    <string>Saves the currently shown source code to the last opened or saved source file.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
-  </action>
-  <action name="actionSave_Source_File_As">
-   <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/document-save-as.png</normaloff>:/mainWindow/document-save-as.png</iconset>
-   </property>
-   <property name="text">
-    <string>Save Source File As...</string>
-   </property>
-   <property name="iconText">
-    <string>Save Source File As...</string>
+    <string>ProjectNew</string>
    </property>
    <property name="toolTip">
-    <string>Save Source File As...</string>
-   </property>
-   <property name="statusTip">
-    <string>Opens a file dialog to save the currently shown source code.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
+    <string>New Project</string>
    </property>
   </action>
-  <action name="actionAbout_UniversalIndentGUI">
+  <action name="actionProjectOpen">
    <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/info.png</normaloff>:/mainWindow/info.png</iconset>
+    <iconset theme="project-open" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/project-open.png</normaloff>:/icon-theme/icon-theme/project-open.png</iconset>
    </property>
    <property name="text">
-    <string>About UniversalIndentGUI</string>
+    <string>ProjectOpen</string>
    </property>
-   <property name="statusTip">
-    <string>Shows info about UniversalIndentGUI.</string>
+   <property name="toolTip">
+    <string>Open Project</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset theme="help-about" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/help-about.png</normaloff>:/icon-theme/icon-theme/help-about.png</iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
    </property>
   </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/system-log-out.png</normaloff>:/mainWindow/system-log-out.png</iconset>
+    <iconset theme="application-exit" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/application-exit.png</normaloff>:/icon-theme/icon-theme/application-exit.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
    </property>
-   <property name="statusTip">
-    <string>Quits the UniversalIndentGUI.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Q</string>
-   </property>
   </action>
-  <action name="actionExportPDF">
+  <action name="actionProjectExport">
    <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/exportpdf.png</normaloff>:/mainWindow/exportpdf.png</iconset>
+    <iconset theme="document-export" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/document-export-table.png</normaloff>:/icon-theme/icon-theme/document-export-table.png</iconset>
    </property>
    <property name="text">
-    <string>PDF</string>
+    <string>ProjectExport</string>
    </property>
-   <property name="statusTip">
-    <string>Export the currently visible source code as PDF document</string>
+   <property name="toolTip">
+    <string>Export Project</string>
    </property>
   </action>
-  <action name="actionExportHTML">
+  <action name="actionProjectClose">
    <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/exporthtml.png</normaloff>:/mainWindow/exporthtml.png</iconset>
+    <iconset theme="project-development-close-all" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/project-development-close-all.png</normaloff>:/icon-theme/icon-theme/project-development-close-all.png</iconset>
    </property>
    <property name="text">
-    <string>HTML</string>
+    <string>ProjectClose</string>
    </property>
-   <property name="statusTip">
-    <string>Export the currently visible source code as HTML document</string>
+   <property name="toolTip">
+    <string>Close current project</string>
    </property>
   </action>
-  <action name="indenterParameterTooltipsEnabledAction">
+  <action name="actionSave_All">
+   <property name="icon">
+    <iconset theme="document-save-all" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/document-save-all.png</normaloff>:/icon-theme/icon-theme/document-save-all.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save All</string>
+   </property>
+   <property name="toolTip">
+    <string>Save all files</string>
+   </property>
+  </action>
+  <action name="actionConfigure">
+   <property name="icon">
+    <iconset theme="configure" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/configure.png</normaloff>:/icon-theme/icon-theme/configure.png</iconset>
+   </property>
+   <property name="text">
+    <string>Configure</string>
+   </property>
+   <property name="toolTip">
+    <string>Configure</string>
+   </property>
+  </action>
+  <action name="actionStart_Debug">
    <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
    <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/tooltip.png</normaloff>:/mainWindow/tooltip.png</iconset>
+    <iconset theme="debug-run" resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/debug-run.png</normaloff>:/icon-theme/icon-theme/debug-run.png</iconset>
    </property>
    <property name="text">
-    <string>Parameter Tooltips</string>
+    <string>Start Debug</string>
    </property>
-   <property name="statusTip">
-    <string>If checked, tool tips will show up if the mouse cursor remains over an indenter parameter for a while.</string>
-   </property>
-   <property name="connectedSettingName" stdset="0">
-    <string>DONOTTRANSLATE:indenterParameterTooltipsEnabled</string>
+   <property name="toolTip">
+    <string>Start Debugger</string>
    </property>
   </action>
-  <action name="actionLive_Indent_Preview">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
+  <action name="actionDebugStep_Over">
    <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/live-preview.png</normaloff>:/mainWindow/live-preview.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/debug-step-over.png</normaloff>:/icon-theme/icon-theme/debug-step-over.png</iconset>
    </property>
    <property name="text">
-    <string>Live Indent Preview</string>
+    <string>Step Over</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+L</string>
+   <property name="toolTip">
+    <string>Step Over</string>
    </property>
    <property name="visible">
     <bool>false</bool>
    </property>
   </action>
-  <action name="enableSyntaxHighlightingAction">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
+  <action name="actionDebugStep_Into">
    <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/syntax-highlight.png</normaloff>:/mainWindow/syntax-highlight.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/debug-step-into.png</normaloff>:/icon-theme/icon-theme/debug-step-into.png</iconset>
    </property>
    <property name="text">
-    <string>Syntax Highlighting</string>
-   </property>
-   <property name="iconText">
-    <string>Syntax Highlighting</string>
+    <string>Step Into</string>
    </property>
    <property name="toolTip">
-    <string>Enables or disables syntax highlighting for the source code.</string>
-   </property>
-   <property name="statusTip">
-    <string>By enabling special key words of the source code are highlighted.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+H</string>
-   </property>
-   <property name="connectedSettingName" stdset="0">
-    <string>DONOTTRANSLATE:SyntaxHighlightingEnabled</string>
-   </property>
-  </action>
-  <action name="whiteSpaceIsVisibleAction">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>White Space Visible</string>
-   </property>
-   <property name="iconText">
-    <string>White Space Visible</string>
-   </property>
-   <property name="toolTip">
-    <string>Set white space visible</string>
-   </property>
-   <property name="statusTip">
-    <string>Enables or disables diplaying of white space characters in the editor.</string>
+    <string>Step Into</string>
    </property>
    <property name="visible">
     <bool>false</bool>
    </property>
-   <property name="connectedSettingName" stdset="0">
-    <string>DONOTTRANSLATE:whiteSpaceIsVisible</string>
-   </property>
   </action>
-  <action name="loadLastOpenedFileOnStartupAction">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
+  <action name="actionDebugStep_Out">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon-theme/icon-theme/debug-step-out.png</normaloff>:/icon-theme/icon-theme/debug-step-out.png</iconset>
    </property>
    <property name="text">
-    <string>Auto Open Last File</string>
+    <string>Step Out</string>
    </property>
    <property name="toolTip">
-    <string>Auto open last source file on startup</string>
-   </property>
-   <property name="statusTip">
-    <string>If selected opens last source code file on startup</string>
+    <string>Step to function out</string>
    </property>
    <property name="visible">
     <bool>false</bool>
-   </property>
-   <property name="connectedSettingName" stdset="0">
-    <string>DONOTTRANSLATE:loadLastSourceCodeFileOnStartup</string>
-   </property>
-  </action>
-  <action name="actionShowSettings">
-   <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/preferences-system.png</normaloff>:/mainWindow/preferences-system.png</iconset>
-   </property>
-   <property name="text">
-    <string>Settings</string>
-   </property>
-   <property name="iconText">
-    <string>Settings</string>
-   </property>
-   <property name="toolTip">
-    <string>Opens the settings dialog</string>
-   </property>
-   <property name="statusTip">
-    <string>Opens the settings dialog, to set language etc.</string>
-   </property>
-  </action>
-  <action name="actionCheck_for_update">
-   <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/system-software-update.png</normaloff>:/mainWindow/system-software-update.png</iconset>
-   </property>
-   <property name="text">
-    <string>Check for update</string>
-   </property>
-   <property name="toolTip">
-    <string>Checks online whether a new version of UniversalIndentGUI is available.</string>
-   </property>
-   <property name="statusTip">
-    <string>Checks online whether a new version of UniversalIndentGUI is available.</string>
-   </property>
-  </action>
-  <action name="actionClear_Recently_Opened_List">
-   <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/edit-clear.png</normaloff>:/mainWindow/edit-clear.png</iconset>
-   </property>
-   <property name="text">
-    <string>Clear Recently Opened List</string>
-   </property>
-  </action>
-  <action name="actionShowLog">
-   <property name="icon">
-    <iconset resource="../resources/Icons.qrc">
-     <normaloff>:/mainWindow/document-properties.png</normaloff>:/mainWindow/document-properties.png</iconset>
-   </property>
-   <property name="text">
-    <string>Show Log</string>
-   </property>
-   <property name="toolTip">
-    <string>Displays logging information.</string>
-   </property>
-   <property name="statusTip">
-    <string>Displays logging info about the currently running UiGUI application.</string>
    </property>
   </action>
  </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>DocumentArea</class>
+   <extends>QWidget</extends>
+   <header>documentarea.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DocumentView</class>
+   <extends>QWidget</extends>
+   <header>documentview.h</header>
+   <container>1</container>
+   <slots>
+    <signal>fileOpen(QString)</signal>
+    <signal>startBuild(QString)</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources>
-  <include location="../resources/Icons.qrc"/>
+  <include location="resources.qrc"/>
  </resources>
  <connections>
   <connection>
    <sender>actionExit</sender>
    <signal>triggered()</signal>
-   <receiver>MainWindowUi</receiver>
+   <receiver>MainWindow</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -479,8 +407,24 @@
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
+     <x>439</x>
+     <y>257</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>textLog</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>865</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>759</x>
+     <y>389</y>
     </hint>
    </hints>
   </connection>

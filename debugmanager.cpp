@@ -1,5 +1,5 @@
 #include "debugmanager.h"
-
+#if 0
 #include "codeeditor.h"
 #include "documentarea.h"
 #include "documentview.h"
@@ -85,3 +85,4 @@ void DebugManager::ICore_onCurrentFrameChanged(int frameIdx)
 {
 }
 
+#endif

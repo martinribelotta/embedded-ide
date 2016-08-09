@@ -6,6 +6,12 @@
 #include <QFile>
 #include <QDomDocument>
 #include <QFileDialog>
+#include <QInputDialog>
+#include <QStringListModel>
+#include <QProcess>
+#include <QProcessEnvironment>
+
+#include <QDebug>
 
 #include "qsvsh/qsvcolordef.h"
 #include "qsvsh/qsvcolordeffactory.h"
@@ -15,8 +21,33 @@
 class QsvCLangDef : public QsvLangDef {
 public:
     QsvCLangDef() : QsvLangDef( ":/qsvsh/qtsourceview/data/langs/cpp.lang" ) {}
+    virtual ~QsvCLangDef();
 };
 
+QsvCLangDef::~QsvCLangDef()
+{
+}
+
+void adjustPath()
+{
+    const QChar path_separator
+#ifdef Q_OS_WIN
+    (';')
+#else
+    (':')
+#endif
+    ;
+    QString path = qgetenv("PATH");
+    QStringList pathList = path.split(path_separator);
+    QStringList additional = QSettings().value("build/additional_path").toStringList()
+#ifdef Q_OS_WIN
+            .replaceInStrings("/", "\\")
+#endif
+    ;
+    pathList = QStringList(additional + pathList).toSet().toList();
+    path = pathList.join(path_separator);
+    qputenv("PATH", path.toLocal8Bit());
+}
 
 static QString getBundledStyles(QComboBox *cb, const QString& defaultName) {
     QDir d(":/qsvsh/qtsourceview/data/colors/");
@@ -61,21 +92,9 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     syntax(0l)
 {
     ui->setupUi(this);
+    ui->additionalPathList->setModel(new QStringListModel(this));
 
-    ui->plainTextEdit->setPlainText(readBundle(":/help/reference-code-c.txt"));
-    QString style = getBundledStyles(ui->colorStyleComboBox, set->value("editor/colorstyle", "Kate").toString());
-    if (!style.isEmpty())
-        ui->colorStyleComboBox->setCurrentIndex(ui->colorStyleComboBox->findText(style));
-
-    ui->fontSpinBox->setValue(set->value("editor/font/size", 10).toInt());
-    ui->fontComboBox->setCurrentFont(QFont(set->value("editor/font/style", "DejaVu Sans Mono").toString()));
-
-    int replaceTabs = set->value("editor/replaceTabs", 0).toInt();
-    ui->groupReplaceTabs->setChecked(replaceTabs != 0);
-    if (replaceTabs != 0)
-        ui->spinReplaceTabs->setValue(replaceTabs);
-
-    ui->projectPath->setText(set->value("build/defaultprojectpath", defaultProjectPath()).toString());
+    load();
 
     connect(ui->fontComboBox, SIGNAL(activated(int)), this, SLOT(refreshEditor()));
     connect(ui->fontSpinBox, SIGNAL(valueChanged(int)), this, SLOT(refreshEditor()));
@@ -92,7 +111,29 @@ ConfigDialog::~ConfigDialog()
         delete defColors;
 }
 
-void ConfigDialog::on_buttonBox_accepted()
+void ConfigDialog::load()
+{
+    ui->plainTextEdit->setPlainText(readBundle(":/help/reference-code-c.txt"));
+    QString style = getBundledStyles(ui->colorStyleComboBox, set->value("editor/colorstyle", "Kate").toString());
+    if (!style.isEmpty())
+        ui->colorStyleComboBox->setCurrentIndex(ui->colorStyleComboBox->findText(style));
+
+    ui->fontSpinBox->setValue(set->value("editor/font/size", 10).toInt());
+    ui->fontComboBox->setCurrentFont(QFont(set->value("editor/font/style", "DejaVu Sans Mono").toString()));
+
+    int replaceTabs = set->value("editor/replaceTabs", 0).toInt();
+    ui->groupReplaceTabs->setChecked(replaceTabs != 0);
+    if (replaceTabs != 0)
+        ui->spinReplaceTabs->setValue(replaceTabs);
+
+    ui->projectPath->setText(set->value("build/defaultprojectpath", defaultProjectPath()).toString());
+
+    QStringList additionalPaths = set->value("build/additional_path").toStringList();
+    QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
+    model->setStringList(additionalPaths);
+}
+
+void ConfigDialog::save()
 {
     set->setValue("editor/colorstyle", ui->colorStyleComboBox->currentText().split(':').at(0));
     set->setValue("editor/font/size", ui->fontSpinBox->value());
@@ -100,6 +141,16 @@ void ConfigDialog::on_buttonBox_accepted()
     set->setValue("editor/replaceTabs", ui->groupReplaceTabs->isChecked()? ui->spinReplaceTabs->value() : 0);
     set->setValue("build/defaultprojectpath", ui->projectPath->text());
 
+    QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
+    QStringList additionalPaths = model->stringList();
+    set->setValue("build/additional_path", additionalPaths);
+
+    adjustPath();
+}
+
+void ConfigDialog::on_buttonBox_accepted()
+{
+    save();
 }
 
 void ConfigDialog::refreshEditor()
@@ -124,5 +175,24 @@ void ConfigDialog::on_toolButton_clicked()
     QString path = QFileDialog::getExistingDirectory(this, tr("Select directory"), QDir::homePath());
     if (!path.isEmpty()) {
         ui->projectPath->setText(path);
+    }
+}
+
+void ConfigDialog::on_tbPathAdd_clicked()
+{
+    QString path = QDir::homePath();
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select file"), path);
+    if (!dir.isEmpty()) {
+        QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
+        QStringList list = model->stringList();
+        list.append(dir);
+        model->setStringList(list);
+    }
+}
+
+void ConfigDialog::on_tbPathRm_clicked()
+{
+    foreach(QModelIndex idx, ui->additionalPathList->selectionModel()->selectedIndexes()) {
+        ui->additionalPathList->model()->removeRow(idx.row());
     }
 }

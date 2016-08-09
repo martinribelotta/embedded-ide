@@ -9,6 +9,8 @@ struct MakefileInfo {
     QStringList include;
     QStringList defines;
     QString workingDir;
+    QString cc_cflags;
+    QString cflags;
 };
 
 Q_DECLARE_METATYPE(MakefileInfo)

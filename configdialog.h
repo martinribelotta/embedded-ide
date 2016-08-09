@@ -8,6 +8,7 @@ class ConfigDialog;
 }
 
 class QSettings;
+class QProcess;
 class QsvColorDefFactory;
 class QsvLangDef;
 class QsvSyntaxHighlighter;
@@ -21,11 +22,19 @@ public:
     ~ConfigDialog();
 
 private slots:
-    void on_buttonBox_accepted();
+    void load();
+
+    void save();
 
     void refreshEditor();
 
+    void on_buttonBox_accepted();
+
     void on_toolButton_clicked();
+
+    void on_tbPathAdd_clicked();
+
+    void on_tbPathRm_clicked();
 
 private:
     Ui::ConfigDialog *ui;

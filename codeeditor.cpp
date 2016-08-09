@@ -37,6 +37,7 @@ public:
     LineNumberArea(CodeEditor *editor) : QWidget(editor) {
         codeEditor = editor;
     }
+    virtual ~LineNumberArea();
 
     QSize sizeHint() const {
         return QSize(codeEditor->lineNumberAreaWidth(), 0);
@@ -54,6 +55,10 @@ protected:
 private:
     CodeEditor *codeEditor;
 };
+
+LineNumberArea::~LineNumberArea()
+{
+}
 
 CodeEditor::CodeEditor(QWidget *parent) :
     QPlainTextEdit(parent),
