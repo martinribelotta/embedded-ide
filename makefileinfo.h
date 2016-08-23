@@ -4,6 +4,8 @@
 #include <QMetaType>
 #include <QStringList>
 
+#include "etags.h"
+
 struct MakefileInfo {
     QStringList targets;
     QStringList include;
@@ -11,6 +13,7 @@ struct MakefileInfo {
     QString workingDir;
     QString cc_cflags;
     QString cflags;
+    ETags tags;
 };
 
 Q_DECLARE_METATYPE(MakefileInfo)

@@ -14,7 +14,7 @@ public:
 signals:
 
 public slots:
-    bool fileOpen(const QString& file, int row = 0, int col = 0, const MakefileInfo *mk = 0l);
+    bool fileOpen(const QString& file, int row, int col, const MakefileInfo *mk);
     void saveAll();
 
 private slots:

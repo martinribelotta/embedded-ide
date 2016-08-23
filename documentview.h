@@ -7,6 +7,7 @@
 #include <QFileInfo>
 
 #include "makefileinfo.h"
+#include "etags.h"
 
 namespace Ui {
 class DocumentView;
@@ -25,6 +26,7 @@ public:
     QString project() const;
     QDir projectPath() const;
     const MakefileInfo &makeInfo() const { return mk_info; }
+    const ETags &tags() const { return mk_info.tags; }
 
 public slots:
     void closeProject();
@@ -33,6 +35,7 @@ public slots:
     void buildStart(const QString& target);
     void buildStop();
     void setDebugOn(bool on);
+    void setETags(ETags &tags);
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);

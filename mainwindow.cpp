@@ -195,13 +195,13 @@ void MainWindow::on_buildStop_clicked()
     ui->projectView->buildStop();
 }
 
-static QString mkUrl(const QString& p, const QString& x, const QString& y) {
+QString mkUrl(const QString& p, const QString& x, const QString& y) {
     return QString("file:%1?x=%2&y=%3").arg(p).arg(x).arg(y.toInt() - 1);
 }
 
 static QString consoleMarkErrorT1(const QString& s) {
     QString str(s);
-    QRegularExpression re("^(.+?):(\\d+):(\\d+):(.+?):(.+?)<br>");
+    QRegularExpression re("^(.+?):(\\d+):(\\d+):(.+?):(.+?)$");
     re.setPatternOptions(QRegularExpression::MultilineOption);
     QRegularExpressionMatchIterator it = re.globalMatch(s);
     while(it.hasNext()) {
@@ -218,10 +218,10 @@ static QString consoleMarkErrorT1(const QString& s) {
 
 static QString consoleToHtml(const QString& s) {
     return consoleMarkErrorT1(QString(s)
-            .replace("\r\n", "<br>")
-            .replace("\n", "<br>")
             .replace("\t", "&nbsp;")
-            .replace(" ", "&nbsp;"));
+            .replace(" ", "&nbsp;"))
+            .replace("\r\n", "<br>")
+            .replace("\n", "<br>");
 }
 
 void MainWindow::on_projectView_buildStdout(const QString &text)
@@ -274,7 +274,7 @@ void MainWindow::on_textLog_anchorClicked(const QUrl &url)
     int col = q.queryItemValue("y").toInt();
     QString file = ui->projectView->projectPath().absoluteFilePath(url.toLocalFile());
     // qDebug() << "Opening" << file << row << col;
-    ui->centralWidget->fileOpen(file, row, col);
+    ui->centralWidget->fileOpen(file, row, col, &ui->projectView->makeInfo());
 }
 
 void MainWindow::on_actionStart_Debug_toggled(bool debugOn)

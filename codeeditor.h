@@ -33,7 +33,8 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event);
-    void keyPressEvent(QKeyEvent *e);
+    void keyPressEvent(QKeyEvent *event);
+    void contextMenuEvent(QContextMenuEvent *event);
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
@@ -51,6 +52,10 @@ public slots:
 
     bool load(const QString &fileName);
     bool save();
+
+    void smartHome();
+    void smartEnd();
+    void findTagUnderCursor();
 
     void addHighlightLine(int line, const QColor& c) {
         highlightLines.insert(line, c);
@@ -78,8 +83,10 @@ signals:
     void fileError(const QString& errorText);
     void updateCodeContext();
     void widgetResized();
+    void requireOpen(const QString& file, int row, int col, const MakefileInfo *mk);
 
 private:
+    QTextCursor wordUnderCursor() const;
     QTextCursor textUnderCursor() const;
     QString lineUnderCursor() const;
     void completionShow();

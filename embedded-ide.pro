@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     clangcodecontext.cpp \
     debugmanager.cpp \
     debuginterface.cpp \
-    qsvtextoperationswidget.cpp
+    qsvtextoperationswidget.cpp \
+    etags.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -53,7 +54,8 @@ HEADERS  += mainwindow.h \
     clangcodecontext.h \
     debugmanager.h \
     debuginterface.h \
-    qsvtextoperationswidget.h
+    qsvtextoperationswidget.h \
+    etags.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \

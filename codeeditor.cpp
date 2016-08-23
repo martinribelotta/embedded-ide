@@ -12,12 +12,16 @@
 #include <QFileInfo>
 #include <QSettings>
 #include <QTemporaryFile>
+#include <QApplication>
 
 #include <QHBoxLayout>
 #include <QListView>
 #include <QStringListModel>
 #include <QSortFilterProxyModel>
 #include <QMimeDatabase>
+#include <QMenu>
+#include <QListWidget>
+#include <QDialog>
 
 #include <QtDebug>
 
@@ -28,6 +32,7 @@
 
 #include "qsvtextoperationswidget.h"
 #include "clangcodecontext.h"
+#include "documentarea.h"
 
 #undef CLANG_DEBUG
 
@@ -242,7 +247,12 @@ bool CodeEditor::load(const QString &fileName)
            QMimeType fType = db.mimeTypeForFile(info);
            if (fType.inherits("text/x-csrc")) {
                langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" );
-               (new CLangCodeContext(this))->setWorkingDir(makefileInfo()->workingDir);
+               if (makefileInfo())
+                   (new CLangCodeContext(this))->setWorkingDir(makefileInfo()->workingDir);
+               else {
+                   qWarning() << "Warning. no makefile info for " << info.absoluteFilePath();
+                   (new CLangCodeContext(this))->setWorkingDir(info.absolutePath());
+               }
            } else if (fType.inherits("text/x-makefile")) {
                langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/makefile.lang" );
            }
@@ -277,6 +287,114 @@ bool CodeEditor::save()
     return false;
 }
 
+void CodeEditor::smartHome()
+{
+    QTextCursor c = textCursor();
+    int blockLen = c.block().text().length();
+    if (blockLen == 0 )
+        return;
+
+    int originalPosition = c.position();
+    QTextCursor::MoveMode moveAnchor = QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier)?
+         QTextCursor::KeepAnchor:QTextCursor::MoveAnchor;
+    c.movePosition(QTextCursor::StartOfLine, moveAnchor);
+    int startOfLine = c.position();
+    int i = 0;
+    while ( c.block().text()[i].isSpace()) {
+        i ++;
+        if (i==blockLen) {
+            i = 0;
+            break;
+        }
+    }
+    if ((originalPosition == startOfLine) || (startOfLine + i != originalPosition ))
+        c.setPosition( startOfLine + i, moveAnchor );
+    setTextCursor( c );
+}
+
+void CodeEditor::smartEnd()
+{
+    QTextCursor c = textCursor();
+    int blockLen = c.block().text().length();
+    if (blockLen == 0)
+        return;
+
+    int originalPosition = c.position();
+    QTextCursor::MoveMode moveAnchor = QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier)?
+         QTextCursor::KeepAnchor:QTextCursor::MoveAnchor;
+    c.movePosition(QTextCursor::StartOfLine,moveAnchor);
+    int startOfLine = c.position();
+    c.movePosition(QTextCursor::EndOfLine,moveAnchor);
+    int i = blockLen;
+    while (c.block().text()[i-1].isSpace())	{
+        i --;
+        if (i==1)		{
+            i = blockLen;
+            break;
+        }
+    }
+    if ((originalPosition == startOfLine) || (startOfLine + i != originalPosition ))
+        c.setPosition( startOfLine + i, moveAnchor );
+
+    setTextCursor( c );
+}
+
+extern QString mkUrl(const QString& p, const QString& x, const QString& y);
+
+void CodeEditor::findTagUnderCursor()
+{
+    QString tag = wordUnderCursor().selectedText();
+    ETags tagList = makefileInfo()->tags;
+    QList<ETags::Tag> tagFor = tagList.find(tag);
+
+    QDialog dialog(this);
+    QHBoxLayout *layout = new QHBoxLayout(&dialog);
+    QListWidget *view = new QListWidget(&dialog);
+    layout->addWidget(view);
+    layout->setMargin(0);
+    foreach(ETags::Tag t, tagFor) {
+        QListWidgetItem *item = new QListWidgetItem(view);
+        item->setText(QString("%2 (%3):\n%1")
+                      .arg(t.decl)
+                      .arg(t.file)
+                      .arg(t.line));
+        item->setData(Qt::UserRole, QVariant::fromValue(t));
+    }
+    view->setMinimumWidth(view->sizeHintForColumn(0) + 2 + view->frameWidth());
+    connect(view, SIGNAL(itemActivated(QListWidgetItem *)), &dialog, SLOT(accept()));
+    dialog.resize(dialog.sizeHint());
+    if (dialog.exec() == QDialog::Accepted) {
+        QList<QListWidgetItem*> sel = view->selectedItems();
+        if (sel.count() > 0) {
+            ETags::Tag tag = qvariant_cast<ETags::Tag>(sel.at(0)->data(Qt::UserRole));
+            QString url = makefileInfo()->workingDir + QDir::separator() + tag.file;
+            qDebug() << "opening " << url;
+            emit requireOpen(url, tag.line, 0, makefileInfo());
+        } else
+            qDebug() << "No selection found";
+    }
+}
+
+static bool isWord(QChar c)
+{
+    return (c.isLetterOrNumber() || c == '_');
+}
+
+QTextCursor CodeEditor::wordUnderCursor() const
+{
+    QTextCursor tc = textCursor();
+    QTextDocument *doc = document();
+    do {
+        if (!tc.movePosition(QTextCursor::Left))
+            break;
+    } while(isWord(doc->characterAt(tc.position())));
+    if (!isWord(doc->characterAt(tc.position())))
+        tc.movePosition(QTextCursor::Right);
+    while (isWord(doc->characterAt(tc.position())))
+        tc.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+    return tc;
+}
+
 QTextCursor CodeEditor::textUnderCursor() const
 {
     QTextCursor tc = textCursor();
@@ -308,25 +426,30 @@ void CodeEditor::resizeEvent(QResizeEvent *e)
     emit widgetResized();
 }
 
-void CodeEditor::keyPressEvent(QKeyEvent *e)
+void CodeEditor::keyPressEvent(QKeyEvent *event)
 {
     if (m_completer->popup()->isVisible()) {
-        switch(e->key()) {
+        switch(event->key()) {
         case Qt::Key_Return:
         case Qt::Key_Enter:
         case Qt::Key_Escape:
         case Qt::Key_Tab:
         case Qt::Key_Backtab:
-            e->ignore();
+            event->ignore();
             return;
         }
-        QPlainTextEdit::keyPressEvent(e);
+        QPlainTextEdit::keyPressEvent(event);
         completionShow();
-    } else if (e->modifiers() == Qt::CTRL && e->key() == Qt::Key_Space) {
-        emit updateCodeContext();
     } else {
         QString line;
-        switch(e->key()) {
+        switch(event->key()) {
+        case Qt::Key_Space:
+            if (event->modifiers() == Qt::CTRL) {
+                emit updateCodeContext();
+                event->accept();
+                return;
+            }
+            break;
         case Qt::Key_Return:
         case Qt::Key_Enter:
             line = lineUnderCursor();
@@ -340,8 +463,16 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
                 }
             } while(0);
             break;
+        case Qt::Key_Home:
+            smartHome();
+            event->accept();
+            return;
+        case Qt::Key_End:
+            smartEnd();
+            event->accept();
+            return;
         }
-        QPlainTextEdit::keyPressEvent(e);
+        QPlainTextEdit::keyPressEvent(event);
         if (!line.isEmpty()) {
             int i=0;
             QString nextIndend;
@@ -353,6 +484,19 @@ void CodeEditor::keyPressEvent(QKeyEvent *e)
                 insertPlainText(nextIndend);
         }
     }
+}
+
+void CodeEditor::contextMenuEvent(QContextMenuEvent *event)
+{
+    QString word = wordUnderCursor().selectedText();
+    qDebug() << word;
+    bool isTextUnderCursor = !word.isEmpty();
+    QMenu *menu = createStandardContextMenu();
+    menu->addSeparator();
+    QAction *findSimbol = menu->addAction(tr("Find symbol under cursor"), this, SLOT(findTagUnderCursor()));
+    findSimbol->setEnabled(isTextUnderCursor);
+    menu->exec(event->globalPos());
+    event->accept();
 }
 
 void CodeEditor::refreshHighlighterLines()

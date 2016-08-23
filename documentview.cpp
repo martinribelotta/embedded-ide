@@ -14,6 +14,7 @@
 
 #include "projecticonprovider.h"
 #include "targetupdatediscover.h"
+#include "etags.h"
 
 DocumentView::DocumentView(QWidget *parent) :
     QWidget(parent),
@@ -89,6 +90,9 @@ void DocumentView::openProject(const QString &projectFile)
         TargetUpdateDiscover *discover = new TargetUpdateDiscover(this);
         connect(discover, SIGNAL(updateFinish(MakefileInfo)), this, SLOT(updateMakefileInfo(MakefileInfo)));
         discover->start(project());
+        ETags::etagsStart(mk.absolutePath(), [this] (ETags& tags) {
+            this->setETags(tags);
+        });
     }
 }
 
@@ -171,6 +175,26 @@ void DocumentView::setDebugOn(bool on)
     } else {
         ui->tabWidget->setCurrentWidget(ui->tabProject);
     }
+}
+
+static int passCount = 0;
+
+void DocumentView::setETags(ETags &tags)
+{
+    qDebug() << passCount++;
+    mk_info.tags = tags;
+#if 0
+    // Dump ETAGS:
+    foreach(QString key, mk_info.tags.tagList()) {
+        QList<ETags::Tag> tagsFor = mk_info.tags.find(key);
+        qDebug() << "TAG: " << key;
+        foreach(ETags::Tag tag, tagsFor) {
+            qDebug() << "  cdecl: " << tag.decl;
+            qDebug() << "  file:  " << tag.file;
+            qDebug() << "  line:  " << tag.line;
+        }
+    }
+#endif
 }
 
 void DocumentView::on_treeView_activated(const QModelIndex &index)

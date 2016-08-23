@@ -67,6 +67,7 @@ bool DocumentArea::fileOpen(const QString &file, int row, int col, const Makefil
     int idx = documentFind(file);
     if (idx == -1) {
         CodeEditor *editor = new CodeEditor(this);
+        connect(editor, &CodeEditor::requireOpen, this, &DocumentArea::fileOpen);
         editor->setMakefileInfo(mk);
         if (!editor->load(file))
             return false;
