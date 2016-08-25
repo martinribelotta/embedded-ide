@@ -98,5 +98,6 @@ void ETags::etagsStart(const QString& workDir, std::function<void(const ETags& t
     watcher->setFuture(runner);
     QObject::connect(watcher, &QFutureWatcher<ETags>::finished, [watcher, callback]() {
         callback(watcher->future().result());
+        watcher->deleteLater();
     });
 }
