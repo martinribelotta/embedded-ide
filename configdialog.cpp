@@ -44,7 +44,7 @@ void adjustPath()
             .replaceInStrings("/", "\\")
 #endif
     ;
-    pathList = QStringList(additional + pathList).toSet().toList();
+    pathList = additional + pathList;
     path = pathList.join(path_separator);
     qputenv("PATH", path.toLocal8Bit());
 }
