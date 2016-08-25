@@ -70,6 +70,8 @@ void DocumentView::closeProject()
 
 void DocumentView::openProject(const QString &projectFile)
 {
+    if (!project().isEmpty())
+        closeProject();
     if (!projectFile.isEmpty()) {
         QFileInfo mk(projectFile);
         QFileSystemModel *model = new QFileSystemModel(this);

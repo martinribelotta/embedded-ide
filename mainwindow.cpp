@@ -18,6 +18,8 @@
 #include <QFont>
 #include <QFontInfo>
 #include <QFontDatabase>
+#include <QMimeDatabase>
+#include <QDesktopServices>
 
 #include <QtDebug>
 
@@ -94,7 +96,13 @@ void MainWindow::actionExportFinish(const QString &s)
 
 void MainWindow::on_projectView_fileOpen(const QString &file)
 {
-    ui->centralWidget->fileOpen(file, 0, 0, &ui->projectView->makeInfo());
+    qDebug() << file;
+    QMimeType m = QMimeDatabase().mimeTypeForFile(file, QMimeDatabase::MatchDefault);
+    if (m.inherits("text/plain"))
+        ui->centralWidget->fileOpen(file, 0, 0, &ui->projectView->makeInfo());
+    else {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(file));
+    }
 }
 
 void MainWindow::on_actionProjectNew_triggered()

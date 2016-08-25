@@ -77,3 +77,6 @@ OTHER_FILES += \
 
 DISTFILES += \
     reference-code-c.txt
+
+RC_ICONS = icon-theme/icon.ico
+
