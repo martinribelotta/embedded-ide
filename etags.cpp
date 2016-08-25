@@ -5,6 +5,8 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatchIterator>
 #include <QtConcurrent>
+#include <QFuture>
+#include <QFutureWatcher>
 
 static bool findNextEntry(QFile *f)
 {
@@ -73,9 +75,9 @@ bool ETags::parse(const QString &path)
         return false;
 }
 
-void ETags::etagsStart(const QString& workDir, std::function<void(ETags& tag)> callback)
+void ETags::etagsStart(const QString& workDir, std::function<void(const ETags& tag)> callback)
 {
-    QtConcurrent::run([workDir, callback] () {
+    QFuture<ETags> runner = QtConcurrent::run([workDir, callback] () -> ETags {
         QProcess ctags;
         ctags.setWorkingDirectory(workDir);
         ctags.start("ctags", QStringList() << "-R" << "-e");
@@ -83,12 +85,18 @@ void ETags::etagsStart(const QString& workDir, std::function<void(ETags& tag)> c
             if (ctags.waitForFinished()) {
                 ETags tagFile;
                 if (tagFile.parse(workDir + QDir::separator() + "TAGS")) {
-                    callback(tagFile);
+                    return tagFile;
                 } else
                     qDebug() << "error parsing TAGS file";
             } else
                 qDebug() << "ctags termination timeout" << ctags.errorString();
         } else
             qDebug() << "Error on start ctags " << ctags.errorString();
+        return ETags();
+    });
+    QFutureWatcher<ETags> *watcher = new QFutureWatcher<ETags>(qApp);
+    watcher->setFuture(runner);
+    QObject::connect(watcher, &QFutureWatcher<ETags>::finished, [watcher, callback]() {
+        callback(watcher->future().result());
     });
 }

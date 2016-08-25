@@ -3,6 +3,8 @@
 
 #include <QMultiHash>
 #include <QMetaType>
+#include <QString>
+#include <QStringList>
 
 #include <functional>
 
@@ -25,6 +27,8 @@ public:
 
     ETags() {}
 
+    bool isValid() { return !tagList().isEmpty(); }
+
     bool parse(const QString& path);
 
     QStringList tagList() const {
@@ -37,7 +41,7 @@ public:
 
     const QString& tagFile() const { return m_path; }
 
-    static void etagsStart(const QString &workDir, std::function<void (ETags&)> callback);
+    static void etagsStart(const QString &workDir, std::function<void (const ETags&)> callback);
 
     ETags& operator=(const ETags& other) {
         m_path = other.m_path;

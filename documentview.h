@@ -35,7 +35,7 @@ public slots:
     void buildStart(const QString& target);
     void buildStop();
     void setDebugOn(bool on);
-    void setETags(ETags &tags);
+    void setETags(const ETags &tags);
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);

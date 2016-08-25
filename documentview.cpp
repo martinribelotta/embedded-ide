@@ -90,7 +90,7 @@ void DocumentView::openProject(const QString &projectFile)
         TargetUpdateDiscover *discover = new TargetUpdateDiscover(this);
         connect(discover, SIGNAL(updateFinish(MakefileInfo)), this, SLOT(updateMakefileInfo(MakefileInfo)));
         discover->start(project());
-        ETags::etagsStart(mk.absolutePath(), [this] (ETags& tags) {
+        ETags::etagsStart(mk.absolutePath(), [this] (const ETags& tags) {
             this->setETags(tags);
         });
     }
@@ -179,7 +179,7 @@ void DocumentView::setDebugOn(bool on)
 
 static int passCount = 0;
 
-void DocumentView::setETags(ETags &tags)
+void DocumentView::setETags(const ETags &tags)
 {
     qDebug() << passCount++;
     mk_info.tags = tags;
@@ -195,6 +195,7 @@ void DocumentView::setETags(ETags &tags)
         }
     }
 #endif
+    qDebug() << "tag valid " << (mk_info.tags.isValid());
 }
 
 void DocumentView::on_treeView_activated(const QModelIndex &index)
