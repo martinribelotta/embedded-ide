@@ -56,7 +56,7 @@ DocumentArea::DocumentArea(QWidget *parent) :
     connect(closeAll, SIGNAL(clicked()), this, SLOT(closeAll()));
     connect(saveCurrent, SIGNAL(clicked()), this, SLOT(saveCurrent()));
     setCornerWidget(buttonBox, Qt::TopRightCorner);
-    setDocumentMode(true);
+    setDocumentMode(false);
     setTabsClosable(true);
     setMovable(true);
     connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(documentToClose(int)));
