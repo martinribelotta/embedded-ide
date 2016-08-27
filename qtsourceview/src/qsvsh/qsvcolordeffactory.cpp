@@ -118,7 +118,7 @@ bool	QsvColorDefFactory::load( QDomDocument doc )
 	// load the attributes of this language
 	list = doc.elementsByTagName("itemData");
 
-	for( uint n=0; n<list.length(); n++ )
+    for( int n=0; n<list.length(); n++ )
 	{
 		QsvColorDef item;
 		if (item.load(list.item(n)))

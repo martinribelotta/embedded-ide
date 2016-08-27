@@ -6,8 +6,6 @@
 #include <QString>
 #include <QStringList>
 
-#include <functional>
-
 class ETags
 {
 public:
@@ -40,15 +38,6 @@ public:
     }
 
     const QString& tagFile() const { return m_path; }
-
-    static void etagsStart(const QString &workDir, std::function<void (const ETags&)> callback);
-
-    ETags& operator=(const ETags& other) {
-        m_path = other.m_path;
-        map = other.map;
-        map.detach();
-        return *this;
-    }
 
 private:
     TagMap map;

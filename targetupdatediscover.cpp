@@ -135,10 +135,14 @@ void TargetUpdateDiscover::finish(int ret)
             ccProc.setProcessEnvironment(env);
             ccProc.setProcessChannelMode(QProcess::MergedChannels);
             qDebug() << "* complete CC " << info.cc_cflags << " at " << ccProc.workingDirectory();
-            QString cmd = QString("%1 -xc -dM -E -v /dev/null").arg(info.cc_cflags);
+            QString cmd = QString("%1 -xc -dM -E -v -")
+                    .arg(QString(info.cc_cflags)
+                         .remove("-MMD")
+                         .remove(QRegularExpression("-MF \\S+")));
             ccProc.start(cmd);
             qDebug() << "start " << cmd;
             if (ccProc.waitForStarted()) {
+                ccProc.closeWriteChannel();
                 if (ccProc.waitForFinished()) {
                     QString data(ccProc.readAll());
                     QStringList moreIncs;

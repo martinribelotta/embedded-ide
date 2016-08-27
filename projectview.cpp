@@ -1,4 +1,4 @@
-#include "documentview.h"
+#include "projectview.h"
 #include "ui_documentview.h"
 
 #include <QFileDialog>
@@ -9,14 +9,16 @@
 #include <QProcess>
 #include <QMessageBox>
 #include <QDir>
+#include <QFuture>
 
+#include <QtConcurrent>
 #include <QtDebug>
 
 #include "projecticonprovider.h"
 #include "targetupdatediscover.h"
 #include "etags.h"
 
-DocumentView::DocumentView(QWidget *parent) :
+ProjectView::ProjectView(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DocumentView)
 {
@@ -38,12 +40,12 @@ DocumentView::DocumentView(QWidget *parent) :
     ui->tabWidget->setCurrentIndex(0);
 }
 
-DocumentView::~DocumentView()
+ProjectView::~ProjectView()
 {
     delete ui;
 }
 
-QString DocumentView::project() const
+QString ProjectView::project() const
 {
     QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
     if (!m)
@@ -51,7 +53,7 @@ QString DocumentView::project() const
     return m->rootDirectory().absoluteFilePath("Makefile");
 }
 
-QDir DocumentView::projectPath() const
+QDir ProjectView::projectPath() const
 {
     QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
     if (!m)
@@ -59,7 +61,7 @@ QDir DocumentView::projectPath() const
     return m->rootDirectory();
 }
 
-void DocumentView::closeProject()
+void ProjectView::closeProject()
 {
     if (ui->treeView->model()) {
         ui->treeView->model()->deleteLater();
@@ -68,7 +70,7 @@ void DocumentView::closeProject()
     ui->targetList->clear();
 }
 
-void DocumentView::openProject(const QString &projectFile)
+void ProjectView::openProject(const QString &projectFile)
 {
     if (!project().isEmpty())
         closeProject();
@@ -84,72 +86,14 @@ void DocumentView::openProject(const QString &projectFile)
         ui->treeView->setRootIndex(model->setRootPath(mk.path()));
         for(int i=2; i<model->columnCount(); i++)
             ui->treeView->hideColumn(i);
-#if QT_VERSION >= 0x050000
         ui->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-#else
-        ui->treeView->header()->setResizeMode(0, QHeaderView::ResizeToContents);
-#endif
         TargetUpdateDiscover *discover = new TargetUpdateDiscover(this);
         connect(discover, SIGNAL(updateFinish(MakefileInfo)), this, SLOT(updateMakefileInfo(MakefileInfo)));
         discover->start(project());
-        ETags::etagsStart(mk.absolutePath(), [this] (const ETags& tags) {
-            this->setETags(tags);
-        });
     }
 }
 
-static QString tmpName() {
-    QTemporaryFile f("empty-XXXXXX");
-    f.open();
-    QString s = QFileInfo(f).fileName();
-    f.remove();
-    return s;
-}
-
-static const QString EXCLUDE_LIST = QString(
-        "-x .git* "
-        "-x *.o "
-        "-x *.d "
-        "-x *.elf "
-        "-x *.lst "
-        "-x *.map "
-        "-x .config* "
-        "-x *.conf "
-        "-x autoconf.h");
-
-QString DocumentView::makeTemplate(const QString &diffFile)
-{
-    // FIXME Esto tampoco tiene porque estar aca! Pasale el proyecto a otro objeto y fue!
-    QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
-    if (!m)
-        return tr("No project");
-    QString error = tr("Unknow error");
-    QDir projectRoot = m->rootDirectory();
-    QString tmpDirName = QDir::tempPath() + QDir::separator() + tmpName();
-    if (QDir::root().mkdir(tmpDirName)) {
-        QProcess diff;
-        diff.setWorkingDirectory(projectRoot.absolutePath());
-        diff.start(QString("diff -Naur %2 %1 .").arg(tmpDirName).arg(EXCLUDE_LIST));
-        if (diff.waitForStarted(3000)) {
-            if (diff.waitForFinished(3000)) {
-                QString pathText = diff.readAll();
-                QFile out(diffFile);
-                if (out.open(QFile::WriteOnly)) {
-                    out.write(pathText.toLocal8Bit());
-                    error = QString();
-                } else
-                    error = tr("Cant create template file");
-            } else
-                error = tr("Diff cant finish normaly");
-        } else
-            error = tr("Diff cant start");
-        QDir::root().rmdir(tmpDirName);
-    } else
-        error = tr("Cant create empty tmp dir");
-    return error;
-}
-
-void DocumentView::buildStart(const QString &target)
+void ProjectView::buildStart(const QString &target)
 {
     if (buildProc->state() != QProcess::NotRunning)
         buildStop();
@@ -159,7 +103,7 @@ void DocumentView::buildStart(const QString &target)
                      .arg(target));
 }
 
-void DocumentView::buildStop()
+void ProjectView::buildStop()
 {
     if (buildProc->state() != QProcess::NotRunning) {
         buildProc->terminate();
@@ -170,7 +114,7 @@ void DocumentView::buildStop()
     }
 }
 
-void DocumentView::setDebugOn(bool on)
+void ProjectView::setDebugOn(bool on)
 {
     if (on) {
         ui->tabWidget->setCurrentWidget(ui->tabDebug);
@@ -179,28 +123,12 @@ void DocumentView::setDebugOn(bool on)
     }
 }
 
-static int passCount = 0;
-
-void DocumentView::setETags(const ETags &tags)
+void ProjectView::refreshTags()
 {
-    qDebug() << passCount++;
-    mk_info.tags = tags;
-#if 0
-    // Dump ETAGS:
-    foreach(QString key, mk_info.tags.tagList()) {
-        QList<ETags::Tag> tagsFor = mk_info.tags.find(key);
-        qDebug() << "TAG: " << key;
-        foreach(ETags::Tag tag, tagsFor) {
-            qDebug() << "  cdecl: " << tag.decl;
-            qDebug() << "  file:  " << tag.file;
-            qDebug() << "  line:  " << tag.line;
-        }
-    }
-#endif
-    qDebug() << "tag valid " << (mk_info.tags.isValid());
+    qDebug() << "parse tags " << mk_info.tags.parse(QDir(mk_info.workingDir).absoluteFilePath("TAGS"));
 }
 
-void DocumentView::on_treeView_activated(const QModelIndex &index)
+void ProjectView::on_treeView_activated(const QModelIndex &index)
 {
     QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
     if (m) {
@@ -210,7 +138,7 @@ void DocumentView::on_treeView_activated(const QModelIndex &index)
     }
 }
 
-void DocumentView::updateMakefileInfo(const MakefileInfo &info)
+void ProjectView::updateMakefileInfo(const MakefileInfo &info)
 {
     mk_info = info;
     QIcon icon = QIcon::fromTheme("run-build-configure", QIcon(":/icon-theme/icon-theme/run-build-configure.png"));
@@ -220,37 +148,46 @@ void DocumentView::updateMakefileInfo(const MakefileInfo &info)
     foreach(QString t, orderedTargets)
         ui->targetList->addItem(new QListWidgetItem(icon, t));
     sender()->deleteLater();
+    QProcess *ctagProc = new QProcess(this);
+    ctagProc->setWorkingDirectory(mk_info.workingDir);
+    connect(ctagProc, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
+            [ctagProc, this] () {
+        this->refreshTags();
+        ctagProc->deleteLater();
+    });
+    ctagProc->start("ctags -R -e");
     emit projectOpened();
 }
 
-void DocumentView::on_targetList_doubleClicked(const QModelIndex &index)
+void ProjectView::on_targetList_doubleClicked(const QModelIndex &index)
 {
     QListWidgetItem *item = ui->targetList->item(index.row());
     emit startBuild(item->text());
 }
 
-void DocumentView::on_buildProc_readyReadStandardError()
+void ProjectView::on_buildProc_readyReadStandardError()
 {
     emit buildStderr(buildProc->readAllStandardError());
 }
 
-void DocumentView::on_buildProc_readyReadStandardOutput()
+void ProjectView::on_buildProc_readyReadStandardOutput()
 {
     emit buildStdout(buildProc->readAllStandardOutput());
 }
 
-void DocumentView::on_filterCombo_activated(int idx)
+void ProjectView::on_filterCombo_activated(int idx)
 {
     QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
     if (m)
         m->setNameFilters(ui->filterCombo->itemData(idx).toStringList());
 }
 
-void DocumentView::on_filterButton_clicked()
+void ProjectView::on_filterButton_clicked()
 {
+    // TODO add files filter selection
 }
 
-void DocumentView::on_toolButton_documentNew_clicked()
+void ProjectView::on_toolButton_documentNew_clicked()
 {
     if (!ui->treeView->selectionModel())
         return;
@@ -280,7 +217,7 @@ void DocumentView::on_toolButton_documentNew_clicked()
     }
 }
 
-void DocumentView::on_toolButton_folderNew_clicked()
+void ProjectView::on_toolButton_folderNew_clicked()
 {
     if (!ui->treeView->selectionModel())
         return;
@@ -312,7 +249,7 @@ void DocumentView::on_toolButton_folderNew_clicked()
     }
 }
 
-void DocumentView::on_toolButton_elementDel_clicked()
+void ProjectView::on_toolButton_elementDel_clicked()
 {
     if (!ui->treeView->selectionModel())
         return;

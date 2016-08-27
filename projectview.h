@@ -15,13 +15,13 @@ class DocumentView;
 
 class QProcess;
 
-class DocumentView : public QWidget
+class ProjectView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit DocumentView(QWidget *parent = 0);
-    ~DocumentView();
+    explicit ProjectView(QWidget *parent = 0);
+    ~ProjectView();
 
     QString project() const;
     QDir projectPath() const;
@@ -31,11 +31,10 @@ public:
 public slots:
     void closeProject();
     void openProject(const QString& projectFile);
-    QString makeTemplate(const QString& diffFile);
     void buildStart(const QString& target);
     void buildStop();
     void setDebugOn(bool on);
-    void setETags(const ETags &tags);
+    void refreshTags();
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);

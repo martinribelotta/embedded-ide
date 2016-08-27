@@ -1,12 +1,10 @@
 #include "etags.h"
 
 #include <QFile>
-#include <QtDebug>
 #include <QRegularExpression>
 #include <QRegularExpressionMatchIterator>
-#include <QtConcurrent>
-#include <QFuture>
-#include <QFutureWatcher>
+
+#include <QtDebug>
 
 static bool findNextEntry(QFile *f)
 {
@@ -24,6 +22,8 @@ static bool findNextEntry(QFile *f)
     return founded;
 }
 
+#define PARSE_ERROR qDebug() << __FILE__ << __LINE__;
+
 static QString processFileName(const QString& line, int *len)
 {
     QStringList parts = line.split(',');
@@ -33,8 +33,10 @@ static QString processFileName(const QString& line, int *len)
         *len = parts.at(1).toInt(&ok, 10);
         if (ok) {
             return file;
-        }
-    }
+        } else
+            PARSE_ERROR
+    } else
+        PARSE_ERROR
     *len = -1;
     return QString();
 }
@@ -73,31 +75,4 @@ bool ETags::parse(const QString &path)
         return true;
     } else
         return false;
-}
-
-void ETags::etagsStart(const QString& workDir, std::function<void(const ETags& tag)> callback)
-{
-    QFuture<ETags> runner = QtConcurrent::run([workDir, callback] () -> ETags {
-        QProcess ctags;
-        ctags.setWorkingDirectory(workDir);
-        ctags.start("ctags", QStringList() << "-R" << "-e");
-        if (ctags.waitForStarted()) {
-            if (ctags.waitForFinished()) {
-                ETags tagFile;
-                if (tagFile.parse(workDir + QDir::separator() + "TAGS")) {
-                    return tagFile;
-                } else
-                    qDebug() << "error parsing TAGS file";
-            } else
-                qDebug() << "ctags termination timeout" << ctags.errorString();
-        } else
-            qDebug() << "Error on start ctags " << ctags.errorString();
-        return ETags();
-    });
-    QFutureWatcher<ETags> *watcher = new QFutureWatcher<ETags>(qApp);
-    watcher->setFuture(runner);
-    QObject::connect(watcher, &QFutureWatcher<ETags>::finished, [watcher, callback]() {
-        callback(watcher->future().result());
-        watcher->deleteLater();
-    });
 }

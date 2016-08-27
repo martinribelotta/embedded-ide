@@ -23,7 +23,6 @@ include(qtsourceview/src/qsvsh.pri)
 SOURCES += main.cpp\
         mainwindow.cpp \
     documentarea.cpp \
-    documentview.cpp \
     codeeditor.cpp \
     projectnewdialog.cpp \
     targetupdatediscover.cpp \
@@ -37,11 +36,11 @@ SOURCES += main.cpp\
     debugmanager.cpp \
     debuginterface.cpp \
     qsvtextoperationswidget.cpp \
-    etags.cpp
+    etags.cpp \
+    projectview.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
-    documentview.h \
     codeeditor.h \
     projectnewdialog.h \
     targetupdatediscover.h \
@@ -55,7 +54,8 @@ HEADERS  += mainwindow.h \
     debugmanager.h \
     debuginterface.h \
     qsvtextoperationswidget.h \
-    etags.h
+    etags.h \
+    projectview.h
 
 FORMS    += mainwindow.ui \
     documentview.ui \

@@ -36,7 +36,9 @@ void ProjectExporter::start()
 {
     if (tmpDir.isValid()) {
         proc->setWorkingDirectory(m_projectPath);
-        QString cmd = QString("diff -Naur %2 %1 .").arg(tmpDir.path()).arg(EXCLUDE_LIST);
+        QString cmd = QString("diff -aur --unidirectional-new-file %2 %1 .")
+                .arg(tmpDir.path())
+                .arg(EXCLUDE_LIST);
         //qDebug() << cmd;
         proc->start(cmd);
     } else {
@@ -50,7 +52,7 @@ void ProjectExporter::on_proc_finished(int exitCode, QProcess::ExitStatus exitSt
         emit end(tr("Abnormal termination %1").arg(proc->errorString()));
         return;
     }
-    if (exitCode != 0) {
+    if (exitCode > 1) {
         emit end(tr("End with error code %1").arg(exitCode));
         return;
     }

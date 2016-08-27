@@ -91,7 +91,11 @@ void MainWindow::actionNewFromTemplateEnd(const QString &project, const QString 
 
 void MainWindow::actionExportFinish(const QString &s)
 {
-    Q_UNUSED(s);
+    QString dialogTitle(tr("Export"));
+    if (s.isEmpty())
+        QMessageBox::information(this, dialogTitle, tr("Success"));
+    else
+        QMessageBox::warning(this, dialogTitle, s);
 }
 
 void MainWindow::on_projectView_fileOpen(const QString &file)
@@ -159,7 +163,6 @@ void MainWindow::on_actionHelp_triggered()
 void MainWindow::on_actionProjectExport_triggered()
 {
     if (!ui->projectView->project().isEmpty())
-#if 1
         (new ProjectExporter(
                 QFileDialog::
                 getSaveFileName(this,
@@ -173,17 +176,6 @@ void MainWindow::on_actionProjectExport_triggered()
                 this,
                 SLOT(actionExportFinish(QString)))
             )->start();
-#else
-        ui->projectView->makeTemplate(QFileDialog::
-                                      getSaveFileName(this,
-                                                      tr("Export file"),
-                                                      tr("Unknown.template"),
-                                                      tr("Tempalte files (*.template);;"
-                                                         "Diff files (*.diff);;"
-                                                         "All files (*)")
-                                                      )
-                                      );
-#endif
 }
 
 void MainWindow::on_projectView_startBuild(const QString &target)

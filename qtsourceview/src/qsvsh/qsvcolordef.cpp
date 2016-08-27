@@ -106,6 +106,7 @@ bool	QsvColorDef::load( QDomNode node )
 bool	QsvColorDef::save( QDomNode node )
 {
 //QStringMap attributes;
+    Q_UNUSED(node);
 	return false;
 }
 
