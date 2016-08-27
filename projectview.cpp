@@ -1,5 +1,5 @@
 #include "projectview.h"
-#include "ui_documentview.h"
+#include "ui_projectview.h"
 
 #include <QFileDialog>
 #include <QFileSystemModel>
@@ -11,6 +11,7 @@
 #include <QDir>
 #include <QFuture>
 
+#include <QCheckBox>
 #include <QtConcurrent>
 #include <QtDebug>
 
@@ -256,18 +257,42 @@ void ProjectView::on_toolButton_elementDel_clicked()
     QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
     if (!m)
         return;
-    QModelIndex idx = ui->treeView->selectionModel()->selectedIndexes().first();
-    QString name = m->filePath(idx);
-    if (QMessageBox::critical(this->parentWidget(), tr("Confirm"),
-                              tr("Realy remove %1").arg(name),
-                              QMessageBox::Yes, QMessageBox::No) ==
-            QMessageBox::Yes) {
+    QModelIndexList items = ui->treeView->selectionModel()->selectedRows(0);
+    QMessageBox msg(window());
+    msg.setWindowTitle(tr("Delete files"));
+    msg.setIcon(QMessageBox::Warning);
+    msg.addButton(QMessageBox::Yes);
+    msg.addButton(QMessageBox::No);
+    if (items.count() > 1) {
+        QCheckBox *forAll = new QCheckBox(tr("Do this operation for all items"), &msg);
+        forAll->setCheckState(Qt::Unchecked);
+        msg.setCheckBox(forAll);
+        msg.addButton(QMessageBox::Cancel);
+    }
+    int last = -1;
+    foreach(QModelIndex idx, items) {
         QModelIndex parent = idx.parent();
-        if (m->fileInfo(idx).isDir()) {
-            m->rmdir(idx);
-        } else {
-            m->remove(idx);
+        QString name = m->filePath(idx);
+        bool doForAll = false;
+        if (msg.checkBox())
+            doForAll = (msg.checkBox()->checkState() == Qt::Checked);
+        if (!doForAll) {
+            msg.setText(tr("Realy remove %1").arg(name));
+            last = msg.exec();
         }
-        ui->treeView->update(parent);
+        switch(last) {
+        case QMessageBox::Yes:
+            if (m->fileInfo(idx).isDir()) {
+                m->rmdir(idx);
+            } else {
+                m->remove(idx);
+            }
+            ui->treeView->update(parent);
+            break;
+        case QMessageBox::No:
+            break;
+        case QMessageBox::Cancel:
+            return;
+        }
     }
 }

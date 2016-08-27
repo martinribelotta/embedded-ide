@@ -58,14 +58,14 @@ HEADERS  += mainwindow.h \
     projectview.h
 
 FORMS    += mainwindow.ui \
-    documentview.ui \
     editorwidget.ui \
     projectnewdialog.ui \
     configdialog.ui \
     aboutdialog.ui \
     debuginterface.ui \
     replaceform.ui \
-    searchform.ui
+    searchform.ui \
+    projectview.ui
 
 RESOURCES += \
     resources.qrc
