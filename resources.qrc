@@ -44,6 +44,7 @@
         <file>icon-theme/folder-new.png</file>
         <file>icon-theme/list-add.png</file>
         <file>icon-theme/list-remove.png</file>
+        <file>icon-theme/get.png</file>
     </qresource>
     <qresource prefix="/qsvsh">
         <file>qtsourceview/data/mime.types</file>

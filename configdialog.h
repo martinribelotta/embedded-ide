@@ -30,11 +30,15 @@ private slots:
 
     void on_buttonBox_accepted();
 
-    void on_toolButton_clicked();
+    void on_projectPathSetButton_clicked();
 
     void on_tbPathAdd_clicked();
 
     void on_tbPathRm_clicked();
+
+    void on_projectTemplatesPathChange_clicked();
+
+    void on_projectTemplatesDownload_clicked();
 
 private:
     Ui::ConfigDialog *ui;

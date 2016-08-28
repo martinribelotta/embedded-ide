@@ -10,6 +10,14 @@
 #include <QStringListModel>
 #include <QProcess>
 #include <QProcessEnvironment>
+#include <QProgressDialog>
+#include <QNetworkRequest>
+#include <QMessageBox>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include <QDebug>
 
@@ -17,6 +25,8 @@
 #include "qsvsh/qsvcolordeffactory.h"
 #include "qsvsh/qsvlangdef.h"
 #include "qsvsh/qsvsyntaxhighlighter.h"
+
+#include "filedownloader.h"
 
 class QsvCLangDef : public QsvLangDef {
 public:
@@ -78,9 +88,24 @@ static QString readBundle(const QString& path) {
     return QString();
 }
 
+QString defaultTemplateUrl()
+{
+    return "https://api.github.com/repos/martinribelotta/embedded-ide-templates/contents";
+}
+
+QString defaultApplicationResources()
+{
+    return QDir::home().absoluteFilePath(".embedded-ide");
+}
+
 QString defaultProjectPath()
 {
-    return QDir::home().absoluteFilePath(".embedded-ide/projects");
+    return QDir(defaultApplicationResources()).absoluteFilePath("projects");
+}
+
+QString defaultTemplatePath()
+{
+    return QDir(defaultApplicationResources()).absoluteFilePath("templates");
 }
 
 ConfigDialog::ConfigDialog(QWidget *parent) :
@@ -127,6 +152,8 @@ void ConfigDialog::load()
         ui->spinReplaceTabs->setValue(replaceTabs);
 
     ui->projectPath->setText(set->value("build/defaultprojectpath", defaultProjectPath()).toString());
+    ui->projectTemplatesPath->setText(set->value("build/templatepath", defaultTemplatePath()).toString());
+    ui->templateUrl->setText(set->value("build/templateurl", defaultTemplateUrl()).toString());
 
     QStringList additionalPaths = set->value("build/additional_path").toStringList();
     QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
@@ -140,10 +167,13 @@ void ConfigDialog::save()
     set->setValue("editor/font/style", ui->fontComboBox->currentFont().family());
     set->setValue("editor/replaceTabs", ui->groupReplaceTabs->isChecked()? ui->spinReplaceTabs->value() : 0);
     set->setValue("build/defaultprojectpath", ui->projectPath->text());
+    set->setValue("build/templatepath", ui->projectTemplatesPath->text());
+    set->setValue("build/templateurl", ui->templateUrl->text());
 
     QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
     QStringList additionalPaths = model->stringList();
     set->setValue("build/additional_path", additionalPaths);
+
 
     adjustPath();
 }
@@ -170,7 +200,7 @@ void ConfigDialog::refreshEditor()
     ui->plainTextEdit->setFont(font);
 }
 
-void ConfigDialog::on_toolButton_clicked()
+void ConfigDialog::on_projectPathSetButton_clicked()
 {
     QString path = QFileDialog::getExistingDirectory(this, tr("Select directory"), QDir::homePath());
     if (!path.isEmpty()) {
@@ -195,4 +225,82 @@ void ConfigDialog::on_tbPathRm_clicked()
     foreach(QModelIndex idx, ui->additionalPathList->selectionModel()->selectedIndexes()) {
         ui->additionalPathList->model()->removeRow(idx.row());
     }
+}
+
+void ConfigDialog::on_projectTemplatesPathChange_clicked()
+{
+    QString path = QFileDialog::getExistingDirectory(this, tr("Select directory"), QDir::homePath());
+    if (!path.isEmpty()) {
+        ui->projectTemplatesPath->setText(path);
+    }
+}
+
+void ConfigDialog::on_projectTemplatesDownload_clicked()
+{
+    QUrl templateUrl(set->value("build/templateurl").toString());
+    if (!templateUrl.isValid())
+        templateUrl = QUrl(ui->templateUrl->text());
+    if (!templateUrl.isValid()) {
+        QMessageBox::critical(this, tr("Error"), tr("No valid URL: %1").arg(templateUrl.toString()));
+        return;
+    }
+    QDir templatePath(QSettings().value("build/templatepath").toString());
+    if (!templatePath.exists()) {
+        if (!QDir::root().mkpath(templatePath.absolutePath())) {
+            QMessageBox::critical(this, tr("Error"), tr("Error creating %1")
+                                  .arg(templatePath.absolutePath()));
+            return;
+        }
+    }
+
+    QProgressDialog *dialog = new QProgressDialog(this);
+    dialog->setWindowModality(Qt::WindowModal);
+    dialog->setLabelText(tr("Downloading template list..."));
+    dialog->setAutoClose(false);
+    dialog->setAutoReset(false);
+    dialog->setProperty("ignoreFirst", true);
+    dialog->show();
+
+    FileDownloader *downloader = new FileDownloader(this);
+    connect(downloader, &FileDownloader::allDownloadsFinished, [this, dialog, downloader] ()
+    {
+        if (!dialog->property("ignoreFirst").toBool()) {
+            dialog->close();
+            dialog->deleteLater();
+            downloader->deleteLater();
+        } else {
+            dialog->setProperty("ignoreFirst", false);
+        }
+    });
+    connect(downloader, &FileDownloader::downloadError, [downloader, dialog, this] (const QString& msg) {
+        QMessageBox::critical(this, tr("Network error"), msg);
+        downloader->deleteLater();
+        dialog->close();
+        dialog->deleteLater();
+    });
+    connect(downloader, &FileDownloader::downloadProgress, [this, dialog](const QUrl& url, int percent)
+    {
+        QString msg = tr("Downloading %1").arg(url.fileName());
+        dialog->setLabelText(msg);
+        dialog->setValue(percent);
+    });
+    connect(downloader, &FileDownloader::downloadDataFinished,
+            [downloader, templatePath] (const QUrl& url, const QByteArray& data)
+    {
+        Q_UNUSED(url);
+        QJsonDocument contents = QJsonDocument::fromJson(data);
+        if (!contents.isNull() && contents.isArray()) {
+            foreach(QJsonValue entry, contents.array()) {
+                QJsonObject oEntry = entry.toObject();
+                QString name = oEntry.value("name").toString();
+                QString download_url = oEntry.value("download_url").toString();
+                if (QFileInfo(name).suffix() == "template") {
+                    QString localPath = templatePath.absoluteFilePath(name);
+                    downloader->enqueueDownload(QUrl(download_url), localPath);
+                }
+            }
+            downloader->processEnqueued();
+        }
+    });
+    downloader->startDownload(templateUrl);
 }

@@ -123,9 +123,13 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     DelegateFactory::registerClass<ListEditorDelegate>("items");
     DelegateFactory::registerClass<StringEditorDelegate>("string");
     QDir defTemplates(":/build/templates/");
+    QDir localTemplates(QSettings().value("build/templatepath").toString());
     ui->setupUi(this);
     foreach(QFileInfo info, defTemplates.entryInfoList(QStringList("*.template"))) {
-        ui->templateFile->addItem(info.absoluteFilePath());
+        ui->templateFile->addItem(info.baseName(), info.absoluteFilePath());
+    }
+    foreach(QFileInfo info, localTemplates.entryInfoList(QStringList("*.template"))) {
+        ui->templateFile->addItem(info.baseName(), info.absoluteFilePath());
     }
     ui->projectPath->setText(::projectPath(QSettings().value("build/defaultprojectpath").toString()));
     refreshProjectName();
@@ -143,7 +147,7 @@ QString ProjectNewDialog::projectPath() const
 
 QString ProjectNewDialog::templateText() const
 {
-    QFile f(ui->templateFile->lineEdit()->text());
+    QFile f(ui->templateFile->currentData(Qt::UserRole).toString());
     return f.open(QFile::ReadOnly)? replaceTemplates(f.readAll()) : QString();
 }
 
@@ -153,7 +157,8 @@ void ProjectNewDialog::refreshProjectName()
                                  .arg(ui->projectPath->text())
                                  .arg(ui->projectPath->text().isEmpty()? "" : QString(QDir::separator()))
                                  .arg(ui->projectName->text()));
-    bool en = QFileInfo(ui->templateFile->lineEdit()->text()).exists() &&
+    QString tamplate_path = ui->templateFile->currentData(Qt::UserRole).toString();
+    bool en = QFileInfo(tamplate_path).exists() &&
             QFileInfo(ui->projectPath->text()).exists() &&
             !ui->projectName->text().isEmpty();
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(en);
@@ -175,9 +180,10 @@ void ProjectNewDialog::on_toolLoadTemplate_clicked()
                                                            "Diff files (*.diff);;"
                                                            "All files (*)"));
     if (!templateName.isEmpty()) {
-        int idx = ui->templateFile->findText(templateName);
+        QFileInfo info(templateName);
+        int idx = ui->templateFile->findText(info.baseName());
         if (idx == -1)
-            ui->templateFile->insertItem(idx = 0, templateName);
+            ui->templateFile->insertItem(idx = 0, info.baseName(), info.absoluteFilePath());
         ui->templateFile->setCurrentIndex(idx);
     }
 }
@@ -189,7 +195,9 @@ static QString readAll(const QString& fileName) {
 
 void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
 {
-    QString text = readAll(fileName);
+    Q_UNUSED(fileName);
+    QString name = ui->templateFile->currentData(Qt::UserRole).toString();
+    QString text = readAll(name);
     ui->parameterTable->clear();
     ui->parameterTable->setRowCount(0);
     if (!text.isEmpty()) {

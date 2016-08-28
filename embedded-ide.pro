@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets concurrent
+QT       += core gui widgets concurrent network
 
 CONFIG += c++11
 
@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     debuginterface.cpp \
     qsvtextoperationswidget.cpp \
     etags.cpp \
-    projectview.cpp
+    projectview.cpp \
+    filedownloader.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     debuginterface.h \
     qsvtextoperationswidget.h \
     etags.h \
-    projectview.h
+    projectview.h \
+    filedownloader.h
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \
