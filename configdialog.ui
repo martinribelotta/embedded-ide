@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -157,13 +157,6 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="4">
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Debug options</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
@@ -233,6 +226,9 @@
          </layout>
         </widget>
        </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QLineEdit" name="projectTemplatesPath"/>
+       </item>
        <item row="0" column="1" colspan="2">
         <widget class="QLineEdit" name="projectPath"/>
        </item>
@@ -243,8 +239,8 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QLineEdit" name="projectTemplatesPath"/>
+       <item row="2" column="1" colspan="2">
+        <widget class="QLineEdit" name="templateUrl"/>
        </item>
        <item row="2" column="3">
         <widget class="QToolButton" name="projectTemplatesDownload">
@@ -253,9 +249,6 @@
            <normaloff>:/icon-theme/icon-theme/get.png</normaloff>:/icon-theme/icon-theme/get.png</iconset>
          </property>
         </widget>
-       </item>
-       <item row="2" column="1" colspan="2">
-        <widget class="QLineEdit" name="templateUrl"/>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_5">
