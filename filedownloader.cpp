@@ -36,7 +36,7 @@ public:
                          [entry, this] (quint64 received, quint64 bytesTotal)
         {
             Q_Q(FileDownloader);
-            int percent = static_cast<int>(received*100/bytesTotal);
+            int percent = bytesTotal? static_cast<int>(received*100/bytesTotal) : 0;
             emit q->downloadProgress(entry.url, percent);
         });
         QObject::connect(reply, &QNetworkReply::finished,
