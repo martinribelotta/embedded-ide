@@ -206,7 +206,7 @@ void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
         re.setPatternSyntax(QRegExp::RegExp2);
         int idx = 0;
         while ((idx = re.indexIn(text, idx)) != -1) {
-            Parameter_t p = { re.cap(1), re.cap(2), re.cap(3) };
+            Parameter_t p = { re.cap(1).replace('_', ' '), re.cap(2), re.cap(3) };
             QTableWidgetItem *name = new QTableWidgetItem(p.name);
             name->setFlags(name->flags()&~Qt::ItemIsEditable);
             QTableWidgetItem *value = new QTableWidgetItem(QString());
@@ -227,7 +227,7 @@ QString ProjectNewDialog::replaceTemplates(const QString &text) const
 {
     QString newString(text);
     for(int row=0; row<ui->parameterTable->rowCount(); row++) {
-        QString key = ui->parameterTable->item(row, 0)->text();
+        QString key = ui->parameterTable->item(row, 0)->text().replace(' ', '_');
         QString val = ui->parameterTable->item(row, 1)->text();
 
         QRegExp re(QString("\\$\\{\\{%1\\s*([a-zA-Z0-9_]+)*\\s*\\:*(.*)\\}\\}").arg(key));
