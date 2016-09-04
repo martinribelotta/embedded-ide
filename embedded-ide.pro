@@ -43,7 +43,8 @@ SOURCES += main.cpp\
     qsvtextoperationswidget.cpp \
     etags.cpp \
     projectview.cpp \
-    filedownloader.cpp
+    filedownloader.cpp \
+    version.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -62,7 +63,8 @@ HEADERS  += mainwindow.h \
     qsvtextoperationswidget.h \
     etags.h \
     projectview.h \
-    filedownloader.h
+    filedownloader.h \
+    version.h
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \
@@ -86,4 +88,3 @@ DISTFILES += \
     reference-code-c.txt
 
 RC_ICONS = icon-theme/icon.ico
-
