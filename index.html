@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Embedded-ide by martinribelotta</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Embedded-ide</h1>
+        <p>IDE for C embedded development centered on bare-metal ARM systems</p>
+        <p class="view"><a href="https://github.com/martinribelotta/embedded-ide">View the Project on GitHub <small>martinribelotta/embedded-ide</small></a></p>
+        <ul>
+          <li><a href="https://github.com/martinribelotta/embedded-ide/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/martinribelotta/embedded-ide/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/martinribelotta/embedded-ide">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>Embedded IDE is a Makefile based integrated development environment primary development for bare processor development.</p>
+
+<p><img src="https://github.com/martinribelotta/embedded-ide/raw/master/docs/screen_1.png" alt=""></p>
+
+<h3>
+<a id="design-principles" class="anchor" href="#design-principles" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Design principles</h3>
+
+<ul>
+<li>Makefile based: All of work is done by make and command line tools</li>
+<li>Autodiscover: Load project discover targets, sources and includes from make database dump</li>
+<li>Command line tools: Autocomplete, code indexer and others features is based on command line tools like clang-completion, ctags, find, grep and others</li>
+<li>Keep it simple: All complexity is translate to Makefile project and this tools</li>
+<li>Patch based bundled: Export and import project bundles is based on diff/path utilities with simple <code>${{moustache}}</code> template language</li>
+</ul>
+
+<h3>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h3>
+
+<ul>
+<li>Autocompleted: Based on clang, autocomplete feature required this tool to work</li>
+<li>Autodiscover: Discover Makefile targets</li>
+<li>Code index: CTAGS based code index and symbol found</li>
+<li>Syntax color: Multiple programming languages support with configurable themes</li>
+<li>Project Template repository: Configurable URL templates repository</li>
+<li>Configurable PATH: Additional list of directories to include in system PATH without system modification</li>
+</ul>
+
+<h2>
+<a id="releases" class="anchor" href="#releases" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Releases</h2>
+
+<p>This is work-in-progress, to maintaned up-to-date visit <a href="https://github.com/martinribelotta/embedded-ide/releases">github releaes page</a></p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/martinribelotta">martinribelotta</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
