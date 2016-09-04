@@ -125,6 +125,7 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     QDir defTemplates(":/build/templates/");
     QDir localTemplates(QSettings().value("build/templatepath").toString());
     ui->setupUi(this);
+    ui->parameterTable->horizontalHeader()->setStretchLastSection(true);
     foreach(QFileInfo info, defTemplates.entryInfoList(QStringList("*.template"))) {
         ui->templateFile->addItem(info.baseName(), info.absoluteFilePath());
     }
@@ -198,7 +199,6 @@ void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
     Q_UNUSED(fileName);
     QString name = ui->templateFile->currentData(Qt::UserRole).toString();
     QString text = readAll(name);
-    ui->parameterTable->clear();
     ui->parameterTable->setRowCount(0);
     if (!text.isEmpty()) {
         QRegExp re("\\$\\{\\{([a-zA-Z0-9_]+)\\s*([a-zA-Z0-9_]+)*\\s*\\:*(.*)\\}\\}");
@@ -220,6 +220,7 @@ void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
             ui->parameterTable->setItemDelegateForRow(rows, ed);
             idx += re.matchedLength();
         }
+        ui->parameterTable->resizeColumnToContents(0);
     }
 }
 
