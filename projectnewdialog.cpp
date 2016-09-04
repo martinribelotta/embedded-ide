@@ -201,7 +201,7 @@ void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
     QString text = readAll(name);
     ui->parameterTable->setRowCount(0);
     if (!text.isEmpty()) {
-        QRegExp re("\\$\\{\\{([a-zA-Z0-9_]+)\\s*([a-zA-Z0-9_]+)*\\s*\\:*(.*)\\}\\}");
+        QRegExp re(R"(\$\{\{([a-zA-Z0-9_]+)\s*([a-zA-Z0-9_]+)*\s*\:*(.*)\}\})");
         re.setMinimal(true);
         re.setPatternSyntax(QRegExp::RegExp2);
         int idx = 0;
@@ -231,7 +231,7 @@ QString ProjectNewDialog::replaceTemplates(const QString &text) const
         QString key = ui->parameterTable->item(row, 0)->text().replace(' ', '_');
         QString val = ui->parameterTable->item(row, 1)->text();
 
-        QRegExp re(QString("\\$\\{\\{%1\\s*([a-zA-Z0-9_]+)*\\s*\\:*(.*)\\}\\}").arg(key));
+        QRegExp re(QString(R"(\$\{\{%1\s*([a-zA-Z0-9_]+)*\s*\:*(.*)\}\})").arg(key));
         re.setMinimal(true);
         re.setPatternSyntax(QRegExp::RegExp2);
         newString.replace(re, val);

@@ -202,7 +202,7 @@ QString mkUrl(const QString& p, const QString& x, const QString& y) {
 
 static QString consoleMarkErrorT1(const QString& s) {
     QString str(s);
-    QRegularExpression re("^(.+?):(\\d+):(\\d+):(.+?):(.+?)$");
+    QRegularExpression re(R"(^(.+?):(\d+):(\d+):(.+?):(.+?)$)");
     re.setPatternOptions(QRegularExpression::MultilineOption);
     QRegularExpressionMatchIterator it = re.globalMatch(s);
     while(it.hasNext()) {

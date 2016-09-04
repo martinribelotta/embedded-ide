@@ -30,8 +30,9 @@ ProjectView::ProjectView(QWidget *parent) :
     QFile filterFiles(":/build/project-filters.txt");
     filterFiles.open(QFile::ReadOnly);
     while (!filterFiles.atEnd()) {
-        QString name = QString(filterFiles.readLine()).remove(':').remove(QRegExp("[\\r\\n]*"));
-        QString filter = QString(filterFiles.readLine()).remove(QRegExp("[\\r\\n]*"));
+        QRegExp crlf(R"([\r\n]*)");
+        QString name = QString(filterFiles.readLine()).remove(':').remove(crlf);
+        QString filter = QString(filterFiles.readLine()).remove(crlf);
         // qDebug() << "filter" << name << filter;
         if (!name.isEmpty() && !filter.isEmpty())
             ui->filterCombo->addItem(name, filter.split(' '));

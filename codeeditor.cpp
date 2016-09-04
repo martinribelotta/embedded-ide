@@ -155,7 +155,7 @@ void CodeEditor::insertCompletion(const QString &completion)
     QString s = completion;
     QTextCursor tc = textUnderCursor();
     if (s.startsWith("Pattern : ")) {
-        s = s.remove("Pattern : ").remove(QRegExp("[\\<|\\[]\\#[^\\#]*\\#[\\>|\\]]"));
+        s = s.remove("Pattern : ").remove(QRegExp(R"([\\<|\[]\#[^\#]*\#[\>|\]])"));
     } else if (s.contains(':')) {
         s = s.split(':').at(0).trimmed();
     }

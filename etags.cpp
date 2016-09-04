@@ -43,7 +43,7 @@ static QString processFileName(const QString& line, int *len)
 
 static void parseDefs(const QString& in, const QString& file, ETags::TagMap *map)
 {
-    QRegularExpression re("([^\\x7f]+)\\x7f([^\\x01]+)\\x01(\\d+),(\\d+)\\n");
+    QRegularExpression re(R"(([^\x7f]+)\x7f([^\x01]+)\x01(\d+),(\d+)\n)");
     QRegularExpressionMatchIterator it = re.globalMatch(in);
     while(it.hasNext()) {
         QRegularExpressionMatch m = it.next();

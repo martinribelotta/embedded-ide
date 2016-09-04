@@ -51,7 +51,7 @@ void adjustPath()
     QStringList pathList = path.split(path_separator);
     QStringList additional = QSettings().value("build/additional_path").toStringList()
 #ifdef Q_OS_WIN
-            .replaceInStrings("/", "\\")
+            .replaceInStrings("/", R"(\)")
 #endif
     ;
     pathList = additional + pathList;

@@ -46,15 +46,15 @@ static QStringList parseRe(const QString& text, const QString& reText) {
     return set.toList();
 }
 
-static const QString TARGETS_RE = "(?<!^# Not a target\\:\\n)^([a-zA-Z0-9][^$#\\\\\\/\\t=\\.]*):(?:[^=]|$)";
-static const QString DEFINES_RE = "\\-D([^\\s\\$]+)";
-static const QString INCLUDES_RE = "\\-I([^\\s\\$]+)";
-static const QString CC_RE = "^\\s*([a-zA-Z0-9\\-]*gcc\\b)";
-static const QString CC_CFLAGS_RE = "\\b([a-zA-Z0-9\\-]*gcc.*?-c.*?$)";
-static const QString C_CXX_FILE_RE = "\\S+\\.cp?p?";
-static const QString O_FILE_RE = "\\-o\\s*\\S+\\.o";
-static const QString CC_OUT_INCLUDE_RE = "\\> search starts here\\:(.*?)End of search list";
-static const QString CC_OUT_DEFINES_RE = "\\#define ([_a-zA-Z0-9\\(\\,\\)]+) (.*?)$";
+static const QString TARGETS_RE = R"((?<!^# Not a target\:\n)^([a-zA-Z0-9][^$#\\\/\t=\.]*):(?:[^=]|$))";
+static const QString DEFINES_RE = R"(\-D([^\s\$]+))";
+static const QString INCLUDES_RE = R"(\-I([^\s\$]+))";
+static const QString CC_RE = R"(^\s*([a-zA-Z0-9\-]*gcc\b))";
+static const QString CC_CFLAGS_RE = R"(\b([a-zA-Z0-9\-]*gcc.*?-c.*?$))";
+static const QString C_CXX_FILE_RE = R"(\S+\.cp?p?)";
+static const QString O_FILE_RE = R"(\-o\s*\S+\.o)";
+static const QString CC_OUT_INCLUDE_RE = R"(\> search starts here\:(.*?)End of search list)";
+static const QString CC_OUT_DEFINES_RE = R"(\#define ([_a-zA-Z0-9\(\,\)]+) (.*?)$)";
 
 static void parseCCOut(const QString& text, QStringList *incs, QStringList *defs) {
     QRegularExpressionMatch m = QRegularExpression(
@@ -138,7 +138,7 @@ void TargetUpdateDiscover::finish(int ret)
             QString cmd = QString("%1 -xc -dM -E -v -")
                     .arg(QString(info.cc_cflags)
                          .remove("-MMD")
-                         .remove(QRegularExpression("-MF \\S+")));
+                         .remove(QRegularExpression(R"(-MF \S+)")));
             ccProc.start(cmd);
             qDebug() << "start " << cmd;
             if (ccProc.waitForStarted()) {

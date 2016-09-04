@@ -61,7 +61,7 @@ void CLangCodeContext::clangTerminated()
 {
     QStringList list;
     QString out = clangProc->readAll();
-    QRegularExpression re("COMPLETION\\: ([^\\n]*)", QRegularExpression::MultilineOption);
+    QRegularExpression re(R"(COMPLETION\: ([^\n]*))", QRegularExpression::MultilineOption);
     QRegularExpressionMatchIterator it = re.globalMatch(out);
     while(it.hasNext()) {
         QRegularExpressionMatch m = it.next();
