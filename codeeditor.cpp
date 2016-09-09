@@ -350,6 +350,7 @@ void CodeEditor::findTagUnderCursor()
     QDialog dialog(this);
     QHBoxLayout *layout = new QHBoxLayout(&dialog);
     QListWidget *view = new QListWidget(&dialog);
+    view->setAlternatingRowColors(true);
     layout->addWidget(view);
     layout->setMargin(0);
     foreach(ETags::Tag t, tagFor) {
