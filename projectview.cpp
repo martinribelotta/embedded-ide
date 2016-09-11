@@ -157,7 +157,7 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
         this->refreshTags();
         ctagProc->deleteLater();
     });
-    ctagProc->start("ctags -R -e");
+    ctagProc->start("ctags -R -e --c-kinds=+p --c++-kinds=+px");
     emit projectOpened();
 }
 
