@@ -85,6 +85,7 @@ OTHER_FILES += \
     project-filters.txt
 
 DISTFILES += \
-    reference-code-c.txt
+    reference-code-c.txt \
+    style.css
 
 RC_ICONS = icon-theme/icon.ico

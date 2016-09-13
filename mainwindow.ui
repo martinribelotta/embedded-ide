@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>600</height>
+    <height>562</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,8 +32,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>32</width>
-     <height>32</height>
+     <width>72</width>
+     <height>64</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -47,6 +47,9 @@
    <addaction name="actionProjectExport"/>
    <addaction name="actionProjectClose"/>
    <addaction name="actionSave_All"/>
+   <addaction name="actionConfigure"/>
+   <addaction name="actionHelp"/>
+   <addaction name="actionExit"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="features">
@@ -163,62 +166,9 @@
    </attribute>
    <widget class="ProjectView" name="projectView"/>
   </widget>
-  <widget class="QToolBar" name="debuggerToolbar">
-   <property name="windowTitle">
-    <string>toolBar_3</string>
-   </property>
-   <property name="movable">
-    <bool>false</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::LeftToolBarArea</set>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionStart_Debug"/>
-   <addaction name="actionDebugStep_Over"/>
-   <addaction name="actionDebugStep_Into"/>
-   <addaction name="actionDebugStep_Out"/>
-  </widget>
-  <widget class="QToolBar" name="programToolbar">
-   <property name="windowTitle">
-    <string>toolBar_4</string>
-   </property>
-   <property name="movable">
-    <bool>false</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::LeftToolBarArea</set>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionConfigure"/>
-   <addaction name="actionHelp"/>
-   <addaction name="actionExit"/>
-  </widget>
   <action name="actionProjectNew">
    <property name="icon">
-    <iconset theme="project-development-new-template" resource="resources.qrc">
+    <iconset resource="resources.qrc">
      <normaloff>:/icon-theme/icon-theme/project-development-new-template.png</normaloff>:/icon-theme/icon-theme/project-development-new-template.png</iconset>
    </property>
    <property name="text">

@@ -1,0 +1,20 @@
+QToolBar {
+    background: #174959;
+    border: 0px;
+    margin: 0px;
+}
+
+QToolBar > QToolButton {
+    background: #174959;
+    border-radius: 0px;
+    border: 0px;
+    margin: 0px;
+}
+
+QToolBar > QToolButton:hover {
+    background: #7fb2c3;
+}
+
+QToolBar > QToolButton:pressed {
+    background: #49879c;
+}

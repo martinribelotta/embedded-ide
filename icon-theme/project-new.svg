@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64"
+   height="64"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Nuevo documento 1">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="6.098796"
+     inkscape:cx="24.160262"
+     inkscape:cy="38.112708"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1302"
+     inkscape:window-height="736"
+     inkscape:window-x="-5"
+     inkscape:window-y="-5"
+     inkscape:window-maximized="1" />
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 32 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="64 : 32 : 1"
+       inkscape:persp3d-origin="32 : 21.333333 : 1"
+       id="perspective4383" />
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-988.36218)">
+    <g
+       transform="translate(31.884058,32.0)"
+       inkscape:label="Gear24"
+       id="g3874">
+      <path
+         d="M69.802,-5.621L71.556,-5.762L76.231,-4.996L82.729,-2.277L82.729,2.277L76.231,4.996L71.556,5.762L69.802,5.621L68.879,12.637L70.609,12.954L74.926,14.904L80.500,19.212L79.321,23.612L72.340,24.556L67.626,24.086L65.969,23.496L63.261,30.033L64.850,30.788L68.516,33.788L72.784,39.392L70.507,43.337L63.520,42.442L59.088,40.768L57.640,39.769L53.332,45.383L54.672,46.523L57.436,50.370L60.109,56.888L56.888,60.109L50.370,57.436L46.523,54.672L45.383,53.332L39.769,57.640L40.768,59.088L42.442,63.520L43.337,70.507L39.392,72.784L33.788,68.516L30.788,64.850L30.033,63.261L23.496,65.969L24.086,67.626L24.556,72.340L23.612,79.321L19.212,80.500L14.904,74.926L12.954,70.609L12.637,68.879L5.621,69.802L5.762,71.556L4.996,76.231L2.277,82.729L-2.277,82.729L-4.996,76.231L-5.762,71.556L-5.621,69.802L-12.637,68.879L-12.954,70.609L-14.904,74.926L-19.212,80.500L-23.612,79.321L-24.556,72.340L-24.086,67.626L-23.496,65.969L-30.033,63.261L-30.788,64.850L-33.788,68.516L-39.392,72.784L-43.337,70.507L-42.442,63.520L-40.768,59.088L-39.769,57.640L-45.383,53.332L-46.523,54.672L-50.370,57.436L-56.888,60.109L-60.109,56.888L-57.436,50.370L-54.672,46.523L-53.332,45.383L-57.640,39.769L-59.088,40.768L-63.520,42.442L-70.507,43.337L-72.784,39.392L-68.516,33.788L-64.850,30.788L-63.261,30.033L-65.969,23.496L-67.626,24.086L-72.340,24.556L-79.321,23.612L-80.500,19.212L-74.926,14.904L-70.609,12.954L-68.879,12.637L-69.802,5.621L-71.556,5.762L-76.231,4.996L-82.729,2.277L-82.729,-2.277L-76.231,-4.996L-71.556,-5.762L-69.802,-5.621L-68.879,-12.637L-70.609,-12.954L-74.926,-14.904L-80.500,-19.212L-79.321,-23.612L-72.340,-24.556L-67.626,-24.086L-65.969,-23.496L-63.261,-30.033L-64.850,-30.788L-68.516,-33.788L-72.784,-39.392L-70.507,-43.337L-63.520,-42.442L-59.088,-40.768L-57.640,-39.769L-53.332,-45.383L-54.672,-46.523L-57.436,-50.370L-60.109,-56.888L-56.888,-60.109L-50.370,-57.436L-46.523,-54.672L-45.383,-53.332L-39.769,-57.640L-40.768,-59.088L-42.442,-63.520L-43.337,-70.507L-39.392,-72.784L-33.788,-68.516L-30.788,-64.850L-30.033,-63.261L-23.496,-65.969L-24.086,-67.626L-24.556,-72.340L-23.612,-79.321L-19.212,-80.500L-14.904,-74.926L-12.954,-70.609L-12.637,-68.879L-5.621,-69.802L-5.762,-71.556L-4.996,-76.231L-2.277,-82.729L2.277,-82.729L4.996,-76.231L5.762,-71.556L5.621,-69.802L12.637,-68.879L12.954,-70.609L14.904,-74.926L19.212,-80.500L23.612,-79.321L24.556,-72.340L24.086,-67.626L23.496,-65.969L30.033,-63.261L30.788,-64.850L33.788,-68.516L39.392,-72.784L43.337,-70.507L42.442,-63.520L40.768,-59.088L39.769,-57.640L45.383,-53.332L46.523,-54.672L50.370,-57.436L56.888,-60.109L60.109,-56.888L57.436,-50.370L54.672,-46.523L53.332,-45.383L57.640,-39.769L59.088,-40.768L63.520,-42.442L70.507,-43.337L72.784,-39.392L68.516,-33.788L64.850,-30.788L63.261,-30.033L65.969,-23.496L67.626,-24.086L72.340,-24.556L79.321,-23.612L80.500,-19.212L74.926,-14.904L70.609,-12.954L68.879,-12.637z"
+         style="stroke:#000000;fill:none"
+         id="path3876" />
+    </g>
+  </g>
+  <path
+     style="fill:none;stroke:#bdd0d3;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+     d="m 10.994629,3.4225922 0,56.9062498 43.9375,0 0,-46.0625 -10.84375,-10.8437498 -33.09375,0 z"
+     id="rect4496"
+     inkscape:connector-curvature="0" />
+  <text
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#bdd0d3;fill-opacity:1;stroke:none;font-family:STIXGeneral;-inkscape-font-specification:STIXGeneral"
+     x="13.937178"
+     y="55.637691"
+     id="text4492"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan4494"
+       x="13.937178"
+       y="55.637691"
+       style="font-weight:bold;fill:#bdd0d3;fill-opacity:1;-inkscape-font-specification:STIXGeneral Bold">M</tspan></text>
+  <path
+     inkscape:connector-curvature="0"
+     style="fill:none;stroke:#bdd0d3;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+     d="m 43.775879,3.4225922 0,11.6250008 11.15625,0 0,-0.78125 -10.84375,-10.8437508 -0.3125,0 z"
+     id="rect4496-0" />
+  <g
+     id="g4582"
+     transform="translate(-1.9676015,0.81983395)">
+    <rect
+       y="13.498229"
+       x="17.544447"
+       height="3.9352028"
+       width="17.38048"
+       id="rect4562"
+       style="fill:#bdd0d3;fill-opacity:1;stroke:none" />
+    <rect
+       transform="matrix(0,-1,1,0,0,0)"
+       y="24.267086"
+       x="-24.156071"
+       height="3.9352028"
+       width="17.38048"
+       id="rect4562-7"
+       style="fill:#bdd0d3;fill-opacity:1;stroke:none" />
+  </g>
+</svg>
