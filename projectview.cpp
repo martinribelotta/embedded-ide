@@ -12,6 +12,8 @@
 #include <QFuture>
 
 #include <QCheckBox>
+#include <QInputDialog>
+#include <QProgressBar>
 #include <QtConcurrent>
 #include <QtDebug>
 
@@ -196,20 +198,18 @@ void ProjectView::on_toolButton_documentNew_clicked()
     QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
     if (!m)
         return;
-    QModelIndex idx = ui->treeView->selectionModel()->selectedIndexes().first();
+    QModelIndex idx = ui->treeView->selectionModel()->selectedIndexes().isEmpty()?
+                ui->treeView->rootIndex() :
+                ui->treeView->selectionModel()->selectedIndexes().first();
     QFileInfo info = m->fileInfo(idx);
     if (!info.isDir()) {
         info = QFileInfo(info.absoluteDir().absolutePath());
     }
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("New file"),
-                                                    info.absoluteFilePath(),
-                                                    tr("C file (*.c);;"
-                                                       "C++ file (*.cpp);;"
-                                                       "Header (*.h);;"
-                                                       "All files (*)"));
+    QString fileName = QInputDialog::getText(this->parentWidget(), tr("File name"),
+                                             tr("Create file on %1")
+                                                .arg(m->fileInfo(idx).absoluteFilePath()));
     if (!fileName.isEmpty()) {
-        QFile f(fileName);
+        QFile f(QDir(info.absoluteFilePath()).absoluteFilePath(fileName));
         if (!f.open(QFile::WriteOnly)) {
             QMessageBox::critical(this, tr("Error creating file"), f.errorString());
         } else {
@@ -226,7 +226,9 @@ void ProjectView::on_toolButton_folderNew_clicked()
     QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
     if (!m)
         return;
-    QModelIndex idx = ui->treeView->selectionModel()->selectedIndexes().first();
+    QModelIndex idx = ui->treeView->selectionModel()->selectedIndexes().isEmpty()?
+                ui->treeView->rootIndex():
+                ui->treeView->selectionModel()->selectedIndexes().first();
     if (!QFileInfo(m->fileInfo(idx)).isDir()) {
         idx = idx.parent();
         if (!m->fileInfo(idx).isDir()) {
@@ -234,18 +236,10 @@ void ProjectView::on_toolButton_folderNew_clicked()
             return;
         }
     }
-    QFileDialog dialog(this->parentWidget());
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
-    dialog.setFileMode(QFileDialog::Directory);
-    dialog.setDirectory(m->fileInfo(idx).absoluteFilePath());
-    dialog.setOption(QFileDialog::ShowDirsOnly);
-    dialog.setLabelText(QFileDialog::FileName, tr("Directory"));
-    dialog.setLabelText(QFileDialog::Accept, tr("Create Directory"));
-    dialog.setLabelText(QFileDialog::Reject, tr("Cancel"));
-    dialog.setLabelText(QFileDialog::LookIn, tr("Look in"));
-    dialog.setLabelText(QFileDialog::FileType, tr("Type"));
-    if (dialog.exec() == QDialog::Accepted) {
-        QString name = QFileInfo(dialog.selectedFiles().first()).fileName();
+    QString name = QInputDialog::getText(this->parentWidget(), tr("Folder name"),
+                                         tr("Create folder on %1")
+                                            .arg(m->fileInfo(idx).absoluteFilePath()));
+    if (!name.isEmpty()) {
         qDebug() << "creating" << name << " on " << m->fileName(idx);
         m->mkdir(idx, name);
     }
@@ -284,7 +278,7 @@ void ProjectView::on_toolButton_elementDel_clicked()
         switch(last) {
         case QMessageBox::Yes:
             if (m->fileInfo(idx).isDir()) {
-                m->rmdir(idx);
+                QDir(m->fileInfo(idx).absoluteFilePath()).removeRecursively();
             } else {
                 m->remove(idx);
             }
