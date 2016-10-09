@@ -290,13 +290,19 @@ bool CodeEditor::save()
 void CodeEditor::smartHome()
 {
     QTextCursor c = textCursor();
+    QTextCursor::MoveMode moveAnchor = QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier)?
+         QTextCursor::KeepAnchor:QTextCursor::MoveAnchor;
+    if (QApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
+        c.movePosition(QTextCursor::Start, moveAnchor);
+        setTextCursor(c);
+        return;
+    }
+
     int blockLen = c.block().text().length();
     if (blockLen == 0 )
         return;
 
     int originalPosition = c.position();
-    QTextCursor::MoveMode moveAnchor = QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier)?
-         QTextCursor::KeepAnchor:QTextCursor::MoveAnchor;
     c.movePosition(QTextCursor::StartOfLine, moveAnchor);
     int startOfLine = c.position();
     int i = 0;
@@ -315,13 +321,19 @@ void CodeEditor::smartHome()
 void CodeEditor::smartEnd()
 {
     QTextCursor c = textCursor();
+    QTextCursor::MoveMode moveAnchor = QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier)?
+         QTextCursor::KeepAnchor:QTextCursor::MoveAnchor;
+    if (QApplication::keyboardModifiers().testFlag(Qt::ControlModifier)) {
+        c.movePosition(QTextCursor::End, moveAnchor);
+        setTextCursor(c);
+        return;
+    }
+
     int blockLen = c.block().text().length();
     if (blockLen == 0)
         return;
 
     int originalPosition = c.position();
-    QTextCursor::MoveMode moveAnchor = QApplication::keyboardModifiers().testFlag(Qt::ShiftModifier)?
-         QTextCursor::KeepAnchor:QTextCursor::MoveAnchor;
     c.movePosition(QTextCursor::StartOfLine,moveAnchor);
     int startOfLine = c.position();
     c.movePosition(QTextCursor::EndOfLine,moveAnchor);
