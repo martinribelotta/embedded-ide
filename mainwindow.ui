@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>586</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>72</width>
+     <width>64</width>
      <height>64</height>
     </size>
    </property>
@@ -168,7 +168,7 @@
   </widget>
   <action name="actionProjectNew">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset theme="project-development-new-template" resource="resources.qrc">
      <normaloff>:/icon-theme/icon-theme/project-development-new-template.png</normaloff>:/icon-theme/icon-theme/project-development-new-template.png</iconset>
    </property>
    <property name="text">
@@ -254,66 +254,6 @@
    </property>
    <property name="toolTip">
     <string>Configure</string>
-   </property>
-  </action>
-  <action name="actionStart_Debug">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset theme="debug-run" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/debug-run.png</normaloff>:/icon-theme/icon-theme/debug-run.png</iconset>
-   </property>
-   <property name="text">
-    <string>Start Debug</string>
-   </property>
-   <property name="toolTip">
-    <string>Start Debugger</string>
-   </property>
-  </action>
-  <action name="actionDebugStep_Over">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/debug-step-over.png</normaloff>:/icon-theme/icon-theme/debug-step-over.png</iconset>
-   </property>
-   <property name="text">
-    <string>Step Over</string>
-   </property>
-   <property name="toolTip">
-    <string>Step Over</string>
-   </property>
-   <property name="visible">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionDebugStep_Into">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/debug-step-into.png</normaloff>:/icon-theme/icon-theme/debug-step-into.png</iconset>
-   </property>
-   <property name="text">
-    <string>Step Into</string>
-   </property>
-   <property name="toolTip">
-    <string>Step Into</string>
-   </property>
-   <property name="visible">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionDebugStep_Out">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/debug-step-out.png</normaloff>:/icon-theme/icon-theme/debug-step-out.png</iconset>
-   </property>
-   <property name="text">
-    <string>Step Out</string>
-   </property>
-   <property name="toolTip">
-    <string>Step to function out</string>
-   </property>
-   <property name="visible">
-    <bool>false</bool>
    </property>
   </action>
  </widget>

@@ -506,7 +506,7 @@ diff -aur --unidirectional-new-file -x '.git*' -x '*.o' -x '*.d' -x '*.elf' -x '
 +MODULES=app lpc_chip_43xx lpc_board_ciaa_edu_4337 sapi_bm
 +DEFINES=CORE_M4 __USE_LPCOPEN __USE_NEWLIB
 +
-+VERBOSE=${{Verbose_build items:y|n}
++VERBOSE=${{Verbose_build items:n|y}}
 diff -aur --unidirectional-new-file -x '.git*' -x '*.o' -x '*.d' -x '*.elf' -x '*.lst' -x '*.map' -x '.config*' -x '*.conf' -x autoconf.h a_SdMdjL/lpc_board_ciaa_edu_4337/inc/board_api.h ./lpc_board_ciaa_edu_4337/inc/board_api.h
 --- a_SdMdjL/lpc_board_ciaa_edu_4337/inc/board_api.h	1969-12-31 21:00:00.000000000 -0300
 +++ ./lpc_board_ciaa_edu_4337/inc/board_api.h	2016-10-08 23:44:36.331826200 -0300

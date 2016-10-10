@@ -64,7 +64,8 @@ HEADERS  += mainwindow.h \
     etags.h \
     projectview.h \
     filedownloader.h \
-    version.h
+    version.h \
+    templates/ciaa-lpcopen.template
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \
@@ -81,6 +82,7 @@ RESOURCES += \
 
 OTHER_FILES += \
     templates/generic-make.template \
+    templates/ciaa-lpcopen.template \
     templates/sAPI.template \
     project-filters.txt
 

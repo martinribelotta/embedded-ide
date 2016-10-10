@@ -277,15 +277,3 @@ void MainWindow::on_textLog_anchorClicked(const QUrl &url)
     // qDebug() << "Opening" << file << row << col;
     ui->centralWidget->fileOpen(file, row, col, &ui->projectView->makeInfo());
 }
-
-void MainWindow::on_actionStart_Debug_toggled(bool debugOn)
-{
-    ui->projectView->setDebugOn(debugOn);
-    QList<QAction*> al = this->findChildren<QAction*>(QRegExp("actionDebug.*"));
-    foreach(QAction *a, al)
-        a->setVisible(debugOn);
-    if (debugOn) {
-    } else {
-
-    }
-}

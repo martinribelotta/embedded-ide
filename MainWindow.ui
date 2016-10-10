@@ -32,8 +32,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>32</width>
-     <height>32</height>
+     <width>64</width>
+     <height>64</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -47,6 +47,9 @@
    <addaction name="actionProjectExport"/>
    <addaction name="actionProjectClose"/>
    <addaction name="actionSave_All"/>
+   <addaction name="actionConfigure"/>
+   <addaction name="actionHelp"/>
+   <addaction name="actionExit"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="features">
@@ -163,59 +166,6 @@
    </attribute>
    <widget class="ProjectView" name="projectView"/>
   </widget>
-  <widget class="QToolBar" name="debuggerToolbar">
-   <property name="windowTitle">
-    <string>toolBar_3</string>
-   </property>
-   <property name="movable">
-    <bool>false</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::LeftToolBarArea</set>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionStart_Debug"/>
-   <addaction name="actionDebugStep_Over"/>
-   <addaction name="actionDebugStep_Into"/>
-   <addaction name="actionDebugStep_Out"/>
-  </widget>
-  <widget class="QToolBar" name="programToolbar">
-   <property name="windowTitle">
-    <string>toolBar_4</string>
-   </property>
-   <property name="movable">
-    <bool>false</bool>
-   </property>
-   <property name="allowedAreas">
-    <set>Qt::LeftToolBarArea</set>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>32</width>
-     <height>32</height>
-    </size>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionConfigure"/>
-   <addaction name="actionHelp"/>
-   <addaction name="actionExit"/>
-  </widget>
   <action name="actionProjectNew">
    <property name="icon">
     <iconset theme="project-development-new-template" resource="resources.qrc">
@@ -304,66 +254,6 @@
    </property>
    <property name="toolTip">
     <string>Configure</string>
-   </property>
-  </action>
-  <action name="actionStart_Debug">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset theme="debug-run" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/debug-run.png</normaloff>:/icon-theme/icon-theme/debug-run.png</iconset>
-   </property>
-   <property name="text">
-    <string>Start Debug</string>
-   </property>
-   <property name="toolTip">
-    <string>Start Debugger</string>
-   </property>
-  </action>
-  <action name="actionDebugStep_Over">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/debug-step-over.png</normaloff>:/icon-theme/icon-theme/debug-step-over.png</iconset>
-   </property>
-   <property name="text">
-    <string>Step Over</string>
-   </property>
-   <property name="toolTip">
-    <string>Step Over</string>
-   </property>
-   <property name="visible">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionDebugStep_Into">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/debug-step-into.png</normaloff>:/icon-theme/icon-theme/debug-step-into.png</iconset>
-   </property>
-   <property name="text">
-    <string>Step Into</string>
-   </property>
-   <property name="toolTip">
-    <string>Step Into</string>
-   </property>
-   <property name="visible">
-    <bool>false</bool>
-   </property>
-  </action>
-  <action name="actionDebugStep_Out">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/debug-step-out.png</normaloff>:/icon-theme/icon-theme/debug-step-out.png</iconset>
-   </property>
-   <property name="text">
-    <string>Step Out</string>
-   </property>
-   <property name="toolTip">
-    <string>Step to function out</string>
-   </property>
-   <property name="visible">
-    <bool>false</bool>
    </property>
   </action>
  </widget>
