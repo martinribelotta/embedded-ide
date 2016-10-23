@@ -3,17 +3,21 @@
 
 #include <QMetaType>
 #include <QStringList>
+#include <QHash>
 
 #include "etags.h"
 
 struct MakefileInfo {
+    ETags tags;
+    QString workingDir;
+    QHash<QString, QString> allTargets;
+
+
     QStringList targets;
     QStringList include;
     QStringList defines;
-    QString workingDir;
     QString cc_cflags;
     QString cflags;
-    ETags tags;
 };
 
 Q_DECLARE_METATYPE(MakefileInfo)

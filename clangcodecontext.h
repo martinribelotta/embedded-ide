@@ -20,6 +20,7 @@ signals:
 
 public slots:
     void startContextUpdate();
+    void discoverFor(const QString &path);
 
 private slots:
     void clangStarted();
@@ -28,6 +29,8 @@ private slots:
 private:
     QProcess *clangProc;
     CodeEditor *ed;
+    QStringList includes;
+    QStringList defines;
 };
 
 #endif // CLANGCODECONTEXT_H

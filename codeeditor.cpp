@@ -247,12 +247,10 @@ bool CodeEditor::load(const QString &fileName)
            QMimeType fType = db.mimeTypeForFile(info);
            if (fType.inherits("text/x-csrc")) {
                langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" );
-               if (makefileInfo())
-                   (new CLangCodeContext(this))->setWorkingDir(makefileInfo()->workingDir);
-               else {
-                   qWarning() << "Warning. no makefile info for " << info.absoluteFilePath();
-                   (new CLangCodeContext(this))->setWorkingDir(info.absolutePath());
-               }
+               QString workDir = makefileInfo()? makefileInfo()->workingDir : info.absolutePath();
+               CLangCodeContext *ctx = new CLangCodeContext(this);
+               ctx->setWorkingDir(workDir);
+               ctx->discoverFor(info.absoluteFilePath());
            } else if (fType.inherits("text/x-makefile")) {
                langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/makefile.lang" );
            }

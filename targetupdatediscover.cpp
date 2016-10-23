@@ -46,6 +46,7 @@ static QStringList parseRe(const QString& text, const QString& reText) {
     return set.toList();
 }
 
+#if 0
 static const QString TARGETS_RE = R"((?<!^# Not a target\:\n)^([a-zA-Z0-9][^$#\\\/\t=\.]*):(?:[^=]|$))";
 static const QString DEFINES_RE = R"(\-D([^\s\$]+))";
 static const QString INCLUDES_RE = R"(\-I([^\s\$]+))";
@@ -89,22 +90,50 @@ static void parseCCOut(const QString& text, QStringList *incs, QStringList *defs
     Q_UNUSED(defs);
 #endif
 }
+#endif
+
+static QHash<QString, QString> findAllTargets(const QString& text) {
+    QHash<QString, QString> map;
+    QRegularExpression re(R"(^([a-zA-Z0-9 \t\\\/_\.\:\-]*?):(?!=)\s*([^#\r\n]*?)\s*$)",
+                          QRegularExpression::MultilineOption);
+    QRegularExpressionMatchIterator it = re.globalMatch(text);
+    while(it.hasNext()) {
+        QRegularExpressionMatch me = it.next();
+        map.insert(me.captured(1), me.captured(2));
+    }
+    return map;
+}
+
+static QStringList filterTargetHeuristic(const QStringList& all)
+{
+    QStringList targets;
+    QRegularExpression re("^[a-zA-Z0-9_]+$");
+    foreach(QString target, all) {
+        if (target == QString("Makefile"))
+            continue;
+        QRegularExpressionMatch m = re.match(target);
+        if (m.hasMatch())
+            targets.append(target);
+    }
+    return targets;
+}
 
 void TargetUpdateDiscover::finish(int ret)
 {
-#if 0
+#if 1
     Q_UNUSED(ret);
     MakefileInfo info;
     QString text = proc->readAllStandardOutput();
-    info.targets = parseRe(text, TARGETS_RE);
-    info.defines = parseRe(text, DEFINES_RE);
-    info.include = parseRe(text, INCLUDES_RE);
-    qDebug() << info.targets;
-    qDebug() << info.defines;
-    qDebug() << info.include;
     info.workingDir = proc->workingDirectory();
+    info.allTargets = findAllTargets(text);
+    auto it = info.allTargets.cbegin();
+    while (it != info.allTargets.cend()) {
+        qDebug() << it.key() << ':' << it.value();
+        ++it;
+    }
+    info.targets = filterTargetHeuristic(info.allTargets.keys());
     emit updateFinish(info);
-    // deleteLater();
+
 #else
     Q_UNUSED(ret);
     MakefileInfo info;
