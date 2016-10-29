@@ -107,7 +107,8 @@ void MainWindow::on_projectView_fileOpen(const QString &file)
     if (m.inherits("text/plain"))
         ui->centralWidget->fileOpen(file, 0, 0, &ui->projectView->makeInfo());
     else {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(file));
+        // QDesktopServices::openUrl(QUrl::fromLocalFile(file));
+        ui->centralWidget->binOpen(file);
     }
 }
 

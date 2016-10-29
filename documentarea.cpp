@@ -1,5 +1,6 @@
 #include "documentarea.h"
 #include "codeeditor.h"
+#include "qhexedit.h"
 
 #include <QHBoxLayout>
 #include <QToolButton>
@@ -80,6 +81,23 @@ bool DocumentArea::fileOpen(const QString &file, int row, int col, const Makefil
         w->moveTextCursor(row, col);
         w->setFocus();
     }
+    return true;
+}
+
+bool DocumentArea::binOpen(const QString &file)
+{
+    int idx = documentFind(file);
+    if (idx == -1) {
+        QHexEditData *data = QHexEditData::fromFile(file);
+        if (!data)
+            return false;
+        QHexEdit *editor = new QHexEdit(this);
+        editor->setData(data);
+        editor->setReadOnly(true);
+        editor->setWindowTitle(QFileInfo(file).fileName());
+        idx = addTab(editor, editor->windowTitle());
+    }
+    setCurrentIndex(idx);
     return true;
 }
 

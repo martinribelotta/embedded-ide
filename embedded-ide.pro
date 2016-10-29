@@ -18,6 +18,8 @@ win32{
     INCLUDEPATH += C:/OpenSSL-Win32/include
 }
 
+INCLUDEPATH += QHexEdit
+
 QTSOURCEVIEW_SRC_DIR=qtsourceview/src
 include(qtsourceview/src/qsvsh.pri)
 #include(qgdb/qgdb.pri)
@@ -45,7 +47,16 @@ SOURCES += main.cpp\
     projectview.cpp \
     filedownloader.cpp \
     version.cpp \
-    waitingspinnerwidget.cpp
+    waitingspinnerwidget.cpp \
+    QHexEdit/qhexedit.cpp \
+    QHexEdit/qhexeditcomments.cpp \
+    QHexEdit/qhexeditdata.cpp \
+    QHexEdit/qhexeditdatadevice.cpp \
+    QHexEdit/qhexeditdatareader.cpp \
+    QHexEdit/qhexeditdatawriter.cpp \
+    QHexEdit/qhexedithighlighter.cpp \
+    QHexEdit/qhexeditprivate.cpp \
+    QHexEdit/sparserangemap.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -67,7 +78,16 @@ HEADERS  += mainwindow.h \
     version.h \
     templates/ciaa-lpcopen.template \
     targetupdatediscover.h \
-    waitingspinnerwidget.h
+    waitingspinnerwidget.h \
+    QHexEdit/qhexedit.h \
+    QHexEdit/qhexeditcomments.h \
+    QHexEdit/qhexeditdata.h \
+    QHexEdit/qhexeditdatadevice.h \
+    QHexEdit/qhexeditdatareader.h \
+    QHexEdit/qhexeditdatawriter.h \
+    QHexEdit/qhexedithighlighter.h \
+    QHexEdit/qhexeditprivate.h \
+    QHexEdit/sparserangemap.h
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \
@@ -90,6 +110,8 @@ OTHER_FILES += \
 
 DISTFILES += \
     reference-code-c.txt \
-    style.css
+    style.css \
+    QHexEdit/LICENSE \
+    QHexEdit/README.md
 
 RC_ICONS = icon-theme/icon.ico

@@ -2,6 +2,7 @@
 #define CLANGCODECONTEXT_H
 
 #include <QObject>
+#include <QStringList>
 
 class CodeEditor;
 class QProcess;
