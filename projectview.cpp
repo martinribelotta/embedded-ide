@@ -42,6 +42,11 @@ ProjectView::ProjectView(QWidget *parent) :
             break;
     }
     ui->tabWidget->setCurrentIndex(0);
+    connect(this, &ProjectView::projectOpened, [this]() {
+        ui->targetStack->setCurrentIndex(0);
+        ui->waitSpinner->stop();
+    });
+    ui->targetStack->setCurrentIndex(0);
 }
 
 ProjectView::~ProjectView()
@@ -79,6 +84,8 @@ void ProjectView::openProject(const QString &projectFile)
     if (!project().isEmpty())
         closeProject();
     if (!projectFile.isEmpty()) {
+        ui->targetStack->setCurrentIndex(1);
+        ui->waitSpinner->start();
         QFileInfo mk(projectFile);
         QFileSystemModel *model = new QFileSystemModel(this);
         model->setFilter(QDir::AllDirs|QDir::NoDotAndDotDot|QDir::Files);
@@ -152,15 +159,24 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
     foreach(QString t, orderedTargets)
         ui->targetList->addItem(new QListWidgetItem(icon, t));
     sender()->deleteLater();
-    QProcess *ctagProc = new QProcess(this);
-    ctagProc->setWorkingDirectory(mk_info.workingDir);
-    connect(ctagProc, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
-            [ctagProc, this] () {
-        this->refreshTags();
-        ctagProc->deleteLater();
-    });
-    ctagProc->start("ctags -R -e --c-kinds=+p --c++-kinds=+px");
-    emit projectOpened();
+    if (QFileInfo(mk_info.tags.tagFile()).exists()) {
+        emit projectOpened();
+    } else {
+        QProcess *ctagProc = new QProcess(this);
+        ctagProc->setWorkingDirectory(mk_info.workingDir);
+        connect(ctagProc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
+                [ctagProc, this] () {
+            ctagProc->deleteLater();
+            emit projectOpened();
+        });
+        connect(ctagProc, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
+                [ctagProc, this] () {
+            this->refreshTags();
+            ctagProc->deleteLater();
+            emit projectOpened();
+        });
+        ctagProc->start("ctags -R -e --c-kinds=+p --c++-kinds=+px");
+    }
 }
 
 void ProjectView::on_targetList_doubleClicked(const QModelIndex &index)

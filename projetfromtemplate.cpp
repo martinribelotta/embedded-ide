@@ -48,6 +48,6 @@ void ProjetFromTemplate::onFinish(int ret, QProcess::ExitStatus status)
 void ProjetFromTemplate::onError(QProcess::ProcessError err)
 {
     Q_UNUSED(err);
-    emit endOfCreation(QString(), proc->errorString());
+    emit endOfCreation(QString(), QString("DIFF: %1").arg(proc->errorString()));
     deleteLater();
 }

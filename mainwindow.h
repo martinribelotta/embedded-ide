@@ -31,6 +31,8 @@ private slots:
 
     void openProject();
 
+    void projectOpened();
+
     void on_actionHelp_triggered();
 
     void on_actionProjectExport_triggered();

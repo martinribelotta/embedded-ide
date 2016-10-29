@@ -8,6 +8,7 @@
 #include <QRegularExpressionMatchIterator>
 #include <QProcessEnvironment>
 #include <QDir>
+#include <QTemporaryFile>
 
 #include <QtDebug>
 
@@ -38,17 +39,18 @@ static const QStringList prepend(const QString& s, const QStringList& l) {
 
 void CLangCodeContext::startContextUpdate()
 {
-    qDebug() << includes << defines;
-    QString completionCommand =
-            QString("clang -cc1 -code-completion-at -:%1:%2 %3 %4 -")
+    clangProc->setProgram("clang");
+    QStringList argv;
+    argv << "-cc1";
+    argv << "-code-completion-at";
+    argv << QString("-:%1:%2")
             .arg(ed->textCursor().blockNumber() + 1)
-            .arg(ed->textCursor().columnNumber() + 1)
-            .arg(prepend("-D", defines).join(' '))
-            .arg(prepend("-I", includes).join(' '))
-    ;
-    qDebug() << clangProc->workingDirectory();
-    qDebug() << completionCommand;
-    clangProc->start(completionCommand);
+            .arg(ed->textCursor().columnNumber() + 1);
+    argv << prepend("-D", defines);
+    argv << prepend("-I", includes);
+    qDebug() << "workdir:" << clangProc->workingDirectory();
+    qDebug() << "argv:" << argv;
+    clangProc->start("clang", argv);
 }
 
 static QString findDependency(const QString dep, const MakefileInfo *mk)
@@ -63,7 +65,6 @@ static QString findDependency(const QString dep, const MakefileInfo *mk)
     return QString();
 }
 
-// static const QString TOKENISER_TEST=R"(-MMD -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16  -Iapp/inc  -Ibase/inc  -Iboard/inc  -Ichip/inc  -DCORE_M4  -D__USE_LPCOPEN  -D__USE_NEWLIB  -DMYVAR="'Hola \" mundo'" -g3 -Os -ffunction-sections -fdata-sections app/src/blinky.c)";
 static const QString TOKEN_SEPARATORS(" \t");
 static const QString TOKEN_CUOTATIONS(R"("')");
 static const QChar ESCAPE_CHAR = '\\';
@@ -115,18 +116,29 @@ static QStringList cmdLineTokenizer(const QString& line)
     return tokens;
 }
 
+static const QRegularExpression EOL(R"([\r\n])");
+
 static void parseCompilerInfo(const QString& text, QStringList *incs, QStringList *defs)
 {
-    QRegularExpression definesRe(R"(^\#define (\S+) (.*?$))", QRegularExpression::MultilineOption);
+#if 0
+    QRegularExpression definesRe(R"(^\#define (\S+) (.*?)$)", QRegularExpression::MultilineOption);
     auto it = definesRe.globalMatch(text);
     while (it.hasNext()) {
         QRegularExpressionMatch m = it.next();
-        QString symbol = m.captured(1);
-        QString value = m.captured(2);
+#if 1
+        QString define = m.captured(0);
+        defs->append(define);
+#else
+        QString symbol = m.captured(1).remove(EOL);
+        QString value = m.captured(2).remove(EOL);
         if (value.contains(QRegularExpression("[ \\t]")))
             value = value.prepend('"').append('"');
         defs->append(QString("%1=%2").arg(symbol).arg(value));
+#endif
     }
+#else
+    Q_UNUSED(defs);
+#endif
     bool onIncludes = false;
     foreach(QString line, text.split('\n')) {
         if (!onIncludes) {
@@ -136,8 +148,11 @@ static void parseCompilerInfo(const QString& text, QStringList *incs, QStringLis
         } else {
             if (line.startsWith("End of search list"))
                 onIncludes = false;
-            else
-                incs->append(line.trimmed());
+            else {
+                QString ipath = line.trimmed();
+                if (!incs->contains(ipath))
+                    incs->append(ipath);
+            }
         }
     }
 }
@@ -146,7 +161,7 @@ void CLangCodeContext::discoverFor(const QString &path)
 {
     QString workDir = clangProc->workingDirectory();
     QString findElement = QString(path).remove(workDir);
-    if (findElement.startsWith(QDir::separator()))
+    if (findElement.startsWith('\\') || findElement.startsWith('/'))
         findElement.remove(0, 1);
     const MakefileInfo *mk = ed->makefileInfo();
     if (mk) {
@@ -171,6 +186,13 @@ void CLangCodeContext::discoverFor(const QString &path)
                     QString parameters = m.captured(3);
                     qDebug() << "CC:" << compiler << ", type " << compiler_type;
                     QStringList parameterList = cmdLineTokenizer(parameters);
+                    foreach(QString arg, parameterList) {
+                        if (arg.startsWith("-I"))
+                            includes.append(QString(arg).remove(0, 2));
+                        else if (arg.startsWith("-D"))
+                            defines.append(QString(arg).remove(0, 2));
+                    }
+
                     parameterList.removeAll("-c");
                     int idx_o;
                     if ((idx_o = parameterList.indexOf("-o")) != -1) {
@@ -187,9 +209,29 @@ void CLangCodeContext::discoverFor(const QString &path)
                     connect(cc, static_cast<void (QProcess::*)(int)>(&QProcess::finished), [this, cc](int ) {
                         QString out = cc->readAll();
                         parseCompilerInfo(out, &includes, &defines);
+#if 0
+                        QTemporaryFile *temporaryDefines = new QTemporaryFile(this);
+                        temporaryDefines->setObjectName("temporaryDefines");
+                        if (temporaryDefines->open()) {
+                            QTextStream stream(temporaryDefines);
+                            foreach(QString line, defines) {
+                                stream << QString("%1\n").arg(line);
+                            }
+                            temporaryDefines->close();
+                        } else {
+                            qDebug() << "error opening tmp defs: " << temporaryDefines->errorString();
+                            temporaryDefines->deleteLater();
+                        }
+#endif
                         cc->deleteLater();
-                        qDebug() << includes;
-                        qDebug() << defines;
+                        qDebug() << "Includes:" << includes;
+                        qDebug() << "Defines:" << defines;
+                    });
+                    connect(cc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error), [this, cc](QProcess::ProcessError err) {
+                        Q_UNUSED(err);
+                        qDebug() << "CC ERROR: " << cc->program() << cc->arguments() << "\n"
+                                 << "\t" << cc->errorString();
+                        cc->deleteLater();
                     });
                     cc->start(compiler, parameterList);
                 }

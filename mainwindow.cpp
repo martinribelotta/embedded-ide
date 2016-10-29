@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
     ui->projectDock->setTitleBarWidget(new QWidget(this));
     ui->actionProjectOpen->setMenu(lastProjects(this));
+    connect(ui->projectView, &ProjectView::projectOpened, this, &MainWindow::projectOpened);
 }
 
 MainWindow::~MainWindow()
@@ -153,6 +154,11 @@ void MainWindow::openProject()
         QString name = a->data().toString();
         ui->projectView->openProject(name);
     }
+}
+
+void MainWindow::projectOpened()
+{
+    // TODO: Implement me
 }
 
 void MainWindow::on_actionHelp_triggered()

@@ -44,13 +44,13 @@ SOURCES += main.cpp\
     etags.cpp \
     projectview.cpp \
     filedownloader.cpp \
-    version.cpp
+    version.cpp \
+    waitingspinnerwidget.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
     codeeditor.h \
     projectnewdialog.h \
-    targetupdatediscover.h \
     projetfromtemplate.h \
     projectexporter.h \
     configdialog.h \
@@ -65,7 +65,9 @@ HEADERS  += mainwindow.h \
     projectview.h \
     filedownloader.h \
     version.h \
-    templates/ciaa-lpcopen.template
+    templates/ciaa-lpcopen.template \
+    targetupdatediscover.h \
+    waitingspinnerwidget.h
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \

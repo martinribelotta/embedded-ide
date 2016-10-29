@@ -34,6 +34,7 @@ void TargetUpdateDiscover::start(const QString& project)
     }
 }
 
+#if 0
 static QStringList parseRe(const QString& text, const QString& reText) {
     QSet<QString> set;
     QRegularExpression re(reText, QRegularExpression::MultilineOption);
@@ -46,7 +47,6 @@ static QStringList parseRe(const QString& text, const QString& reText) {
     return set.toList();
 }
 
-#if 0
 static const QString TARGETS_RE = R"((?<!^# Not a target\:\n)^([a-zA-Z0-9][^$#\\\/\t=\.]*):(?:[^=]|$))";
 static const QString DEFINES_RE = R"(\-D([^\s\$]+))";
 static const QString INCLUDES_RE = R"(\-I([^\s\$]+))";
