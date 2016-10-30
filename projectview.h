@@ -34,7 +34,6 @@ public slots:
     void buildStart(const QString& target);
     void buildStop();
     void setDebugOn(bool on);
-    void refreshTags();
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);

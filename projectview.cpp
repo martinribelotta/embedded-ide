@@ -134,11 +134,6 @@ void ProjectView::setDebugOn(bool on)
     }
 }
 
-void ProjectView::refreshTags()
-{
-    qDebug() << "parse tags " << mk_info.tags.parse(QDir(mk_info.workingDir).absoluteFilePath("TAGS"));
-}
-
 void ProjectView::on_treeView_activated(const QModelIndex &index)
 {
     QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
@@ -171,11 +166,12 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
         });
         connect(ctagProc, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
                 [ctagProc, this] () {
-            this->refreshTags();
+            qDebug() << "parse tags "
+                     << mk_info.tags.parse(ctagProc);
             ctagProc->deleteLater();
             emit projectOpened();
         });
-        ctagProc->start("ctags -R -e --c-kinds=+p --c++-kinds=+px");
+        ctagProc->start("ctags -R -e --c-kinds=+p --c++-kinds=+px -f -");
     }
 }
 

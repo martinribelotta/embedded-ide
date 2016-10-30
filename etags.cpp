@@ -6,7 +6,7 @@
 
 #include <QtDebug>
 
-static bool findNextEntry(QFile *f)
+static bool findNextEntry(QIODevice *f)
 {
     bool founded = false;
     while(!f->atEnd() && !founded) {
@@ -57,22 +57,17 @@ static void parseDefs(const QString& in, const QString& file, ETags::TagMap *map
     }
 }
 
-bool ETags::parse(const QString &path)
+bool ETags::parse(QIODevice *in)
 {
-    m_path = path;
-    QFile in(m_path);
     map.clear();
-    if (in.open(QFile::ReadOnly)) {
-        while (findNextEntry(&in)) {
-            QByteArray line = in.readLine();
-            int len = 0;
-            QString file = processFileName(line, &len);
-            if (!file.isEmpty() && len != -1) {
-                QString defs = in.read(len);
-                parseDefs(defs, file, &map);
-            }
+    while (findNextEntry(in)) {
+        QByteArray line = in->readLine();
+        int len = 0;
+        QString file = processFileName(line, &len);
+        if (!file.isEmpty() && len != -1) {
+            QString defs = in->read(len);
+            parseDefs(defs, file, &map);
         }
-        return true;
-    } else
-        return false;
+    }
+    return true;
 }

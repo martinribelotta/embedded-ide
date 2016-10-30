@@ -6,6 +6,8 @@
 #include <QString>
 #include <QStringList>
 
+class QIODevice;
+
 class ETags
 {
 public:
@@ -27,7 +29,7 @@ public:
 
     bool isValid() { return !tagList().isEmpty(); }
 
-    bool parse(const QString& path);
+    bool parse(QIODevice *in);
 
     QStringList tagList() const {
         return map.keys();
@@ -44,6 +46,6 @@ private:
     QString m_path;
 };
 
-Q_DECLARE_METATYPE(ETags::Tag);
+Q_DECLARE_METATYPE(ETags::Tag)
 
 #endif // ETAGS_H
