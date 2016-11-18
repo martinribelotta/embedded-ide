@@ -31,8 +31,11 @@ public:
 public slots:
     void closeProject();
     void openProject(const QString& projectFile);
+
+#if 0
     void buildStart(const QString& target);
     void buildStop();
+#endif
     void setDebugOn(bool on);
 
 private slots:
@@ -41,9 +44,10 @@ private slots:
 
     void on_targetList_doubleClicked(const QModelIndex &index);
 
+#if 0
     void on_buildProc_readyReadStandardError();
     void on_buildProc_readyReadStandardOutput();
-
+#endif
     void on_filterCombo_activated(int idx);
 
     void on_filterButton_clicked();
@@ -58,13 +62,17 @@ signals:
     void projectOpened();
     void fileOpen(const QString& file);
     void startBuild(const QString& target);
+#if 0
     void buildStdout(const QString& text);
     void buildStderr(const QString& text);
     void buildEnd(int status);
+#endif
 
 private:
     Ui::DocumentView *ui;
+#if 0
     QProcess *buildProc;
+#endif
     MakefileInfo mk_info;
 };
 

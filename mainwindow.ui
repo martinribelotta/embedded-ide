@@ -61,98 +61,7 @@
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <property name="leftMargin">
-      <number>1</number>
-     </property>
-     <property name="topMargin">
-      <number>1</number>
-     </property>
-     <property name="rightMargin">
-      <number>1</number>
-     </property>
-     <property name="bottomMargin">
-      <number>1</number>
-     </property>
-     <item>
-      <widget class="QTextBrowser" name="textLog">
-       <property name="lineWrapMode">
-        <enum>QTextEdit::NoWrap</enum>
-       </property>
-       <property name="acceptRichText">
-        <bool>false</bool>
-       </property>
-       <property name="placeholderText">
-        <string>Console...</string>
-       </property>
-       <property name="openLinks">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="spacing">
-        <number>12</number>
-       </property>
-       <property name="leftMargin">
-        <number>8</number>
-       </property>
-       <item>
-        <widget class="QToolButton" name="buildStop">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>...</string>
-         </property>
-         <property name="icon">
-          <iconset theme="process-stop" resource="resources.qrc">
-           <normaloff>:/icon-theme/icon-theme/process-stop.png</normaloff>:/icon-theme/icon-theme/process-stop.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="toolButton">
-         <property name="icon">
-          <iconset theme="edit-clear" resource="resources.qrc">
-           <normaloff>:/icon-theme/icon-theme/edit-clear.png</normaloff>:/icon-theme/icon-theme/edit-clear.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
+   <widget class="LoggerWidget" name="loggerWidget"/>
   </widget>
   <widget class="QDockWidget" name="projectDock">
    <property name="features">
@@ -271,6 +180,12 @@
    <header>projectview.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>LoggerWidget</class>
+   <extends>QWidget</extends>
+   <header>loggerwidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="resources.qrc"/>
@@ -289,22 +204,6 @@
     <hint type="destinationlabel">
      <x>439</x>
      <y>257</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>toolButton</sender>
-   <signal>clicked()</signal>
-   <receiver>textLog</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>865</x>
-     <y>306</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>759</x>
-     <y>389</y>
     </hint>
    </hints>
   </connection>

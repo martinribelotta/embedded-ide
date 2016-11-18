@@ -56,7 +56,8 @@ SOURCES += main.cpp\
     QHexEdit/qhexeditdatawriter.cpp \
     QHexEdit/qhexedithighlighter.cpp \
     QHexEdit/qhexeditprivate.cpp \
-    QHexEdit/sparserangemap.cpp
+    QHexEdit/sparserangemap.cpp \
+    loggerwidget.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -87,7 +88,8 @@ HEADERS  += mainwindow.h \
     QHexEdit/qhexeditdatawriter.h \
     QHexEdit/qhexedithighlighter.h \
     QHexEdit/qhexeditprivate.h \
-    QHexEdit/sparserangemap.h
+    QHexEdit/sparserangemap.h \
+    loggerwidget.h
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \

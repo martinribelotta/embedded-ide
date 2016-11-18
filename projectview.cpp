@@ -25,9 +25,11 @@ ProjectView::ProjectView(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DocumentView)
 {
+#if 0
     buildProc = new QProcess(this);
     buildProc->setObjectName("buildProc");
     connect(buildProc, SIGNAL(finished(int)), this, SIGNAL(buildEnd(int)));
+#endif
     ui->setupUi(this);
     QFile filterFiles(":/build/project-filters.txt");
     filterFiles.open(QFile::ReadOnly);
@@ -104,6 +106,7 @@ void ProjectView::openProject(const QString &projectFile)
     }
 }
 
+#if 0
 void ProjectView::buildStart(const QString &target)
 {
     if (buildProc->state() != QProcess::NotRunning)
@@ -124,6 +127,7 @@ void ProjectView::buildStop()
         }
     }
 }
+#endif
 
 void ProjectView::setDebugOn(bool on)
 {
@@ -181,6 +185,7 @@ void ProjectView::on_targetList_doubleClicked(const QModelIndex &index)
     emit startBuild(item->text());
 }
 
+#if 0
 void ProjectView::on_buildProc_readyReadStandardError()
 {
     emit buildStderr(buildProc->readAllStandardError());
@@ -190,6 +195,7 @@ void ProjectView::on_buildProc_readyReadStandardOutput()
 {
     emit buildStdout(buildProc->readAllStandardOutput());
 }
+#endif
 
 void ProjectView::on_filterCombo_activated(int idx)
 {

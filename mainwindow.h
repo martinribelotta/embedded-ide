@@ -41,6 +41,8 @@ private slots:
 
     void on_actionProjectClose_triggered();
 
+
+#if 0
     void on_buildStop_clicked();
 
     void on_projectView_buildStdout(const QString& text);
@@ -48,14 +50,14 @@ private slots:
     void on_projectView_buildStderr(const QString& text);
 
     void on_projectView_buildEnd(int status);
-
+#endif
     void on_projectView_projectOpened();
 
     void on_actionSave_All_triggered();
 
     void on_actionConfigure_triggered();
 
-    void on_textLog_anchorClicked(const QUrl &url);
+    void loggerOpenPath(const QString &path, int col, int row);
 
 private:
     Ui::MainWindow *ui;

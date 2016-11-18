@@ -24,29 +24,6 @@
 
 #include <QtDebug>
 
-static bool isFixedPitch(const QFont & font) {
-    const QFontInfo fi(font);
-    // qDebug() << fi.family() << fi.fixedPitch();
-    return fi.fixedPitch();
-}
-
-static const QFont monoFont() {
-    QFont font("monospace");
-    if (isFixedPitch(font))
-        return font;
-    font.setStyleHint(QFont::Monospace);
-    if (isFixedPitch(font))
-        return font;
-    font.setStyleHint(QFont::TypeWriter);
-    if (isFixedPitch(font))
-        return font;
-    font.setFamily("courier");
-    if (isFixedPitch(font))
-        return font;
-    // qDebug() << font << "fallback";
-    return font;
-}
-
 static QMenu *lastProjects(QWidget *parent) {
     QMenu *m = new QMenu(parent);
     QSettings sets;
@@ -63,14 +40,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QFont logFont = monoFont();
-    logFont.setPointSize(10);
-    ui->textLog->document()->setDefaultFont(logFont);
+    //QFont logFont = monoFont();
+    //logFont.setPointSize(10);
+    //ui->textLog->document()->setDefaultFont(logFont);
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
     ui->projectDock->setTitleBarWidget(new QWidget(this));
     ui->actionProjectOpen->setMenu(lastProjects(this));
     connect(ui->projectView, &ProjectView::projectOpened, this, &MainWindow::projectOpened);
+    connect(ui->loggerWidget, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
+    connect(ui->projectView, &ProjectView::startBuild, [this](const QString& target) {
+        QString projectPath = ui->projectView->projectPath().absolutePath();
+        QStringList args;
+        args << "-f" << ui->projectView->project() << target;
+        ui->loggerWidget->setWorkingDir(projectPath).startProcess("make", args);
+    });
 }
 
 MainWindow::~MainWindow()
@@ -188,9 +172,9 @@ void MainWindow::on_actionProjectExport_triggered()
 
 void MainWindow::on_projectView_startBuild(const QString &target)
 {
-    ui->textLog->clear();
-    ui->projectView->buildStart(target); // Ok! bad back signal!!!
-    ui->buildStop->setEnabled(true);
+    //ui->textLog->clear();
+    //ui->projectView->buildStart(target); // Ok! bad back signal!!!
+    //ui->buildStop->setEnabled(true);
 }
 
 void MainWindow::on_actionProjectClose_triggered()
@@ -198,30 +182,10 @@ void MainWindow::on_actionProjectClose_triggered()
     ui->projectView->closeProject();
 }
 
+#if 0
 void MainWindow::on_buildStop_clicked()
 {
     ui->projectView->buildStop();
-}
-
-QString mkUrl(const QString& p, const QString& x, const QString& y) {
-    return QString("file:%1?x=%2&y=%3").arg(p).arg(x).arg(y.toInt() - 1);
-}
-
-static QString consoleMarkErrorT1(const QString& s) {
-    QString str(s);
-    QRegularExpression re(R"(^(.+?):(\d+):(\d+):(.+?):(.+?)$)");
-    re.setPatternOptions(QRegularExpression::MultilineOption);
-    QRegularExpressionMatchIterator it = re.globalMatch(s);
-    while(it.hasNext()) {
-        QRegularExpressionMatch m = it.next();
-        QString text = m.captured(0);
-        QString path = m.captured(1);
-        QString line = m.captured(2);
-        QString col = m.captured(3);
-        QString url = mkUrl(path, line, col);
-        str.replace(text, QString("<a href=\"%1\">%2</a>").arg(url).arg(text));
-    }
-    return str;
 }
 
 static QString consoleToHtml(const QString& s) {
@@ -250,9 +214,10 @@ void MainWindow::on_projectView_buildStderr(const QString &text)
 
 void MainWindow::on_projectView_buildEnd(int status)
 {
-    ui->buildStop->setEnabled(false);
+    // ui->buildStop->setEnabled(false);
     Q_UNUSED(status);
 }
+#endif
 
 void MainWindow::on_projectView_projectOpened()
 {
@@ -275,12 +240,9 @@ void MainWindow::on_actionConfigure_triggered()
     ConfigDialog(this).exec();
 }
 
-void MainWindow::on_textLog_anchorClicked(const QUrl &url)
+void MainWindow::loggerOpenPath(const QString& path, int col, int row)
 {
-    QUrlQuery q(url.query());
-    int row = q.queryItemValue("x").toInt();
-    int col = q.queryItemValue("y").toInt();
-    QString file = ui->projectView->projectPath().absoluteFilePath(url.toLocalFile());
-    // qDebug() << "Opening" << file << row << col;
+    QString file = ui->projectView->projectPath().absoluteFilePath(path);
+    qDebug() << "Opening" << file << row << col;
     ui->centralWidget->fileOpen(file, row, col, &ui->projectView->makeInfo());
 }
