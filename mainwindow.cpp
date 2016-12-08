@@ -35,6 +35,17 @@ static QMenu *lastProjects(QWidget *parent) {
     return m;
 }
 
+static void removeFromLastProject(const QString& path) {
+    QSettings sets;
+    sets.beginGroup("last_projects");
+    foreach(QString key, sets.allKeys()) {
+        if (sets.value(key) == path) {
+            sets.remove(key);
+            break;
+        }
+    }
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -120,24 +131,22 @@ void MainWindow::on_actionProjectOpen_triggered()
                                "All Files (*)")
                             );
     if (!name.isEmpty()) {
-        ui->projectView->openProject(name);
+            ui->projectView->openProject(name);
     }
 }
-
-#if 0
-static QString resourceText(const QString& res) {
-    QFile f(res);
-    f.open(QFile::ReadOnly);
-    return f.readAll();
-}
-#endif
 
 void MainWindow::openProject()
 {
     QAction *a = qobject_cast<QAction*>(sender());
     if (a) {
         QString name = a->data().toString();
-        ui->projectView->openProject(name);
+        if (QFileInfo(name).exists()) {
+            ui->projectView->openProject(name);
+        } else {
+            QMessageBox::critical(this, tr("Open Project"), tr("Cannot open %1").arg(a->text()));
+            removeFromLastProject(name);
+            ui->actionProjectOpen->setMenu(lastProjects(this));
+        }
     }
 }
 

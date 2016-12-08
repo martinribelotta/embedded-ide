@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Embedded IDE
+Comment=Makefile based IDE for embedded systems
+Exec=embedded-ide
+Icon=embedded-ide.png
+Terminal=false
+

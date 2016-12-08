@@ -246,7 +246,10 @@ bool CodeEditor::load(const QString &fileName)
            QMimeDatabase db;
            QMimeType fType = db.mimeTypeForFile(info);
            if (fType.inherits("text/x-csrc")) {
-               langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" );
+               langDef =
+                       fType.inherits("text/x-cxxsrc")?
+                           new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" ):
+                           new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/cpp.lang" );
                QString workDir = makefileInfo()? makefileInfo()->workingDir : info.absolutePath();
                CLangCodeContext *ctx = new CLangCodeContext(this);
                ctx->setWorkingDir(workDir);

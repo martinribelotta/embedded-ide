@@ -106,29 +106,6 @@ void ProjectView::openProject(const QString &projectFile)
     }
 }
 
-#if 0
-void ProjectView::buildStart(const QString &target)
-{
-    if (buildProc->state() != QProcess::NotRunning)
-        buildStop();
-    buildProc->setWorkingDirectory(QFileInfo(project()).absoluteDir().absolutePath());
-    buildProc->start(QString("make -f \"%1\" \"%2\"")
-                     .arg(project())
-                     .arg(target));
-}
-
-void ProjectView::buildStop()
-{
-    if (buildProc->state() != QProcess::NotRunning) {
-        buildProc->terminate();
-        if (!buildProc->waitForFinished(1000)) {
-            emit buildStderr(tr("Killing process"));
-            buildProc->kill();
-        }
-    }
-}
-#endif
-
 void ProjectView::setDebugOn(bool on)
 {
     if (on) {
@@ -184,18 +161,6 @@ void ProjectView::on_targetList_doubleClicked(const QModelIndex &index)
     QListWidgetItem *item = ui->targetList->item(index.row());
     emit startBuild(item->text());
 }
-
-#if 0
-void ProjectView::on_buildProc_readyReadStandardError()
-{
-    emit buildStderr(buildProc->readAllStandardError());
-}
-
-void ProjectView::on_buildProc_readyReadStandardOutput()
-{
-    emit buildStdout(buildProc->readAllStandardOutput());
-}
-#endif
 
 void ProjectView::on_filterCombo_activated(int idx)
 {
