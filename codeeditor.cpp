@@ -108,7 +108,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
 #endif
     QAction *saveAction = new QAction(this);
     saveAction->setShortcut(QKeySequence("ctrl+s"));
-    connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
+    connect(saveAction, &QAction::triggered, this, &CodeEditor::save);
     addAction(saveAction);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
@@ -283,9 +283,23 @@ bool CodeEditor::save()
             document()->setModified(false);
             return true;
         }
-    }
-    emit fileError(f.errorString());
+    } else
+        emit fileError(f.errorString());
     return false;
+}
+
+void CodeEditor::reload()
+{
+    if (!m_documentFile.isEmpty()) {
+        int pos = textCursor().position();
+        QFile f(m_documentFile);
+        if (f.open(QFile::ReadOnly)) {
+            setPlainText(f.readAll());
+            QTextCursor cursor = this->textCursor();
+            cursor.setPosition(pos, QTextCursor::MoveAnchor);
+            this->setTextCursor(cursor);
+        }
+    }
 }
 
 void CodeEditor::smartHome()

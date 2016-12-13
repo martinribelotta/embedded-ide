@@ -4,6 +4,7 @@
 #include <QTabWidget>
 
 class MakefileInfo;
+class CodeEditor;
 
 class DocumentArea : public QTabWidget
 {
@@ -22,10 +23,12 @@ private slots:
     void documentToClose(int idx);
     void closeAll();
     void saveCurrent();
+    void reloadCurrent();
     void modifyTab(bool isModify);
+    void tabDestroy(QObject *obj);
 
 private:
-    int documentFind(const QString& file);
+    int documentFind(const QString& file, CodeEditor **ww = nullptr);
 };
 
 #endif // DOCUMENTAREA_H

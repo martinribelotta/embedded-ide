@@ -46,6 +46,7 @@
         <file>icon-theme/list-remove.png</file>
         <file>icon-theme/get.png</file>
         <file>icon-theme/project-new.svg</file>
+        <file>icon-theme/view-refresh.png</file>
     </qresource>
     <qresource prefix="/qsvsh">
         <file>qtsourceview/data/mime.types</file>

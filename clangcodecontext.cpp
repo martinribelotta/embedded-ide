@@ -186,19 +186,27 @@ void CLangCodeContext::discoverFor(const QString &path)
                     QString parameters = m.captured(3);
                     qDebug() << "CC:" << compiler << ", type " << compiler_type;
                     QStringList parameterList = cmdLineTokenizer(parameters);
+                    QList<int> toRemove;
+                    int idx = 0;
                     foreach(QString arg, parameterList) {
                         if (arg.startsWith("-I"))
                             includes.append(QString(arg).remove(0, 2));
                         else if (arg.startsWith("-D"))
                             defines.append(QString(arg).remove(0, 2));
+                        else if (QRegularExpression(R"(^-(?:MMD|MM|MG|MP|MD|M)$)").match(arg).hasMatch())
+                            toRemove << idx;
+                        else if (QRegularExpression(R"(^-(?:MQ|MT|MF)$)").match(arg).hasMatch())
+                            toRemove << idx << (idx + 1);
+                        else if (arg == "-c")
+                            toRemove.append(idx);
+                        else if (arg == "-o")
+                            toRemove << idx << (idx + 1);
+                        idx++;
                     }
-
-                    parameterList.removeAll("-c");
-                    int idx_o;
-                    if ((idx_o = parameterList.indexOf("-o")) != -1) {
-                            parameterList.removeAt(idx_o);
-                            parameterList.removeAt(idx_o);
-                    }
+                    qSort(toRemove.begin(), toRemove.end(),
+                          [](int a, int b) -> bool { return a > b; });
+                    foreach(int i, toRemove)
+                        parameterList.removeAt(i);
                     parameterList.append("-dM");
                     parameterList.append("-E");
                     parameterList.append("-v");

@@ -52,6 +52,7 @@ public slots:
 
     bool load(const QString &fileName);
     bool save();
+    void reload();
 
     void smartHome();
     void smartEnd();
@@ -84,6 +85,7 @@ signals:
     void updateCodeContext();
     void widgetResized();
     void requireOpen(const QString& file, int row, int col, const MakefileInfo *mk);
+    void requestForSave(CodeEditor *sender);
 
 private:
     QTextCursor wordUnderCursor() const;

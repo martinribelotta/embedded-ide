@@ -49,13 +49,17 @@ DocumentArea::DocumentArea(QWidget *parent) :
     //buttonBoxLayout->setContentsMargins(0, 0, 0, 0);
     QToolButton *closeAll = new QToolButton(buttonBox);
     QToolButton *saveCurrent = new QToolButton(buttonBox);
+    QToolButton *reloadCurrent = new QToolButton(buttonBox);
+    buttonBoxLayout->addWidget(reloadCurrent);
     buttonBoxLayout->addWidget(saveCurrent);
     buttonBoxLayout->addWidget(closeAll);
 
+    reloadCurrent->setIcon(QIcon::fromTheme("view-refresh", QIcon(":/icon-theme/icon-theme/view-refresh.png")));
     closeAll->setIcon(QIcon::fromTheme("tab-close-other", QIcon(":/icon-theme/icon-theme/tab-close-other.png")));
     saveCurrent->setIcon(QIcon::fromTheme("document-save", QIcon(":/icon-theme/icon-theme/document-save.png")));
     connect(closeAll, SIGNAL(clicked()), this, SLOT(closeAll()));
     connect(saveCurrent, SIGNAL(clicked()), this, SLOT(saveCurrent()));
+    connect(reloadCurrent, SIGNAL(clicked()), this, SLOT(reloadCurrent()));
     setCornerWidget(buttonBox, Qt::TopRightCorner);
     setDocumentMode(false);
     setTabsClosable(true);
@@ -74,6 +78,7 @@ bool DocumentArea::fileOpen(const QString &file, int row, int col, const Makefil
             return false;
         idx = addTab(editor, editor->windowTitle());
         connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modifyTab(bool)));
+        connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
     setCurrentIndex(idx);
     CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
@@ -95,7 +100,9 @@ bool DocumentArea::binOpen(const QString &file)
         editor->setData(data);
         editor->setReadOnly(true);
         editor->setWindowTitle(QFileInfo(file).fileName());
+        editor->setWindowFilePath(QFileInfo(file).absoluteFilePath());
         idx = addTab(editor, editor->windowTitle());
+        connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
     setCurrentIndex(idx);
     return true;
@@ -131,6 +138,13 @@ void DocumentArea::saveCurrent()
         w->save();
 }
 
+void DocumentArea::reloadCurrent()
+{
+    CodeEditor *w = qobject_cast<CodeEditor*>(currentWidget());
+    if (w)
+        w->reload();
+}
+
 void DocumentArea::modifyTab(bool isModify)
 {
     CodeEditor *w = qobject_cast<CodeEditor*>(sender());
@@ -147,13 +161,21 @@ void DocumentArea::modifyTab(bool isModify)
         qWarning("sender of modifyTab is not a CodeEditor");
 }
 
-int DocumentArea::documentFind(const QString &file)
+void DocumentArea::tabDestroy(QObject *obj)
+{
+    Q_UNUSED(obj);
+}
+
+int DocumentArea::documentFind(const QString &file, CodeEditor **ww)
 {
     for(int i=0; i<count(); i++) {
         CodeEditor *w = qobject_cast<CodeEditor*>(widget(i));
         if (w) {
-            if (w->windowFilePath() == file)
+            if (w->windowFilePath() == file) {
+                if (ww)
+                    *ww = w;
                 return i;
+            }
         }
     }
     return -1;
