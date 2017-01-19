@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>600</height>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -77,8 +77,8 @@
   </widget>
   <action name="actionProjectNew">
    <property name="icon">
-    <iconset theme="project-development-new-template" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/project-development-new-template.png</normaloff>:/icon-theme/icon-theme/project-development-new-template.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/document-new.svg</normaloff>:/images/document-new.svg</iconset>
    </property>
    <property name="text">
     <string>ProjectNew</string>
@@ -89,8 +89,8 @@
   </action>
   <action name="actionProjectOpen">
    <property name="icon">
-    <iconset theme="project-open" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/project-open.png</normaloff>:/icon-theme/icon-theme/project-open.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
    </property>
    <property name="text">
     <string>ProjectOpen</string>
@@ -101,8 +101,8 @@
   </action>
   <action name="actionHelp">
    <property name="icon">
-    <iconset theme="help-about" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/help-about.png</normaloff>:/icon-theme/icon-theme/help-about.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/help-about.svg</normaloff>:/images/help-about.svg</iconset>
    </property>
    <property name="text">
     <string>Help</string>
@@ -110,8 +110,8 @@
   </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset theme="application-exit" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/application-exit.png</normaloff>:/icon-theme/icon-theme/application-exit.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/application-exit.svg</normaloff>:/images/application-exit.svg</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -119,8 +119,8 @@
   </action>
   <action name="actionProjectExport">
    <property name="icon">
-    <iconset theme="document-export" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/document-export-table.png</normaloff>:/icon-theme/icon-theme/document-export-table.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/document-export.svg</normaloff>:/images/document-export.svg</iconset>
    </property>
    <property name="text">
     <string>ProjectExport</string>
@@ -131,8 +131,8 @@
   </action>
   <action name="actionProjectClose">
    <property name="icon">
-    <iconset theme="project-development-close-all" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/project-development-close-all.png</normaloff>:/icon-theme/icon-theme/project-development-close-all.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/document-close.svg</normaloff>:/images/document-close.svg</iconset>
    </property>
    <property name="text">
     <string>ProjectClose</string>
@@ -143,8 +143,8 @@
   </action>
   <action name="actionSave_All">
    <property name="icon">
-    <iconset theme="document-save-all" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/document-save-all.png</normaloff>:/icon-theme/icon-theme/document-save-all.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/document-save-all.svg</normaloff>:/images/document-save-all.svg</iconset>
    </property>
    <property name="text">
     <string>Save All</string>
@@ -155,8 +155,8 @@
   </action>
   <action name="actionConfigure">
    <property name="icon">
-    <iconset theme="configure" resource="resources.qrc">
-     <normaloff>:/icon-theme/icon-theme/configure.png</normaloff>:/icon-theme/icon-theme/configure.png</iconset>
+    <iconset resource="resources.qrc">
+     <normaloff>:/images/configure.svg</normaloff>:/images/configure.svg</iconset>
    </property>
    <property name="text">
     <string>Configure</string>

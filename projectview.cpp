@@ -128,7 +128,7 @@ void ProjectView::on_treeView_activated(const QModelIndex &index)
 void ProjectView::updateMakefileInfo(const MakefileInfo &info)
 {
     mk_info = info;
-    QIcon icon = QIcon::fromTheme("run-build-configure", QIcon(":/icon-theme/icon-theme/run-build-configure.png"));
+    QIcon icon = QIcon::fromTheme("run-build-configure", QIcon("://images/actions/run-build-configure.svg"));
     ui->targetList->clear();
     QStringList orderedTargets = mk_info.targets;
     orderedTargets.sort();

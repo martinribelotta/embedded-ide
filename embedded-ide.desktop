@@ -6,4 +6,3 @@ Comment=Makefile based IDE for embedded systems
 Exec=embedded-ide
 Icon=embedded-ide.png
 Terminal=false
-

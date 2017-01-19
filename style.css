@@ -20,3 +20,12 @@ QToolBar > QToolButton:pressed {
     background: #49879c;
 }
 */
+
+/*
+QListWidget, QTreeView, QTextBrowser, DocumentArea::pane {
+    border-width: 1px;
+    border-style: solid;
+    border-color: blue;
+    border-radius: 6px;
+}
+*/

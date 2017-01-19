@@ -60,11 +60,12 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
     QProcess *proc = new QProcess(this);
     constexpr QSize iconSize(32, 32);
 
-    clearConsole->setIcon(QIcon(":/icon-theme/icon-theme/edit-clear.png"));
-    killProc->setIcon(QIcon(":/icon-theme/icon-theme/process-stop.png"));
+    clearConsole->setIcon(QIcon("://images/actions/edit-clear.svg"));
+    killProc->setIcon(QIcon("://images/actions/media-playback-stop.svg"));
     clearConsole->setIconSize(iconSize);
     killProc->setIconSize(iconSize);
     killProc->setEnabled(false);
+    view->setWordWrapMode(QTextOption::NoWrap);
 
     connect(clearConsole, &QToolButton::clicked, [this]() {
         d_ptr->view->clear();

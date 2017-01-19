@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -183,7 +183,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources.qrc">
-              <normaloff>:/icon-theme/icon-theme/list-add.png</normaloff>:/icon-theme/icon-theme/list-add.png</iconset>
+              <normaloff>:/images/actions/list-add.svg</normaloff>:/images/actions/list-add.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -200,7 +200,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources.qrc">
-              <normaloff>:/icon-theme/icon-theme/list-remove.png</normaloff>:/icon-theme/icon-theme/list-remove.png</iconset>
+              <normaloff>:/images/actions/list-remove.svg</normaloff>:/images/actions/list-remove.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -246,7 +246,7 @@
         <widget class="QToolButton" name="projectTemplatesDownload">
          <property name="icon">
           <iconset resource="resources.qrc">
-           <normaloff>:/icon-theme/icon-theme/get.png</normaloff>:/icon-theme/icon-theme/get.png</iconset>
+           <normaloff>:/images/edit-download.svg</normaloff>:/images/edit-download.svg</iconset>
          </property>
         </widget>
        </item>

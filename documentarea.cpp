@@ -54,9 +54,9 @@ DocumentArea::DocumentArea(QWidget *parent) :
     buttonBoxLayout->addWidget(saveCurrent);
     buttonBoxLayout->addWidget(closeAll);
 
-    reloadCurrent->setIcon(QIcon::fromTheme("view-refresh", QIcon(":/icon-theme/icon-theme/view-refresh.png")));
-    closeAll->setIcon(QIcon::fromTheme("tab-close-other", QIcon(":/icon-theme/icon-theme/tab-close-other.png")));
-    saveCurrent->setIcon(QIcon::fromTheme("document-save", QIcon(":/icon-theme/icon-theme/document-save.png")));
+    reloadCurrent->setIcon(QIcon("://images/actions/view-refresh.svg"));
+    closeAll->setIcon(QIcon("://images/actions/window-close.svg"));
+    saveCurrent->setIcon(QIcon("://images/document-save.svg"));
     connect(closeAll, SIGNAL(clicked()), this, SLOT(closeAll()));
     connect(saveCurrent, SIGNAL(clicked()), this, SLOT(saveCurrent()));
     connect(reloadCurrent, SIGNAL(clicked()), this, SLOT(reloadCurrent()));
