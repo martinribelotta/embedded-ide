@@ -13,13 +13,16 @@
 
 #include <QCheckBox>
 #include <QInputDialog>
+#include <QMenu>
 #include <QProgressBar>
+#include <QWidgetAction>
 #include <QtConcurrent>
 #include <QtDebug>
 
 #include "projecticonprovider.h"
 #include "targetupdatediscover.h"
 #include "etags.h"
+#include "taglist.h"
 
 ProjectView::ProjectView(QWidget *parent) :
     QWidget(parent),
@@ -31,6 +34,14 @@ ProjectView::ProjectView(QWidget *parent) :
     connect(buildProc, SIGNAL(finished(int)), this, SIGNAL(buildEnd(int)));
 #endif
     ui->setupUi(this);
+    QMenu *menu = new QMenu(this);
+    QWidgetAction *action = new QWidgetAction(menu);
+    tagList = new TagList(this);
+    action->setDefaultWidget(tagList);
+    menu->addAction(action);
+    ui->toolButton_symbols->setMenu(menu);
+    ui->toolButton_symbols->hide();
+
     QFile filterFiles(":/build/project-filters.txt");
     filterFiles.open(QFile::ReadOnly);
     while (!filterFiles.atEnd()) {
@@ -149,6 +160,7 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
                 [ctagProc, this] () {
             qDebug() << "parse tags "
                      << mk_info.tags.parse(ctagProc);
+            // tagList->setTagList(mk_info.tags.all());
             ctagProc->deleteLater();
             emit projectOpened();
         });

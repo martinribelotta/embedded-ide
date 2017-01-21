@@ -18,12 +18,12 @@ public slots:
     bool fileOpen(const QString& file, int row, int col, const MakefileInfo *mk);
     bool binOpen(const QString& file);
     void saveAll();
-
-private slots:
-    void documentToClose(int idx);
     void closeAll();
     void saveCurrent();
     void reloadCurrent();
+
+private slots:
+    void documentToClose(int idx);
     void modifyTab(bool isModify);
     void tabDestroy(QObject *obj);
 

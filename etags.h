@@ -35,6 +35,10 @@ public:
         return map.keys();
     }
 
+    QList<Tag> all() const {
+        return map.values();
+    }
+
     QList<Tag> find(const QString& ident) const {
         return map.contains(ident)? map.values(ident) : QList<Tag>();
     }

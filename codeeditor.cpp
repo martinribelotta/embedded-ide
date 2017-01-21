@@ -33,6 +33,7 @@
 #include "qsvtextoperationswidget.h"
 #include "clangcodecontext.h"
 #include "documentarea.h"
+#include "taglist.h"
 
 #undef CLANG_DEBUG
 
@@ -376,10 +377,13 @@ void CodeEditor::findTagUnderCursor()
 
     QDialog dialog(this);
     QHBoxLayout *layout = new QHBoxLayout(&dialog);
-    QListWidget *view = new QListWidget(&dialog);
-    view->setAlternatingRowColors(true);
+    //QListWidget *view = new QListWidget(&dialog);
+    TagList *view = new TagList(&dialog);
+    view->setTagList(tagFor);
     layout->addWidget(view);
     layout->setMargin(0);
+#if 0
+    view->setAlternatingRowColors(true);
     foreach(ETags::Tag t, tagFor) {
         QListWidgetItem *item = new QListWidgetItem(view);
         item->setText(QString("%2 (%3):\n%1")
@@ -389,9 +393,11 @@ void CodeEditor::findTagUnderCursor()
         item->setData(Qt::UserRole, QVariant::fromValue(t));
     }
     view->setMinimumWidth(view->sizeHintForColumn(0) + 2 + view->frameWidth());
+#endif
     connect(view, SIGNAL(itemActivated(QListWidgetItem *)), &dialog, SLOT(accept()));
     dialog.resize(dialog.sizeHint());
     if (dialog.exec() == QDialog::Accepted) {
+#if 0
         QList<QListWidgetItem*> sel = view->selectedItems();
         if (sel.count() > 0) {
             ETags::Tag tag = qvariant_cast<ETags::Tag>(sel.at(0)->data(Qt::UserRole));
@@ -400,6 +406,16 @@ void CodeEditor::findTagUnderCursor()
             emit requireOpen(url, tag.line, 0, makefileInfo());
         } else
             qDebug() << "No selection found";
+#else
+        ETags::Tag sel = view->selectedTag();
+        if (sel.isEmpty()) {
+            qDebug() << "No selection found";
+        } else {
+            QString url = makefileInfo()->workingDir + QDir::separator() + sel.file;
+            qDebug() << "opening " << url;
+            emit requireOpen(url, sel.line, 0, makefileInfo());
+        }
+#endif
     }
 }
 

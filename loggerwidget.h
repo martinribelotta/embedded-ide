@@ -20,6 +20,7 @@ public slots:
     LoggerWidget& setWorkingDir(const QString &dir);
     LoggerWidget& addEnv(const QStringList &extraEnv);
     LoggerWidget& setEnv(const QStringList &env);
+    void clearText();
 
 private:
     struct priv_t;

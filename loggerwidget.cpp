@@ -68,7 +68,7 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
     view->setWordWrapMode(QTextOption::NoWrap);
 
     connect(clearConsole, &QToolButton::clicked, [this]() {
-        d_ptr->view->clear();
+        clearText();
     });
     connect(killProc, &QToolButton::clicked, [this]() {
         QProcess *buildProc = d_ptr->proc;
@@ -148,6 +148,11 @@ LoggerWidget &LoggerWidget::setEnv(const QStringList &env)
 {
     d_ptr->proc->setEnvironment(env);
     return *this;
+}
+
+void LoggerWidget::clearText()
+{
+    d_ptr->view->clear();
 }
 
 bool LoggerWidget::startProcess(const QString &cmd, const QStringList &args)

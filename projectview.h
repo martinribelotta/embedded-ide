@@ -15,6 +15,8 @@ class DocumentView;
 
 class QProcess;
 
+class TagList;
+
 class ProjectView : public QWidget
 {
     Q_OBJECT
@@ -74,6 +76,7 @@ private:
     QProcess *buildProc;
 #endif
     MakefileInfo mk_info;
+    TagList *tagList;
 };
 
 #endif // DOCUMENTVIEW_H

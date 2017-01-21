@@ -130,5 +130,6 @@
         <file>images/actions/media-playback-stop.svg</file>
         <file>images/application-menu.svg</file>
         <file>images/archive-remove.svg</file>
+        <file>images/mimetypes/inode-directory.svg</file>
     </qresource>
 </RCC>

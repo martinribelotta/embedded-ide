@@ -181,6 +181,7 @@ void MainWindow::on_actionProjectExport_triggered()
 
 void MainWindow::on_projectView_startBuild(const QString &target)
 {
+    Q_UNUSED(target);
     //ui->textLog->clear();
     //ui->projectView->buildStart(target); // Ok! bad back signal!!!
     //ui->buildStop->setEnabled(true);
@@ -189,6 +190,8 @@ void MainWindow::on_projectView_startBuild(const QString &target)
 void MainWindow::on_actionProjectClose_triggered()
 {
     ui->projectView->closeProject();
+    ui->centralWidget->closeAll();
+    ui->loggerWidget->clearText();
 }
 
 #if 0
