@@ -13,10 +13,10 @@ DESTDIR = build
 TARGET = embedded-ide
 TEMPLATE = app
 
-win32{
-    LIBS += -LC:/OpenSSL-Win32/lib -lubsec
-    INCLUDEPATH += C:/OpenSSL-Win32/include
-}
+#win32{
+#    LIBS += -LC:/OpenSSL-Win32/lib -lubsec
+#    INCLUDEPATH += C:/OpenSSL-Win32/include
+#}
 
 INCLUDEPATH += QHexEdit
 
