@@ -155,6 +155,11 @@ void LoggerWidget::clearText()
     d_ptr->view->clear();
 }
 
+void LoggerWidget::addText(const QString &text, const QColor& color)
+{
+    d_ptr->addText(text, color);
+}
+
 bool LoggerWidget::startProcess(const QString &cmd, const QStringList &args)
 {
     LoggerWidget::priv_t *d = d_ptr;

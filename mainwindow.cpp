@@ -6,6 +6,7 @@
 #include "projetfromtemplate.h"
 #include "configdialog.h"
 #include "aboutdialog.h"
+#include "debuginterface.h"
 
 #include <QRegularExpression>
 #include <QCloseEvent>
@@ -23,6 +24,8 @@
 #include <QDesktopServices>
 
 #include <QtDebug>
+
+#include <qsvsh/qsvlangdeffactory.h>
 
 static QMenu *lastProjects(QWidget *parent) {
     QMenu *m = new QMenu(parent);
@@ -59,13 +62,25 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->projectDock->setTitleBarWidget(new QWidget(this));
     ui->actionProjectOpen->setMenu(lastProjects(this));
     connect(ui->projectView, &ProjectView::projectOpened, this, &MainWindow::projectOpened);
-    connect(ui->loggerWidget, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
+    connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
     connect(ui->projectView, &ProjectView::startBuild, [this](const QString& target) {
         QString projectPath = ui->projectView->projectPath().absolutePath();
         QStringList args;
         args << "-f" << ui->projectView->project() << target;
-        ui->loggerWidget->setWorkingDir(projectPath).startProcess("make", args);
+        ui->loggerCompiler->setWorkingDir(projectPath).startProcess("make", args);
     });
+    ui->projectView->getDebugInterface()->setDocumentArea(ui->centralWidget);
+    connect(ui->projectView->getDebugInterface(), &DebugInterface::gdbOutput, [this](const QString& text) {
+        ui->loggerDebugger->addText(text, Qt::blue);
+        ui->loggerDebugger->addText("\n", Qt::blue);
+    });
+    connect(ui->projectView->getDebugInterface(), &DebugInterface::applicationOutput, [this](const QString& text) {
+        ui->loggerApplication->addText(text, Qt::blue);
+        ui->loggerDebugger->addText("\n", Qt::blue);
+    });
+
+    QsvLangDefFactory::getInstanse()->loadDirectory(":/qsvsh/qtsourceview/data/langs");
+    QsvLangDefFactory::getInstanse()->addMimeTypes(":/qsvsh/qtsourceview/data/mime.types");
 }
 
 MainWindow::~MainWindow()
@@ -100,7 +115,7 @@ void MainWindow::on_projectView_fileOpen(const QString &file)
     qDebug() << file;
     QMimeType m = QMimeDatabase().mimeTypeForFile(file, QMimeDatabase::MatchDefault);
     if (m.inherits("text/plain"))
-        ui->centralWidget->fileOpen(file, 0, 0, &ui->projectView->makeInfo());
+        ui->centralWidget->fileOpenAt(file, 0, 0, &ui->projectView->makeInfo());
     else {
         // QDesktopServices::openUrl(QUrl::fromLocalFile(file));
         ui->centralWidget->binOpen(file);
@@ -191,7 +206,7 @@ void MainWindow::on_actionProjectClose_triggered()
 {
     ui->projectView->closeProject();
     ui->centralWidget->closeAll();
-    ui->loggerWidget->clearText();
+    ui->loggerCompiler->clearText();
 }
 
 #if 0
@@ -256,5 +271,5 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
 {
     QString file = ui->projectView->projectPath().absoluteFilePath(path);
     qDebug() << "Opening" << file << row << col;
-    ui->centralWidget->fileOpen(file, row, col, &ui->projectView->makeInfo());
+    ui->centralWidget->fileOpenAt(file, row, col, &ui->projectView->makeInfo());
 }

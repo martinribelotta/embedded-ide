@@ -34,6 +34,7 @@ ProjectView::ProjectView(QWidget *parent) :
     connect(buildProc, SIGNAL(finished(int)), this, SIGNAL(buildEnd(int)));
 #endif
     ui->setupUi(this);
+    ui->tabDebug->setProjectView(this);
     QMenu *menu = new QMenu(this);
     QWidgetAction *action = new QWidgetAction(menu);
     tagList = new TagList(this);
@@ -81,6 +82,11 @@ QDir ProjectView::projectPath() const
     if (!m)
         return QDir();
     return m->rootDirectory();
+}
+
+DebugInterface *ProjectView::getDebugInterface() const
+{
+    return ui->tabDebug;
 }
 
 void ProjectView::closeProject()
@@ -136,15 +142,31 @@ void ProjectView::on_treeView_activated(const QModelIndex &index)
     }
 }
 
+static QHash<QString, QString> mapNameToMkIcon(
+{
+            // TODO: Add more Makefile targets to icon relations
+            { "all", "run-build" },
+            { "clean", "run-build-clean" },
+            { "clean_all", "run-build-clean" },
+            { "erase", "run-build-clean" },
+            { "install", "run-build-install-root" },
+            { "download", "run-build-install-root" },
+            { "program", "run-build-install-root" },
+            { "flash", "run-build-install-root" }
+});
+
 void ProjectView::updateMakefileInfo(const MakefileInfo &info)
 {
     mk_info = info;
-    QIcon icon = QIcon::fromTheme("run-build-configure", QIcon("://images/actions/run-build-configure.svg"));
+    // QIcon icon = QIcon::fromTheme("run-build-configure", QIcon("://images/actions/run-build-configure.svg"));
     ui->targetList->clear();
     QStringList orderedTargets = mk_info.targets;
     orderedTargets.sort();
-    foreach(QString t, orderedTargets)
+    foreach(QString t, orderedTargets) {
+        QString iconName = mapNameToMkIcon.contains(t)? mapNameToMkIcon.value(t) : "run-build";
+        QIcon icon = QIcon(QString("://images/actions/%1.svg").arg(iconName));
         ui->targetList->addItem(new QListWidgetItem(icon, t));
+    }
     sender()->deleteLater();
     if (QFileInfo(mk_info.tags.tagFile()).exists()) {
         emit projectOpened();
@@ -183,7 +205,7 @@ void ProjectView::on_filterCombo_activated(int idx)
 
 void ProjectView::on_filterButton_clicked()
 {
-    // TODO add files filter selection
+    // TODO: Add files filter selection
 }
 
 void ProjectView::on_toolButton_documentNew_clicked()

@@ -29,6 +29,7 @@
 #include <qsvsh/qsvcolordeffactory.h>
 #include <qsvsh/qsvcolordef.h>
 #include <qsvsh/qsvlangdef.h>
+#include <qsvsh/qsvlangdeffactory.h>
 
 #include "qsvtextoperationswidget.h"
 #include "clangcodecontext.h"
@@ -71,7 +72,8 @@ CodeEditor::CodeEditor(QWidget *parent) :
     defColors(0l),
     langDef(0l),
     syntax(0l),
-    mk(0l)
+    mk(0l),
+    ip(-1)
 {
     m_completer = new QCompleter(this);
     m_completer->setObjectName("completer");
@@ -244,6 +246,7 @@ bool CodeEditor::load(const QString &fileName)
            syntax = 0l;
 
            defColors = new QsvColorDefFactory( findStyleByName(QSettings().value("editor/colorstyle", "Kate").toString()) );
+#if 0
            QMimeDatabase db;
            QMimeType fType = db.mimeTypeForFile(info);
            if (fType.inherits("text/x-csrc")) {
@@ -258,7 +261,10 @@ bool CodeEditor::load(const QString &fileName)
            } else if (fType.inherits("text/x-makefile")) {
                langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/makefile.lang" );
            }
+#endif
+           langDef = QsvLangDefFactory::getInstanse()->getHighlight(info.fileName());
            if (defColors && langDef) {
+               setProperty("makefileMode", langDef->getMimeTypes().contains("text/x-makefile"));
                syntax = new QsvSyntaxHighlighter( document() , defColors, langDef );
                syntax->setObjectName("syntaxer");
                QPalette p = palette();
@@ -501,7 +507,7 @@ void CodeEditor::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Tab:
             do {
                 int insertTab = QSettings().value("editor/replaceTabs", 0).toInt();
-                if (insertTab) {
+                if (insertTab && !property("makefileMode").toBool()) {
                     this->insertPlainText(QString(" ").repeated(insertTab));
                     return;
                 }

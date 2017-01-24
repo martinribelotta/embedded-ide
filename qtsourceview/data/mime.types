@@ -213,8 +213,11 @@ text/x-ini-file			ini
 application/x-ini-file		ini
 
 
+# Python
+text/x-python                   py
+
 #makefile
-text/x-makefile			make makefile Makefile Makefile.*
+text/x-makefile			make makefile Makefile Makefile.* mk
 text/x-pro			pro pri
 
 # shell

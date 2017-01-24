@@ -21,6 +21,7 @@ public slots:
     LoggerWidget& addEnv(const QStringList &extraEnv);
     LoggerWidget& setEnv(const QStringList &env);
     void clearText();
+    void addText(const QString& text, const QColor &color);
 
 private:
     struct priv_t;

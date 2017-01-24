@@ -14,7 +14,7 @@ class DocumentView;
 }
 
 class QProcess;
-
+class DebugInterface;
 class TagList;
 
 class ProjectView : public QWidget
@@ -29,6 +29,7 @@ public:
     QDir projectPath() const;
     const MakefileInfo &makeInfo() const { return mk_info; }
     const ETags &tags() const { return mk_info.tags; }
+    DebugInterface *getDebugInterface() const;
 
 public slots:
     void closeProject();

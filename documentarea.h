@@ -15,7 +15,9 @@ public:
 signals:
 
 public slots:
-    bool fileOpen(const QString& file, int row, int col, const MakefileInfo *mk);
+    int fileOpenAt(const QString& file, int row, int col, const MakefileInfo *mk);
+    int fileOpen(const QString& file, const MakefileInfo *mk);
+    int fileOpenAndSetIP(const QString& file, int line, const MakefileInfo *mk);
     bool binOpen(const QString& file);
     void saveAll();
     void closeAll();
@@ -29,6 +31,8 @@ private slots:
 
 private:
     int documentFind(const QString& file, CodeEditor **ww = nullptr);
+
+    CodeEditor *lastIpEditor;
 };
 
 #endif // DOCUMENTAREA_H

@@ -131,5 +131,26 @@
         <file>images/application-menu.svg</file>
         <file>images/archive-remove.svg</file>
         <file>images/mimetypes/inode-directory.svg</file>
+        <file>images/actions/media-playback-start.svg</file>
+        <file>images/mimetypes/application-octet-stream.svg</file>
+        <file>images/mimetypes/application-x-java.svg</file>
+        <file>images/mimetypes/application-x-javascript.svg</file>
+        <file>images/mimetypes/application-x-python-bytecode.svg</file>
+        <file>images/mimetypes/application-x-zerosize.svg</file>
+        <file>images/mimetypes/folder.svg</file>
+        <file>images/mimetypes/text-html.svg</file>
+        <file>images/mimetypes/text-markdown.svg</file>
+        <file>images/mimetypes/text-plain.svg</file>
+        <file>images/mimetypes/text-x-chdr.svg</file>
+        <file>images/mimetypes/text-x-hex.svg</file>
+        <file>images/mimetypes/text-x-java.svg</file>
+        <file>images/mimetypes/text-x-javascript.svg</file>
+        <file>images/mimetypes/text-x-plain.svg</file>
+        <file>images/mimetypes/text-x-python.svg</file>
+        <file>images/mimetypes/text-x-readme.svg</file>
+        <file>images/mimetypes/text-x-texinfo.svg</file>
+        <file>images/mimetypes/text-xml.svg</file>
+        <file>images/mimetypes/unknown.svg</file>
+        <file>qgdb/gdb_default_profile.ini</file>
     </qresource>
 </RCC>

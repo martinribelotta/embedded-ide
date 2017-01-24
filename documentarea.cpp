@@ -8,7 +8,8 @@
 #include <QtDebug>
 
 DocumentArea::DocumentArea(QWidget *parent) :
-    QTabWidget(parent)
+    QTabWidget(parent),
+    lastIpEditor(0l)
 {
 #if 0
     setStyleSheet(
@@ -67,26 +68,47 @@ DocumentArea::DocumentArea(QWidget *parent) :
     connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(documentToClose(int)));
 }
 
-bool DocumentArea::fileOpen(const QString &file, int row, int col, const MakefileInfo *mk)
+int DocumentArea::fileOpenAt(const QString &file, int row, int col, const MakefileInfo *mk)
 {
-    int idx = documentFind(file);
-    if (idx == -1) {
-        CodeEditor *editor = new CodeEditor(this);
-        connect(editor, &CodeEditor::requireOpen, this, &DocumentArea::fileOpen);
-        editor->setMakefileInfo(mk);
-        if (!editor->load(file))
-            return false;
-        idx = addTab(editor, editor->windowTitle());
-        connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modifyTab(bool)));
-        connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
-    }
-    setCurrentIndex(idx);
+    int idx = fileOpen(file, mk);
+    if (idx == -1)
+        return -1;
     CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
     if (w) {
         w->moveTextCursor(row, col);
         w->setFocus();
     }
-    return true;
+    return idx;
+}
+
+int DocumentArea::fileOpen(const QString &file, const MakefileInfo *mk)
+{
+    int idx = documentFind(file);
+    if (idx == -1) {
+        CodeEditor *editor = new CodeEditor(this);
+        connect(editor, &CodeEditor::requireOpen, this, &DocumentArea::fileOpenAt);
+        editor->setMakefileInfo(mk);
+        if (!editor->load(file))
+            return -1;
+        idx = addTab(editor, editor->windowTitle());
+        connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modifyTab(bool)));
+        connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
+    }
+    setCurrentIndex(idx);
+}
+
+int DocumentArea::fileOpenAndSetIP(const QString &file, int line, const MakefileInfo *mk)
+{
+    int idx = fileOpenAt(file, line, 0, mk);
+    if (idx == -1)
+        return -1;
+    CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
+    if (w) {
+        if (lastIpEditor)
+            lastIpEditor->clearDebugPointer();
+        lastIpEditor = w;
+        lastIpEditor->setDebugPointer(line, Qt::blue);
+    }
 }
 
 bool DocumentArea::binOpen(const QString &file)

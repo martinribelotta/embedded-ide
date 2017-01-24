@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -142,8 +142,9 @@
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="3">
         <widget class="QToolButton" name="projectPathSetButton">
-         <property name="text">
-          <string>...</string>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
          </property>
         </widget>
        </item>
@@ -234,8 +235,9 @@
        </item>
        <item row="1" column="3">
         <widget class="QToolButton" name="projectTemplatesPathChange">
-         <property name="text">
-          <string>...</string>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
          </property>
         </widget>
        </item>

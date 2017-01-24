@@ -1,7 +1,9 @@
 QT += gui core widgets
 
-SOURCES+=qgdb/core.cpp
-HEADERS+=qgdb/core.h
+SOURCES+=qgdb/core.cpp \
+    $$PWD/opendialog.cpp
+HEADERS+=qgdb/core.h \
+    $$PWD/opendialog.h
 
 SOURCES+=qgdb/com.cpp
 HEADERS+=qgdb/com.h
@@ -23,3 +25,9 @@ HEADERS+=qgdb/settings.h
 
 HEADERS+=qgdb/config.h
 HEADERS+=qgdb/version.h
+
+FORMS += \
+    $$PWD/opendialog.ui
+
+DISTFILES += \
+    $$PWD/gdb_default_profile.ini

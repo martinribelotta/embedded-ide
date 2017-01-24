@@ -61,7 +61,50 @@
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
-   <widget class="LoggerWidget" name="loggerWidget"/>
+   <widget class="QWidget" name="loggerWidgetContainer">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="tabPosition">
+        <enum>QTabWidget::South</enum>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="LoggerWidget" name="loggerCompiler">
+        <attribute name="title">
+         <string>Compiler Output</string>
+        </attribute>
+       </widget>
+       <widget class="LoggerWidget" name="loggerDebugger">
+        <attribute name="title">
+         <string>GDB Output</string>
+        </attribute>
+       </widget>
+       <widget class="LoggerWidget" name="loggerApplication">
+        <attribute name="title">
+         <string>Application Output</string>
+        </attribute>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="projectDock">
    <property name="features">

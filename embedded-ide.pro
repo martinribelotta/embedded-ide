@@ -22,7 +22,7 @@ INCLUDEPATH += QHexEdit
 
 QTSOURCEVIEW_SRC_DIR=qtsourceview/src
 include(qtsourceview/src/qsvsh.pri)
-#include(qgdb/qgdb.pri)
+include(qgdb/qgdb.pri)
 
 #QATE_SRC_DIR=qtsourceview/src
 #include(qtsourceview/src/qate.pri)

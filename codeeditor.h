@@ -58,6 +58,19 @@ public slots:
     void smartEnd();
     void findTagUnderCursor();
 
+    int getIp() const { return ip; }
+    void clearDebugPointer() { setDebugPointer(-1, Qt::black); }
+    void setDebugPointer(int line, const QColor& c) {
+        if (highlightLines.contains(ip)) {
+            highlightLines.remove(ip);
+        }
+        ip = line;
+        if (ip != -1) {
+            highlightLines.insert(ip, c);
+        }
+        refreshHighlighterLines();
+    }
+
     void addHighlightLine(int line, const QColor& c) {
         highlightLines.insert(line, c);
         refreshHighlighterLines();
@@ -102,6 +115,7 @@ private:
     QsvLangDef *langDef;
     QsvSyntaxHighlighter *syntax;
     const MakefileInfo *mk;
+    int ip;
 };
 
 #endif // CODEEDITOR_H
