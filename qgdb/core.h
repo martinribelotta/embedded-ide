@@ -167,8 +167,8 @@ private:
 	QMap <int, VarWatch> m_watchList;
 	int m_varWatchLastId;
 
-	int m_ptsFd;
-	QSocketNotifier  *m_ptsListener;
+    // int m_ptsFd;
+    // QSocketNotifier  *m_ptsListener;
 
 };
 

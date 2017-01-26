@@ -139,6 +139,7 @@ public:
 	int init(QString gdbPath);
 
     void setListener(ComListener *listener) { m_listener = listener; }
+    QProcess *proc() { return &m_process; }
 
 	int getPid();
 

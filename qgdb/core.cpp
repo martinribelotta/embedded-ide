@@ -24,6 +24,7 @@ Core::Core()
 	Com& com = Com::getInstance();
 	com.setListener(this);
 
+#if 0
 	m_ptsFd = getpt();
 
 	if(grantpt(m_ptsFd))
@@ -34,16 +35,17 @@ Core::Core()
 
 	m_ptsListener = new QSocketNotifier(m_ptsFd, QSocketNotifier::Read);
 	connect(m_ptsListener, SIGNAL(activated(int)), this, SLOT(onGdbOutput(int)));
+#endif
 }
 
 Core::~Core()
 {
-	delete m_ptsListener;
+    // delete m_ptsListener;
 
 	Com& com = Com::getInstance();
 	com.setListener(NULL);
 
-	close(m_ptsFd);
+    // close(m_ptsFd);
 }
 
 int Core::initLocal(Settings *cfg, QString gdbPath, QString programPath, QStringList argumentList)
@@ -56,8 +58,8 @@ int Core::initLocal(Settings *cfg, QString gdbPath, QString programPath, QString
 		return -1;
 	}
 
-	QString ptsDevPath = ptsname(m_ptsFd);
-	com.commandF(&resultData, "-inferior-tty-set %s", stringToCStr(ptsDevPath));
+    //QString ptsDevPath = ptsname(m_ptsFd);
+    //com.commandF(&resultData, "-inferior-tty-set %s", stringToCStr(ptsDevPath));
 
 	if(com.commandF(&resultData, "-file-exec-and-symbols %s", stringToCStr(programPath)) == GDB_ERROR)
 		errorMsg("Failed to load '%s'", stringToCStr(programPath));
@@ -136,11 +138,13 @@ int Core::initRemote(Settings *cfg, QString gdbPath, QString programPath, QStrin
 void Core::onGdbOutput(int socketFd)
 {
 	Q_UNUSED(socketFd);
+#if 0
 	char buff[128];
 	int n =  read(m_ptsFd, buff, sizeof(buff)-1);
 	if(n > 0)
 		buff[n] = '\0';
 	m_inf->ICore_onTargetOutput(buff);
+#endif
 }
 
 void Core::gdbGetFiles()
@@ -717,6 +721,8 @@ void Core::onTargetStreamOutput(QString str)
 	QStringList list = str.split('\n');
 	for(int i = 0;i < list.size();i++)
 		infoMsg("GDB | Target-stream | %s", stringToCStr(list[i]));
+    if (m_inf)
+        m_inf->ICore_onTargetOutput(str);
 }
 
 
@@ -725,6 +731,8 @@ void Core::onLogStreamOutput(QString str)
 	QStringList list = str.split('\n');
 	for(int i = 0;i < list.size();i++)
 		infoMsg("GDB | Log-stream | %s", stringToCStr(list[i]));
+    if (m_inf)
+        m_inf->ICore_onMessage(str);
 }
 
 void Core::gdbSetBreakpoint(QString filename, int lineNo)

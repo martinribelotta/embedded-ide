@@ -22,6 +22,7 @@
 #include <QFontDatabase>
 #include <QMimeDatabase>
 #include <QDesktopServices>
+#include <QToolButton>
 
 #include <QtDebug>
 
@@ -54,6 +55,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    auto b = qobject_cast<QToolButton*>(ui->projectToolbar->widgetForAction(ui->actionProjectOpen));
+    b->setPopupMode(QToolButton::MenuButtonPopup);
     //QFont logFont = monoFont();
     //logFont.setPointSize(10);
     //ui->textLog->document()->setDefaultFont(logFont);
@@ -72,11 +75,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->projectView->getDebugInterface()->setDocumentArea(ui->centralWidget);
     connect(ui->projectView->getDebugInterface(), &DebugInterface::gdbOutput, [this](const QString& text) {
         ui->loggerDebugger->addText(text, Qt::blue);
-        ui->loggerDebugger->addText("\n", Qt::blue);
+        ui->loggerDebugger->addText("<br>", Qt::blue);
+    });
+    connect(ui->projectView->getDebugInterface(), &DebugInterface::gdbMessage, [this](const QString& text) {
+        ui->loggerDebugger->addText(text, Qt::red);
+        ui->loggerDebugger->addText("<br>", Qt::red);
     });
     connect(ui->projectView->getDebugInterface(), &DebugInterface::applicationOutput, [this](const QString& text) {
         ui->loggerApplication->addText(text, Qt::blue);
-        ui->loggerDebugger->addText("\n", Qt::blue);
+        ui->loggerDebugger->addText("<br>", Qt::blue);
     });
 
     QsvLangDefFactory::getInstanse()->loadDirectory(":/qsvsh/qtsourceview/data/langs");
@@ -192,14 +199,6 @@ void MainWindow::on_actionProjectExport_triggered()
                 this,
                 SLOT(actionExportFinish(QString)))
             )->start();
-}
-
-void MainWindow::on_projectView_startBuild(const QString &target)
-{
-    Q_UNUSED(target);
-    //ui->textLog->clear();
-    //ui->projectView->buildStart(target); // Ok! bad back signal!!!
-    //ui->buildStop->setEnabled(true);
 }
 
 void MainWindow::on_actionProjectClose_triggered()

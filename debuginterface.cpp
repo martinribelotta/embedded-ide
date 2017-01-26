@@ -105,7 +105,7 @@ void DebugInterface::ICore_onStackFrameChange(QList<StackFrameEntry> stackFrameL
 
 void DebugInterface::ICore_onMessage(QString message)
 {
-    emit gdbOutput(message);
+    emit gdbMessage(message);
 }
 
 void DebugInterface::ICore_onTargetOutput(QString message)

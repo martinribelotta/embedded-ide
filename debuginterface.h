@@ -41,6 +41,7 @@ public:
 
 signals:
     void gdbOutput(const QString& text);
+    void gdbMessage(const QString& text);
     void applicationOutput(const QString& text);
 
 private slots:

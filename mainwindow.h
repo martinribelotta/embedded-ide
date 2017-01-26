@@ -37,8 +37,6 @@ private slots:
 
     void on_actionProjectExport_triggered();
 
-    void on_projectView_startBuild(const QString &target);
-
     void on_actionProjectClose_triggered();
 
 
