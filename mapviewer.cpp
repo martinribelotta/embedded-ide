@@ -30,6 +30,14 @@ struct MemoryChunk {
     }
 };
 
+inline QDebug operator<<(QDebug dbg, MemoryChunk chunk) {
+    dbg << chunk.name
+        << ":{ addr:" << chunk.addr
+        << "size:" << chunk.size
+        << " }";
+    return dbg;
+}
+
 struct MemoryRegion {
     QString name;
     uint32_t base;
@@ -92,6 +100,7 @@ bool MapViewer::load(const QString &path)
                 auto secSize = m.captured("size").remove(0, 2).toUInt(nullptr, 16);
                 auto secLma = m.lastCapturedIndex() == 4? m.captured("lma").remove(0, 2).toUInt(nullptr, 16) : secVma;
                 auto chunk = MemoryChunk({secName, secLma, secSize});
+                qDebug() << chunk;
                 for(int i=0; i<memoryRegions.count(); i++) {
                     MemoryRegion &r = memoryRegions[i];
                     if (r.inRegion(chunk))

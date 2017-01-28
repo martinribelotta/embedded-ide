@@ -52,8 +52,8 @@ static const QFont monoFont() {
 LoggerWidget::LoggerWidget(QWidget *parent) :
     QWidget(parent), d_ptr(new LoggerWidget::priv_t)
 {
-    QHBoxLayout *hlayout = new QHBoxLayout(this);
-    QVBoxLayout *vlayout = new QVBoxLayout(this);
+    QHBoxLayout *hlayout = new QHBoxLayout();
+    QVBoxLayout *vlayout = new QVBoxLayout();
     QToolButton *clearConsole = new QToolButton(this);
     QToolButton *killProc = new QToolButton(this);
     QTextBrowser *view = new QTextBrowser(this);
@@ -96,6 +96,7 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
     vlayout->addWidget(killProc);
     vlayout->addStretch(100);
     hlayout->addLayout(vlayout);
+    setLayout(hlayout);
 
     LoggerWidget::priv_t *d = d_ptr;
     connect(proc, &QProcess::readyReadStandardOutput, [this] () {

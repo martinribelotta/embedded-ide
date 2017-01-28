@@ -259,7 +259,6 @@
       <attribute name="title">
        <string>Debug</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_5"/>
      </widget>
     </widget>
    </item>
