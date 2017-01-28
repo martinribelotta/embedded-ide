@@ -1,7 +1,10 @@
 #include "mapviewer.h"
 
 #include <QFile>
-#include <QGraphicsRectItem>
+#include <QGraphicsDropShadowEffect>
+#include <QGraphicsProxyWidget>
+#include <QGraphicsWidget>
+#include <QProgressBar>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
@@ -9,8 +12,8 @@
 
 MapViewer::MapViewer(QWidget *parent) : QGraphicsView(parent)
 {
+    setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     setScene(new QGraphicsScene(this));
-    scene()->addRect(QRect(0, 0, 100, 100), QPen(Qt::red), QBrush(Qt::blue));
 }
 
 static const QLatin1String MEMORY_MAP_HEADER("Memory Configuration");
@@ -43,10 +46,26 @@ struct MemoryRegion {
     }
 };
 
+
+class MemoryBar: public QGraphicsProxyWidget {
+public:
+    MemoryBar(const MemoryRegion& m, QGraphicsItem *parent = 0l): QGraphicsProxyWidget(parent) {
+        auto bar = new QProgressBar();
+        setWidget(bar);
+        bar->setFormat(tr("%1 using %v bytes of %m bytes (%p%)").arg(m.name));
+        bar->setTextVisible(true);
+        bar->setMinimum(0);
+        bar->setMaximum(static_cast<int>(m.size));
+        bar->setValue(static_cast<int>(m.used));
+        bar->resize(QFontMetrics(bar->font()).width(bar->text()) + 100, bar->height());
+    }
+};
+
 bool MapViewer::load(const QString &path)
 {
     QFile f(path);
     if (f.open(QFile::ReadOnly)) {
+        scene()->clear();
         QString text(f.readAll());
         int memHeaderIdx = text.indexOf(MEMORY_MAP_HEADER);
         if (memHeaderIdx > 0) {
@@ -54,30 +73,24 @@ bool MapViewer::load(const QString &path)
             auto re_mem = QRegularExpression(regex_mem, QRegularExpression::CaseInsensitiveOption |
                                                         QRegularExpression::MultilineOption);
             auto mem_matchs = re_mem.globalMatch(text, memHeaderIdx);
-            qDebug() << "memory areas" << mem_matchs.hasNext();
             while (mem_matchs.hasNext()){
                 auto m = mem_matchs.next();
                 auto memName = m.captured("name");
                 auto memOrg = m.captured("origin").remove(0, 2).toUInt(nullptr, 16);
                 auto memLen = m.captured("length").remove(0, 2).toUInt(nullptr, 16);
                 auto memAttr = m.captured("attr");
-                qDebug() << "   " << m.captured(0);
-                qDebug() << "   " << memName << memOrg << memLen << memAttr;
                 memoryRegions.append(MemoryRegion({memName, memOrg, memLen, memAttr, 0}));
             }
 
             auto re_sec = QRegularExpression(regex_sec, QRegularExpression::CaseInsensitiveOption |
                                                         QRegularExpression::MultilineOption);
             auto sec_matchs = re_sec.globalMatch(text, memHeaderIdx);
-            qDebug() << "valid sections" << sec_matchs.hasNext();
             while (sec_matchs.hasNext()) {
                 auto m = sec_matchs.next();
                 auto secName = m.captured("name");
                 auto secVma = m.captured("vma").remove(0, 2).toUInt(nullptr, 16);
                 auto secSize = m.captured("size").remove(0, 2).toUInt(nullptr, 16);
                 auto secLma = m.lastCapturedIndex() == 4? m.captured("lma").remove(0, 2).toUInt(nullptr, 16) : secVma;
-                qDebug() << "   " << m.captured(0);
-                qDebug() << "   " << secName << secLma << secSize << secVma;
                 auto chunk = MemoryChunk({secName, secLma, secSize});
                 for(int i=0; i<memoryRegions.count(); i++) {
                     MemoryRegion &r = memoryRegions[i];
@@ -85,8 +98,18 @@ bool MapViewer::load(const QString &path)
                         r.used += chunk.size;
                 }
             }
+            int maxWidth = 0;
             foreach(auto r, memoryRegions) {
-                qDebug() << r.name << "used" << r.used << "of" << r.size;
+                auto item_bar = new MemoryBar(r);
+                scene()->addItem(item_bar);
+                maxWidth = qMax(maxWidth, item_bar->widget()->width());
+            }
+            int dy = 0;
+            foreach(QGraphicsItem *item, scene()->items()) {
+                auto bar = qobject_cast<QProgressBar*>(qgraphicsitem_cast<QGraphicsProxyWidget*>(item)->widget());
+                bar->resize(maxWidth, bar->height());
+                item->moveBy(0, dy);
+                dy += item->boundingRect().height() + 10;
             }
 
             return true;
