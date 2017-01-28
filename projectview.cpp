@@ -231,7 +231,7 @@ void ProjectView::on_toolButton_documentNew_clicked()
             QMessageBox::critical(this, tr("Error creating file"), f.errorString());
         } else {
             f.close();
-            fileOpen(fileName);
+            emit fileOpen(fileName);
         }
     }
 }

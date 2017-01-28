@@ -1,6 +1,7 @@
 #include "documentarea.h"
 #include "codeeditor.h"
 #include "qhexedit.h"
+#include "mapviewer.h"
 
 #include <QHBoxLayout>
 #include <QToolButton>
@@ -95,6 +96,7 @@ int DocumentArea::fileOpen(const QString &file, const MakefileInfo *mk)
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
     setCurrentIndex(idx);
+    return idx;
 }
 
 int DocumentArea::fileOpenAndSetIP(const QString &file, int line, const MakefileInfo *mk)
@@ -109,15 +111,16 @@ int DocumentArea::fileOpenAndSetIP(const QString &file, int line, const Makefile
         lastIpEditor = w;
         lastIpEditor->setDebugPointer(line, Qt::blue);
     }
+    return idx;
 }
 
-bool DocumentArea::binOpen(const QString &file)
+int DocumentArea::binOpen(const QString &file)
 {
     int idx = documentFind(file);
     if (idx == -1) {
         QHexEditData *data = QHexEditData::fromFile(file);
         if (!data)
-            return false;
+            return -1;
         QHexEdit *editor = new QHexEdit(this);
         editor->setData(data);
         editor->setReadOnly(true);
@@ -127,7 +130,22 @@ bool DocumentArea::binOpen(const QString &file)
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
     setCurrentIndex(idx);
-    return true;
+    return idx;
+}
+
+int DocumentArea::mapOpen(const QString &file)
+{
+    int idx = documentFind(file);
+    if (idx == -1) {
+        MapViewer * editor = new MapViewer(this);
+        editor->load(file);
+        editor->setWindowTitle(QFileInfo(file).fileName());
+        editor->setWindowFilePath(QFileInfo(file).absoluteFilePath());
+        idx = addTab(editor, editor->windowTitle());
+        connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
+    }
+    setCurrentIndex(idx);
+    return idx;
 }
 
 void DocumentArea::saveAll()

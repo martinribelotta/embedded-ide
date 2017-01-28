@@ -58,7 +58,8 @@ SOURCES += main.cpp\
     QHexEdit/qhexeditprivate.cpp \
     QHexEdit/sparserangemap.cpp \
     loggerwidget.cpp \
-    taglist.cpp
+    taglist.cpp \
+    mapviewer.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -91,7 +92,8 @@ HEADERS  += mainwindow.h \
     QHexEdit/qhexeditprivate.h \
     QHexEdit/sparserangemap.h \
     loggerwidget.h \
-    taglist.h
+    taglist.h \
+    mapviewer.h
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \

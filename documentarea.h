@@ -18,7 +18,8 @@ public slots:
     int fileOpenAt(const QString& file, int row, int col, const MakefileInfo *mk);
     int fileOpen(const QString& file, const MakefileInfo *mk);
     int fileOpenAndSetIP(const QString& file, int line, const MakefileInfo *mk);
-    bool binOpen(const QString& file);
+    int binOpen(const QString& file);
+    int mapOpen(const QString& file);
     void saveAll();
     void closeAll();
     void saveCurrent();

@@ -121,9 +121,11 @@ void MainWindow::on_projectView_fileOpen(const QString &file)
 {
     qDebug() << file;
     QMimeType m = QMimeDatabase().mimeTypeForFile(file, QMimeDatabase::MatchDefault);
-    if (m.inherits("text/plain"))
+    if (QFileInfo(file).suffix().toLower() == "map") {
+        ui->centralWidget->mapOpen(file);
+    } else if (m.inherits("text/plain")) {
         ui->centralWidget->fileOpenAt(file, 0, 0, &ui->projectView->makeInfo());
-    else {
+    } else {
         // QDesktopServices::openUrl(QUrl::fromLocalFile(file));
         ui->centralWidget->binOpen(file);
     }
