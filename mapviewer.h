@@ -1,9 +1,9 @@
 #ifndef MAPVIEWER_H
 #define MAPVIEWER_H
 
-#include <QGraphicsView>
+#include <QTableView>
 
-class MapViewer : public QGraphicsView
+class MapViewer : public QTableView
 {
     Q_OBJECT
 public:

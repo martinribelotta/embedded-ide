@@ -92,6 +92,7 @@ int DocumentArea::fileOpen(const QString &file, const MakefileInfo *mk)
         if (!editor->load(file))
             return -1;
         idx = addTab(editor, editor->windowTitle());
+        setTabToolTip(idx, file);
         connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modifyTab(bool)));
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
@@ -127,6 +128,7 @@ int DocumentArea::binOpen(const QString &file)
         editor->setWindowTitle(QFileInfo(file).fileName());
         editor->setWindowFilePath(QFileInfo(file).absoluteFilePath());
         idx = addTab(editor, editor->windowTitle());
+        setTabToolTip(idx, file);
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
     setCurrentIndex(idx);
@@ -142,6 +144,7 @@ int DocumentArea::mapOpen(const QString &file)
         editor->setWindowTitle(QFileInfo(file).fileName());
         editor->setWindowFilePath(QFileInfo(file).absoluteFilePath());
         idx = addTab(editor, editor->windowTitle());
+        setTabToolTip(idx, file);
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
     setCurrentIndex(idx);
