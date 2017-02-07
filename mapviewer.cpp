@@ -30,7 +30,6 @@ static const QLatin1String REGEX_TRU(R"(^ (\.[a-z0-9_]+)[ \t])"
                                      R"(+0x([0-9a-f]+)[ \t])"
                                      R"(+(\S+)$)");
 
-#if 1
 struct MemoryChunk {
     QString name;
     uint32_t vma;
@@ -85,7 +84,6 @@ inline QDebug operator<<(QDebug dbg, const MemoryRegion& m) {
         << " }";
     return dbg;
 }
-#endif
 
 struct LinkerSymbol {
     uint32_t value;
@@ -120,12 +118,12 @@ struct Section {
     uint32_t load;
     uint32_t size;
     uint8_t pad[4];
-    QList<TranslationUnit> tru;
+    QList<TranslationUnit> translationUnits;
 
-    Section() : base(0), load(0), size(0) { tru.append(TranslationUnit()); }
+    Section() : base(0), load(0), size(0) { translationUnits.append(TranslationUnit()); }
 
     Section(u_int32_t vma, uint32_t lma, uint32_t z) : base(vma), load(lma), size(z) {
-        tru.append(TranslationUnit());
+        translationUnits.append(TranslationUnit());
     }
 
     bool isRelocatable() const {
@@ -182,14 +180,15 @@ static QHash<QString, Section> parseMemoryMap(QTextStream& stream, QList<MemoryR
             auto addr = m.captured(2).toUInt(nullptr, 16);
             auto size = m.captured(3).toUInt(nullptr, 16);
             auto path = m.captured(4);
-            currentSection.value().tru.append(TranslationUnit(section, addr, size, path));
+            currentSection.value().translationUnits.append(TranslationUnit(section, addr, size, path));
             continue;
         }
         m = symbolRe.match(line);
         if (m.hasMatch()) {
             uint32_t val = m.captured(1).toUInt(nullptr, 16);
             QString expr = m.captured(2);
-            currentSection.value().tru.back().symbols.append(LinkerSymbol(val, expr));
+            if (!expr.trimmed().startsWith("."))
+                currentSection.value().translationUnits.back().symbols.append(LinkerSymbol(val, expr));
             continue;
         }
     }
@@ -198,8 +197,7 @@ static QHash<QString, Section> parseMemoryMap(QTextStream& stream, QList<MemoryR
 
 static MapData parseMemoryConfiguration(QTextStream& stream) {
     MapData data;
-    QRegularExpression re(R"(^([a-z0-9_]+)\s+0x([\da-f]+)\s+0x([\d+a-f]+)\s+([rwx]+)$)",
-                          QRegularExpression::CaseInsensitiveOption);
+    QRegularExpression re(REGEX_MEM, QRegularExpression::CaseInsensitiveOption);
     while(!stream.atEnd()) {
         QString line = stream.readLine();
         if (line.startsWith("Linker script and memory map")) {
@@ -207,64 +205,27 @@ static MapData parseMemoryConfiguration(QTextStream& stream) {
         } else {
             auto m = re.match(line);
             if (m.hasMatch()) {
-                QString name = m.captured(1);
-                uint32_t addr = m.captured(2).toUInt(nullptr, 16);
-                uint32_t size = m.captured(3).toUInt(nullptr, 16);
-                QString attr = m.captured(4);
-                data.memoryRegions.append(MemoryRegion{ name, addr, size, attr, 0, 0 });
+                data.memoryRegions.append(MemoryRegion{
+                                              m.captured("name"),
+                                              m.captured("origin").toUInt(nullptr, 16),
+                                              m.captured("length").toUInt(nullptr, 16),
+                                              m.captured("attr"),
+                                              0, 0 });
             }
         }
     }
     return data;
 }
 
-static void parseMap(QTextStream &stream) {
+static MapData parseMap(QFile &f) {
+    QTextStream stream(&f);
     while (!stream.atEnd()) {
         QString line = stream.readLine();
-        if (line.startsWith("Memory Configuration"))
-            parseMemoryConfiguration(stream);
-    }
-}
-
-static bool readMemoryMap(const QString &text,
-                          QList<MemoryRegion> &memoryRegions,
-                          QList<MemoryChunk> &memoryChuncks) {
-    int memHeaderIdx = text.indexOf(MEMORY_MAP_HEADER);
-    if (memHeaderIdx == -1)
-        return false;
-    auto re_mem = QRegularExpression(REGEX_MEM, QRegularExpression::CaseInsensitiveOption |
-                                                QRegularExpression::MultilineOption);
-    auto mem_matchs = re_mem.globalMatch(text, memHeaderIdx);
-    while (mem_matchs.hasNext()){
-        auto m = mem_matchs.next();
-        auto memName = m.captured("name");
-        auto memOrg = m.captured("origin").remove(0, 2).toUInt(nullptr, 16);
-        auto memLen = m.captured("length").remove(0, 2).toUInt(nullptr, 16);
-        auto memAttr = m.captured("attr");
-        memoryRegions.append(MemoryRegion({ memName, memOrg, memLen, memAttr, 0, 0 }));
-    }
-
-    auto re_sec = QRegularExpression(REGEX_SEC, QRegularExpression::CaseInsensitiveOption |
-                                                QRegularExpression::MultilineOption);
-    auto sec_matchs = re_sec.globalMatch(text, memHeaderIdx);
-    while (sec_matchs.hasNext()) {
-        auto m = sec_matchs.next();
-        auto secName = m.captured("name");
-        auto secVma = m.captured("vma").remove(0, 2).toUInt(nullptr, 16);
-        auto secSize = m.captured("size").remove(0, 2).toUInt(nullptr, 16);
-        auto secLma = m.lastCapturedIndex() == 4? m.captured("lma").remove(0, 2).toUInt(nullptr, 16) : secVma;
-        auto chunk = MemoryChunk({ secName, secVma, secLma, secSize, 0 });
-        memoryChuncks.append(chunk);
-        qDebug() << chunk;
-        for(int i=0; i<memoryRegions.count(); i++) {
-            MemoryRegion &r = memoryRegions[i];
-            if (r.inRegion(chunk))
-                r.used += chunk.size;
+        if (line.startsWith(MEMORY_MAP_HEADER)) {
+            return parseMemoryConfiguration(stream);
         }
     }
-    qSort(memoryRegions.begin(), memoryRegions.end(),
-          [](const MemoryRegion& a, const MemoryRegion& b) -> bool { return a.used > b.used; });
-    return true;
+    return MapData{};
 }
 
 static const uint HUMAN_Kb = 1024;
@@ -298,6 +259,15 @@ static QString toHumanReadable(uint32_t count, const QString& pluralPrefix, cons
         return QString("%1 (%2)").arg(human, unscaledPrefix(count, pluralPrefix, singularPrefix));
 }
 
+static QString toHumanReadableSize(uint32_t count)
+{
+    return toHumanReadable(count, "bytes", "byte");
+}
+
+static QString toHex(uint32_t value) {
+    return QString("0x%1").arg(value, 8, 16, QChar('0'));
+}
+
 class BarItemDelegate: public QStyledItemDelegate {
 public:
     BarItemDelegate(QObject *parent = Q_NULLPTR) : QStyledItemDelegate(parent) {}
@@ -306,7 +276,6 @@ public:
     inline QStyleOptionProgressBar options(const QStyleOptionViewItem& option,
                                            const QModelIndex& index) const {
         double percent = index.data(Qt::UserRole).toDouble();
-        // qDebug() << "" << percent;
         QStyleOptionProgressBar progressBarOption;
         progressBarOption.rect = option.rect;
         progressBarOption.minimum = 0;
@@ -328,7 +297,7 @@ public:
     {
         auto progressBarOption = options(option, index);
         auto textSize = option.fontMetrics.boundingRect(progressBarOption.text).size();
-        auto widgetSize = QApplication::style()->sizeFromContents(QStyle::CT_ProgressBar, &progressBarOption, textSize) * 2;
+        auto widgetSize = QApplication::style()->sizeFromContents(QStyle::CT_ProgressBar, &progressBarOption, textSize) * 1;
         return widgetSize;
     }
 };
@@ -350,6 +319,12 @@ MapViewer::MapViewer(QWidget *parent) :
     ui->memoryTable->horizontalHeader()->setStretchLastSection(true);
     ui->memoryTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->memoryTable->setItemDelegateForColumn(4, new BarItemDelegate(this));
+
+    ui->symbolsTable->setModel(new QStandardItemModel(this));
+    ui->symbolsTable->setEditTriggers(QTableView::NoEditTriggers);
+    ui->symbolsTable->setAlternatingRowColors(true);
+    ui->symbolsTable->header()->setStretchLastSection(true);
+    ui->symbolsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
 MapViewer::~MapViewer()
@@ -361,71 +336,71 @@ bool MapViewer::load(const QString &path)
 {
     QFile f(path);
     if (f.open(QFile::ReadOnly)) {
-#if 1
-        QTextStream stream(&f);
-        MapData data;
-        while (!stream.atEnd()) {
-            QString line = stream.readLine();
-            if (line.startsWith("Memory Configuration")) {
-                data = parseMemoryConfiguration(stream);
-            }
-        }
-        auto m = qobject_cast<QStandardItemModel*>(ui->memoryTable->model());
-        m->clear();
-        m->setHorizontalHeaderLabels(QStringList({tr("Memory"),
-                                                  tr("Base address"),
-                                                  tr("Size"),
-                                                  tr("Used"),
-                                                  tr("Percent"),
-                                                  tr("Attributes"),
-                                                 }));
+        auto data = parseMap(f);
+        auto memoryModel = qobject_cast<QStandardItemModel*>(ui->memoryTable->model());
+        memoryModel->clear();
+        memoryModel->setHorizontalHeaderLabels(QStringList({tr("Memory"),
+                                                            tr("Base address"),
+                                                            tr("Size"),
+                                                            tr("Used"),
+                                                            tr("Percent"),
+                                                            tr("Attributes"),
+                                                           }));
         qSort(data.memoryRegions.begin(), data.memoryRegions.end(),
               [](const MemoryRegion& a, const MemoryRegion& b) -> bool { return a.used > b.used; });
         foreach(auto r, data.memoryRegions) {
-            qDebug() << r;
             QList<QStandardItem*> items;
             items += new QStandardItem(r.name);
-            items += new QStandardItem(QString("0x%1").arg(r.base, 8, 16, QChar('0')));
-            items += new QStandardItem(toHumanReadable(r.size, "bytes", "byte"));
-            items += new QStandardItem(toHumanReadable(r.used, "bytes", "byte"));
+            items += new QStandardItem(toHex(r.base));
+            items += new QStandardItem(toHumanReadableSize(r.size));
+            items += new QStandardItem(toHumanReadableSize(r.used));
             items += new QStandardItem();
             items += new QStandardItem(r.attr);
             items[4]->setData((r.used * 100.0) / r.size, Qt::UserRole);
-            m->appendRow(items);
+            memoryModel->appendRow(items);
         }
+        auto symbolsTree = qobject_cast<QStandardItemModel*>(ui->symbolsTable->model());
+        symbolsTree->clear();
+        symbolsTree->setHorizontalHeaderLabels(QStringList({tr("Name"),
+                                                            tr("Store address"),
+                                                            tr("Load address"),
+                                                            tr("Size"),
+                                                           }));
+        ui->symbolsTable->header()->setSectionResizeMode(0, QHeaderView::Interactive);
+        ui->symbolsTable->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+        ui->symbolsTable->header()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+        ui->symbolsTable->header()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+        foreach(QString name, data.memoryMap.keys()) {
+            Section section = data.memoryMap.value(name);
+            QList<QStandardItem*> items;
+            items += new QStandardItem(name.isEmpty()? tr("Symbols without section") : name);
+            items += new QStandardItem(toHex(section.base));
+            items += new QStandardItem(toHex(section.load));
+            items += new QStandardItem(toHumanReadableSize(section.size));
+            symbolsTree->appendRow(items);
+            foreach(auto tru, section.translationUnits) {
+                if (tru.symbols.isEmpty())
+                    continue;
+                QList<QStandardItem*> childItems;
+                childItems += new QStandardItem(tru.isNull()? tr("No unit") : tru.path);
+                childItems += new QStandardItem(tru.isNull()? QString() : toHex(tru.addr));
+                childItems += new QStandardItem();
+                childItems += new QStandardItem(toHumanReadableSize(tru.size));
+                items.first()->appendRow(childItems);
+                foreach(auto symbol,tru.symbols) {
+                    QList<QStandardItem*> symbolItems;
+                    symbolItems += new QStandardItem(symbol.expr);
+                    symbolItems += new QStandardItem(toHex(symbol.value));
+                    symbolItems += new QStandardItem();
+                    symbolItems += new QStandardItem();
+                    childItems.first()->appendRow(symbolItems);
+                }
+            }
+        }
+
         ui->memoryTable->resizeColumnsToContents();
         ui->memoryTable->resizeRowsToContents();
         return true;
-#else
-        QList<MemoryRegion> memoryRegions;
-        QList<MemoryChunk> memoryChuncks;
-        if (readMemoryMap(f.readAll(), memoryRegions, memoryChuncks)) {
-            auto m = qobject_cast<QStandardItemModel*>(ui->memoryTable->model());
-            m->clear();
-            m->setHorizontalHeaderLabels(QStringList({tr("Memory"),
-                                                      tr("Base address"),
-                                                      tr("Size"),
-                                                      tr("Used"),
-                                                      tr("Percent"),
-                                                      tr("Attributes"),
-                                                     }));
-            foreach(auto r, memoryRegions) {
-                qDebug() << r;
-                QList<QStandardItem*> items;
-                items += new QStandardItem(r.name);
-                items += new QStandardItem(QString("0x%1").arg(r.base, 8, 16, QChar('0')));
-                items += new QStandardItem(toHumanReadable(r.size, "bytes", "byte"));
-                items += new QStandardItem(toHumanReadable(r.used, "bytes", "byte"));
-                items += new QStandardItem();
-                items += new QStandardItem(r.attr);
-                items[4]->setData((r.used * 100.0) / r.size, Qt::UserRole);
-                m->appendRow(items);
-            }
-            ui->memoryTable->resizeColumnsToContents();
-            ui->memoryTable->resizeRowsToContents();
-            return true;
-        }
-#endif
     }
     return false;
 }

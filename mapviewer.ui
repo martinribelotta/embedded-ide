@@ -63,7 +63,7 @@
        <bool>false</bool>
       </attribute>
      </widget>
-     <widget class="QTableView" name="symbolsTable"/>
+     <widget class="QTreeView" name="symbolsTable"/>
     </widget>
    </item>
   </layout>
