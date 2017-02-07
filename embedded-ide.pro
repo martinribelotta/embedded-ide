@@ -103,7 +103,8 @@ FORMS    += mainwindow.ui \
     debuginterface.ui \
     replaceform.ui \
     searchform.ui \
-    projectview.ui
+    projectview.ui \
+    mapviewer.ui
 
 RESOURCES += \
     resources.qrc
