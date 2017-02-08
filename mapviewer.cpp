@@ -335,6 +335,7 @@ MapViewer::~MapViewer()
 bool MapViewer::load(const QString &path)
 {
     QFile f(path);
+    ui->rawText->load(path);
     if (f.open(QFile::ReadOnly)) {
         auto data = parseMap(f);
         auto memoryModel = qobject_cast<QStandardItemModel*>(ui->memoryTable->model());
