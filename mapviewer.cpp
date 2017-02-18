@@ -10,6 +10,7 @@
 #include <QProgressBar>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
+#include <QSortFilterProxyModel>
 #include <QStandardItemModel>
 #include <QStyledItemDelegate>
 
@@ -302,6 +303,27 @@ public:
     }
 };
 
+class SymbolSortFilter: public QSortFilterProxyModel
+{
+public:
+    SymbolSortFilter(QObject *parent = 0l) : QSortFilterProxyModel(parent)
+    {
+        setSourceModel(new QStandardItemModel(this));
+    }
+    QStandardItemModel *itemModel() { return static_cast<QStandardItemModel*>(sourceModel()); }
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+};
+
+bool SymbolSortFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+    QVariant leftData = sourceModel()->data(left, Qt::UserRole);
+    QVariant rightData = sourceModel()->data(right, Qt::UserRole);
+    bool ok1 = false, ok2 = false;
+    uint32_t l = leftData.toUInt(&ok1);
+    uint32_t r = rightData.toUInt(&ok2);
+    return (ok1 && ok2)? (l < r) : false;
+}
+
 BarItemDelegate::~BarItemDelegate()
 {
 }
@@ -320,11 +342,12 @@ MapViewer::MapViewer(QWidget *parent) :
     ui->memoryTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->memoryTable->setItemDelegateForColumn(4, new BarItemDelegate(this));
 
-    ui->symbolsTable->setModel(new QStandardItemModel(this));
+    ui->symbolsTable->setModel(new SymbolSortFilter(this));
     ui->symbolsTable->setEditTriggers(QTableView::NoEditTriggers);
     ui->symbolsTable->setAlternatingRowColors(true);
     ui->symbolsTable->header()->setStretchLastSection(true);
     ui->symbolsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->symbolsTable->setSortingEnabled(true);
 }
 
 MapViewer::~MapViewer()
@@ -360,7 +383,7 @@ bool MapViewer::load(const QString &path)
             items[4]->setData((r.used * 100.0) / r.size, Qt::UserRole);
             memoryModel->appendRow(items);
         }
-        auto symbolsTree = qobject_cast<QStandardItemModel*>(ui->symbolsTable->model());
+        auto symbolsTree = static_cast<SymbolSortFilter*>(ui->symbolsTable->model())->itemModel();
         symbolsTree->clear();
         symbolsTree->setHorizontalHeaderLabels(QStringList({tr("Name"),
                                                             tr("Store address"),
@@ -376,8 +399,11 @@ bool MapViewer::load(const QString &path)
             QList<QStandardItem*> items;
             items += new QStandardItem(name.isEmpty()? tr("Symbols without section") : name);
             items += new QStandardItem(toHex(section.base));
+            items.last()->setData(section.base, Qt::UserRole);
             items += new QStandardItem(toHex(section.load));
+            items.last()->setData(section.load, Qt::UserRole);
             items += new QStandardItem(toHumanReadableSize(section.size));
+            items.last()->setData(section.size, Qt::UserRole);
             symbolsTree->appendRow(items);
             foreach(auto tru, section.translationUnits) {
                 if (tru.symbols.isEmpty())
@@ -385,8 +411,10 @@ bool MapViewer::load(const QString &path)
                 QList<QStandardItem*> childItems;
                 childItems += new QStandardItem(tru.isNull()? tr("No unit") : tru.path);
                 childItems += new QStandardItem(tru.isNull()? QString() : toHex(tru.addr));
+                childItems.last()->setData(tru.addr, Qt::UserRole);
                 childItems += new QStandardItem();
                 childItems += new QStandardItem(toHumanReadableSize(tru.size));
+                childItems.last()->setData(tru.size, Qt::UserRole);
                 items.first()->appendRow(childItems);
                 foreach(auto symbol,tru.symbols) {
                     QList<QStandardItem*> symbolItems;

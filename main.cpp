@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("none.unknown.com");
     QCoreApplication::setApplicationName("embedded IDE");
     MainWindow w;
+    a.setWindowIcon(QIcon(":/images/embedded-ide.png"));
     adjustPath();
     w.show();
 

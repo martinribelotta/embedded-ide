@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -213,7 +213,7 @@
       <enum>Qt::Vertical</enum>
      </property>
      <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_1">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -224,13 +224,47 @@
          </property>
          <item>
           <widget class="QLabel" name="label">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Stack Frame</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTreeView" name="treeFrame">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_2">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_3">
            <property name="text">
             <string>Watch View</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="buttonWatchAdd">
+          <widget class="QToolButton" name="buttonWatchAdd_2">
            <property name="toolTip">
             <string>Add Watch</string>
            </property>
@@ -250,7 +284,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="buttonWatchRemove">
+          <widget class="QToolButton" name="buttonWatchRemove_2">
            <property name="toolTip">
             <string>Remove Selected Watch</string>
            </property>
@@ -270,7 +304,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="buttonWatchClear">
+          <widget class="QToolButton" name="buttonWatchClear_2">
            <property name="toolTip">
             <string>Clear All Watchs</string>
            </property>
@@ -292,7 +326,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QListWidget" name="listWatchs"/>
+        <widget class="QListWidget" name="listWatchs_2">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -356,7 +394,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QListWidget" name="listBreakpoints"/>
+        <widget class="QListWidget" name="listBreakpoints">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

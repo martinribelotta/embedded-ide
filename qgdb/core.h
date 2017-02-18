@@ -16,6 +16,8 @@ struct ThreadInfo {
 	QString m_func;
 };
 
+Q_DECLARE_METATYPE(ThreadInfo)
+
 struct StackFrameEntry
 {
 public:

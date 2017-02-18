@@ -4,6 +4,8 @@
 #include "qgdb/opendialog.h"
 
 #include <QMimeDatabase>
+#include <QStandardItemModel>
+#include <QMessageBox>
 #include <QtDebug>
 
 struct DebugInterface::Priv_t {
@@ -55,6 +57,7 @@ void DebugInterface::ICore_onStateChanged(TargetState state)
 
 void DebugInterface::ICore_onSignalReceived(QString signalName)
 {
+    QMessageBox::information(this->window(), tr("Signal recevied"), tr("Signal <<%1>>").arg(signalName));
 }
 
 void DebugInterface::ICore_onLocalVarReset()
@@ -89,12 +92,36 @@ void DebugInterface::ICore_onBreakpointsChanged()
 
 void DebugInterface::ICore_onThreadListChanged()
 {
+    QStandardItemModel *m = new QStandardItemModel(this);
+    foreach(ThreadInfo thd, Core::getInstance().getThreadList()) {
+        QStandardItem* thdItem = new QStandardItem(tr("[%3] %1: %2")
+                                                   .arg(thd.m_name)
+                                                   .arg(thd.m_func)
+                                                   .arg(thd.id));
+        thdItem->setData(QVariant::fromValue(thd), Qt::UserRole);
+        qDebug() << "create thread" << thd.id;
+        m->appendRow(thdItem);
+    }
+    ui->treeFrame->setModel(m);
 }
 
 void DebugInterface::ICore_onCurrentThreadChanged(int threadId)
 {
     qDebug() << "thread change" << threadId;
-    Core::getInstance().selectThread(threadId);
+    auto *m = qobject_cast<QStandardItemModel*>(ui->treeFrame->model());
+    if (m && threadId > 0 && threadId <= m->invisibleRootItem()->rowCount()) {
+        Core::getInstance().selectThread(threadId);
+        QStandardItem *thdItem = m->invisibleRootItem()->child(threadId-1, 0);
+        if (thdItem) {
+            ThreadInfo info = thdItem->data(Qt::UserRole).value<ThreadInfo>();
+            qDebug() << "select thread id" << info.id << info.m_func << info.m_name;
+            ui->treeFrame->selectionModel()->select(thdItem->index(),
+                                                    QItemSelectionModel::Rows |
+                                                    QItemSelectionModel::Select);
+        } else
+            qDebug() << "No thread item for " << threadId;
+    } else
+        qDebug() << "ignoring it" << threadId;
 }
 
 void DebugInterface::ICore_onStackFrameChange(QList<StackFrameEntry> stackFrameList)
@@ -116,9 +143,26 @@ void DebugInterface::ICore_onTargetOutput(QString message)
 void DebugInterface::ICore_onCurrentFrameChanged(int frameIdx)
 {
     qDebug() << "current frame" << frameIdx << priv->currentStackFrameList.size();
-    if (frameIdx < priv->currentStackFrameList.size()) {
+    if (frameIdx >= 0 && frameIdx < priv->currentStackFrameList.size()) {
         StackFrameEntry &entry = priv->currentStackFrameList[priv->currentStackFrameList.size()-frameIdx-1];
         documentArea->fileOpenAndSetIP(entry.m_sourcePath, entry.m_line, &projectView->makeInfo());
+        auto *m = qobject_cast<QStandardItemModel*>(ui->treeFrame->model());
+        if (m) {
+            QStandardItem *selectThread = nullptr;
+            foreach(auto i, ui->treeFrame->selectionModel()->selectedIndexes()) {
+                selectThread = m->itemFromIndex(i);
+                if (selectThread) {
+                    if (selectThread->data(Qt::UserRole).canConvert<ThreadInfo>()) {
+                        break;
+                    }
+                }
+            }
+            if (selectThread) {
+                ThreadInfo info = selectThread->data(Qt::UserRole).value<ThreadInfo>();
+                qDebug() << "inserting frames on" << info.id << info.m_name;
+
+            }
+        }
     }
 }
 
