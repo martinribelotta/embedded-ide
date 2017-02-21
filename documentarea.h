@@ -17,6 +17,7 @@ signals:
 public slots:
     int fileOpenAt(const QString& file, int row, int col, const MakefileInfo *mk);
     int fileOpen(const QString& file, const MakefileInfo *mk);
+    void clearIp();
     int fileOpenAndSetIP(const QString& file, int line, const MakefileInfo *mk);
     int binOpen(const QString& file);
     int mapOpen(const QString& file);

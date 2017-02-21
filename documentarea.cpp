@@ -100,6 +100,12 @@ int DocumentArea::fileOpen(const QString &file, const MakefileInfo *mk)
     return idx;
 }
 
+void DocumentArea::clearIp()
+{
+    if (lastIpEditor)
+        lastIpEditor->clearDebugPointer();
+}
+
 int DocumentArea::fileOpenAndSetIP(const QString &file, int line, const MakefileInfo *mk)
 {
     int idx = fileOpenAt(file, line, 0, mk);
