@@ -120,10 +120,11 @@ void MainWindow::actionExportFinish(const QString &s)
 void MainWindow::on_projectView_fileOpen(const QString &file)
 {
     qDebug() << file;
+    QFileInfo inf(file);
     QMimeType m = QMimeDatabase().mimeTypeForFile(file, QMimeDatabase::MatchDefault);
-    if (QFileInfo(file).suffix().toLower() == "map") {
+    if (inf.suffix().toLower() == "map") {
         ui->centralWidget->mapOpen(file);
-    } else if (m.inherits("text/plain")) {
+    } else if (m.inherits("text/plain") || (inf.size() == 0)) {
         ui->centralWidget->fileOpenAt(file, 0, 0, &ui->projectView->makeInfo());
     } else {
         // QDesktopServices::openUrl(QUrl::fromLocalFile(file));

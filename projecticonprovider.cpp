@@ -25,7 +25,7 @@ public:
         if (QFile(resName).exists()) {
             return QIcon(resName);
         }
-        qDebug() << "no icon for" << m.iconName() << "or" << m.genericIconName();
+        // qDebug() << "no icon for" << m.iconName() << "or" << m.genericIconName();
         return QIcon();
     }
 };

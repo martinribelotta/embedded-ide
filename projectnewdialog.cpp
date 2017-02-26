@@ -126,11 +126,15 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     QDir localTemplates(QSettings().value("build/templatepath").toString());
     ui->setupUi(this);
     ui->parameterTable->horizontalHeader()->setStretchLastSection(true);
-    foreach(QFileInfo info, defTemplates.entryInfoList(QStringList("*.template"))) {
+    QStringList prjList;
+    foreach(QFileInfo info, localTemplates.entryInfoList(QStringList("*.template"))) {
+        prjList.append(info.baseName());
         ui->templateFile->addItem(info.baseName(), info.absoluteFilePath());
     }
-    foreach(QFileInfo info, localTemplates.entryInfoList(QStringList("*.template"))) {
-        ui->templateFile->addItem(info.baseName(), info.absoluteFilePath());
+    // Prefer downloaded template name over bundled template
+    foreach(QFileInfo info, defTemplates.entryInfoList(QStringList("*.template"))) {
+        if (!prjList.contains(info.baseName()))
+            ui->templateFile->addItem(info.baseName(), info.absoluteFilePath());
     }
     ui->projectPath->setText(::projectPath(QSettings().value("build/defaultprojectpath").toString()));
     refreshProjectName();

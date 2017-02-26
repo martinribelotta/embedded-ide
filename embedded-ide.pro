@@ -79,7 +79,6 @@ HEADERS  += mainwindow.h \
     projectview.h \
     filedownloader.h \
     version.h \
-    templates/ciaa-lpcopen.template \
     targetupdatediscover.h \
     waitingspinnerwidget.h \
     QHexEdit/qhexedit.h \
@@ -111,7 +110,6 @@ RESOURCES += \
 
 OTHER_FILES += \
     templates/generic-make.template \
-    templates/ciaa-lpcopen.template \
     templates/sAPI.template \
     project-filters.txt
 

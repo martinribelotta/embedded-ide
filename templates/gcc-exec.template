@@ -14,7 +14,7 @@ diff -Naur -x '.git*' -x '*.o' -x '*.d' -x '*.elf' -x '*.lst' -x '*.map' -x '.co
 --- a_16VwRS/Makefile	1969-12-31 21:00:00.000000000 -0300
 +++ ./Makefile	2016-06-13 22:07:40.137966026 -0300
 @@ -0,0 +1,39 @@
-+EXEC=${{ExecName string:test}}
++EXEC=${{ExecName string:program-name}}
 +CSRC=$(wildcard src/*.c)
 +CCSRC=$(wildcard src/*.cpp)
 +

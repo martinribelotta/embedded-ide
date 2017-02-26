@@ -51,10 +51,11 @@
         <file>qtsourceview/data/colors/visual.xml</file>
     </qresource>
     <qresource prefix="/build">
-        <file>templates/generic-make.template</file>
-        <file>templates/sAPI.template</file>
         <file>project-filters.txt</file>
-        <file>templates/ciaa-lpcopen.template</file>
+        <file>templates/gcc-exec.template</file>
+        <file>templates/lpcopen-picociaa.template</file>
+        <file>templates/lpcopen.template</file>
+        <file>templates/sAPI-Project.template</file>
     </qresource>
     <qresource prefix="/">
         <file>style.css</file>
