@@ -29,7 +29,7 @@ private slots:
 private:
     Ui::ProjectNewDialog *ui;
 
-    QString replaceTemplates(const QString& text) const;
+    QString replaceTemplates(QString text) const;
 };
 
 #endif // PROJECTNEWDIALOG_H

@@ -36,7 +36,7 @@ void ProjectExporter::start()
 {
     if (tmpDir.isValid()) {
         proc->setWorkingDirectory(m_projectPath);
-        QString cmd = QString("diff -aur --unidirectional-new-file %2 %1 .")
+        QString cmd = QString("diff -u -r --unidirectional-new-file %2 %1 .")
                 .arg(tmpDir.path())
                 .arg(EXCLUDE_LIST);
         //qDebug() << cmd;

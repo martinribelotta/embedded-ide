@@ -119,6 +119,9 @@ DISTFILES += \
     reference-code-c.txt \
     style.css \
     QHexEdit/LICENSE \
-    QHexEdit/README.md
+    QHexEdit/README.md \
+    i18n/es.ts
 
 RC_ICONS = icon-theme/icon.ico
+
+TRANSLATIONS = i18n/es.ts

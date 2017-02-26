@@ -10,6 +10,9 @@
     <height>451</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string>About</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="label_2">

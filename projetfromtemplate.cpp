@@ -4,6 +4,10 @@
 #include <QFileInfo>
 #include <QDir>
 
+#include <QtConcurrent>
+
+#include <QtDebug>
+
 ProjetFromTemplate::ProjetFromTemplate(const QString &projectName,
                                        const QString &templateText,
                                        QObject *parent,
@@ -14,13 +18,16 @@ ProjetFromTemplate::ProjetFromTemplate(const QString &projectName,
     connect(proc, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinish(int, QProcess::ExitStatus)));
     connect(proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(onError(QProcess::ProcessError)));
     connect(this, SIGNAL(endOfCreation(QString,QString)), parent, slotName);
+    connect(proc, &QProcess::readyReadStandardOutput, [this]() {
+        qDebug() << "DIFF: " << proc->readAllStandardOutput();
+    });
 }
 
 void ProjetFromTemplate::start()
 {
     if (QDir::root().mkpath(m_project)) {
         proc->setWorkingDirectory(m_project);
-        proc->start(QString("patch -p0"));
+        proc->start(QString("patch -p1"));
     } else {
         emit endOfCreation(QString(), tr("Cant create path %1").arg(m_project));
         deleteLater();
@@ -29,7 +36,12 @@ void ProjetFromTemplate::start()
 
 void ProjetFromTemplate::onStarted()
 {
-    proc->write(m_templateText.toLocal8Bit());
+    qDebug() << "writing" << proc->write(m_templateText.toLocal8Bit());
+    while (proc->bytesToWrite() > 0) {
+        qDebug() << "..." << proc->bytesToWrite();
+        if (proc->waitForBytesWritten())
+            break;
+    }
     proc->closeWriteChannel();
 }
 

@@ -146,10 +146,16 @@ QString ProjectNewDialog::projectPath() const
     return ui->projectFileText->text();
 }
 
+static QString readAllText(QFile &f) {
+    QTextStream s(&f);
+    return s.readAll();
+}
+
 QString ProjectNewDialog::templateText() const
 {
     QFile f(ui->templateFile->currentData(Qt::UserRole).toString());
-    return f.open(QFile::ReadOnly)? replaceTemplates(f.readAll()) : QString();
+    QTextStream fs(&f);
+    return f.open(QFile::ReadOnly)? replaceTemplates(readAllText(f)) : QString();
 }
 
 void ProjectNewDialog::refreshProjectName()
@@ -224,9 +230,9 @@ void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
     }
 }
 
-QString ProjectNewDialog::replaceTemplates(const QString &text) const
+QString ProjectNewDialog::replaceTemplates(QString text) const
 {
-    QString newString(text);
+    qDebug() << "Template size" << text.length();
     for(int row=0; row<ui->parameterTable->rowCount(); row++) {
         QString key = ui->parameterTable->item(row, 0)->text().replace(' ', '_');
         QString val = ui->parameterTable->item(row, 1)->text();
@@ -234,7 +240,8 @@ QString ProjectNewDialog::replaceTemplates(const QString &text) const
         QRegExp re(QString(R"(\$\{\{%1\s*([a-zA-Z0-9_]+)*\s*\:*(.*)\}\})").arg(key));
         re.setMinimal(true);
         re.setPatternSyntax(QRegExp::RegExp2);
-        newString.replace(re, val);
+        text.replace(re, val);
     }
-    return newString;
+    qDebug() << "Template size" << text.length();
+    return text;
 }
