@@ -59,7 +59,8 @@ SOURCES += main.cpp\
     QHexEdit/sparserangemap.cpp \
     loggerwidget.cpp \
     taglist.cpp \
-    mapviewer.cpp
+    mapviewer.cpp \
+    dialogconfigworkspace.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -92,7 +93,8 @@ HEADERS  += mainwindow.h \
     QHexEdit/sparserangemap.h \
     loggerwidget.h \
     taglist.h \
-    mapviewer.h
+    mapviewer.h \
+    dialogconfigworkspace.h
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \
@@ -103,7 +105,8 @@ FORMS    += mainwindow.ui \
     replaceform.ui \
     searchform.ui \
     projectview.ui \
-    mapviewer.ui
+    mapviewer.ui \
+    dialogconfigworkspace.ui
 
 RESOURCES += \
     resources.qrc

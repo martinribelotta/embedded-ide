@@ -48,4 +48,11 @@ private:
     QsvSyntaxHighlighter *syntax;
 };
 
+extern void adjustPath();
+extern QString defaultTemplateUrl();
+extern QString defaultApplicationResources();
+extern QString defaultProjectPath();
+extern QString defaultTemplatePath();
+
+
 #endif // CONFIGDIALOG_H

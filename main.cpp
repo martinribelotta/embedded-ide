@@ -1,3 +1,4 @@
+#include "dialogconfigworkspace.h"
 #include "mainwindow.h"
 #include <QApplication>
 #include <QtDebug>
@@ -5,7 +6,13 @@
 #include <QFile>
 #include <QTranslator>
 
-extern void adjustPath();
+#include <QDir>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QSettings>
+#include <configdialog.h>
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +34,30 @@ int main(int argc, char *argv[])
 
     qDebug() << "Support ssl " << QSslSocket::supportsSsl();
     adjustPath();
+
+    QSettings sets;
+    QDir projectDir = sets.value("build/defaultprojectpath", defaultProjectPath()).toString();
+    QDir wSpace(projectDir.absoluteFilePath(".."));
+    if (!wSpace.exists()) {
+        DialogConfigWorkspace d;
+        if (d.exec() != QDialog::Accepted) {
+            return 0;
+        }
+        wSpace.setPath(d.path());
+        sets.setValue("build/defaultprojectpath", wSpace.absoluteFilePath("projects"));
+        sets.setValue("build/templatepath", wSpace.absoluteFilePath("templates"));
+    }
+    if (!wSpace.exists()) {
+        auto root = QDir::root();
+        if (!root.mkpath(wSpace.absolutePath())) {
+            QMessageBox::critical(nullptr,
+                                  a.tr("Error"),
+                                  a.tr("Error creating directory %1 because %2")
+                                  .arg(wSpace.absolutePath()));
+            return 0;
+        }
+    }
+
 
     MainWindow w;
     w.show();

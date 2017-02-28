@@ -95,7 +95,7 @@ QString defaultTemplateUrl()
 
 QString defaultApplicationResources()
 {
-    return QDir::home().absoluteFilePath(".embedded-ide");
+    return QDir::home().absoluteFilePath("embedded-ide-workspace");
 }
 
 QString defaultProjectPath()
