@@ -155,12 +155,12 @@ void DocumentArea::saveAll()
 
 void DocumentArea::documentToClose(int idx)
 {
-    CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
-    if (w->close()) {
-        if (w) {
+    QWidget *w = widget(idx);
+    if (w) {
+        if (w->close()) {
             w->deleteLater();
+            removeTab(idx);
         }
-        removeTab(idx);
     }
 }
 

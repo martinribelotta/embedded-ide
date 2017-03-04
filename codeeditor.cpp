@@ -551,6 +551,8 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent *event)
 
 void CodeEditor::closeEvent(QCloseEvent *event)
 {
+    if (!document())
+        event->accept();
     if (document()->isModified()) {
         QMessageBox messageBox(QMessageBox::Question,
                                tr("Document Modified"),
