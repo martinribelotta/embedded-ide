@@ -64,7 +64,7 @@ signals:
 
 private slots:
     void open(const QString& filename);
-#if 1
+
     void onWatchWidgetCurrentItemChanged ( QTreeWidgetItem * current, int column );
     void onThreadWidgetSelectionChanged( );
     void onStackWidgetSelectionChanged();
@@ -79,32 +79,6 @@ private slots:
     void onAutoWidgetItemDoubleClicked(QTreeWidgetItem *item, int column);
 
     void on_buttonStartDebug_clicked();
-#else
-
-    void on_buttonStopDebug_clicked();
-
-    void on_buttonDebugRun_clicked();
-
-    void on_buttonDebugStepOver_clicked();
-
-    void on_buttonDebugStepInto_clicked();
-
-    void on_buttonDebugStepOut_clicked();
-
-    void on_buttonWatchAdd_clicked();
-
-    void on_buttonWatchRemove_clicked();
-
-    void on_buttonWatchClear_clicked();
-
-    void on_buttonBreakRemove_clicked();
-
-    void on_buttonBreakClear_clicked();
-
-    void on_listBreakpoints_activated(const QModelIndex &index);
-
-    void on_buttonDebugContinue_clicked();
-#endif
 
 private:
     typedef struct {

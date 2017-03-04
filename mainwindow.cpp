@@ -136,6 +136,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(menuWidget, SIGNAL(help()), menu, SLOT(hide()));
     connect(menuWidget, SIGNAL(exit()), menu, SLOT(hide()));
     ui->projectView->setMainMenu(menu);
+
+#ifdef CIAA_IDE
+    ui->tabWidget->removeTab(1);
+    ui->tabWidget->removeTab(2);
+    ui->tabWidget->tabBar()->hide();
+#endif
 }
 
 MainWindow::~MainWindow()

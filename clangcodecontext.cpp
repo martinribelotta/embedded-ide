@@ -12,6 +12,8 @@
 
 #include <QtDebug>
 
+const QStringList CLangCodeContext::HANDLE_TYPE = QStringList{ "C", "C++" };
+
 CLangCodeContext::CLangCodeContext(CodeEditor *parent) : QObject(parent), ed(parent)
 {
     clangProc = new QProcess(this);

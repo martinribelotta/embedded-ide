@@ -46,11 +46,6 @@ ProjectView::ProjectView(QWidget *parent) :
     ui(new Ui::DocumentView)
 {
     ui->setupUi(this);
-#if 1
-    ui->label_2->hide();
-    ui->filterButton->hide();
-    ui->filterCombo->hide();
-#endif
     ui->tabDebug->setProjectView(this);
 
     projectButtons += ui->toolButton_documentNew;
@@ -85,6 +80,13 @@ ProjectView::ProjectView(QWidget *parent) :
         ui->waitSpinner->stop();
     });
     ui->targetStack->setCurrentIndex(0);
+#ifdef CIAA_IDE
+    ui->label_2->hide();
+    ui->filterButton->hide();
+    ui->filterCombo->hide();
+    ui->tabWidget->removeTab(1);
+    ui->tabWidget->tabBar()->hide();
+#endif
 }
 
 ProjectView::~ProjectView()

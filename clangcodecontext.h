@@ -11,6 +11,8 @@ class CLangCodeContext : public QObject
 {
     Q_OBJECT
 public:
+    static const QStringList HANDLE_TYPE;
+
     explicit CLangCodeContext(CodeEditor *parent = 0);
     ~CLangCodeContext();
 

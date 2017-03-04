@@ -254,6 +254,14 @@ bool CodeEditor::load(const QString &fileName)
                QPalette p = palette();
                p.setColor(QPalette::Base, defColors->getColorDef("dsWidgetBackground").getBackground());
                setPalette(p);
+               qDebug() << m_documentFile << "as" << langDef->getName() << langDef->getMimeTypes();
+               if (CLangCodeContext::HANDLE_TYPE.contains(langDef->getName())) {
+                   if (makefileInfo())
+                       (new CLangCodeContext(this))->setWorkingDir(makefileInfo()->workingDir);
+                   else
+                       qDebug() << "no makefile info";
+               }
+
                refreshHighlighterLines();
            }
            return true;

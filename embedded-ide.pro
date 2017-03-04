@@ -20,6 +20,8 @@ TEMPLATE = app
 
 INCLUDEPATH += QHexEdit
 
+DEFINES += CIAA_IDE
+
 QTSOURCEVIEW_SRC_DIR=qtsourceview/src
 include(qtsourceview/src/qsvsh.pri)
 include(qgdb/qgdb.pri)
