@@ -27,32 +27,67 @@
 <context>
     <name>CodeEditor</name>
     <message>
-        <location filename="../codeeditor.cpp" line="516"/>
+        <location filename="../codeeditor.cpp" line="220"/>
+        <source>&amp;Undo</source>
+        <translation>&amp;Deshacer</translation>
+    </message>
+    <message>
+        <location filename="../codeeditor.cpp" line="221"/>
+        <source>&amp;Redo</source>
+        <translation>&amp;Reacer</translation>
+    </message>
+    <message>
+        <location filename="../codeeditor.cpp" line="223"/>
+        <source>Cu&amp;t</source>
+        <translation>&amp;Cortar</translation>
+    </message>
+    <message>
+        <location filename="../codeeditor.cpp" line="224"/>
+        <source>&amp;Copy</source>
+        <translation>C&amp;opiar</translation>
+    </message>
+    <message>
+        <location filename="../codeeditor.cpp" line="225"/>
+        <source>&amp;Paste</source>
+        <translation>&amp;Pegar</translation>
+    </message>
+    <message>
+        <location filename="../codeeditor.cpp" line="226"/>
+        <source>Delete</source>
+        <translation>Borrar</translation>
+    </message>
+    <message>
+        <location filename="../codeeditor.cpp" line="228"/>
+        <source>&amp;Select All</source>
+        <translation>&amp;Seleccionar Todo</translation>
+    </message>
+    <message>
+        <location filename="../codeeditor.cpp" line="545"/>
         <source>Find symbol under cursor</source>
         <translation>Buscar simbolo bajo el cursor</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="526"/>
+        <location filename="../codeeditor.cpp" line="556"/>
         <source>Document Modified</source>
         <translation>Documento Modificado</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="527"/>
+        <location filename="../codeeditor.cpp" line="557"/>
         <source>The document is not save. Save it?</source>
         <translation>El documentio no esta guardado. ¿Desea guardarlo?</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="530"/>
+        <location filename="../codeeditor.cpp" line="560"/>
         <source>Yes</source>
         <translation>Si</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="531"/>
+        <location filename="../codeeditor.cpp" line="561"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="532"/>
+        <location filename="../codeeditor.cpp" line="562"/>
         <source>Abort</source>
         <translation>Abortar</translation>
     </message>

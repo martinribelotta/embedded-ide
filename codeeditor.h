@@ -55,6 +55,7 @@ public slots:
     bool save();
     void reload();
 
+    void clearSelection();
     void smartHome();
     void smartEnd();
     void findTagUnderCursor();
@@ -106,6 +107,7 @@ private:
     QTextCursor textUnderCursor() const;
     QString lineUnderCursor() const;
     void completionShow();
+    QMenu *createContextMenu();
 
     QsvTextOperationsWidget *textOpWidget;
     QWidget *lineNumberArea;

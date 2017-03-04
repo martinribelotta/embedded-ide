@@ -208,6 +208,27 @@ void CodeEditor::completionShow()
     m_completer->complete(rr);
 }
 
+static QAction *setActionEnable(bool en, QAction *a) {
+    a->setEnabled(en);
+    return a;
+}
+
+QMenu *CodeEditor::createContextMenu()
+{
+    QMenu *m = new QMenu(this);
+    bool isSelected = textCursor().hasSelection();
+    setActionEnable(document()->isUndoAvailable(), m->addAction(QIcon(":/images/edit-undo.svg"), tr("&Undo"), this, SLOT(undo())))->setShortcut(QKeySequence("Ctrl+Z"));
+    setActionEnable(document()->isRedoAvailable(), m->addAction(QIcon(":/images/edit-redo.svg"), tr("&Redo"), this, SLOT(redo())))->setShortcut(QKeySequence("Ctrl+Shift+Z"));
+    m->addSeparator();
+    setActionEnable(isSelected, m->addAction(QIcon(":/images/edit-cut.svg"), tr("Cu&t"), this, SLOT(cut())))->setShortcut(QKeySequence("Ctrl+X"));
+    setActionEnable(isSelected, m->addAction(QIcon(":/images/edit-copy.svg"), tr("&Copy"), this, SLOT(copy())))->setShortcut(QKeySequence("Ctrl+C"));
+    setActionEnable(canPaste(), m->addAction(QIcon(":/images/edit-paste.svg"), tr("&Paste"), this, SLOT(paste())))->setShortcut(QKeySequence("Ctrl+V"));
+    setActionEnable(isSelected, m->addAction(QIcon(":/images/edit-delete.svg"), tr("Delete"), this, SLOT(clearSelection())));
+    m->addSeparator();
+    m->addAction(tr("&Select All"), this, SLOT(selectAll()))->setShortcut(QKeySequence("CTRL+A"));
+    return m;
+}
+
 static QString findStyleByName(const QString& defaultName) {
     QDir d(":/qsvsh/qtsourceview/data/colors/");
     foreach(QString name, d.entryList(QStringList("*.xml"))) {
@@ -300,6 +321,13 @@ void CodeEditor::reload()
             this->setTextCursor(cursor);
         }
     }
+}
+
+void CodeEditor::clearSelection()
+{
+    QTextCursor c = textCursor();
+    c.removeSelectedText();
+    setTextCursor(c);
 }
 
 void CodeEditor::smartHome()
@@ -511,9 +539,11 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent *event)
     QString word = wordUnderCursor().selectedText();
     qDebug() << word;
     bool isTextUnderCursor = !word.isEmpty();
-    QMenu *menu = createStandardContextMenu();
+    QMenu *menu = createContextMenu();
     menu->addSeparator();
-    QAction *findSimbol = menu->addAction(tr("Find symbol under cursor"), this, SLOT(findTagUnderCursor()));
+    QAction *findSimbol = menu->addAction(QIcon(":/images/edit-find.svg"),
+                                          tr("Find symbol under cursor"),
+                                          this, SLOT(findTagUnderCursor()));
     findSimbol->setEnabled(isTextUnderCursor);
     menu->exec(event->globalPos());
     event->accept();
