@@ -8,7 +8,7 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
-    ui->label_VerBuildDate->setText(tr("Version %1,<br>build date %2")
+    ui->label_VerBuildDate->setText(tr("Version %1<br>build date:<br>%2")
                                     .arg(VERSION)
                                     .arg(BUILD_DATE));
     setWindowTitle(QCoreApplication::applicationName());

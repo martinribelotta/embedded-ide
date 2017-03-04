@@ -19,9 +19,13 @@
         <translation>TextLabel</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.cpp" line="11"/>
         <source>Version %1,&lt;br&gt;build date %2</source>
-        <translation>Version %1,&lt;br&gt;Fecha de construcción %2</translation>
+        <translation type="vanished">Version %1,&lt;br&gt;Fecha de construcción %2</translation>
+    </message>
+    <message>
+        <location filename="../aboutdialog.cpp" line="11"/>
+        <source>Version %1&lt;br&gt;build date:&lt;br&gt;%2</source>
+        <translation>Version %1&lt;br&gt;Fecha de construcción:&lt;br&gt;%2</translation>
     </message>
 </context>
 <context>
@@ -62,32 +66,32 @@
         <translation>&amp;Seleccionar Todo</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="545"/>
+        <location filename="../codeeditor.cpp" line="544"/>
         <source>Find symbol under cursor</source>
         <translation>Buscar simbolo bajo el cursor</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="558"/>
+        <location filename="../codeeditor.cpp" line="557"/>
         <source>Document Modified</source>
         <translation>Documento Modificado</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="559"/>
+        <location filename="../codeeditor.cpp" line="558"/>
         <source>The document is not save. Save it?</source>
         <translation>El documentio no esta guardado. ¿Desea guardarlo?</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="562"/>
+        <location filename="../codeeditor.cpp" line="561"/>
         <source>Yes</source>
         <translation>Si</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="563"/>
+        <location filename="../codeeditor.cpp" line="562"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="564"/>
+        <location filename="../codeeditor.cpp" line="563"/>
         <source>Abort</source>
         <translation>Abortar</translation>
     </message>

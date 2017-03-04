@@ -166,8 +166,8 @@ void DocumentArea::documentToClose(int idx)
 
 void DocumentArea::closeAll()
 {
-    for(int i=0; i<count(); i++)
-        documentToClose(i);
+    while(count() > 0)
+        documentToClose(0);
 }
 
 void DocumentArea::saveCurrent()
