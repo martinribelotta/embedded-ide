@@ -118,11 +118,17 @@ MainWindow::MainWindow(QWidget *parent) :
         QString name = info.absoluteFilePath();
         if (QFileInfo(name).exists()) {
             ui->projectView->openProject(name);
+            QString name = ui->projectView->projectPath().dirName();
+            QString path = ui->projectView->project();
+            QSettings sets;
+            sets.beginGroup("last_projects");
+            sets.setValue(name, path);
+            sets.sync();
         } else {
             QMessageBox::critical(this, tr("Open Project"), tr("Cannot open %1").arg(name));
             removeFromLastProject(name);
-            menuWidget->setProjectList(lastProjectsList());
         }
+        menuWidget->setProjectList(lastProjectsList());
     });
     connect(menuWidget, SIGNAL(projectClose()), this, SLOT(on_actionProjectClose_triggered()));
     connect(menuWidget, SIGNAL(configure()), this, SLOT(on_actionConfigure_triggered()));
@@ -239,13 +245,12 @@ void MainWindow::openProject()
 
 void MainWindow::projectOpened()
 {
-    // TODO: Implement me
+    setWindowTitle(tr("Embedded IDE %1").arg(ui->projectView->project()));
 }
 
 void MainWindow::on_actionHelp_triggered()
 {
     AboutDialog(this).exec();
-    //QMessageBox::about(this, tr("About IDE"), resourceText(":/help/about.txt"));
 }
 
 void MainWindow::on_actionProjectExport_triggered()
@@ -257,6 +262,7 @@ void MainWindow::on_actionProjectClose_triggered()
     ui->projectView->closeProject();
     ui->centralWidget->closeAll();
     ui->loggerCompiler->clearText();
+    setWindowTitle(tr("Embedded IDE"));
 }
 
 void MainWindow::on_projectView_projectOpened()

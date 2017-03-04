@@ -67,27 +67,27 @@
         <translation>Buscar simbolo bajo el cursor</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="556"/>
+        <location filename="../codeeditor.cpp" line="558"/>
         <source>Document Modified</source>
         <translation>Documento Modificado</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="557"/>
+        <location filename="../codeeditor.cpp" line="559"/>
         <source>The document is not save. Save it?</source>
         <translation>El documentio no esta guardado. ¿Desea guardarlo?</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="560"/>
+        <location filename="../codeeditor.cpp" line="562"/>
         <source>Yes</source>
         <translation>Si</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="561"/>
+        <location filename="../codeeditor.cpp" line="563"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="562"/>
+        <location filename="../codeeditor.cpp" line="564"/>
         <source>Abort</source>
         <translation>Abortar</translation>
     </message>
@@ -507,6 +507,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
+        <location filename="../mainwindow.cpp" line="265"/>
         <source>Embedded IDE</source>
         <translation>Embedded IDE</translation>
     </message>
@@ -557,9 +558,9 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="140"/>
-        <location filename="../mainwindow.cpp" line="122"/>
-        <location filename="../mainwindow.cpp" line="214"/>
-        <location filename="../mainwindow.cpp" line="233"/>
+        <location filename="../mainwindow.cpp" line="128"/>
+        <location filename="../mainwindow.cpp" line="220"/>
+        <location filename="../mainwindow.cpp" line="239"/>
         <source>Open Project</source>
         <translation>Abrir Proyecto</translation>
     </message>
@@ -610,28 +611,33 @@
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="170"/>
+        <location filename="../mainwindow.cpp" line="176"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="175"/>
+        <location filename="../mainwindow.cpp" line="181"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="177"/>
+        <location filename="../mainwindow.cpp" line="183"/>
         <source>Success</source>
         <translation>Éxito</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="216"/>
+        <location filename="../mainwindow.cpp" line="222"/>
         <source>Makefile (Makefile);;Make (*.mk);;All Files (*)</source>
         <translation>Makefile (Makefile);;Make (*.mk);;Todos los archivos (*)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="122"/>
-        <location filename="../mainwindow.cpp" line="233"/>
+        <location filename="../mainwindow.cpp" line="248"/>
+        <source>Embedded IDE %1</source>
+        <translation>Embedded IDE %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="128"/>
+        <location filename="../mainwindow.cpp" line="239"/>
         <source>Cannot open %1</source>
         <translation>No se puede abrir %1</translation>
     </message>
