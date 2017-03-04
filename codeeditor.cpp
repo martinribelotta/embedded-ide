@@ -22,6 +22,7 @@
 #include <QMenu>
 #include <QListWidget>
 #include <QDialog>
+#include <QMessageBox>
 
 #include <QtDebug>
 
@@ -516,6 +517,31 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent *event)
     findSimbol->setEnabled(isTextUnderCursor);
     menu->exec(event->globalPos());
     event->accept();
+}
+
+void CodeEditor::closeEvent(QCloseEvent *event)
+{
+    if (document()->isModified()) {
+        QMessageBox messageBox(QMessageBox::Question,
+                               tr("Document Modified"),
+                               tr("The document is not save. Save it?"),
+                               QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort,
+                               this);
+        messageBox.setButtonText(QMessageBox::Yes, tr("Yes"));
+        messageBox.setButtonText(QMessageBox::No, tr("No"));
+        messageBox.setButtonText(QMessageBox::Abort, tr("Abort"));
+        int r = messageBox.exec();
+        switch (r) {
+        case QMessageBox::Yes:
+            save();
+            break;
+        case QMessageBox::Abort:
+            event->ignore();
+            break;
+        case QMessageBox::No:
+            break;
+        }
+    }
 }
 
 void CodeEditor::refreshHighlighterLines()

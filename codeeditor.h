@@ -35,6 +35,7 @@ protected:
     void resizeEvent(QResizeEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
+    void closeEvent(QCloseEvent *event);
 
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);

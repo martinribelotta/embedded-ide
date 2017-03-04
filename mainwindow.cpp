@@ -151,7 +151,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    e->accept();
+    auto dirtyList = ui->centralWidget->documentsDirty();
+    if (!dirtyList.isEmpty()) {
+        ui->centralWidget->closeAll();
+        if (ui->centralWidget->documentsDirty().isEmpty())
+            e->accept();
+        else
+            e->ignore();
+    } else
+        e->accept();
 }
 
 void MainWindow::actionNewFromTemplateEnd(const QString &project, const QString &error)

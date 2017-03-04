@@ -43,6 +43,19 @@ DocumentArea::DocumentArea(QWidget *parent) :
     connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(documentToClose(int)));
 }
 
+QList<CodeEditor *> DocumentArea::documentsDirty() const
+{
+    QList<CodeEditor*> list;
+    for(int i=0; i<count(); i++) {
+        CodeEditor *e = qobject_cast<CodeEditor*>(widget(i));
+        if (e) {
+            if (e->document()->isModified())
+                list.append(e);
+        }
+    }
+    return list;
+}
+
 int DocumentArea::fileOpenAt(const QString &file, int row, int col, const MakefileInfo *mk)
 {
     int idx = fileOpen(file, mk);
@@ -143,15 +156,18 @@ void DocumentArea::saveAll()
 void DocumentArea::documentToClose(int idx)
 {
     CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
-    if (w) {
-        w->deleteLater();
+    if (w->close()) {
+        if (w) {
+            w->deleteLater();
+        }
+        removeTab(idx);
     }
-    removeTab(idx);
 }
 
 void DocumentArea::closeAll()
 {
-    clear();
+    for(int i=0; i<count(); i++)
+        documentToClose(i);
 }
 
 void DocumentArea::saveCurrent()

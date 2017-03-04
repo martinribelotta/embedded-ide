@@ -12,6 +12,8 @@ class DocumentArea : public QTabWidget
 public:
     explicit DocumentArea(QWidget *parent = 0);
 
+    QList<CodeEditor*> documentsDirty() const;
+
 signals:
 
 public slots:
