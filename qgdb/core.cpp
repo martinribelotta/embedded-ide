@@ -23,19 +23,6 @@ Core::Core()
 
 	Com& com = Com::getInstance();
 	com.setListener(this);
-
-#if 0
-	m_ptsFd = getpt();
-
-	if(grantpt(m_ptsFd))
-		errorMsg("Failed to grantpt");
-	if(unlockpt(m_ptsFd))
-		errorMsg("Failed to unlock pt");
-	infoMsg("Using: %s", ptsname(m_ptsFd));
-
-	m_ptsListener = new QSocketNotifier(m_ptsFd, QSocketNotifier::Read);
-	connect(m_ptsListener, SIGNAL(activated(int)), this, SLOT(onGdbOutput(int)));
-#endif
 }
 
 Core::~Core()
@@ -138,13 +125,6 @@ int Core::initRemote(Settings *cfg, QString gdbPath, QString programPath, QStrin
 void Core::onGdbOutput(int socketFd)
 {
 	Q_UNUSED(socketFd);
-#if 0
-	char buff[128];
-	int n =  read(m_ptsFd, buff, sizeof(buff)-1);
-	if(n > 0)
-		buff[n] = '\0';
-	m_inf->ICore_onTargetOutput(buff);
-#endif
 }
 
 void Core::gdbGetFiles()
@@ -238,7 +218,11 @@ void Core::stop()
 	}
 
 	if(m_pid != 0)
+#ifdef Q_OS_WIN
+        QProcess::execute(QString("taskkill /PID %1").arg(m_pid));
+#else
 		kill(m_pid, SIGINT);
+#endif
 	else
 		errorMsg("Failed to stop since PID not known");
 }

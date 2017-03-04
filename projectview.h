@@ -5,6 +5,7 @@
 #include <QModelIndex>
 #include <QDir>
 #include <QFileInfo>
+#include <QFileSystemModel>
 
 #include "makefileinfo.h"
 #include "etags.h"
@@ -13,9 +14,22 @@ namespace Ui {
 class DocumentView;
 }
 
+class QToolButton;
+class QMenu;
 class QProcess;
 class DebugInterface;
 class TagList;
+
+class MyFileSystemModel: public QFileSystemModel
+{
+    Q_OBJECT
+public:
+    MyFileSystemModel(QObject *parent = 0l);
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+
+private:
+    QStringList sectionName;
+};
 
 class ProjectView : public QWidget
 {
@@ -30,15 +44,11 @@ public:
     const MakefileInfo &makeInfo() const { return mk_info; }
     const ETags &tags() const { return mk_info.tags; }
     DebugInterface *getDebugInterface() const;
+    void setMainMenu(QMenu *m);
 
 public slots:
     void closeProject();
     void openProject(const QString& projectFile);
-
-#if 0
-    void buildStart(const QString& target);
-    void buildStop();
-#endif
     void setDebugOn(bool on);
 
 private slots:
@@ -47,10 +57,6 @@ private slots:
 
     void on_targetList_doubleClicked(const QModelIndex &index);
 
-#if 0
-    void on_buildProc_readyReadStandardError();
-    void on_buildProc_readyReadStandardOutput();
-#endif
     void on_filterCombo_activated(int idx);
 
     void on_filterButton_clicked();
@@ -61,23 +67,18 @@ private slots:
 
     void on_toolButton_elementDel_clicked();
 
+    void on_toolButton_export_clicked();
+
 signals:
     void projectOpened();
     void fileOpen(const QString& file);
     void startBuild(const QString& target);
-#if 0
-    void buildStdout(const QString& text);
-    void buildStderr(const QString& text);
-    void buildEnd(int status);
-#endif
 
 private:
     Ui::DocumentView *ui;
-#if 0
-    QProcess *buildProc;
-#endif
     MakefileInfo mk_info;
     TagList *tagList;
+    QList<QToolButton*> projectButtons;
 };
 
 #endif // DOCUMENTVIEW_H

@@ -40,7 +40,6 @@ SOURCES += main.cpp\
     projecticonprovider.cpp \
     makefileinfo.cpp \
     clangcodecontext.cpp \
-    debugmanager.cpp \
     debuginterface.cpp \
     qsvtextoperationswidget.cpp \
     etags.cpp \
@@ -60,7 +59,8 @@ SOURCES += main.cpp\
     loggerwidget.cpp \
     taglist.cpp \
     mapviewer.cpp \
-    dialogconfigworkspace.cpp
+    dialogconfigworkspace.cpp \
+    mainmenuwidget.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -73,7 +73,6 @@ HEADERS  += mainwindow.h \
     projecticonprovider.h \
     makefileinfo.h \
     clangcodecontext.h \
-    debugmanager.h \
     debuginterface.h \
     qsvtextoperationswidget.h \
     etags.h \
@@ -94,7 +93,8 @@ HEADERS  += mainwindow.h \
     loggerwidget.h \
     taglist.h \
     mapviewer.h \
-    dialogconfigworkspace.h
+    dialogconfigworkspace.h \
+    mainmenuwidget.h
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \
@@ -106,7 +106,8 @@ FORMS    += mainwindow.ui \
     searchform.ui \
     projectview.ui \
     mapviewer.ui \
-    dialogconfigworkspace.ui
+    dialogconfigworkspace.ui \
+    mainmenuwidget.ui
 
 RESOURCES += \
     resources.qrc

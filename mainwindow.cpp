@@ -7,6 +7,7 @@
 #include "configdialog.h"
 #include "aboutdialog.h"
 #include "debuginterface.h"
+#include "mainmenuwidget.h"
 
 #include <QRegularExpression>
 #include <QCloseEvent>
@@ -23,6 +24,8 @@
 #include <QMimeDatabase>
 #include <QDesktopServices>
 #include <QToolButton>
+#include <QTimer>
+#include <QWidgetAction>
 
 #include <QtDebug>
 
@@ -37,6 +40,17 @@ static QMenu *lastProjects(QWidget *parent) {
         a->setData(QVariant(sets.value(k)));
     }
     return m;
+}
+
+static QFileInfoList lastProjectsList() {
+    QSettings sets;
+    QFileInfoList list;
+    sets.beginGroup("last_projects");
+    foreach(QString k, sets.allKeys()) {
+        QFileInfo info(sets.value(k).toString());
+        list.append(info);
+    }
+    return list;
 }
 
 static void removeFromLastProject(const QString& path) {
@@ -55,11 +69,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    auto b = qobject_cast<QToolButton*>(ui->projectToolbar->widgetForAction(ui->actionProjectOpen));
-    b->setPopupMode(QToolButton::MenuButtonPopup);
-    //QFont logFont = monoFont();
-    //logFont.setPointSize(10);
-    //ui->textLog->document()->setDefaultFont(logFont);
+    ui->projectToolbar->hide();
+    QWidget *spacer = new QWidget(ui->projectToolbar);
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->projectToolbar->insertWidget(ui->actionHelp, spacer);
+    (qobject_cast<QToolButton*>(ui->projectToolbar->widgetForAction(ui->actionProjectOpen)))->
+            setPopupMode(QToolButton::MenuButtonPopup);
+
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
     ui->projectDock->setTitleBarWidget(new QWidget(this));
@@ -88,6 +104,38 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QsvLangDefFactory::getInstanse()->loadDirectory(":/qsvsh/qtsourceview/data/langs");
     QsvLangDefFactory::getInstanse()->addMimeTypes(":/qsvsh/qtsourceview/data/mime.types");
+
+    QMenu *menu = new QMenu(this);
+    QWidgetAction *wa = new QWidgetAction(menu);
+    MainMenuWidget *menuWidget = new MainMenuWidget(menu);
+    menuWidget->setProjectList(lastProjectsList());
+    wa->setDefaultWidget(menuWidget);
+    menu->addAction(wa);
+    connect(menuWidget, SIGNAL(projectNew()), this, SLOT(on_actionProjectNew_triggered()));
+    connect(menuWidget, SIGNAL(projectOpen()), this, SLOT(on_actionProjectOpen_triggered()));
+    connect(menuWidget, &MainMenuWidget::projectOpenAs, [this, menu, menuWidget] (const QFileInfo& info) {
+        menu->hide();
+        QString name = info.absoluteFilePath();
+        if (QFileInfo(name).exists()) {
+            ui->projectView->openProject(name);
+        } else {
+            QMessageBox::critical(this, tr("Open Project"), tr("Cannot open %1").arg(name));
+            removeFromLastProject(name);
+            menuWidget->setProjectList(lastProjectsList());
+        }
+    });
+    connect(menuWidget, SIGNAL(projectClose()), this, SLOT(on_actionProjectClose_triggered()));
+    connect(menuWidget, SIGNAL(configure()), this, SLOT(on_actionConfigure_triggered()));
+    connect(menuWidget, SIGNAL(help()), this, SLOT(on_actionHelp_triggered()));
+    connect(menuWidget, SIGNAL(exit()), this, SLOT(close()));
+
+    connect(menuWidget, SIGNAL(projectNew()), menu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(projectOpen()), menu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(projectClose()), menu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(configure()), menu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(help()), menu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(exit()), menu, SLOT(hide()));
+    ui->projectView->setMainMenu(menu);
 }
 
 MainWindow::~MainWindow()
@@ -188,20 +236,6 @@ void MainWindow::on_actionHelp_triggered()
 
 void MainWindow::on_actionProjectExport_triggered()
 {
-    if (!ui->projectView->project().isEmpty())
-        (new ProjectExporter(
-                QFileDialog::
-                getSaveFileName(this,
-                                tr("Export file"),
-                                tr("Unknown.template"),
-                                tr("Tempalte files (*.template);;"
-                                   "Diff files (*.diff);;"
-                                   "All files (*)")
-                                ),
-                QFileInfo(ui->projectView->project()).absolutePath(),
-                this,
-                SLOT(actionExportFinish(QString)))
-            )->start();
 }
 
 void MainWindow::on_actionProjectClose_triggered()
@@ -210,43 +244,6 @@ void MainWindow::on_actionProjectClose_triggered()
     ui->centralWidget->closeAll();
     ui->loggerCompiler->clearText();
 }
-
-#if 0
-void MainWindow::on_buildStop_clicked()
-{
-    ui->projectView->buildStop();
-}
-
-static QString consoleToHtml(const QString& s) {
-    return consoleMarkErrorT1(QString(s)
-            .replace("\t", "&nbsp;")
-            .replace(" ", "&nbsp;"))
-            .replace("\r\n", "<br>")
-            .replace("\n", "<br>");
-}
-
-void MainWindow::on_projectView_buildStdout(const QString &text)
-{
-    QTextCursor c = ui->textLog->textCursor();
-    c.movePosition(QTextCursor::End);
-    c.insertHtml(QString("<span style=\"color: green\">%1</span>").arg(consoleToHtml(text)));
-    ui->textLog->setTextCursor(c);
-}
-
-void MainWindow::on_projectView_buildStderr(const QString &text)
-{
-    QTextCursor c = ui->textLog->textCursor();
-    c.movePosition(QTextCursor::End);
-    c.insertHtml(QString("<span style=\"color: red\">%1</span>").arg(consoleToHtml(text)));
-    ui->textLog->setTextCursor(c);
-}
-
-void MainWindow::on_projectView_buildEnd(int status)
-{
-    // ui->buildStop->setEnabled(false);
-    Q_UNUSED(status);
-}
-#endif
 
 void MainWindow::on_projectView_projectOpened()
 {

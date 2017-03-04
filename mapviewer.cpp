@@ -123,7 +123,7 @@ struct Section {
 
     Section() : base(0), load(0), size(0) { translationUnits.append(TranslationUnit()); }
 
-    Section(u_int32_t vma, uint32_t lma, uint32_t z) : base(vma), load(lma), size(z) {
+    Section(uint32_t vma, uint32_t lma, uint32_t z) : base(vma), load(lma), size(z) {
         translationUnits.append(TranslationUnit());
     }
 

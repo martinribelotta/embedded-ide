@@ -7,6 +7,8 @@
 #include <QSocketNotifier>
 #include <QObject>
 
+#include <signal.h>
+
 #include "settings.h"
 
 struct ThreadInfo {
@@ -67,10 +69,10 @@ public:
 	};
 
 	enum SignalType {
-		SIGINT,
-		SIGTERM,
-		SIGKILL,
-		SIGUNKNOWN
+        Q_SIGINT = SIGINT,
+        Q_SIGTERM = SIGTERM,
+        Q_SIGKILL = SIGILL,
+        Q_SIGUNKNOWN = -1
 	};
 	virtual void ICore_onStopped(StopReason reason, QString path, int lineNo) = 0;
 	virtual void ICore_onStateChanged(TargetState state) = 0;

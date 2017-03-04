@@ -795,9 +795,9 @@ int Com::init(QString gdbPath)
 	return 0;
 }
 
-int Com::getPid()
+qint64 Com::getPid()
 {
-	return m_process.pid();
+    return m_process.processId();
 }
 
 Com& Com::getInstance()

@@ -631,18 +631,6 @@ void DebugInterface::ICore_onBreakpointsChanged()
     Core &core = Core::getInstance();
     QList<BreakPoint*>  bklist = core.getBreakPoints();
     QVector<int> numList;
-#if 0
-    // Update the settings
-    m_cfg.m_breakpoints.clear();
-    for(int u = 0; u < bklist.size(); u++) {
-        BreakPoint* bkpt = bklist[u];
-        SettingsBreakpoint bkptCfg;
-        bkptCfg.filename = bkpt->fullname;
-        bkptCfg.lineNo = bkpt->lineNo;
-        m_cfg.m_breakpoints.push_back(bkptCfg);
-    }
-    m_cfg.save(CONFIG_FILENAME);
-#endif
     // Update the breakpoint list widget
     ui->treeWidget_breakpoints->clear();
     for(int i = 0;i <  bklist.size();i++) {

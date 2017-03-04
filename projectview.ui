@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>280</width>
-    <height>498</height>
+    <width>284</width>
+    <height>513</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -87,8 +87,9 @@
              </item>
              <item>
               <widget class="QToolButton" name="filterButton">
-               <property name="text">
-                <string>...</string>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/images/application-menu.svg</normaloff>:/images/application-menu.svg</iconset>
                </property>
               </widget>
              </item>
@@ -99,8 +100,34 @@
              <property name="leftMargin">
               <number>9</number>
              </property>
+             <property name="rightMargin">
+              <number>9</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="toolButton_menu">
+               <property name="toolTip">
+                <string>Project</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/images/application-menu.svg</normaloff>:/images/application-menu.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
+               <property name="popupMode">
+                <enum>QToolButton::InstantPopup</enum>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QToolButton" name="toolButton_documentNew">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="toolTip">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Document New&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -108,10 +135,19 @@
                 <iconset resource="resources.qrc">
                  <normaloff>:/images/document-new.svg</normaloff>:/images/document-new.svg</iconset>
                </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
               </widget>
              </item>
              <item>
               <widget class="QToolButton" name="toolButton_folderNew">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="toolTip">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Folder New&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -120,12 +156,21 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
+                 <normaloff>:/images/folder-new.svg</normaloff>:/images/folder-new.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QToolButton" name="toolButton_elementDel">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="toolTip">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove File/Folder&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -136,10 +181,19 @@
                 <iconset resource="resources.qrc">
                  <normaloff>:/images/edit-delete.svg</normaloff>:/images/edit-delete.svg</iconset>
                </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
               </widget>
              </item>
              <item>
               <widget class="QToolButton" name="toolButton_symbols">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="toolTip">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show symbols&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -149,6 +203,12 @@
                <property name="icon">
                 <iconset resource="resources.qrc">
                  <normaloff>:/images/application-menu.svg</normaloff>:/images/application-menu.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
                </property>
               </widget>
              </item>
@@ -164,6 +224,29 @@
                 </size>
                </property>
               </spacer>
+             </item>
+             <item>
+              <widget class="QToolButton" name="toolButton_export">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="toolTip">
+                <string>Project export</string>
+               </property>
+               <property name="text">
+                <string>...</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources.qrc">
+                 <normaloff>:/images/document-export.svg</normaloff>:/images/document-export.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>

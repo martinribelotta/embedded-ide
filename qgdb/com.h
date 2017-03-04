@@ -141,7 +141,7 @@ public:
     void setListener(ComListener *listener) { m_listener = listener; }
     QProcess *proc() { return &m_process; }
 
-	int getPid();
+    qint64 getPid();
 
 	GdbResult commandF(Tree *resultData, const char *cmd, ...);
 	GdbResult command(Tree *resultData, QString cmd);

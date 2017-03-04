@@ -44,9 +44,7 @@
    </attribute>
    <addaction name="actionProjectNew"/>
    <addaction name="actionProjectOpen"/>
-   <addaction name="actionProjectExport"/>
    <addaction name="actionProjectClose"/>
-   <addaction name="actionSave_All"/>
    <addaction name="actionConfigure"/>
    <addaction name="actionHelp"/>
    <addaction name="actionExit"/>

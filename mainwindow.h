@@ -39,16 +39,6 @@ private slots:
 
     void on_actionProjectClose_triggered();
 
-
-#if 0
-    void on_buildStop_clicked();
-
-    void on_projectView_buildStdout(const QString& text);
-
-    void on_projectView_buildStderr(const QString& text);
-
-    void on_projectView_buildEnd(int status);
-#endif
     void on_projectView_projectOpened();
 
     void on_actionSave_All_triggered();

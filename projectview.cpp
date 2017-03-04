@@ -23,18 +23,42 @@
 #include "targetupdatediscover.h"
 #include "etags.h"
 #include "taglist.h"
+#include "projectexporter.h"
+
+
+MyFileSystemModel::MyFileSystemModel(QObject *parent) :
+    QFileSystemModel(parent)
+{
+    sectionName.append(tr("Name"));
+    sectionName.append(tr("Size"));
+}
+
+QVariant MyFileSystemModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if ((role == Qt::DisplayRole) && (section < sectionName.size())) {
+        return sectionName[section];
+    }
+    return QFileSystemModel::headerData(section,orientation,role);
+}
 
 ProjectView::ProjectView(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DocumentView)
 {
-#if 0
-    buildProc = new QProcess(this);
-    buildProc->setObjectName("buildProc");
-    connect(buildProc, SIGNAL(finished(int)), this, SIGNAL(buildEnd(int)));
-#endif
     ui->setupUi(this);
+#if 1
+    ui->label_2->hide();
+    ui->filterButton->hide();
+    ui->filterCombo->hide();
+#endif
     ui->tabDebug->setProjectView(this);
+
+    projectButtons += ui->toolButton_documentNew;
+    projectButtons += ui->toolButton_export;
+    projectButtons += ui->toolButton_elementDel;
+    projectButtons += ui->toolButton_folderNew;
+    projectButtons += ui->toolButton_symbols;
+
     QMenu *menu = new QMenu(this);
     QWidgetAction *action = new QWidgetAction(menu);
     tagList = new TagList(this);
@@ -89,6 +113,11 @@ DebugInterface *ProjectView::getDebugInterface() const
     return ui->tabDebug;
 }
 
+void ProjectView::setMainMenu(QMenu *m)
+{
+    ui->toolButton_menu->setMenu(m);
+}
+
 void ProjectView::closeProject()
 {
     if (ui->treeView->model()) {
@@ -96,6 +125,7 @@ void ProjectView::closeProject()
         ui->treeView->setModel(0l);
     }
     ui->targetList->clear();
+    foreach(QToolButton *b, projectButtons) b->setEnabled(false);
 }
 
 void ProjectView::openProject(const QString &projectFile)
@@ -106,11 +136,12 @@ void ProjectView::openProject(const QString &projectFile)
         ui->targetStack->setCurrentIndex(1);
         ui->waitSpinner->start();
         QFileInfo mk(projectFile);
-        QFileSystemModel *model = new QFileSystemModel(this);
+        QFileSystemModel *model = new MyFileSystemModel(this);
         model->setFilter(QDir::AllDirs|QDir::NoDotAndDotDot|QDir::Files);
         model->setNameFilterDisables(false);
         model->setNameFilters(QStringList("*"));
         model->setIconProvider(new ProjectIconProvider(this));
+
         ui->treeView->model()->deleteLater();
         ui->treeView->setModel(model);
         ui->treeView->setRootIndex(model->setRootPath(mk.path()));
@@ -120,6 +151,7 @@ void ProjectView::openProject(const QString &projectFile)
         TargetUpdateDiscover *discover = new TargetUpdateDiscover(this);
         connect(discover, SIGNAL(updateFinish(MakefileInfo)), this, SLOT(updateMakefileInfo(MakefileInfo)));
         discover->start(project());
+        foreach(QToolButton *b, projectButtons) b->setEnabled(true);
     }
 }
 
@@ -307,4 +339,22 @@ void ProjectView::on_toolButton_elementDel_clicked()
             return;
         }
     }
+}
+
+void ProjectView::on_toolButton_export_clicked()
+{
+    if (!project().isEmpty())
+        (new ProjectExporter(
+                QFileDialog::
+                getSaveFileName(this,
+                                tr("Export file"),
+                                tr("Unknown.template"),
+                                tr("Tempalte files (*.template);;"
+                                   "Diff files (*.diff);;"
+                                   "All files (*)")
+                                ),
+                QFileInfo(project()).absolutePath(),
+                parentWidget()->window(),
+                SLOT(actionExportFinish(QString)))
+            )->start();
 }

@@ -246,22 +246,6 @@ bool CodeEditor::load(const QString &fileName)
            syntax = 0l;
 
            defColors = new QsvColorDefFactory( findStyleByName(QSettings().value("editor/colorstyle", "Kate").toString()) );
-#if 0
-           QMimeDatabase db;
-           QMimeType fType = db.mimeTypeForFile(info);
-           if (fType.inherits("text/x-csrc")) {
-               langDef =
-                       fType.inherits("text/x-cxxsrc")?
-                           new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/c.lang" ):
-                           new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/cpp.lang" );
-               QString workDir = makefileInfo()? makefileInfo()->workingDir : info.absolutePath();
-               CLangCodeContext *ctx = new CLangCodeContext(this);
-               ctx->setWorkingDir(workDir);
-               ctx->discoverFor(info.absoluteFilePath());
-           } else if (fType.inherits("text/x-makefile")) {
-               langDef   = new QsvLangDef( ":/qsvsh/qtsourceview/data/langs/makefile.lang" );
-           }
-#endif
            langDef = QsvLangDefFactory::getInstanse()->getHighlight(info.fileName());
            if (defColors && langDef) {
                setProperty("makefileMode", langDef->getMimeTypes().contains("text/x-makefile"));
@@ -388,31 +372,9 @@ void CodeEditor::findTagUnderCursor()
     view->setTagList(tagFor);
     layout->addWidget(view);
     layout->setMargin(0);
-#if 0
-    view->setAlternatingRowColors(true);
-    foreach(ETags::Tag t, tagFor) {
-        QListWidgetItem *item = new QListWidgetItem(view);
-        item->setText(QString("%2 (%3):\n%1")
-                      .arg(t.decl)
-                      .arg(t.file)
-                      .arg(t.line));
-        item->setData(Qt::UserRole, QVariant::fromValue(t));
-    }
-    view->setMinimumWidth(view->sizeHintForColumn(0) + 2 + view->frameWidth());
-#endif
     connect(view, SIGNAL(itemActivated(QListWidgetItem *)), &dialog, SLOT(accept()));
     dialog.resize(dialog.sizeHint());
     if (dialog.exec() == QDialog::Accepted) {
-#if 0
-        QList<QListWidgetItem*> sel = view->selectedItems();
-        if (sel.count() > 0) {
-            ETags::Tag tag = qvariant_cast<ETags::Tag>(sel.at(0)->data(Qt::UserRole));
-            QString url = makefileInfo()->workingDir + QDir::separator() + tag.file;
-            qDebug() << "opening " << url;
-            emit requireOpen(url, tag.line, 0, makefileInfo());
-        } else
-            qDebug() << "No selection found";
-#else
         ETags::Tag sel = view->selectedTag();
         if (sel.isEmpty()) {
             qDebug() << "No selection found";
@@ -421,7 +383,6 @@ void CodeEditor::findTagUnderCursor()
             qDebug() << "opening " << url;
             emit requireOpen(url, sel.line, 0, makefileInfo());
         }
-#endif
     }
 }
 
