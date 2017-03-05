@@ -127,7 +127,10 @@ MainWindow::MainWindow(QWidget *parent) :
         } else {
             QMessageBox::critical(this, tr("Open Project"), tr("Cannot open %1").arg(name));
             removeFromLastProject(name);
+            menuWidget->setProjectList(lastProjectsList());
         }
+    });
+    connect(ui->projectView, &ProjectView::projectOpened, [menuWidget]() {
         menuWidget->setProjectList(lastProjectsList());
     });
     connect(menuWidget, SIGNAL(projectClose()), this, SLOT(on_actionProjectClose_triggered()));

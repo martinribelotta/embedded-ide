@@ -47,6 +47,7 @@ ProjectView::ProjectView(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tabDebug->setProjectView(this);
+    ui->treeView->setAcceptDrops(true);
 
     projectButtons += ui->toolButton_documentNew;
     projectButtons += ui->toolButton_export;
@@ -143,6 +144,7 @@ void ProjectView::openProject(const QString &projectFile)
         model->setNameFilterDisables(false);
         model->setNameFilters(QStringList("*"));
         model->setIconProvider(new ProjectIconProvider(this));
+        model->setReadOnly(false);
 
         ui->treeView->model()->deleteLater();
         ui->treeView->setModel(model);
