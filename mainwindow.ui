@@ -1,213 +1,346 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <widget class="QWidget" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>626</height>
+    <width>496</width>
+    <height>134</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Embedded IDE</string>
   </property>
-  <property name="dockNestingEnabled">
-   <bool>true</bool>
-  </property>
-  <property name="unifiedTitleAndToolBarOnMac">
-   <bool>true</bool>
-  </property>
-  <widget class="DocumentArea" name="centralWidget"/>
-  <widget class="QToolBar" name="projectToolbar">
-   <property name="windowTitle">
-    <string>toolBar</string>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <property name="spacing">
+    <number>0</number>
    </property>
-   <property name="movable">
-    <bool>false</bool>
+   <property name="leftMargin">
+    <number>0</number>
    </property>
-   <property name="allowedAreas">
-    <set>Qt::LeftToolBarArea</set>
+   <property name="topMargin">
+    <number>0</number>
    </property>
-   <property name="iconSize">
-    <size>
-     <width>64</width>
-     <height>64</height>
-    </size>
+   <property name="rightMargin">
+    <number>0</number>
    </property>
-   <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionProjectNew"/>
-   <addaction name="actionProjectOpen"/>
-   <addaction name="actionProjectClose"/>
-   <addaction name="actionConfigure"/>
-   <addaction name="actionHelp"/>
-   <addaction name="actionExit"/>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget">
-   <property name="features">
-    <set>QDockWidget::NoDockWidgetFeatures</set>
+   <property name="bottomMargin">
+    <number>0</number>
    </property>
-   <property name="windowTitle">
-    <string>Loggin</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>8</number>
-   </attribute>
-   <widget class="QWidget" name="loggerWidgetContainer">
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="spacing">
-      <number>0</number>
+   <item>
+    <widget class="QSplitter" name="horizontalSplitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>2</number>
-     </property>
-     <item>
-      <widget class="QTabWidget" name="tabWidget">
-       <property name="tabPosition">
-        <enum>QTabWidget::South</enum>
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="leftMargin">
+        <number>2</number>
        </property>
-       <property name="currentIndex">
-        <number>0</number>
+       <property name="topMargin">
+        <number>2</number>
        </property>
-       <widget class="LoggerWidget" name="loggerCompiler">
-        <attribute name="title">
-         <string>Compiler Output</string>
-        </attribute>
-       </widget>
-       <widget class="LoggerWidget" name="loggerDebugger">
-        <attribute name="title">
-         <string>GDB Output</string>
-        </attribute>
-       </widget>
-       <widget class="LoggerWidget" name="loggerApplication">
-        <attribute name="title">
-         <string>Application Output</string>
-        </attribute>
-       </widget>
+       <property name="rightMargin">
+        <number>2</number>
+       </property>
+       <property name="bottomMargin">
+        <number>2</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="leftMargin">
+           <number>2</number>
+          </property>
+          <property name="topMargin">
+           <number>2</number>
+          </property>
+          <property name="rightMargin">
+           <number>2</number>
+          </property>
+          <property name="bottomMargin">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Embedded IDE</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="topMargin">
+             <number>2</number>
+            </property>
+            <property name="bottomMargin">
+             <number>2</number>
+            </property>
+            <item>
+             <widget class="QToolButton" name="toolButton">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/configure.svg</normaloff>:/images/configure.svg</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_2">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/help-about.svg</normaloff>:/images/help-about.svg</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_3">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="leftMargin">
+           <number>2</number>
+          </property>
+          <property name="topMargin">
+           <number>2</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="rightMargin">
+             <number>2</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>Project:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelProjectName">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>28</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_newProject">
+              <property name="toolTip">
+               <string>New Project</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/document-new.svg</normaloff>:/images/document-new.svg</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_projectOpen">
+              <property name="toolTip">
+               <string>Open Project</string>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_projectClose">
+              <property name="toolTip">
+               <string>Close Project</string>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/document-close.svg</normaloff>:/images/document-close.svg</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_projectExport">
+              <property name="toolTip">
+               <string>Project Export</string>
+              </property>
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/images/document-export.svg</normaloff>:/images/document-export.svg</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="ProjectView" name="projectView" native="true"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QSplitter" name="verticalSplitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="DocumentArea" name="centralWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
       </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="projectDock">
-   <property name="features">
-    <set>QDockWidget::NoDockWidgetFeatures</set>
-   </property>
-   <property name="windowTitle">
-    <string>Project</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="ProjectView" name="projectView"/>
-  </widget>
-  <action name="actionProjectNew">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-new.svg</normaloff>:/images/document-new.svg</iconset>
-   </property>
-   <property name="text">
-    <string>ProjectNew</string>
-   </property>
-   <property name="toolTip">
-    <string>New Project</string>
-   </property>
-  </action>
-  <action name="actionProjectOpen">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
-   </property>
-   <property name="text">
-    <string>ProjectOpen</string>
-   </property>
-   <property name="toolTip">
-    <string>Open Project</string>
-   </property>
-  </action>
-  <action name="actionHelp">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/help-about.svg</normaloff>:/images/help-about.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Help</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/application-exit.svg</normaloff>:/images/application-exit.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionProjectExport">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-export.svg</normaloff>:/images/document-export.svg</iconset>
-   </property>
-   <property name="text">
-    <string>ProjectExport</string>
-   </property>
-   <property name="toolTip">
-    <string>Export Project</string>
-   </property>
-  </action>
-  <action name="actionProjectClose">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-close.svg</normaloff>:/images/document-close.svg</iconset>
-   </property>
-   <property name="text">
-    <string>ProjectClose</string>
-   </property>
-   <property name="toolTip">
-    <string>Close current project</string>
-   </property>
-  </action>
-  <action name="actionSave_All">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-save-all.svg</normaloff>:/images/document-save-all.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Save All</string>
-   </property>
-   <property name="toolTip">
-    <string>Save all files</string>
-   </property>
-  </action>
-  <action name="actionConfigure">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/configure.svg</normaloff>:/images/configure.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Configure</string>
-   </property>
-   <property name="toolTip">
-    <string>Configure</string>
-   </property>
-  </action>
+      <widget class="QFrame" name="frame_2">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Consoles</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="tabPosition">
+           <enum>QTabWidget::South</enum>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="documentMode">
+           <bool>true</bool>
+          </property>
+          <widget class="LoggerWidget" name="loggerCompiler">
+           <attribute name="title">
+            <string>Compiler Output</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>DocumentArea</class>
@@ -216,37 +349,20 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ProjectView</class>
-   <extends>QWidget</extends>
-   <header>projectview.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>LoggerWidget</class>
    <extends>QWidget</extends>
    <header>loggerwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ProjectView</class>
+   <extends>QWidget</extends>
+   <header>projectview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>actionExit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>439</x>
-     <y>257</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -1,12 +1,13 @@
 #ifndef DOCUMENTAREA_H
 #define DOCUMENTAREA_H
 
-#include <QTabWidget>
+#include <QWidget>
 
+class QTabWidget;
 class MakefileInfo;
 class CodeEditor;
 
-class DocumentArea : public QTabWidget
+class DocumentArea : public QWidget
 {
     Q_OBJECT
 public:
@@ -37,6 +38,7 @@ private:
     int documentFind(const QString& file, CodeEditor **ww = nullptr);
 
     CodeEditor *lastIpEditor;
+    QTabWidget *tab;
 };
 
 #endif // DOCUMENTAREA_H

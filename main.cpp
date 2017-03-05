@@ -1,5 +1,7 @@
 #include "dialogconfigworkspace.h"
 #include "mainwindow.h"
+#include "qsvsh/qsvlangdeffactory.h"
+
 #include <QApplication>
 #include <QtDebug>
 #include <QSslSocket>
@@ -21,7 +23,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("none.unknown.com");
     QCoreApplication::setApplicationName("embedded IDE");
 
-    a.setWindowIcon(QIcon(":/images/embedded-ide.png"));
+    // a.setWindowIcon(QIcon(":/images/embedded-ide.png"));
     a.setStyleSheet([]() -> QString {
                         QFile f(":/style.css");
                         return f.open(QFile::ReadOnly)? f.readAll() : QString();
@@ -58,6 +60,8 @@ int main(int argc, char *argv[])
         }
     }
 
+    QsvLangDefFactory::getInstanse()->loadDirectory(":/qsvsh/qtsourceview/data/langs");
+    QsvLangDefFactory::getInstanse()->addMimeTypes(":/qsvsh/qtsourceview/data/mime.types");
 
     MainWindow w;
     w.show();

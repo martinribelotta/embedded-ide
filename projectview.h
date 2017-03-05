@@ -44,7 +44,6 @@ public:
     const MakefileInfo &makeInfo() const { return mk_info; }
     const ETags &tags() const { return mk_info.tags; }
     DebugInterface *getDebugInterface() const;
-    void setMainMenu(QMenu *m);
 
 public slots:
     void closeProject();
@@ -57,17 +56,11 @@ private slots:
 
     void on_targetList_doubleClicked(const QModelIndex &index);
 
-    void on_filterCombo_activated(int idx);
-
-    void on_filterButton_clicked();
-
     void on_toolButton_documentNew_clicked();
 
     void on_toolButton_folderNew_clicked();
 
     void on_toolButton_elementDel_clicked();
-
-    void on_toolButton_export_clicked();
 
 signals:
     void projectOpened();

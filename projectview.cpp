@@ -49,44 +49,15 @@ ProjectView::ProjectView(QWidget *parent) :
     ui->tabDebug->setProjectView(this);
 
     projectButtons += ui->toolButton_documentNew;
-    projectButtons += ui->toolButton_export;
     projectButtons += ui->toolButton_elementDel;
     projectButtons += ui->toolButton_folderNew;
-    projectButtons += ui->toolButton_symbols;
 
-    QMenu *menu = new QMenu(this);
-    QWidgetAction *action = new QWidgetAction(menu);
-    tagList = new TagList(this);
-    action->setDefaultWidget(tagList);
-    menu->addAction(action);
-    ui->toolButton_symbols->setMenu(menu);
-    ui->toolButton_symbols->hide();
-
-    QFile filterFiles(":/build/project-filters.txt");
-    filterFiles.open(QFile::ReadOnly);
-    while (!filterFiles.atEnd()) {
-        QRegExp crlf(R"([\r\n]*)");
-        QString name = QString(filterFiles.readLine()).remove(':').remove(crlf);
-        QString filter = QString(filterFiles.readLine()).remove(crlf);
-        // qDebug() << "filter" << name << filter;
-        if (!name.isEmpty() && !filter.isEmpty())
-            ui->filterCombo->addItem(name, filter.split(' '));
-        else
-            break;
-    }
     ui->tabWidget->setCurrentIndex(0);
     connect(this, &ProjectView::projectOpened, [this]() {
         ui->targetStack->setCurrentIndex(0);
         ui->waitSpinner->stop();
     });
     ui->targetStack->setCurrentIndex(0);
-#ifdef CIAA_IDE
-    ui->label_2->hide();
-    ui->filterButton->hide();
-    ui->filterCombo->hide();
-    ui->tabWidget->removeTab(1);
-    ui->tabWidget->tabBar()->hide();
-#endif
 }
 
 ProjectView::~ProjectView()
@@ -113,11 +84,6 @@ QDir ProjectView::projectPath() const
 DebugInterface *ProjectView::getDebugInterface() const
 {
     return ui->tabDebug;
-}
-
-void ProjectView::setMainMenu(QMenu *m)
-{
-    ui->toolButton_menu->setMenu(m);
 }
 
 void ProjectView::closeProject()
@@ -230,18 +196,6 @@ void ProjectView::on_targetList_doubleClicked(const QModelIndex &index)
     emit startBuild(item->text());
 }
 
-void ProjectView::on_filterCombo_activated(int idx)
-{
-    QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
-    if (m)
-        m->setNameFilters(ui->filterCombo->itemData(idx).toStringList());
-}
-
-void ProjectView::on_filterButton_clicked()
-{
-    // TODO: Add files filter selection
-}
-
 void ProjectView::on_toolButton_documentNew_clicked()
 {
     if (!ui->treeView->selectionModel())
@@ -341,22 +295,4 @@ void ProjectView::on_toolButton_elementDel_clicked()
             return;
         }
     }
-}
-
-void ProjectView::on_toolButton_export_clicked()
-{
-    if (!project().isEmpty())
-        (new ProjectExporter(
-                QFileDialog::
-                getSaveFileName(this,
-                                tr("Export file"),
-                                tr("Unknown.template"),
-                                tr("Tempalte files (*.template);;"
-                                   "Diff files (*.diff);;"
-                                   "All files (*)")
-                                ),
-                QFileInfo(project()).absolutePath(),
-                parentWidget()->window(),
-                SLOT(actionExportFinish(QString)))
-            )->start();
 }
