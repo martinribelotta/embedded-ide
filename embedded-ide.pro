@@ -124,8 +124,10 @@ DISTFILES += \
     style.css \
     QHexEdit/LICENSE \
     QHexEdit/README.md \
-    i18n/es.ts
+    i18n/es.ts \
+    i18n/zh.ts
 
 RC_ICONS = icon-theme/icon.ico
 
-TRANSLATIONS = i18n/es.ts
+TRANSLATIONS = i18n/es.ts \
+               i18n/zh.ts

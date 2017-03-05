@@ -90,7 +90,7 @@ static QString readBundle(const QString& path) {
 
 QString defaultTemplateUrl()
 {
-    return "https://api.github.com/repos/martinribelotta/embedded-ide-templates/contents";
+    return "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents";
 }
 
 QString defaultApplicationResources()
