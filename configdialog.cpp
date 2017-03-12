@@ -237,9 +237,9 @@ void ConfigDialog::on_projectTemplatesPathChange_clicked()
 
 void ConfigDialog::on_projectTemplatesDownload_clicked()
 {
-    QUrl templateUrl(set->value("build/templateurl").toString());
+    QUrl templateUrl(ui->templateUrl->text());
     if (!templateUrl.isValid())
-        templateUrl = QUrl(ui->templateUrl->text());
+        templateUrl = QUrl(set->value("build/templateurl").toString());
     if (!templateUrl.isValid()) {
         QMessageBox::critical(this, tr("Error"), tr("No valid URL: %1").arg(templateUrl.toString()));
         return;
