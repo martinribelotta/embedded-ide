@@ -46,6 +46,7 @@ DocumentArea::DocumentArea(QWidget *parent) :
 QList<CodeEditor *> DocumentArea::documentsDirty() const
 {
     QList<CodeEditor*> list;
+#if 0
     for(int i=0; i<count(); i++) {
         CodeEditor *e = qobject_cast<CodeEditor*>(widget(i));
         if (e) {
@@ -53,6 +54,7 @@ QList<CodeEditor *> DocumentArea::documentsDirty() const
                 list.append(e);
         }
     }
+#endif
     return list;
 }
 

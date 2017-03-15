@@ -42,12 +42,12 @@ static const QStringList prepend(const QString& s, const QStringList& l) {
 void CLangCodeContext::startContextUpdate()
 {
     clangProc->setProgram("clang");
+    int row, col;
+    ed->getCursorPosition(&row, &col);
     QStringList argv;
     argv << "-cc1";
     argv << "-code-completion-at";
-    argv << QString("-:%1:%2")
-            .arg(ed->textCursor().blockNumber() + 1)
-            .arg(ed->textCursor().columnNumber() + 1);
+    argv << QString("-:%1:%2").arg(row + 1).arg(col + 1);
     argv << prepend("-D", defines);
     argv << prepend("-I", includes);
     qDebug() << "workdir:" << clangProc->workingDirectory();
@@ -255,7 +255,7 @@ void CLangCodeContext::discoverFor(const QString &path)
 
 void CLangCodeContext::clangStarted()
 {
-    clangProc->write(ed->toPlainText().toLocal8Bit());
+    clangProc->write(ed->text().toLocal8Bit()); // ed->toPlainText().toLocal8Bit());
     clangProc->waitForBytesWritten();
     clangProc->closeWriteChannel();
 }

@@ -1,7 +1,8 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
-#include <QPlainTextEdit>
+// #include <QPlainTextEdit>
+#include <qscintilla/Qt4Qt5/Qsci/qsciscintilla.h>
 #include <QFile>
 
 #include "makefileinfo.h"
@@ -12,23 +13,18 @@ class QSize;
 class QWidget;
 class QCompleter;
 
-class LineNumberArea;
-
 class QsvColorDefFactory;
 class QsvLangDef;
 class QsvSyntaxHighlighter;
 class QsvTextOperationsWidget;
 
-class CodeEditor : public QPlainTextEdit
+class CodeEditor : public QsciScintilla //QPlainTextEdit
 {
     Q_OBJECT
 
 public:
     explicit CodeEditor(QWidget *parent = 0);
 
-    void lineNumberAreaPaintEvent(QPaintEvent *event);
-    void lineNumberAreaDoubleClick(const QPoint &p);
-    int lineNumberAreaWidth();
     const MakefileInfo *makefileInfo() const { return mk; }
 
 protected:
@@ -36,10 +32,6 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
     void closeEvent(QCloseEvent *event);
-
-private slots:
-    void updateLineNumberAreaWidth(int newBlockCount);
-    void updateLineNumberArea(const QRect &, int);
 
 public slots:
     void insertCompletion(const QString &completion);
@@ -56,8 +48,6 @@ public slots:
     void reload();
 
     void clearSelection();
-    void smartHome();
-    void smartEnd();
     void findTagUnderCursor();
 
     int getIp() const { return ip; }
@@ -103,20 +93,16 @@ signals:
     void requestForSave(CodeEditor *sender);
 
 private:
-    QTextCursor wordUnderCursor() const;
-    QTextCursor textUnderCursor() const;
+    QString wordUnderCursor() const;
     QString lineUnderCursor() const;
     void completionShow();
     QMenu *createContextMenu();
+    QRect cursorRect() const;
 
     QsvTextOperationsWidget *textOpWidget;
-    QWidget *lineNumberArea;
     QCompleter *m_completer;
     QString m_documentFile;
     QHash<int, QColor> highlightLines;
-    QsvColorDefFactory *defColors;
-    QsvLangDef *langDef;
-    QsvSyntaxHighlighter *syntax;
     const MakefileInfo *mk;
     int ip;
 };

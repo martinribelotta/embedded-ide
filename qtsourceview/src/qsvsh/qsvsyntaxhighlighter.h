@@ -13,6 +13,7 @@
 #include "qorderedmap.h"
 
 class QTextCharFormat;
+class QTextEdit;
 class QPlainTextEdit;
 class QsvLangDef;
 class QsvColorDefFactory;

@@ -26,6 +26,8 @@ QTSOURCEVIEW_SRC_DIR=qtsourceview/src
 include(qtsourceview/src/qsvsh.pri)
 include(qgdb/qgdb.pri)
 
+QSCINTILLA_SRC_DIR=qscintilla/
+include(qscintilla/qscintilla.pri)
 #QATE_SRC_DIR=qtsourceview/src
 #include(qtsourceview/src/qate.pri)
 
@@ -127,7 +129,7 @@ DISTFILES += \
     i18n/es.ts \
     i18n/zh.ts
 
-RC_ICONS = icon-theme/icon.ico
+RC_ICONS = images/embedded-ide.ico
 
 TRANSLATIONS = i18n/es.ts \
                i18n/zh.ts
