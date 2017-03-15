@@ -37,7 +37,43 @@
 #include "documentarea.h"
 #include "taglist.h"
 
+#include <Qsci/qscilexeravs.h>
+#include <Qsci/qscilexerbash.h>
+#include <Qsci/qscilexerbatch.h>
+#include <Qsci/qscilexercmake.h>
+#include <Qsci/qscilexercoffeescript.h>
 #include <Qsci/qscilexercpp.h>
+#include <Qsci/qscilexercsharp.h>
+#include <Qsci/qscilexercss.h>
+#include <Qsci/qscilexercustom.h>
+#include <Qsci/qscilexerd.h>
+#include <Qsci/qscilexerdiff.h>
+#include <Qsci/qscilexerfortran.h>
+#include <Qsci/qscilexerhtml.h>
+#include <Qsci/qscilexeridl.h>
+#include <Qsci/qscilexerjava.h>
+#include <Qsci/qscilexerjavascript.h>
+#include <Qsci/qscilexerjson.h>
+#include <Qsci/qscilexerlua.h>
+#include <Qsci/qscilexermakefile.h>
+#include <Qsci/qscilexermarkdown.h>
+#include <Qsci/qscilexeroctave.h>
+#include <Qsci/qscilexerpascal.h>
+#include <Qsci/qscilexerperl.h>
+#include <Qsci/qscilexerpo.h>
+#include <Qsci/qscilexerpostscript.h>
+#include <Qsci/qscilexerpov.h>
+#include <Qsci/qscilexerproperties.h>
+#include <Qsci/qscilexerpython.h>
+#include <Qsci/qscilexerruby.h>
+#include <Qsci/qscilexerspice.h>
+#include <Qsci/qscilexersql.h>
+#include <Qsci/qscilexertcl.h>
+#include <Qsci/qscilexertex.h>
+#include <Qsci/qscilexerverilog.h>
+#include <Qsci/qscilexervhdl.h>
+#include <Qsci/qscilexerxml.h>
+#include <Qsci/qscilexeryaml.h>
 
 #undef CLANG_DEBUG
 
@@ -73,6 +109,23 @@ CodeEditor::CodeEditor(QWidget *parent) :
     setMarginWidth(0, fontmetrics.width("00000") + 6);
     setMarginLineNumbers(0, true);
     setMarginsBackgroundColor(QColor("#cccccc"));
+
+    setMarginSensitivity(1, true);
+
+    markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
+    setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
+    connect(this, &QsciScintilla::marginClicked,
+            [this](int margin, int line, Qt::KeyboardModifiers state){
+        Q_UNUSED(margin);
+        Q_UNUSED(state);
+        if (markersAtLine(line) != 0) {
+            markerDelete(line);
+        } else {
+            markerAdd(line, SC_MARK_ARROW);
+        }
+    });
+
+    setAnnotationDisplay(AnnotationIndented);
 
     textOpWidget = new QsvTextOperationsWidget(this);
 
@@ -192,9 +245,81 @@ static QString findStyleByName(const QString& defaultName) {
     return QString();
 }
 
-static QsciLexer *lexerFromFile(const QString& filename) {
-    QsciLexer *l = new QsciLexerCPP();
-    return l;
+template<typename T>
+T *helperCreator() {
+    return new T();
+}
+
+template<typename T>
+struct QHashVal { QString k; T v; };
+
+template<typename K, typename V>
+static QHash<K, V> operator+(QHash<K, V> h, const QHashVal<V>& e) {
+    h[e.k] = e.v;
+    return h;
+}
+
+typedef QsciLexer* (*creator_t)();
+
+#define _(mime, type) \
+    (QHashVal<creator_t>{QString(mime), reinterpret_cast<creator_t>(&helperCreator<type>)})
+
+static QHash<QString, creator_t> creatorMap = QHash<QString, creator_t>() +
+_("application/json", QsciLexerJSON) +
+_("text/x-octave", QsciLexerOctave) +
+_("text/x-fortran", QsciLexerFortran) +
+_("text/x-yaml", QsciLexerYAML) +
+_("text/x-css", QsciLexerCSS) +
+_("text/x-ps", QsciLexerPostScript) +
+_("text/x-diff", QsciLexerDiff) +
+_("text/x-avs", QsciLexerAVS) +
+_("text/x-markdown", QsciLexerMarkdown) +
+_("text/x-makefile", QsciLexerMakefile) +
+_("text/x-pov", QsciLexerPOV) +
+_("text/x-sql", QsciLexerSQL) +
+_("text/x-html", QsciLexerHTML) +
+_("text/x-po", QsciLexerPO) +
+_("text/x-python", QsciLexerPython) +
+_("text/x-lua", QsciLexerLua) +
+_("text/x-xml", QsciLexerXML) +
+_("text/x-idl", QsciLexerIDL) +
+_("text/x-fortran", QsciLexerFortran) +
+_("text/x-ruby", QsciLexerRuby) +
+_("text/x-tex", QsciLexerTeX) +
+_("text/x-bat", QsciLexerBatch) +
+_("application/x-shellscript", QsciLexerBash) +
+_("text/x-perl", QsciLexerPerl) +
+_("text/x-cmake", QsciLexerCMake) +
+_("text/x-java", QsciLexerJava) +
+_("text/x-csharp", QsciLexerCSharp) +
+_("text/x-properties", QsciLexerProperties) +
+_("text/x-vhdl", QsciLexerVHDL) +
+_("text/x-csrc", QsciLexerCPP) +
+_("text/x-pascal", QsciLexerPascal) +
+_("text/x-spice", QsciLexerSpice) +
+_("text/x-matlab", QsciLexerMatlab) +
+_("text/x-tcl", QsciLexerTCL) +
+_("text/x-verilog", QsciLexerVerilog) +
+_("text/x-javascript", QsciLexerJavaScript) +
+_("text/x-dlang", QsciLexerD) +
+_("text/x-coffe", QsciLexerCoffeeScript)
+;
+#undef _
+
+static QsciLexer *lexerFromFile(const QString& name) {
+    // qDebug() << "creatorMap" << creatorMap;
+    QFile f(name);
+    QMimeType type;
+    if (f.open(QFile::ReadOnly))
+        type = QMimeDatabase().mimeTypeForFileNameAndData(name, &f);
+    else
+        type = QMimeDatabase().mimeTypeForFile(name);
+    foreach(QString mimename, QStringList(type.name()) << type.parentMimeTypes()) {
+        // qDebug() << "mime" << mimename;
+        if (creatorMap.contains(mimename))
+            return creatorMap.value(mimename)();
+    }
+    return nullptr;
 }
 
 bool CodeEditor::load(const QString &fileName)
@@ -208,8 +333,11 @@ bool CodeEditor::load(const QString &fileName)
            QFileInfo info(f);
            setWindowFilePath(info.absoluteFilePath());
            setWindowTitle(info.fileName());
-           setLexer(lexerFromFile(info.fileName()));
-           lexer()->setFont(font());
+           QsciLexer *l=lexerFromFile(info.fileName());
+           if (l) {
+               setLexer(l);
+               lexer()->setFont(font());
+           }
            auto mime = QMimeDatabase().mimeTypeForFile(fileName);
            qDebug() << mime.name() << mime.allAncestors();
            if (mime.inherits("text/x-csrc")) {

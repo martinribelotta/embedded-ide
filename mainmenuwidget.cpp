@@ -29,9 +29,10 @@ void MainMenuWidget::setProjectList(const QFileInfoList &list)
     m_projectList = list;
     foreach(QFileInfo info, m_projectList) {
         if (info.exists()) {
-            QString path = info.path();
-            QStringList pathPart = path.split(QDir::separator());
-            QString name = pathPart.last();
+            QString name = QFileInfo(QDir(info.path()).path()).fileName();
+            //QString path = info.path();
+            //QStringList pathPart = path.split(QDir::separator());
+            //QString name = pathPart.last();
             QStandardItem *item = new QStandardItem(name);
             item->setToolTip(info.absoluteFilePath());
             item->setData(QVariant::fromValue(info), Qt::UserRole);
