@@ -36,6 +36,7 @@
 #include "clangcodecontext.h"
 #include "documentarea.h"
 #include "taglist.h"
+#include "formfindreplace.h"
 
 #include <Qsci/qscilexeravs.h>
 #include <Qsci/qscilexerbash.h>
@@ -129,6 +130,36 @@ CodeEditor::CodeEditor(QWidget *parent) :
 
     textOpWidget = new QsvTextOperationsWidget(this);
 
+#if 1
+    FormFindReplace *replaceDialog = new FormFindReplace(this);
+    replaceDialog->hide();
+    connect(this, &CodeEditor::widgetResized, [this, replaceDialog]() {
+        QWidget *w = replaceDialog;
+        QWidget *parent = viewport();
+        QRect r = parent->rect();
+        w->adjustSize();
+        r.adjust(10, 0, -10, 0);
+        r.setHeight(w->height());
+        r.moveBottom(parent->rect().height()-10);
+
+        r.setLeft(parent->pos().x() + 10 + marginWidth(0) + marginWidth(1));
+        w->setGeometry(r);
+    });
+    QAction *findAction = new QAction(this);
+    findAction->setShortcut(QKeySequence("ctrl+f"));
+    connect(findAction, &QAction::triggered, [this, replaceDialog](){
+        replaceDialog->show();
+    });
+    addAction(findAction);
+    QAction *findHideAction = new QAction(this);
+    findHideAction->setShortcut(QKeySequence("ESC"));
+    connect(findHideAction, &QAction::triggered, [this, replaceDialog](){
+        replaceDialog->hide();
+    });
+    addAction(findHideAction);
+
+
+#else
     QAction *findAction = new QAction(this);
     findAction->setShortcut(QKeySequence("ctrl+f"));
     connect(findAction, SIGNAL(triggered()), textOpWidget, SLOT(showSearch()));
@@ -138,7 +169,6 @@ CodeEditor::CodeEditor(QWidget *parent) :
     replaceAction->setShortcut(QKeySequence("ctrl+h"));
     connect(replaceAction, SIGNAL(triggered()), textOpWidget, SLOT(showReplace()));
     addAction(replaceAction);
-#if 0
     // TODO
     QAction *gotoAction = new QAction(this);
     gotoAction->setShortcut(QKeySequence("ctrl+g"));

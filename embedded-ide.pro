@@ -64,7 +64,9 @@ SOURCES += main.cpp\
     taglist.cpp \
     mapviewer.cpp \
     dialogconfigworkspace.cpp \
-    mainmenuwidget.cpp
+    mainmenuwidget.cpp \
+    formfindreplace.cpp \
+    findlineedit.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -98,7 +100,9 @@ HEADERS  += mainwindow.h \
     taglist.h \
     mapviewer.h \
     dialogconfigworkspace.h \
-    mainmenuwidget.h
+    mainmenuwidget.h \
+    formfindreplace.h \
+    findlineedit.h
 
 FORMS    += mainwindow.ui \
     editorwidget.ui \
@@ -111,7 +115,8 @@ FORMS    += mainwindow.ui \
     projectview.ui \
     mapviewer.ui \
     dialogconfigworkspace.ui \
-    mainmenuwidget.ui
+    mainmenuwidget.ui \
+    formfindreplace.ui
 
 RESOURCES += \
     resources.qrc
