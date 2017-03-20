@@ -22,10 +22,10 @@ static QAction *actionCheckeable(QAction *a) {
 FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
-    QToolButton *optionsButton = new QToolButton(this);
     QToolButton *clearButton = new QToolButton(this);
-    optionsButton->setIcon(QIcon("://images/application-menu.svg"));
-    clearButton->setIcon(QIcon("://images/actions/window-close.svg"));
+    optionsButton = new QToolButton(this);
+    optionsButton->setIcon(QIcon(":/images/application-menu.svg"));
+    clearButton->setIcon(QIcon(":/images/actions/edit-clear.svg"));
     optionsButton->setFocusPolicy(Qt::NoFocus);
     optionsButton->setPopupMode(QToolButton::InstantPopup);
     optionsButton->setCursor(Qt::ArrowCursor);
@@ -43,13 +43,23 @@ FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
     layout->setMargin(0);
     layout->setSpacing(0);
     connect(clearButton, SIGNAL(clicked()), this, SLOT(clear()));
-    QMenu *menu = new QMenu(this);
-    ACTION_CB(menu, tr("Regular Expression"), "regex");
-    ACTION_CB(menu, tr("Case Sensitive"), "case");
-    ACTION_CB(menu, tr("Wole Words"), "wword");
-    ACTION_CB(menu, tr("Selection Only"), "selonly");
-    optionsButton->setMenu(menu);
     QSize msz = minimumSizeHint();
     setMinimumSize(qMax(msz.width(), clearButton->sizeHint().height() + frameWidth * 2 + 2),
                    qMax(msz.height(), clearButton->sizeHint().height() + frameWidth * 2 + 2));
+}
+
+void FindLineEdit::addMenuAction(const QHash<QString, QString> &actionList)
+{
+    QMenu *menu = new QMenu(this);
+    QHash<QString, QString>::const_iterator it;
+    for (it = actionList.constBegin(); it != actionList.constEnd(); ++it) {
+        QString action = it.key();
+        QString prop = it.value();
+        connect(actionCheckeable(menu->addAction(action)), &QAction::triggered,
+                [this, prop](bool ck) {
+            setProperty(prop.toLatin1().constData(), QVariant(ck));
+        });
+        setProperty(prop.toLatin1().constData(), false);
+    }
+    optionsButton->setMenu(menu);
 }

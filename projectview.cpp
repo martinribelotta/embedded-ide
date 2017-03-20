@@ -24,6 +24,7 @@
 #include "etags.h"
 #include "taglist.h"
 #include "projectexporter.h"
+#include "toolmanager.h"
 
 
 MyFileSystemModel::MyFileSystemModel(QObject *parent) :
@@ -88,6 +89,7 @@ ProjectView::ProjectView(QWidget *parent) :
     ui->tabWidget->removeTab(1);
     ui->tabWidget->tabBar()->hide();
 #endif
+    ui->toolButton_tools->setMenu(createExternalToolsMenu());
 }
 
 ProjectView::~ProjectView()
@@ -101,6 +103,11 @@ QString ProjectView::project() const
     if (!m)
         return QString();
     return m->rootDirectory().absoluteFilePath("Makefile");
+}
+
+QString ProjectView::projectName() const
+{
+    return QFileInfo(projectPath().path()).fileName();
 }
 
 QDir ProjectView::projectPath() const
@@ -361,4 +368,110 @@ void ProjectView::on_toolButton_export_clicked()
                 parentWidget()->window(),
                 SLOT(actionExportFinish(QString)))
             )->start();
+}
+
+static void messageCancelOp(QWidget *w) {
+    QMessageBox::information(w->window(), w->tr("Information"), w->tr("Operation canceled"));
+}
+
+void ProjectView::toolAction()
+{
+    QAction *a = qobject_cast<QAction*>(sender());
+    if (a) {
+        QString text = a->data().toString();
+        text.replace("${{projectpath}}", projectPath().absolutePath());
+        text.replace("${{projectname}}", projectName());
+        QRegularExpressionMatch m;
+        m = QRegularExpression(R"(\${{text: (.+?)}})").match(text);
+        if (m.hasMatch()) {
+            QString label = m.captured(1);
+            bool ok = false;
+            QString replacedText = QInputDialog::getText(window(), tr("Input text"), label,
+                                                         QLineEdit::Normal, QString(), &ok);
+            if (!ok) {
+                messageCancelOp(this);
+                return;
+            }
+            text.remove(m.capturedStart(), m.capturedLength());
+            text.insert(m.capturedStart(), replacedText);
+        }
+        m = QRegularExpression(R"(\${{items: (.*?)#(.+?)}})").match(text);
+        if (m.hasMatch()) {
+            QString label = m.captured(1);
+            QStringList items = m.captured(2).split('|');
+            bool ok = false;
+            QString replacedText = QInputDialog::getItem(window(), tr("Input items"), label,
+                                                         items, 0, false, &ok);
+            if (!ok) {
+                messageCancelOp(this);
+                return;
+            }
+            text.remove(m.capturedStart(), m.capturedLength());
+            text.insert(m.capturedStart(), replacedText);
+        }
+        QString command = text;
+        qDebug() << "EXEC" << command;
+        emit execTool(command);
+    }
+}
+
+static ProjectView::EntryList_t loadEntries()
+{
+    ProjectView::EntryList_t list;
+
+    // Settings first, env second
+    QSettings sets;
+    sets.beginGroup("tools");
+    int n = sets.beginReadArray("external");
+    for(int i=0; i<n; i++) {
+        sets.setArrayIndex(i);
+        QString k = sets.value("name").toString();
+        QString v = sets.value("command").toString();
+        ProjectView::Entry_t e{ k, v };
+        if (!k.isEmpty() && !v.isEmpty()) {
+            if (!list.contains(e))
+                list.append(e);
+        }
+    }
+
+    QJsonDocument doc = QJsonDocument::fromJson(::getenv("EMBEDDED_IDE_TOOLS"));
+    if (doc.isArray()) {
+        QJsonArray a = doc.array();
+        foreach(QJsonValue e, a) {
+            QJsonObject o = e.toObject();
+            QString k = o.value("name").toString();
+            QString v = o.value("command").toString();
+            ProjectView::Entry_t en{ k, v };
+            if (!k.isEmpty() && !v.isEmpty()) {
+                if (!list.contains(en))
+                    list.append(en);
+            }
+        }
+    }
+    return list;
+}
+
+QMenu *ProjectView::createExternalToolsMenu()
+{
+    QMenu *menu = new QMenu(this);
+    EntryList_t entries = loadEntries();
+    if (!entries.isEmpty()) {
+        foreach(auto e, entries) {
+            QString key = e.first;
+            QString val = e.second.toString();
+            menu->addAction(QIcon(":/images/actions/run-build.svg"), key,
+                            this, SLOT(toolAction()))->setData(val);
+        }
+    } else
+        menu->addAction(tr("No entries"))->setDisabled(true);
+    menu->setProperty("entries", QVariant::fromValue(entries));
+    menu->addSeparator();
+    menu->addAction(QIcon(":/images/configure.svg"), tr("Manage tools"),
+                    [this, menu]() {
+        ToolManager d(window());
+        d.setTools(menu->property("entries").value<EntryList_t>());
+        if (d.exec() == QDialog::Accepted)
+            ui->toolButton_tools->setMenu(createExternalToolsMenu());
+    });
+    return menu;
 }

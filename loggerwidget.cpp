@@ -32,7 +32,7 @@ static bool isFixedPitch(const QFont & font) {
     return fi.fixedPitch();
 }
 
-static const QFont monoFont() {
+const QFont monoFont() {
     QFont font("monospace");
     if (isFixedPitch(font))
         return font;
@@ -168,6 +168,16 @@ bool LoggerWidget::startProcess(const QString &cmd, const QStringList &args)
         return false;
     d->view->clear();
     d->proc->start(cmd, args);
+    return true;
+}
+
+bool LoggerWidget::startProcess(const QString &command)
+{
+    LoggerWidget::priv_t *d = d_ptr;
+    if (d->proc->state() != QProcess::NotRunning)
+        return false;
+    d->view->clear();
+    d->proc->start(command);
     return true;
 }
 

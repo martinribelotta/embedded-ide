@@ -151,13 +151,6 @@ CodeEditor::CodeEditor(QWidget *parent) :
         replaceDialog->show();
     });
     addAction(findAction);
-    QAction *findHideAction = new QAction(this);
-    findHideAction->setShortcut(QKeySequence("ESC"));
-    connect(findHideAction, &QAction::triggered, [this, replaceDialog](){
-        replaceDialog->hide();
-    });
-    addAction(findHideAction);
-
 
 #else
     QAction *findAction = new QAction(this);

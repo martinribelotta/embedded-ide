@@ -3,6 +3,8 @@
 
 #include <QLineEdit>
 
+class QToolButton;
+
 class FindLineEdit : public QLineEdit
 {
     Q_OBJECT
@@ -10,10 +12,12 @@ class FindLineEdit : public QLineEdit
 public:
     FindLineEdit(QWidget *parent = 0l);
 
-    bool isRegularExpression() const { return property("regex").toBool(); }
-    bool isCanseSensitive() const { return property("case").toBool(); }
-    bool isWoleWords() const { return property("wword").toBool(); }
-    bool isSelectionOnly() const { return property("selonly").toBool(); }
+    void addMenuAction(const QHash<QString, QString>& actionList);
+
+    bool isPropertyChecked(const QString& name) const;
+
+private:
+    QToolButton *optionsButton;
 };
 
 #endif // FINDLINEEDIT_H

@@ -88,6 +88,10 @@ MainWindow::MainWindow(QWidget *parent) :
         args << "-f" << ui->projectView->project() << target;
         ui->loggerCompiler->setWorkingDir(projectPath).startProcess("make", args);
     });
+    connect(ui->projectView, &ProjectView::execTool, [this](const QString& command) {
+        QString projectPath = ui->projectView->projectPath().absolutePath();
+        ui->loggerCompiler->setWorkingDir(projectPath).startProcess(command);
+    });
     ui->projectView->getDebugInterface()->setDocumentArea(ui->centralWidget);
     connect(ui->projectView->getDebugInterface(), &DebugInterface::gdbOutput, [this](const QString& text) {
         ui->loggerDebugger->addText(text, Qt::blue);

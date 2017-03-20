@@ -15,6 +15,9 @@ public:
     explicit FormFindReplace(QWidget *parent = 0);
     ~FormFindReplace();
 
+protected:
+    void showEvent(QShowEvent *event);
+
 private:
     Ui::FormFindReplace *ui;
 };

@@ -6,14 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>518</width>
-    <height>68</height>
+    <width>227</width>
+    <height>50</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>2</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>2</number>
+   </property>
+   <property name="spacing">
+    <number>2</number>
+   </property>
    <item row="0" column="0">
     <widget class="QLabel" name="labelFind">
      <property name="text">
@@ -36,53 +51,17 @@
    </item>
    <item row="0" column="2">
     <widget class="QToolButton" name="buttonFindPrev">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Find &amp;Prev</string>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/images/edit-find.svg</normaloff>:/images/edit-find.svg</iconset>
      </property>
     </widget>
    </item>
    <item row="0" column="3">
-    <widget class="QToolButton" name="buttonFindNext">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Find &amp;Next</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="4" colspan="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>126</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="6">
     <widget class="QToolButton" name="buttonFindPrev_2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>X</string>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/images/actions/dialog-close.svg</normaloff>:/images/actions/dialog-close.svg</iconset>
      </property>
     </widget>
    </item>
@@ -94,7 +73,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="textToReplace">
+    <widget class="FindLineEdit" name="textToReplace">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -105,40 +84,9 @@
    </item>
    <item row="1" column="2">
     <widget class="QToolButton" name="buttonReplace">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>&amp;Replace</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3" colspan="2">
-    <widget class="QToolButton" name="buttonReplaceAndFind">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Replace and &amp;Find</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="5" colspan="2">
-    <widget class="QToolButton" name="buttonReplaceAll">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Replace &amp;All</string>
+     <property name="icon">
+      <iconset resource="resources.qrc">
+       <normaloff>:/images/edit-find-replace.svg</normaloff>:/images/edit-find-replace.svg</iconset>
      </property>
     </widget>
    </item>
@@ -151,7 +99,9 @@
    <header>findlineedit.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonFindPrev_2</sender>

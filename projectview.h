@@ -36,10 +36,14 @@ class ProjectView : public QWidget
     Q_OBJECT
 
 public:
+    typedef QPair<QString, QVariant> Entry_t;
+    typedef QList<Entry_t> EntryList_t;
+
     explicit ProjectView(QWidget *parent = 0);
     ~ProjectView();
 
     QString project() const;
+    QString projectName() const;
     QDir projectPath() const;
     const MakefileInfo &makeInfo() const { return mk_info; }
     const ETags &tags() const { return mk_info.tags; }
@@ -69,16 +73,21 @@ private slots:
 
     void on_toolButton_export_clicked();
 
+    void toolAction();
+
 signals:
     void projectOpened();
     void fileOpen(const QString& file);
     void startBuild(const QString& target);
+    void execTool(const QString& command);
 
 private:
     Ui::DocumentView *ui;
     MakefileInfo mk_info;
     TagList *tagList;
     QList<QToolButton*> projectButtons;
+
+    QMenu *createExternalToolsMenu();
 };
 
 #endif // DOCUMENTVIEW_H

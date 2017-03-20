@@ -17,6 +17,7 @@ signals:
 
 public slots:
     bool startProcess(const QString& cmd, const QStringList& args);
+    bool startProcess(const QString& command);
     LoggerWidget& setWorkingDir(const QString &dir);
     LoggerWidget& addEnv(const QStringList &extraEnv);
     LoggerWidget& setEnv(const QStringList &env);
