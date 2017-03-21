@@ -93,44 +93,8 @@ CodeEditor::CodeEditor(QWidget *parent) :
     m_completer->setModel(pModel);
     connect(m_completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
 
-    QFont font(QSettings().value("editor/font/style", "DejaVu Sans Mono").toString());
-    font.setPointSize(QSettings().value("editor/font/size", 10).toInt());
-    setFont(font);
+    loadConfig();
 
-    setAutoIndent(true);
-    setBraceMatching(StrictBraceMatch);
-    setBackspaceUnindents(true);
-    setFolding(BoxedTreeFoldStyle);
-    setIndentationGuides(true);
-
-    setCaretLineVisible(true);
-    setCaretLineBackgroundColor(QColor("#ffe4e4"));
-    auto fontmetrics = QFontMetrics(font);
-    setMarginsFont(font);
-    setMarginWidth(0, fontmetrics.width("00000") + 6);
-    setMarginLineNumbers(0, true);
-    setMarginsBackgroundColor(QColor("#cccccc"));
-
-    setMarginSensitivity(1, true);
-
-    markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
-    setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
-    connect(this, &QsciScintilla::marginClicked,
-            [this](int margin, int line, Qt::KeyboardModifiers state){
-        Q_UNUSED(margin);
-        Q_UNUSED(state);
-        if (markersAtLine(line) != 0) {
-            markerDelete(line);
-        } else {
-            markerAdd(line, SC_MARK_ARROW);
-        }
-    });
-
-    setAnnotationDisplay(AnnotationIndented);
-
-    textOpWidget = new QsvTextOperationsWidget(this);
-
-#if 1
     replaceDialog = new FormFindReplace(this);
     replaceDialog->hide();
     connect(this, &CodeEditor::widgetResized, [this]() {
@@ -152,22 +116,6 @@ CodeEditor::CodeEditor(QWidget *parent) :
     });
     addAction(findAction);
 
-#else
-    QAction *findAction = new QAction(this);
-    findAction->setShortcut(QKeySequence("ctrl+f"));
-    connect(findAction, SIGNAL(triggered()), textOpWidget, SLOT(showSearch()));
-    addAction(findAction);
-
-    QAction *replaceAction = new QAction(this);
-    replaceAction->setShortcut(QKeySequence("ctrl+h"));
-    connect(replaceAction, SIGNAL(triggered()), textOpWidget, SLOT(showReplace()));
-    addAction(replaceAction);
-    // TODO
-    QAction *gotoAction = new QAction(this);
-    gotoAction->setShortcut(QKeySequence("ctrl+g"));
-    connect(gotoAction, SIGNAL(triggered()), textOpWidget, SLOT(showGotoLine()));
-    addAction(gotoAction);
-#endif
     QAction *saveAction = new QAction(this);
     saveAction->setShortcut(QKeySequence("ctrl+s"));
     connect(saveAction, &QAction::triggered, this, &CodeEditor::save);
@@ -369,6 +317,9 @@ bool CodeEditor::load(const QString &fileName)
                else
                    qDebug() << "no makefile info";
            }
+           loadConfig();
+           if (mime.inherits("text/x-makefile"))
+               setTabIndents(true); // Force tabs if makefile
            return true;
         }
     }
@@ -400,6 +351,7 @@ void CodeEditor::reload()
         bool mod = isModified();
         if (f.open(QFile::ReadOnly)) {
             read(&f);
+            loadConfig();
             setCursorPosition(l, i);
             setModified(mod);
         }
@@ -586,4 +538,44 @@ void CodeEditor::refreshHighlighterLines()
 
     setExtraSelections(extraSelections);
 #endif
+}
+
+void CodeEditor::loadConfig()
+{
+    QFont fonts(QSettings().value("editor/font/style", "DejaVu Sans Mono").toString());
+    fonts.setPointSize(QSettings().value("editor/font/size", 10).toInt());
+    setFont(fonts);
+    int replaceTabs = QSettings().value("editor/replaceTabs", 0).toInt();
+    setTabIndents(replaceTabs == 0);
+    setTabWidth(replaceTabs? replaceTabs : 8);
+    setAutoIndent(true);
+    setBraceMatching(StrictBraceMatch);
+    setBackspaceUnindents(true);
+    setFolding(BoxedTreeFoldStyle);
+    setIndentationGuides(true);
+
+    setCaretLineVisible(true);
+    setCaretLineBackgroundColor(QColor("#ffe4e4"));
+    auto fontmetrics = QFontMetrics(fonts);
+    setMarginsFont(fonts);
+    setMarginWidth(0, fontmetrics.width("00000") + 6);
+    setMarginLineNumbers(0, true);
+    setMarginsBackgroundColor(QColor("#cccccc"));
+
+    setMarginSensitivity(1, true);
+
+    markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
+    setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
+    connect(this, &QsciScintilla::marginClicked,
+            [this](int margin, int line, Qt::KeyboardModifiers state){
+        Q_UNUSED(margin);
+        Q_UNUSED(state);
+        if (markersAtLine(line) != 0) {
+            markerDelete(line);
+        } else {
+            markerAdd(line, SC_MARK_ARROW);
+        }
+    });
+
+    setAnnotationDisplay(AnnotationIndented);
 }

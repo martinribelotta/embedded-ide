@@ -45,6 +45,7 @@ public slots:
 
     void refreshHighlighterLines();
 
+    void loadConfig();
     bool load(const QString &fileName);
     bool save();
     void reload();
@@ -101,7 +102,6 @@ private:
     QMenu *createContextMenu();
     QRect cursorRect() const;
 
-    QsvTextOperationsWidget *textOpWidget;
     FormFindReplace *replaceDialog;
     QCompleter *m_completer;
     QString m_documentFile;
