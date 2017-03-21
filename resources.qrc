@@ -155,5 +155,6 @@
         <file>qgdb/gdb_default_profile.ini</file>
         <file>i18n/es.qm</file>
         <file>i18n/zh.qm</file>
+        <file>colorscheme/default.xml</file>
     </qresource>
 </RCC>

@@ -319,7 +319,7 @@ bool CodeEditor::load(const QString &fileName)
            }
            loadConfig();
            if (mime.inherits("text/x-makefile"))
-               setTabIndents(true); // Force tabs if makefile
+               setIndentationsUseTabs(true); // Force tabs if makefile
            return true;
         }
     }
@@ -546,13 +546,16 @@ void CodeEditor::loadConfig()
     fonts.setPointSize(QSettings().value("editor/font/size", 10).toInt());
     setFont(fonts);
     int replaceTabs = QSettings().value("editor/replaceTabs", 0).toInt();
-    setTabIndents(replaceTabs == 0);
+
+    setIndentationsUseTabs(replaceTabs == 0);
     setTabWidth(replaceTabs? replaceTabs : 8);
     setAutoIndent(true);
     setBraceMatching(StrictBraceMatch);
     setBackspaceUnindents(true);
     setFolding(BoxedTreeFoldStyle);
     setIndentationGuides(true);
+    //setTabDrawMode(TabStrikeOut);
+    //setWhitespaceVisibility(WsVisible);
 
     setCaretLineVisible(true);
     setCaretLineBackgroundColor(QColor("#ffe4e4"));
