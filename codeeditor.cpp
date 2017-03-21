@@ -566,6 +566,8 @@ void CodeEditor::loadConfig()
     setMarginsBackgroundColor(QColor("#cccccc"));
 
     setMarginSensitivity(1, true);
+    SendScintilla(SCI_SETMULTIPLESELECTION, 1l, 0l);
+    SendScintilla(SCI_SETADDITIONALSELECTIONTYPING, 1l, 0l);
 
     markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
     setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
