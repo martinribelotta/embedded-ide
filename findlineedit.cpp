@@ -12,13 +12,6 @@ static QAction *actionCheckeable(QAction *a) {
     return a;
 }
 
-#define ACTION_CB(a, text, prop) do { \
-        connect( \
-            actionCheckeable(menu->addAction(text)), &QAction::triggered, \
-            [this](bool ck) { setProperty(prop, QVariant(ck)); }); \
-        setProperty(prop, false); \
-    } while(0)
-
 FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);

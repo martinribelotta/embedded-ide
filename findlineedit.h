@@ -14,7 +14,7 @@ public:
 
     void addMenuAction(const QHash<QString, QString>& actionList);
 
-    bool isPropertyChecked(const QString& name) const;
+    bool isPropertyChecked(const char *name) const { return property(name).toBool(); }
 
 private:
     QToolButton *optionsButton;

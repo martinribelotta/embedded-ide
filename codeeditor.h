@@ -13,6 +13,8 @@ class QSize;
 class QWidget;
 class QCompleter;
 
+class FormFindReplace;
+
 class QsvColorDefFactory;
 class QsvLangDef;
 class QsvSyntaxHighlighter;
@@ -100,6 +102,7 @@ private:
     QRect cursorRect() const;
 
     QsvTextOperationsWidget *textOpWidget;
+    FormFindReplace *replaceDialog;
     QCompleter *m_completer;
     QString m_documentFile;
     QHash<int, QColor> highlightLines;

@@ -131,9 +131,9 @@ CodeEditor::CodeEditor(QWidget *parent) :
     textOpWidget = new QsvTextOperationsWidget(this);
 
 #if 1
-    FormFindReplace *replaceDialog = new FormFindReplace(this);
+    replaceDialog = new FormFindReplace(this);
     replaceDialog->hide();
-    connect(this, &CodeEditor::widgetResized, [this, replaceDialog]() {
+    connect(this, &CodeEditor::widgetResized, [this]() {
         QWidget *w = replaceDialog;
         QWidget *parent = viewport();
         QRect r = parent->rect();
@@ -147,7 +147,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     });
     QAction *findAction = new QAction(this);
     findAction->setShortcut(QKeySequence("ctrl+f"));
-    connect(findAction, &QAction::triggered, [this, replaceDialog](){
+    connect(findAction, &QAction::triggered, [this](){
         replaceDialog->show();
     });
     addAction(findAction);
@@ -468,6 +468,10 @@ void CodeEditor::resizeEvent(QResizeEvent *e)
 
 void CodeEditor::keyPressEvent(QKeyEvent *event)
 {
+    if (replaceDialog->isVisible()) {
+        event->ignore();
+        return;
+    }
     if (m_completer->popup()->isVisible()) {
         switch(event->key()) {
         case Qt::Key_Return:
