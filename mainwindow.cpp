@@ -13,6 +13,8 @@
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QStatusBar>
+#include <QCheckBox>
 #include <QMenu>
 #include <QUrl>
 
@@ -80,14 +82,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionProjectOpen->setMenu(lastProjects(this));
     connect(ui->projectView, &ProjectView::projectOpened, this, &MainWindow::projectOpened);
     connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
-    connect(ui->projectView, &ProjectView::startBuild, [this](const QString& target) {
-        if (QSettings().value("editor/saveOnAction").toBool())
-            ui->centralWidget->saveAll();
-        QString projectPath = ui->projectView->projectPath().absolutePath();
-        QStringList args;
-        args << "-f" << ui->projectView->project() << target;
-        ui->loggerCompiler->setWorkingDir(projectPath).startProcess("make", args);
-    });
+    connect(ui->projectView, &ProjectView::startBuild,
+            [this](const QString &target) {
+              if (this->goToBuildStage()) {
+                if (QSettings().value("editor/saveOnAction").toBool())
+                  ui->centralWidget->saveAll();
+                QString projectPath =
+                    ui->projectView->projectPath().absolutePath();
+                QStringList args;
+                args << "-f" << ui->projectView->project() << target;
+                ui->loggerCompiler->setWorkingDir(projectPath)
+                    .startProcess("make", args);
+              }
+            });
     connect(ui->projectView, &ProjectView::execTool, [this](const QString& command) {
         QString projectPath = ui->projectView->projectPath().absolutePath();
         ui->loggerCompiler->setWorkingDir(projectPath).startProcess(command);
@@ -152,6 +159,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->removeTab(2);
     ui->tabWidget->tabBar()->hide();
 #endif
+    statusBar()->showMessage(tr("Application ready..."), 1500);
 }
 
 MainWindow::~MainWindow()
@@ -297,4 +305,42 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
     QString file = ui->projectView->projectPath().absoluteFilePath(path);
     qDebug() << "Opening" << file << row << col;
     ui->centralWidget->fileOpenAt(file, row, col, &ui->projectView->makeInfo());
+}
+
+bool MainWindow::goToBuildStage() {
+  if (ui->centralWidget->hasUnsavedChanges()) {
+    bool promptEnabled =
+        QSettings().value("behavior/savebeforebuildprompt", true).toBool();
+    if (promptEnabled) {
+      QMessageBox msgbox(
+          QMessageBox::Icon::Question, tr("Save files"),
+          tr("Save all files before build?"),
+          QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+      QCheckBox cb(tr("Do not show again"));
+      msgbox.setCheckBox(&cb);
+      msgbox.exec();
+      if (msgbox.result() == QMessageBox::StandardButton::Yes ||
+          msgbox.result() == QMessageBox::StandardButton::No) {
+        QSettings().setValue("behavior/savebeforebuildprompt",
+                             !msgbox.checkBox()->isChecked());
+        if (msgbox.checkBox()->isChecked()) {
+          this->statusBar()->showMessage(tr("This dialog not will show again"),
+                                         2000);
+          QSettings().setValue(
+              "editor/saveOnAction",
+              msgbox.result() == QMessageBox::StandardButton::Yes);
+        }
+        if (msgbox.result() == QMessageBox::StandardButton::Yes) {
+          ui->centralWidget->saveAll();
+        }
+      } else {
+        return false;
+      }
+    } else {
+      if (QSettings().value("editor/saveOnAction", false).toBool()) {
+        ui->centralWidget->saveAll();
+      }
+    }
+  }
+  return true;
 }

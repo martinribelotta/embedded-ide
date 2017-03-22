@@ -58,6 +58,15 @@ QList<CodeEditor *> DocumentArea::documentsDirty() const
     return list;
 }
 
+bool DocumentArea::hasUnsavedChanges() {
+  for(int i = 0; i < count(); ++i) {
+    if (tabText(i).contains(" [*]")) {
+      return true;
+    }
+  }
+  return false;
+}
+
 int DocumentArea::fileOpenAt(const QString &file, int row, int col, const MakefileInfo *mk)
 {
     int idx = fileOpen(file, mk);

@@ -49,6 +49,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    bool goToBuildStage();
 };
 
 #endif // MAINWINDOW_H
