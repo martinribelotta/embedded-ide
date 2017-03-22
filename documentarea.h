@@ -13,6 +13,7 @@ public:
     explicit DocumentArea(QWidget *parent = 0);
 
     QList<CodeEditor*> documentsDirty() const;
+    bool hasUnsavedChanges();
 
 signals:
 
