@@ -46,6 +46,7 @@ public slots:
     void refreshHighlighterLines();
 
     void loadConfig();
+    bool loadStyle(const QString& xmlStyleFile);
     bool load(const QString &fileName);
     bool save();
     void reload();

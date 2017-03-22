@@ -1,54 +1,6 @@
 <RCC>
     <qresource prefix="/help">
-        <file>reference-code-c.txt</file>
-    </qresource>
-    <qresource prefix="/qsvsh">
-        <file>qtsourceview/data/mime.types</file>
-        <file>qtsourceview/data/langs/ada.lang</file>
-        <file>qtsourceview/data/langs/c.lang</file>
-        <file>qtsourceview/data/langs/changelog.lang</file>
-        <file>qtsourceview/data/langs/cpp.lang</file>
-        <file>qtsourceview/data/langs/csharp.lang</file>
-        <file>qtsourceview/data/langs/css.lang</file>
-        <file>qtsourceview/data/langs/desktop.lang</file>
-        <file>qtsourceview/data/langs/diff.lang</file>
-        <file>qtsourceview/data/langs/fortran.lang</file>
-        <file>qtsourceview/data/langs/gtkrc.lang</file>
-        <file>qtsourceview/data/langs/haskell.lang</file>
-        <file>qtsourceview/data/langs/html.lang</file>
-        <file>qtsourceview/data/langs/idl.lang</file>
-        <file>qtsourceview/data/langs/ini.lang</file>
-        <file>qtsourceview/data/langs/java.lang</file>
-        <file>qtsourceview/data/langs/javascript.lang</file>
-        <file>qtsourceview/data/langs/language.dtd</file>
-        <file>qtsourceview/data/langs/latex.lang</file>
-        <file>qtsourceview/data/langs/lua.lang</file>
-        <file>qtsourceview/data/langs/makefile.lang</file>
-        <file>qtsourceview/data/langs/msil.lang</file>
-        <file>qtsourceview/data/langs/nemerle.lang</file>
-        <file>qtsourceview/data/langs/octave.lang</file>
-        <file>qtsourceview/data/langs/pascal.lang</file>
-        <file>qtsourceview/data/langs/perl.lang</file>
-        <file>qtsourceview/data/langs/php.lang</file>
-        <file>qtsourceview/data/langs/po.lang</file>
-        <file>qtsourceview/data/langs/pro.lang</file>
-        <file>qtsourceview/data/langs/python.lang</file>
-        <file>qtsourceview/data/langs/R.lang</file>
-        <file>qtsourceview/data/langs/ruby.lang</file>
-        <file>qtsourceview/data/langs/scheme.lang</file>
-        <file>qtsourceview/data/langs/sh.lang</file>
-        <file>qtsourceview/data/langs/sql.lang</file>
-        <file>qtsourceview/data/langs/tcl.lang</file>
-        <file>qtsourceview/data/langs/texinfo.lang</file>
-        <file>qtsourceview/data/langs/vbnet.lang</file>
-        <file>qtsourceview/data/langs/verilog.lang</file>
-        <file>qtsourceview/data/langs/vhdl.lang</file>
-        <file>qtsourceview/data/langs/xml.lang</file>
-        <file>qtsourceview/data/colors/gedit.xml</file>
-        <file>qtsourceview/data/colors/kate.xml</file>
-        <file>qtsourceview/data/colors/turbo.xml</file>
-        <file>qtsourceview/data/colors/vim.xml</file>
-        <file>qtsourceview/data/colors/visual.xml</file>
+        <file>reference-code.c</file>
     </qresource>
     <qresource prefix="/build">
         <file>project-filters.txt</file>
@@ -155,6 +107,26 @@
         <file>qgdb/gdb_default_profile.ini</file>
         <file>i18n/es.qm</file>
         <file>i18n/zh.qm</file>
-        <file>colorscheme/default.xml</file>
+        <file>styles/Bespin.xml</file>
+        <file>styles/Black board.xml</file>
+        <file>styles/Choco.xml</file>
+        <file>styles/Deep Black.xml</file>
+        <file>styles/Hello Kitty.xml</file>
+        <file>styles/HotFudgeSundae.xml</file>
+        <file>styles/khaki.xml</file>
+        <file>styles/Mono Industrial.xml</file>
+        <file>styles/Monokai.xml</file>
+        <file>styles/MossyLawn.xml</file>
+        <file>styles/Navajo.xml</file>
+        <file>styles/Obsidian.xml</file>
+        <file>styles/Plastic Code Wrap.xml</file>
+        <file>styles/Ruby Blue.xml</file>
+        <file>styles/Solarized.xml</file>
+        <file>styles/Solarized-light.xml</file>
+        <file>styles/stylers.model.xml</file>
+        <file>styles/Twilight.xml</file>
+        <file>styles/Vibrant Ink.xml</file>
+        <file>styles/vim Dark Blue.xml</file>
+        <file>styles/Zenburn.xml</file>
     </qresource>
 </RCC>

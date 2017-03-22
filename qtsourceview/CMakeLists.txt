@@ -1,6 +1,0 @@
-# main project
-
-PROJECT(qtsourceview) 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
-ADD_SUBDIRECTORY(src/qate)
-ADD_SUBDIRECTORY(demos/)

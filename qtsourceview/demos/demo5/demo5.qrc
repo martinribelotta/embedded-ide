@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/qedit">
-        <file>readme.txt</file>
-    </qresource>
-</RCC>

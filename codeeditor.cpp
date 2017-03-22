@@ -26,13 +26,6 @@
 
 #include <QtDebug>
 
-#include <qsvsh/qsvsyntaxhighlighter.h>
-#include <qsvsh/qsvcolordeffactory.h>
-#include <qsvsh/qsvcolordef.h>
-#include <qsvsh/qsvlangdef.h>
-#include <qsvsh/qsvlangdeffactory.h>
-
-#include "qsvtextoperationswidget.h"
 #include "clangcodecontext.h"
 #include "documentarea.h"
 #include "taglist.h"
@@ -75,6 +68,9 @@
 #include <Qsci/qscilexervhdl.h>
 #include <Qsci/qscilexerxml.h>
 #include <Qsci/qscilexeryaml.h>
+#include <Qsci/qscistyle.h>
+
+#include <QtXml/qdom.h>
 
 #undef CLANG_DEBUG
 
@@ -196,24 +192,6 @@ QMenu *CodeEditor::createContextMenu()
     m->addSeparator();
     m->addAction(tr("&Select All"), this, SLOT(selectAll()))->setShortcut(QKeySequence("CTRL+A"));
     return m;
-}
-
-static QString findStyleByName(const QString& defaultName) {
-    QDir d(":/qsvsh/qtsourceview/data/colors/");
-    foreach(QString name, d.entryList(QStringList("*.xml"))) {
-        QDomDocument doc("mydocument");
-        QFile file(d.filePath(name));
-        if (file.open(QIODevice::ReadOnly) && doc.setContent(&file)) {
-            QDomNodeList itemDatas = doc.elementsByTagName("itemDatas");
-            if (!itemDatas.isEmpty()) {
-                QDomNamedNodeMap attr = itemDatas.at(0).attributes();
-                QString name = attr.namedItem("name").toAttr().value();
-                if (defaultName == name)
-                    return file.fileName();
-            }
-        }
-    }
-    return QString();
 }
 
 template<typename T>
@@ -459,7 +437,7 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent *event)
     QAction *findSimbol = menu->addAction(QIcon(":/images/edit-find.svg"),
                                           tr("Find symbol under cursor"),
                                           this, SLOT(findTagUnderCursor()));
-    findSimbol->setEnabled(isTextUnderCursor);
+    findSimbol->setEnabled(isTextUnderCursor && makefileInfo() != nullptr);
     menu->exec(event->globalPos());
     event->accept();
 }
@@ -545,12 +523,17 @@ void CodeEditor::loadConfig()
     QFont fonts(QSettings().value("editor/font/style", "DejaVu Sans Mono").toString());
     fonts.setPointSize(QSettings().value("editor/font/size", 10).toInt());
     setFont(fonts);
-    int replaceTabs = QSettings().value("editor/replaceTabs", 0).toInt();
 
-    setIndentationsUseTabs(replaceTabs == 0);
-    setTabWidth(replaceTabs? replaceTabs : 8);
+    loadStyle(QSettings().value("editor/style", ":/styles/Solarized-light.xml"
+                                                /*":/styles/stylers.model.xml"*/).toString());
+
+    setIndentationsUseTabs(!QSettings().value("editor/tabsToSpaces", true).toBool());
+    setTabWidth(QSettings().value("editor/tabWidth", 4).toInt());
     setAutoIndent(true);
     setBraceMatching(StrictBraceMatch);
+    resetMatchedBraceIndicator();
+    //setMatchedBraceForegroundColor(Qt::red);
+    //setMatchedBraceBackgroundColor(Qt::blue);
     setBackspaceUnindents(true);
     setFolding(BoxedTreeFoldStyle);
     setIndentationGuides(true);
@@ -558,19 +541,20 @@ void CodeEditor::loadConfig()
     //setWhitespaceVisibility(WsVisible);
 
     setCaretLineVisible(true);
-    setCaretLineBackgroundColor(QColor("#ffe4e4"));
+    // setCaretLineBackgroundColor(QColor("#ffe4e4"));
     auto fontmetrics = QFontMetrics(fonts);
     setMarginsFont(fonts);
     setMarginWidth(0, fontmetrics.width("00000") + 6);
     setMarginLineNumbers(0, true);
-    setMarginsBackgroundColor(QColor("#cccccc"));
+    // setMarginsBackgroundColor(QColor("#cccccc"));
 
-    setMarginSensitivity(1, true);
     SendScintilla(SCI_SETMULTIPLESELECTION, 1l, 0l);
     SendScintilla(SCI_SETADDITIONALSELECTIONTYPING, 1l, 0l);
 
+    setMarginSensitivity(1, true);
     markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
-    setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
+    setMargins(3);
+    // setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
     connect(this, &QsciScintilla::marginClicked,
             [this](int margin, int line, Qt::KeyboardModifiers state){
         Q_UNUSED(margin);
@@ -581,6 +565,145 @@ void CodeEditor::loadConfig()
             markerAdd(line, SC_MARK_ARROW);
         }
     });
-
     setAnnotationDisplay(AnnotationIndented);
+}
+
+bool CodeEditor::loadStyle(const QString &xmlStyleFile)
+{
+    QFile file(xmlStyleFile);
+    if (!file.open(QFile::ReadOnly)) {
+        qDebug() << "cannot load" << xmlStyleFile << "style:" << file.errorString();
+        return false;
+    }
+    QDomDocument doc;
+    QString errorMsg;
+    if (!doc.setContent(&file, &errorMsg)) {
+        qDebug() << "cannot load" << xmlStyleFile << "style:" << errorMsg;
+        return false;
+    }
+    QDomElement root = doc.firstChildElement("NotepadPlus");
+    if (root.isNull()) {
+        qDebug() << "cannot load" << xmlStyleFile << "not contain NotepadPlus tag";
+        return false;
+    }
+    if (1) {
+        QDomElement globalStyles = root.firstChildElement("GlobalStyles");
+        if (globalStyles.isNull()) {
+            qDebug() << "cannot load" << xmlStyleFile << "not GlobalStyles";
+            return false;
+        }
+        QDomElement wStyle = globalStyles.firstChildElement("WidgetStyle");
+        while (!wStyle.isNull()) {
+            QString name = wStyle.attribute("name");
+            int styleID = wStyle.attribute("styleID", "-1").toInt();
+            QColor fgColor = QColor(QString("#%1").arg(wStyle.attribute("fgColor")));
+            QColor bgColor = QColor(QString("#%1").arg(wStyle.attribute("bgColor")));
+            //QString fontName = wStyle.attribute("fontName");
+            int fontStyle = wStyle.attribute("fontStyle", "0").toInt();
+            //int fontSize = wStyle.attribute("fontSize", QString("%1").arg(font().pixelSize())).toInt();
+            if (styleID == 0) {
+                if (name == "Global override") {
+                    if (fgColor.isValid())
+                        setColor(fgColor);
+                    if (bgColor.isValid())
+                        setPaper(bgColor);
+                    goto set_global;
+                } else if (name == "Current line background colour") {
+                    setCaretLineBackgroundColor(bgColor);
+                } else if (name == "Selected text colour") {
+                    if (bgColor.isValid())
+                        setSelectionBackgroundColor(bgColor);
+                    if (fgColor.isValid())
+                        setSelectionForegroundColor(fgColor);
+                } else if (name == "Edge colour") {
+                    setEdgeColor(fgColor);
+                } else if (name == "Fold") {
+                    setFoldMarginColors(fgColor, bgColor);
+                } else if (name == "Fold active") {
+                } else if (name == "Fold margin") {
+                } else if (name == "White space symbol") {
+                    if (fgColor.isValid())
+                        setWhitespaceForegroundColor(fgColor);
+                    if (bgColor.isValid())
+                        setWhitespaceBackgroundColor(bgColor);
+                } else if (name == "Active tab focused indicator") {
+                } else if (name == "Active tab unfocused indicator") {
+                } else if (name == "Active tab text") {
+                } else if (name == "Inactive tabs") {
+                }
+            } else {
+set_global:
+                QsciStyle style(styleID);
+                if (fgColor.isValid())
+                    style.setColor(fgColor);
+                if (bgColor.isValid())
+                    style.setPaper(bgColor);
+                QFont f(font());
+                //if (!fontName.isEmpty() && QFont(fontName).family() == fontName)
+                //    f.setFamily(fontName);
+                //if (fontSize > 0)
+                //    f.setPixelSize(fontSize);
+                if (fontStyle&1)
+                    f.setBold(true);
+                if (fontStyle&2)
+                    f.setItalic(true);
+                if (fontStyle&4)
+                    f.setUnderline(true);
+                style.setFont(f);
+
+                style.apply(this);
+            }
+            wStyle = wStyle.nextSiblingElement("WidgetStyle");
+        }
+    }
+    if (lexer()) {
+        QString currentLexerName = lexer()->lexer();
+        QString currentLexerDesc = lexer()->language();
+        QDomElement lexerStyles = root.firstChildElement("LexerStyles");
+        if (!lexerStyles.isNull()) {
+            QDomElement lType = lexerStyles.firstChildElement("LexerType");
+            while (!lType.isNull()) {
+                QString lexerName = lType.attribute("name");
+                QString lexerDesc = lType.attribute("desc");
+                if (lexerName == currentLexerName || lexerDesc == currentLexerDesc) {
+                    QDomElement wStyle = lType.firstChildElement("WordsStyle");
+                    while (!wStyle.isNull()) {
+                        QString name = wStyle.attribute("name");
+                        int styleID = wStyle.attribute("styleID", "-1").toInt();
+                        if (!name.isEmpty() && styleID != -1) {
+                            QColor fgColor = QColor(QString("#%1").arg(wStyle.attribute("fgColor")));
+                            QColor bgColor = QColor(QString("#%1").arg(wStyle.attribute("bgColor")));
+                            //QString fontName = wStyle.attribute("fontName");
+                            int fontStyle = wStyle.attribute("fontStyle", "0").toInt();
+                            //int fontSize = wStyle.attribute("fontSize", QString("%1").arg(font().pixelSize())).toInt();
+                            QsciStyle style(styleID);
+                            if (fgColor.isValid())
+                                style.setColor(fgColor);
+                            if (bgColor.isValid())
+                                style.setPaper(bgColor);
+                            QFont f(font());
+                            //if (!fontName.isEmpty() && QFont(fontName).family() == fontName)
+                            //    f.setFamily(fontName);
+                            //if (fontSize > 0)
+                            //    f.setPixelSize(fontSize);
+                            if (fontStyle&1)
+                                f.setBold(true);
+                            if (fontStyle&2)
+                                f.setItalic(true);
+                            if (fontStyle&4)
+                                f.setUnderline(true);
+                            style.setFont(f);
+
+                            style.apply(this);
+                        }
+                        wStyle = wStyle.nextSiblingElement("WordsStyle");
+                    }
+                    break;
+                }
+                lType = lType.nextSiblingElement("LexerType");
+            }
+        } else
+            qDebug() << "No styles element";
+    }
+    return true;
 }

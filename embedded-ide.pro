@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets concurrent network svg
+QT       += core gui widgets concurrent network svg xml
 
 CONFIG += c++11
 
@@ -22,8 +22,6 @@ INCLUDEPATH += QHexEdit
 
 DEFINES += CIAA_IDE
 
-QTSOURCEVIEW_SRC_DIR=qtsourceview/src
-include(qtsourceview/src/qsvsh.pri)
 include(qgdb/qgdb.pri)
 
 QSCINTILLA_SRC_DIR=qscintilla/
@@ -45,7 +43,6 @@ SOURCES += main.cpp\
     makefileinfo.cpp \
     clangcodecontext.cpp \
     debuginterface.cpp \
-    qsvtextoperationswidget.cpp \
     etags.cpp \
     projectview.cpp \
     filedownloader.cpp \
@@ -81,7 +78,6 @@ HEADERS  += mainwindow.h \
     makefileinfo.h \
     clangcodecontext.h \
     debuginterface.h \
-    qsvtextoperationswidget.h \
     etags.h \
     projectview.h \
     filedownloader.h \
@@ -107,13 +103,10 @@ HEADERS  += mainwindow.h \
     toolmanager.h
 
 FORMS    += mainwindow.ui \
-    editorwidget.ui \
     projectnewdialog.ui \
     configdialog.ui \
     aboutdialog.ui \
     debuginterface.ui \
-    replaceform.ui \
-    searchform.ui \
     projectview.ui \
     mapviewer.ui \
     dialogconfigworkspace.ui \

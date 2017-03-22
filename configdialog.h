@@ -43,9 +43,9 @@ private slots:
 private:
     Ui::ConfigDialog *ui;
     QSettings *set;
-    QsvColorDefFactory *defColors;
-    QsvLangDef *langCpp;
-    QsvSyntaxHighlighter *syntax;
+    // QsvColorDefFactory *defColors;
+    // QsvLangDef *langCpp;
+    // QsvSyntaxHighlighter *syntax;
 };
 
 extern void adjustPath();

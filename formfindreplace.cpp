@@ -24,6 +24,8 @@ FormFindReplace::FormFindReplace(QsciScintilla *editor) :
     ui->textToReplace->addMenuAction(QHash<QString, QString>{
         { tr("Replace All"), "replaceAll" }
     });
+    connect(ui->textToFind, &FindLineEdit::menuActionClicked,
+            [this]() { setProperty("isFirst", true); });
 }
 
 FormFindReplace::~FormFindReplace()

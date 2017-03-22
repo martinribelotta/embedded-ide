@@ -4,7 +4,6 @@
 #include <QSettings>
 #include <QDir>
 #include <QFile>
-#include <QDomDocument>
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QStringListModel>
@@ -21,22 +20,7 @@
 
 #include <QDebug>
 
-#include "qsvsh/qsvcolordef.h"
-#include "qsvsh/qsvcolordeffactory.h"
-#include "qsvsh/qsvlangdef.h"
-#include "qsvsh/qsvsyntaxhighlighter.h"
-
 #include "filedownloader.h"
-
-class QsvCLangDef : public QsvLangDef {
-public:
-    QsvCLangDef() : QsvLangDef( ":/qsvsh/qtsourceview/data/langs/cpp.lang" ) {}
-    virtual ~QsvCLangDef();
-};
-
-QsvCLangDef::~QsvCLangDef()
-{
-}
 
 void adjustPath()
 {
@@ -59,33 +43,14 @@ void adjustPath()
     qputenv("PATH", path.toLocal8Bit());
 }
 
-static QString getBundledStyles(QComboBox *cb, const QString& defaultName) {
-    QDir d(":/qsvsh/qtsourceview/data/colors/");
-    QString defaultStyle;
-    foreach(QString name, d.entryList(QStringList("*.xml"))) {
-        QDomDocument doc("mydocument");
-        QFile file(d.filePath(name));
-        if (file.open(QIODevice::ReadOnly) && doc.setContent(&file)) {
-            QDomNodeList itemDatas = doc.elementsByTagName("itemDatas");
-            if (!itemDatas.isEmpty()) {
-                QDomNamedNodeMap attr = itemDatas.at(0).attributes();
-                QString name = attr.namedItem("name").toAttr().value();
-                QString desc = attr.namedItem("description").toAttr().value();
-                QString style = name + ": " + desc;
-                cb->addItem(style, file.fileName());
-                if (defaultName == name)
-                    defaultStyle = style;
-            }
-        }
-    }
-    return defaultStyle;
+static QString stylePath(const QString& styleName)
+{
+    return QString(":/styles/%1.xml").arg(styleName);
 }
 
-static QString readBundle(const QString& path) {
-    QFile f(path);
-    if (f.open(QFile::ReadOnly))
-        return QString(f.readAll());
-    return QString();
+static QString styleName(const QString& stylePath)
+{
+    return QFileInfo(stylePath).completeBaseName();
 }
 
 QString defaultTemplateUrl()
@@ -111,10 +76,7 @@ QString defaultTemplatePath()
 ConfigDialog::ConfigDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConfigDialog),
-    set(new QSettings(this)),
-    defColors(0l),
-    langCpp(new QsvCLangDef()),
-    syntax(0l)
+    set(new QSettings(this))
 {
     ui->setupUi(this);
     ui->additionalPathList->setModel(new QStringListModel(this));
@@ -131,25 +93,26 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
 ConfigDialog::~ConfigDialog()
 {
     delete ui;
-    delete langCpp;
-    if (defColors)
-        delete defColors;
 }
 
 void ConfigDialog::load()
 {
-    ui->plainTextEdit->setPlainText(readBundle(":/help/reference-code-c.txt"));
-    QString style = getBundledStyles(ui->colorStyleComboBox, set->value("editor/colorstyle", "Kate").toString());
-    if (!style.isEmpty())
-        ui->colorStyleComboBox->setCurrentIndex(ui->colorStyleComboBox->findText(style));
+    ui->codeEditor->load(":/help/reference-code.c");
+    ui->codeEditor->setReadOnly(true);
+    QDir d(":/styles/");
+    foreach(QString path, d.entryList(QStringList("*.xml"))) {
+        ui->colorStyleComboBox->addItem(styleName(path));
+    }
+    ui->colorStyleComboBox->setCurrentIndex(
+                ui->colorStyleComboBox->findText(
+                    styleName(set->value("editor/style", "stylers.model").toString())));
 
     ui->fontSpinBox->setValue(set->value("editor/font/size", 10).toInt());
     ui->fontComboBox->setCurrentFont(QFont(set->value("editor/font/style", "DejaVu Sans Mono").toString()));
 
-    int replaceTabs = set->value("editor/replaceTabs", 0).toInt();
-    ui->groupReplaceTabs->setChecked(replaceTabs != 0);
-    if (replaceTabs != 0)
-        ui->spinReplaceTabs->setValue(replaceTabs);
+    ui->checkBox_saveOnAction->setChecked(set->value("editor/saveOnAction", true).toBool());
+    ui->checkBox_replaceTabsWithSpaces->setChecked(set->value("editor/tabsToSpaces", true).toBool());
+    ui->spinTabWidth->setValue(set->value("editor/tabWidth", 4).toInt());
 
     ui->projectPath->setText(set->value("build/defaultprojectpath", defaultProjectPath()).toString());
     ui->projectTemplatesPath->setText(set->value("build/templatepath", defaultTemplatePath()).toString());
@@ -162,10 +125,12 @@ void ConfigDialog::load()
 
 void ConfigDialog::save()
 {
-    set->setValue("editor/colorstyle", ui->colorStyleComboBox->currentText().split(':').at(0));
+    set->setValue("editor/style", stylePath(ui->colorStyleComboBox->currentText()));
     set->setValue("editor/font/size", ui->fontSpinBox->value());
     set->setValue("editor/font/style", ui->fontComboBox->currentFont().family());
-    set->setValue("editor/replaceTabs", ui->groupReplaceTabs->isChecked()? ui->spinReplaceTabs->value() : 0);
+    set->setValue("editor/saveOnAction", ui->checkBox_saveOnAction->isChecked());
+    set->setValue("editor/tabsToSpaces", ui->checkBox_replaceTabsWithSpaces->isChecked());
+    set->setValue("editor/tabWidth", ui->spinTabWidth->value());
     set->setValue("build/defaultprojectpath", ui->projectPath->text());
     set->setValue("build/templatepath", ui->projectTemplatesPath->text());
     set->setValue("build/templateurl", ui->templateUrl->text());
@@ -185,19 +150,8 @@ void ConfigDialog::on_buttonBox_accepted()
 
 void ConfigDialog::refreshEditor()
 {
-    if (defColors)
-        delete defColors;
-    if (syntax)
-        syntax->deleteLater();
-    QString currentStyle = ui->colorStyleComboBox->itemData(ui->colorStyleComboBox->currentIndex()).toString();
-    defColors = new QsvColorDefFactory( currentStyle );
-    syntax    = new QsvSyntaxHighlighter( ui->plainTextEdit, defColors, langCpp );
-    QPalette p = ui->plainTextEdit->palette();
-    p.setColor(QPalette::Base, defColors->getColorDef("dsWidgetBackground").getBackground());
-    ui->plainTextEdit->setPalette(p);
-    QFont font(ui->fontComboBox->currentFont());
-    font.setPointSize(ui->fontSpinBox->value());
-    ui->plainTextEdit->setFont(font);
+    QString currentStyle = ui->colorStyleComboBox->currentText();
+    ui->codeEditor->loadStyle(stylePath(currentStyle));
 }
 
 void ConfigDialog::on_projectPathSetButton_clicked()

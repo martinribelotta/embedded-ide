@@ -29,8 +29,6 @@
 
 #include <QtDebug>
 
-#include <qsvsh/qsvlangdeffactory.h>
-
 static QMenu *lastProjects(QWidget *parent) {
     QMenu *m = new QMenu(parent);
     QSettings sets;
@@ -83,6 +81,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->projectView, &ProjectView::projectOpened, this, &MainWindow::projectOpened);
     connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
     connect(ui->projectView, &ProjectView::startBuild, [this](const QString& target) {
+        if (QSettings().value("editor/saveOnAction").toBool())
+            ui->centralWidget->saveAll();
         QString projectPath = ui->projectView->projectPath().absolutePath();
         QStringList args;
         args << "-f" << ui->projectView->project() << target;
@@ -105,9 +105,6 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->loggerApplication->addText(text, Qt::blue);
         ui->loggerDebugger->addText("<br>", Qt::blue);
     });
-
-    QsvLangDefFactory::getInstanse()->loadDirectory(":/qsvsh/qtsourceview/data/langs");
-    QsvLangDefFactory::getInstanse()->addMimeTypes(":/qsvsh/qtsourceview/data/mime.types");
 
     QMenu *menu = new QMenu(this);
     QWidgetAction *wa = new QWidgetAction(menu);

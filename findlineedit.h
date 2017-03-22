@@ -16,6 +16,9 @@ public:
 
     bool isPropertyChecked(const char *name) const { return property(name).toBool(); }
 
+signals:
+    void menuActionClicked(const QString& prop, bool status);
+
 private:
     QToolButton *optionsButton;
 };

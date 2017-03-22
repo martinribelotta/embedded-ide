@@ -51,6 +51,7 @@ void FindLineEdit::addMenuAction(const QHash<QString, QString> &actionList)
         connect(actionCheckeable(menu->addAction(action)), &QAction::triggered,
                 [this, prop](bool ck) {
             setProperty(prop.toLatin1().constData(), QVariant(ck));
+            emit menuActionClicked(prop, ck);
         });
         setProperty(prop.toLatin1().constData(), false);
     }
