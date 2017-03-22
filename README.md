@@ -2,7 +2,7 @@
 
 Makefile based, C/C++ IDE
 
-![Main Screen](docs/screen_0.png "" "width: 500px;")
+![Main Screen](docs/screen_0.png)
 
 ## Features
   - Syntax higlither (C/C++/Makefile)
