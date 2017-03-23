@@ -47,5 +47,6 @@ private:
     // QsvSyntaxHighlighter *syntax;
 };
 
+extern QString stylePath(const QString& styleName);
 
 #endif // CONFIGDIALOG_H

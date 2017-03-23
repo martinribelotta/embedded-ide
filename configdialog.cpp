@@ -23,7 +23,7 @@
 
 #include "appconfig.h"
 
-static QString stylePath(const QString& styleName)
+QString stylePath(const QString& styleName)
 {
     return QString(":/styles/%1.xml").arg(styleName);
 }
