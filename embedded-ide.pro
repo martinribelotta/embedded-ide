@@ -64,7 +64,8 @@ SOURCES += main.cpp\
     mainmenuwidget.cpp \
     formfindreplace.cpp \
     findlineedit.cpp \
-    toolmanager.cpp
+    toolmanager.cpp \
+    appconfig.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -100,7 +101,8 @@ HEADERS  += mainwindow.h \
     mainmenuwidget.h \
     formfindreplace.h \
     findlineedit.h \
-    toolmanager.h
+    toolmanager.h \
+    appconfig.h
 
 FORMS    += mainwindow.ui \
     projectnewdialog.ui \
