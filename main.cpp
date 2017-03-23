@@ -13,7 +13,6 @@
 #include <QFileInfo>
 #include <QInputDialog>
 #include <QMessageBox>
-#include <QSettings>
 #include <configdialog.h>
 
 int main(int argc, char *argv[])
@@ -37,7 +36,6 @@ int main(int argc, char *argv[])
     qDebug() << "Support ssl " << QSslSocket::supportsSsl();
     AppConfig::mutable_instance().adjustPath();
 
-    QSettings sets;
     QDir projectDir = AppConfig::mutable_instance().builDefaultProjectPath();
     QDir wSpace(projectDir.absoluteFilePath(".."));
     if (!wSpace.exists()) {
@@ -46,8 +44,6 @@ int main(int argc, char *argv[])
             return 0;
         }
         wSpace.setPath(d.path());
-        sets.setValue("build/defaultprojectpath", wSpace.absoluteFilePath("projects"));
-        sets.setValue("build/templatepath", wSpace.absoluteFilePath("templates"));
     }
     if (!wSpace.exists()) {
         auto root = QDir::root();

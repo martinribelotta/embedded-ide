@@ -19,6 +19,7 @@ class ConfigDialog : public QDialog
 public:
     explicit ConfigDialog(QWidget *parent = 0);
     ~ConfigDialog();
+    static void setEditorSaveOnAction(bool val);
 
 private slots:
     void load();

@@ -30,6 +30,7 @@
 #include "documentarea.h"
 #include "taglist.h"
 #include "formfindreplace.h"
+#include "appconfig.h"
 
 #include <Qsci/qscilexeravs.h>
 #include <Qsci/qscilexerbash.h>
@@ -520,15 +521,18 @@ void CodeEditor::refreshHighlighterLines()
 
 void CodeEditor::loadConfig()
 {
-    QFont fonts(QSettings().value("editor/font/style", "DejaVu Sans Mono").toString());
-    fonts.setPointSize(QSettings().value("editor/font/size", 10).toInt());
+    AppConfig& config = AppConfig::mutable_instance();
+    QFont fonts(config.editorFontStyle());
+    fonts.setPointSize(config.editorFontSize());
     setFont(fonts);
 
+    // TODO(denisacostaq@gmai.com): Is possible to use config.editorStyle()
+    // here?... default value is not the same
     loadStyle(QSettings().value("editor/style", ":/styles/Solarized-light.xml"
                                                 /*":/styles/stylers.model.xml"*/).toString());
 
-    setIndentationsUseTabs(!QSettings().value("editor/tabsToSpaces", true).toBool());
-    setTabWidth(QSettings().value("editor/tabWidth", 4).toInt());
+    setIndentationsUseTabs(!config.editorTabsToSpaces());
+    setTabWidth(config.editorTabWidth());
     setAutoIndent(true);
     setBraceMatching(StrictBraceMatch);
     resetMatchedBraceIndicator();

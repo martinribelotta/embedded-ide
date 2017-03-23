@@ -218,7 +218,7 @@ void AppConfig::adjustPath()
     ;
     QString path = qgetenv("PATH");
     QStringList pathList = path.split(path_separator);
-    QStringList additional = QSettings().value("build/additional_path").toStringList()
+    QStringList additional = mutable_instance().buildAdditionalPaths();
 #ifdef Q_OS_WIN
             .replaceInStrings("/", R"(\)")
 #endif

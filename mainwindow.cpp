@@ -8,6 +8,7 @@
 #include "aboutdialog.h"
 #include "debuginterface.h"
 #include "mainmenuwidget.h"
+#include "appconfig.h"
 
 #include <QRegularExpression>
 #include <QCloseEvent>
@@ -84,8 +85,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
     connect(ui->projectView, &ProjectView::startBuild,
             [this](const QString &target) {
+              AppConfig& config = AppConfig::mutable_instance();
               if (this->goToBuildStage()) {
-                if (QSettings().value("editor/saveOnAction").toBool())
+                if (config.editorSaveOnAction())
                   ui->centralWidget->saveAll();
                 QString projectPath =
                     ui->projectView->projectPath().absolutePath();
@@ -308,9 +310,10 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
 }
 
 bool MainWindow::goToBuildStage() {
+  static const QString saveBeforeBuildPrompt = "behavior/savebeforebuildprompt";
   if (ui->centralWidget->hasUnsavedChanges()) {
     bool promptEnabled =
-        QSettings().value("behavior/savebeforebuildprompt", true).toBool();
+        QSettings().value(saveBeforeBuildPrompt, true).toBool();
     if (promptEnabled) {
       QMessageBox msgbox(
           QMessageBox::Icon::Question, tr("Save files"),
@@ -321,14 +324,13 @@ bool MainWindow::goToBuildStage() {
       msgbox.exec();
       if (msgbox.result() == QMessageBox::StandardButton::Yes ||
           msgbox.result() == QMessageBox::StandardButton::No) {
-        QSettings().setValue("behavior/savebeforebuildprompt",
+        QSettings().setValue(saveBeforeBuildPrompt,
                              !msgbox.checkBox()->isChecked());
         if (msgbox.checkBox()->isChecked()) {
           this->statusBar()->showMessage(tr("This dialog not will show again"),
                                          2000);
-          QSettings().setValue(
-              "editor/saveOnAction",
-              msgbox.result() == QMessageBox::StandardButton::Yes);
+          ConfigDialog::setEditorSaveOnAction(
+                msgbox.result() == QMessageBox::StandardButton::Yes);
         }
         if (msgbox.result() == QMessageBox::StandardButton::Yes) {
           ui->centralWidget->saveAll();
@@ -337,7 +339,7 @@ bool MainWindow::goToBuildStage() {
         return false;
       }
     } else {
-      if (QSettings().value("editor/saveOnAction", false).toBool()) {
+      if (AppConfig::mutable_instance().editorSaveOnAction()) {
         ui->centralWidget->saveAll();
       }
     }

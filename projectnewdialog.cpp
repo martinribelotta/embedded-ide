@@ -7,7 +7,6 @@
 #include <QFile>
 #include <QPushButton>
 #include <QFileDialog>
-#include <QSettings>
 #include <QItemDelegate>
 
 #include <QtDebug>
@@ -125,7 +124,8 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     DelegateFactory::registerClass<ListEditorDelegate>("items");
     DelegateFactory::registerClass<StringEditorDelegate>("string");
     QDir defTemplates(":/build/templates/");
-    QDir localTemplates(QSettings().value("build/templatepath").toString());
+    QDir localTemplates(
+          AppConfig::mutable_instance().builTemplatePath());
     ui->setupUi(this);
     ui->parameterTable->horizontalHeader()->setStretchLastSection(true);
     QStringList prjList;
@@ -138,7 +138,9 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
         if (!prjList.contains(info.baseName()))
             ui->templateFile->addItem(info.baseName(), info.absoluteFilePath());
     }
-    ui->projectPath->setText(::projectPath(QSettings().value("build/defaultprojectpath").toString()));
+    ui->projectPath->setText(
+          ::projectPath(
+            AppConfig::mutable_instance().builDefaultProjectPath()));
     refreshProjectName();
 }
 

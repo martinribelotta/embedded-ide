@@ -54,6 +54,11 @@ ConfigDialog::~ConfigDialog()
     delete ui;
 }
 
+void ConfigDialog::setEditorSaveOnAction(bool val)
+{
+  AppConfig::mutable_instance().setEditorSaveOnAction(val);
+}
+
 void ConfigDialog::load()
 {
     ui->codeEditor->load(":/help/reference-code.c");

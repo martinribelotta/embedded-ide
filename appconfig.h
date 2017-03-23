@@ -2,10 +2,12 @@
 #define APPCONFIG_H
 
 #include "configdialog.h"
+#include "dialogconfigworkspace.h"
 
 class AppConfig
 {
     friend ConfigDialog;
+    friend DialogConfigWorkspace;
   public:
     const QStringList& buildAdditionalPaths() const;
     const QString& editorStyle() const;

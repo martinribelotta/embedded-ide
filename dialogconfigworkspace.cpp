@@ -49,3 +49,13 @@ void DialogConfigWorkspace::on_toolSelectPath_clicked()
         }
     }
 }
+
+void DialogConfigWorkspace::on_buttonBox_accepted()
+{
+  QDir wSpace;
+  wSpace.setPath(this->path());
+  AppConfig::mutable_instance().setBuilDefaultProjectPath(
+        wSpace.absoluteFilePath("projects"));
+  AppConfig::mutable_instance().setBuilTemplatePath(
+        wSpace.absoluteFilePath("templates"));
+}
