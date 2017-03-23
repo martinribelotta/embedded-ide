@@ -577,8 +577,6 @@ void CodeEditor::loadConfig()
 bool CodeEditor::loadStyle(const QString &xmlStyleFile)
 {
     QFile file(xmlStyleFile);
-
-    qDebug() << "file.fileName()" << file.fileName();
     if (!file.open(QFile::ReadOnly)) {
         qDebug() << "cannot load" << xmlStyleFile << "style:" << file.errorString();
         return false;

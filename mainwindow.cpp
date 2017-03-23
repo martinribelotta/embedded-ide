@@ -85,10 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
     connect(ui->projectView, &ProjectView::startBuild,
             [this](const QString &target) {
-              AppConfig& config = AppConfig::mutableInstance();
               if (this->goToBuildStage()) {
-                if (config.editorSaveOnAction())
-                  ui->centralWidget->saveAll();
                 QString projectPath =
                     ui->projectView->projectPath().absolutePath();
                 QStringList args;
