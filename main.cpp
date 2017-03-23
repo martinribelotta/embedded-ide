@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
         if (!root.mkpath(wSpace.absolutePath())) {
             QMessageBox::critical(nullptr,
                                   a.tr("Error"),
-                                  a.tr("Error creating directory %1 because %2")
+                                  a.tr("Error creating directory %1")
                                   .arg(wSpace.absolutePath()));
             return 0;
         }
