@@ -33,7 +33,7 @@ AppConfigData* appData()
   return &appData;
 }
 
-AppConfig& AppConfig::mutable_instance()
+AppConfig& AppConfig::mutableInstance()
 {
   static AppConfig appConfig;
   return appConfig;
@@ -218,7 +218,7 @@ void AppConfig::adjustPath()
     ;
     QString path = qgetenv("PATH");
     QStringList pathList = path.split(path_separator);
-    QStringList additional = mutable_instance().buildAdditionalPaths();
+    QStringList additional = mutableInstance().buildAdditionalPaths();
 #ifdef Q_OS_WIN
             .replaceInStrings("/", R"(\)")
 #endif

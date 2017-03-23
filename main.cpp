@@ -34,9 +34,9 @@ int main(int argc, char *argv[])
     a.installTranslator(&tr);
 
     qDebug() << "Support ssl " << QSslSocket::supportsSsl();
-    AppConfig::mutable_instance().adjustPath();
+    AppConfig::mutableInstance().adjustPath();
 
-    QDir projectDir = AppConfig::mutable_instance().builDefaultProjectPath();
+    QDir projectDir = AppConfig::mutableInstance().builDefaultProjectPath();
     QDir wSpace(projectDir.absoluteFilePath(".."));
     if (!wSpace.exists()) {
         DialogConfigWorkspace d;

@@ -56,7 +56,7 @@ ConfigDialog::~ConfigDialog()
 
 void ConfigDialog::setEditorSaveOnAction(bool val)
 {
-  AppConfig::mutable_instance().setEditorSaveOnAction(val);
+  AppConfig::mutableInstance().setEditorSaveOnAction(val);
 }
 
 void ConfigDialog::load()
@@ -68,7 +68,7 @@ void ConfigDialog::load()
         ui->colorStyleComboBox->addItem(styleName(path));
     }
 
-    AppConfig& config = AppConfig::mutable_instance();
+    AppConfig& config = AppConfig::mutableInstance();
 
     ui->colorStyleComboBox->setCurrentIndex(
           ui->colorStyleComboBox->findText(styleName(config.editorStyle())));
@@ -91,7 +91,7 @@ void ConfigDialog::load()
 
 void ConfigDialog::save()
 {
-  AppConfig& config = AppConfig::mutable_instance();
+  AppConfig& config = AppConfig::mutableInstance();
   config.setEditorStyle(ui->colorStyleComboBox->currentText());
   config.setEditorFontSize(ui->fontSpinBox->value());
   config.setEditorFontStyle(ui->fontComboBox->currentFont().family());
@@ -155,7 +155,7 @@ void ConfigDialog::on_projectTemplatesPathChange_clicked()
 
 void ConfigDialog::on_projectTemplatesDownload_clicked()
 {
-  AppConfig& config = AppConfig::mutable_instance();
+  AppConfig& config = AppConfig::mutableInstance();
     QUrl templateUrl(ui->templateUrl->text());
     if (!templateUrl.isValid())
         templateUrl = QUrl(config.builTemplateUrl());

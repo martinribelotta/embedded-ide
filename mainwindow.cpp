@@ -85,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
     connect(ui->projectView, &ProjectView::startBuild,
             [this](const QString &target) {
-              AppConfig& config = AppConfig::mutable_instance();
+              AppConfig& config = AppConfig::mutableInstance();
               if (this->goToBuildStage()) {
                 if (config.editorSaveOnAction())
                   ui->centralWidget->saveAll();
@@ -339,7 +339,7 @@ bool MainWindow::goToBuildStage() {
         return false;
       }
     } else {
-      if (AppConfig::mutable_instance().editorSaveOnAction()) {
+      if (AppConfig::mutableInstance().editorSaveOnAction()) {
         ui->centralWidget->saveAll();
       }
     }

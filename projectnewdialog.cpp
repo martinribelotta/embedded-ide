@@ -110,7 +110,7 @@ QString projectPath(const QString& path)
 {
     QDir projecPath(
           path.isEmpty()
-          ? AppConfig::mutable_instance().defaultProjectPath()
+          ? AppConfig::mutableInstance().defaultProjectPath()
           : path);
     if (!projecPath.exists())
         projecPath.mkpath(".");
@@ -125,7 +125,7 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     DelegateFactory::registerClass<StringEditorDelegate>("string");
     QDir defTemplates(":/build/templates/");
     QDir localTemplates(
-          AppConfig::mutable_instance().builTemplatePath());
+          AppConfig::mutableInstance().builTemplatePath());
     ui->setupUi(this);
     ui->parameterTable->horizontalHeader()->setStretchLastSection(true);
     QStringList prjList;
@@ -140,7 +140,7 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     }
     ui->projectPath->setText(
           ::projectPath(
-            AppConfig::mutable_instance().builDefaultProjectPath()));
+            AppConfig::mutableInstance().builDefaultProjectPath()));
     refreshProjectName();
 }
 

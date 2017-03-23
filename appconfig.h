@@ -6,6 +6,9 @@
 
 class AppConfig
 {
+    // WARNING(denisacostaq@gmail.com):
+    // These classes can access to the private constructor, but do not create
+    // an instance through this, use mutableInstance instead.
     friend ConfigDialog;
     friend DialogConfigWorkspace;
   public:
@@ -26,7 +29,7 @@ class AppConfig
 
     void adjustPath();
 
-    static AppConfig& mutable_instance();
+    static AppConfig& mutableInstance();
   private:
     AppConfig();
     void load();

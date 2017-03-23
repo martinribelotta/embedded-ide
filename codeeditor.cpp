@@ -521,7 +521,7 @@ void CodeEditor::refreshHighlighterLines()
 
 void CodeEditor::loadConfig()
 {
-    AppConfig& config = AppConfig::mutable_instance();
+    AppConfig& config = AppConfig::mutableInstance();
     QFont fonts(config.editorFontStyle());
     fonts.setPointSize(config.editorFontSize());
     setFont(fonts);

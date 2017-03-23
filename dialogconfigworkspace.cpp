@@ -12,7 +12,7 @@ DialogConfigWorkspace::DialogConfigWorkspace(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->workspaceEditor->setText(
-          AppConfig::mutable_instance().defaultApplicationResources());
+          AppConfig::mutableInstance().defaultApplicationResources());
 }
 
 DialogConfigWorkspace::~DialogConfigWorkspace()
@@ -54,8 +54,8 @@ void DialogConfigWorkspace::on_buttonBox_accepted()
 {
   QDir wSpace;
   wSpace.setPath(this->path());
-  AppConfig::mutable_instance().setBuilDefaultProjectPath(
+  AppConfig::mutableInstance().setBuilDefaultProjectPath(
         wSpace.absoluteFilePath("projects"));
-  AppConfig::mutable_instance().setBuilTemplatePath(
+  AppConfig::mutableInstance().setBuilTemplatePath(
         wSpace.absoluteFilePath("templates"));
 }
