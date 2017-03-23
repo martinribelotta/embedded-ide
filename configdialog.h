@@ -7,7 +7,6 @@ namespace Ui {
 class ConfigDialog;
 }
 
-class QSettings;
 class QProcess;
 class QsvColorDefFactory;
 class QsvLangDef;
@@ -20,6 +19,7 @@ class ConfigDialog : public QDialog
 public:
     explicit ConfigDialog(QWidget *parent = 0);
     ~ConfigDialog();
+    static void setEditorSaveOnAction(bool val);
 
 private slots:
     void load();
@@ -42,17 +42,10 @@ private slots:
 
 private:
     Ui::ConfigDialog *ui;
-    QSettings *set;
     // QsvColorDefFactory *defColors;
     // QsvLangDef *langCpp;
     // QsvSyntaxHighlighter *syntax;
 };
-
-extern void adjustPath();
-extern QString defaultTemplateUrl();
-extern QString defaultApplicationResources();
-extern QString defaultProjectPath();
-extern QString defaultTemplatePath();
 
 
 #endif // CONFIGDIALOG_H

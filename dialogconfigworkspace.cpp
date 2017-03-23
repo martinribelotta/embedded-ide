@@ -2,6 +2,7 @@
 #include "ui_dialogconfigworkspace.h"
 
 #include "configdialog.h"
+#include "appconfig.h"
 
 #include <QFileDialog>
 
@@ -10,7 +11,8 @@ DialogConfigWorkspace::DialogConfigWorkspace(QWidget *parent) :
     ui(new Ui::DialogConfigWorkspace)
 {
     ui->setupUi(this);
-    ui->workspaceEditor->setText(defaultApplicationResources());
+    ui->workspaceEditor->setText(
+          AppConfig::mutableInstance().defaultApplicationResources());
 }
 
 DialogConfigWorkspace::~DialogConfigWorkspace()
@@ -46,4 +48,14 @@ void DialogConfigWorkspace::on_toolSelectPath_clicked()
             ui->workspaceEditor->setText(sel.first());
         }
     }
+}
+
+void DialogConfigWorkspace::on_buttonBox_accepted()
+{
+  QDir wSpace;
+  wSpace.setPath(this->path());
+  AppConfig::mutableInstance().setBuilDefaultProjectPath(
+        wSpace.absoluteFilePath("projects"));
+  AppConfig::mutableInstance().setBuilTemplatePath(
+        wSpace.absoluteFilePath("templates"));
 }

@@ -20,7 +20,9 @@ public:
 private slots:
     void on_toolSelectPath_clicked();
 
-private:
+    void on_buttonBox_accepted();
+
+  private:
     Ui::DialogConfigWorkspace *ui;
 };
 

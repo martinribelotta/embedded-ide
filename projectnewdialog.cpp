@@ -1,12 +1,12 @@
 #include "projectnewdialog.h"
 #include "ui_projectnewdialog.h"
+#include "appconfig.h"
 
 #include <QDir>
 #include <QFileInfo>
 #include <QFile>
 #include <QPushButton>
 #include <QFileDialog>
-#include <QSettings>
 #include <QItemDelegate>
 
 #include <QtDebug>
@@ -106,11 +106,12 @@ private:
     }
 };
 
-extern QString defaultProjectPath();
-
 QString projectPath(const QString& path)
 {
-    QDir projecPath(path.isEmpty()? defaultProjectPath() : path);
+    QDir projecPath(
+          path.isEmpty()
+          ? AppConfig::mutableInstance().defaultProjectPath()
+          : path);
     if (!projecPath.exists())
         projecPath.mkpath(".");
     return projecPath.absolutePath();
@@ -123,7 +124,8 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     DelegateFactory::registerClass<ListEditorDelegate>("items");
     DelegateFactory::registerClass<StringEditorDelegate>("string");
     QDir defTemplates(":/build/templates/");
-    QDir localTemplates(QSettings().value("build/templatepath").toString());
+    QDir localTemplates(
+          AppConfig::mutableInstance().builTemplatePath());
     ui->setupUi(this);
     ui->parameterTable->horizontalHeader()->setStretchLastSection(true);
     QStringList prjList;
@@ -136,7 +138,9 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
         if (!prjList.contains(info.baseName()))
             ui->templateFile->addItem(info.baseName(), info.absoluteFilePath());
     }
-    ui->projectPath->setText(::projectPath(QSettings().value("build/defaultprojectpath").toString()));
+    ui->projectPath->setText(
+          ::projectPath(
+            AppConfig::mutableInstance().builDefaultProjectPath()));
     refreshProjectName();
 }
 
