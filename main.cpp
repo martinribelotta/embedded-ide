@@ -1,5 +1,7 @@
 #include "dialogconfigworkspace.h"
 #include "mainwindow.h"
+#include "appconfig.h"
+
 #include <QApplication>
 #include <QtDebug>
 #include <QSslSocket>
@@ -33,10 +35,10 @@ int main(int argc, char *argv[])
     a.installTranslator(&tr);
 
     qDebug() << "Support ssl " << QSslSocket::supportsSsl();
-    adjustPath();
+    AppConfig::mutable_instance().adjustPath();
 
     QSettings sets;
-    QDir projectDir = sets.value("build/defaultprojectpath", defaultProjectPath()).toString();
+    QDir projectDir = AppConfig::mutable_instance().builDefaultProjectPath();
     QDir wSpace(projectDir.absoluteFilePath(".."));
     if (!wSpace.exists()) {
         DialogConfigWorkspace d;

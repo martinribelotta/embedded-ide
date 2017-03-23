@@ -1,5 +1,6 @@
 #include "projectnewdialog.h"
 #include "ui_projectnewdialog.h"
+#include "appconfig.h"
 
 #include <QDir>
 #include <QFileInfo>
@@ -106,11 +107,12 @@ private:
     }
 };
 
-extern QString defaultProjectPath();
-
 QString projectPath(const QString& path)
 {
-    QDir projecPath(path.isEmpty()? defaultProjectPath() : path);
+    QDir projecPath(
+          path.isEmpty()
+          ? AppConfig::mutable_instance().defaultProjectPath()
+          : path);
     if (!projecPath.exists())
         projecPath.mkpath(".");
     return projecPath.absolutePath();

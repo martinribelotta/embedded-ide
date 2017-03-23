@@ -2,6 +2,7 @@
 #include "ui_dialogconfigworkspace.h"
 
 #include "configdialog.h"
+#include "appconfig.h"
 
 #include <QFileDialog>
 
@@ -10,7 +11,8 @@ DialogConfigWorkspace::DialogConfigWorkspace(QWidget *parent) :
     ui(new Ui::DialogConfigWorkspace)
 {
     ui->setupUi(this);
-    ui->workspaceEditor->setText(defaultApplicationResources());
+    ui->workspaceEditor->setText(
+          AppConfig::mutable_instance().defaultApplicationResources());
 }
 
 DialogConfigWorkspace::~DialogConfigWorkspace()

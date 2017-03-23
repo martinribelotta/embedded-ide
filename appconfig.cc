@@ -104,6 +104,11 @@ QString AppConfig::defaultTemplatePath()
   return QDir(defaultApplicationResources()).absoluteFilePath("templates");
 }
 
+QString AppConfig::defaultTemplateUrl()
+{
+    return "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents";
+}
+
 AppConfig::AppConfig()
 {
   load();
@@ -130,7 +135,7 @@ void AppConfig::load()
         s.value(BUILD_TEMPLATE_PATH, defaultTemplatePath()).toString());
   this->setBuilTemplateUrl(
         s.value(BUILD_TEMPLATE_URL, defaultTemplateUrl()).toString());
-  this->setBuildAdditionalPath(
+  this->setBuildAdditionalPaths(
         s.value(BUILD_ADDITIONAL_PATHS).toStringList());
 }
 
@@ -147,6 +152,8 @@ void AppConfig::save()
   s.setValue(BUILD_TEMPLATE_PATH, appData()->builTemplatePath);
   s.setValue(BUILD_TEMPLATE_URL, appData()->builTemplateUrl);
   s.setValue(BUILD_ADDITIONAL_PATHS, appData()->buildAdditionalPaths);
+
+  this->adjustPath();
 }
 
 void AppConfig::setBuildAdditionalPaths(
@@ -198,4 +205,25 @@ void AppConfig::setBuilTemplatePath(const QString &builTemplatePath)
 void AppConfig::setBuilTemplateUrl(const QString &builTemplateUrl)
 {
   appData()->builTemplateUrl = builTemplateUrl;
+}
+
+void AppConfig::adjustPath()
+{
+    const QChar path_separator
+#ifdef Q_OS_WIN
+    (';')
+#else
+    (':')
+#endif
+    ;
+    QString path = qgetenv("PATH");
+    QStringList pathList = path.split(path_separator);
+    QStringList additional = QSettings().value("build/additional_path").toStringList()
+#ifdef Q_OS_WIN
+            .replaceInStrings("/", R"(\)")
+#endif
+    ;
+    pathList = additional + pathList;
+    path = pathList.join(path_separator);
+    qputenv("PATH", path.toLocal8Bit());
 }

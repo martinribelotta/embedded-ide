@@ -1,7 +1,6 @@
 #include "configdialog.h"
 #include "ui_configdialog.h"
 
-#include <QSettings>
 #include <QDir>
 #include <QFile>
 #include <QFileDialog>
@@ -22,26 +21,7 @@
 
 #include "filedownloader.h"
 
-void adjustPath()
-{
-    const QChar path_separator
-#ifdef Q_OS_WIN
-    (';')
-#else
-    (':')
-#endif
-    ;
-    QString path = qgetenv("PATH");
-    QStringList pathList = path.split(path_separator);
-    QStringList additional = QSettings().value("build/additional_path").toStringList()
-#ifdef Q_OS_WIN
-            .replaceInStrings("/", R"(\)")
-#endif
-    ;
-    pathList = additional + pathList;
-    path = pathList.join(path_separator);
-    qputenv("PATH", path.toLocal8Bit());
-}
+#include "appconfig.h"
 
 static QString stylePath(const QString& styleName)
 {
@@ -53,30 +33,9 @@ static QString styleName(const QString& stylePath)
     return QFileInfo(stylePath).completeBaseName();
 }
 
-QString defaultTemplateUrl()
-{
-    return "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents";
-}
-
-QString defaultApplicationResources()
-{
-    return QDir::home().absoluteFilePath("embedded-ide-workspace");
-}
-
-QString defaultProjectPath()
-{
-    return QDir(defaultApplicationResources()).absoluteFilePath("projects");
-}
-
-QString defaultTemplatePath()
-{
-    return QDir(defaultApplicationResources()).absoluteFilePath("templates");
-}
-
 ConfigDialog::ConfigDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ConfigDialog),
-    set(new QSettings(this))
+    ui(new Ui::ConfigDialog)
 {
     ui->setupUi(this);
     ui->additionalPathList->setModel(new QStringListModel(this));
@@ -103,44 +62,44 @@ void ConfigDialog::load()
     foreach(QString path, d.entryList(QStringList("*.xml"))) {
         ui->colorStyleComboBox->addItem(styleName(path));
     }
+
+    AppConfig& config = AppConfig::mutable_instance();
+
     ui->colorStyleComboBox->setCurrentIndex(
-                ui->colorStyleComboBox->findText(
-                    styleName(set->value("editor/style", "stylers.model").toString())));
+          ui->colorStyleComboBox->findText(styleName(config.editorStyle())));
 
-    ui->fontSpinBox->setValue(set->value("editor/font/size", 10).toInt());
-    ui->fontComboBox->setCurrentFont(QFont(set->value("editor/font/style", "DejaVu Sans Mono").toString()));
+    ui->fontSpinBox->setValue(config.editorFontSize());
+    ui->fontComboBox->setCurrentFont(config.editorFontStyle());
 
-    ui->checkBox_saveOnAction->setChecked(set->value("editor/saveOnAction", true).toBool());
-    ui->checkBox_replaceTabsWithSpaces->setChecked(set->value("editor/tabsToSpaces", true).toBool());
-    ui->spinTabWidth->setValue(set->value("editor/tabWidth", 4).toInt());
+    ui->checkBox_saveOnAction->setChecked(config.editorSaveOnAction());
+    ui->checkBox_replaceTabsWithSpaces->setChecked(config.editorTabsToSpaces());
+    ui->spinTabWidth->setValue(config.editorTabWidth());
 
-    ui->projectPath->setText(set->value("build/defaultprojectpath", defaultProjectPath()).toString());
-    ui->projectTemplatesPath->setText(set->value("build/templatepath", defaultTemplatePath()).toString());
-    ui->templateUrl->setText(set->value("build/templateurl", defaultTemplateUrl()).toString());
+    ui->projectPath->setText(config.builDefaultProjectPath());
+    ui->projectTemplatesPath->setText(config.builTemplatePath());
+    ui->templateUrl->setText(config.builTemplateUrl());
 
-    QStringList additionalPaths = set->value("build/additional_path").toStringList();
-    QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
-    model->setStringList(additionalPaths);
+    QStringListModel *model =
+        qobject_cast<QStringListModel*>(ui->additionalPathList->model());
+    model->setStringList(config.buildAdditionalPaths());
 }
 
 void ConfigDialog::save()
 {
-    set->setValue("editor/style", stylePath(ui->colorStyleComboBox->currentText()));
-    set->setValue("editor/font/size", ui->fontSpinBox->value());
-    set->setValue("editor/font/style", ui->fontComboBox->currentFont().family());
-    set->setValue("editor/saveOnAction", ui->checkBox_saveOnAction->isChecked());
-    set->setValue("editor/tabsToSpaces", ui->checkBox_replaceTabsWithSpaces->isChecked());
-    set->setValue("editor/tabWidth", ui->spinTabWidth->value());
-    set->setValue("build/defaultprojectpath", ui->projectPath->text());
-    set->setValue("build/templatepath", ui->projectTemplatesPath->text());
-    set->setValue("build/templateurl", ui->templateUrl->text());
-
-    QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
-    QStringList additionalPaths = model->stringList();
-    set->setValue("build/additional_path", additionalPaths);
-
-
-    adjustPath();
+  AppConfig& config = AppConfig::mutable_instance();
+  config.setEditorStyle(ui->colorStyleComboBox->currentText());
+  config.setEditorFontSize(ui->fontSpinBox->value());
+  config.setEditorFontStyle(ui->fontComboBox->currentFont().family());
+  config.setEditorSaveOnAction(ui->checkBox_saveOnAction->isChecked());
+  config.setEditorTabsToSpaces(ui->checkBox_replaceTabsWithSpaces->isChecked());
+  config.setEditorTabWidth(ui->spinTabWidth->value());
+  config.setBuilDefaultProjectPath(ui->projectPath->text());
+  config.setBuilTemplatePath(ui->projectTemplatesPath->text());
+  config.setBuilTemplateUrl(ui->templateUrl->text());
+  QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
+  QStringList additionalPaths = model->stringList();
+  config.setBuildAdditionalPaths(model->stringList());
+  config.save();
 }
 
 void ConfigDialog::on_buttonBox_accepted()
@@ -191,14 +150,15 @@ void ConfigDialog::on_projectTemplatesPathChange_clicked()
 
 void ConfigDialog::on_projectTemplatesDownload_clicked()
 {
+  AppConfig& config = AppConfig::mutable_instance();
     QUrl templateUrl(ui->templateUrl->text());
     if (!templateUrl.isValid())
-        templateUrl = QUrl(set->value("build/templateurl").toString());
+        templateUrl = QUrl(config.builTemplateUrl());
     if (!templateUrl.isValid()) {
         QMessageBox::critical(this, tr("Error"), tr("No valid URL: %1").arg(templateUrl.toString()));
         return;
     }
-    QDir templatePath(QSettings().value("build/templatepath").toString());
+    QDir templatePath(config.builTemplatePath());
     if (!templatePath.exists()) {
         if (!QDir::root().mkpath(templatePath.absolutePath())) {
             QMessageBox::critical(this, tr("Error"), tr("Error creating %1")

@@ -20,6 +20,7 @@ class AppConfig
     QString defaultApplicationResources();
     QString defaultProjectPath();
     QString defaultTemplatePath();
+    QString defaultTemplateUrl();
 
     void adjustPath();
 
