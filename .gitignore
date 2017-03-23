@@ -21,6 +21,8 @@ moc_*.cpp
 qrc_*.cpp
 ui_*.h
 Makefile*
+i18n/*.qm
+
 
 # QtCreator
 
