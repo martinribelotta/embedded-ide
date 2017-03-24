@@ -2,6 +2,7 @@
 #define CONFIGDIALOG_H
 
 #include <QDialog>
+#include <QIntValidator>
 
 namespace Ui {
 class ConfigDialog;
@@ -42,6 +43,7 @@ private slots:
 
 private:
     Ui::ConfigDialog *ui;
+    QIntValidator ipv4Port;
     // QsvColorDefFactory *defColors;
     // QsvLangDef *langCpp;
     // QsvSyntaxHighlighter *syntax;

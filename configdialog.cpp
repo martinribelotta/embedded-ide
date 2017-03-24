@@ -35,7 +35,8 @@ static QString styleName(const QString& stylePath)
 
 ConfigDialog::ConfigDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ConfigDialog)
+    ui(new Ui::ConfigDialog),
+    ipv4Port(0, 65535, this)
 {
     ui->setupUi(this);
     ui->additionalPathList->setModel(new QStringListModel(this));
@@ -47,6 +48,8 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     connect(ui->colorStyleComboBox, SIGNAL(activated(int)), this, SLOT(refreshEditor()));
 
     refreshEditor();
+
+    ui->proxyPort->setValidator(&ipv4Port);
 }
 
 ConfigDialog::~ConfigDialog()
