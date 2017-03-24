@@ -111,4 +111,6 @@ private:
     int ip;
 };
 
+QString stylePath(const QString& styleName);
+
 #endif // CODEEDITOR_H

@@ -528,8 +528,10 @@ void CodeEditor::loadConfig()
 
     // TODO(denisacostaq@gmai.com): Is possible to use config.editorStyle()
     // here?... default value is not the same
-    loadStyle(QSettings().value("editor/style", ":/styles/Solarized-light.xml"
-                                                /*":/styles/stylers.model.xml"*/).toString());
+    loadStyle(
+          stylePath(
+            QSettings().value("editor/style", "Solarized-light"
+                              /*"stylers.model.xml"*/).toString()));
 
     setIndentationsUseTabs(!config.editorTabsToSpaces());
     setTabWidth(config.editorTabWidth());
@@ -575,6 +577,8 @@ void CodeEditor::loadConfig()
 bool CodeEditor::loadStyle(const QString &xmlStyleFile)
 {
     QFile file(xmlStyleFile);
+
+    qDebug() << "file.fileName()" << file.fileName();
     if (!file.open(QFile::ReadOnly)) {
         qDebug() << "cannot load" << xmlStyleFile << "style:" << file.errorString();
         return false;

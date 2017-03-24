@@ -31,67 +31,67 @@
 <context>
     <name>CodeEditor</name>
     <message>
-        <location filename="../codeeditor.cpp" line="185"/>
+        <location filename="../codeeditor.cpp" line="186"/>
         <source>&amp;Undo</source>
         <translation>&amp;Deshacer</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="186"/>
+        <location filename="../codeeditor.cpp" line="187"/>
         <source>&amp;Redo</source>
         <translation>&amp;Reacer</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="188"/>
+        <location filename="../codeeditor.cpp" line="189"/>
         <source>Cu&amp;t</source>
         <translation>&amp;Cortar</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="189"/>
+        <location filename="../codeeditor.cpp" line="190"/>
         <source>&amp;Copy</source>
         <translation>C&amp;opiar</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="190"/>
+        <location filename="../codeeditor.cpp" line="191"/>
         <source>&amp;Paste</source>
         <translation>&amp;Pegar</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="191"/>
+        <location filename="../codeeditor.cpp" line="192"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="193"/>
+        <location filename="../codeeditor.cpp" line="194"/>
         <source>&amp;Select All</source>
         <translation>&amp;Seleccionar Todo</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="438"/>
+        <location filename="../codeeditor.cpp" line="439"/>
         <source>Find symbol under cursor</source>
         <translation>Buscar simbolo bajo el cursor</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="449"/>
+        <location filename="../codeeditor.cpp" line="450"/>
         <source>Document Modified</source>
         <translation>Documento Modificado</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="450"/>
+        <location filename="../codeeditor.cpp" line="451"/>
         <source>The document is not save. Save it?</source>
         <translation>El documentio no esta guardado. ¿Desea guardarlo?</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="453"/>
+        <location filename="../codeeditor.cpp" line="454"/>
         <source>Yes</source>
         <translation>Si</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="454"/>
+        <location filename="../codeeditor.cpp" line="455"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="455"/>
+        <location filename="../codeeditor.cpp" line="456"/>
         <source>Abort</source>
         <translation>Abortar</translation>
     </message>
@@ -178,44 +178,44 @@
         <translation>URL remota de plantillas</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="159"/>
-        <location filename="../configdialog.cpp" line="186"/>
+        <location filename="../configdialog.cpp" line="123"/>
+        <location filename="../configdialog.cpp" line="150"/>
         <source>Select directory</source>
         <translation>Seleccionar directorio</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="168"/>
+        <location filename="../configdialog.cpp" line="132"/>
         <source>Select file</source>
         <translation>Seleccionar archivo</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="198"/>
-        <location filename="../configdialog.cpp" line="204"/>
+        <location filename="../configdialog.cpp" line="163"/>
+        <location filename="../configdialog.cpp" line="169"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="198"/>
+        <location filename="../configdialog.cpp" line="163"/>
         <source>No valid URL: %1</source>
         <translation>URL no valida: %1</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="204"/>
+        <location filename="../configdialog.cpp" line="169"/>
         <source>Error creating %1</source>
         <translation>Error creando %1</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="212"/>
+        <location filename="../configdialog.cpp" line="177"/>
         <source>Downloading template list...</source>
         <translation>Descargando lista de plantillas...</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="230"/>
+        <location filename="../configdialog.cpp" line="195"/>
         <source>Network error</source>
         <translation>Error de red</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="237"/>
+        <location filename="../configdialog.cpp" line="202"/>
         <source>Downloading %1</source>
         <translation>Descargando %1</translation>
     </message>
@@ -356,37 +356,37 @@
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="29"/>
+        <location filename="../dialogconfigworkspace.cpp" line="31"/>
         <source>Select workspace PATH</source>
         <translation>Seleccionar Directorio de Trabajo</translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="36"/>
+        <location filename="../dialogconfigworkspace.cpp" line="38"/>
         <source>All directories (*)</source>
         <translation>Todos los directorios (*)</translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="38"/>
+        <location filename="../dialogconfigworkspace.cpp" line="40"/>
         <source>Look in</source>
         <translation>Mirar en</translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="39"/>
+        <location filename="../dialogconfigworkspace.cpp" line="41"/>
         <source>Directory</source>
         <translation>Directorio</translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="40"/>
+        <location filename="../dialogconfigworkspace.cpp" line="42"/>
         <source>File Type</source>
         <translation>Tipo de Archivo</translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="41"/>
+        <location filename="../dialogconfigworkspace.cpp" line="43"/>
         <source>Select file</source>
         <translation>Seleccionar archivo</translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="42"/>
+        <location filename="../dialogconfigworkspace.cpp" line="44"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -579,7 +579,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
-        <location filename="../mainwindow.cpp" line="279"/>
+        <location filename="../mainwindow.cpp" line="281"/>
         <source>Embedded IDE</source>
         <translation>Embedded IDE</translation>
     </message>
@@ -630,9 +630,9 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="140"/>
-        <location filename="../mainwindow.cpp" line="136"/>
-        <location filename="../mainwindow.cpp" line="234"/>
-        <location filename="../mainwindow.cpp" line="253"/>
+        <location filename="../mainwindow.cpp" line="138"/>
+        <location filename="../mainwindow.cpp" line="236"/>
+        <location filename="../mainwindow.cpp" line="255"/>
         <source>Open Project</source>
         <translation>Abrir Proyecto</translation>
     </message>
@@ -683,58 +683,58 @@
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="162"/>
+        <location filename="../mainwindow.cpp" line="164"/>
         <source>Application ready...</source>
         <translation>Aplicación Lista...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="188"/>
+        <location filename="../mainwindow.cpp" line="190"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="193"/>
+        <location filename="../mainwindow.cpp" line="195"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="195"/>
+        <location filename="../mainwindow.cpp" line="197"/>
         <source>Success</source>
         <translation>Éxito</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="236"/>
+        <location filename="../mainwindow.cpp" line="238"/>
         <source>Makefile (Makefile);;Make (*.mk);;All Files (*)</source>
         <translation>Makefile (Makefile);;Make (*.mk);;Todos los archivos (*)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="262"/>
+        <location filename="../mainwindow.cpp" line="264"/>
         <source>Embedded IDE %1</source>
         <translation>Embedded IDE %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="316"/>
+        <location filename="../mainwindow.cpp" line="319"/>
         <source>Save files</source>
         <translation>Guardar archivos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="317"/>
+        <location filename="../mainwindow.cpp" line="320"/>
         <source>Save all files before build?</source>
         <translation>Guardar todos los archivos antes de construir?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="319"/>
+        <location filename="../mainwindow.cpp" line="322"/>
         <source>Do not show again</source>
         <translation>No mostrar nuevamente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="327"/>
+        <location filename="../mainwindow.cpp" line="330"/>
         <source>This dialog not will show again</source>
         <translation>Este dialogo no se mostrara nuevamente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="136"/>
-        <location filename="../mainwindow.cpp" line="253"/>
+        <location filename="../mainwindow.cpp" line="138"/>
+        <location filename="../mainwindow.cpp" line="255"/>
         <source>Cannot open %1</source>
         <translation>No se puede abrir %1</translation>
     </message>
@@ -990,17 +990,17 @@
         <translation>Valor</translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.cpp" line="180"/>
+        <location filename="../projectnewdialog.cpp" line="184"/>
         <source>Project location</source>
         <translation>Ubicación del proyecto</translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.cpp" line="188"/>
+        <location filename="../projectnewdialog.cpp" line="192"/>
         <source>Open template</source>
         <translation>Abrir plantilla</translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.cpp" line="190"/>
+        <location filename="../projectnewdialog.cpp" line="194"/>
         <source>Template files (*.template);;Diff files (*.diff);;All files (*)</source>
         <translation>Archivos de plantilla (*.template);;Archivos DIFF (*.diff);;Todos los archivos (*)</translation>
     </message>
