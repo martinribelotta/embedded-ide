@@ -434,13 +434,17 @@
     </message>
     <message>
         <location filename="../projectview.ui" line="198"/>
-        <location filename="../projectview.ui" line="254"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show symbols&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../projectview.ui" line="234"/>
         <source>Project export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../projectview.ui" line="254"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tools&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

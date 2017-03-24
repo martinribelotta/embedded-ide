@@ -105,8 +105,6 @@
         <file>images/mimetypes/text-xml.svg</file>
         <file>images/mimetypes/unknown.svg</file>
         <file>qgdb/gdb_default_profile.ini</file>
-        <file>i18n/es.qm</file>
-        <file>i18n/zh.qm</file>
         <file>styles/Bespin.xml</file>
         <file>styles/Black board.xml</file>
         <file>styles/Choco.xml</file>
@@ -128,5 +126,7 @@
         <file>styles/Vibrant Ink.xml</file>
         <file>styles/vim Dark Blue.xml</file>
         <file>styles/Zenburn.xml</file>
+        <file>i18n/es.qm</file>
+        <file>i18n/zh.qm</file>
     </qresource>
 </RCC>

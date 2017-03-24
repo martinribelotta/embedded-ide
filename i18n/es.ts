@@ -462,7 +462,6 @@
     </message>
     <message>
         <location filename="../projectview.ui" line="198"/>
-        <location filename="../projectview.ui" line="254"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show symbols&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mostrar Símbolos&lt;/p&gt;&lt;/body&gt;&lt;/html</translation>
     </message>
@@ -470,6 +469,11 @@
         <location filename="../projectview.ui" line="234"/>
         <source>Project export</source>
         <translation>Exportar Proyecto</translation>
+    </message>
+    <message>
+        <location filename="../projectview.ui" line="254"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tools&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Herramientas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../projectview.ui" line="336"/>
