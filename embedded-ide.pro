@@ -134,21 +134,38 @@ DISTFILES += \
 
 RC_ICONS = images/embedded-ide.ico
 
-
 #######################################
 #i18n
 #######################################
-LANGUAGES = es zh
-defineReplace(prependAll) {
- for(a,$$1):result = $$result $$2$${a}$$3
- return($$result)
-}
-TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/i18n/, .ts)
-qtPrepareTool(LUPDATE, lupdate)
+### FIXIT:
+### LANGUAGES = es zh
+### defineReplace(prependAll) {
+###  for(a,$$1):result = $$result $$2$${a}$$3
+###  return($$result)
+### }
+### TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/i18n/, .ts)
+### qtPrepareTool(LUPDATE, lupdate)
+### qtPrepareTool(LRELEASE, lrelease)
+### ts-all.commands = cd $$PWD && $$LUPDATE $$PWD/embedded-ide.pro && $$LRELEASE $$PWD/embedded-ide.pro
+### QMAKE_EXTRA_TARGETS ''= ts-all
+### # FIXME(denisacostaq@gmail.com): this invoke the build always becuase the qm
+### # files are included as resouces, make it depend on "all" target
+### # ts-all.deppends = all not work
+### PRE_TARGETDEPS += ts-all
+
+TRANSLATIONS = i18n/es.ts \
+               i18n/zh.ts
+
+TRANSLATIONS_FILES =
 qtPrepareTool(LRELEASE, lrelease)
-ts-all.commands = cd $$PWD && $$LUPDATE $$PWD/embedded-ide.pro && $$LRELEASE $$PWD/embedded-ide.pro
-QMAKE_EXTRA_TARGETS ''= ts-all
-# FIXME(denisacostaq@gmail.com): this invoke the build always becuase the qm
-# files are included as resouces, make it depend on "all" target
-# ts-all.deppends = all not work
-PRE_TARGETDEPS += ts-all
+for(tsfile, TRANSLATIONS) {
+    qmfile = $$tsfile #$$shadowed($$tsfile)
+    qmfile ~= s,.ts$,.qm,
+    qmdir = $$dirname(qmfile)
+    !exists($$qmdir) {
+        mkpath($$qmdir)|error("Aborting.")
+    }
+    command = $$LRELEASE -removeidentical $$tsfile -qm $$qmfile
+    system($$command)|error("Failed to run: $$command")
+    TRANSLATIONS_FILES''= $$qmfile
+}

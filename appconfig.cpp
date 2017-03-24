@@ -220,9 +220,8 @@ void AppConfig::adjustPath()
     QStringList pathList = path.split(path_separator);
     QStringList additional = mutableInstance().buildAdditionalPaths();
 #ifdef Q_OS_WIN
-            .replaceInStrings("/", R"(\)")
+    additional.replaceInStrings("/", R"(\)");
 #endif
-    ;
     pathList = additional + pathList;
     path = pathList.join(path_separator);
     qputenv("PATH", path.toLocal8Bit());
