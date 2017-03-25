@@ -493,8 +493,6 @@ void CodeEditor::loadConfig()
     fonts.setPointSize(config.editorFontSize());
     setFont(fonts);
 
-    // TODO(denisacostaq@gmai.com): Is possible to use config.editorStyle()
-    // here?... default value is not the same
     loadStyle(stylePath(config.editorStyle()));
 
     setIndentationsUseTabs(!config.editorTabsToSpaces());
