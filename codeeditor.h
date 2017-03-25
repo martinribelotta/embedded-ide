@@ -37,13 +37,12 @@ protected:
 
 public slots:
     void insertCompletion(const QString &completion);
+
     void codeContextUpdate(const QStringList& list);
 
     void setMakefileInfo(const MakefileInfo *mk) { this->mk = mk; }
 
     void moveTextCursor(int row, int col);
-
-    void refreshHighlighterLines();
 
     void loadConfig();
     bool loadStyle(const QString& xmlStyleFile);
@@ -55,39 +54,8 @@ public slots:
     void findTagUnderCursor();
 
     int getIp() const { return ip; }
-    void clearDebugPointer() { setDebugPointer(-1, Qt::black); }
-    void setDebugPointer(int line, const QColor& c) {
-        if (highlightLines.contains(ip)) {
-            highlightLines.remove(ip);
-        }
-        ip = line;
-        if (ip != -1) {
-            highlightLines.insert(ip, c);
-        }
-        refreshHighlighterLines();
-    }
-
-    void addHighlightLine(int line, const QColor& c) {
-        highlightLines.insert(line, c);
-        refreshHighlighterLines();
-    }
-
-    void delHighlightLine(int line) {
-        highlightLines.remove(line);
-        refreshHighlighterLines();
-    }
-
-    void clearHighlightLines() {
-        highlightLines.clear();
-        refreshHighlighterLines();
-    }
-
-    void toggleHighlightLine(int line, const QColor& c) {
-        if (highlightLines.contains(line))
-            delHighlightLine(line);
-        else
-            addHighlightLine(line, c);
-    }
+    void clearDebugPointer() { setDebugPointer(-1); }
+    void setDebugPointer(int line);
 
 signals:
     void fileError(const QString& errorText);

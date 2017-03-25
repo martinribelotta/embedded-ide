@@ -24,13 +24,13 @@ DocumentArea::DocumentArea(QWidget *parent) :
     buttonBoxLayout->addWidget(saveAll);
     buttonBoxLayout->addWidget(closeAll);
 
-    reloadCurrent->setIcon(QIcon("://images/actions/view-refresh.svg"));
+    reloadCurrent->setIcon(QIcon(":/images/actions/view-refresh.svg"));
     reloadCurrent->setToolTip(tr("Reload File"));
-    closeAll->setIcon(QIcon("://images/actions/window-close.svg"));
+    closeAll->setIcon(QIcon(":/images/actions/window-close.svg"));
     closeAll->setToolTip(tr("Close All"));
-    saveAll->setIcon(QIcon("://images/document-save-all.svg"));
+    saveAll->setIcon(QIcon(":/images/document-save-all.svg"));
     saveAll->setToolTip(tr("Save All"));
-    saveCurrent->setIcon(QIcon("://images/document-save.svg"));
+    saveCurrent->setIcon(QIcon(":/images/document-save.svg"));
     saveCurrent->setToolTip(tr("Save File"));
     connect(closeAll, SIGNAL(clicked()), this, SLOT(closeAll()));
     connect(saveAll, SIGNAL(clicked()), this, SLOT(saveAll()));
@@ -46,25 +46,20 @@ DocumentArea::DocumentArea(QWidget *parent) :
 QList<CodeEditor *> DocumentArea::documentsDirty() const
 {
     QList<CodeEditor*> list;
-#if 0
+
     for(int i=0; i<count(); i++) {
         CodeEditor *e = qobject_cast<CodeEditor*>(widget(i));
         if (e) {
-            if (e->document()->isModified())
+            if (e->isModified())
                 list.append(e);
         }
     }
-#endif
+
     return list;
 }
 
 bool DocumentArea::hasUnsavedChanges() {
-  for(int i = 0; i < count(); ++i) {
-    if (tabText(i).contains(" [*]")) {
-      return true;
-    }
-  }
-  return false;
+  return !documentsDirty().isEmpty();
 }
 
 int DocumentArea::fileOpenAt(const QString &file, int row, int col, const MakefileInfo *mk)
@@ -114,7 +109,7 @@ int DocumentArea::fileOpenAndSetIP(const QString &file, int line, const Makefile
         if (lastIpEditor)
             lastIpEditor->clearDebugPointer();
         lastIpEditor = w;
-        lastIpEditor->setDebugPointer(line, Qt::blue);
+        lastIpEditor->setDebugPointer(line);
     }
     return idx;
 }

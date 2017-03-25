@@ -80,7 +80,6 @@ DebugInterface::DebugInterface(QWidget *parent) :
 
     ui->splitter_3->setSizes(QList<int>{300, 120, 120});
 
-    ui->buttonStopDebug->setDefaultAction(ui->actionStop);
     ui->buttonDebugStepOver->setDefaultAction(ui->actionNext);
     ui->buttonDebugStepInto->setDefaultAction(ui->actionStep_In);
     ui->buttonDebugStepOut->setDefaultAction(ui->actionStep_Out);
@@ -703,7 +702,7 @@ void DebugInterface::ICore_onCurrentFrameChanged(int frameIdx)
         m_currentLine = entry.m_line;
         m_currentFile = entry.m_sourcePath;
         open(m_currentFile);
-        qDebug() << "frame entry" << entry.m_line << entry.m_functionName << entry.m_functionName;
+        qDebug() << "frame entry" << entry.m_line << entry.m_functionName << entry.m_sourcePath;
         //ui->codeView->setHighlightLine(-1);
     }
 
@@ -780,22 +779,27 @@ void DebugInterface::ICore_onStateChanged(TargetState state)
     }
 }
 
-void DebugInterface::on_buttonStartDebug_clicked()
+void DebugInterface::on_buttonStartStopDebug_clicked()
 {
     if (!projectView)
         return;
-    OpenDialog d(window());
-    d.updateExecList(projectView->projectPath().absolutePath());
-    Settings cfg;
-    cfg.load(":/qgdb/gdb_default_profile.ini");
-    d.loadConfig(cfg);
-    if (d.exec() == QDialog::Accepted) {
-        d.saveConfig(&cfg);
-        if (cfg.m_connectionMode == MODE_LOCAL)
-            Core::getInstance().initLocal(&cfg, cfg.m_gdbPath, cfg.m_lastProgram, cfg.m_argumentList);
-        else
-            Core::getInstance().initRemote(&cfg, cfg.m_gdbPath, cfg.m_tcpProgram, cfg.m_tcpHost, cfg.m_tcpPort);
-        Core::getInstance().gdbSetBreakpointAtFunc("main");
-        Core::getInstance().getSourceFiles();
+    if (ui->buttonStartStopDebug->isChecked()) {
+        OpenDialog d(window());
+        d.updateExecList(projectView->projectPath().absolutePath());
+        Settings cfg;
+        cfg.load(":/qgdb/gdb_default_profile.ini");
+        d.loadConfig(cfg);
+        if (d.exec() == QDialog::Accepted) {
+            d.saveConfig(&cfg);
+            if (cfg.m_connectionMode == MODE_LOCAL)
+                Core::getInstance().initLocal(&cfg, cfg.m_gdbPath, cfg.m_lastProgram, cfg.m_argumentList);
+            else
+                Core::getInstance().initRemote(&cfg, cfg.m_gdbPath, cfg.m_tcpProgram, cfg.m_tcpHost, cfg.m_tcpPort);
+            Core::getInstance().gdbSetBreakpointAtFunc("main");
+            Core::getInstance().getSourceFiles();
+        } else
+            ui->buttonStartStopDebug->setChecked(false);
+    } else {
+        onStop();
     }
 }

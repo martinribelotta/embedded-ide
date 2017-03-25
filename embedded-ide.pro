@@ -20,8 +20,6 @@ TEMPLATE = app
 
 INCLUDEPATH += QHexEdit
 
-DEFINES += CIAA_IDE
-
 include(qgdb/qgdb.pri)
 
 QSCINTILLA_SRC_DIR=qscintilla/

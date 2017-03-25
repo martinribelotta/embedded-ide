@@ -70,12 +70,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->projectToolbar->hide();
-    QWidget *spacer = new QWidget(ui->projectToolbar);
-    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    ui->projectToolbar->insertWidget(ui->actionHelp, spacer);
-    (qobject_cast<QToolButton*>(ui->projectToolbar->widgetForAction(ui->actionProjectOpen)))->
-            setPopupMode(QToolButton::MenuButtonPopup);
 
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
@@ -118,8 +112,8 @@ MainWindow::MainWindow(QWidget *parent) :
     menuWidget->setProjectList(lastProjectsList());
     wa->setDefaultWidget(menuWidget);
     menu->addAction(wa);
-    connect(menuWidget, SIGNAL(projectNew()), this, SLOT(on_actionProjectNew_triggered()));
-    connect(menuWidget, SIGNAL(projectOpen()), this, SLOT(on_actionProjectOpen_triggered()));
+    connect(menuWidget, SIGNAL(projectNew()), this, SLOT(projectNew()));
+    connect(menuWidget, SIGNAL(projectOpen()), this, SLOT(projectOpen()));
     connect(menuWidget, &MainMenuWidget::projectOpenAs, [this, menu, menuWidget] (const QFileInfo& info) {
         menu->hide();
         QString name = info.absoluteFilePath();
@@ -140,9 +134,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->projectView, &ProjectView::projectOpened, [menuWidget]() {
         menuWidget->setProjectList(lastProjectsList());
     });
-    connect(menuWidget, SIGNAL(projectClose()), this, SLOT(on_actionProjectClose_triggered()));
-    connect(menuWidget, SIGNAL(configure()), this, SLOT(on_actionConfigure_triggered()));
-    connect(menuWidget, SIGNAL(help()), this, SLOT(on_actionHelp_triggered()));
+    connect(menuWidget, SIGNAL(projectClose()), this, SLOT(projectClose()));
+    connect(menuWidget, SIGNAL(configure()), this, SLOT(configureShow()));
+    connect(menuWidget, SIGNAL(help()), this, SLOT(helpShow()));
     connect(menuWidget, SIGNAL(exit()), this, SLOT(close()));
 
     connect(menuWidget, SIGNAL(projectNew()), menu, SLOT(hide()));
@@ -153,11 +147,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(menuWidget, SIGNAL(exit()), menu, SLOT(hide()));
     ui->projectView->setMainMenu(menu);
 
-#ifdef CIAA_IDE
-    ui->tabWidget->removeTab(1);
-    ui->tabWidget->removeTab(2);
-    ui->tabWidget->tabBar()->hide();
-#endif
     statusBar()->showMessage(tr("Application ready..."), 1500);
 }
 
@@ -168,10 +157,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    auto dirtyList = ui->centralWidget->documentsDirty();
-    if (!dirtyList.isEmpty()) {
+    if (ui->centralWidget->hasUnsavedChanges()) {
         ui->centralWidget->closeAll();
-        if (ui->centralWidget->documentsDirty().isEmpty())
+        if (!ui->centralWidget->hasUnsavedChanges())
             e->accept();
         else
             e->ignore();
@@ -208,12 +196,11 @@ void MainWindow::on_projectView_fileOpen(const QString &file)
     } else if (m.inherits("text/plain") || (inf.size() == 0)) {
         ui->centralWidget->fileOpenAt(file, 0, 0, &ui->projectView->makeInfo());
     } else {
-        // QDesktopServices::openUrl(QUrl::fromLocalFile(file));
         ui->centralWidget->binOpen(file);
     }
 }
 
-void MainWindow::on_actionProjectNew_triggered()
+void MainWindow::projectNew()
 {
     ProjectNewDialog w(this);
     switch(w.exec()) {
@@ -226,7 +213,7 @@ void MainWindow::on_actionProjectNew_triggered()
     }
 }
 
-void MainWindow::on_actionProjectOpen_triggered()
+void MainWindow::projectOpen()
 {
     QString name = QFileDialog::
             getOpenFileName(this,
@@ -261,16 +248,12 @@ void MainWindow::projectOpened()
     setWindowTitle(tr("Embedded IDE %1").arg(ui->projectView->project()));
 }
 
-void MainWindow::on_actionHelp_triggered()
+void MainWindow::helpShow()
 {
     AboutDialog(this).exec();
 }
 
-void MainWindow::on_actionProjectExport_triggered()
-{
-}
-
-void MainWindow::on_actionProjectClose_triggered()
+void MainWindow::projectClose()
 {
     ui->projectView->closeProject();
     ui->centralWidget->closeAll();
@@ -294,7 +277,7 @@ void MainWindow::on_actionSave_All_triggered()
     ui->centralWidget->saveAll();
 }
 
-void MainWindow::on_actionConfigure_triggered()
+void MainWindow::configureShow()
 {
     ConfigDialog(this).exec();
 }

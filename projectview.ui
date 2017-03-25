@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>316</width>
-    <height>513</height>
+    <width>332</width>
+    <height>487</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -59,49 +59,9 @@
          <widget class="QWidget" name="layoutWidget1">
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="topMargin">
-              <number>6</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Filter:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="filterCombo"/>
-             </item>
-             <item>
-              <widget class="QToolButton" name="filterButton">
-               <property name="icon">
-                <iconset resource="resources.qrc">
-                 <normaloff>:/images/application-menu.svg</normaloff>:/images/application-menu.svg</iconset>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <property name="leftMargin">
-              <number>9</number>
-             </property>
-             <property name="rightMargin">
-              <number>9</number>
+             <property name="spacing">
+              <number>0</number>
              </property>
              <item>
               <widget class="QToolButton" name="toolButton_menu">
@@ -114,8 +74,8 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>22</width>
-                 <height>22</height>
+                 <width>32</width>
+                 <height>32</height>
                 </size>
                </property>
                <property name="popupMode">
@@ -137,8 +97,8 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>22</width>
-                 <height>22</height>
+                 <width>32</width>
+                 <height>32</height>
                 </size>
                </property>
               </widget>
@@ -160,8 +120,8 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>22</width>
-                 <height>22</height>
+                 <width>32</width>
+                 <height>32</height>
                 </size>
                </property>
               </widget>
@@ -183,8 +143,8 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>22</width>
-                 <height>22</height>
+                 <width>32</width>
+                 <height>32</height>
                 </size>
                </property>
               </widget>
@@ -206,8 +166,8 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>22</width>
-                 <height>22</height>
+                 <width>32</width>
+                 <height>32</height>
                 </size>
                </property>
               </widget>
@@ -242,8 +202,8 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>22</width>
-                 <height>22</height>
+                 <width>32</width>
+                 <height>32</height>
                 </size>
                </property>
               </widget>
@@ -262,8 +222,8 @@
                </property>
                <property name="iconSize">
                 <size>
-                 <width>22</width>
-                 <height>22</height>
+                 <width>32</width>
+                 <height>32</height>
                 </size>
                </property>
                <property name="popupMode">

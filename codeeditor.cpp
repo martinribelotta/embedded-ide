@@ -90,36 +90,32 @@ CodeEditor::CodeEditor(QWidget *parent) :
     m_completer->setModel(pModel);
     connect(m_completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
 
-    loadConfig();
-
     replaceDialog = new FormFindReplace(this);
     replaceDialog->hide();
-    connect(this, &CodeEditor::widgetResized, [this]() {
-        QWidget *w = replaceDialog;
-        QWidget *parent = viewport();
-        QRect r = parent->rect();
-        w->adjustSize();
-        r.adjust(10, 0, -10, 0);
-        r.setHeight(w->height());
-        r.moveBottom(parent->rect().height()-10);
 
-        r.setLeft(parent->pos().x() + 10 + marginWidth(0) + marginWidth(1));
-        w->setGeometry(r);
-    });
     QAction *findAction = new QAction(this);
     findAction->setShortcut(QKeySequence("ctrl+f"));
-    connect(findAction, &QAction::triggered, [this](){
-        replaceDialog->show();
-    });
+    connect(findAction, &QAction::triggered, replaceDialog, &FormFindReplace::show);
     addAction(findAction);
 
     QAction *saveAction = new QAction(this);
     saveAction->setShortcut(QKeySequence("ctrl+s"));
     connect(saveAction, &QAction::triggered, this, &CodeEditor::save);
     addAction(saveAction);
+    connect(this, &QsciScintilla::marginClicked,
+            [this](int margin, int line, Qt::KeyboardModifiers state){
+        Q_UNUSED(margin);
+        Q_UNUSED(state);
+        if (markersAtLine(line) != 0) {
+            qDebug() << "del mark in" << margin << line;
+            markerDelete(line);
+        } else {
+            qDebug() << "add mark in" << margin << line;
+            markerAdd(line, SC_MARK_ARROW);
+        }
+    });
 
-    refreshHighlighterLines();
-
+    loadConfig();
 }
 
 void CodeEditor::insertCompletion(const QString &completion)
@@ -368,6 +364,17 @@ void CodeEditor::findTagUnderCursor()
     }
 }
 
+void CodeEditor::setDebugPointer(int line)
+{
+    qDebug() << "set debug pointer " << line;
+    if (ip != -1)
+       markerDelete(ip - 1, SC_MARK_BACKGROUND);
+    ip = line;
+    if (ip != -1) {
+       markerAdd(ip - 1, SC_MARK_BACKGROUND);
+    }
+}
+
 QString CodeEditor::wordUnderCursor() const {
     int line, col;
     getCursorPosition(&line, &col);
@@ -391,10 +398,14 @@ QString CodeEditor::lineUnderCursor() const
 void CodeEditor::resizeEvent(QResizeEvent *e)
 {
     QsciScintilla::resizeEvent(e);
-    //QPlainTextEdit::resizeEvent(e);
-    // QRect cr = contentsRect();
-    // lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
-    emit widgetResized();
+
+    QWidget *v = viewport();
+    QRect r = v->rect();
+    replaceDialog->adjustSize();
+    r.setHeight(replaceDialog->height());
+    r.moveBottom(v->rect().height());
+    r.setLeft(v->pos().x());
+    replaceDialog->setGeometry(r);
 }
 
 void CodeEditor::keyPressEvent(QKeyEvent *event)
@@ -468,57 +479,6 @@ void CodeEditor::closeEvent(QCloseEvent *event)
     }
 }
 
-void CodeEditor::refreshHighlighterLines()
-{
-#if 0
-    QList<QTextEdit::ExtraSelection> extraSelections;
-
-    if (!isReadOnly()) {
-        QTextEdit::ExtraSelection selection;
-        QColor lineColor;
-        QsvSyntaxHighlighter *syntax = findChild<QsvSyntaxHighlighter*>("syntaxer");
-        if (syntax)
-            lineColor = syntax->colorDefFactory()->getColorDef("dsWidgetCurLine").getBackground();
-
-        if (!lineColor.isValid())
-            lineColor = QColor(0xe0, 0xee, 0xf6);
-
-        selection.format.setBackground(lineColor);
-        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-        selection.cursor = textCursor();
-        selection.cursor.clearSelection();
-        extraSelections.append(selection);
-    }
-
-    QList<int> invalids;
-    QHashIterator<int, QColor> i(highlightLines);
-    while (i.hasNext()) {
-        i.next();
-        int line = i.key();
-        QColor c = i.value();
-        QTextEdit::ExtraSelection selection;
-
-        QColor lineColor = c;
-
-        selection.format.setBackground(lineColor);
-        selection.format.setProperty(QTextFormat::FullWidthSelection, true);
-        selection.cursor = textCursor();
-        selection.cursor.setPosition(0);
-        if (selection.cursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, line - 1)) {
-            selection.cursor.clearSelection();
-            extraSelections.append(selection);
-        } else {
-            qDebug() << "invalid line" << line;
-            invalids.append(line); // Don't modify hash table over loop
-        }
-    }
-    foreach(int invalidLine, invalids)
-        highlightLines.remove(invalidLine);
-
-    setExtraSelections(extraSelections);
-#endif
-}
-
 void CodeEditor::loadConfig()
 {
     AppConfig& config = AppConfig::mutableInstance();
@@ -528,26 +488,19 @@ void CodeEditor::loadConfig()
 
     // TODO(denisacostaq@gmai.com): Is possible to use config.editorStyle()
     // here?... default value is not the same
-    loadStyle(
-          stylePath(
-            QSettings().value("editor/style", "Solarized-light"
-                              /*"stylers.model.xml"*/).toString()));
+    loadStyle(QSettings().value("editor/style", "Solarized-light"
+                              /*"stylers.model.xml"*/).toString());
 
     setIndentationsUseTabs(!config.editorTabsToSpaces());
     setTabWidth(config.editorTabWidth());
     setAutoIndent(true);
     setBraceMatching(StrictBraceMatch);
     resetMatchedBraceIndicator();
-    //setMatchedBraceForegroundColor(Qt::red);
-    //setMatchedBraceBackgroundColor(Qt::blue);
     setBackspaceUnindents(true);
     setFolding(BoxedTreeFoldStyle);
     setIndentationGuides(true);
-    //setTabDrawMode(TabStrikeOut);
-    //setWhitespaceVisibility(WsVisible);
 
     setCaretLineVisible(true);
-    // setCaretLineBackgroundColor(QColor("#ffe4e4"));
     auto fontmetrics = QFontMetrics(fonts);
     setMarginsFont(fonts);
     setMarginWidth(0, fontmetrics.width("00000") + 6);
@@ -559,18 +512,9 @@ void CodeEditor::loadConfig()
 
     setMarginSensitivity(1, true);
     markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
+    markerDefine(QsciScintilla::Background, SC_MARK_BACKGROUND);
     setMargins(3);
     // setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
-    connect(this, &QsciScintilla::marginClicked,
-            [this](int margin, int line, Qt::KeyboardModifiers state){
-        Q_UNUSED(margin);
-        Q_UNUSED(state);
-        if (markersAtLine(line) != 0) {
-            markerDelete(line);
-        } else {
-            markerAdd(line, SC_MARK_ARROW);
-        }
-    });
     setAnnotationDisplay(AnnotationIndented);
 }
 
