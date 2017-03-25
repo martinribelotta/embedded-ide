@@ -64,32 +64,17 @@ ProjectView::ProjectView(QWidget *parent) :
     ui->toolButton_symbols->setMenu(menu);
     ui->toolButton_symbols->hide();
 
-    QFile filterFiles(":/build/project-filters.txt");
-    filterFiles.open(QFile::ReadOnly);
-    while (!filterFiles.atEnd()) {
-        QRegExp crlf(R"([\r\n]*)");
-        QString name = QString(filterFiles.readLine()).remove(':').remove(crlf);
-        QString filter = QString(filterFiles.readLine()).remove(crlf);
-        // qDebug() << "filter" << name << filter;
-        if (!name.isEmpty() && !filter.isEmpty())
-            ui->filterCombo->addItem(name, filter.split(' '));
-        else
-            break;
-    }
     ui->tabWidget->setCurrentIndex(0);
     connect(this, &ProjectView::projectOpened, [this]() {
         ui->targetStack->setCurrentIndex(0);
         ui->waitSpinner->stop();
     });
     ui->targetStack->setCurrentIndex(0);
-#ifdef CIAA_IDE
-    ui->label_2->hide();
-    ui->filterButton->hide();
-    ui->filterCombo->hide();
-    ui->tabWidget->removeTab(1);
-    ui->tabWidget->tabBar()->hide();
-#endif
+
     ui->toolButton_tools->setMenu(createExternalToolsMenu());
+#ifdef DISABLE_DEBUG_UI
+    ui->tabWidget->removeTab(1);
+#endif
 }
 
 ProjectView::~ProjectView()
@@ -237,18 +222,6 @@ void ProjectView::on_targetList_doubleClicked(const QModelIndex &index)
 {
     QListWidgetItem *item = ui->targetList->item(index.row());
     emit startBuild(item->text());
-}
-
-void ProjectView::on_filterCombo_activated(int idx)
-{
-    QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
-    if (m)
-        m->setNameFilters(ui->filterCombo->itemData(idx).toStringList());
-}
-
-void ProjectView::on_filterButton_clicked()
-{
-    // TODO: Add files filter selection
 }
 
 void ProjectView::on_toolButton_documentNew_clicked()

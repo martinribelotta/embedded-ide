@@ -128,5 +128,6 @@
         <file>styles/Zenburn.xml</file>
         <file>i18n/es.qm</file>
         <file>i18n/zh.qm</file>
+        <file>styles/Material-Dark.xml</file>
     </qresource>
 </RCC>

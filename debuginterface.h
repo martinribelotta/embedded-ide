@@ -78,7 +78,7 @@ private slots:
     void onWatchWidgetItemDoubleClicked(QTreeWidgetItem *item, int column);
     void onAutoWidgetItemDoubleClicked(QTreeWidgetItem *item, int column);
 
-    void on_buttonStartDebug_clicked();
+    void on_buttonStartStopDebug_clicked();
 
 private:
     typedef struct {

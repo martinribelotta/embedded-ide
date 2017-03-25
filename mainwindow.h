@@ -26,25 +26,23 @@ private slots:
 
     void on_projectView_fileOpen(const QString &);
 
-    void on_actionProjectNew_triggered();
+    void projectNew();
 
-    void on_actionProjectOpen_triggered();
+    void projectOpen();
 
     void openProject();
 
     void projectOpened();
 
-    void on_actionHelp_triggered();
+    void helpShow();
 
-    void on_actionProjectExport_triggered();
-
-    void on_actionProjectClose_triggered();
+    void projectClose();
 
     void on_projectView_projectOpened();
 
     void on_actionSave_All_triggered();
 
-    void on_actionConfigure_triggered();
+    void configureShow();
 
     void configChanged(AppConfig *);
 

@@ -57,13 +57,10 @@ public slots:
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);
+
     void updateMakefileInfo(const MakefileInfo &info);
 
     void on_targetList_doubleClicked(const QModelIndex &index);
-
-    void on_filterCombo_activated(int idx);
-
-    void on_filterButton_clicked();
 
     void on_toolButton_documentNew_clicked();
 
