@@ -57,6 +57,9 @@ public slots:
     void clearDebugPointer() { setDebugPointer(-1); }
     void setDebugPointer(int line);
 
+private slots:
+    void adjustLineNumberMargin();
+
 signals:
     void fileError(const QString& errorText);
     void updateCodeContext();

@@ -72,8 +72,9 @@ ProjectView::ProjectView(QWidget *parent) :
     ui->targetStack->setCurrentIndex(0);
 
     ui->toolButton_tools->setMenu(createExternalToolsMenu());
-
+#ifdef DISABLE_DEBUG_UI
     ui->tabWidget->removeTab(1);
+#endif
 }
 
 ProjectView::~ProjectView()

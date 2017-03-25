@@ -151,6 +151,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->projectView->setMainMenu(menu);
 
     statusBar()->showMessage(tr("Application ready..."), 1500);
+#ifdef DISABLE_DEBUG_UI
+    ui->tabWidget->removeTab(2);
+    ui->tabWidget->removeTab(1);
+#endif
     statusBar()->hide();
 }
 
