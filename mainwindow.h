@@ -6,6 +6,7 @@
 namespace Ui {
 class MainWindow;
 }
+class AppConfig;
 
 class MainWindow : public QMainWindow
 {
@@ -45,12 +46,15 @@ private slots:
 
     void on_actionConfigure_triggered();
 
+    void configChanged(AppConfig *);
+
     void loggerOpenPath(const QString &path, int col, int row);
 
 private:
     Ui::MainWindow *ui;
 
     bool goToBuildStage();
+    void setUpProxy();
 };
 
 #endif // MAINWINDOW_H

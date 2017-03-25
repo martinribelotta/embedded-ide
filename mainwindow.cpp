@@ -18,6 +18,9 @@
 #include <QCheckBox>
 #include <QMenu>
 #include <QUrl>
+#include <QNetworkProxy>
+#include <QNetworkProxyFactory>
+
 
 #include <QUrlQuery>
 #include <QSettings>
@@ -142,6 +145,8 @@ MainWindow::MainWindow(QWidget *parent) :
     });
     connect(menuWidget, SIGNAL(projectClose()), this, SLOT(on_actionProjectClose_triggered()));
     connect(menuWidget, SIGNAL(configure()), this, SLOT(on_actionConfigure_triggered()));
+    connect(&(AppConfig::mutableInstance()), SIGNAL(configChanged(AppConfig*)),
+            this, SLOT(configChanged(AppConfig*)));
     connect(menuWidget, SIGNAL(help()), this, SLOT(on_actionHelp_triggered()));
     connect(menuWidget, SIGNAL(exit()), this, SLOT(close()));
 
@@ -158,6 +163,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->removeTab(2);
     ui->tabWidget->tabBar()->hide();
 #endif
+    setUpProxy();
     statusBar()->showMessage(tr("Application ready..."), 1500);
 }
 
@@ -299,6 +305,11 @@ void MainWindow::on_actionConfigure_triggered()
     ConfigDialog(this).exec();
 }
 
+void MainWindow::configChanged(AppConfig* config)
+{
+  this->setUpProxy();
+}
+
 void MainWindow::loggerOpenPath(const QString& path, int col, int row)
 {
     QString file = ui->projectView->projectPath().absoluteFilePath(path);
@@ -343,3 +354,26 @@ bool MainWindow::goToBuildStage() {
   }
   return true;
 }
+
+void MainWindow::setUpProxy() {
+  AppConfig &config = AppConfig::mutableInstance();
+  switch (config.networkProxyType()) {
+    case AppConfig::NetworkProxyType::None:
+      QNetworkProxy::setApplicationProxy(QNetworkProxy::NoProxy);
+      break;
+    case AppConfig::NetworkProxyType::System:
+      QNetworkProxyFactory::setUseSystemConfiguration(true);
+      break;
+    case AppConfig::NetworkProxyType::Custom:
+      QNetworkProxy proxy(
+          QNetworkProxy::HttpProxy, config.networkProxyHost(),
+          static_cast<quint16>(config.networkProxyPort().toInt()));
+      if (config.networkProxyUseCredentials()) {
+        proxy.setUser(config.networkProxyUsername());
+        proxy.setPassword(config.networkProxyPassword());
+      }
+      QNetworkProxy::setApplicationProxy(proxy);
+      break;
+  }
+}
+

@@ -38,6 +38,10 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     ui(new Ui::ConfigDialog)
 {
     ui->setupUi(this);
+    QButtonGroup *bg = new QButtonGroup(this);
+    bg->addButton(ui->noProxy);
+    bg->addButton(ui->systemProxy);
+    bg->addButton(ui->userProxy);
     ui->additionalPathList->setModel(new QStringListModel(this));
 
     load();
@@ -47,6 +51,8 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     connect(ui->colorStyleComboBox, SIGNAL(activated(int)), this, SLOT(refreshEditor()));
 
     refreshEditor();
+
+    ui->proxyPort->setValidator(new QIntValidator(0, 65535, this));
 }
 
 ConfigDialog::~ConfigDialog()
@@ -87,6 +93,28 @@ void ConfigDialog::load()
     QStringListModel *model =
         qobject_cast<QStringListModel*>(ui->additionalPathList->model());
     model->setStringList(config.buildAdditionalPaths());
+
+    [this](const AppConfig& c){
+      switch (static_cast<AppConfig::NetworkProxyType>(c.networkProxyType())) {
+        case AppConfig::NetworkProxyType::None:
+          ui->noProxy->setChecked(true);
+        break;
+        case AppConfig::NetworkProxyType::System:
+          ui->systemProxy->setChecked(true);
+        break;
+        case AppConfig::NetworkProxyType::Custom:
+          ui->userProxy->setChecked(true);
+        break;
+        default:
+          ui->noProxy->setChecked(true);
+          qDebug() << tr("Uknow proxy setting");
+        break;
+      }
+    }(config);
+    ui->proxyHost->setText(config.networkProxyHost());
+    ui->proxyPort->setText(config.networkProxyPort());
+    ui->useAutentication->setChecked(config.networkProxyUseCredentials());
+    ui->username->setText(config.networkProxyUsername());
 }
 
 void ConfigDialog::save()
@@ -104,6 +132,21 @@ void ConfigDialog::save()
   QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
   QStringList additionalPaths = model->stringList();
   config.setBuildAdditionalPaths(model->stringList());
+  auto proxyType = [this](){
+    if(ui->systemProxy->isChecked()) {
+      return AppConfig::NetworkProxyType::System;
+    } else if(ui->userProxy->isChecked()) {
+      return AppConfig::NetworkProxyType::Custom;
+    } else {
+      return AppConfig::NetworkProxyType::None;
+    }
+  };
+  config.setNetworkProxyType(proxyType());
+  config.setNetworkProxyHost(ui->proxyHost->text());
+  config.setNetworkProxyPort(ui->proxyPort->text());
+  config.setNetworkProxyUseCredentials(ui->useAutentication->isChecked());
+  config.setNetworkProxyUsername(ui->username->text());
+  config.setNetworkProxyPassword(ui->password->text());
   config.save();
 }
 
