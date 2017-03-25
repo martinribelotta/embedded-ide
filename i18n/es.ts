@@ -178,44 +178,114 @@
         <translation>URL remota de plantillas</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="123"/>
-        <location filename="../configdialog.cpp" line="150"/>
+        <location filename="../configdialog.ui" line="255"/>
+        <source>Proxy</source>
+        <translation>Proxy</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="267"/>
+        <source>HTTP proxy for network access</source>
+        <translation>Proxy http para aceso a la red</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="275"/>
+        <source>None</source>
+        <translation>Ninguno</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="282"/>
+        <source>System proxy</source>
+        <translation>Proxy del sistema</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="289"/>
+        <source>Custom proxy</source>
+        <translation>Proxy personalizado</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="298"/>
+        <source>Proxy authentication</source>
+        <translation>Autenticación del proxy</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="309"/>
+        <source>With credentials</source>
+        <translation>Con uso de credenciales</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="318"/>
+        <source>Username</source>
+        <translation>Usuario</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="352"/>
+        <source>Password</source>
+        <translation>Contraseña</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="391"/>
+        <source>Host</source>
+        <translation>Servidor</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="401"/>
+        <source>localhost</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="408"/>
+        <source>Port</source>
+        <translation>Puerto </translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="418"/>
+        <source>3128</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../configdialog.cpp" line="110"/>
+        <source>Uknow proxy setting</source>
+        <translation>Configuracion de proxy desconocida</translation>
+    </message>
+    <message>
+        <location filename="../configdialog.cpp" line="166"/>
+        <location filename="../configdialog.cpp" line="193"/>
         <source>Select directory</source>
         <translation>Seleccionar directorio</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="132"/>
+        <location filename="../configdialog.cpp" line="175"/>
         <source>Select file</source>
         <translation>Seleccionar archivo</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="163"/>
-        <location filename="../configdialog.cpp" line="169"/>
+        <location filename="../configdialog.cpp" line="206"/>
+        <location filename="../configdialog.cpp" line="212"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="163"/>
+        <location filename="../configdialog.cpp" line="206"/>
         <source>No valid URL: %1</source>
         <translation>URL no valida: %1</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="169"/>
+        <location filename="../configdialog.cpp" line="212"/>
         <source>Error creating %1</source>
         <translation>Error creando %1</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="177"/>
+        <location filename="../configdialog.cpp" line="220"/>
         <source>Downloading template list...</source>
         <translation>Descargando lista de plantillas...</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="195"/>
+        <location filename="../configdialog.cpp" line="238"/>
         <source>Network error</source>
         <translation>Error de red</translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="202"/>
+        <location filename="../configdialog.cpp" line="245"/>
         <source>Downloading %1</source>
         <translation>Descargando %1</translation>
     </message>
@@ -583,7 +653,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
-        <location filename="../mainwindow.cpp" line="278"/>
+        <location filename="../mainwindow.cpp" line="284"/>
         <source>Embedded IDE</source>
         <translation>Embedded IDE</translation>
     </message>
@@ -634,9 +704,9 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="140"/>
-        <location filename="../mainwindow.cpp" line="135"/>
-        <location filename="../mainwindow.cpp" line="233"/>
-        <location filename="../mainwindow.cpp" line="252"/>
+        <location filename="../mainwindow.cpp" line="138"/>
+        <location filename="../mainwindow.cpp" line="239"/>
+        <location filename="../mainwindow.cpp" line="258"/>
         <source>Open Project</source>
         <translation>Abrir Proyecto</translation>
     </message>
@@ -687,58 +757,70 @@
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="161"/>
+        <location filename="../mainwindow.cpp" line="167"/>
         <source>Application ready...</source>
         <translation>Aplicación Lista...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="187"/>
+        <location filename="../mainwindow.cpp" line="193"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="192"/>
+        <location filename="../mainwindow.cpp" line="198"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.cpp" line="200"/>
         <source>Success</source>
         <translation>Éxito</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="235"/>
+        <location filename="../mainwindow.cpp" line="241"/>
         <source>Makefile (Makefile);;Make (*.mk);;All Files (*)</source>
         <translation>Makefile (Makefile);;Make (*.mk);;Todos los archivos (*)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="261"/>
+        <location filename="../mainwindow.cpp" line="267"/>
         <source>Embedded IDE %1</source>
         <translation>Embedded IDE %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="316"/>
+        <location filename="../mainwindow.cpp" line="327"/>
         <source>Save files</source>
         <translation>Guardar archivos</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="317"/>
+        <location filename="../mainwindow.cpp" line="328"/>
         <source>Save all files before build?</source>
         <translation>Guardar todos los archivos antes de construir?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="319"/>
+        <location filename="../mainwindow.cpp" line="330"/>
         <source>Do not show again</source>
         <translation>No mostrar nuevamente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="327"/>
+        <location filename="../mainwindow.cpp" line="338"/>
         <source>This dialog not will show again</source>
         <translation>Este dialogo no se mostrara nuevamente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="135"/>
-        <location filename="../mainwindow.cpp" line="252"/>
+        <source>Downloading template list...</source>
+        <translation type="obsolete">Descargando lista de plantillas...</translation>
+    </message>
+    <message>
+        <source>Network error</source>
+        <translation type="obsolete">Error de red</translation>
+    </message>
+    <message>
+        <source>Downloading %1</source>
+        <translation type="obsolete">Descargando %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="138"/>
+        <location filename="../mainwindow.cpp" line="258"/>
         <source>Cannot open %1</source>
         <translation>No se puede abrir %1</translation>
     </message>
@@ -925,6 +1007,24 @@
         <location filename="../qgdb/opendialog.cpp" line="99"/>
         <source>All Files (*)</source>
         <translation>Todos los Archivos (*)</translation>
+    </message>
+</context>
+<context>
+    <name>PasswordPromtDialog</name>
+    <message>
+        <location filename="../passwordpromtdialog.ui" line="14"/>
+        <source>Password requiered</source>
+        <translation>Contraseña requierida</translation>
+    </message>
+    <message>
+        <location filename="../passwordpromtdialog.ui" line="45"/>
+        <source>Password</source>
+        <translation>Contraseña</translation>
+    </message>
+    <message>
+        <location filename="../appconfig.cpp" line="200"/>
+        <source>Proxy require password</source>
+        <translation>El proxy solicita contraseña</translation>
     </message>
 </context>
 <context>

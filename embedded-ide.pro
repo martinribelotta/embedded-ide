@@ -65,7 +65,8 @@ SOURCES += main.cpp\
     formfindreplace.cpp \
     findlineedit.cpp \
     toolmanager.cpp \
-    appconfig.cpp
+    appconfig.cpp \
+    passwordpromtdialog.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -102,7 +103,8 @@ HEADERS  += mainwindow.h \
     formfindreplace.h \
     findlineedit.h \
     toolmanager.h \
-    appconfig.h
+    appconfig.h \
+    passwordpromtdialog.h
 
 FORMS    += mainwindow.ui \
     projectnewdialog.ui \
@@ -114,7 +116,8 @@ FORMS    += mainwindow.ui \
     dialogconfigworkspace.ui \
     mainmenuwidget.ui \
     formfindreplace.ui \
-    toolmanager.ui
+    toolmanager.ui \
+    passwordpromtdialog.ui
 
 RESOURCES += \
     resources.qrc

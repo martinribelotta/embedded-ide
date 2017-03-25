@@ -1,5 +1,7 @@
 #include "appconfig.h"
 
+#include "passwordpromtdialog.h"
+
 #include <QSettings>
 #include <QDir>
 
@@ -13,8 +15,22 @@
 #define BUILD_TEMPLATE_PATH "build/templatepath"
 #define BUILD_TEMPLATE_URL "build/templateurl"
 #define BUILD_ADDITIONAL_PATHS "build/additional_path"
+#define NETWORK_PROXY_TYPE "/network/proxy/type"
+#define NETWORK_PROXY_HOST "/network/proxy/host"
+#define NETWORK_PROXY_PORT "/network/proxy/port"
+#define NETWORK_PROXY_CREDENTIALS "/network/proxy/credentials"
+#define NETWORK_PROXY_USERNAME "/network/proxy/username"
 
 struct AppConfigData {
+    struct NetworkProxy {
+        AppConfig::NetworkProxyType type;
+        bool useCredentials;
+        QString host;
+        QString port;
+        QString username;
+        QString password;
+    } networkProxy;
+
     QStringList buildAdditionalPaths;
     QString editorStyle;
     QString editorFontStyle;
@@ -89,7 +105,7 @@ const QString &AppConfig::builTemplateUrl() const
   return appData()->builTemplateUrl;
 }
 
-QString AppConfig::defaultApplicationResources()
+QString AppConfig::defaultApplicationResources() const
 {
   return QDir::home().absoluteFilePath("embedded-ide-workspace");
 }
@@ -107,6 +123,36 @@ QString AppConfig::defaultTemplatePath()
 QString AppConfig::defaultTemplateUrl()
 {
     return "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents";
+}
+
+const QString& AppConfig::networkProxyHost() const
+{
+    return appData()->networkProxy.host;
+}
+
+QString AppConfig::networkProxyPort() const
+{
+    return appData()->networkProxy.port;
+}
+
+bool AppConfig::networkProxyUseCredentials() const
+{
+    return appData()->networkProxy.useCredentials;
+}
+
+AppConfig::NetworkProxyType AppConfig::networkProxyType() const
+{
+    return appData()->networkProxy.type;
+}
+
+const QString& AppConfig::networkProxyUsername() const
+{
+    return appData()->networkProxy.username;
+}
+
+const QString& AppConfig::networkProxyPassword() const
+{
+    return appData()->networkProxy.password;
 }
 
 AppConfig::AppConfig()
@@ -137,6 +183,26 @@ void AppConfig::load()
         s.value(BUILD_TEMPLATE_URL, defaultTemplateUrl()).toString());
   this->setBuildAdditionalPaths(
         s.value(BUILD_ADDITIONAL_PATHS).toStringList());
+  this->setNetworkProxyType(
+        static_cast<NetworkProxyType>(
+          s.value(NETWORK_PROXY_TYPE, false).toInt()));
+  this->setNetworkProxyHost(
+        s.value(NETWORK_PROXY_HOST).toString());
+  this->setNetworkProxyPort(
+        s.value(NETWORK_PROXY_PORT).toString());
+  this->setNetworkProxyUseCredentials(
+        s.value(NETWORK_PROXY_CREDENTIALS).toBool());
+  this->setNetworkProxyUsername(
+        s.value(NETWORK_PROXY_USERNAME).toString());
+  if (this->networkProxyType() == NetworkProxyType::Custom
+      && this->networkProxyUseCredentials()) {
+    PasswordPromtDialog paswd(
+          PasswordPromtDialog::tr("Proxy require password"));
+    if (paswd.exec() == QDialog::Accepted) {
+      this->setNetworkProxyPassword(paswd.password());
+    }
+  }
+  emit configChanged(this);
 }
 
 void AppConfig::save()
@@ -152,8 +218,13 @@ void AppConfig::save()
   s.setValue(BUILD_TEMPLATE_PATH, appData()->builTemplatePath);
   s.setValue(BUILD_TEMPLATE_URL, appData()->builTemplateUrl);
   s.setValue(BUILD_ADDITIONAL_PATHS, appData()->buildAdditionalPaths);
-
+  s.setValue(NETWORK_PROXY_TYPE, static_cast<int>(this->networkProxyType()));
+  s.setValue(NETWORK_PROXY_HOST, this->networkProxyHost());
+  s.setValue(NETWORK_PROXY_PORT, this->networkProxyPort());
+  s.setValue(NETWORK_PROXY_CREDENTIALS, this->networkProxyUseCredentials());
+  s.setValue(NETWORK_PROXY_USERNAME, this->networkProxyUsername());
   this->adjustPath();
+  emit configChanged(this);
 }
 
 void AppConfig::setBuildAdditionalPaths(
@@ -205,6 +276,36 @@ void AppConfig::setBuilTemplatePath(const QString &builTemplatePath)
 void AppConfig::setBuilTemplateUrl(const QString &builTemplateUrl)
 {
   appData()->builTemplateUrl = builTemplateUrl;
+}
+
+void AppConfig::setNetworkProxyHost(const QString& host)
+{
+    appData()->networkProxy.host = host;
+}
+
+void AppConfig::setNetworkProxyPort(QString port)
+{
+    appData()->networkProxy.port = port;
+}
+
+void AppConfig::setNetworkProxyUseCredentials(bool useCredentials)
+{
+    appData()->networkProxy.useCredentials = useCredentials;
+}
+
+void AppConfig::setNetworkProxyType(NetworkProxyType type)
+{
+    appData()->networkProxy.type = type;
+}
+
+void AppConfig::setNetworkProxyUsername(const QString& username)
+{
+    appData()->networkProxy.username = username;
+}
+
+void AppConfig::setNetworkProxyPassword(const QString& password)
+{
+    appData()->networkProxy.password = password;
 }
 
 void AppConfig::adjustPath()
