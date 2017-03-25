@@ -114,6 +114,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
             markerAdd(line, SC_MARK_ARROW);
         }
     });
+    connect(this, &QsciScintilla::linesChanged, this, &CodeEditor::adjustLineNumberMargin);
 
     loadConfig();
 }
@@ -375,6 +376,12 @@ void CodeEditor::setDebugPointer(int line)
     }
 }
 
+void CodeEditor::adjustLineNumberMargin()
+{
+    QFontMetrics m(font());
+    setMarginWidth(0, m.width(QString().fill('0', 2 + static_cast<int>(::log10(lines())))));
+}
+
 QString CodeEditor::wordUnderCursor() const {
     int line, col;
     getCursorPosition(&line, &col);
@@ -488,8 +495,7 @@ void CodeEditor::loadConfig()
 
     // TODO(denisacostaq@gmai.com): Is possible to use config.editorStyle()
     // here?... default value is not the same
-    loadStyle(QSettings().value("editor/style", "Solarized-light"
-                              /*"stylers.model.xml"*/).toString());
+    loadStyle(stylePath(config.editorStyle()));
 
     setIndentationsUseTabs(!config.editorTabsToSpaces());
     setTabWidth(config.editorTabWidth());
@@ -501,9 +507,7 @@ void CodeEditor::loadConfig()
     setIndentationGuides(true);
 
     setCaretLineVisible(true);
-    auto fontmetrics = QFontMetrics(fonts);
     setMarginsFont(fonts);
-    setMarginWidth(0, fontmetrics.width("00000") + 6);
     setMarginLineNumbers(0, true);
     // setMarginsBackgroundColor(QColor("#cccccc"));
 
@@ -516,6 +520,7 @@ void CodeEditor::loadConfig()
     setMargins(3);
     // setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
     setAnnotationDisplay(AnnotationIndented);
+    adjustLineNumberMargin();
 }
 
 bool CodeEditor::loadStyle(const QString &xmlStyleFile)
