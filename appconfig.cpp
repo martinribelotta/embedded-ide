@@ -202,6 +202,7 @@ void AppConfig::load()
       this->setNetworkProxyPassword(paswd.password());
     }
   }
+  emit configChanged(this);
 }
 
 void AppConfig::save()
@@ -223,6 +224,7 @@ void AppConfig::save()
   s.setValue(NETWORK_PROXY_CREDENTIALS, this->networkProxyUseCredentials());
   s.setValue(NETWORK_PROXY_USERNAME, this->networkProxyUsername());
   this->adjustPath();
+  emit configChanged(this);
 }
 
 void AppConfig::setBuildAdditionalPaths(

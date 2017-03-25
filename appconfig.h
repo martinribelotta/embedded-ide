@@ -1,11 +1,14 @@
 #ifndef APPCONFIG_H
 #define APPCONFIG_H
 
+#include <QObject>
+
 #include "configdialog.h"
 #include "dialogconfigworkspace.h"
 
-class AppConfig
+class AppConfig : public QObject
 {
+    Q_OBJECT
     // WARNING(denisacostaq@gmail.com):
     // These classes can access to the private constructor, but do not create
     // an instance through this, use mutableInstance instead.
@@ -40,6 +43,9 @@ class AppConfig
     void adjustPath();
 
     static AppConfig& mutableInstance();
+
+  signals:
+    void configChanged(AppConfig*);
   private:
     AppConfig();
     void load();
