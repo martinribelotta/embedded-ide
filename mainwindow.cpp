@@ -106,6 +106,9 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->loggerDebugger->addText("<br>", Qt::blue);
     });
 
+    ui->tabWidget->removeTab(2);
+    ui->tabWidget->removeTab(1);
+
     QMenu *menu = new QMenu(this);
     QWidgetAction *wa = new QWidgetAction(menu);
     MainMenuWidget *menuWidget = new MainMenuWidget(menu);
@@ -148,6 +151,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->projectView->setMainMenu(menu);
 
     statusBar()->showMessage(tr("Application ready..."), 1500);
+    statusBar()->hide();
 }
 
 MainWindow::~MainWindow()

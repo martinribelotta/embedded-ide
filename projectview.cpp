@@ -72,6 +72,8 @@ ProjectView::ProjectView(QWidget *parent) :
     ui->targetStack->setCurrentIndex(0);
 
     ui->toolButton_tools->setMenu(createExternalToolsMenu());
+
+    ui->tabWidget->removeTab(1);
 }
 
 ProjectView::~ProjectView()
