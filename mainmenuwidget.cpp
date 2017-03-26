@@ -16,6 +16,8 @@ MainMenuWidget::MainMenuWidget(QWidget *parent) :
     connect(ui->toolButton_configure, SIGNAL(clicked()), this, SIGNAL(configure()));
     connect(ui->toolButton_help, SIGNAL(clicked()), this, SIGNAL(help()));
     // connect(ui->toolButton_exit, SIGNAL(clicked()), this, SIGNAL(exit()));
+    foreach(QToolButton *b, findChildren<QToolButton*>())
+        b->setAutoRaise(true);
 }
 
 MainMenuWidget::~MainMenuWidget()

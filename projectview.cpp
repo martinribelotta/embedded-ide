@@ -56,6 +56,9 @@ ProjectView::ProjectView(QWidget *parent) :
     projectButtons += ui->toolButton_folderNew;
     projectButtons += ui->toolButton_symbols;
 
+    foreach(QToolButton *b, findChildren<QToolButton*>())
+        b->setAutoRaise(true);
+
     QMenu *menu = new QMenu(this);
     QWidgetAction *action = new QWidgetAction(menu);
     tagList = new TagList(this);
