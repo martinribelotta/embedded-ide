@@ -141,7 +141,7 @@ void CodeEditor::codeContextUpdate(const QStringList& list)
 
 void CodeEditor::moveTextCursor(int row, int col)
 {
-    setCursorPosition(row, col);
+    setCursorPosition(row - 1, col);
 }
 
 QRect CodeEditor::cursorRect() const
@@ -369,10 +369,10 @@ void CodeEditor::setDebugPointer(int line)
 {
     qDebug() << "set debug pointer " << line;
     if (ip != -1)
-       markerDelete(ip - 1, SC_MARK_BACKGROUND);
+       markerDelete(ip - 1, SC_MARK_ARROW);
     ip = line;
     if (ip != -1) {
-       markerAdd(ip - 1, SC_MARK_BACKGROUND);
+       markerAdd(ip - 1, SC_MARK_ARROW);
     }
 }
 
@@ -516,7 +516,6 @@ void CodeEditor::loadConfig()
 
     setMarginSensitivity(1, true);
     markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
-    markerDefine(QsciScintilla::Background, SC_MARK_BACKGROUND);
     setMargins(3);
     // setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
     setAnnotationDisplay(AnnotationIndented);

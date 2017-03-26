@@ -101,7 +101,7 @@ void DocumentArea::clearIp()
 
 int DocumentArea::fileOpenAndSetIP(const QString &file, int line, const MakefileInfo *mk)
 {
-    int idx = fileOpenAt(file, line, 0, mk);
+    int idx = fileOpenAt(file, line, 1, mk);
     if (idx == -1)
         return -1;
     CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));

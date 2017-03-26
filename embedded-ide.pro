@@ -13,7 +13,7 @@ DESTDIR = build
 TARGET = embedded-ide
 TEMPLATE = app
 
-DEFINES += DISABLE_DEBUG_UI
+#DEFINES += DISABLE_DEBUG_UI
 
 #win32{
 #    LIBS += -LC:/OpenSSL-Win32/lib -lubsec
