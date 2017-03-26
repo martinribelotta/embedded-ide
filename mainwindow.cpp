@@ -142,6 +142,8 @@ MainWindow::MainWindow(QWidget *parent) :
     });
     connect(menuWidget, SIGNAL(projectClose()), this, SLOT(projectClose()));
     connect(menuWidget, SIGNAL(configure()), this, SLOT(configureShow()));
+    connect(&(AppConfig::mutableInstance()), SIGNAL(configChanged(AppConfig*)),
+            this, SLOT(configChanged(AppConfig*)));
     connect(menuWidget, SIGNAL(help()), this, SLOT(helpShow()));
 
     connect(menuWidget, SIGNAL(exit()), this, SLOT(close()));
@@ -296,7 +298,7 @@ void MainWindow::configureShow()
     ConfigDialog(this).exec();
 }
 
-void MainWindow::configChanged(AppConfig* config)
+void MainWindow::configChanged(AppConfig*)
 {
   this->setUpProxy();
 }

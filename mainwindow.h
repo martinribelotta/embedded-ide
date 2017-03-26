@@ -44,7 +44,7 @@ private slots:
 
     void configureShow();
 
-    void configChanged(AppConfig *);
+    void configChanged(AppConfig*);
 
     void loggerOpenPath(const QString &path, int col, int row);
 
