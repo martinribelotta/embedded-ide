@@ -556,29 +556,23 @@ bool CodeEditor::loadStyle(const QString &xmlStyleFile)
             //int fontSize = wStyle.attribute("fontSize", QString("%1").arg(font().pixelSize())).toInt();
             if (styleID == 0) {
                 if (name == "Global override") {
-                    if (fgColor.isValid())
-                        setColor(fgColor);
-                    if (bgColor.isValid())
-                        setPaper(bgColor);
+                    setColor(fgColor);
+                    setPaper(bgColor);
                     goto set_global;
                 } else if (name == "Current line background colour") {
                     setCaretLineBackgroundColor(bgColor);
                 } else if (name == "Selected text colour") {
-                    if (bgColor.isValid())
-                        setSelectionBackgroundColor(bgColor);
-                    if (fgColor.isValid())
-                        setSelectionForegroundColor(fgColor);
+                    setSelectionBackgroundColor(bgColor);
                 } else if (name == "Edge colour") {
                     setEdgeColor(fgColor);
                 } else if (name == "Fold") {
-                    setFoldMarginColors(fgColor, bgColor);
+                    // setFoldMarginColors(fgColor, bgColor);
                 } else if (name == "Fold active") {
                 } else if (name == "Fold margin") {
+                    setFoldMarginColors(fgColor, bgColor);
                 } else if (name == "White space symbol") {
-                    if (fgColor.isValid())
-                        setWhitespaceForegroundColor(fgColor);
-                    if (bgColor.isValid())
-                        setWhitespaceBackgroundColor(bgColor);
+                    setWhitespaceForegroundColor(fgColor);
+                    setWhitespaceBackgroundColor(paper());
                 } else if (name == "Active tab focused indicator") {
                 } else if (name == "Active tab unfocused indicator") {
                 } else if (name == "Active tab text") {
