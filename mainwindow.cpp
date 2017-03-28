@@ -154,14 +154,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(menuWidget, SIGNAL(exit()), menu, SLOT(hide()));
     ui->projectView->setMainMenu(menu);
 
-    statusBar()->showMessage(tr("Application ready..."), 1500);
 #ifdef DISABLE_DEBUG_UI
     ui->tabWidget->removeTab(2);
     ui->tabWidget->removeTab(1);
 #endif
     setUpProxy();
     statusBar()->showMessage(tr("Application ready..."), 1500);
-    // statusBar()->hide();
+    statusBar()->hide();
 }
 
 MainWindow::~MainWindow()
