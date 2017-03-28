@@ -161,6 +161,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setUpProxy();
     statusBar()->showMessage(tr("Application ready..."), 1500);
     statusBar()->hide();
+    foreach(QToolButton *b, findChildren<QToolButton*>())
+        b->setAutoRaise(true);
 }
 
 MainWindow::~MainWindow()

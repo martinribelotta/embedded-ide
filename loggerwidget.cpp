@@ -89,7 +89,7 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
         emit openEditorIn(url.toLocalFile(), col, row);
     });
 
-    hlayout->setContentsMargins(1, 1, 6, 0);
+    hlayout->setContentsMargins(1, 1, 1, 1);
     hlayout->setSpacing(1);
     hlayout->addWidget(view);
     vlayout->addWidget(clearConsole);
