@@ -306,7 +306,7 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
 {
     QString file = ui->projectView->projectPath().absoluteFilePath(path);
     qDebug() << "Opening" << file << row << col;
-    ui->centralWidget->fileOpenAt(file, row, col, &ui->projectView->makeInfo());
+    ui->centralWidget->fileOpenAt(file, row - 1, col, &ui->projectView->makeInfo());
 }
 
 bool MainWindow::goToBuildStage() {
