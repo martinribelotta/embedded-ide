@@ -7,6 +7,7 @@
 #include <QSslSocket>
 #include <QFile>
 #include <QTranslator>
+#include <QSystemTrayIcon>
 
 #include <QDir>
 #include <QFileDialog>
@@ -59,6 +60,14 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
+
+    if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+      QMessageBox::critical(
+          0, QObject::tr("Desktop support"),
+          QCoreApplication::applicationName() +
+              QObject::tr(" can not detect any system tray on this "
+                          "desktop, notify this to developers."));
+    }
 
     return a.exec();
 }

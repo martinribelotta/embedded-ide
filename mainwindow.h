@@ -7,6 +7,7 @@ namespace Ui {
 class MainWindow;
 }
 class AppConfig;
+class QSystemTrayIcon;
 
 class MainWindow : public QMainWindow
 {
@@ -44,12 +45,15 @@ private slots:
 
     void configureShow();
 
-    void configChanged(AppConfig *);
+    void configChanged(AppConfig*);
 
     void loggerOpenPath(const QString &path, int col, int row);
 
+    void checkForUpdates(AppConfig*);
+
 private:
     Ui::MainWindow *ui;
+    QSystemTrayIcon *trayIcon;
 
     bool goToBuildStage();
     void setUpProxy();

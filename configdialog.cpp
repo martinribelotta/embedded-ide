@@ -224,6 +224,10 @@ void ConfigDialog::on_projectTemplatesDownload_clicked()
     dialog->show();
 
     FileDownloader *downloader = new FileDownloader(this);
+    connect(dialog, &QProgressDialog::canceled, [this, dialog, downloader](){
+      dialog->deleteLater();
+      downloader->deleteLater();
+    });
     connect(downloader, &FileDownloader::allDownloadsFinished, [this, dialog, downloader] ()
     {
         if (!dialog->property("ignoreFirst").toBool()) {

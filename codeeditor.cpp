@@ -1,5 +1,7 @@
 #include "codeeditor.h"
 
+#include <cmath>
+
 #include <QAction>
 #include <QDir>
 #include <QPainter>
@@ -379,7 +381,7 @@ void CodeEditor::setDebugPointer(int line)
 void CodeEditor::adjustLineNumberMargin()
 {
     QFontMetrics m(font());
-    setMarginWidth(0, m.width(QString().fill('0', 2 + static_cast<int>(::log10(lines())))));
+    setMarginWidth(0, m.width(QString().fill('0', 2 + static_cast<int>(std::log10(lines())))));
 }
 
 QString CodeEditor::wordUnderCursor() const {
