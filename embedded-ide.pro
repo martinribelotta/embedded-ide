@@ -13,6 +13,9 @@ DESTDIR = build
 TARGET = embedded-ide
 TEMPLATE = app
 
+target.path = /tmp/$${TARGET}/bin
+INSTALLS += target
+
 DEFINES += DISABLE_DEBUG_UI
 
 #win32{
@@ -66,7 +69,9 @@ SOURCES += main.cpp\
     findlineedit.cpp \
     toolmanager.cpp \
     appconfig.cpp \
-    passwordpromtdialog.cpp
+    passwordpromtdialog.cpp \
+    templatedownloader.cpp \
+    templatesdownloadselector.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -104,7 +109,9 @@ HEADERS  += mainwindow.h \
     findlineedit.h \
     toolmanager.h \
     appconfig.h \
-    passwordpromtdialog.h
+    passwordpromtdialog.h \
+    templatedownloader.h \
+    templatesdownloadselector.h
 
 FORMS    += mainwindow.ui \
     projectnewdialog.ui \
@@ -117,7 +124,8 @@ FORMS    += mainwindow.ui \
     mainmenuwidget.ui \
     formfindreplace.ui \
     toolmanager.ui \
-    passwordpromtdialog.ui
+    passwordpromtdialog.ui \
+    templatesdownloadselector.ui
 
 RESOURCES += \
     resources.qrc
