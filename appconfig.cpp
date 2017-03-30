@@ -164,7 +164,7 @@ void AppConfig::load()
 {
   QSettings s;
   this->setEditorStyle(
-        s.value(EDITOR_STYLE, "stylers.model").toString());
+        s.value(EDITOR_STYLE, "Default").toString());
   this->setEditorFontSize(
         s.value(EDITOR_FONT_SIZE, 10).toInt());
   this->setEditorFontStyle(

@@ -162,7 +162,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(menuWidget, SIGNAL(exit()), menu, SLOT(hide()));
     ui->projectView->setMainMenu(menu);
 
-    statusBar()->showMessage(tr("Application ready..."), 1500);
 #ifdef DISABLE_DEBUG_UI
     ui->tabWidget->removeTab(2);
     ui->tabWidget->removeTab(1);
@@ -170,7 +169,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setUpProxy();
     checkForUpdates(&AppConfig::mutableInstance());
     statusBar()->showMessage(tr("Application ready..."), 1500);
-    // statusBar()->hide();
+    statusBar()->hide();
+    foreach(QToolButton *b, findChildren<QToolButton*>())
+        b->setAutoRaise(true);
 }
 
 MainWindow::~MainWindow()
@@ -314,7 +315,7 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
 {
     QString file = ui->projectView->projectPath().absoluteFilePath(path);
     qDebug() << "Opening" << file << row << col;
-    ui->centralWidget->fileOpenAt(file, row, col, &ui->projectView->makeInfo());
+    ui->centralWidget->fileOpenAt(file, row - 1, col, &ui->projectView->makeInfo());
 }
 
 void MainWindow::checkForUpdates(AppConfig *) {
