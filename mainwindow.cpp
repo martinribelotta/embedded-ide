@@ -9,6 +9,8 @@
 #include "debuginterface.h"
 #include "mainmenuwidget.h"
 #include "appconfig.h"
+#include "filedownloader.h"
+#include "templatedownloader.h"
 
 #include <QRegularExpression>
 #include <QCloseEvent>
@@ -32,6 +34,7 @@
 #include <QToolButton>
 #include <QTimer>
 #include <QWidgetAction>
+#include <QSystemTrayIcon>
 
 #include <QtDebug>
 
@@ -71,6 +74,7 @@ static void removeFromLastProject(const QString& path) {
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
+  , trayIcon(new QSystemTrayIcon(this))
 {
     ui->setupUi(this);
 
@@ -142,6 +146,10 @@ MainWindow::MainWindow(QWidget *parent) :
     });
     connect(menuWidget, SIGNAL(projectClose()), this, SLOT(projectClose()));
     connect(menuWidget, SIGNAL(configure()), this, SLOT(configureShow()));
+    connect(&(AppConfig::mutableInstance()), SIGNAL(configChanged(AppConfig*)),
+            this, SLOT(configChanged(AppConfig*)));
+    connect(&(AppConfig::mutableInstance()), SIGNAL(configChanged(AppConfig*)),
+            this, SLOT(checkForUpdates(AppConfig*)));
     connect(menuWidget, SIGNAL(help()), this, SLOT(helpShow()));
 
     connect(menuWidget, SIGNAL(exit()), this, SLOT(close()));
@@ -160,6 +168,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->removeTab(1);
 #endif
     setUpProxy();
+    checkForUpdates(&AppConfig::mutableInstance());
     statusBar()->showMessage(tr("Application ready..."), 1500);
     // statusBar()->hide();
 }
@@ -296,7 +305,7 @@ void MainWindow::configureShow()
     ConfigDialog(this).exec();
 }
 
-void MainWindow::configChanged(AppConfig* config)
+void MainWindow::configChanged(AppConfig*)
 {
   this->setUpProxy();
 }
@@ -306,6 +315,24 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
     QString file = ui->projectView->projectPath().absoluteFilePath(path);
     qDebug() << "Opening" << file << row << col;
     ui->centralWidget->fileOpenAt(file, row, col, &ui->projectView->makeInfo());
+}
+
+void MainWindow::checkForUpdates(AppConfig *) {
+  static TemplateDownloader *td = nullptr;
+  if (!td) {
+    td = new TemplateDownloader{};
+    connect(td, &TemplateDownloader::newUpdatesAvailables, [this]() {
+      trayIcon->show();
+      trayIcon->showMessage(
+          tr("Updates available"),
+          tr("New project templates available, click here for details"),
+          QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information), 15000);
+    });
+    connect(trayIcon, &QSystemTrayIcon::messageClicked, [this]() {
+      td->download();
+    });
+  }
+  td->requestPendantDownloads();
 }
 
 bool MainWindow::goToBuildStage() {
@@ -367,4 +394,3 @@ void MainWindow::setUpProxy() {
       break;
   }
 }
-
