@@ -27,67 +27,67 @@
 <context>
     <name>CodeEditor</name>
     <message>
-        <location filename="../codeeditor.cpp" line="186"/>
+        <location filename="../codeeditor.cpp" line="185"/>
         <source>&amp;Undo</source>
         <translation>&amp;撤消</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="187"/>
+        <location filename="../codeeditor.cpp" line="186"/>
         <source>&amp;Redo</source>
         <translation>&amp;重做</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="189"/>
+        <location filename="../codeeditor.cpp" line="188"/>
         <source>Cu&amp;t</source>
         <translation>&amp;切</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="190"/>
+        <location filename="../codeeditor.cpp" line="189"/>
         <source>&amp;Copy</source>
         <translation>&amp;复制</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="191"/>
+        <location filename="../codeeditor.cpp" line="190"/>
         <source>&amp;Paste</source>
         <translation>&amp;糊</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="192"/>
+        <location filename="../codeeditor.cpp" line="191"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="194"/>
+        <location filename="../codeeditor.cpp" line="193"/>
         <source>&amp;Select All</source>
         <translation>&amp;全选</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="439"/>
+        <location filename="../codeeditor.cpp" line="459"/>
         <source>Find symbol under cursor</source>
         <translation>光标下查找符号</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="450"/>
+        <location filename="../codeeditor.cpp" line="470"/>
         <source>Document Modified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="451"/>
+        <location filename="../codeeditor.cpp" line="471"/>
         <source>The document is not save. Save it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="454"/>
+        <location filename="../codeeditor.cpp" line="474"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="455"/>
+        <location filename="../codeeditor.cpp" line="475"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="456"/>
+        <location filename="../codeeditor.cpp" line="476"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
@@ -171,63 +171,73 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="267"/>
+        <location filename="../configdialog.ui" line="261"/>
         <source>HTTP proxy for network access</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="275"/>
+        <location filename="../configdialog.ui" line="269"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="282"/>
+        <location filename="../configdialog.ui" line="276"/>
         <source>System proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="289"/>
+        <location filename="../configdialog.ui" line="283"/>
         <source>Custom proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="298"/>
+        <location filename="../configdialog.ui" line="292"/>
         <source>Proxy authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="309"/>
+        <location filename="../configdialog.ui" line="303"/>
         <source>With credentials</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="318"/>
+        <location filename="../configdialog.ui" line="312"/>
         <source>Username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="352"/>
+        <location filename="../configdialog.ui" line="346"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="391"/>
+        <location filename="../configdialog.ui" line="385"/>
         <source>Host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="401"/>
+        <location filename="../configdialog.ui" line="395"/>
         <source>localhost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="408"/>
+        <location filename="../configdialog.ui" line="402"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="418"/>
+        <location filename="../configdialog.ui" line="412"/>
         <source>3128</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="438"/>
+        <source>Behavior</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../configdialog.ui" line="444"/>
+        <source>Check for project templates updates at start up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -236,44 +246,44 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="166"/>
-        <location filename="../configdialog.cpp" line="193"/>
+        <location filename="../configdialog.cpp" line="170"/>
+        <location filename="../configdialog.cpp" line="197"/>
         <source>Select directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="175"/>
+        <location filename="../configdialog.cpp" line="179"/>
         <source>Select file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="206"/>
-        <location filename="../configdialog.cpp" line="212"/>
+        <location filename="../configdialog.cpp" line="210"/>
+        <location filename="../configdialog.cpp" line="216"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="206"/>
+        <location filename="../configdialog.cpp" line="210"/>
         <source>No valid URL: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="212"/>
+        <location filename="../configdialog.cpp" line="216"/>
         <source>Error creating %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="220"/>
+        <location filename="../configdialog.cpp" line="224"/>
         <source>Downloading template list...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="238"/>
+        <location filename="../configdialog.cpp" line="246"/>
         <source>Network error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="245"/>
+        <location filename="../configdialog.cpp" line="253"/>
         <source>Downloading %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -286,100 +296,80 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="37"/>
-        <location filename="../debuginterface.ui" line="60"/>
-        <location filename="../debuginterface.ui" line="96"/>
-        <location filename="../debuginterface.ui" line="119"/>
-        <location filename="../debuginterface.ui" line="142"/>
-        <location filename="../debuginterface.ui" line="165"/>
-        <location filename="../debuginterface.ui" line="188"/>
-        <source>...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../debuginterface.ui" line="57"/>
-        <source>Stop Debugger</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../debuginterface.ui" line="93"/>
-        <location filename="../debuginterface.ui" line="309"/>
-        <location filename="../debuginterface.ui" line="312"/>
+        <location filename="../debuginterface.ui" line="70"/>
+        <location filename="../debuginterface.ui" line="271"/>
+        <location filename="../debuginterface.ui" line="274"/>
         <source>Run</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="116"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Continue&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../debuginterface.ui" line="139"/>
+        <location filename="../debuginterface.ui" line="110"/>
         <source>Step Over</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="162"/>
+        <location filename="../debuginterface.ui" line="130"/>
         <source>Step Into</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="185"/>
+        <location filename="../debuginterface.ui" line="150"/>
         <source>Run to context end</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="253"/>
+        <location filename="../debuginterface.ui" line="215"/>
         <source>Threads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="269"/>
+        <location filename="../debuginterface.ui" line="231"/>
         <source>Breakpoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="285"/>
+        <location filename="../debuginterface.ui" line="247"/>
         <source>Stack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="321"/>
-        <location filename="../debuginterface.ui" line="324"/>
+        <location filename="../debuginterface.ui" line="283"/>
+        <location filename="../debuginterface.ui" line="286"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="333"/>
-        <location filename="../debuginterface.ui" line="336"/>
+        <location filename="../debuginterface.ui" line="295"/>
+        <location filename="../debuginterface.ui" line="298"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="345"/>
-        <location filename="../debuginterface.ui" line="348"/>
+        <location filename="../debuginterface.ui" line="307"/>
+        <location filename="../debuginterface.ui" line="310"/>
         <source>Step In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="357"/>
-        <location filename="../debuginterface.ui" line="360"/>
+        <location filename="../debuginterface.ui" line="319"/>
+        <location filename="../debuginterface.ui" line="322"/>
         <source>Step Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.ui" line="369"/>
-        <location filename="../debuginterface.ui" line="372"/>
+        <location filename="../debuginterface.ui" line="90"/>
+        <location filename="../debuginterface.ui" line="331"/>
+        <location filename="../debuginterface.ui" line="334"/>
         <source>Continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.cpp" line="747"/>
+        <location filename="../debuginterface.cpp" line="746"/>
         <source>Program received signal %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debuginterface.cpp" line="748"/>
+        <location filename="../debuginterface.cpp" line="747"/>
         <source>Signal received</source>
         <translation type="unfinished"></translation>
     </message>
@@ -460,7 +450,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="206"/>
+        <location filename="../documentarea.cpp" line="201"/>
         <source> [*]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -468,62 +458,57 @@
 <context>
     <name>DocumentView</name>
     <message>
-        <location filename="../projectview.ui" line="39"/>
-        <location filename="../projectview.ui" line="109"/>
+        <location filename="../projectview.ui" line="42"/>
+        <location filename="../projectview.ui" line="72"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="81"/>
-        <source>Filter:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../projectview.ui" line="132"/>
+        <location filename="../projectview.ui" line="95"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Document New&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="152"/>
+        <location filename="../projectview.ui" line="115"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Folder New&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="155"/>
-        <location filename="../projectview.ui" line="178"/>
-        <location filename="../projectview.ui" line="201"/>
-        <location filename="../projectview.ui" line="237"/>
-        <location filename="../projectview.ui" line="257"/>
+        <location filename="../projectview.ui" line="118"/>
+        <location filename="../projectview.ui" line="141"/>
+        <location filename="../projectview.ui" line="164"/>
+        <location filename="../projectview.ui" line="200"/>
+        <location filename="../projectview.ui" line="220"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="175"/>
+        <location filename="../projectview.ui" line="138"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Remove File/Folder&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="198"/>
+        <location filename="../projectview.ui" line="161"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show symbols&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="234"/>
+        <location filename="../projectview.ui" line="197"/>
         <source>Project export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="254"/>
+        <location filename="../projectview.ui" line="217"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tools&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="336"/>
+        <location filename="../projectview.ui" line="299"/>
         <source>Targets:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="369"/>
+        <location filename="../projectview.ui" line="332"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
@@ -621,162 +606,167 @@
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.ui" line="14"/>
-        <location filename="../mainwindow.cpp" line="284"/>
+        <location filename="../mainwindow.cpp" line="282"/>
         <source>Embedded IDE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="25"/>
-        <source>toolBar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="57"/>
+        <location filename="../mainwindow.ui" line="28"/>
         <source>Loggin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="89"/>
+        <location filename="../mainwindow.ui" line="63"/>
         <source>Compiler Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="94"/>
+        <location filename="../mainwindow.ui" line="68"/>
         <source>GDB Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="99"/>
+        <location filename="../mainwindow.ui" line="73"/>
         <source>Application Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="112"/>
+        <location filename="../mainwindow.ui" line="86"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="125"/>
+        <location filename="../mainwindow.ui" line="177"/>
         <source>ProjectNew</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="128"/>
+        <location filename="../mainwindow.ui" line="180"/>
         <source>New Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="137"/>
+        <location filename="../mainwindow.ui" line="165"/>
         <source>ProjectOpen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="140"/>
-        <location filename="../mainwindow.cpp" line="138"/>
-        <location filename="../mainwindow.cpp" line="239"/>
-        <location filename="../mainwindow.cpp" line="258"/>
+        <location filename="../mainwindow.ui" line="168"/>
+        <location filename="../mainwindow.cpp" line="139"/>
+        <location filename="../mainwindow.cpp" line="241"/>
+        <location filename="../mainwindow.cpp" line="260"/>
         <source>Open Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="149"/>
+        <location filename="../mainwindow.ui" line="156"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="158"/>
+        <location filename="../mainwindow.ui" line="147"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="167"/>
+        <location filename="../mainwindow.ui" line="135"/>
         <source>ProjectExport</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="170"/>
+        <location filename="../mainwindow.ui" line="138"/>
         <source>Export Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="179"/>
+        <location filename="../mainwindow.ui" line="123"/>
         <source>ProjectClose</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="182"/>
+        <location filename="../mainwindow.ui" line="126"/>
         <source>Close current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="191"/>
+        <location filename="../mainwindow.ui" line="111"/>
         <source>Save All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="194"/>
+        <location filename="../mainwindow.ui" line="114"/>
         <source>Save all files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="203"/>
-        <location filename="../mainwindow.ui" line="206"/>
+        <location filename="../mainwindow.ui" line="99"/>
+        <location filename="../mainwindow.ui" line="102"/>
         <source>Configure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="138"/>
-        <location filename="../mainwindow.cpp" line="258"/>
+        <location filename="../mainwindow.cpp" line="139"/>
+        <location filename="../mainwindow.cpp" line="260"/>
         <source>Cannot open %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="167"/>
+        <location filename="../mainwindow.cpp" line="168"/>
         <source>Application ready...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="193"/>
+        <location filename="../mainwindow.cpp" line="196"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="198"/>
+        <location filename="../mainwindow.cpp" line="201"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="200"/>
+        <location filename="../mainwindow.cpp" line="203"/>
         <source>Success</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="241"/>
+        <location filename="../mainwindow.cpp" line="243"/>
         <source>Makefile (Makefile);;Make (*.mk);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="267"/>
+        <location filename="../mainwindow.cpp" line="269"/>
         <source>Embedded IDE %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="327"/>
+        <location filename="../mainwindow.cpp" line="328"/>
+        <source>Updates available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="329"/>
+        <source>New project templates available, click here for details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="346"/>
         <source>Save files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="328"/>
+        <location filename="../mainwindow.cpp" line="347"/>
         <source>Save all files before build?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="330"/>
+        <location filename="../mainwindow.cpp" line="349"/>
         <source>Do not show again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="338"/>
+        <location filename="../mainwindow.cpp" line="357"/>
         <source>This dialog not will show again</source>
         <translation type="unfinished"></translation>
     </message>
@@ -966,7 +956,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appconfig.cpp" line="200"/>
+        <location filename="../appconfig.cpp" line="207"/>
         <source>Proxy require password</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1056,77 +1046,77 @@
 <context>
     <name>ProjectView</name>
     <message>
-        <location filename="../projectview.cpp" line="268"/>
+        <location filename="../projectview.cpp" line="241"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="269"/>
+        <location filename="../projectview.cpp" line="242"/>
         <source>Create file on %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="274"/>
+        <location filename="../projectview.cpp" line="247"/>
         <source>Error creating file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="299"/>
+        <location filename="../projectview.cpp" line="272"/>
         <source>Folder name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="300"/>
+        <location filename="../projectview.cpp" line="273"/>
         <source>Create folder on %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="317"/>
+        <location filename="../projectview.cpp" line="290"/>
         <source>Delete files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="322"/>
+        <location filename="../projectview.cpp" line="295"/>
         <source>Do this operation for all items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="335"/>
+        <location filename="../projectview.cpp" line="308"/>
         <source>Realy remove %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="361"/>
+        <location filename="../projectview.cpp" line="334"/>
         <source>Export file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="362"/>
+        <location filename="../projectview.cpp" line="335"/>
         <source>Unknown.template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="363"/>
+        <location filename="../projectview.cpp" line="336"/>
         <source>Tempalte files (*.template);;Diff files (*.diff);;All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="389"/>
+        <location filename="../projectview.cpp" line="362"/>
         <source>Input text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="403"/>
+        <location filename="../projectview.cpp" line="376"/>
         <source>Input items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="466"/>
+        <location filename="../projectview.cpp" line="439"/>
         <source>No entries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="469"/>
+        <location filename="../projectview.cpp" line="442"/>
         <source>Manage tools</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1145,6 +1135,24 @@
     </message>
 </context>
 <context>
+    <name>QMainWindow</name>
+    <message>
+        <location filename="../templatedownloader.cpp" line="42"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatedownloader.cpp" line="43"/>
+        <source>No valid URL: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatedownloader.cpp" line="49"/>
+        <source>Network error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
         <location filename="../filedownloader.cpp" line="51"/>
@@ -1154,6 +1162,31 @@
     <message>
         <location filename="../filedownloader.cpp" line="69"/>
         <source>Network error downloading %1: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="66"/>
+        <source>Desktop support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="68"/>
+        <source> can not detect any system tray on this desktop, notify this to developers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.cpp" line="138"/>
+        <source>Network error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.cpp" line="278"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.cpp" line="279"/>
+        <source>Error creating %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5042,6 +5075,59 @@
     <message>
         <location filename="../qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4446"/>
         <source>Select All</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TemplatesDownloadSelector</name>
+    <message>
+        <location filename="../templatesdownloadselector.ui" line="14"/>
+        <source>Update project templates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.ui" line="31"/>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.ui" line="56"/>
+        <source>Available updates:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.ui" line="68"/>
+        <source>xx new</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.ui" line="91"/>
+        <source>xx updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.ui" line="118"/>
+        <source>Download selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.cpp" line="230"/>
+        <source>%1 new</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.cpp" line="235"/>
+        <source>%1 updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.cpp" line="362"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../templatesdownloadselector.cpp" line="362"/>
+        <source>Error creating %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
