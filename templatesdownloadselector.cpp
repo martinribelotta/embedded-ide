@@ -103,7 +103,7 @@ TemplateWidget::TemplateWidget(const QString &style, const Template &t,
       tmpl_{t} {
   QIcon dwn{t.change() == Template::ChangeType::New
                 ? ":/images/edit-download.svg"
-                : ":/images/mimetypes/text-x-patch.svg"};
+                : ":/images/actions/view-refresh.svg"};
   download_->setIcon(dwn);
   select_->setChecked(true);
   download_fade_->setOpacity(1.0);
