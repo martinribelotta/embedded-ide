@@ -20,6 +20,7 @@
 #define NETWORK_PROXY_PORT "/network/proxy/port"
 #define NETWORK_PROXY_CREDENTIALS "/network/proxy/credentials"
 #define NETWORK_PROXY_USERNAME "/network/proxy/username"
+#define PROJECTTMPLATES_AUTOUPDATE "behavior/projecttmplates/autoupdate"
 
 struct AppConfigData {
     struct NetworkProxy {
@@ -41,6 +42,7 @@ struct AppConfigData {
     int editorTabWidth;
     bool editorSaveOnAction;
     bool editorTabsToSpaces;
+    bool autoUpdateProjectTmplates;
 };
 
 AppConfigData* appData()
@@ -155,6 +157,11 @@ const QString& AppConfig::networkProxyPassword() const
     return appData()->networkProxy.password;
 }
 
+bool AppConfig::projectTmplatesAutoUpdate() const
+{
+    return appData()->autoUpdateProjectTmplates;
+}
+
 AppConfig::AppConfig()
 {
   load();
@@ -202,6 +209,8 @@ void AppConfig::load()
       this->setNetworkProxyPassword(paswd.password());
     }
   }
+  this->setProjectTmplatesAutoUpdate(
+        s.value(PROJECTTMPLATES_AUTOUPDATE, true).toBool());
   emit configChanged(this);
 }
 
@@ -223,6 +232,8 @@ void AppConfig::save()
   s.setValue(NETWORK_PROXY_PORT, this->networkProxyPort());
   s.setValue(NETWORK_PROXY_CREDENTIALS, this->networkProxyUseCredentials());
   s.setValue(NETWORK_PROXY_USERNAME, this->networkProxyUsername());
+  s.setValue(PROJECTTMPLATES_AUTOUPDATE,
+             this->projectTmplatesAutoUpdate());
   this->adjustPath();
   emit configChanged(this);
 }
@@ -306,6 +317,11 @@ void AppConfig::setNetworkProxyUsername(const QString& username)
 void AppConfig::setNetworkProxyPassword(const QString& password)
 {
     appData()->networkProxy.password = password;
+}
+
+void AppConfig::setProjectTmplatesAutoUpdate(bool automatic)
+{
+    appData()->autoUpdateProjectTmplates = automatic;
 }
 
 void AppConfig::adjustPath()

@@ -303,10 +303,12 @@ void MainWindow::configureShow()
     ConfigDialog(this).exec();
 }
 
-void MainWindow::configChanged(AppConfig*)
+void MainWindow::configChanged(AppConfig* config)
 {
   this->setUpProxy();
-  this->checkForUpdates();
+  if (config && config->projectTmplatesAutoUpdate()) {
+    this->checkForUpdates();
+  }
 }
 
 void MainWindow::loggerOpenPath(const QString& path, int col, int row)
