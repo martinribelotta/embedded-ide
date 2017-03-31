@@ -49,7 +49,7 @@ private slots:
 
     void loggerOpenPath(const QString &path, int col, int row);
 
-    void checkForUpdates(AppConfig*);
+    void checkForUpdates();
 
 private:
     Ui::MainWindow *ui;
