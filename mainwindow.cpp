@@ -148,8 +148,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(menuWidget, SIGNAL(configure()), this, SLOT(configureShow()));
     connect(&(AppConfig::mutableInstance()), SIGNAL(configChanged(AppConfig*)),
             this, SLOT(configChanged(AppConfig*)));
-    connect(&(AppConfig::mutableInstance()), SIGNAL(configChanged(AppConfig*)),
-            this, SLOT(checkForUpdates(AppConfig*)));
     connect(menuWidget, SIGNAL(help()), this, SLOT(helpShow()));
 
     connect(menuWidget, SIGNAL(exit()), this, SLOT(close()));
@@ -166,8 +164,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->removeTab(2);
     ui->tabWidget->removeTab(1);
 #endif
-    setUpProxy();
-    checkForUpdates(&AppConfig::mutableInstance());
+    configChanged(&AppConfig::mutableInstance());
     statusBar()->showMessage(tr("Application ready..."), 1500);
     statusBar()->hide();
     foreach(QToolButton *b, findChildren<QToolButton*>())
@@ -306,9 +303,12 @@ void MainWindow::configureShow()
     ConfigDialog(this).exec();
 }
 
-void MainWindow::configChanged(AppConfig*)
+void MainWindow::configChanged(AppConfig* config)
 {
   this->setUpProxy();
+  if (config && config->projectTmplatesAutoUpdate()) {
+    this->checkForUpdates();
+  }
 }
 
 void MainWindow::loggerOpenPath(const QString& path, int col, int row)
@@ -318,7 +318,7 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
     ui->centralWidget->fileOpenAt(file, row - 1, col, &ui->projectView->makeInfo());
 }
 
-void MainWindow::checkForUpdates(AppConfig *) {
+void MainWindow::checkForUpdates() {
   static TemplateDownloader *td = nullptr;
   if (!td) {
     td = new TemplateDownloader{};

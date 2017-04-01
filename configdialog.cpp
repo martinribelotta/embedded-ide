@@ -115,6 +115,8 @@ void ConfigDialog::load()
     ui->proxyPort->setText(config.networkProxyPort());
     ui->useAutentication->setChecked(config.networkProxyUseCredentials());
     ui->username->setText(config.networkProxyUsername());
+    ui->autoUpdateProjectTmplates->setChecked(
+          config.projectTmplatesAutoUpdate());
 }
 
 void ConfigDialog::save()
@@ -147,6 +149,8 @@ void ConfigDialog::save()
   config.setNetworkProxyUseCredentials(ui->useAutentication->isChecked());
   config.setNetworkProxyUsername(ui->username->text());
   config.setNetworkProxyPassword(ui->password->text());
+  config.setProjectTmplatesAutoUpdate(
+        ui->autoUpdateProjectTmplates->isChecked());
   config.save();
 }
 

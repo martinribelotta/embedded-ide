@@ -45,11 +45,11 @@ private slots:
 
     void configureShow();
 
-    void configChanged(AppConfig*);
+    void configChanged(AppConfig* config);
 
     void loggerOpenPath(const QString &path, int col, int row);
 
-    void checkForUpdates(AppConfig*);
+    void checkForUpdates();
 
 private:
     Ui::MainWindow *ui;

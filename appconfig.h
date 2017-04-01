@@ -39,6 +39,7 @@ class AppConfig : public QObject
     NetworkProxyType networkProxyType() const;
     const QString& networkProxyUsername() const;
     const QString& networkProxyPassword() const;
+    bool projectTmplatesAutoUpdate() const;
 
     void adjustPath();
 
@@ -67,6 +68,7 @@ class AppConfig : public QObject
     void setNetworkProxyType(NetworkProxyType type);
     void setNetworkProxyUsername(const QString& username);
     void setNetworkProxyPassword(const QString& password);
+    void setProjectTmplatesAutoUpdate(bool automatic);
 };
 
 #endif // APPCONFIG_H
