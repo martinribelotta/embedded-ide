@@ -100,8 +100,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
     ui->projectDock->setTitleBarWidget(new QWidget(this));
-    ui->actionProjectOpen->setMenu(lastProjects(this));
-    connect(ui->projectView, &ProjectView::projectOpened, this, &MainWindow::projectOpened);
     connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
     connect(ui->projectView, &ProjectView::startBuild,
             [this](const QString &target) {
@@ -231,8 +229,14 @@ void MainWindow::on_projectView_fileOpen(const QString &file)
     QMimeType m = QMimeDatabase().mimeTypeForFile(file, QMimeDatabase::MatchDefault);
     if (inf.suffix().toLower() == "map") {
         ui->centralWidget->mapOpen(file);
+#if 0
     } else if (inf.isExecutable()) {
+#ifdef Q_OS_WIN
         QDesktopServices::openUrl(QUrl::fromLocalFile(file));
+#else
+        QProcess::execute(file);
+#endif
+#endif
     } else if (m.inherits("text/plain") || (inf.size() == 0)) {
         ui->centralWidget->fileOpenAt(file, 0, 0, &ui->projectView->makeInfo());
     } else {
@@ -278,14 +282,8 @@ void MainWindow::openProject()
         } else {
             QMessageBox::critical(this, tr("Open Project"), tr("Cannot open %1").arg(a->text()));
             removeFromLastProject(name);
-            ui->actionProjectOpen->setMenu(lastProjects(this));
         }
     }
-}
-
-void MainWindow::projectOpened()
-{
-    setWindowTitle(tr("Embedded IDE %1").arg(ui->projectView->project()));
 }
 
 void MainWindow::helpShow()
@@ -303,18 +301,13 @@ void MainWindow::projectClose()
 
 void MainWindow::on_projectView_projectOpened()
 {
+    setWindowTitle(tr("Embedded IDE %1").arg(ui->projectView->project()));
     QString name = ui->projectView->projectPath().dirName();
     QString path = ui->projectView->project();
     QSettings sets;
     sets.beginGroup("last_projects");
     sets.setValue(name, path);
     sets.sync();
-    ui->actionProjectOpen->setMenu(lastProjects(this));
-}
-
-void MainWindow::on_actionSave_All_triggered()
-{
-    ui->centralWidget->saveAll();
 }
 
 void MainWindow::configureShow()

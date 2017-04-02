@@ -25,6 +25,7 @@
 #include "taglist.h"
 #include "projectexporter.h"
 #include "toolmanager.h"
+#include "filepropertiesdialog.h"
 
 
 MyFileSystemModel::MyFileSystemModel(QObject *parent) :
@@ -49,6 +50,7 @@ ProjectView::ProjectView(QWidget *parent) :
     ui->setupUi(this);
     ui->tabDebug->setProjectView(this);
     ui->treeView->setAcceptDrops(true);
+    ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     projectButtons += ui->toolButton_documentNew;
     projectButtons += ui->toolButton_export;
@@ -388,6 +390,12 @@ void ProjectView::toolAction()
     }
 }
 
+void ProjectView::fileProperties(const QFileInfo& info)
+{
+    FilePropertiesDialog d(info, window());
+    d.exec();
+}
+
 static ProjectView::EntryList_t loadEntries()
 {
     ProjectView::EntryList_t list;
@@ -447,4 +455,26 @@ QMenu *ProjectView::createExternalToolsMenu()
             ui->toolButton_tools->setMenu(createExternalToolsMenu());
     });
     return menu;
+}
+
+void ProjectView::on_treeView_pressed(const QModelIndex &index)
+{
+    if (!QApplication::mouseButtons().testFlag(Qt::RightButton))
+        return;
+    QFileSystemModel *model = qobject_cast<QFileSystemModel*>(ui->treeView->model());
+    if (!model)
+        return;
+    QFileInfo fInfo = model->fileInfo(index);
+    QMenu *menu = new QMenu(this);
+    menu->addAction(QIcon(":/images/edit-find.svg"), tr("Properties"),
+                    [this, fInfo]() { fileProperties(fInfo); });
+    if (fInfo.isExecutable() && !fInfo.isDir())
+        menu->addAction(QIcon(":/images/actions/run-build.svg"), tr("Execute"),
+                        [fInfo] { QProcess::execute(fInfo.absoluteFilePath()); });
+    menu->addSeparator();
+    menu->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Rename"),
+                    [this, index]() { ui->treeView->edit(index); });
+    menu->addAction(QIcon(":/images/edit-delete.svg"), tr("Delete"),
+                    this, &ProjectView::on_toolButton_elementDel_clicked);
+    menu->exec(QCursor::pos());
 }

@@ -34,15 +34,11 @@ private slots:
 
     void openProject();
 
-    void projectOpened();
-
     void helpShow();
 
     void projectClose();
 
     void on_projectView_projectOpened();
-
-    void on_actionSave_All_triggered();
 
     void configureShow();
 

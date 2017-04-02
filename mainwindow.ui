@@ -90,96 +90,6 @@
    </attribute>
    <widget class="ProjectView" name="projectView"/>
   </widget>
-  <action name="actionConfigure">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/configure.svg</normaloff>:/images/configure.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Configure</string>
-   </property>
-   <property name="toolTip">
-    <string>Configure</string>
-   </property>
-  </action>
-  <action name="actionSave_All">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-save-all.svg</normaloff>:/images/document-save-all.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Save All</string>
-   </property>
-   <property name="toolTip">
-    <string>Save all files</string>
-   </property>
-  </action>
-  <action name="actionProjectClose">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-close.svg</normaloff>:/images/document-close.svg</iconset>
-   </property>
-   <property name="text">
-    <string>ProjectClose</string>
-   </property>
-   <property name="toolTip">
-    <string>Close current project</string>
-   </property>
-  </action>
-  <action name="actionProjectExport">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-export.svg</normaloff>:/images/document-export.svg</iconset>
-   </property>
-   <property name="text">
-    <string>ProjectExport</string>
-   </property>
-   <property name="toolTip">
-    <string>Export Project</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/application-exit.svg</normaloff>:/images/application-exit.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionHelp">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/help-about.svg</normaloff>:/images/help-about.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Help</string>
-   </property>
-  </action>
-  <action name="actionProjectOpen">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
-   </property>
-   <property name="text">
-    <string>ProjectOpen</string>
-   </property>
-   <property name="toolTip">
-    <string>Open Project</string>
-   </property>
-  </action>
-  <action name="actionProjectNew">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/images/document-new.svg</normaloff>:/images/document-new.svg</iconset>
-   </property>
-   <property name="text">
-    <string>ProjectNew</string>
-   </property>
-   <property name="toolTip">
-    <string>New Project</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -202,25 +112,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
- <connections>
-  <connection>
-   <sender>actionExit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>439</x>
-     <y>257</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <resources/>
+ <connections/>
 </ui>

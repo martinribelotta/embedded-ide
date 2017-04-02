@@ -72,6 +72,10 @@ private slots:
 
     void toolAction();
 
+    void fileProperties(const QFileInfo& info);
+
+    void on_treeView_pressed(const QModelIndex &index);
+
 signals:
     void projectOpened();
     void fileOpen(const QString& file);
