@@ -73,10 +73,29 @@ static void removeFromLastProject(const QString& path) {
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
-  , trayIcon(new QSystemTrayIcon(this))
+    ui(new Ui::MainWindow),
+    trayIcon(new QSystemTrayIcon(this)),
+    templateDownloader(new TemplateDownloader{})
 {
     ui->setupUi(this);
+    trayIcon->setIcon(QIcon(":/images/embedded-ide.svg"));
+    {
+        QMenu *m = new QMenu();
+        trayIcon->setContextMenu(m);
+        auto f = [this]() {
+            templateDownloader->download();
+            trayIcon->hide();
+        };
+        m->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Update"), f);
+        connect(trayIcon, &QSystemTrayIcon::messageClicked, f);
+        connect(templateDownloader, &TemplateDownloader::newUpdatesAvailables, [this]() {
+            trayIcon->show();
+            trayIcon->showMessage(
+                        tr("Updates available"),
+                        tr("New project templates available, click here for details"),
+                        QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information), 15000);
+        });
+    }
 
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
@@ -116,16 +135,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->removeTab(2);
     ui->tabWidget->removeTab(1);
 
-    QMenu *menu = new QMenu(this);
-    QWidgetAction *wa = new QWidgetAction(menu);
-    MainMenuWidget *menuWidget = new MainMenuWidget(menu);
+    QMenu *mainMenu = new QMenu(this);
+    QWidgetAction *wa = new QWidgetAction(mainMenu);
+    MainMenuWidget *menuWidget = new MainMenuWidget(mainMenu);
     menuWidget->setProjectList(lastProjectsList());
     wa->setDefaultWidget(menuWidget);
-    menu->addAction(wa);
+    mainMenu->addAction(wa);
     connect(menuWidget, SIGNAL(projectNew()), this, SLOT(projectNew()));
     connect(menuWidget, SIGNAL(projectOpen()), this, SLOT(projectOpen()));
-    connect(menuWidget, &MainMenuWidget::projectOpenAs, [this, menu, menuWidget] (const QFileInfo& info) {
-        menu->hide();
+    connect(menuWidget, &MainMenuWidget::projectOpenAs, [this, mainMenu, menuWidget] (const QFileInfo& info) {
+        mainMenu->hide();
         QString name = info.absoluteFilePath();
         if (QFileInfo(name).exists()) {
             ui->projectView->openProject(name);
@@ -152,13 +171,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(menuWidget, SIGNAL(exit()), this, SLOT(close()));
 
-    connect(menuWidget, SIGNAL(projectNew()), menu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(projectOpen()), menu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(projectClose()), menu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(configure()), menu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(help()), menu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(exit()), menu, SLOT(hide()));
-    ui->projectView->setMainMenu(menu);
+    connect(menuWidget, SIGNAL(projectNew()), mainMenu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(projectOpen()), mainMenu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(projectClose()), mainMenu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(configure()), mainMenu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(help()), mainMenu, SLOT(hide()));
+    connect(menuWidget, SIGNAL(exit()), mainMenu, SLOT(hide()));
+    ui->projectView->setMainMenu(mainMenu);
 
 #ifdef DISABLE_DEBUG_UI
     ui->tabWidget->removeTab(2);
@@ -319,21 +338,7 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
 }
 
 void MainWindow::checkForUpdates() {
-  static TemplateDownloader *td = nullptr;
-  if (!td) {
-    td = new TemplateDownloader{};
-    connect(td, &TemplateDownloader::newUpdatesAvailables, [this]() {
-      trayIcon->show();
-      trayIcon->showMessage(
-          tr("Updates available"),
-          tr("New project templates available, click here for details"),
-          QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information), 15000);
-    });
-    connect(trayIcon, &QSystemTrayIcon::messageClicked, [this]() {
-      td->download();
-    });
-  }
-  td->requestPendantDownloads();
+  templateDownloader->requestPendantDownloads();
 }
 
 bool MainWindow::goToBuildStage() {

@@ -8,15 +8,17 @@
 class TemplateDownloader : public QObject
 {
     Q_OBJECT
-  public:
+public:
     TemplateDownloader();
+
+public slots:
     void requestPendantDownloads();
     void download();
 
-  signals:
+signals:
     void newUpdatesAvailables();
 
-  private:
+private:
     void downloadMetadata();
 
     std::vector<Template> tmpls_;

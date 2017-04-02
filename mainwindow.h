@@ -7,6 +7,7 @@ namespace Ui {
 class MainWindow;
 }
 class AppConfig;
+class TemplateDownloader;
 class QSystemTrayIcon;
 
 class MainWindow : public QMainWindow
@@ -54,6 +55,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QSystemTrayIcon *trayIcon;
+    TemplateDownloader *templateDownloader;
 
     bool goToBuildStage();
     void setUpProxy();
