@@ -88,6 +88,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     m_completer->setWidget(this);
 
     QSortFilterProxyModel *pModel = new QSortFilterProxyModel(m_completer);
+    pModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     pModel->setSourceModel(new QStringListModel(m_completer));
     m_completer->setModel(pModel);
     connect(m_completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
@@ -129,12 +130,26 @@ void CodeEditor::insertCompletion(const QString &completion)
     } else if (s.contains(':')) {
         s = s.split(':').at(0).trimmed();
     }
+
+    int line, index;
+    getCursorPosition(&line, &index);
+    unsigned long position = static_cast<unsigned long>(positionFromLineIndex(line, index));
+    long start_pos = SendScintilla(SCI_WORDSTARTPOSITION, position, true);
+    long end_pos = SendScintilla(SCI_WORDENDPOSITION, position, true);
+    // Delete word under cursor
+    SendScintilla(SCI_DELETERANGE, static_cast<unsigned long>(start_pos), end_pos - start_pos);
+
+    // Set start position to insert new completion
+    SendScintilla(SCI_GOTOPOS, start_pos);
     insert(s);
+    // Set position at end of inserted word
+    SendScintilla(SCI_GOTOPOS, start_pos + s.length());
     m_completer->popup()->hide();
 }
 
 void CodeEditor::codeContextUpdate(const QStringList& list)
 {
+    // qDebug() << "completion:\n" << list;
     QSortFilterProxyModel *pModel = qobject_cast<QSortFilterProxyModel*>(m_completer->model());
     QStringListModel *m = qobject_cast<QStringListModel*>(pModel->sourceModel());
     m->setStringList(list);
@@ -298,9 +313,11 @@ bool CodeEditor::load(const QString &fileName)
            auto mime = QMimeDatabase().mimeTypeForFile(fileName);
            qDebug() << mime.name() << mime.allAncestors();
            if (mime.inherits("text/x-csrc")) {
-               if (makefileInfo())
-                   (new CLangCodeContext(this))->setWorkingDir(makefileInfo()->workingDir);
-               else
+               if (makefileInfo()) {
+                   auto lang = new CLangCodeContext(this);
+                   lang->setWorkingDir(makefileInfo()->workingDir);
+                   lang->discoverFor(fileName);
+               } else
                    qDebug() << "no makefile info";
            }
            loadConfig();
@@ -395,6 +412,8 @@ void CodeEditor::adjustLineNumberMargin()
 QString CodeEditor::wordUnderCursor() const {
     int line, col;
     getCursorPosition(&line, &col);
+    return wordAtLineIndex(line, col);
+#if 0
     QString str = text(line);
     int startPos = str.left(col).lastIndexOf(QRegExp("\\b"));
     int endPos = str.indexOf(QRegExp("\\b"), col);
@@ -402,6 +421,7 @@ QString CodeEditor::wordUnderCursor() const {
         return str.mid(startPos, endPos - startPos);
     else
         return "";
+#endif
 }
 
 QString CodeEditor::lineUnderCursor() const
