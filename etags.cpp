@@ -51,7 +51,7 @@ static void parseDefs(const QString& in, const QString& file, ETags::TagMap *map
         QString tag = m.captured(2);
         ctx.decl = m.captured(1);
         ctx.file = file;
-        ctx.line = m.captured(3).toInt();
+        ctx.line = m.captured(3).toInt() - 1;
         ctx.offset = m.captured(4).toInt();
         map->insert(tag, ctx);
     }

@@ -63,7 +63,6 @@ private slots:
 signals:
     void fileError(const QString& errorText);
     void updateCodeContext();
-    void widgetResized();
     void requireOpen(const QString& file, int row, int col, const MakefileInfo *mk);
     void requestForSave(CodeEditor *sender);
 
