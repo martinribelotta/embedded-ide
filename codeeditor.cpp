@@ -223,6 +223,7 @@ _("text/x-ps", QsciLexerPostScript) +
 _("text/x-diff", QsciLexerDiff) +
 _("text/x-avs", QsciLexerAVS) +
 _("text/x-markdown", QsciLexerMarkdown) +
+_("text/markdown", QsciLexerMarkdown) +
 _("text/x-makefile", QsciLexerMakefile) +
 _("text/x-pov", QsciLexerPOV) +
 _("text/x-sql", QsciLexerSQL) +
@@ -263,10 +264,17 @@ static QsciLexer *lexerFromFile(const QString& name) {
         type = QMimeDatabase().mimeTypeForFileNameAndData(name, &f);
     else
         type = QMimeDatabase().mimeTypeForFile(name);
-    foreach(QString mimename, QStringList(type.name()) << type.parentMimeTypes()) {
-        // qDebug() << "mime" << mimename;
-        if (creatorMap.contains(mimename))
+    QString mimename = type.name();
+    // qDebug() << "mime" << mimename;
+    if (creatorMap.contains(mimename)) {
+        qDebug() << "for" << name << "mime found as" << mimename;
+        return creatorMap.value(mimename)();
+    }
+    foreach(mimename, type.parentMimeTypes()) {
+        if (creatorMap.contains(mimename)) {
+            qDebug() << "for" << name << "parent mime found as" << mimename;
             return creatorMap.value(mimename)();
+        }
     }
     return nullptr;
 }
