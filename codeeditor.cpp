@@ -120,6 +120,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     connect(this, &QsciScintilla::linesChanged, this, &CodeEditor::adjustLineNumberMargin);
 
     loadConfig();
+    connect(&AppConfig::mutableInstance(), &AppConfig::configChanged, this, &CodeEditor::loadConfig);
 }
 
 void CodeEditor::insertCompletion(const QString &completion)

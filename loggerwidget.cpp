@@ -1,3 +1,4 @@
+#include "appconfig.h"
 #include "loggerwidget.h"
 
 #include <QProcess>
@@ -25,30 +26,6 @@ struct LoggerWidget::priv_t {
     }
 };
 
-
-static bool isFixedPitch(const QFont & font) {
-    const QFontInfo fi(font);
-    // qDebug() << fi.family() << fi.fixedPitch();
-    return fi.fixedPitch();
-}
-
-const QFont monoFont() {
-    QFont font("monospace");
-    if (isFixedPitch(font))
-        return font;
-    font.setStyleHint(QFont::Monospace);
-    if (isFixedPitch(font))
-        return font;
-    font.setStyleHint(QFont::TypeWriter);
-    if (isFixedPitch(font))
-        return font;
-    font.setFamily("courier");
-    if (isFixedPitch(font))
-        return font;
-    // qDebug() << font << "fallback";
-    return font;
-}
-
 LoggerWidget::LoggerWidget(QWidget *parent) :
     QWidget(parent), d_ptr(new LoggerWidget::priv_t)
 {
@@ -58,7 +35,7 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
     QToolButton *killProc = new QToolButton(this);
     QTextBrowser *view = new QTextBrowser(this);
     QProcess *proc = new QProcess(this);
-    constexpr QSize iconSize(32, 32);
+    QSize iconSize(32, 32);
 
     clearConsole->setIcon(QIcon("://images/actions/edit-clear.svg"));
     killProc->setIcon(QIcon("://images/actions/media-playback-stop.svg"));
@@ -81,7 +58,6 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
 
     view->setOpenExternalLinks(false);
     view->setOpenLinks(false);
-    view->document()->setDefaultFont(monoFont());
     connect(view, &QTextBrowser::anchorClicked, [this](const QUrl& url) {
         QUrlQuery q(url.query());
         int row = q.queryItemValue("x").toInt();
@@ -125,6 +101,13 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
     connect(proc, &QProcess::stateChanged, [this, killProc](QProcess::ProcessState state) {
         killProc->setEnabled(state != QProcess::NotRunning);
     });
+    auto doConf = [view]() {
+        QFont loggerFont(AppConfig::mutableInstance().loggerFontStyle());
+        loggerFont.setPixelSize(AppConfig::mutableInstance().loggerFontSize());
+        view->document()->setDefaultFont(loggerFont);
+    };
+    connect(&AppConfig::mutableInstance(), &AppConfig::configChanged, doConf);
+    doConf();
     d->proc = proc;
     d->view = view;
 }

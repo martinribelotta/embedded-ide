@@ -23,6 +23,8 @@ class AppConfig : public QObject
     const QString& editorStyle() const;
     int editorFontSize() const;
     const QString& editorFontStyle() const;
+    int loggerFontSize() const;
+    const QString &loggerFontStyle() const;
     bool editorSaveOnAction() const;
     bool editorTabsToSpaces() const;
     int editorTabWidth() const;
@@ -54,6 +56,8 @@ class AppConfig : public QObject
 
     void setBuildAdditionalPaths(const QStringList& buildAdditionalPaths) const;
     void setEditorStyle(const QString& editorStyle);
+    void setLoggerFontSize(int loggerFontSize);
+    void setLoggerFontStyle(const QString& loggerFontStyle);
     void setEditorFontSize(int editorFontSize);
     void setEditorFontStyle(const QString& editorFontStyle);
     void setEditorSaveOnAction(bool editorSaveOnAction);

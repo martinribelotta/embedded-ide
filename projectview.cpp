@@ -27,6 +27,7 @@
 #include "toolmanager.h"
 #include "filepropertiesdialog.h"
 
+static const int LAST_MESSAGE_TIMEOUT=1500;
 
 MyFileSystemModel::MyFileSystemModel(QObject *parent) :
     QFileSystemModel(parent)
@@ -68,10 +69,10 @@ ProjectView::ProjectView(QWidget *parent) :
 
     ui->tabWidget->setCurrentIndex(0);
     connect(this, &ProjectView::projectOpened, [this]() {
-        ui->targetStack->setCurrentIndex(0);
-        ui->waitSpinner->stop();
+        // ui->waitSpinner->stop();
+        //ui->labelStatus->setText("Loaded");
+        //QTimer::singleShot(LAST_MESSAGE_TIMEOUT, ui->labelStatus, &QLabel::clear);
     });
-    ui->targetStack->setCurrentIndex(0);
 
     ui->toolButton_tools->setMenu(createExternalToolsMenu());
 #ifdef DISABLE_DEBUG_UI
@@ -130,8 +131,8 @@ void ProjectView::openProject(const QString &projectFile)
     if (!project().isEmpty())
         closeProject();
     if (!projectFile.isEmpty()) {
-        ui->targetStack->setCurrentIndex(1);
-        ui->waitSpinner->start();
+        //ui->waitSpinner->start();
+        ui->labelStatus->setText(tr("Loading..."));
         QFileInfo mk(projectFile);
         QFileSystemModel *model = new MyFileSystemModel(this);
         model->setFilter(QDir::AllDirs|QDir::NoDotAndDotDot|QDir::Files);
@@ -198,26 +199,26 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
         ui->targetList->addItem(new QListWidgetItem(icon, t));
     }
     sender()->deleteLater();
-    if (QFileInfo(mk_info.tags.tagFile()).exists()) {
-        emit projectOpened();
-    } else {
-        QProcess *ctagProc = new QProcess(this);
-        ctagProc->setWorkingDirectory(mk_info.workingDir);
-        connect(ctagProc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
-                [ctagProc, this] () {
-            ctagProc->deleteLater();
-            emit projectOpened();
-        });
-        connect(ctagProc, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
-                [ctagProc, this] () {
-            qDebug() << "parse tags "
-                     << mk_info.tags.parse(ctagProc);
-            // tagList->setTagList(mk_info.tags.all());
-            ctagProc->deleteLater();
-            emit projectOpened();
-        });
-        ctagProc->start("ctags -R -e --c-kinds=+p --c++-kinds=+px -f -");
-    }
+    QProcess *ctagProc = new QProcess(this);
+    ctagProc->setWorkingDirectory(mk_info.workingDir);
+    connect(ctagProc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
+            [ctagProc, this] () {
+        ui->labelStatus->setText(tr("Done with errors"));
+        QTimer::singleShot(LAST_MESSAGE_TIMEOUT, ui->labelStatus, &QLabel::clear);
+        ctagProc->deleteLater();
+    });
+    connect(ctagProc, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
+            [ctagProc, this] () {
+        qDebug() << "parse tags "
+                 << mk_info.tags.parse(ctagProc);
+        // tagList->setTagList(mk_info.tags.all());
+        ui->labelStatus->setText(tr("Done"));
+        QTimer::singleShot(LAST_MESSAGE_TIMEOUT, ui->labelStatus, &QLabel::clear);
+        ctagProc->deleteLater();
+    });
+    ui->labelStatus->setText("Indexing...");
+    ctagProc->start("ctags -R -e --c-kinds=+p --c++-kinds=+px -f -");
+    emit projectOpened();
 }
 
 void ProjectView::on_targetList_doubleClicked(const QModelIndex &index)

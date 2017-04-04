@@ -79,6 +79,9 @@ void ConfigDialog::load()
     ui->colorStyleComboBox->setCurrentIndex(
           ui->colorStyleComboBox->findText(styleName(config.editorStyle())));
 
+    ui->logFontSpinBox->setValue(config.loggerFontSize());
+    ui->logFontComboBox->setCurrentFont(config.loggerFontStyle());
+
     ui->fontSpinBox->setValue(config.editorFontSize());
     ui->fontComboBox->setCurrentFont(config.editorFontStyle());
 
@@ -122,6 +125,8 @@ void ConfigDialog::load()
 void ConfigDialog::save()
 {
   AppConfig& config = AppConfig::mutableInstance();
+  config.setLoggerFontStyle(ui->logFontComboBox->currentText());
+  config.setLoggerFontSize(ui->logFontSpinBox->value());
   config.setEditorStyle(ui->colorStyleComboBox->currentText());
   config.setEditorFontSize(ui->fontSpinBox->value());
   config.setEditorFontStyle(ui->fontComboBox->currentFont().family());
@@ -132,7 +137,6 @@ void ConfigDialog::save()
   config.setBuilTemplatePath(ui->projectTemplatesPath->text());
   config.setBuilTemplateUrl(ui->templateUrl->text());
   QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
-  QStringList additionalPaths = model->stringList();
   config.setBuildAdditionalPaths(model->stringList());
   auto proxyType = [this](){
     if(ui->systemProxy->isChecked()) {
@@ -163,6 +167,10 @@ void ConfigDialog::refreshEditor()
 {
     QString currentStyle = ui->colorStyleComboBox->currentText();
     ui->codeEditor->loadStyle(stylePath(currentStyle));
+    QFont fonts(ui->fontComboBox->font());
+    fonts.setPointSize(ui->fontSpinBox->value());
+    ui->codeEditor->setFont(fonts);
+    ui->codeEditor->setMarginsFont(fonts);
 }
 
 void ConfigDialog::on_projectPathSetButton_clicked()

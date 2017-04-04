@@ -21,6 +21,31 @@
 #define NETWORK_PROXY_CREDENTIALS "/network/proxy/credentials"
 #define NETWORK_PROXY_USERNAME "/network/proxy/username"
 #define PROJECTTMPLATES_AUTOUPDATE "behavior/projecttmplates/autoupdate"
+#define LOGGER_FONT_STYLE "behavior/logger/font/face"
+#define LOGGER_FONT_SIZE "behavior/logger/font/size"
+
+static bool isFixedPitch(const QFont & font) {
+    const QFontInfo fi(font);
+    // qDebug() << fi.family() << fi.fixedPitch();
+    return fi.fixedPitch();
+}
+
+const QFont systemMonoFont() {
+    QFont font("monospace");
+    if (isFixedPitch(font))
+        return font;
+    font.setStyleHint(QFont::Monospace);
+    if (isFixedPitch(font))
+        return font;
+    font.setStyleHint(QFont::TypeWriter);
+    if (isFixedPitch(font))
+        return font;
+    font.setFamily("courier");
+    if (isFixedPitch(font))
+        return font;
+    // qDebug() << font << "fallback";
+    return font;
+}
 
 struct AppConfigData {
     struct NetworkProxy {
@@ -35,9 +60,11 @@ struct AppConfigData {
     QStringList buildAdditionalPaths;
     QString editorStyle;
     QString editorFontStyle;
+    QString loggerFontStyle;
     QString builDefaultProjectPath;
     QString builTemplatePath;
     QString builTemplateUrl;
+    int loggerFontSize;
     int editorFontSize;
     int editorTabWidth;
     bool editorSaveOnAction;
@@ -74,7 +101,17 @@ int AppConfig::editorFontSize() const
 
 const QString& AppConfig::editorFontStyle() const
 {
-  return appData()->editorFontStyle;
+    return appData()->editorFontStyle;
+}
+
+int AppConfig::loggerFontSize() const
+{
+    return appData()->loggerFontSize;
+}
+
+const QString &AppConfig::loggerFontStyle() const
+{
+    return appData()->loggerFontStyle;
 }
 
 bool AppConfig::editorSaveOnAction() const
@@ -170,12 +207,16 @@ AppConfig::AppConfig()
 void AppConfig::load()
 {
   QSettings s;
+  this->setLoggerFontStyle(
+        s.value(LOGGER_FONT_STYLE, systemMonoFont()).toString());
+  this->setLoggerFontSize(
+        s.value(LOGGER_FONT_SIZE, 10).toInt());
   this->setEditorStyle(
         s.value(EDITOR_STYLE, "Default").toString());
   this->setEditorFontSize(
         s.value(EDITOR_FONT_SIZE, 10).toInt());
   this->setEditorFontStyle(
-        s.value(EDITOR_FONT_STYLE, "DejaVu Sans Mono").toString());
+        s.value(EDITOR_FONT_STYLE, systemMonoFont()).toString());
   this->setEditorSaveOnAction(
         s.value(EDITOR_SAVE_ON_ACTION, true).toBool());
   this->setEditorTabsToSpaces(
@@ -217,6 +258,8 @@ void AppConfig::load()
 void AppConfig::save()
 {
   QSettings s;
+  s.setValue(LOGGER_FONT_SIZE, appData()->loggerFontSize);
+  s.setValue(LOGGER_FONT_STYLE, appData()->loggerFontStyle);
   s.setValue(EDITOR_STYLE, appData()->editorStyle);
   s.setValue(EDITOR_FONT_SIZE, appData()->editorFontSize);
   s.setValue(EDITOR_FONT_STYLE, appData()->editorFontStyle);
@@ -246,7 +289,17 @@ void AppConfig::setBuildAdditionalPaths(
 
 void AppConfig::setEditorStyle(const QString &editorStyle)
 {
-  appData()->editorStyle = editorStyle;
+    appData()->editorStyle = editorStyle;
+}
+
+void AppConfig::setLoggerFontSize(int loggerFontSize)
+{
+    appData()->loggerFontSize = loggerFontSize;
+}
+
+void AppConfig::setLoggerFontStyle(const QString &loggerFontStyle)
+{
+    appData()->loggerFontStyle = loggerFontStyle;
 }
 
 void AppConfig::setEditorFontSize(int editorFontSize)
