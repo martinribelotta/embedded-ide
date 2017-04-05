@@ -4,13 +4,9 @@
 #include <QMenu>
 #include <QToolButton>
 #include <QStyle>
+#include <QEvent>
 
 static const QString INNER_BUTTON_STYLE = "background: transparent; border: none;";
-
-static QAction *actionCheckeable(QAction *a) {
-    a->setCheckable(true);
-    return a;
-}
 
 FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
 {
@@ -46,14 +42,23 @@ void FindLineEdit::addMenuAction(const QHash<QString, QString> &actionList)
     QMenu *menu = new QMenu(this);
     QHash<QString, QString>::const_iterator it;
     for (it = actionList.constBegin(); it != actionList.constEnd(); ++it) {
-        QString action = it.key();
-        QString prop = it.value();
-        connect(actionCheckeable(menu->addAction(action)), &QAction::triggered,
-                [this, prop](bool ck) {
-            setProperty(prop.toLatin1().constData(), QVariant(ck));
-            emit menuActionClicked(prop, ck);
+        auto actionName = it.key();
+        auto propertyName = it.value();
+        auto action = menu->addAction(actionName);
+        action->setCheckable(true);
+        setProperty(propertyName.toLatin1().constData(), false);
+        actionMap.insert(propertyName, action);
+        connect(action, &QAction::triggered, [this, propertyName](bool ck) {
+            setProperty(propertyName.toLatin1().constData(), QVariant(ck));
+            emit menuActionClicked(propertyName, ck);
         });
-        setProperty(prop.toLatin1().constData(), false);
     }
     optionsButton->setMenu(menu);
+}
+
+void FindLineEdit::setPropertyChecked(const QString& propertyName, bool state)
+{
+    setProperty(propertyName.toLatin1().constData(), state);
+    if (actionMap.contains(propertyName))
+        actionMap.value(propertyName)->setChecked(state);
 }

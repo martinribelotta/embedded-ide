@@ -68,7 +68,7 @@ void TargetUpdateDiscover::finish(int ret)
     info.allTargets = findAllTargets(text);
     auto it = info.allTargets.cbegin();
     while (it != info.allTargets.cend()) {
-        qDebug() << it.key() << ':' << it.value();
+        // qDebug() << it.key() << ':' << it.value();
         ++it;
     }
     info.targets = filterTargetHeuristic(info.allTargets.keys());

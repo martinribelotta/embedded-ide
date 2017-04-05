@@ -26,6 +26,8 @@
 #include "projectexporter.h"
 #include "toolmanager.h"
 #include "filepropertiesdialog.h"
+#include "appconfig.h"
+#include "findinfilesdialog.h"
 
 static const int LAST_MESSAGE_TIMEOUT=1500;
 
@@ -57,8 +59,9 @@ ProjectView::ProjectView(QWidget *parent) :
     projectButtons += ui->toolButton_export;
     projectButtons += ui->toolButton_elementDel;
     projectButtons += ui->toolButton_folderNew;
-    projectButtons += ui->toolButton_symbols;
+    projectButtons += ui->toolButton_find;
 
+#if 0
     QMenu *menu = new QMenu(this);
     QWidgetAction *action = new QWidgetAction(menu);
     tagList = new TagList(this);
@@ -66,13 +69,9 @@ ProjectView::ProjectView(QWidget *parent) :
     menu->addAction(action);
     ui->toolButton_symbols->setMenu(menu);
     ui->toolButton_symbols->hide();
+#endif
 
     ui->tabWidget->setCurrentIndex(0);
-    connect(this, &ProjectView::projectOpened, [this]() {
-        // ui->waitSpinner->stop();
-        //ui->labelStatus->setText("Loaded");
-        //QTimer::singleShot(LAST_MESSAGE_TIMEOUT, ui->labelStatus, &QLabel::clear);
-    });
 
     ui->toolButton_tools->setMenu(createExternalToolsMenu());
 #ifdef DISABLE_DEBUG_UI
@@ -207,17 +206,21 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
         QTimer::singleShot(LAST_MESSAGE_TIMEOUT, ui->labelStatus, &QLabel::clear);
         ctagProc->deleteLater();
     });
-    connect(ctagProc, static_cast<void (QProcess::*)(int)>(&QProcess::finished),
-            [ctagProc, this] () {
-        qDebug() << "parse tags "
+    connect(ctagProc, static_cast<void (QProcess::*)(int, QProcess::ExitStatus exitStatus)>(&QProcess::finished),
+            [ctagProc, this] (int exitCode, QProcess::ExitStatus exitStatus) {
+        qDebug() << "ctags exit code" << exitCode
+                 << "ctags exit status" << exitStatus << "\n"
                  << mk_info.tags.parse(ctagProc);
         // tagList->setTagList(mk_info.tags.all());
         ui->labelStatus->setText(tr("Done"));
         QTimer::singleShot(LAST_MESSAGE_TIMEOUT, ui->labelStatus, &QLabel::clear);
         ctagProc->deleteLater();
     });
+    connect(ctagProc, &QProcess::stateChanged, [this](QProcess::ProcessState state) {
+        qDebug () << "ctag state " << state;
+    });
     ui->labelStatus->setText("Indexing...");
-    ctagProc->start("ctags -R -e --c-kinds=+p --c++-kinds=+px -f -");
+    ctagProc->start("ctags -R -e --c-kinds=+cdefglmnpstuvx --c++-kinds=+cdefglmnpstuvx -f -");
     emit projectOpened();
 }
 
@@ -357,6 +360,9 @@ void ProjectView::toolAction()
         QString text = a->data().toString();
         text.replace("${{projectpath}}", projectPath().absolutePath());
         text.replace("${{projectname}}", projectName());
+        text.replace("${{workspace}}", AppConfig::mutableInstance().defaultApplicationResources());
+        text.replace("${{workspace/project}}", AppConfig::mutableInstance().defaultProjectPath());
+        text.replace("${{workspace/template}}", AppConfig::mutableInstance().defaultTemplatePath());
         QRegularExpressionMatch m;
         m = QRegularExpression(R"(\${{text: (.+?)}})").match(text);
         if (m.hasMatch()) {
@@ -478,4 +484,11 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
     menu->addAction(QIcon(":/images/edit-delete.svg"), tr("Delete"),
                     this, &ProjectView::on_toolButton_elementDel_clicked);
     menu->exec(QCursor::pos());
+}
+
+void ProjectView::on_toolButton_find_clicked()
+{
+    FindInFilesDialog *d = new FindInFilesDialog(window());
+    d->show();
+    connect(d, &QDialog::finished, d, &QObject::deleteLater);
 }

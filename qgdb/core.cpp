@@ -6,7 +6,7 @@
 
 #include <QByteArray>
 #include <QDebug>
-#include <unistd.h>
+//#include <unistd.h>
 #include <assert.h>
 #include <signal.h>
 

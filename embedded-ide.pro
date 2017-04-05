@@ -72,7 +72,8 @@ SOURCES += main.cpp\
     passwordpromtdialog.cpp \
     templatedownloader.cpp \
     templatesdownloadselector.cpp \
-    filepropertiesdialog.cpp
+    filepropertiesdialog.cpp \
+    findinfilesdialog.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -113,7 +114,8 @@ HEADERS  += mainwindow.h \
     passwordpromtdialog.h \
     templatedownloader.h \
     templatesdownloadselector.h \
-    filepropertiesdialog.h
+    filepropertiesdialog.h \
+    findinfilesdialog.h
 
 FORMS    += mainwindow.ui \
     projectnewdialog.ui \
@@ -128,7 +130,8 @@ FORMS    += mainwindow.ui \
     toolmanager.ui \
     passwordpromtdialog.ui \
     templatesdownloadselector.ui \
-    filepropertiesdialog.ui
+    filepropertiesdialog.ui \
+    findinfilesdialog.ui
 
 RESOURCES += \
     resources.qrc

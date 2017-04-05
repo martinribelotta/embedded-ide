@@ -1,11 +1,11 @@
 #include "com.h"
 #include <QByteArray>
 #include <QDebug>
-#include <unistd.h>
+//#include <unistd.h>
 #include "log.h"
 #include "util.h"
 #include <assert.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include "config.h"
 
 const char* Com::asyncClassToString(ComListener::AsyncClass ac)

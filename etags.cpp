@@ -14,8 +14,12 @@ static bool findNextEntry(QIODevice *f)
         qint64 r = f->read(&c, 1);
         if (r == -1)
             break;
-        if (r == 1 && c == 0x0C)
-            founded = (QChar(f->read(1).at(0)) == '\n');
+        if (r == 1 && c == 0x0C) {
+            r = f->read(&c, 1);
+            if (c == '\r')
+                r = f->read(&c, 1);
+            founded = (r == 1) && (c == '\n');
+        }
         if (r == 0)
             break;
     }
@@ -43,7 +47,7 @@ static QString processFileName(const QString& line, int *len)
 
 static void parseDefs(const QString& in, const QString& file, ETags::TagMap *map)
 {
-    QRegularExpression re(R"(([^\x7f]+)\x7f([^\x01]+)\x01(\d+),(\d+)\n)");
+    QRegularExpression re(R"(([^\x7f]+)\x7f([^\x01]+)\x01(\d+),(\d+)\r?\n)");
     QRegularExpressionMatchIterator it = re.globalMatch(in);
     while(it.hasNext()) {
         QRegularExpressionMatch m = it.next();
@@ -69,5 +73,6 @@ bool ETags::parse(QIODevice *in)
             parseDefs(defs, file, &map);
         }
     }
+    qDebug() << "tag entries found" << map.count();
     return true;
 }

@@ -38,25 +38,27 @@
 
 #include <QtDebug>
 
-static QMenu *lastProjects(QWidget *parent) {
-    QMenu *m = new QMenu(parent);
-    QSettings sets;
-    sets.beginGroup("last_projects");
-    foreach(QString k, sets.allKeys()) {
-        QAction *a = m->addAction(k, parent, SLOT(openProject()));
-        a->setData(QVariant(sets.value(k)));
-    }
-    return m;
-}
-
-static QFileInfoList lastProjectsList() {
-    QSettings sets;
+static QFileInfoList lastProjectsList(bool includeAllInWorkspace = true) {
     QFileInfoList list;
+    if (includeAllInWorkspace) {
+        QDir prjDir(AppConfig::mutableInstance().builDefaultProjectPath());
+        foreach(QFileInfo dirInfo, prjDir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot)) {
+            QDir dir(dirInfo.absoluteFilePath());
+            QFileInfo make(dir.absoluteFilePath("Makefile"));
+            if (make.exists()) {
+                if (!list.contains(make))
+                    list.append(make);
+            }
+        }
+    }
+    QSettings sets;
     sets.beginGroup("last_projects");
     foreach(QString k, sets.allKeys()) {
-        QFileInfo info(sets.value(k).toString());
-        list.append(info);
+        QFileInfo make(sets.value(k).toString());
+        if (make.exists() && !list.contains(make))
+                list.append(make);
     }
+
     return list;
 }
 
@@ -166,7 +168,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&(AppConfig::mutableInstance()), SIGNAL(configChanged(AppConfig*)),
             this, SLOT(configChanged(AppConfig*)));
     connect(menuWidget, SIGNAL(help()), this, SLOT(helpShow()));
-
     connect(menuWidget, SIGNAL(exit()), this, SLOT(close()));
 
     connect(menuWidget, SIGNAL(projectNew()), mainMenu, SLOT(hide()));

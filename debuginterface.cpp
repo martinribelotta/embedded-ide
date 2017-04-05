@@ -516,7 +516,7 @@ void DebugInterface::open(const QString& filename)
     if(filename.isEmpty())
         return;
 
-    qDebug() << __PRETTY_FUNCTION__;
+    // qDebug() << __PRETTY_FUNCTION__;
 
     m_filename = filename;
     documentArea->fileOpenAndSetIP(m_filename, m_currentLine, &projectView->makeInfo());

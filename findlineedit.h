@@ -14,6 +14,7 @@ public:
 
     void addMenuAction(const QHash<QString, QString>& actionList);
 
+    void setPropertyChecked(const QString &propertyName, bool state);
     bool isPropertyChecked(const char *name) const { return property(name).toBool(); }
 
 signals:
@@ -21,6 +22,7 @@ signals:
 
 private:
     QToolButton *optionsButton;
+    QHash<QString, QAction*> actionMap;
 };
 
 #endif // FINDLINEEDIT_H

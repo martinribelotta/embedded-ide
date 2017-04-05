@@ -65,7 +65,7 @@
          <property name="handleWidth">
           <number>8</number>
          </property>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -159,19 +159,19 @@
               </widget>
              </item>
              <item>
-              <widget class="QToolButton" name="toolButton_symbols">
+              <widget class="QToolButton" name="toolButton_find">
                <property name="enabled">
                 <bool>false</bool>
                </property>
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show symbols&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>Find</string>
                </property>
                <property name="text">
                 <string>...</string>
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/images/application-menu.svg</normaloff>:/images/application-menu.svg</iconset>
+                 <normaloff>:/images/edit-find.svg</normaloff>:/images/edit-find.svg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -281,7 +281,7 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
