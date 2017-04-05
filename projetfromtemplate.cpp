@@ -47,11 +47,11 @@ void ProjetFromTemplate::onStarted()
 
 void ProjetFromTemplate::onFinish(int ret, QProcess::ExitStatus status)
 {
-    QDir::root().rmdir(m_project);
     QString errorString;
-    if (status != QProcess::NormalExit)
+    if (status != QProcess::NormalExit) {
+        QDir::root().rmdir(m_project);
         errorString = proc->errorString();
-    else if (ret != 0)
+    } else if (ret != 0)
         errorString = tr("Diff return %1").arg(ret);
     emit endOfCreation(m_project, errorString);
     deleteLater();

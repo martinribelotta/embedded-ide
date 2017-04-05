@@ -240,7 +240,6 @@ void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
 
 QString ProjectNewDialog::replaceTemplates(QString text) const
 {
-    qDebug() << "Template size" << text.length();
     for(int row=0; row<ui->parameterTable->rowCount(); row++) {
         QString key = ui->parameterTable->item(row, 0)->text().replace(' ', '_');
         QString val = ui->parameterTable->item(row, 1)->text();
@@ -250,6 +249,5 @@ QString ProjectNewDialog::replaceTemplates(QString text) const
         re.setPatternSyntax(QRegExp::RegExp2);
         text.replace(re, val);
     }
-    qDebug() << "Template size" << text.length();
     return text;
 }
