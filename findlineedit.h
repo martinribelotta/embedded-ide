@@ -12,7 +12,7 @@ class FindLineEdit : public QLineEdit
 public:
     FindLineEdit(QWidget *parent = 0l);
 
-    void addMenuAction(const QHash<QString, QString>& actionList);
+    void addMenuActions(const QHash<QString, QString>& actionList);
 
     void setPropertyChecked(const QString &propertyName, bool state);
     bool isPropertyChecked(const char *name) const { return property(name).toBool(); }

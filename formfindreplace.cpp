@@ -13,7 +13,7 @@ FormFindReplace::FormFindReplace(QsciScintilla *editor) :
     this->editor = editor;
     ui->setupUi(this);
     setAutoFillBackground(true);
-    ui->textToFind->addMenuAction(QHash<QString, QString>{
+    ui->textToFind->addMenuActions(QHash<QString, QString>{
         { tr("Regular Expression"), "regex" },
         { tr("Case Sensitive"), "case" },
         { tr("Wole Words"), "wword" },
@@ -21,7 +21,7 @@ FormFindReplace::FormFindReplace(QsciScintilla *editor) :
         { tr("Wrap search"), "wrap" },
         { tr("Backward search"), "backward" },
     });
-    ui->textToReplace->addMenuAction(QHash<QString, QString>{
+    ui->textToReplace->addMenuActions(QHash<QString, QString>{
         { tr("Replace All"), "replaceAll" }
     });
     connect(ui->textToFind, &FindLineEdit::menuActionClicked,

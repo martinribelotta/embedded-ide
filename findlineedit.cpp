@@ -37,7 +37,7 @@ FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
                    qMax(msz.height(), clearButton->sizeHint().height() + frameWidth * 2 + 2));
 }
 
-void FindLineEdit::addMenuAction(const QHash<QString, QString> &actionList)
+void FindLineEdit::addMenuActions(const QHash<QString, QString> &actionList)
 {
     QMenu *menu = new QMenu(this);
     QHash<QString, QString>::const_iterator it;

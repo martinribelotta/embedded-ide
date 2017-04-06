@@ -11,6 +11,7 @@
 #include "appconfig.h"
 #include "filedownloader.h"
 #include "templatedownloader.h"
+#include "findinfilesdialog.h"
 
 #include <QRegularExpression>
 #include <QCloseEvent>
@@ -393,4 +394,11 @@ void MainWindow::setUpProxy() {
       QNetworkProxy::setApplicationProxy(proxy);
       break;
   }
+}
+
+void MainWindow::on_projectView_openFindDialog()
+{
+    FindInFilesDialog *d = new FindInFilesDialog(ui->centralWidget, ui->projectView, this);
+    d->show();
+    connect(d, &QDialog::finished, d, &QObject::deleteLater);
 }

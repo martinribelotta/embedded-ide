@@ -48,7 +48,7 @@ QVariant MyFileSystemModel::headerData(int section, Qt::Orientation orientation,
 
 ProjectView::ProjectView(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DocumentView)
+    ui(new Ui::ProjectView)
 {
     ui->setupUi(this);
     ui->tabDebug->setProjectView(this);
@@ -488,7 +488,5 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
 
 void ProjectView::on_toolButton_find_clicked()
 {
-    FindInFilesDialog *d = new FindInFilesDialog(this, window());
-    d->show();
-    connect(d, &QDialog::finished, d, &QObject::deleteLater);
+    emit openFindDialog();
 }

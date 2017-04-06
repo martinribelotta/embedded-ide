@@ -25,6 +25,12 @@ class AppConfig : public QObject
     const QString& editorFontStyle() const;
     int loggerFontSize() const;
     const QString &loggerFontStyle() const;
+    QFont loggerFont() const {
+        QFont font;
+        font.setPixelSize(loggerFontSize());
+        font.setFamily(loggerFontStyle());
+        return font;
+    }
     bool editorSaveOnAction() const;
     bool editorTabsToSpaces() const;
     int editorTabWidth() const;

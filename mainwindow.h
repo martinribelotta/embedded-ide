@@ -28,6 +28,8 @@ private slots:
 
     void on_projectView_fileOpen(const QString &);
 
+    void on_projectView_openFindDialog();
+
     void projectNew();
 
     void projectOpen();

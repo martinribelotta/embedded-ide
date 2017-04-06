@@ -5,28 +5,25 @@
 #include <QFuture>
 
 class ProjectView;
+class DocumentArea;
 
 namespace Ui {
 class FindInFilesDialog;
 }
+
+class QStandardItemModel;
+class QStandardItem;
 
 class FindInFilesDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit FindInFilesDialog(ProjectView *view, QWidget *parent = 0);
+    explicit FindInFilesDialog(DocumentArea *docView, ProjectView *projView, QWidget *parent = 0);
     ~FindInFilesDialog();
-
-private slots:
-    void on_buttonFind_clicked();
 
 private:
     Ui::FindInFilesDialog *ui;
-    ProjectView *projectView;
-    QFuture<void> future;
-
-    void setStatus(const QString& message);
 };
 
 #endif // FINDINFILESDIALOG_H

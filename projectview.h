@@ -11,7 +11,7 @@
 #include "etags.h"
 
 namespace Ui {
-class DocumentView;
+    class ProjectView;
 }
 
 class QToolButton;
@@ -83,9 +83,10 @@ signals:
     void fileOpen(const QString& file);
     void startBuild(const QString& target);
     void execTool(const QString& command);
+    void openFindDialog();
 
 private:
-    Ui::DocumentView *ui;
+    Ui::ProjectView *ui;
     MakefileInfo mk_info;
     TagList *tagList;
     QList<QToolButton*> projectButtons;
