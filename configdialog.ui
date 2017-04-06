@@ -447,7 +447,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Editor Font</string>
+          <string>Log View Font</string>
          </property>
         </widget>
        </item>
