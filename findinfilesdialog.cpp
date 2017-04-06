@@ -18,6 +18,11 @@ FindInFilesDialog::FindInFilesDialog(ProjectView *view, QWidget *parent) :
                                   });
     setStatus(tr("Ready"));
     ui->textDirectory->setText(view->projectPath().absolutePath());
+    auto watcher = new QFutureWatcher<void>(this);
+    watcher->setFuture(future);
+    connect(watcher, &QFutureWatcher<void>::finished, [this]() {
+        setStatus(tr("Done"));
+    });
 }
 
 FindInFilesDialog::~FindInFilesDialog()
@@ -69,6 +74,7 @@ void FindInFilesDialog::on_buttonFind_clicked()
 
 void FindInFilesDialog::setStatus(const QString &message)
 {
+    ui->labelStatus->setMaximumWidth(ui->labelStatus->width());
     ui->labelStatus->setText(message);
     ui->buttonStop->setEnabled(future.isRunning());
     ui->buttonFind->setDisabled(future.isRunning());

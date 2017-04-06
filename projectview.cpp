@@ -488,7 +488,7 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
 
 void ProjectView::on_toolButton_find_clicked()
 {
-    FindInFilesDialog *d = new FindInFilesDialog(window());
+    FindInFilesDialog *d = new FindInFilesDialog(this, window());
     d->show();
     connect(d, &QDialog::finished, d, &QObject::deleteLater);
 }
