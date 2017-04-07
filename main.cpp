@@ -16,13 +16,21 @@
 #include <QMessageBox>
 #include <configdialog.h>
 
+#ifdef Q_OS_LINUX
+#include <stdlib.h>
+#endif
+
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_LINUX
+    // FIXME If QT_STYLE_OVERRIDE is set, Qt plugin platform cannot work correctly
+    ::unsetenv("QT_STYLE_OVERRIDE");
+#endif
+
     QApplication a(argc, argv);
     QCoreApplication::setOrganizationName("none");
     QCoreApplication::setOrganizationDomain("none.unknown.com");
     QCoreApplication::setApplicationName("embedded IDE");
-
     a.setWindowIcon(QIcon(":/images/embedded-ide.png"));
     a.setStyleSheet([]() -> QString {
                         QFile f(":/style.css");
