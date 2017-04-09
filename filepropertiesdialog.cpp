@@ -74,8 +74,9 @@ FilePropertiesDialog::~FilePropertiesDialog()
 void FilePropertiesDialog::on_FilePropertiesDialog_accepted()
 {
     QFlags<QFile::Permission> perms;
-#define _(a, b) \
-    perms.setFlag(QFile::b##a, ui->a##b->isChecked())
+#define _(a, b) do { \
+        if (ui->a##b->isChecked()) perms |= (QFile::b##a); else perms &= ~(QFile::b##a); \
+    } while(0)
     _(Owner, Read);
     _(Owner, Write);
     _(Owner, Exe);
