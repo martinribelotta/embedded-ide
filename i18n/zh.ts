@@ -435,27 +435,32 @@
 <context>
     <name>DocumentArea</name>
     <message>
-        <location filename="../documentarea.cpp" line="28"/>
+        <location filename="../documentarea.cpp" line="32"/>
         <source>Reload File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="30"/>
+        <location filename="../documentarea.cpp" line="35"/>
         <source>Close All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="32"/>
+        <location filename="../documentarea.cpp" line="38"/>
         <source>Save All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="34"/>
+        <location filename="../documentarea.cpp" line="51"/>
+        <source>Window List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../documentarea.cpp" line="54"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="201"/>
+        <location filename="../documentarea.cpp" line="236"/>
         <source> [*]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1264,12 +1269,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="66"/>
+        <location filename="../main.cpp" line="74"/>
         <source>Desktop support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="68"/>
+        <location filename="../main.cpp" line="76"/>
         <source> can not detect any system tray on this desktop, notify this to developers.</source>
         <translation type="unfinished"></translation>
     </message>

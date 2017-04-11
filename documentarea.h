@@ -6,6 +6,8 @@
 class MakefileInfo;
 class CodeEditor;
 
+class QStandardItemModel;
+
 class DocumentArea : public QTabWidget
 {
     Q_OBJECT
@@ -29,6 +31,11 @@ public slots:
     void saveCurrent();
     void reloadCurrent();
 
+protected:
+    void tabInserted(int) Q_DECL_OVERRIDE { windowListUpdate(); }
+    void tabRemoved(int) Q_DECL_OVERRIDE { windowListUpdate(); }
+    void windowListUpdate();
+
 private slots:
     void documentToClose(int idx);
     void modifyTab(bool isModify);
@@ -38,6 +45,7 @@ private:
     int documentFind(const QString& file, CodeEditor **ww = nullptr);
 
     CodeEditor *lastIpEditor;
+    QStandardItemModel *windowListModel;
 };
 
 #endif // DOCUMENTAREA_H

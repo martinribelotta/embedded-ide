@@ -15,23 +15,44 @@ DocumentArea::DocumentArea(QWidget *parent) :
     QWidget *buttonBox = new QWidget(this);
     QHBoxLayout *buttonBoxLayout = new QHBoxLayout(buttonBox);
     buttonBoxLayout->setMargin(2);
+
     QToolButton *closeAll = new QToolButton(buttonBox);
     QToolButton *saveCurrent = new QToolButton(buttonBox);
     QToolButton *saveAll = new QToolButton(buttonBox);
+    QToolButton *windowList = new QToolButton(buttonBox);
     QToolButton *reloadCurrent = new QToolButton(buttonBox);
+
     buttonBoxLayout->addWidget(reloadCurrent);
     buttonBoxLayout->addWidget(saveCurrent);
     buttonBoxLayout->addWidget(saveAll);
+    buttonBoxLayout->addWidget(windowList);
     buttonBoxLayout->addWidget(closeAll);
 
     reloadCurrent->setIcon(QIcon(":/images/actions/view-refresh.svg"));
     reloadCurrent->setToolTip(tr("Reload File"));
+
     closeAll->setIcon(QIcon(":/images/actions/window-close.svg"));
     closeAll->setToolTip(tr("Close All"));
+
     saveAll->setIcon(QIcon(":/images/document-save-all.svg"));
     saveAll->setToolTip(tr("Save All"));
+
+    auto windowListMenu = new QMenu(this);
+    auto windowListMenuAction = new QWidgetAction(this);
+    auto windowListView = new QListView(this);
+    windowListModel = new QStandardItemModel(this);
+    windowListView->setEditTriggers(QListView::NoEditTriggers);
+    windowListView->setModel(windowListModel);
+    windowListMenuAction->setDefaultWidget(windowListView);
+    windowListMenu->addAction(windowListMenuAction);
+    windowList->setMenu(windowListMenu);
+    windowList->setPopupMode(QToolButton::InstantPopup);
+    windowList->setIcon(QIcon(":/images/actions/window-new.svg"));
+    windowList->setToolTip(tr("Window List"));
+
     saveCurrent->setIcon(QIcon(":/images/document-save.svg"));
     saveCurrent->setToolTip(tr("Save File"));
+
     connect(closeAll, SIGNAL(clicked()), this, SLOT(closeAll()));
     connect(saveAll, SIGNAL(clicked()), this, SLOT(saveAll()));
     connect(saveCurrent, SIGNAL(clicked()), this, SLOT(saveCurrent()));
@@ -41,6 +62,10 @@ DocumentArea::DocumentArea(QWidget *parent) :
     setTabsClosable(true);
     setMovable(true);
     connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(documentToClose(int)));
+    connect(windowListView, &QListView::clicked, [this, windowListMenu](const QModelIndex& idx) {
+        this->setCurrentIndex(idx.row());
+        windowListMenu->hide();
+    });
 }
 
 QList<CodeEditor *> DocumentArea::documentsDirty() const
@@ -188,6 +213,16 @@ void DocumentArea::reloadCurrent()
     CodeEditor *w = qobject_cast<CodeEditor*>(currentWidget());
     if (w)
         w->reload();
+}
+
+void DocumentArea::windowListUpdate()
+{
+    windowListModel->clear();
+    for(int i=0; i<count(); i++) {
+        QStandardItem *item = new QStandardItem(tabText(i));
+        item->setIcon(QIcon(":/images/document-new.svg"));
+        windowListModel->appendRow(item);
+    }
 }
 
 void DocumentArea::modifyTab(bool isModify)
