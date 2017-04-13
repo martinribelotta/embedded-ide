@@ -257,7 +257,7 @@
               <enum>QAbstractItemView::DragDrop</enum>
              </property>
              <property name="defaultDropAction">
-              <enum>Qt::CopyAction</enum>
+              <enum>Qt::MoveAction</enum>
              </property>
              <property name="alternatingRowColors">
               <bool>true</bool>
