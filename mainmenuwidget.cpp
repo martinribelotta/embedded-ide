@@ -42,7 +42,7 @@ void MainMenuWidget::setProjectList(const QFileInfoList &list)
     }
 }
 
-void MainMenuWidget::on_listView_activated(const QModelIndex &index)
+void MainMenuWidget::on_listView_clicked(const QModelIndex &index)
 {
     QStandardItem *item = model->itemFromIndex(index);
     QFileInfo info = item->data(Qt::UserRole).value<QFileInfo>();

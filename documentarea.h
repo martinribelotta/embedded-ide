@@ -1,14 +1,15 @@
 #ifndef DOCUMENTAREA_H
 #define DOCUMENTAREA_H
 
-#include <QTabWidget>
+#include <QWidget>
 
 class MakefileInfo;
 class CodeEditor;
 
 class QStandardItemModel;
+class QTabWidget;
 
-class DocumentArea : public QTabWidget
+class DocumentArea : public QWidget
 {
     Q_OBJECT
 public:
@@ -30,20 +31,20 @@ public slots:
     void closeAll();
     void saveCurrent();
     void reloadCurrent();
+    void closeCurrent();
 
 protected:
-    void tabInserted(int) Q_DECL_OVERRIDE { windowListUpdate(); }
-    void tabRemoved(int) Q_DECL_OVERRIDE { windowListUpdate(); }
     void windowListUpdate();
 
 private slots:
-    void documentToClose(int idx);
+    bool documentToClose(int idx);
     void modifyTab(bool isModify);
     void tabDestroy(QObject *obj);
 
 private:
     int documentFind(const QString& file, CodeEditor **ww = nullptr);
 
+    QTabWidget *tab;
     CodeEditor *lastIpEditor;
     QStandardItemModel *windowListModel;
 };

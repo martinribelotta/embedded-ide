@@ -5,28 +5,64 @@
 
 #include <QHBoxLayout>
 #include <QToolButton>
+#include <QTabWidget>
 #include <QTabBar>
 #include <QtDebug>
 
+class TabWidget: public QTabWidget {
+    std::function<void (void)> windowListUpdate_f;
+public:
+    TabWidget(QWidget *parent, const std::function<void (void)>& func) :
+        QTabWidget(parent), windowListUpdate_f(func) { tabBar()->hide(); }
+
+protected:
+    virtual void tabInserted(int) Q_DECL_OVERRIDE;
+    virtual void tabRemoved(int) Q_DECL_OVERRIDE;
+};
+
+void TabWidget::tabInserted(int) { windowListUpdate_f(); }
+void TabWidget::tabRemoved(int) { windowListUpdate_f(); }
+
 DocumentArea::DocumentArea(QWidget *parent) :
-    QTabWidget(parent),
+    QWidget(parent),
+    tab(0l),
     lastIpEditor(0l)
 {
+    QVBoxLayout *l1 = new QVBoxLayout(this);
     QWidget *buttonBox = new QWidget(this);
     QHBoxLayout *buttonBoxLayout = new QHBoxLayout(buttonBox);
-    buttonBoxLayout->setMargin(2);
+    buttonBoxLayout->setMargin(0);
+    buttonBoxLayout->setSpacing(0);
+    buttonBoxLayout->setContentsMargins(0, 0, 0, 0);
 
+    QComboBox *windowListCombo = new QComboBox(buttonBox);
     QToolButton *closeAll = new QToolButton(buttonBox);
     QToolButton *saveCurrent = new QToolButton(buttonBox);
     QToolButton *saveAll = new QToolButton(buttonBox);
-    QToolButton *windowList = new QToolButton(buttonBox);
+    QToolButton *closeCurrent = new QToolButton(buttonBox);
     QToolButton *reloadCurrent = new QToolButton(buttonBox);
 
+    windowListModel = new QStandardItemModel(this);
+    windowListCombo->setModel(windowListModel);
+    windowListCombo->setObjectName("windowListCombo");
+    tab = new TabWidget(this, [this, buttonBox](void) {
+        windowListModel->clear();
+        buttonBox->setEnabled(tab->count() > 0);
+        for(int i=0; i<tab->count(); i++) {
+            QStandardItem *item = new QStandardItem(tab->tabText(i));
+            item->setIcon(QIcon(":/images/document-new.svg"));
+            item->setData(i);
+            windowListModel->appendRow(item);
+        }
+        windowListModel->sort(0);
+    });
+
+    buttonBoxLayout->addWidget(windowListCombo);
     buttonBoxLayout->addWidget(reloadCurrent);
     buttonBoxLayout->addWidget(saveCurrent);
     buttonBoxLayout->addWidget(saveAll);
-    buttonBoxLayout->addWidget(windowList);
     buttonBoxLayout->addWidget(closeAll);
+    buttonBoxLayout->addWidget(closeCurrent);
 
     reloadCurrent->setIcon(QIcon(":/images/actions/view-refresh.svg"));
     reloadCurrent->setToolTip(tr("Reload File"));
@@ -34,21 +70,12 @@ DocumentArea::DocumentArea(QWidget *parent) :
     closeAll->setIcon(QIcon(":/images/actions/window-close.svg"));
     closeAll->setToolTip(tr("Close All"));
 
+    closeCurrent->setIcon(QIcon(":/images/document-close.svg"));
+    closeCurrent->setToolTip(tr("Close Document"));
+
     saveAll->setIcon(QIcon(":/images/document-save-all.svg"));
     saveAll->setToolTip(tr("Save All"));
 
-    auto windowListMenu = new QMenu(this);
-    auto windowListMenuAction = new QWidgetAction(this);
-    auto windowListView = new QListView(this);
-    windowListModel = new QStandardItemModel(this);
-    windowListView->setEditTriggers(QListView::NoEditTriggers);
-    windowListView->setModel(windowListModel);
-    windowListMenuAction->setDefaultWidget(windowListView);
-    windowListMenu->addAction(windowListMenuAction);
-    windowList->setMenu(windowListMenu);
-    windowList->setPopupMode(QToolButton::InstantPopup);
-    windowList->setIcon(QIcon(":/images/actions/window-new.svg"));
-    windowList->setToolTip(tr("Window List"));
 
     saveCurrent->setIcon(QIcon(":/images/document-save.svg"));
     saveCurrent->setToolTip(tr("Save File"));
@@ -57,23 +84,34 @@ DocumentArea::DocumentArea(QWidget *parent) :
     connect(saveAll, SIGNAL(clicked()), this, SLOT(saveAll()));
     connect(saveCurrent, SIGNAL(clicked()), this, SLOT(saveCurrent()));
     connect(reloadCurrent, SIGNAL(clicked()), this, SLOT(reloadCurrent()));
-    setCornerWidget(buttonBox, Qt::TopRightCorner);
-    setDocumentMode(false);
-    setTabsClosable(true);
-    setMovable(true);
-    connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(documentToClose(int)));
-    connect(windowListView, &QListView::clicked, [this, windowListMenu](const QModelIndex& idx) {
-        this->setCurrentIndex(idx.row());
-        windowListMenu->hide();
+    connect(closeCurrent, SIGNAL(clicked()), this, SLOT(closeCurrent()));
+
+    tab->setDocumentMode(true);
+    connect(tab, &TabWidget::currentChanged, [this, windowListCombo](int i) {
+        windowListCombo->setCurrentText(tab->tabText(i));
     });
+
+    connect(windowListCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [this](int row) {
+        int n = windowListModel->item(row, 0)->data().toInt();
+        tab->widget(0);
+        tab->setCurrentIndex(n);
+        tab->widget(n)->setFocus();
+    });
+
+    l1->addWidget(buttonBox);
+    l1->addWidget(tab);
+    l1->setMargin(0);
+    l1->setContentsMargins(0, 0, 0, 0);
+    l1->setSpacing(0);
+    buttonBox->setEnabled(tab->count() > 0);
 }
 
 QList<CodeEditor *> DocumentArea::documentsDirty() const
 {
     QList<CodeEditor*> list;
 
-    for(int i=0; i<count(); i++) {
-        CodeEditor *e = qobject_cast<CodeEditor*>(widget(i));
+    for(int i=0; i<tab->count(); i++) {
+        CodeEditor *e = qobject_cast<CodeEditor*>(tab->widget(i));
         if (e) {
             if (e->isModified())
                 list.append(e);
@@ -84,7 +122,7 @@ QList<CodeEditor *> DocumentArea::documentsDirty() const
 }
 
 bool DocumentArea::hasUnsavedChanges() {
-  return !documentsDirty().isEmpty();
+    return !documentsDirty().isEmpty();
 }
 
 int DocumentArea::fileOpenAt(const QString &file, int row, int col, const MakefileInfo *mk)
@@ -92,7 +130,7 @@ int DocumentArea::fileOpenAt(const QString &file, int row, int col, const Makefi
     int idx = fileOpen(file, mk);
     if (idx == -1)
         return -1;
-    CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
+    CodeEditor *w = qobject_cast<CodeEditor*>(tab->widget(idx));
     if (w) {
         w->moveTextCursor(row, col);
         w->setFocus();
@@ -109,12 +147,12 @@ int DocumentArea::fileOpen(const QString &file, const MakefileInfo *mk)
         editor->setMakefileInfo(mk);
         if (!editor->load(file))
             return -1;
-        idx = addTab(editor, editor->windowTitle());
-        setTabToolTip(idx, file);
+        idx = tab->addTab(editor, editor->windowTitle());
+        tab->setTabToolTip(idx, file);
         connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modifyTab(bool)));
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
-    setCurrentIndex(idx);
+    tab->setCurrentIndex(idx);
     return idx;
 }
 
@@ -129,7 +167,7 @@ int DocumentArea::fileOpenAndSetIP(const QString &file, int line, const Makefile
     int idx = fileOpenAt(file, line, 0, mk);
     if (idx == -1)
         return -1;
-    CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
+    CodeEditor *w = qobject_cast<CodeEditor*>(tab->widget(idx));
     if (w) {
         if (lastIpEditor)
             lastIpEditor->clearDebugPointer();
@@ -151,11 +189,11 @@ int DocumentArea::binOpen(const QString &file)
         editor->setReadOnly(true);
         editor->setWindowTitle(QFileInfo(file).fileName());
         editor->setWindowFilePath(QFileInfo(file).absoluteFilePath());
-        idx = addTab(editor, editor->windowTitle());
-        setTabToolTip(idx, file);
+        idx = tab->addTab(editor, editor->windowTitle());
+        tab->setTabToolTip(idx, file);
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
-    setCurrentIndex(idx);
+    tab->setCurrentIndex(idx);
     return idx;
 }
 
@@ -167,74 +205,76 @@ int DocumentArea::mapOpen(const QString &file)
         editor->load(file);
         editor->setWindowTitle(QFileInfo(file).fileName());
         editor->setWindowFilePath(QFileInfo(file).absoluteFilePath());
-        idx = addTab(editor, editor->windowTitle());
-        setTabToolTip(idx, file);
+        idx = tab->addTab(editor, editor->windowTitle());
+        tab->setTabToolTip(idx, file);
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
-    setCurrentIndex(idx);
+    tab->setCurrentIndex(idx);
     return idx;
 }
 
 void DocumentArea::saveAll()
 {
-    for(int i=0; i<count(); i++) {
-        CodeEditor *e = qobject_cast<CodeEditor*>(widget(i));
+    for(int i=0; i<tab->count(); i++) {
+        CodeEditor *e = qobject_cast<CodeEditor*>(tab->widget(i));
         if (e)
             e->save();
     }
 }
 
-void DocumentArea::documentToClose(int idx)
+bool DocumentArea::documentToClose(int idx)
 {
-    QWidget *w = widget(idx);
+    QWidget *w = tab->widget(idx);
     if (w) {
         if (w->close()) {
             w->deleteLater();
-            removeTab(idx);
+            tab->removeTab(idx);
+            return true;
         }
     }
+    return false;
 }
 
 void DocumentArea::closeAll()
 {
-    while(count() > 0)
-        documentToClose(0);
+    while(tab->count() > 0)
+        if (!documentToClose(0))
+            break;
 }
 
 void DocumentArea::saveCurrent()
 {
-    CodeEditor *w = qobject_cast<CodeEditor*>(currentWidget());
+    CodeEditor *w = qobject_cast<CodeEditor*>(tab->currentWidget());
     if (w)
         w->save();
 }
 
 void DocumentArea::reloadCurrent()
 {
-    CodeEditor *w = qobject_cast<CodeEditor*>(currentWidget());
+    CodeEditor *w = qobject_cast<CodeEditor*>(tab->currentWidget());
     if (w)
         w->reload();
 }
 
+void DocumentArea::closeCurrent()
+{
+    documentToClose(tab->currentIndex());
+}
+
 void DocumentArea::windowListUpdate()
 {
-    windowListModel->clear();
-    for(int i=0; i<count(); i++) {
-        QStandardItem *item = new QStandardItem(tabText(i));
-        item->setIcon(QIcon(":/images/document-new.svg"));
-        windowListModel->appendRow(item);
-    }
 }
 
 void DocumentArea::modifyTab(bool isModify)
 {
     CodeEditor *w = qobject_cast<CodeEditor*>(sender());
     if (w) {
-        int idx = indexOf(w);
+        int idx = tab->indexOf(w);
         if (idx != -1) {
             QString title = w->windowTitle();
             if (isModify)
                 title += tr(" [*]");
-            setTabText(idx, title);
+            tab->setTabText(idx, title);
         } else
             qWarning("sender is not a tab");
     } else
@@ -248,8 +288,8 @@ void DocumentArea::tabDestroy(QObject *obj)
 
 int DocumentArea::documentFind(const QString &file, CodeEditor **ww)
 {
-    for(int i=0; i<count(); i++) {
-        CodeEditor *w = qobject_cast<CodeEditor*>(widget(i));
+    for(int i=0; i<tab->count(); i++) {
+        CodeEditor *w = qobject_cast<CodeEditor*>(tab->widget(i));
         if (w) {
             if (w->windowFilePath() == file) {
                 if (ww)
