@@ -33,7 +33,7 @@ DocumentArea::DocumentArea(QWidget *parent) :
     QHBoxLayout *buttonBoxLayout = new QHBoxLayout(buttonBox);
     buttonBoxLayout->setMargin(0);
     buttonBoxLayout->setSpacing(0);
-    buttonBoxLayout->setContentsMargins(0, 0, 0, 0);
+    buttonBoxLayout->setContentsMargins(0, 1, 0, 0);
 
     QComboBox *windowListCombo = new QComboBox(buttonBox);
     QToolButton *closeAll = new QToolButton(buttonBox);
