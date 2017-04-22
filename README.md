@@ -5,14 +5,14 @@ Makefile based, C/C++ IDE
 ![Main Screen](docs/screen_0.png)
 
 ## Features
-  - Syntax higlither (C/C++/Makefile)
-  - Autocomplete (require clang installend on path)
+  - Syntax highlighter (C/C++/Makefile)
+  - Autocomplete (requires clang installed on path)
   - Target autodiscover
   - Source filter
   - Project import/export
   - Console log
 
-## Requeriments
+## Requirements
 
   - GNU Make (required)
   - Qt5
@@ -20,28 +20,28 @@ Makefile based, C/C++ IDE
   - diff and patch (optional for import/export project)
   - ctags (optional for code indexing)
 
-## Instalation
+## Installation
 
-To compile and install IDE you need Qt5 (5.2 or late) and make/gcc (build-essential en Ubuntu and derived)
+To compile and install IDE you need Qt5 (5.2 or later) and make/gcc (build-essential en Ubuntu and derived)
 
-Into base directory do:
+In base directory run:
 ```bash
 qmake && make
 ```
 
-When the process is finis, the executable was found in `build` directory with the name `embedded-ide` (with EXE extention on windows)
+When the process is finished, the executable is in `build` directory with the name `embedded-ide` (with EXE extention on windows)
 
 To install it into the system copy `build/embedded-ide` to directory into the PATH
 
 ### Install dependencies
 
-The full toolset instalation (for ubuntu and derivatives) is:
+The full toolset installation (for ubuntu and derivatives) is:
 
 ```bash
 sudo apt-get install clang diffutils patch ctags make
 ```
 
-Additionaly you need a compiler to work correctly. All gcc based compiler is supported like:
+Additionally you need a compiler to work correctly. All gcc based compilers are supported, such as:
 
   - System gcc/g++ with `sudo apt-get install build-essential`
   - [ARM Embedded](https://launchpad.net/gcc-arm-embedded)
@@ -55,9 +55,9 @@ Additionaly you need a compiler to work correctly. All gcc based compiler is sup
 
 ### Adding tools to the PATH
 
-In order to find utilities, you need to add this to the PATH, but doing it globaly is dangerous in certains cases (Example, windows with multiple toolchains with similar names)
+In order to find utilities, you need to add them to the PATH, but doing it globally is dangerous in certain cases (Example, windows with multiple toolchains with similar names)
 
-Because it, the IDE provide **Aditional PATHs** feature to configure the PATH only for IDE and not for entirye system.
+Alternatively, the IDE provides an **Additional PATHs** feature to configure the PATH only for IDE and not for the entire system.
 
 Go to **Configure** icon and next go to **Tools** tab.
 
