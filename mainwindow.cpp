@@ -231,14 +231,6 @@ void MainWindow::on_projectView_fileOpen(const QString &file)
     QMimeType m = QMimeDatabase().mimeTypeForFile(file, QMimeDatabase::MatchDefault);
     if (inf.suffix().toLower() == "map") {
         ui->centralWidget->mapOpen(file);
-#if 0
-    } else if (inf.isExecutable()) {
-#ifdef Q_OS_WIN
-        QDesktopServices::openUrl(QUrl::fromLocalFile(file));
-#else
-        QProcess::execute(file);
-#endif
-#endif
     } else if (m.inherits("text/plain") || (inf.size() == 0)) {
         ui->centralWidget->fileOpenAt(file, 0, 0, &ui->projectView->makeInfo());
     } else {

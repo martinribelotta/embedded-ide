@@ -16,6 +16,7 @@
 #include <QMenu>
 #include <QProgressBar>
 #include <QWidgetAction>
+#include <QDesktopServices>
 #include <QtConcurrent>
 #include <QtDebug>
 
@@ -219,7 +220,7 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
     connect(ctagProc, &QProcess::stateChanged, [this](QProcess::ProcessState state) {
         qDebug () << "ctag state " << state;
     });
-    ui->labelStatus->setText("Indexing...");
+    ui->labelStatus->setText(tr("Indexing..."));
     ctagProc->start("ctags -R -e --c-kinds=+cdefglmnpstuvx --c++-kinds=+cdefglmnpstuvx -f -");
     emit projectOpened();
 }
@@ -476,8 +477,13 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
     menu->addAction(QIcon(":/images/edit-find.svg"), tr("Properties"),
                     [this, fInfo]() { fileProperties(fInfo); });
     if (fInfo.isExecutable() && !fInfo.isDir())
-        menu->addAction(QIcon(":/images/actions/run-build.svg"), tr("Execute"),
-                        [fInfo] { QProcess::execute(fInfo.absoluteFilePath()); });
+        menu->addAction(QIcon(":/images/actions/run-build.svg"), tr("Execute"), [fInfo] {
+#ifdef Q_OS_WIN
+            QDesktopServices::openUrl(QUrl::fromLocalFile(fInfo.absoluteFilePath()));
+#else
+            QProcess::execute(fInfo.absoluteFilePath());
+#endif
+        });
     menu->addSeparator();
     menu->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Rename"),
                     [this, index]() { ui->treeView->edit(index); });

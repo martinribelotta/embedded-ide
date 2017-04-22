@@ -56,6 +56,7 @@ DocumentArea::DocumentArea(QWidget *parent) :
         }
         windowListModel->sort(0);
     });
+    tab->setObjectName("documentTabArea");
 
     buttonBoxLayout->addWidget(windowListCombo);
     buttonBoxLayout->addWidget(reloadCurrent);
@@ -177,20 +178,26 @@ int DocumentArea::fileOpenAndSetIP(const QString &file, int line, const Makefile
     return idx;
 }
 
-int DocumentArea::binOpen(const QString &file)
+int DocumentArea::binOpen(const QString &filePath)
 {
-    int idx = documentFind(file);
+    int idx = documentFind(filePath);
     if (idx == -1) {
-        QHexEditData *data = QHexEditData::fromFile(file);
-        if (!data)
+        QFile *file = new QFile(filePath);
+        if (file)
+            file->open(QFile::ReadOnly);
+        QHexEditData *data = QHexEditData::fromDevice(file);
+        if (!data) {
+            delete file;
             return -1;
+        }
         QHexEdit *editor = new QHexEdit(this);
+        file->setParent(editor);
         editor->setData(data);
         editor->setReadOnly(true);
-        editor->setWindowTitle(QFileInfo(file).fileName());
-        editor->setWindowFilePath(QFileInfo(file).absoluteFilePath());
+        editor->setWindowTitle(QFileInfo(filePath).fileName());
+        editor->setWindowFilePath(QFileInfo(filePath).absoluteFilePath());
         idx = tab->addTab(editor, editor->windowTitle());
-        tab->setTabToolTip(idx, file);
+        tab->setTabToolTip(idx, filePath);
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
     }
     tab->setCurrentIndex(idx);

@@ -32,10 +32,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("none.unknown.com");
     QCoreApplication::setApplicationName("embedded IDE");
     a.setWindowIcon(QIcon(":/images/embedded-ide.png"));
-    a.setStyleSheet([]() -> QString {
-                        QFile f(":/style.css");
-                        return f.open(QFile::ReadOnly)? f.readAll() : QString();
-                    }());
     QTranslator tr;
     qDebug() << "load translations"
              << QLocale::system().name()
@@ -68,6 +64,10 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
+    a.setStyleSheet([]() -> QString {
+                        QFile f(":/style.css");
+                        return f.open(QFile::ReadOnly)? f.readAll() : QString();
+                    }());
 
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
       QMessageBox::critical(

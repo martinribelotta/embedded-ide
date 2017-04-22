@@ -55,6 +55,9 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
+       <property name="documentMode">
+        <bool>true</bool>
+       </property>
        <property name="tabBarAutoHide">
         <bool>true</bool>
        </property>
