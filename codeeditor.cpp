@@ -79,7 +79,7 @@
 
 CodeEditor::CodeEditor(QWidget *parent) :
     QsciScintilla(parent),
-    mk(0l),
+    mk(nullptr),
     ip(-1)
 {
     m_completer = new QCompleter(this);
@@ -87,7 +87,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     m_completer->setCompletionMode(QCompleter::PopupCompletion);
     m_completer->setWidget(this);
 
-    QSortFilterProxyModel *pModel = new QSortFilterProxyModel(m_completer);
+    auto pModel = new QSortFilterProxyModel(m_completer);
     pModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     pModel->setSourceModel(new QStringListModel(m_completer));
     m_completer->setModel(pModel);
@@ -96,12 +96,12 @@ CodeEditor::CodeEditor(QWidget *parent) :
     replaceDialog = new FormFindReplace(this);
     replaceDialog->hide();
 
-    QAction *findAction = new QAction(this);
+    auto findAction = new QAction(this);
     findAction->setShortcut(QKeySequence("ctrl+f"));
     connect(findAction, &QAction::triggered, replaceDialog, &FormFindReplace::show);
     addAction(findAction);
 
-    QAction *saveAction = new QAction(this);
+    auto saveAction = new QAction(this);
     saveAction->setShortcut(QKeySequence("ctrl+s"));
     connect(saveAction, &QAction::triggered, this, &CodeEditor::save);
     addAction(saveAction);
@@ -195,7 +195,7 @@ static QAction *setActionEnable(bool en, QAction *a) {
 
 QMenu *CodeEditor::createContextMenu()
 {
-    QMenu *m = new QMenu(this);
+    auto m = new QMenu(this);
     bool isSelected = !selectedText().isEmpty(); // textCursor().hasSelection();
     bool canPaste = static_cast<bool>(SendScintilla(SCI_CANPASTE));
     setActionEnable(isUndoAvailable(), m->addAction(QIcon(":/images/edit-undo.svg"), tr("&Undo"), this, SLOT(undo())))->setShortcut(QKeySequence("Ctrl+Z"));
@@ -374,8 +374,8 @@ void CodeEditor::findTagUnderCursor()
     QList<ETags::Tag> tagFor = tagList.find(tag);
 
     QDialog dialog(this);
-    QHBoxLayout *layout = new QHBoxLayout(&dialog);
-    TagList *view = new TagList(&dialog);
+    auto layout = new QHBoxLayout(&dialog);
+    auto view = new TagList(&dialog);
     view->setTagList(tagFor);
     layout->addWidget(view);
     layout->setMargin(0);

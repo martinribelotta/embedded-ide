@@ -8,7 +8,7 @@ TagList::TagList(QWidget *parent) : QListWidget (parent)
 void TagList::setTagList(const QList<ETags::Tag> &tags)
 {
     foreach(ETags::Tag t, tags) {
-        QListWidgetItem *item = new QListWidgetItem(this);
+        auto item = new QListWidgetItem(this);
         item->setText(QString("%2 (%3):\n%1")
                       .arg(t.decl)
                       .arg(t.file)

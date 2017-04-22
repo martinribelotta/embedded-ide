@@ -90,7 +90,7 @@ struct LinkerSymbol {
     uint32_t value;
     uint8_t pad[4];
     QString expr;
-    LinkerSymbol(uint32_t v, const QString& e) : value(v), expr(e) { }
+    LinkerSymbol(uint32_t v, QString  e) : value(v), expr(std::move(e)) { }
 };
 
 struct TranslationUnit {
@@ -102,8 +102,8 @@ struct TranslationUnit {
 
     TranslationUnit() : addr(UINT32_MAX), size(0) { }
 
-    TranslationUnit(const QString& s, uint32_t a, uint32_t z, const QString& p):
-        section(s), addr(a), size(z), path(p) {}
+    TranslationUnit(QString  s, uint32_t a, uint32_t z, QString  p):
+        section(std::move(s)), addr(a), size(z), path(std::move(p)) {}
 
     bool isEmpty() const {
         return size == 0 && symbols.isEmpty();
@@ -169,9 +169,9 @@ static QHash<QString, Section> parseMemoryMap(QTextStream& stream, QList<MemoryR
             auto secSize = m.captured("size").remove(0, 2).toUInt(nullptr, 16);
             auto secLma = m.lastCapturedIndex() == 4? m.captured("lma").remove(0, 2).toUInt(nullptr, 16) : secVma;
             currentSection = sectionList.insert(secName, Section{ secVma, secLma, secSize });
-            for (int i=0; i<mr.size(); i++) {
-                if (currentSection.value().inRegion(mr.at(i)))
-                    mr[i].used += currentSection.value().size;
+            for (auto & i : mr) {
+                if (currentSection.value().inRegion(i))
+                    i.used += currentSection.value().size;
             }
             continue;
         }
@@ -272,7 +272,7 @@ static QString toHex(uint32_t value) {
 class BarItemDelegate: public QStyledItemDelegate {
 public:
     BarItemDelegate(QObject *parent = Q_NULLPTR) : QStyledItemDelegate(parent) {}
-    virtual ~BarItemDelegate();
+    ~BarItemDelegate() override;
 
     inline QStyleOptionProgressBar options(const QStyleOptionViewItem& option,
                                            const QModelIndex& index) const {
@@ -287,14 +287,14 @@ public:
         return progressBarOption;
     }
 
-    void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
+    void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const override
     {
         auto progressBarOption = options(option, index);
         QApplication::style()->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
     }
 
     QSize sizeHint(const QStyleOptionViewItem &option,
-                   const QModelIndex &index) const
+                   const QModelIndex &index) const override
     {
         auto progressBarOption = options(option, index);
         auto textSize = option.fontMetrics.boundingRect(progressBarOption.text).size();
@@ -306,12 +306,12 @@ public:
 class SymbolSortFilter: public QSortFilterProxyModel
 {
 public:
-    SymbolSortFilter(QObject *parent = 0l) : QSortFilterProxyModel(parent)
+    SymbolSortFilter(QObject *parent = nullptr) : QSortFilterProxyModel(parent)
     {
         setSourceModel(new QStandardItemModel(this));
     }
     QStandardItemModel *itemModel() { return static_cast<QStandardItemModel*>(sourceModel()); }
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
 };
 
 bool SymbolSortFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const
@@ -325,8 +325,7 @@ bool SymbolSortFilter::lessThan(const QModelIndex &left, const QModelIndex &righ
 }
 
 BarItemDelegate::~BarItemDelegate()
-{
-}
+= default;
 
 MapViewer::MapViewer(QWidget *parent) :
     QWidget (parent),

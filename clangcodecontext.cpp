@@ -24,8 +24,7 @@ CLangCodeContext::CLangCodeContext(CodeEditor *parent) : QObject(parent), ed(par
 }
 
 CLangCodeContext::~CLangCodeContext()
-{
-}
+= default;
 
 void CLangCodeContext::setWorkingDir(const QString &path)
 {
@@ -170,7 +169,7 @@ void CLangCodeContext::discoverFor(const QString &path)
         QString key = findDependency(findElement, mk);
         if (!key.isEmpty()) {
             qDebug() << "Parsing construction for " << key;
-            QProcess *make = new QProcess(this);
+            auto make = new QProcess(this);
             make->setWorkingDirectory(workDir);
             connect( make, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
                     [make](QProcess::ProcessError err) {
@@ -213,7 +212,7 @@ void CLangCodeContext::discoverFor(const QString &path)
                     parameterList.append("-E");
                     parameterList.append("-v");
                     qDebug() << parameterList;
-                    QProcess *cc = new QProcess(this);
+                    auto cc = new QProcess(this);
                     cc->setWorkingDirectory(make->workingDirectory());
                     cc->setReadChannelMode(QProcess::MergedChannels);
                     connect(cc, static_cast<void (QProcess::*)(int)>(&QProcess::finished), [this, cc](int ) {

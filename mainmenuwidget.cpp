@@ -33,7 +33,7 @@ void MainMenuWidget::setProjectList(const QFileInfoList &list)
             //QString path = info.path();
             //QStringList pathPart = path.split(QDir::separator());
             //QString name = pathPart.last();
-            QStandardItem *item = new QStandardItem(name);
+            auto item = new QStandardItem(name);
             item->setToolTip(info.absoluteFilePath());
             item->setData(QVariant::fromValue(info), Qt::UserRole);
             item->setIcon(QIcon("://images/mimetypes/text-x-makefile.svg"));

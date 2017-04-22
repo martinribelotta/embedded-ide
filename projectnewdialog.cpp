@@ -19,7 +19,7 @@ struct Parameter_t {
 
 class EditableItemDelegate : public QItemDelegate {
 public:
-    EditableItemDelegate(QObject *parent = 0l) : QItemDelegate(parent) {
+    EditableItemDelegate(QObject *parent = nullptr) : QItemDelegate(parent) {
     }
 
     virtual QVariant getDefault() = 0;
@@ -29,22 +29,22 @@ class ListEditorDelegate : public EditableItemDelegate {
 public:
     const QStringList items;
 
-    ListEditorDelegate(const QString& data, QObject *parent = 0l) :
+    ListEditorDelegate(const QString& data, QObject *parent = nullptr) :
         EditableItemDelegate(parent), items(data.split('|'))
     {
     }
 
-    virtual QVariant getDefault() {
+    QVariant getDefault() override {
         return items.first();
     }
 
     QWidget *createEditor(QWidget *parent,
                           const QStyleOptionViewItem &option,
-                          const QModelIndex &index) const
+                          const QModelIndex &index) const override
     {
         Q_UNUSED(option);
         Q_UNUSED(index);
-        QComboBox *cb = new QComboBox(parent);
+        auto cb = new QComboBox(parent);
         cb->addItems(items);
         return cb;
     }
@@ -54,22 +54,22 @@ public:
 class StringEditorDelegate : public EditableItemDelegate {
 public:
     QString data;
-    StringEditorDelegate(const QString& d, QObject *parent = 0l) :
-        EditableItemDelegate(parent), data(d)
+    StringEditorDelegate(QString  d, QObject *parent = nullptr) :
+        EditableItemDelegate(parent), data(std::move(d))
     {
     }
 
-    virtual QVariant getDefault() {
+    QVariant getDefault() override {
         return data;
     }
 
     QWidget *createEditor(QWidget *parent,
                           const QStyleOptionViewItem &option,
-                          const QModelIndex &index) const
+                          const QModelIndex &index) const override
     {
         Q_UNUSED(option);
         Q_UNUSED(index);
-        QLineEdit *ed = new QLineEdit(parent);
+        auto ed = new QLineEdit(parent);
         ed->setText(data);
         return ed;
     }
@@ -77,11 +77,11 @@ public:
 
 class DelegateFactory {
 public:
-    static EditableItemDelegate *create(const Parameter_t& p, QWidget *parent = 0l)
+    static EditableItemDelegate *create(const Parameter_t& p, QWidget *parent = nullptr)
     {
         Constructor constructor = constructors().value( p.type );
-        if ( constructor == 0l )
-            return 0l;
+        if ( constructor == nullptr )
+            return nullptr;
         return (*constructor)( p.value, parent );
     }
 
@@ -221,7 +221,7 @@ void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
         int idx = 0;
         while ((idx = re.indexIn(text, idx)) != -1) {
             Parameter_t p = { re.cap(1).replace('_', ' '), re.cap(2), re.cap(3) };
-            QTableWidgetItem *name = new QTableWidgetItem(p.name);
+            auto name = new QTableWidgetItem(p.name);
             name->setFlags(name->flags()&~Qt::ItemIsEditable);
             QTableWidgetItem *value = new QTableWidgetItem(QString());
             value->setFlags(value->flags()|Qt::ItemIsEditable);

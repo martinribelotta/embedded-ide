@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     trayIcon->setIcon(QIcon(":/images/embedded-ide.svg"));
     {
-        QMenu *m = new QMenu();
+        auto m = new QMenu();
         trayIcon->setContextMenu(m);
         auto f = [this]() {
             templateDownloader->download();
@@ -136,9 +136,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->removeTab(2);
     ui->tabWidget->removeTab(1);
 
-    QMenu *mainMenu = new QMenu(this);
-    QWidgetAction *wa = new QWidgetAction(mainMenu);
-    MainMenuWidget *menuWidget = new MainMenuWidget(mainMenu);
+    auto mainMenu = new QMenu(this);
+    auto wa = new QWidgetAction(mainMenu);
+    auto menuWidget = new MainMenuWidget(mainMenu);
     menuWidget->setProjectList(lastProjectsList());
     wa->setDefaultWidget(menuWidget);
     mainMenu->addAction(wa);
@@ -390,7 +390,7 @@ void MainWindow::setUpProxy() {
 
 void MainWindow::on_projectView_openFindDialog()
 {
-    FindInFilesDialog *d = new FindInFilesDialog(ui->centralWidget, ui->projectView, this);
+    auto d = new FindInFilesDialog(ui->centralWidget, ui->projectView, this);
     d->show();
     connect(d, &QDialog::finished, d, &QObject::deleteLater);
 }

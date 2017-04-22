@@ -10,8 +10,8 @@ static const QString INNER_BUTTON_STYLE = "background: transparent; border: none
 
 FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
 {
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    QToolButton *clearButton = new QToolButton(this);
+    auto layout = new QHBoxLayout(this);
+    auto clearButton = new QToolButton(this);
     optionsButton = new QToolButton(this);
     optionsButton->setIcon(QIcon(":/images/application-menu.svg"));
     clearButton->setIcon(QIcon(":/images/actions/edit-clear.svg"));
@@ -39,7 +39,7 @@ FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
 
 void FindLineEdit::addMenuActions(const QHash<QString, QString> &actionList)
 {
-    QMenu *menu = new QMenu(this);
+    auto menu = new QMenu(this);
     QHash<QString, QString>::const_iterator it;
     for (it = actionList.constBegin(); it != actionList.constEnd(); ++it) {
         auto actionName = it.key();

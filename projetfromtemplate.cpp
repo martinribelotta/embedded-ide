@@ -8,11 +8,11 @@
 
 #include <QtDebug>
 
-ProjetFromTemplate::ProjetFromTemplate(const QString &projectName,
-                                       const QString &templateText,
+ProjetFromTemplate::ProjetFromTemplate(QString projectName,
+                                       QString templateText,
                                        QObject *parent,
                                        const char *slotName) :
-    QObject(parent), proc(new QProcess(this)), m_project(projectName), m_templateText(templateText)
+    QObject(parent), proc(new QProcess(this)), m_project(std::move(projectName)), m_templateText(std::move(templateText))
 {
     connect(proc, SIGNAL(started()), this, SLOT(onStarted()));
     connect(proc, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinish(int, QProcess::ExitStatus)));

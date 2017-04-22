@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
       QMessageBox::critical(
-          0, QObject::tr("Desktop support"),
+          nullptr, QObject::tr("Desktop support"),
           QCoreApplication::applicationName() +
               QObject::tr(" can not detect any system tray on this "
                           "desktop, notify this to developers."));

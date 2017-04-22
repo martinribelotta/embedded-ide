@@ -39,14 +39,14 @@ void TemplateDownloader::downloadMetadata() {
   if (!templateUrl.isValid()) templateUrl = QUrl(config.builTemplateUrl());
   if (!templateUrl.isValid()) {
     QMessageBox::critical(
-        NULL, QMainWindow::tr("Error"),
+        nullptr, QMainWindow::tr("Error"),
         QMainWindow::tr("No valid URL: %1").arg(templateUrl.toString()));
     return;
   }
-  FileDownloader* downloader = new FileDownloader(this);
+  auto  downloader = new FileDownloader(this);
   connect(downloader, &FileDownloader::downloadError,
           [downloader, this](const QString& msg) {
-            QMessageBox::critical(NULL, QMainWindow::tr("Network error"), msg);
+            QMessageBox::critical(nullptr, QMainWindow::tr("Network error"), msg);
             downloader->deleteLater();
           });
   connect(downloader, &FileDownloader::downloadDataFinished,

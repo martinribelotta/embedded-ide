@@ -8,7 +8,7 @@ class ProjetFromTemplate : public QObject
 {
     Q_OBJECT
 public:
-    explicit ProjetFromTemplate(const QString& projectName, const QString& templateText,
+    explicit ProjetFromTemplate(QString  projectName, QString  templateText,
                                 QObject *parent, const char *slotName);
 
 signals:

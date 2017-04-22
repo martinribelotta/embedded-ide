@@ -22,8 +22,8 @@ DebugInterface::DebugInterface(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::DebugInterface),
     priv(new DebugInterface::Priv_t),
-    projectView(0l),
-    documentArea(0l)
+    projectView(nullptr),
+    documentArea(nullptr)
 {
     ui->setupUi(this);
     priv->currentTargetState = TARGET_STOPPED;
@@ -116,9 +116,7 @@ bool DebugInterface::eventFilter(QObject *obj, QEvent *event)
         if(widget == ui->varWidget && keyEvent->key() == Qt::Key_Delete) {
             QList<QTreeWidgetItem *> items = ui->varWidget->selectedItems();
 
-            for(int i =0;i < items.size();i++) {
-                QTreeWidgetItem *item = items[i];
-
+            for(auto item : items) {
                 // Delete the item
                 Core &core = Core::getInstance();
                 QTreeWidgetItem *rootItem = ui->varWidget->invisibleRootItem();
@@ -572,15 +570,15 @@ void DebugInterface::ICore_onThreadListChanged()
 
     QList<ThreadInfo> list = core.getThreadList();
 
-    for(int idx = 0;idx < list.size();idx++) {
+    for(auto & idx : list) {
         // Get name
-        QString name = list[idx].m_name;
+        QString name = idx.m_name;
 
         // Add the item
         QStringList names;
         names.push_back(name);
-        QTreeWidgetItem *item = new QTreeWidgetItem(names);
-        item->setData(0, Qt::UserRole, list[idx].id);
+        auto item = new QTreeWidgetItem(names);
+        item->setData(0, Qt::UserRole, idx.id);
         item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
         threadWidget->insertTopLevelItem(0, item);
     }
@@ -640,7 +638,7 @@ void DebugInterface::ICore_onBreakpointsChanged()
         nameList.append(name);
         nameList.append(longLongToHexString(bk->m_addr));
 
-        QTreeWidgetItem *item = new QTreeWidgetItem(nameList);
+        auto item = new QTreeWidgetItem(nameList);
         item->setData(0, Qt::UserRole, i);
         item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 
@@ -649,9 +647,7 @@ void DebugInterface::ICore_onBreakpointsChanged()
     }
 
     // Update the fileview
-    for(int i = 0;i <  bklist.size();i++) {
-        BreakPoint* bk = bklist[i];
-
+    for(auto bk : bklist) {
         if(bk->fullname == m_filename)
             numList.push_back(bk->lineNo);
     }
@@ -675,7 +671,7 @@ void DebugInterface::ICore_onStackFrameChange(QList<StackFrameEntry> stackFrameL
         QStringList names;
         names.push_back(entry.m_functionName);
 
-        QTreeWidgetItem *item = new QTreeWidgetItem(names);
+        auto item = new QTreeWidgetItem(names);
 
         item->setData(0, Qt::UserRole, idx);
         item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);

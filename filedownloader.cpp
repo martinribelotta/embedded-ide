@@ -12,8 +12,8 @@ struct DownloadEntry {
     QUrl url;
     QString localPath;
 
-    DownloadEntry(const QUrl& _url, const QString& _localPath) :
-        url(_url), localPath(_localPath) {}
+    DownloadEntry(QUrl  _url, QString  _localPath) :
+        url(std::move(_url)), localPath(std::move(_localPath)) {}
 };
 
 class FileDownloaderPrivate {

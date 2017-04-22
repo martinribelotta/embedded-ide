@@ -38,7 +38,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     ui(new Ui::ConfigDialog)
 {
     ui->setupUi(this);
-    QButtonGroup *bg = new QButtonGroup(this);
+    auto bg = new QButtonGroup(this);
     bg->addButton(ui->noProxy);
     bg->addButton(ui->systemProxy);
     bg->addButton(ui->userProxy);
@@ -227,7 +227,7 @@ void ConfigDialog::on_projectTemplatesDownload_clicked()
         }
     }
 
-    QProgressDialog *dialog = new QProgressDialog(this);
+    auto dialog = new QProgressDialog(this);
     dialog->setWindowModality(Qt::WindowModal);
     dialog->setLabelText(tr("Downloading template list..."));
     dialog->setAutoClose(false);
@@ -235,7 +235,7 @@ void ConfigDialog::on_projectTemplatesDownload_clicked()
     dialog->setProperty("ignoreFirst", true);
     dialog->show();
 
-    FileDownloader *downloader = new FileDownloader(this);
+    auto downloader = new FileDownloader(this);
     connect(dialog, &QProgressDialog::canceled, [this, dialog, downloader](){
       dialog->deleteLater();
       downloader->deleteLater();

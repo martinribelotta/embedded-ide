@@ -43,13 +43,13 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
     ui->labelStatus->setText(tr("Ready"));
     ui->textDirectory->setText(projView->projectPath().absolutePath());
 
-    QMenu *filterMenu = new QMenu(this);
-    QWidgetAction *listViewAction = new QWidgetAction(filterMenu);
-    QListView *filterListView = new QListView(this);
+    auto filterMenu = new QMenu(this);
+    auto listViewAction = new QWidgetAction(filterMenu);
+    auto filterListView = new QListView(this);
     filterListView->setEditTriggers(QListView::NoEditTriggers);
-    QStandardItemModel *filterModel = new QStandardItemModel(filterListView);
+    auto filterModel = new QStandardItemModel(filterListView);
     foreach(QString e, STANDARD_FILTERS) {
-        QStandardItem *i = new QStandardItem(e);
+        auto i = new QStandardItem(e);
         i->setCheckable(true);
         filterModel->appendRow(i);
     }
@@ -81,7 +81,7 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
         }
     });
 
-    QsciScintilla *doc = new QsciScintilla(this);
+    auto doc = new QsciScintilla(this);
     doc->hide();
     connect(ui->buttonFind, &QToolButton::clicked, [this, model, doc]() {
         model->clear();

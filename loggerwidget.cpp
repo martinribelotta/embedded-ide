@@ -29,12 +29,12 @@ struct LoggerWidget::priv_t {
 LoggerWidget::LoggerWidget(QWidget *parent) :
     QWidget(parent), d_ptr(new LoggerWidget::priv_t)
 {
-    QHBoxLayout *hlayout = new QHBoxLayout();
-    QVBoxLayout *vlayout = new QVBoxLayout();
-    QToolButton *clearConsole = new QToolButton(this);
-    QToolButton *killProc = new QToolButton(this);
-    QTextBrowser *view = new QTextBrowser(this);
-    QProcess *proc = new QProcess(this);
+    auto hlayout = new QHBoxLayout();
+    auto vlayout = new QVBoxLayout();
+    auto clearConsole = new QToolButton(this);
+    auto killProc = new QToolButton(this);
+    auto view = new QTextBrowser(this);
+    auto proc = new QProcess(this);
     QSize iconSize(32, 32);
 
     clearConsole->setIcon(QIcon("://images/actions/edit-clear.svg"));

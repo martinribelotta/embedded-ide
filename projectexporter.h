@@ -13,7 +13,7 @@ class ProjectExporter : public QObject
     Q_OBJECT
 public:
     explicit ProjectExporter(const QString& exportFile,
-                             const QString& projectPath,
+                             QString  projectPath,
                              QObject *parent,
                              const char *slotFinish);
 

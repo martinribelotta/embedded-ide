@@ -12,12 +12,12 @@
 class TabWidget: public QTabWidget {
     std::function<void (void)> windowListUpdate_f;
 public:
-    TabWidget(QWidget *parent, const std::function<void (void)>& func) :
-        QTabWidget(parent), windowListUpdate_f(func) { tabBar()->hide(); }
+    TabWidget(QWidget *parent, std::function<void (void)>  func) :
+        QTabWidget(parent), windowListUpdate_f(std::move(func)) { tabBar()->hide(); }
 
 protected:
-    virtual void tabInserted(int) Q_DECL_OVERRIDE;
-    virtual void tabRemoved(int) Q_DECL_OVERRIDE;
+    void tabInserted(int) Q_DECL_OVERRIDE;
+    void tabRemoved(int) Q_DECL_OVERRIDE;
 };
 
 void TabWidget::tabInserted(int) { windowListUpdate_f(); }
@@ -25,27 +25,27 @@ void TabWidget::tabRemoved(int) { windowListUpdate_f(); }
 
 DocumentArea::DocumentArea(QWidget *parent) :
     QWidget(parent),
-    tab(0l),
-    lastIpEditor(0l)
+    tab(nullptr),
+    lastIpEditor(nullptr)
 {
-    QVBoxLayout *l1 = new QVBoxLayout(this);
-    QWidget *buttonBox = new QWidget(this);
-    QHBoxLayout *buttonBoxLayout = new QHBoxLayout(buttonBox);
+    auto l1 = new QVBoxLayout(this);
+    auto buttonBox = new QWidget(this);
+    auto buttonBoxLayout = new QHBoxLayout(buttonBox);
     buttonBoxLayout->setMargin(0);
     buttonBoxLayout->setSpacing(0);
     buttonBoxLayout->setContentsMargins(0, 1, 0, 0);
 
-    QComboBox *windowListCombo = new QComboBox(buttonBox);
-    QToolButton *closeAll = new QToolButton(buttonBox);
-    QToolButton *saveCurrent = new QToolButton(buttonBox);
-    QToolButton *saveAll = new QToolButton(buttonBox);
-    QToolButton *closeCurrent = new QToolButton(buttonBox);
-    QToolButton *reloadCurrent = new QToolButton(buttonBox);
+    auto windowListCombo = new QComboBox(buttonBox);
+    auto closeAll = new QToolButton(buttonBox);
+    auto saveCurrent = new QToolButton(buttonBox);
+    auto saveAll = new QToolButton(buttonBox);
+    auto closeCurrent = new QToolButton(buttonBox);
+    auto reloadCurrent = new QToolButton(buttonBox);
 
     windowListModel = new QStandardItemModel(this);
     windowListCombo->setModel(windowListModel);
     windowListCombo->setObjectName("windowListCombo");
-    tab = new TabWidget(this, [this, buttonBox](void) {
+    tab = new TabWidget(this, [this, buttonBox]() {
         windowListModel->clear();
         buttonBox->setEnabled(tab->count() > 0);
         for(int i=0; i<tab->count(); i++) {
@@ -143,7 +143,7 @@ int DocumentArea::fileOpen(const QString &file, const MakefileInfo *mk)
 {
     int idx = documentFind(file);
     if (idx == -1) {
-        CodeEditor *editor = new CodeEditor(this);
+        auto editor = new CodeEditor(this);
         connect(editor, &CodeEditor::requireOpen, this, &DocumentArea::fileOpenAt);
         editor->setMakefileInfo(mk);
         if (!editor->load(file))
@@ -182,7 +182,7 @@ int DocumentArea::binOpen(const QString &filePath)
 {
     int idx = documentFind(filePath);
     if (idx == -1) {
-        QFile *file = new QFile(filePath);
+        auto file = new QFile(filePath);
         if (file)
             file->open(QFile::ReadOnly);
         QHexEditData *data = QHexEditData::fromDevice(file);
@@ -190,7 +190,7 @@ int DocumentArea::binOpen(const QString &filePath)
             delete file;
             return -1;
         }
-        QHexEdit *editor = new QHexEdit(this);
+        auto editor = new QHexEdit(this);
         file->setParent(editor);
         editor->setData(data);
         editor->setReadOnly(true);
@@ -208,7 +208,7 @@ int DocumentArea::mapOpen(const QString &file)
 {
     int idx = documentFind(file);
     if (idx == -1) {
-        MapViewer * editor = new MapViewer(this);
+        auto  editor = new MapViewer(this);
         editor->load(file);
         editor->setWindowTitle(QFileInfo(file).fileName());
         editor->setWindowFilePath(QFileInfo(file).absoluteFilePath());

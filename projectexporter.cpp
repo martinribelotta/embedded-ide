@@ -15,12 +15,12 @@ static const QString EXCLUDE_LIST = QString(
         "-x autoconf.h");
 
 ProjectExporter::ProjectExporter(const QString& exportFile,
-                                 const QString &projectPath,
+                                 QString projectPath,
                                  QObject *parent,
                                  const char *slotFinish) :
     QObject(parent),
     m_exportFile(exportFile),
-    m_projectPath(projectPath),
+    m_projectPath(std::move(projectPath)),
     proc(new QProcess(this)),
     tmpDir("a_XXXXXX")
 {

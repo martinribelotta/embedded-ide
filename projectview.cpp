@@ -120,7 +120,7 @@ void ProjectView::closeProject()
 {
     if (ui->treeView->model()) {
         ui->treeView->model()->deleteLater();
-        ui->treeView->setModel(0l);
+        ui->treeView->setModel(nullptr);
     }
     ui->targetList->clear();
     foreach(QToolButton *b, projectButtons) b->setEnabled(false);
@@ -147,7 +147,7 @@ void ProjectView::openProject(const QString &projectFile)
         for(int i=2; i<model->columnCount(); i++)
             ui->treeView->hideColumn(i);
         ui->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-        TargetUpdateDiscover *discover = new TargetUpdateDiscover(this);
+        auto discover = new TargetUpdateDiscover(this);
         connect(discover, SIGNAL(updateFinish(MakefileInfo)), this, SLOT(updateMakefileInfo(MakefileInfo)));
         discover->start(project());
         foreach(QToolButton *b, projectButtons) b->setEnabled(true);
@@ -199,7 +199,7 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
         ui->targetList->addItem(new QListWidgetItem(icon, t));
     }
     sender()->deleteLater();
-    QProcess *ctagProc = new QProcess(this);
+    auto ctagProc = new QProcess(this);
     ctagProc->setWorkingDirectory(mk_info.workingDir);
     connect(ctagProc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
             [ctagProc, this] () {
@@ -442,7 +442,7 @@ static ProjectView::EntryList_t loadEntries()
 
 QMenu *ProjectView::createExternalToolsMenu()
 {
-    QMenu *menu = new QMenu(this);
+    auto menu = new QMenu(this);
     EntryList_t entries = loadEntries();
     if (!entries.isEmpty()) {
         foreach(auto e, entries) {
@@ -473,7 +473,7 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
     if (!model)
         return;
     QFileInfo fInfo = model->fileInfo(index);
-    QMenu *menu = new QMenu(this);
+    auto menu = new QMenu(this);
     menu->addAction(QIcon(":/images/edit-find.svg"), tr("Properties"),
                     [this, fInfo]() { fileProperties(fInfo); });
     if (fInfo.isExecutable() && !fInfo.isDir())
