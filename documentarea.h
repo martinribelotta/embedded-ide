@@ -2,12 +2,28 @@
 #define DOCUMENTAREA_H
 
 #include <QWidget>
+#include <QTabWidget>
+#include <QTabBar>
 
 class MakefileInfo;
 class CodeEditor;
 
 class QStandardItemModel;
-class QTabWidget;
+
+class TabWidget: public QTabWidget {
+    Q_OBJECT
+public:
+    TabWidget(QWidget *parent) :
+        QTabWidget(parent) { tabBar()->hide(); }
+
+signals:
+    void refresh();
+
+protected:
+    void tabInserted(int) Q_DECL_OVERRIDE;
+    void tabRemoved(int) Q_DECL_OVERRIDE;
+};
+
 
 class DocumentArea : public QWidget
 {
@@ -44,7 +60,7 @@ private slots:
 private:
     int documentFind(const QString& file, CodeEditor **ww = nullptr);
 
-    QTabWidget *tab;
+    TabWidget *tab;
     CodeEditor *lastIpEditor;
     QStandardItemModel *windowListModel;
 };

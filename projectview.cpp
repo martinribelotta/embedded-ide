@@ -455,8 +455,8 @@ QMenu *ProjectView::createExternalToolsMenu()
         menu->addAction(tr("No entries"))->setDisabled(true);
     menu->setProperty("entries", QVariant::fromValue(entries));
     menu->addSeparator();
-    menu->addAction(QIcon(":/images/configure.svg"), tr("Manage tools"),
-                    [this, menu]() {
+    auto *configAction = menu->addAction(QIcon(":/images/configure.svg"), tr("Manage tools"));
+    connect(configAction, &QAction::triggered, [this, menu]() {
         ToolManager d(window());
         d.setTools(menu->property("entries").value<EntryList_t>());
         if (d.exec() == QDialog::Accepted)
@@ -464,6 +464,12 @@ QMenu *ProjectView::createExternalToolsMenu()
     });
     return menu;
 }
+
+#ifdef Q_OS_WIN
+#define RUN(fInfo) QDesktopServices::openUrl(QUrl::fromLocalFile(fInfo.absoluteFilePath()))
+#else
+#define RUN(fInfo) QProcess::execute(fInfo.absoluteFilePath())
+#endif
 
 void ProjectView::on_treeView_pressed(const QModelIndex &index)
 {
@@ -474,21 +480,17 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
         return;
     QFileInfo fInfo = model->fileInfo(index);
     auto menu = new QMenu(this);
-    menu->addAction(QIcon(":/images/edit-find.svg"), tr("Properties"),
-                    [this, fInfo]() { fileProperties(fInfo); });
-    if (fInfo.isExecutable() && !fInfo.isDir())
-        menu->addAction(QIcon(":/images/actions/run-build.svg"), tr("Execute"), [fInfo] {
-#ifdef Q_OS_WIN
-            QDesktopServices::openUrl(QUrl::fromLocalFile(fInfo.absoluteFilePath()));
-#else
-            QProcess::execute(fInfo.absoluteFilePath());
-#endif
-        });
+    auto editFindAction = menu->addAction(QIcon(":/images/edit-find.svg"), tr("Properties"));
+    connect(editFindAction, &QAction::triggered, [this, fInfo]() { fileProperties(fInfo); });
+    if (fInfo.isExecutable() && !fInfo.isDir()) {
+        auto runAction = menu->addAction(QIcon(":/images/actions/run-build.svg"), tr("Execute"));
+        connect(runAction, &QAction::triggered, [fInfo] { RUN(fInfo); });
+    }
     menu->addSeparator();
-    menu->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Rename"),
-                    [this, index]() { ui->treeView->edit(index); });
-    menu->addAction(QIcon(":/images/edit-delete.svg"), tr("Delete"),
-                    this, &ProjectView::on_toolButton_elementDel_clicked);
+    auto refreshAction = menu->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Rename"));
+    connect(refreshAction, &QAction::triggered, [this, index]() { ui->treeView->edit(index); });
+    auto editDelAction = menu->addAction(QIcon(":/images/edit-delete.svg"), tr("Delete"));
+    connect(editDelAction, &QAction::triggered, this, &ProjectView::on_toolButton_elementDel_clicked);
     menu->exec(QCursor::pos());
 }
 

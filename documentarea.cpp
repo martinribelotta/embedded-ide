@@ -9,19 +9,8 @@
 #include <QTabBar>
 #include <QtDebug>
 
-class TabWidget: public QTabWidget {
-    std::function<void (void)> windowListUpdate_f;
-public:
-    TabWidget(QWidget *parent, std::function<void (void)>  func) :
-        QTabWidget(parent), windowListUpdate_f(std::move(func)) { tabBar()->hide(); }
-
-protected:
-    void tabInserted(int) Q_DECL_OVERRIDE;
-    void tabRemoved(int) Q_DECL_OVERRIDE;
-};
-
-void TabWidget::tabInserted(int) { windowListUpdate_f(); }
-void TabWidget::tabRemoved(int) { windowListUpdate_f(); }
+void TabWidget::tabInserted(int) { emit refresh(); }
+void TabWidget::tabRemoved(int) { emit refresh(); }
 
 DocumentArea::DocumentArea(QWidget *parent) :
     QWidget(parent),
@@ -45,7 +34,8 @@ DocumentArea::DocumentArea(QWidget *parent) :
     windowListModel = new QStandardItemModel(this);
     windowListCombo->setModel(windowListModel);
     windowListCombo->setObjectName("windowListCombo");
-    tab = new TabWidget(this, [this, buttonBox]() {
+    tab = new TabWidget(this);
+    connect(tab, &TabWidget::refresh, [this, buttonBox]() {
         windowListModel->clear();
         buttonBox->setEnabled(tab->count() > 0);
         for(int i=0; i<tab->count(); i++) {

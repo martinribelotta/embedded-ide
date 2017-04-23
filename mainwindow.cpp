@@ -37,6 +37,8 @@
 #include <QWidgetAction>
 #include <QSystemTrayIcon>
 
+#include <functional>
+
 #include <QtDebug>
 
 static QFileInfoList lastProjectsList(bool includeAllInWorkspace = true) {
@@ -89,7 +91,8 @@ MainWindow::MainWindow(QWidget *parent) :
             templateDownloader->download();
             trayIcon->hide();
         };
-        m->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Update"), f);
+        auto *refreshAction = m->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Update"));
+        connect(refreshAction, &QAction::triggered, f);
         connect(trayIcon, &QSystemTrayIcon::messageClicked, f);
         connect(templateDownloader, &TemplateDownloader::newUpdatesAvailables, [this]() {
             trayIcon->show();
