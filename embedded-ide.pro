@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets concurrent network svg xml
+QT       += core gui widgets concurrent network svg xml qml
 
 CONFIG += c++11
 
@@ -15,6 +15,8 @@ TEMPLATE = app
 
 target.path = /tmp/$${TARGET}/bin
 INSTALLS += target
+
+linux:QMAKE_LFLAGS += -fuse-ld=gold
 
 DEFINES += DISABLE_DEBUG_UI
 
@@ -73,7 +75,13 @@ SOURCES += main.cpp\
     templatedownloader.cpp \
     templatesdownloadselector.cpp \
     filepropertiesdialog.cpp \
-    findinfilesdialog.cpp
+    findinfilesdialog.cpp \
+    gdbinterface.cpp \
+    qtdesigner-gdb/gdbmi.cpp \
+    qtdesigner-gdb/elfreader.cpp \
+    qtdesigner-gdb/breakhandler.cpp \
+    qtdesigner-gdb/breakpoint.cpp \
+    gdbwire.c
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -115,7 +123,14 @@ HEADERS  += mainwindow.h \
     templatedownloader.h \
     templatesdownloadselector.h \
     filepropertiesdialog.h \
-    findinfilesdialog.h
+    findinfilesdialog.h \
+    gdbinterface.h \
+    qtdesigner-gdb/gdbmi.h \
+    qtdesigner-gdb/elfreader.h \
+    qtdesigner-gdb/breakhandler.h \
+    qtdesigner-gdb/breakpoint.h \
+    qtdesigner-gdb/debuggerinternalconstants.h \
+    gdbwire.h
 
 FORMS    += mainwindow.ui \
     projectnewdialog.ui \

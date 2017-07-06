@@ -532,7 +532,7 @@ void CodeEditor::loadConfig()
     setBraceMatching(StrictBraceMatch);
     resetMatchedBraceIndicator();
     setBackspaceUnindents(true);
-    setFolding(BoxedTreeFoldStyle);
+    setFolding(CircledTreeFoldStyle);
     setIndentationGuides(true);
 
     setCaretLineVisible(true);

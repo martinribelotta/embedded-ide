@@ -16,6 +16,10 @@ public:
     TabWidget(QWidget *parent) :
         QTabWidget(parent) { tabBar()->hide(); }
 
+    void setTabTitle(int idx, const QString& text) {
+        setTabText(idx, text);
+    }
+
 signals:
     void refresh();
 

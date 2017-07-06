@@ -16,6 +16,8 @@
 #include <QMessageBox>
 #include <configdialog.h>
 
+#include <QJSEngine>
+
 #ifdef Q_OS_LINUX
 #include <stdlib.h>
 #endif

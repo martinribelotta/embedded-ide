@@ -11,6 +11,7 @@
 #include <QDir>
 #include <QFuture>
 
+#include <QLabel>
 #include <QCheckBox>
 #include <QInputDialog>
 #include <QMenu>
@@ -55,6 +56,12 @@ ProjectView::ProjectView(QWidget *parent) :
     ui->tabDebug->setProjectView(this);
     ui->treeView->setAcceptDrops(true);
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    labelStatus = new QLabel(ui->targetList);
+    QHBoxLayout *lsLayout = new QHBoxLayout(ui->targetList);
+    labelStatus->setAttribute( Qt::WA_TransparentForMouseEvents );
+    labelStatus->setAlignment(Qt::AlignRight | Qt::AlignBottom);
+    lsLayout->addWidget(labelStatus);
 
     projectButtons += ui->toolButton_documentNew;
     projectButtons += ui->toolButton_export;
@@ -132,7 +139,7 @@ void ProjectView::openProject(const QString &projectFile)
         closeProject();
     if (!projectFile.isEmpty()) {
         //ui->waitSpinner->start();
-        ui->labelStatus->setText(tr("Loading..."));
+        labelStatus->setText(tr("Loading..."));
         QFileInfo mk(projectFile);
         QFileSystemModel *model = new MyFileSystemModel(this);
         model->setFilter(QDir::AllDirs|QDir::NoDotAndDotDot|QDir::Files);
@@ -203,8 +210,8 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
     ctagProc->setWorkingDirectory(mk_info.workingDir);
     connect(ctagProc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
             [ctagProc, this] () {
-        ui->labelStatus->setText(tr("Done with errors"));
-        QTimer::singleShot(LAST_MESSAGE_TIMEOUT, ui->labelStatus, &QLabel::clear);
+        labelStatus->setText(tr("Done with errors"));
+        QTimer::singleShot(LAST_MESSAGE_TIMEOUT, labelStatus, &QLabel::clear);
         ctagProc->deleteLater();
     });
     connect(ctagProc, static_cast<void (QProcess::*)(int, QProcess::ExitStatus exitStatus)>(&QProcess::finished),
@@ -213,14 +220,14 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
                  << "ctags exit status" << exitStatus << "\n"
                  << mk_info.tags.parse(ctagProc);
         // tagList->setTagList(mk_info.tags.all());
-        ui->labelStatus->setText(tr("Done"));
-        QTimer::singleShot(LAST_MESSAGE_TIMEOUT, ui->labelStatus, &QLabel::clear);
+        labelStatus->setText(tr("Done"));
+        QTimer::singleShot(LAST_MESSAGE_TIMEOUT, labelStatus, &QLabel::clear);
         ctagProc->deleteLater();
     });
     connect(ctagProc, &QProcess::stateChanged, [this](QProcess::ProcessState state) {
         qDebug () << "ctag state " << state;
     });
-    ui->labelStatus->setText(tr("Indexing..."));
+    labelStatus->setText(tr("Indexing..."));
     ctagProc->start("ctags -R -e --c-kinds=+cdefglmnpstuvx --c++-kinds=+cdefglmnpstuvx -f -");
     emit projectOpened();
 }

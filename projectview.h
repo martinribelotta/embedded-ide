@@ -14,6 +14,7 @@ namespace Ui {
     class ProjectView;
 }
 
+class QLabel;
 class QToolButton;
 class QMenu;
 class QProcess;
@@ -90,6 +91,7 @@ private:
     MakefileInfo mk_info;
     TagList *tagList;
     QList<QToolButton*> projectButtons;
+    QLabel *labelStatus;
 
     QMenu *createExternalToolsMenu();
 };

@@ -271,7 +271,13 @@ void DocumentArea::modifyTab(bool isModify)
             QString title = w->windowTitle();
             if (isModify)
                 title += tr(" [*]");
-            tab->setTabText(idx, title);
+            tab->setTabTitle(idx, title);
+            for(int row=0; row<windowListModel->rowCount(); row++) {
+                auto item = windowListModel->item(row, 0);
+                if (item->data().toInt() == idx) {
+                    item->setText(title);
+                }
+            }
         } else
             qWarning("sender is not a tab");
     } else
