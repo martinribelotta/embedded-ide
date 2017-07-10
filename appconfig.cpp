@@ -5,6 +5,9 @@
 #include <QSettings>
 #include <QDir>
 
+#define DEFAULT_PROJECT_PATH_ON_WS "projects"
+#define DEFAULT_TEMPLATE_PATH_ON_WS "templates"
+
 #define EDITOR_STYLE "editor/style"
 #define EDITOR_FONT_SIZE "editor/font/size"
 #define EDITOR_FONT_STYLE "editor/font/style"
@@ -151,12 +154,12 @@ QString AppConfig::defaultApplicationResources() const
 
 QString AppConfig::defaultProjectPath()
 {
-  return QDir(defaultApplicationResources()).absoluteFilePath("projects");
+  return QDir(defaultApplicationResources()).absoluteFilePath(DEFAULT_PROJECT_PATH_ON_WS);
 }
 
 QString AppConfig::defaultTemplatePath()
 {
-  return QDir(defaultApplicationResources()).absoluteFilePath("templates");
+  return QDir(defaultApplicationResources()).absoluteFilePath(DEFAULT_TEMPLATE_PATH_ON_WS);
 }
 
 QString AppConfig::defaultTemplateUrl()
@@ -324,7 +327,14 @@ void AppConfig::setEditorTabsToSpaces(bool editorTabsToSpaces)
 
 void AppConfig::setEditorTabWidth(int editorTabWidth)
 {
-  appData()->editorTabWidth = editorTabWidth;
+    appData()->editorTabWidth = editorTabWidth;
+}
+
+void AppConfig::setWorkspacePath(const QString &workspacePath)
+{
+    QDir wSpace(workspacePath);
+    setBuilDefaultProjectPath(wSpace.absoluteFilePath(DEFAULT_PROJECT_PATH_ON_WS));
+    setBuilTemplatePath(wSpace.absoluteFilePath(DEFAULT_TEMPLATE_PATH_ON_WS));
 }
 
 void AppConfig::setBuilDefaultProjectPath(const QString &builDefaultProjectPath)

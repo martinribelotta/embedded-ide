@@ -102,6 +102,9 @@ MainWindow::MainWindow(QWidget *parent) :
                         QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information), 15000);
         });
     }
+    connect(templateDownloader, &TemplateDownloader::finished, [this]() {
+        templateDownloader->setSilent(false);
+    });
 
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
@@ -328,7 +331,8 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
 }
 
 void MainWindow::checkForUpdates() {
-  templateDownloader->requestPendantDownloads();
+    templateDownloader->setSilent(true);
+    templateDownloader->requestPendantDownloads();
 }
 
 bool MainWindow::goToBuildStage() {

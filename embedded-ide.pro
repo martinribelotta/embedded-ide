@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets concurrent network svg xml qml
+QT       += core gui widgets concurrent network svg xml
 
 CONFIG += c++11
 

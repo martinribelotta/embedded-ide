@@ -54,8 +54,6 @@ void DialogConfigWorkspace::on_buttonBox_accepted()
 {
   QDir wSpace;
   wSpace.setPath(this->path());
-  AppConfig::mutableInstance().setBuilDefaultProjectPath(
-        wSpace.absoluteFilePath("projects"));
-  AppConfig::mutableInstance().setBuilTemplatePath(
-        wSpace.absoluteFilePath("templates"));
+  AppConfig::mutableInstance().setWorkspacePath(wSpace.absolutePath());
+  AppConfig::mutableInstance().save();
 }

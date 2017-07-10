@@ -16,8 +16,6 @@
 #include <QMessageBox>
 #include <configdialog.h>
 
-#include <QJSEngine>
-
 #ifdef Q_OS_LINUX
 #include <stdlib.h>
 #endif
@@ -44,7 +42,7 @@ int main(int argc, char *argv[])
     AppConfig::mutableInstance().adjustPath();
 
     QDir projectDir = AppConfig::mutableInstance().builDefaultProjectPath();
-    QDir wSpace(projectDir.absoluteFilePath(".."));
+    QDir wSpace(QDir::cleanPath(projectDir.absoluteFilePath("..")));
     if (!wSpace.exists()) {
         DialogConfigWorkspace d;
         if (d.exec() != QDialog::Accepted) {
@@ -62,7 +60,6 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
-
 
     MainWindow w;
     w.show();

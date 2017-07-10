@@ -69,6 +69,7 @@ class AppConfig : public QObject
     void setEditorSaveOnAction(bool editorSaveOnAction);
     void setEditorTabsToSpaces(bool editorTabsToSpaces);
     void setEditorTabWidth(int editorTabWidth);
+    void setWorkspacePath(const QString& workspacePath);
     void setBuilDefaultProjectPath(const QString& builDefaultProjectPath);
     void setBuilTemplatePath(const QString& builTemplatePath);
     void setBuilTemplateUrl(const QString& builTemplateUrl);
