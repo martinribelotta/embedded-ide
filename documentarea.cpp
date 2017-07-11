@@ -39,9 +39,11 @@ DocumentArea::DocumentArea(QWidget *parent) :
         windowListModel->clear();
         buttonBox->setEnabled(tab->count() > 0);
         for(int i=0; i<tab->count(); i++) {
+            QWidget *w = tab->widget(i);
             QStandardItem *item = new QStandardItem(tab->tabText(i));
             item->setIcon(QIcon(":/images/document-new.svg"));
             item->setData(i);
+            w->setProperty("comboItem", qVariantFromValue((void*) item));
             windowListModel->appendRow(item);
         }
         windowListModel->sort(0);
@@ -272,12 +274,12 @@ void DocumentArea::modifyTab(bool isModify)
             if (isModify)
                 title += tr(" [*]");
             tab->setTabTitle(idx, title);
-            for(int row=0; row<windowListModel->rowCount(); row++) {
-                auto item = windowListModel->item(row, 0);
-                if (item->data().toInt() == idx) {
-                    item->setText(title);
-                }
-            }
+            auto item = qobject_cast<QStandardItem*>(
+                    static_cast<QObject*>(w->property("comboItem").value<void*>()));
+            if (item) {
+                item->setText(title);
+            } else
+                qWarning("No combo item for tab widget");
         } else
             qWarning("sender is not a tab");
     } else
@@ -289,10 +291,10 @@ void DocumentArea::tabDestroy(QObject *obj)
     Q_UNUSED(obj);
 }
 
-int DocumentArea::documentFind(const QString &file, CodeEditor **ww)
+int DocumentArea::documentFind(const QString &file, QWidget **ww)
 {
     for(int i=0; i<tab->count(); i++) {
-        CodeEditor *w = qobject_cast<CodeEditor*>(tab->widget(i));
+        QWidget *w = tab->widget(i);
         if (w) {
             if (w->windowFilePath() == file) {
                 if (ww)

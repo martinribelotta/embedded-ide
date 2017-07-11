@@ -62,7 +62,7 @@ private slots:
     void tabDestroy(QObject *obj);
 
 private:
-    int documentFind(const QString& file, CodeEditor **ww = nullptr);
+    int documentFind(const QString& file, QWidget **ww = nullptr);
 
     TabWidget *tab;
     CodeEditor *lastIpEditor;
