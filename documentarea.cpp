@@ -274,8 +274,10 @@ void DocumentArea::modifyTab(bool isModify)
             if (isModify)
                 title += tr(" [*]");
             tab->setTabTitle(idx, title);
-            auto item = qobject_cast<QStandardItem*>(
-                    static_cast<QObject*>(w->property("comboItem").value<void*>()));
+            auto item = (
+                    static_cast<QStandardItem*>(
+                            w->property("comboItem")
+                                .value<void*>()));
             if (item) {
                 item->setText(title);
             } else

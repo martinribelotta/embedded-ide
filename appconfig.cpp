@@ -77,29 +77,29 @@ struct AppConfigData {
 
 AppConfigData* appData()
 {
-  static AppConfigData appData;
-  return &appData;
+    static AppConfigData appData;
+    return &appData;
 }
 
 AppConfig& AppConfig::mutableInstance()
 {
-  static AppConfig appConfig;
-  return appConfig;
+    static AppConfig appConfig;
+    return appConfig;
 }
 
 const QStringList &AppConfig::buildAdditionalPaths() const
 {
-  return appData()->buildAdditionalPaths;
+    return appData()->buildAdditionalPaths;
 }
 
 const QString& AppConfig::editorStyle() const
 {
-  return appData()->editorStyle;
+    return appData()->editorStyle;
 }
 
 int AppConfig::editorFontSize() const
 {
-  return appData()->editorFontSize;
+    return appData()->editorFontSize;
 }
 
 const QString& AppConfig::editorFontStyle() const
@@ -119,47 +119,47 @@ const QString &AppConfig::loggerFontStyle() const
 
 bool AppConfig::editorSaveOnAction() const
 {
-  return appData()->editorSaveOnAction;
+    return appData()->editorSaveOnAction;
 }
 
 bool AppConfig::editorTabsToSpaces() const
 {
-  return appData()->editorTabsToSpaces;
+    return appData()->editorTabsToSpaces;
 }
 
 int AppConfig::editorTabWidth() const
 {
-  return appData()->editorTabWidth;
+    return appData()->editorTabWidth;
 }
 
 const QString& AppConfig::builDefaultProjectPath() const
 {
-  return appData()->builDefaultProjectPath;
+    return appData()->builDefaultProjectPath;
 }
 
 const QString &AppConfig::builTemplatePath() const
 {
-  return appData()->builTemplatePath;
+    return appData()->builTemplatePath;
 }
 
 const QString &AppConfig::builTemplateUrl() const
 {
-  return appData()->builTemplateUrl;
+    return appData()->builTemplateUrl;
 }
 
 QString AppConfig::defaultApplicationResources() const
 {
-  return QDir::home().absoluteFilePath("embedded-ide-workspace");
+    return QDir::home().absoluteFilePath("embedded-ide-workspace");
 }
 
 QString AppConfig::defaultProjectPath()
 {
-  return QDir(defaultApplicationResources()).absoluteFilePath(DEFAULT_PROJECT_PATH_ON_WS);
+    return QDir(defaultApplicationResources()).absoluteFilePath(DEFAULT_PROJECT_PATH_ON_WS);
 }
 
 QString AppConfig::defaultTemplatePath()
 {
-  return QDir(defaultApplicationResources()).absoluteFilePath(DEFAULT_TEMPLATE_PATH_ON_WS);
+    return QDir(defaultApplicationResources()).absoluteFilePath(DEFAULT_TEMPLATE_PATH_ON_WS);
 }
 
 QString AppConfig::defaultTemplateUrl()
@@ -204,90 +204,90 @@ bool AppConfig::projectTmplatesAutoUpdate() const
 
 AppConfig::AppConfig()
 {
-  load();
+    load();
 }
 
 void AppConfig::load()
 {
-  QSettings s;
-  this->setLoggerFontStyle(
-        s.value(LOGGER_FONT_STYLE, systemMonoFont()).toString());
-  this->setLoggerFontSize(
-        s.value(LOGGER_FONT_SIZE, 10).toInt());
-  this->setEditorStyle(
-        s.value(EDITOR_STYLE, "Default").toString());
-  this->setEditorFontSize(
-        s.value(EDITOR_FONT_SIZE, 10).toInt());
-  this->setEditorFontStyle(
-        s.value(EDITOR_FONT_STYLE, systemMonoFont()).toString());
-  this->setEditorSaveOnAction(
-        s.value(EDITOR_SAVE_ON_ACTION, true).toBool());
-  this->setEditorTabsToSpaces(
-        s.value(EDITOR_TABS_TO_SPACES, true).toBool());
-  this->setEditorTabWidth(
-        s.value(EDITOR_TAB_WIDTH, 4).toInt());
-  this->setBuilDefaultProjectPath(
-        s.value(BUILD_DEFAULT_PROJECT_PATH, defaultProjectPath()).toString());
-  this->setBuilTemplatePath(
-        s.value(BUILD_TEMPLATE_PATH, defaultTemplatePath()).toString());
-  this->setBuilTemplateUrl(
-        s.value(BUILD_TEMPLATE_URL, defaultTemplateUrl()).toString());
-  this->setBuildAdditionalPaths(
-        s.value(BUILD_ADDITIONAL_PATHS).toStringList());
-  this->setNetworkProxyType(
-        static_cast<NetworkProxyType>(
-          s.value(NETWORK_PROXY_TYPE, false).toInt()));
-  this->setNetworkProxyHost(
-        s.value(NETWORK_PROXY_HOST).toString());
-  this->setNetworkProxyPort(
-        s.value(NETWORK_PROXY_PORT).toString());
-  this->setNetworkProxyUseCredentials(
-        s.value(NETWORK_PROXY_CREDENTIALS).toBool());
-  this->setNetworkProxyUsername(
-        s.value(NETWORK_PROXY_USERNAME).toString());
-  if (this->networkProxyType() == NetworkProxyType::Custom
-      && this->networkProxyUseCredentials()) {
-    PasswordPromtDialog paswd(
-          PasswordPromtDialog::tr("Proxy require password"));
-    if (paswd.exec() == QDialog::Accepted) {
-      this->setNetworkProxyPassword(paswd.password());
+    QSettings s;
+    this->setLoggerFontStyle(
+                s.value(LOGGER_FONT_STYLE, systemMonoFont()).toString());
+    this->setLoggerFontSize(
+                s.value(LOGGER_FONT_SIZE, 10).toInt());
+    this->setEditorStyle(
+                s.value(EDITOR_STYLE, "Default").toString());
+    this->setEditorFontSize(
+                s.value(EDITOR_FONT_SIZE, 10).toInt());
+    this->setEditorFontStyle(
+                s.value(EDITOR_FONT_STYLE, systemMonoFont()).toString());
+    this->setEditorSaveOnAction(
+                s.value(EDITOR_SAVE_ON_ACTION, true).toBool());
+    this->setEditorTabsToSpaces(
+                s.value(EDITOR_TABS_TO_SPACES, true).toBool());
+    this->setEditorTabWidth(
+                s.value(EDITOR_TAB_WIDTH, 4).toInt());
+    this->setBuilDefaultProjectPath(
+                s.value(BUILD_DEFAULT_PROJECT_PATH, defaultProjectPath()).toString());
+    this->setBuilTemplatePath(
+                s.value(BUILD_TEMPLATE_PATH, defaultTemplatePath()).toString());
+    this->setBuilTemplateUrl(
+                s.value(BUILD_TEMPLATE_URL, defaultTemplateUrl()).toString());
+    this->setBuildAdditionalPaths(
+                s.value(BUILD_ADDITIONAL_PATHS).toStringList());
+    this->setNetworkProxyType(
+                static_cast<NetworkProxyType>(
+                    s.value(NETWORK_PROXY_TYPE, false).toInt()));
+    this->setNetworkProxyHost(
+                s.value(NETWORK_PROXY_HOST).toString());
+    this->setNetworkProxyPort(
+                s.value(NETWORK_PROXY_PORT).toString());
+    this->setNetworkProxyUseCredentials(
+                s.value(NETWORK_PROXY_CREDENTIALS).toBool());
+    this->setNetworkProxyUsername(
+                s.value(NETWORK_PROXY_USERNAME).toString());
+    if (this->networkProxyType() == NetworkProxyType::Custom
+            && this->networkProxyUseCredentials()) {
+        PasswordPromtDialog paswd(
+                    PasswordPromtDialog::tr("Proxy require password"));
+        if (paswd.exec() == QDialog::Accepted) {
+            this->setNetworkProxyPassword(paswd.password());
+        }
     }
-  }
-  this->setProjectTmplatesAutoUpdate(
-        s.value(PROJECTTMPLATES_AUTOUPDATE, true).toBool());
-  emit configChanged(this);
+    this->setProjectTmplatesAutoUpdate(
+                s.value(PROJECTTMPLATES_AUTOUPDATE, true).toBool());
+    emit configChanged(this);
 }
 
 void AppConfig::save()
 {
-  QSettings s;
-  s.setValue(LOGGER_FONT_SIZE, appData()->loggerFontSize);
-  s.setValue(LOGGER_FONT_STYLE, appData()->loggerFontStyle);
-  s.setValue(EDITOR_STYLE, appData()->editorStyle);
-  s.setValue(EDITOR_FONT_SIZE, appData()->editorFontSize);
-  s.setValue(EDITOR_FONT_STYLE, appData()->editorFontStyle);
-  s.setValue(EDITOR_SAVE_ON_ACTION, appData()->editorSaveOnAction);
-  s.setValue(EDITOR_TABS_TO_SPACES, appData()->editorTabsToSpaces);
-  s.setValue(EDITOR_TAB_WIDTH, appData()->editorTabWidth);
-  s.setValue(BUILD_DEFAULT_PROJECT_PATH, appData()->builDefaultProjectPath);
-  s.setValue(BUILD_TEMPLATE_PATH, appData()->builTemplatePath);
-  s.setValue(BUILD_TEMPLATE_URL, appData()->builTemplateUrl);
-  s.setValue(BUILD_ADDITIONAL_PATHS, appData()->buildAdditionalPaths);
-  s.setValue(NETWORK_PROXY_TYPE, static_cast<int>(this->networkProxyType()));
-  s.setValue(NETWORK_PROXY_HOST, this->networkProxyHost());
-  s.setValue(NETWORK_PROXY_PORT, this->networkProxyPort());
-  s.setValue(NETWORK_PROXY_CREDENTIALS, this->networkProxyUseCredentials());
-  s.setValue(NETWORK_PROXY_USERNAME, this->networkProxyUsername());
-  s.setValue(PROJECTTMPLATES_AUTOUPDATE,
-             this->projectTmplatesAutoUpdate());
-  this->adjustPath();
-  emit configChanged(this);
+    QSettings s;
+    s.setValue(LOGGER_FONT_SIZE, appData()->loggerFontSize);
+    s.setValue(LOGGER_FONT_STYLE, appData()->loggerFontStyle);
+    s.setValue(EDITOR_STYLE, appData()->editorStyle);
+    s.setValue(EDITOR_FONT_SIZE, appData()->editorFontSize);
+    s.setValue(EDITOR_FONT_STYLE, appData()->editorFontStyle);
+    s.setValue(EDITOR_SAVE_ON_ACTION, appData()->editorSaveOnAction);
+    s.setValue(EDITOR_TABS_TO_SPACES, appData()->editorTabsToSpaces);
+    s.setValue(EDITOR_TAB_WIDTH, appData()->editorTabWidth);
+    s.setValue(BUILD_DEFAULT_PROJECT_PATH, appData()->builDefaultProjectPath);
+    s.setValue(BUILD_TEMPLATE_PATH, appData()->builTemplatePath);
+    s.setValue(BUILD_TEMPLATE_URL, appData()->builTemplateUrl);
+    s.setValue(BUILD_ADDITIONAL_PATHS, appData()->buildAdditionalPaths);
+    s.setValue(NETWORK_PROXY_TYPE, static_cast<int>(this->networkProxyType()));
+    s.setValue(NETWORK_PROXY_HOST, this->networkProxyHost());
+    s.setValue(NETWORK_PROXY_PORT, this->networkProxyPort());
+    s.setValue(NETWORK_PROXY_CREDENTIALS, this->networkProxyUseCredentials());
+    s.setValue(NETWORK_PROXY_USERNAME, this->networkProxyUsername());
+    s.setValue(PROJECTTMPLATES_AUTOUPDATE,
+               this->projectTmplatesAutoUpdate());
+    this->adjustPath();
+    emit configChanged(this);
 }
 
 void AppConfig::setBuildAdditionalPaths(
-    const QStringList& buildAdditionalPaths) const
+        const QStringList& buildAdditionalPaths) const
 {
-  appData()->buildAdditionalPaths = buildAdditionalPaths;
+    appData()->buildAdditionalPaths = buildAdditionalPaths;
 }
 
 void AppConfig::setEditorStyle(const QString &editorStyle)
@@ -307,22 +307,22 @@ void AppConfig::setLoggerFontStyle(const QString &loggerFontStyle)
 
 void AppConfig::setEditorFontSize(int editorFontSize)
 {
-  appData()->editorFontSize = editorFontSize;
+    appData()->editorFontSize = editorFontSize;
 }
 
 void AppConfig::setEditorFontStyle(const QString &editorFontStyle)
 {
-  appData()->editorFontStyle = editorFontStyle;
+    appData()->editorFontStyle = editorFontStyle;
 }
 
 void AppConfig::setEditorSaveOnAction(bool editorSaveOnAction)
 {
-  appData()->editorSaveOnAction = editorSaveOnAction;
+    appData()->editorSaveOnAction = editorSaveOnAction;
 }
 
 void AppConfig::setEditorTabsToSpaces(bool editorTabsToSpaces)
 {
-  appData()->editorTabsToSpaces = editorTabsToSpaces;
+    appData()->editorTabsToSpaces = editorTabsToSpaces;
 }
 
 void AppConfig::setEditorTabWidth(int editorTabWidth)
@@ -339,17 +339,17 @@ void AppConfig::setWorkspacePath(const QString &workspacePath)
 
 void AppConfig::setBuilDefaultProjectPath(const QString &builDefaultProjectPath)
 {
-  appData()->builDefaultProjectPath = builDefaultProjectPath;
+    appData()->builDefaultProjectPath = builDefaultProjectPath;
 }
 
 void AppConfig::setBuilTemplatePath(const QString &builTemplatePath)
 {
-  appData()->builTemplatePath = builTemplatePath;
+    appData()->builTemplatePath = builTemplatePath;
 }
 
 void AppConfig::setBuilTemplateUrl(const QString &builTemplateUrl)
 {
-  appData()->builTemplateUrl = builTemplateUrl;
+    appData()->builTemplateUrl = builTemplateUrl;
 }
 
 void AppConfig::setNetworkProxyHost(const QString& host)
@@ -389,18 +389,22 @@ void AppConfig::setProjectTmplatesAutoUpdate(bool automatic)
 
 void AppConfig::adjustPath()
 {
+    adjustPath(mutableInstance().buildAdditionalPaths());
+}
+
+void AppConfig::adjustPath(const QStringList& paths)
+{
     const QChar path_separator
-#ifdef Q_OS_WIN
-    (';')
-#else
-    (':')
-#endif
-    ;
+        #ifdef Q_OS_WIN
+            (';')
+        #else
+            (':')
+        #endif
+            ;
     QString path = qgetenv("PATH");
     QStringList pathList = path.split(path_separator);
-    QStringList additional = mutableInstance().buildAdditionalPaths();
 #ifdef Q_OS_WIN
-    additional.replaceInStrings("/", R"(\)");
+    QStringList additional = QStringList(paths).replaceInStrings("/", R"(\)");
 #endif
     pathList = additional + pathList;
     path = pathList.join(path_separator);

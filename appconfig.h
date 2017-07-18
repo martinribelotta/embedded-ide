@@ -6,17 +6,20 @@
 #include "configdialog.h"
 #include "dialogconfigworkspace.h"
 
+int main(int argc, char** argv);
+
 class AppConfig : public QObject
 {
     Q_OBJECT
     // WARNING(denisacostaq@gmail.com):
     // These classes can access to the private constructor, but do not create
     // an instance through this, use mutableInstance instead.
-    friend ConfigDialog;
-    friend DialogConfigWorkspace;
-  public:
+    friend class ConfigDialog;
+    friend class DialogConfigWorkspace;
+    friend int ::main(int argc, char** argv);
+public:
     enum class NetworkProxyType {
-      None, System, Custom
+        None, System, Custom
     };
 
     const QStringList& buildAdditionalPaths() const;
@@ -50,12 +53,13 @@ class AppConfig : public QObject
     bool projectTmplatesAutoUpdate() const;
 
     void adjustPath();
+    void adjustPath(const QStringList& paths);
 
     static AppConfig& mutableInstance();
 
-  signals:
+signals:
     void configChanged(AppConfig*);
-  private:
+private:
     AppConfig();
     void load();
     void save();

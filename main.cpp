@@ -16,8 +16,21 @@
 #include <QMessageBox>
 #include <configdialog.h>
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+
 #ifdef Q_OS_LINUX
 #include <stdlib.h>
+#define HARD_CONF_PATH "../share/embedded-ide/embedded-ide.hardconf"
+#endif
+
+#ifdef Q_OS_WIN
+#define HARD_CONF_PATH "./embedded-ide.hardconf"
+#endif
+
+#ifdef Q_OS_MAC
+#define HARD_CONF_PATH "../share/embedded-ide/embedded-ide.hardconf"
 #endif
 
 int main(int argc, char *argv[])
@@ -32,13 +45,28 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("none.unknown.com");
     QCoreApplication::setApplicationName("embedded IDE");
     a.setWindowIcon(QIcon(":/images/embedded-ide.png"));
+
+    qDebug() << "Support ssl " << QSslSocket::supportsSsl();
+
     QTranslator tr;
     qDebug() << "load translations"
              << QLocale::system().name()
              << tr.load(QLocale::system().name(), ":/i18n");
     a.installTranslator(&tr);
 
-    qDebug() << "Support ssl " << QSslSocket::supportsSsl();
+    QFile hardConfFile(QDir(QApplication::applicationDirPath()).absoluteFilePath(HARD_CONF_PATH));
+    if (hardConfFile.open(QFile::ReadOnly)) {
+        AppConfig::mutableInstance().load();
+        auto hardConf = QJsonDocument::fromJson(hardConfFile.readAll()).object();
+        QStringList additionalPaths;
+        for (auto p: hardConf.value("additionalPaths").toArray())
+            additionalPaths.append(p.toString().replace("{{APP_PATH}}", QCoreApplication::applicationDirPath()));
+        AppConfig::mutableInstance().setBuildAdditionalPaths(additionalPaths);
+        AppConfig::mutableInstance().setBuilTemplateUrl(hardConf.value("templateUrl").toString());
+        AppConfig::mutableInstance().save();
+    }
+
+    AppConfig::mutableInstance().load();
     AppConfig::mutableInstance().adjustPath();
 
     QDir projectDir = AppConfig::mutableInstance().builDefaultProjectPath();
