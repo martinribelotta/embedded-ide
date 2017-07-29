@@ -43,7 +43,7 @@ DocumentArea::DocumentArea(QWidget *parent) :
             QStandardItem *item = new QStandardItem(tab->tabText(i));
             item->setIcon(QIcon(":/images/document-new.svg"));
             item->setData(i);
-            w->setProperty("comboItem", qVariantFromValue((void*) item));
+            w->setProperty("comboItem", qVariantFromValue(reinterpret_cast<void*>(item)));
             windowListModel->appendRow(item);
         }
         windowListModel->sort(0);
@@ -54,13 +54,13 @@ DocumentArea::DocumentArea(QWidget *parent) :
     buttonBoxLayout->addWidget(reloadCurrent);
     buttonBoxLayout->addWidget(saveCurrent);
     buttonBoxLayout->addWidget(saveAll);
-    buttonBoxLayout->addWidget(closeAll);
     buttonBoxLayout->addWidget(closeCurrent);
+    buttonBoxLayout->addWidget(closeAll);
 
     reloadCurrent->setIcon(QIcon(":/images/actions/view-refresh.svg"));
     reloadCurrent->setToolTip(tr("Reload File"));
 
-    closeAll->setIcon(QIcon(":/images/actions/window-close.svg"));
+    closeAll->setIcon(QIcon(":/images/document-close-all.svg"));
     closeAll->setToolTip(tr("Close All"));
 
     closeCurrent->setIcon(QIcon(":/images/document-close.svg"));

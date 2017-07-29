@@ -33,7 +33,7 @@ QString Template::uuid() const {
 }
 
 bool Template::isNew() const {
-    QFileInfo f{AppConfig::mutableInstance().builTemplatePath(), name_};
+    QFileInfo f{AppConfig::mutableInstance().buildTemplatePath(), name_};
     return !f.exists() || (!wasIgnored() && lastDownloadedUuid().isEmpty());
 }
 
@@ -151,7 +151,7 @@ void TemplateWidget::onDownloadClicked() {
     });
     downloader->startDownload(
                 tmpl().download_url(),
-                AppConfig::mutableInstance().builTemplatePath() + "/" + tmpl_.name());
+                AppConfig::mutableInstance().buildTemplatePath() + "/" + tmpl_.name());
 }
 
 void TemplatesDownloadSelector::reenableMultipleOpButtons(QListWidgetItem*) {
@@ -355,7 +355,7 @@ void TemplatesDownloadSelector::addTemplate(const Template& tmpl) {
 }
 
 int TemplatesDownloadSelector::exec() {
-    QDir templatePath(AppConfig::mutableInstance().builTemplatePath());
+    QDir templatePath(AppConfig::mutableInstance().buildTemplatePath());
     if (!templatePath.exists()) {
         if (!QDir::root().mkpath(templatePath.absolutePath())) {
             QMessageBox::critical(this, tr("Error"), tr("Error creating %1")

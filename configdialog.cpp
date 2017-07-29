@@ -89,9 +89,9 @@ void ConfigDialog::load()
     ui->checkBox_replaceTabsWithSpaces->setChecked(config.editorTabsToSpaces());
     ui->spinTabWidth->setValue(config.editorTabWidth());
 
-    ui->projectPath->setText(config.builDefaultProjectPath());
-    ui->projectTemplatesPath->setText(config.builTemplatePath());
-    ui->templateUrl->setText(config.builTemplateUrl());
+    ui->projectPath->setText(config.buildDefaultProjectPath());
+    ui->projectTemplatesPath->setText(config.buildTemplatePath());
+    ui->templateUrl->setText(config.buildTemplateUrl());
 
     QStringListModel *model =
         qobject_cast<QStringListModel*>(ui->additionalPathList->model());
@@ -133,9 +133,9 @@ void ConfigDialog::save()
   config.setEditorSaveOnAction(ui->checkBox_saveOnAction->isChecked());
   config.setEditorTabsToSpaces(ui->checkBox_replaceTabsWithSpaces->isChecked());
   config.setEditorTabWidth(ui->spinTabWidth->value());
-  config.setBuilDefaultProjectPath(ui->projectPath->text());
-  config.setBuilTemplatePath(ui->projectTemplatesPath->text());
-  config.setBuilTemplateUrl(ui->templateUrl->text());
+  config.setBuildDefaultProjectPath(ui->projectPath->text());
+  config.setBuildTemplatePath(ui->projectTemplatesPath->text());
+  config.setBuildTemplateUrl(ui->templateUrl->text());
   QStringListModel *model = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
   config.setBuildAdditionalPaths(model->stringList());
   auto proxyType = [this](){
@@ -213,12 +213,12 @@ void ConfigDialog::on_projectTemplatesDownload_clicked()
   AppConfig& config = AppConfig::mutableInstance();
     QUrl templateUrl(ui->templateUrl->text());
     if (!templateUrl.isValid())
-        templateUrl = QUrl(config.builTemplateUrl());
+        templateUrl = QUrl(config.buildTemplateUrl());
     if (!templateUrl.isValid()) {
         QMessageBox::critical(this, tr("Error"), tr("No valid URL: %1").arg(templateUrl.toString()));
         return;
     }
-    QDir templatePath(config.builTemplatePath());
+    QDir templatePath(config.buildTemplatePath());
     if (!templatePath.exists()) {
         if (!QDir::root().mkpath(templatePath.absolutePath())) {
             QMessageBox::critical(this, tr("Error"), tr("Error creating %1")
@@ -272,7 +272,7 @@ void ConfigDialog::on_projectTemplatesDownload_clicked()
                 QJsonObject oEntry = entry.toObject();
                 QString name = oEntry.value("name").toString();
                 QString download_url = oEntry.value("download_url").toString();
-                if (QFileInfo(name).suffix() == "template") {
+                if ((QStringList{"template", "jtemplate"}).contains(QFileInfo(name).suffix())) {
                     QString localPath = templatePath.absoluteFilePath(name);
                     downloader->enqueueDownload(QUrl(download_url), localPath);
                 }

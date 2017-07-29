@@ -35,8 +35,8 @@ void TemplateDownloader::download() {
 
 void TemplateDownloader::downloadMetadata() {
     AppConfig& config = AppConfig::mutableInstance();
-    QUrl templateUrl = config.builTemplateUrl();
-    if (!templateUrl.isValid()) templateUrl = QUrl(config.builTemplateUrl());
+    QUrl templateUrl = config.buildTemplateUrl();
+    if (!templateUrl.isValid()) templateUrl = QUrl(config.buildTemplateUrl());
     if (!templateUrl.isValid()) {
         if (!isSilent())
             QMessageBox::critical(
@@ -62,7 +62,7 @@ void TemplateDownloader::downloadMetadata() {
             for (auto entry : contents.array()) {
                 QJsonObject oEntry{entry.toObject()};
                 QString name{oEntry.value("name").toString()};
-                if (QFileInfo(name).suffix() == "template") {
+                if (QStringList({"template", "jtemplate"}).contains(QFileInfo(name).suffix())) {
                     Template tmpl(name, oEntry.value("download_url").toString(),
                                   oEntry.value("git_url").toString());
                     if (tmpl.change() != Template::ChangeType::None) {

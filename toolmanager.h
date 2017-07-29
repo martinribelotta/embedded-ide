@@ -32,6 +32,8 @@ private slots:
 
     void on_toolButton_itemDown_clicked();
 
+    void on_toolButton_fastHelp_clicked();
+
 private:
     Ui::ToolManager *ui;
     QStandardItemModel *model;

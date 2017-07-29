@@ -87,6 +87,22 @@ AppConfig& AppConfig::mutableInstance()
     return appConfig;
 }
 
+const QString AppConfig::filterTextWithVariables(const QString &text) const
+{
+    QString result(text);
+    for(auto k: filterTextMap.keys())
+        result.replace(QString("{{%1}}").arg(k), filterTextMap.value(k)());
+    return result;
+}
+
+const QHash<QString, QString> AppConfig::getVariableMap() const
+{
+    QHash<QString, QString> h;
+    for(auto k: filterTextMap.keys())
+        h.insert(k, filterTextMap[k]());
+    return h;
+}
+
 const QStringList &AppConfig::buildAdditionalPaths() const
 {
     return appData()->buildAdditionalPaths;
@@ -132,17 +148,17 @@ int AppConfig::editorTabWidth() const
     return appData()->editorTabWidth;
 }
 
-const QString& AppConfig::builDefaultProjectPath() const
+const QString& AppConfig::buildDefaultProjectPath() const
 {
     return appData()->builDefaultProjectPath;
 }
 
-const QString &AppConfig::builTemplatePath() const
+const QString &AppConfig::buildTemplatePath() const
 {
     return appData()->builTemplatePath;
 }
 
-const QString &AppConfig::builTemplateUrl() const
+const QString &AppConfig::buildTemplateUrl() const
 {
     return appData()->builTemplateUrl;
 }
@@ -226,11 +242,11 @@ void AppConfig::load()
                 s.value(EDITOR_TABS_TO_SPACES, true).toBool());
     this->setEditorTabWidth(
                 s.value(EDITOR_TAB_WIDTH, 4).toInt());
-    this->setBuilDefaultProjectPath(
+    this->setBuildDefaultProjectPath(
                 s.value(BUILD_DEFAULT_PROJECT_PATH, defaultProjectPath()).toString());
-    this->setBuilTemplatePath(
+    this->setBuildTemplatePath(
                 s.value(BUILD_TEMPLATE_PATH, defaultTemplatePath()).toString());
-    this->setBuilTemplateUrl(
+    this->setBuildTemplateUrl(
                 s.value(BUILD_TEMPLATE_URL, defaultTemplateUrl()).toString());
     this->setBuildAdditionalPaths(
                 s.value(BUILD_ADDITIONAL_PATHS).toStringList());
@@ -284,6 +300,11 @@ void AppConfig::save()
     emit configChanged(this);
 }
 
+void AppConfig::addFilterTextVariable(const QString &key, std::function<QString ()> func)
+{
+    filterTextMap[key] = func;
+}
+
 void AppConfig::setBuildAdditionalPaths(
         const QStringList& buildAdditionalPaths) const
 {
@@ -333,21 +354,23 @@ void AppConfig::setEditorTabWidth(int editorTabWidth)
 void AppConfig::setWorkspacePath(const QString &workspacePath)
 {
     QDir wSpace(workspacePath);
-    setBuilDefaultProjectPath(wSpace.absoluteFilePath(DEFAULT_PROJECT_PATH_ON_WS));
-    setBuilTemplatePath(wSpace.absoluteFilePath(DEFAULT_TEMPLATE_PATH_ON_WS));
+    setBuildDefaultProjectPath(wSpace.absoluteFilePath(DEFAULT_PROJECT_PATH_ON_WS));
+    setBuildTemplatePath(wSpace.absoluteFilePath(DEFAULT_TEMPLATE_PATH_ON_WS));
 }
 
-void AppConfig::setBuilDefaultProjectPath(const QString &builDefaultProjectPath)
+void AppConfig::setBuildDefaultProjectPath(const QString &builDefaultProjectPath)
 {
     appData()->builDefaultProjectPath = builDefaultProjectPath;
+    addFilterTextVariable("projectPath", [this]{ return buildDefaultProjectPath(); });
 }
 
-void AppConfig::setBuilTemplatePath(const QString &builTemplatePath)
+void AppConfig::setBuildTemplatePath(const QString &builTemplatePath)
 {
     appData()->builTemplatePath = builTemplatePath;
+    addFilterTextVariable("templatePath", [this]{ return buildTemplatePath(); });
 }
 
-void AppConfig::setBuilTemplateUrl(const QString &builTemplateUrl)
+void AppConfig::setBuildTemplateUrl(const QString &builTemplateUrl)
 {
     appData()->builTemplateUrl = builTemplateUrl;
 }

@@ -347,7 +347,7 @@ void ProjectView::on_toolButton_export_clicked()
                 getSaveFileName(this,
                                 tr("Export file"),
                                 tr("Unknown.template"),
-                                tr("Tempalte files (*.template);;"
+                                tr("Tempalte files (*.template *.jtemplate);;"
                                    "Diff files (*.diff);;"
                                    "All files (*)")
                                 ),
@@ -365,12 +365,7 @@ void ProjectView::toolAction()
 {
     QAction *a = qobject_cast<QAction*>(sender());
     if (a) {
-        QString text = a->data().toString();
-        text.replace("${{projectpath}}", projectPath().absolutePath());
-        text.replace("${{projectname}}", projectName());
-        text.replace("${{workspace}}", AppConfig::mutableInstance().defaultApplicationResources());
-        text.replace("${{workspace/project}}", AppConfig::mutableInstance().defaultProjectPath());
-        text.replace("${{workspace/template}}", AppConfig::mutableInstance().defaultTemplatePath());
+        QString text = AppConfig::mutableInstance().filterTextWithVariables(a->data().toString());
         QRegularExpressionMatch m;
         m = QRegularExpression(R"(\${{text: (.+?)}})").match(text);
         if (m.hasMatch()) {

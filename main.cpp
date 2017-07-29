@@ -46,6 +46,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("embedded IDE");
     a.setWindowIcon(QIcon(":/images/embedded-ide.png"));
 
+    AppConfig::mutableInstance().addFilterTextVariable(
+                "appExecPath", QCoreApplication::applicationDirPath);
+    AppConfig::mutableInstance().addFilterTextVariable(
+                "appExecName", QCoreApplication::applicationFilePath);
+
     qDebug() << "Support ssl " << QSslSocket::supportsSsl();
 
     QTranslator tr;
@@ -60,16 +65,16 @@ int main(int argc, char *argv[])
         auto hardConf = QJsonDocument::fromJson(hardConfFile.readAll()).object();
         QStringList additionalPaths;
         for (auto p: hardConf.value("additionalPaths").toArray())
-            additionalPaths.append(p.toString().replace("{{APP_PATH}}", QCoreApplication::applicationDirPath()));
+            additionalPaths.append(AppConfig::mutableInstance().filterTextWithVariables(p.toString()));
         AppConfig::mutableInstance().setBuildAdditionalPaths(additionalPaths);
-        AppConfig::mutableInstance().setBuilTemplateUrl(hardConf.value("templateUrl").toString());
+        AppConfig::mutableInstance().setBuildTemplateUrl(hardConf.value("templateUrl").toString());
         AppConfig::mutableInstance().save();
     }
 
     AppConfig::mutableInstance().load();
     AppConfig::mutableInstance().adjustPath();
 
-    QDir projectDir = AppConfig::mutableInstance().builDefaultProjectPath();
+    QDir projectDir = AppConfig::mutableInstance().buildDefaultProjectPath();
     QDir wSpace(QDir::cleanPath(projectDir.absoluteFilePath("..")));
     if (!wSpace.exists()) {
         DialogConfigWorkspace d;

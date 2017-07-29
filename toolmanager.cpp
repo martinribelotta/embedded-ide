@@ -1,8 +1,14 @@
+#include "appconfig.h"
 #include "toolmanager.h"
 #include "ui_toolmanager.h"
 
 #include <QSettings>
 #include <QStandardItemModel>
+#include <QTextBrowser>
+
+#include <functional>
+
+#include <QtDebug>
 
 extern const QFont systemMonoFont();
 
@@ -103,4 +109,23 @@ void ToolManager::on_toolButton_itemDown_clicked()
     }
     foreach(int row, selectable)
         ui->itemsTableView->selectRow(row);
+}
+
+void ToolManager::on_toolButton_fastHelp_clicked()
+{
+    QDialog d(this);
+    QTextBrowser b(&d);
+    QHBoxLayout h(&d);
+    h.addWidget(&b);
+    auto map = AppConfig::mutableInstance().getVariableMap();
+    QString text;
+    for(auto k: map.keys())
+        text += tr("<tr><td>%1</td><td>%2</td></tr>").arg(k).arg(map[k]);
+    b.setText(tr("<html><body>"
+                 "<h2></h2>"
+                 "<p>"
+                 "<table>"
+                 "<tr><th>Variable</th><th>Value</th></tr>"
+                 "%1</table></body></html>").arg(text));
+    d.exec();
 }

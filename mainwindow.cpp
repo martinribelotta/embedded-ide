@@ -44,7 +44,7 @@
 static QFileInfoList lastProjectsList(bool includeAllInWorkspace = true) {
     QFileInfoList list;
     if (includeAllInWorkspace) {
-        QDir prjDir(AppConfig::mutableInstance().builDefaultProjectPath());
+        QDir prjDir(AppConfig::mutableInstance().buildDefaultProjectPath());
         foreach(QFileInfo dirInfo, prjDir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot)) {
             QDir dir(dirInfo.absoluteFilePath());
             QFileInfo make(dir.absoluteFilePath("Makefile"));

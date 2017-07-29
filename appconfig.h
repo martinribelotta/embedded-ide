@@ -2,6 +2,7 @@
 #define APPCONFIG_H
 
 #include <QObject>
+#include <functional>
 
 #include "configdialog.h"
 #include "dialogconfigworkspace.h"
@@ -22,6 +23,9 @@ public:
         None, System, Custom
     };
 
+    const QString filterTextWithVariables(const QString& text) const;
+    const QHash<QString, QString> getVariableMap() const;
+
     const QStringList& buildAdditionalPaths() const;
     const QString& editorStyle() const;
     int editorFontSize() const;
@@ -37,9 +41,9 @@ public:
     bool editorSaveOnAction() const;
     bool editorTabsToSpaces() const;
     int editorTabWidth() const;
-    const QString& builDefaultProjectPath() const;
-    const QString& builTemplatePath() const;
-    const QString& builTemplateUrl() const;
+    const QString& buildDefaultProjectPath() const;
+    const QString& buildTemplatePath() const;
+    const QString& buildTemplateUrl() const;
     QString defaultApplicationResources() const;
     QString defaultProjectPath();
     QString defaultTemplatePath();
@@ -59,11 +63,13 @@ public:
 
 signals:
     void configChanged(AppConfig*);
+
 private:
     AppConfig();
     void load();
     void save();
 
+    void addFilterTextVariable(const QString& key, std::function<QString ()> func);
     void setBuildAdditionalPaths(const QStringList& buildAdditionalPaths) const;
     void setEditorStyle(const QString& editorStyle);
     void setLoggerFontSize(int loggerFontSize);
@@ -74,9 +80,9 @@ private:
     void setEditorTabsToSpaces(bool editorTabsToSpaces);
     void setEditorTabWidth(int editorTabWidth);
     void setWorkspacePath(const QString& workspacePath);
-    void setBuilDefaultProjectPath(const QString& builDefaultProjectPath);
-    void setBuilTemplatePath(const QString& builTemplatePath);
-    void setBuilTemplateUrl(const QString& builTemplateUrl);
+    void setBuildDefaultProjectPath(const QString& buildDefaultProjectPath);
+    void setBuildTemplatePath(const QString& buildTemplatePath);
+    void setBuildTemplateUrl(const QString& buildTemplateUrl);
     void setNetworkProxyHost(const QString& host);
     void setNetworkProxyPort(QString host);
     void setNetworkProxyUseCredentials(bool useCredentials);
@@ -84,6 +90,8 @@ private:
     void setNetworkProxyUsername(const QString& username);
     void setNetworkProxyPassword(const QString& password);
     void setProjectTmplatesAutoUpdate(bool automatic);
+
+    QHash<QString, std::function<QString ()> > filterTextMap;
 };
 
 #endif // APPCONFIG_H
