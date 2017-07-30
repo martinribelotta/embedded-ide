@@ -59,20 +59,22 @@ int main(int argc, char *argv[])
              << tr.load(QLocale::system().name(), ":/i18n");
     a.installTranslator(&tr);
 
+    AppConfig::mutableInstance().load();
+    AppConfig::mutableInstance().adjustPath();
     QFile hardConfFile(QDir(QApplication::applicationDirPath()).absoluteFilePath(HARD_CONF_PATH));
     if (hardConfFile.open(QFile::ReadOnly)) {
         AppConfig::mutableInstance().load();
         auto hardConf = QJsonDocument::fromJson(hardConfFile.readAll()).object();
         QStringList additionalPaths;
         for (auto p: hardConf.value("additionalPaths").toArray())
-            additionalPaths.append(AppConfig::mutableInstance().filterTextWithVariables(p.toString()));
-        AppConfig::mutableInstance().setBuildAdditionalPaths(additionalPaths);
+            additionalPaths.append(QDir::cleanPath(AppConfig::mutableInstance()
+                                        .filterTextWithVariables(p.toString())));
+        AppConfig::mutableInstance().adjustPath(additionalPaths);
         AppConfig::mutableInstance().setBuildTemplateUrl(hardConf.value("templateUrl").toString());
         AppConfig::mutableInstance().save();
     }
 
     AppConfig::mutableInstance().load();
-    AppConfig::mutableInstance().adjustPath();
 
     QDir projectDir = AppConfig::mutableInstance().buildDefaultProjectPath();
     QDir wSpace(QDir::cleanPath(projectDir.absoluteFilePath("..")));
