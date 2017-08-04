@@ -366,10 +366,14 @@ void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
             auto author = metadata.value("author").toString();
             auto comment = metadata.value("comment").toString();
             ui->infoView->setText(
-                        tr("<html><body><h1>%1</h1><h2>%2</h2><tt>%3</tt></body></html>")
-                        .arg(name)
-                        .arg(author)
-                        .arg(comment)
+                        tr("<html><body>"
+                           "<center><h1>%1</h1></center>"
+                           "<h3><font color=\"blue\">%2</font></h3>"
+                           "<tt>%3</tt>"
+                           "</body></html>")
+                        .arg(name.toHtmlEscaped())
+                        .arg(author.toHtmlEscaped())
+                        .arg(comment.toHtmlEscaped())
                         );
             QJsonObject params = metadata.value("params").toObject();
             for(auto key: params.keys()) {
