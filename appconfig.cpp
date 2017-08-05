@@ -428,6 +428,8 @@ void AppConfig::adjustPath(const QStringList& paths)
     QStringList pathList = path.split(path_separator);
 #ifdef Q_OS_WIN
     QStringList additional = QStringList(paths).replaceInStrings("/", R"(\)");
+#else
+    QStringList additional = QStringList(paths);
 #endif
     pathList = additional + pathList;
     path = pathList.join(path_separator);
