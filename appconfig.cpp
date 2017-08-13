@@ -14,6 +14,7 @@
 #define EDITOR_SAVE_ON_ACTION "editor/saveOnAction"
 #define EDITOR_TABS_TO_SPACES "editor/tabsToSpaces"
 #define EDITOR_TAB_WIDTH "editor/tabWidth"
+#define EDITOR_FORMATTER_NAME "editor/formatter"
 #define BUILD_DEFAULT_PROJECT_PATH "build/defaultprojectpath"
 #define BUILD_TEMPLATE_PATH "build/templatepath"
 #define BUILD_TEMPLATE_URL "build/templateurl"
@@ -63,6 +64,7 @@ struct AppConfigData {
     QStringList buildAdditionalPaths;
     QString editorStyle;
     QString editorFontStyle;
+    QString editorFormatterStyle;
     QString loggerFontStyle;
     QString builDefaultProjectPath;
     QString builTemplatePath;
@@ -146,6 +148,11 @@ bool AppConfig::editorTabsToSpaces() const
 int AppConfig::editorTabWidth() const
 {
     return appData()->editorTabWidth;
+}
+
+QString AppConfig::editorFormatterStyle() const
+{
+    return appData()->editorFormatterStyle;
 }
 
 const QString& AppConfig::buildDefaultProjectPath() const
@@ -242,6 +249,8 @@ void AppConfig::load()
                 s.value(EDITOR_TABS_TO_SPACES, true).toBool());
     this->setEditorTabWidth(
                 s.value(EDITOR_TAB_WIDTH, 4).toInt());
+    this->setEditorFormatterStyle(
+                s.value(EDITOR_FORMATTER_NAME, "linux").toString());
     this->setBuildDefaultProjectPath(
                 s.value(BUILD_DEFAULT_PROJECT_PATH, defaultProjectPath()).toString());
     this->setBuildTemplatePath(
@@ -285,6 +294,7 @@ void AppConfig::save()
     s.setValue(EDITOR_SAVE_ON_ACTION, appData()->editorSaveOnAction);
     s.setValue(EDITOR_TABS_TO_SPACES, appData()->editorTabsToSpaces);
     s.setValue(EDITOR_TAB_WIDTH, appData()->editorTabWidth);
+    s.setValue(EDITOR_FORMATTER_NAME, appData()->editorFormatterStyle);
     s.setValue(BUILD_DEFAULT_PROJECT_PATH, appData()->builDefaultProjectPath);
     s.setValue(BUILD_TEMPLATE_PATH, appData()->builTemplatePath);
     s.setValue(BUILD_TEMPLATE_URL, appData()->builTemplateUrl);
@@ -349,6 +359,11 @@ void AppConfig::setEditorTabsToSpaces(bool editorTabsToSpaces)
 void AppConfig::setEditorTabWidth(int editorTabWidth)
 {
     appData()->editorTabWidth = editorTabWidth;
+}
+
+void AppConfig::setEditorFormatterStyle(const QString &style)
+{
+    appData()->editorFormatterStyle = style;
 }
 
 void AppConfig::setWorkspacePath(const QString &workspacePath)

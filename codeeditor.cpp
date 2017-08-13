@@ -1,6 +1,7 @@
 #include "codeeditor.h"
 
 #include <cmath>
+#include <strstream>
 
 #include <QAction>
 #include <QDir>
@@ -15,6 +16,9 @@
 #include <QSettings>
 #include <QTemporaryFile>
 #include <QApplication>
+
+#include <astyle/astyle.h>
+#include <astyle/astyle_main.h>
 
 #include <QHBoxLayout>
 #include <QListView>
@@ -100,6 +104,11 @@ CodeEditor::CodeEditor(QWidget *parent) :
     findAction->setShortcut(QKeySequence("ctrl+f"));
     connect(findAction, &QAction::triggered, replaceDialog, &FormFindReplace::show);
     addAction(findAction);
+
+    auto formatAction = new QAction(this);
+    formatAction->setShortcut(QKeySequence("ctrl+i"));
+    connect(formatAction, &QAction::triggered, this, &CodeEditor::formatSelection);
+    addAction(formatAction);
 
     auto saveAction = new QAction(this);
     saveAction->setShortcut(QKeySequence("ctrl+s"));
@@ -514,6 +523,37 @@ void CodeEditor::closeEvent(QCloseEvent *event)
         case QMessageBox::No:
             break;
         }
+    }
+}
+
+static STDCALL char* tempMemoryAllocation(unsigned long memoryNeeded)
+{
+    char* buffer = new char[memoryNeeded];
+    return buffer;
+}
+
+static STDCALL void tempError(int errorNumber, const char* errorMessage)
+{
+    qDebug() << errorNumber << errorMessage;
+}
+
+void CodeEditor::formatSelection()
+{
+    auto mime = QMimeDatabase().mimeTypeForFile(windowFilePath());
+    if (mime.inherits("text/x-csrc")) {
+        int l, i;
+        getCursorPosition(&l, &i);
+        QString inText = text();
+        QByteArray rawText = inText.toUtf8();
+        char* utf8In = rawText.data();
+        const QString style = AppConfig::mutableInstance().editorFormatterStyle();
+        char* utf8Out = AStyleMain(utf8In,
+                                   QString("--style=%1").arg(style).toLatin1().data(),
+                                   tempError,
+                                   tempMemoryAllocation);
+        setText(QString::fromUtf8(utf8Out));
+        setCursorPosition(l, i);
+        ensureLineVisible(l);
     }
 }
 

@@ -23,6 +23,23 @@
 
 #include "appconfig.h"
 
+const QStringList FORMAT_STYLE = {
+    "allman",
+    "java",
+    "k",
+    "stroustrup",
+    "whitesmith",
+    "vtk",
+    "banner",
+    "gnu",
+    "linux",
+    "horstmann",
+    "otbs",
+    "google",
+    "pico",
+    "lisp"
+};
+
 QString stylePath(const QString& styleName)
 {
     return QString(":/styles/%1.xml").arg(styleName);
@@ -43,6 +60,7 @@ ConfigDialog::ConfigDialog(QWidget *parent) :
     bg->addButton(ui->systemProxy);
     bg->addButton(ui->userProxy);
     ui->additionalPathList->setModel(new QStringListModel(this));
+    ui->formatterStyles->setModel(new QStringListModel(FORMAT_STYLE, this));
 
     load();
 
@@ -89,6 +107,8 @@ void ConfigDialog::load()
     ui->checkBox_replaceTabsWithSpaces->setChecked(config.editorTabsToSpaces());
     ui->spinTabWidth->setValue(config.editorTabWidth());
 
+    ui->formatterStyles->setCurrentText(config.editorFormatterStyle());
+
     ui->projectPath->setText(config.buildDefaultProjectPath());
     ui->projectTemplatesPath->setText(config.buildTemplatePath());
     ui->templateUrl->setText(config.buildTemplateUrl());
@@ -133,6 +153,7 @@ void ConfigDialog::save()
   config.setEditorSaveOnAction(ui->checkBox_saveOnAction->isChecked());
   config.setEditorTabsToSpaces(ui->checkBox_replaceTabsWithSpaces->isChecked());
   config.setEditorTabWidth(ui->spinTabWidth->value());
+  config.setEditorFormatterStyle(ui->formatterStyles->currentText());
   config.setBuildDefaultProjectPath(ui->projectPath->text());
   config.setBuildTemplatePath(ui->projectTemplatesPath->text());
   config.setBuildTemplateUrl(ui->templateUrl->text());

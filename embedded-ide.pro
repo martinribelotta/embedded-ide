@@ -34,6 +34,8 @@ include(qscintilla/qscintilla.pri)
 #QATE_SRC_DIR=qtsourceview/src
 #include(qtsourceview/src/qate.pri)
 
+include(astyle/astyle.pri)
+
 SOURCES += main.cpp\
         mainwindow.cpp \
     documentarea.cpp \

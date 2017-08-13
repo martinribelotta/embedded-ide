@@ -36,6 +36,8 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 public slots:
+    void formatSelection();
+
     void insertCompletion(const QString &completion);
 
     void codeContextUpdate(const QStringList& list);

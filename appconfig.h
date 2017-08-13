@@ -41,6 +41,7 @@ public:
     bool editorSaveOnAction() const;
     bool editorTabsToSpaces() const;
     int editorTabWidth() const;
+    QString editorFormatterStyle() const;
     const QString& buildDefaultProjectPath() const;
     const QString& buildTemplatePath() const;
     const QString& buildTemplateUrl() const;
@@ -79,6 +80,7 @@ private:
     void setEditorSaveOnAction(bool editorSaveOnAction);
     void setEditorTabsToSpaces(bool editorTabsToSpaces);
     void setEditorTabWidth(int editorTabWidth);
+    void setEditorFormatterStyle(const QString& style);
     void setWorkspacePath(const QString& workspacePath);
     void setBuildDefaultProjectPath(const QString& buildDefaultProjectPath);
     void setBuildTemplatePath(const QString& buildTemplatePath);
