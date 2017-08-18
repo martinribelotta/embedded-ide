@@ -63,11 +63,11 @@ private slots:
 
     void on_targetList_doubleClicked(const QModelIndex &index);
 
-    void on_toolButton_documentNew_clicked();
+    void onDocumentNew();
 
-    void on_toolButton_folderNew_clicked();
+    void onFolderNew();
 
-    void on_toolButton_elementDel_clicked();
+    void onElementDel();
 
     void on_toolButton_export_clicked();
 
@@ -79,12 +79,15 @@ private slots:
 
     void on_toolButton_find_clicked();
 
+    void on_toolButton_startDebug_clicked();
+
 signals:
     void projectOpened();
     void fileOpen(const QString& file);
     void startBuild(const QString& target);
     void execTool(const QString& command);
     void openFindDialog();
+    void debugChange(bool enable);
 
 private:
     Ui::ProjectView *ui;

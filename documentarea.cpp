@@ -2,6 +2,7 @@
 #include "codeeditor.h"
 #include "qhexedit.h"
 #include "mapviewer.h"
+#include "debugtoolbar.h"
 
 #include <QHBoxLayout>
 #include <QToolButton>
@@ -97,6 +98,13 @@ DocumentArea::DocumentArea(QWidget *parent) :
     l1->setContentsMargins(0, 0, 0, 0);
     l1->setSpacing(0);
     buttonBox->setEnabled(tab->count() > 0);
+
+    dbgToolbar = new DebugToolBar(this);
+    setDebugToolBarVisible(false);
+}
+
+DocumentArea::~DocumentArea()
+{
 }
 
 QList<CodeEditor *> DocumentArea::documentsDirty() const
@@ -260,8 +268,23 @@ void DocumentArea::closeCurrent()
     documentToClose(tab->currentIndex());
 }
 
+void DocumentArea::setDebugToolBarVisible(bool visible)
+{
+    dbgToolbar->setVisible(visible);
+}
+
 void DocumentArea::windowListUpdate()
 {
+}
+
+void DocumentArea::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    auto rTab = tab->geometry();
+    auto rDbg = dbgToolbar->geometry();
+    rDbg.moveCenter(rTab.center());
+    rDbg.moveTop(rTab.top());
+    dbgToolbar->setGeometry(rDbg);
 }
 
 void DocumentArea::modifyTab(bool isModify)

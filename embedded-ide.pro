@@ -83,7 +83,8 @@ SOURCES += main.cpp\
     qtdesigner-gdb/elfreader.cpp \
     qtdesigner-gdb/breakhandler.cpp \
     qtdesigner-gdb/breakpoint.cpp \
-    gdbwire.c
+    gdbwire.c \
+    debugtoolbar.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -132,7 +133,8 @@ HEADERS  += mainwindow.h \
     qtdesigner-gdb/breakhandler.h \
     qtdesigner-gdb/breakpoint.h \
     qtdesigner-gdb/debuggerinternalconstants.h \
-    gdbwire.h
+    gdbwire.h \
+    debugtoolbar.h
 
 FORMS    += mainwindow.ui \
     projectnewdialog.ui \
@@ -148,7 +150,8 @@ FORMS    += mainwindow.ui \
     passwordpromtdialog.ui \
     templatesdownloadselector.ui \
     filepropertiesdialog.ui \
-    findinfilesdialog.ui
+    findinfilesdialog.ui \
+    debugtoolbar.ui
 
 RESOURCES += \
     resources.qrc

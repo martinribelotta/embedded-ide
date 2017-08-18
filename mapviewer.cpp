@@ -303,6 +303,8 @@ public:
     }
 };
 
+BarItemDelegate::~BarItemDelegate() { }
+
 class SymbolSortFilter: public QSortFilterProxyModel
 {
 public:
@@ -323,9 +325,6 @@ bool SymbolSortFilter::lessThan(const QModelIndex &left, const QModelIndex &righ
     uint32_t r = rightData.toUInt(&ok2);
     return (ok1 && ok2)? (l < r) : false;
 }
-
-BarItemDelegate::~BarItemDelegate()
-= default;
 
 MapViewer::MapViewer(QWidget *parent) :
     QWidget (parent),

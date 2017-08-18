@@ -63,11 +63,12 @@ ProjectView::ProjectView(QWidget *parent) :
     labelStatus->setAlignment(Qt::AlignRight | Qt::AlignBottom);
     lsLayout->addWidget(labelStatus);
 
-    projectButtons += ui->toolButton_documentNew;
     projectButtons += ui->toolButton_export;
-    projectButtons += ui->toolButton_elementDel;
-    projectButtons += ui->toolButton_folderNew;
+    //projectButtons += ui->toolButton_documentNew;
+    //projectButtons += ui->toolButton_elementDel;
+    //projectButtons += ui->toolButton_folderNew;
     projectButtons += ui->toolButton_find;
+    projectButtons += ui->toolButton_startDebug;
 
 #if 0
     QMenu *menu = new QMenu(this);
@@ -238,7 +239,7 @@ void ProjectView::on_targetList_doubleClicked(const QModelIndex &index)
     emit startBuild(item->text());
 }
 
-void ProjectView::on_toolButton_documentNew_clicked()
+void ProjectView::onDocumentNew()
 {
     if (!ui->treeView->selectionModel())
         return;
@@ -266,7 +267,7 @@ void ProjectView::on_toolButton_documentNew_clicked()
     }
 }
 
-void ProjectView::on_toolButton_folderNew_clicked()
+void ProjectView::onFolderNew()
 {
     if (!ui->treeView->selectionModel())
         return;
@@ -292,7 +293,7 @@ void ProjectView::on_toolButton_folderNew_clicked()
     }
 }
 
-void ProjectView::on_toolButton_elementDel_clicked()
+void ProjectView::onElementDel()
 {
     if (!ui->treeView->selectionModel())
         return;
@@ -482,6 +483,12 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
         return;
     QFileInfo fInfo = model->fileInfo(index);
     auto menu = new QMenu(this);
+    auto fileNew = menu->addAction(QIcon(":/images/document-new.svg"), tr("File New"));
+    auto folderNew = menu->addAction(QIcon(":/images/folder-new.svg"), tr("Folder New"));
+    auto itemDel = menu->addAction(QIcon(":/images/actions/list-remove.svg"), tr("Delete"));
+    connect(fileNew, &QAction::triggered, this, &ProjectView::onDocumentNew);
+    connect(folderNew, &QAction::triggered, this, &ProjectView::onFolderNew);
+    connect(itemDel, &QAction::triggered, this, &ProjectView::onElementDel);
     auto editFindAction = menu->addAction(QIcon(":/images/edit-find.svg"), tr("Properties"));
     connect(editFindAction, &QAction::triggered, [this, fInfo]() { fileProperties(fInfo); });
     if (fInfo.isExecutable() && !fInfo.isDir()) {
@@ -492,11 +499,25 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
     auto refreshAction = menu->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Rename"));
     connect(refreshAction, &QAction::triggered, [this, index]() { ui->treeView->edit(index); });
     auto editDelAction = menu->addAction(QIcon(":/images/edit-delete.svg"), tr("Delete"));
-    connect(editDelAction, &QAction::triggered, this, &ProjectView::on_toolButton_elementDel_clicked);
+    connect(editDelAction, &QAction::triggered, this, &ProjectView::onElementDel);
     menu->exec(QCursor::pos());
 }
 
 void ProjectView::on_toolButton_find_clicked()
 {
     emit openFindDialog();
+}
+
+static bool fakeDebug = false;
+
+void ProjectView::on_toolButton_startDebug_clicked()
+{
+    fakeDebug = !fakeDebug;
+
+    if (fakeDebug) {
+        ui->toolButton_startDebug->setIcon(QIcon(":/images/actions/media-playback-stop.svg"));
+    } else {
+        ui->toolButton_startDebug->setIcon(QIcon(":/images/actions/media-playback-start.svg"));
+    }
+    emit debugChange(fakeDebug);
 }

@@ -7,6 +7,7 @@
 
 class MakefileInfo;
 class CodeEditor;
+class DebugToolBar;
 
 class QStandardItemModel;
 
@@ -34,6 +35,7 @@ class DocumentArea : public QWidget
     Q_OBJECT
 public:
     explicit DocumentArea(QWidget *parent = 0);
+    virtual ~DocumentArea();
 
     QList<CodeEditor*> documentsDirty() const;
     bool hasUnsavedChanges();
@@ -52,9 +54,12 @@ public slots:
     void saveCurrent();
     void reloadCurrent();
     void closeCurrent();
+    void setDebugToolBarVisible(bool visible);
 
 protected:
     void windowListUpdate();
+    void resizeEvent(QResizeEvent *event);
+
 
 private slots:
     bool documentToClose(int idx);
@@ -67,6 +72,7 @@ private:
     TabWidget *tab;
     CodeEditor *lastIpEditor;
     QStandardItemModel *windowListModel;
+    DebugToolBar *dbgToolbar;
 };
 
 #endif // DOCUMENTAREA_H

@@ -139,6 +139,10 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->loggerDebugger->addText("<br>", Qt::blue);
     });
 
+    connect(ui->projectView, &ProjectView::debugChange, [this](bool enabled){
+        ui->centralWidget->setDebugToolBarVisible(enabled);
+    });
+
     ui->tabWidget->removeTab(2);
     ui->tabWidget->removeTab(1);
 
