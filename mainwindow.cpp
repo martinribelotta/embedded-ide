@@ -6,7 +6,6 @@
 #include "projetfromtemplate.h"
 #include "configdialog.h"
 #include "aboutdialog.h"
-#include "debuginterface.h"
 #include "mainmenuwidget.h"
 #include "appconfig.h"
 #include "filedownloader.h"
@@ -110,6 +109,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
     ui->projectDock->setTitleBarWidget(new QWidget(this));
     connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
+    connect(ui->loggerCompiler, &LoggerWidget::processFinished, [this](int exitCode, QProcess::ExitStatus exitStatus){
+        Q_UNUSED(exitCode);
+        Q_UNUSED(exitStatus);
+        ui->projectView->setToolsOn(true);
+    });
     connect(ui->projectView, &ProjectView::startBuild,
             [this](const QString &target) {
               if (this->goToBuildStage()) {
@@ -117,6 +121,7 @@ MainWindow::MainWindow(QWidget *parent) :
                     ui->projectView->projectPath().absolutePath();
                 QStringList args;
                 args << "-f" << ui->projectView->project() << target;
+                ui->projectView->setToolsOn(false);
                 ui->loggerCompiler->setWorkingDir(projectPath)
                     .startProcess("make", args);
               }
@@ -125,26 +130,24 @@ MainWindow::MainWindow(QWidget *parent) :
         QString projectPath = ui->projectView->projectPath().absolutePath();
         ui->loggerCompiler->setWorkingDir(projectPath).startProcess(command);
     });
-    ui->projectView->getDebugInterface()->setDocumentArea(ui->centralWidget);
-    connect(ui->projectView->getDebugInterface(), &DebugInterface::gdbOutput, [this](const QString& text) {
-        ui->loggerDebugger->addText(text, Qt::blue);
-        ui->loggerDebugger->addText("<br>", Qt::blue);
-    });
-    connect(ui->projectView->getDebugInterface(), &DebugInterface::gdbMessage, [this](const QString& text) {
-        ui->loggerDebugger->addText(text, Qt::red);
-        ui->loggerDebugger->addText("<br>", Qt::red);
-    });
-    connect(ui->projectView->getDebugInterface(), &DebugInterface::applicationOutput, [this](const QString& text) {
-        ui->loggerApplication->addText(text, Qt::blue);
-        ui->loggerDebugger->addText("<br>", Qt::blue);
-    });
 
+    ui->debugUI->setDocumentArea(ui->centralWidget);
+    ui->debugUI->setProjectView(ui->projectView);
+    ui->debugUI->setLoggers(ui->loggerDebugger, ui->loggerApplication);
     connect(ui->projectView, &ProjectView::debugChange, [this](bool enabled){
-        ui->centralWidget->setDebugToolBarVisible(enabled);
+        if (enabled)
+            ui->debugUI->startDebug(ui->projectView->projectPath().absolutePath());
+        else
+            ui->debugUI->stopDebug();
     });
-
-    ui->tabWidget->removeTab(2);
-    ui->tabWidget->removeTab(1);
+    connect(ui->debugUI, &DebugUI::debugStarted, [this](){
+        ui->debugDocker->setVisible(true);
+        ui->projectView->debugStarted();
+    });
+    connect(ui->debugUI, &DebugUI::debugStoped, [this](){
+        ui->projectView->debugStoped();
+        ui->debugDocker->setVisible(false);
+    });
 
     auto mainMenu = new QMenu(this);
     auto wa = new QWidgetAction(mainMenu);
@@ -189,10 +192,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(menuWidget, SIGNAL(exit()), mainMenu, SLOT(hide()));
     ui->projectView->setMainMenu(mainMenu);
 
-#ifdef DISABLE_DEBUG_UI
-    ui->tabWidget->removeTab(2);
-    ui->tabWidget->removeTab(1);
-#endif
+    ui->debugDocker->hide();
+
     configChanged(&AppConfig::mutableInstance());
     statusBar()->showMessage(tr("Application ready..."), 1500);
     statusBar()->hide();

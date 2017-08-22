@@ -20,6 +20,7 @@
 #include <QDesktopServices>
 #include <QtConcurrent>
 #include <QtDebug>
+#include <QPushButton>
 
 #include "projecticonprovider.h"
 #include "targetupdatediscover.h"
@@ -32,6 +33,10 @@
 #include "findinfilesdialog.h"
 
 static const int LAST_MESSAGE_TIMEOUT=1500;
+
+static QString toHumanReadable(const QString& text) {
+    return QString(text).replace('_', ' ');
+}
 
 MyFileSystemModel::MyFileSystemModel(QObject *parent) :
     QFileSystemModel(parent)
@@ -53,7 +58,6 @@ ProjectView::ProjectView(QWidget *parent) :
     ui(new Ui::ProjectView)
 {
     ui->setupUi(this);
-    ui->tabDebug->setProjectView(this);
     ui->treeView->setAcceptDrops(true);
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -64,28 +68,11 @@ ProjectView::ProjectView(QWidget *parent) :
     lsLayout->addWidget(labelStatus);
 
     projectButtons += ui->toolButton_export;
-    //projectButtons += ui->toolButton_documentNew;
-    //projectButtons += ui->toolButton_elementDel;
-    //projectButtons += ui->toolButton_folderNew;
     projectButtons += ui->toolButton_find;
     projectButtons += ui->toolButton_startDebug;
 
-#if 0
-    QMenu *menu = new QMenu(this);
-    QWidgetAction *action = new QWidgetAction(menu);
-    tagList = new TagList(this);
-    action->setDefaultWidget(tagList);
-    menu->addAction(action);
-    ui->toolButton_symbols->setMenu(menu);
-    ui->toolButton_symbols->hide();
-#endif
-
-    ui->tabWidget->setCurrentIndex(0);
-
     ui->toolButton_tools->setMenu(createExternalToolsMenu());
-#ifdef DISABLE_DEBUG_UI
-    ui->tabWidget->removeTab(1);
-#endif
+    debugStatus = false;
 }
 
 ProjectView::~ProjectView()
@@ -114,11 +101,6 @@ QDir ProjectView::projectPath() const
     return m->rootDirectory();
 }
 
-DebugInterface *ProjectView::getDebugInterface() const
-{
-    return ui->tabDebug;
-}
-
 void ProjectView::setMainMenu(QMenu *m)
 {
     ui->toolButton_menu->setMenu(m);
@@ -139,11 +121,10 @@ void ProjectView::openProject(const QString &projectFile)
     if (!project().isEmpty())
         closeProject();
     if (!projectFile.isEmpty()) {
-        //ui->waitSpinner->start();
         labelStatus->setText(tr("Loading..."));
         QFileInfo mk(projectFile);
         QFileSystemModel *model = new MyFileSystemModel(this);
-        model->setFilter(QDir::AllDirs|QDir::NoDotAndDotDot|QDir::Files);
+        model->setFilter(QDir::AllDirs|QDir::NoDotAndDotDot|QDir::Files|QDir::Hidden|QDir::System);
         model->setNameFilterDisables(false);
         model->setNameFilters(QStringList("*"));
         model->setIconProvider(new ProjectIconProvider(this));
@@ -162,13 +143,21 @@ void ProjectView::openProject(const QString &projectFile)
     }
 }
 
-void ProjectView::setDebugOn(bool on)
+void ProjectView::setToolsOn(bool on)
 {
-    if (on) {
-        ui->tabWidget->setCurrentWidget(ui->tabDebug);
-    } else {
-        ui->tabWidget->setCurrentWidget(ui->tabProject);
-    }
+    ui->targetList->setEnabled(on);
+}
+
+void ProjectView::debugStarted()
+{
+    ui->toolButton_startDebug->setIcon(QIcon(":/images/actions/media-playback-stop.svg"));
+    debugStatus = true;
+}
+
+void ProjectView::debugStoped()
+{
+    debugStatus = false;
+    ui->toolButton_startDebug->setIcon(QIcon(":/images/actions/media-playback-start.svg"));
 }
 
 void ProjectView::on_treeView_activated(const QModelIndex &index)
@@ -201,10 +190,22 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
     ui->targetList->clear();
     QStringList orderedTargets = mk_info.targets;
     orderedTargets.sort();
-    foreach(QString t, orderedTargets) {
-        QString iconName = mapNameToMkIcon.contains(t)? mapNameToMkIcon.value(t) : "run-build";
+    foreach(QString text, orderedTargets) {
+        QString iconName = mapNameToMkIcon.contains(text)? mapNameToMkIcon.value(text) : "run-build";
         QIcon icon = QIcon(QString("://images/actions/%1.svg").arg(iconName));
-        ui->targetList->addItem(new QListWidgetItem(icon, t));
+        QListWidgetItem *item = new QListWidgetItem;
+        ui->targetList->addItem(item);
+        QToolButton *button = new QToolButton;
+        button->setIcon(icon);
+        button->setText(toHumanReadable(text));
+        button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+        button->setStyleSheet ("text-align: left; padding: 4px;");
+        button->setAutoRaise(true);
+        ui->targetList->setItemWidget(item, button);
+        item->setSizeHint(button->sizeHint());
+        connect(button, &QToolButton::clicked, [text, this](){
+            emit startBuild(text);
+        });
     }
     sender()->deleteLater();
     auto ctagProc = new QProcess(this);
@@ -220,7 +221,6 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
         qDebug() << "ctags exit code" << exitCode
                  << "ctags exit status" << exitStatus << "\n"
                  << mk_info.tags.parse(ctagProc);
-        // tagList->setTagList(mk_info.tags.all());
         labelStatus->setText(tr("Done"));
         QTimer::singleShot(LAST_MESSAGE_TIMEOUT, labelStatus, &QLabel::clear);
         ctagProc->deleteLater();
@@ -233,7 +233,7 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
     emit projectOpened();
 }
 
-void ProjectView::on_targetList_doubleClicked(const QModelIndex &index)
+void ProjectView::on_targetList_clicked(const QModelIndex &index)
 {
     QListWidgetItem *item = ui->targetList->item(index.row());
     emit startBuild(item->text());
@@ -508,16 +508,7 @@ void ProjectView::on_toolButton_find_clicked()
     emit openFindDialog();
 }
 
-static bool fakeDebug = false;
-
 void ProjectView::on_toolButton_startDebug_clicked()
 {
-    fakeDebug = !fakeDebug;
-
-    if (fakeDebug) {
-        ui->toolButton_startDebug->setIcon(QIcon(":/images/actions/media-playback-stop.svg"));
-    } else {
-        ui->toolButton_startDebug->setIcon(QIcon(":/images/actions/media-playback-start.svg"));
-    }
-    emit debugChange(fakeDebug);
+    emit debugChange(!debugStatus);
 }

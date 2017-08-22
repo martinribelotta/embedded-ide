@@ -10,8 +10,6 @@
 
 #include <QtDebug>
 
-extern const QFont systemMonoFont();
-
 ToolManager::ToolManager(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ToolManager)
@@ -29,7 +27,7 @@ ToolManager::~ToolManager()
 static QList<QStandardItem*> makeItem(const QString& name, const QString& command)
 {
     QList<QStandardItem*> l{ new QStandardItem(name), new QStandardItem(command) };
-    l[1]->setFont(systemMonoFont());
+    l[1]->setFont(AppConfig::systemMonoFont());
     return l;
 }
 

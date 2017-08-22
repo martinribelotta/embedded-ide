@@ -25,7 +25,7 @@
     <set>QDockWidget::NoDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
-    <string>Loggin</string>
+    <string>&amp;Loggin</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
@@ -86,12 +86,24 @@
     <set>QDockWidget::NoDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
-    <string>Project</string>
+    <string>Pro&amp;ject</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
    <widget class="ProjectView" name="projectView"/>
+  </widget>
+  <widget class="QDockWidget" name="debugDocker">
+   <property name="features">
+    <set>QDockWidget::NoDockWidgetFeatures</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::RightDockWidgetArea</set>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="DebugUI" name="debugUI"/>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -112,6 +124,12 @@
    <class>LoggerWidget</class>
    <extends>QWidget</extends>
    <header>loggerwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DebugUI</class>
+   <extends>QWidget</extends>
+   <header location="global">debugui.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

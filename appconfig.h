@@ -61,6 +61,7 @@ public:
     void adjustPath(const QStringList& paths);
 
     static AppConfig& mutableInstance();
+    static const QFont systemMonoFont();
 
 signals:
     void configChanged(AppConfig*);

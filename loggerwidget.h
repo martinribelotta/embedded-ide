@@ -2,8 +2,7 @@
 #define LOGGERWIDGET_H
 
 #include <QWidget>
-
-class QProcess;
+#include <QProcess>
 
 class LoggerWidget : public QWidget
 {
@@ -14,6 +13,7 @@ public:
 
 signals:
     void openEditorIn(const QString& path, int line, int column);
+    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 public slots:
     bool startProcess(const QString& cmd, const QStringList& args);

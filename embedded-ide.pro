@@ -27,14 +27,12 @@ DEFINES += DISABLE_DEBUG_UI
 
 INCLUDEPATH += QHexEdit
 
-include(qgdb/qgdb.pri)
-
 QSCINTILLA_SRC_DIR=qscintilla/
 include(qscintilla/qscintilla.pri)
-#QATE_SRC_DIR=qtsourceview/src
-#include(qtsourceview/src/qate.pri)
 
 include(astyle/astyle.pri)
+
+include(gdbdebugger/gdbdebugger.pri)
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -49,12 +47,10 @@ SOURCES += main.cpp\
     projecticonprovider.cpp \
     makefileinfo.cpp \
     clangcodecontext.cpp \
-    debuginterface.cpp \
     etags.cpp \
     projectview.cpp \
     filedownloader.cpp \
     version.cpp \
-    waitingspinnerwidget.cpp \
     QHexEdit/qhexedit.cpp \
     QHexEdit/qhexeditcomments.cpp \
     QHexEdit/qhexeditdata.cpp \
@@ -78,13 +74,9 @@ SOURCES += main.cpp\
     templatesdownloadselector.cpp \
     filepropertiesdialog.cpp \
     findinfilesdialog.cpp \
-    gdbinterface.cpp \
-    qtdesigner-gdb/gdbmi.cpp \
-    qtdesigner-gdb/elfreader.cpp \
-    qtdesigner-gdb/breakhandler.cpp \
-    qtdesigner-gdb/breakpoint.cpp \
-    gdbwire.c \
-    debugtoolbar.cpp
+    qtc_gdbmi/gdbmi.cpp \
+    debugui.cpp \
+    gdbstartdialog.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -97,13 +89,11 @@ HEADERS  += mainwindow.h \
     projecticonprovider.h \
     makefileinfo.h \
     clangcodecontext.h \
-    debuginterface.h \
     etags.h \
     projectview.h \
     filedownloader.h \
     version.h \
     targetupdatediscover.h \
-    waitingspinnerwidget.h \
     QHexEdit/qhexedit.h \
     QHexEdit/qhexeditcomments.h \
     QHexEdit/qhexeditdata.h \
@@ -127,20 +117,14 @@ HEADERS  += mainwindow.h \
     templatesdownloadselector.h \
     filepropertiesdialog.h \
     findinfilesdialog.h \
-    gdbinterface.h \
-    qtdesigner-gdb/gdbmi.h \
-    qtdesigner-gdb/elfreader.h \
-    qtdesigner-gdb/breakhandler.h \
-    qtdesigner-gdb/breakpoint.h \
-    qtdesigner-gdb/debuggerinternalconstants.h \
-    gdbwire.h \
-    debugtoolbar.h
+    qtc_gdbmi/gdbmi.h \
+    debugui.h \
+    gdbstartdialog.h
 
 FORMS    += mainwindow.ui \
     projectnewdialog.ui \
     configdialog.ui \
     aboutdialog.ui \
-    debuginterface.ui \
     projectview.ui \
     mapviewer.ui \
     dialogconfigworkspace.ui \
@@ -151,7 +135,8 @@ FORMS    += mainwindow.ui \
     templatesdownloadselector.ui \
     filepropertiesdialog.ui \
     findinfilesdialog.ui \
-    debugtoolbar.ui
+    debugui.ui \
+    gdbstartdialog.ui
 
 RESOURCES += \
     resources.qrc

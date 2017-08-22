@@ -1,13 +1,12 @@
-BASE=$$PWD
-SOURCES += $$BASE/ASBeautifier.cpp
-SOURCES += $$BASE/ASEnhancer.cpp
-SOURCES += $$BASE/ASFormatter.cpp
-SOURCES += $$BASE/ASLocalizer.cpp
-SOURCES += $$BASE/ASResource.cpp
-SOURCES += $$BASE/astyle_main.cpp
+SOURCES += $$PWD/ASBeautifier.cpp
+SOURCES += $$PWD/ASEnhancer.cpp
+SOURCES += $$PWD/ASFormatter.cpp
+SOURCES += $$PWD/ASLocalizer.cpp
+SOURCES += $$PWD/ASResource.cpp
+SOURCES += $$PWD/astyle_main.cpp
 
-HEADERS += $$BASE/ASLocalizer.h
-HEADERS += $$BASE/astyle.h
-HEADERS += $$BASE/astyle_main.h
+HEADERS += $$PWD/ASLocalizer.h
+HEADERS += $$PWD/astyle.h
+HEADERS += $$PWD/astyle_main.h
 
 DEFINES += ASTYLE_LIB

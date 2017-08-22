@@ -26,6 +26,35 @@ struct LoggerWidget::priv_t {
     }
 };
 
+static QString mkUrl(const QString& p, const QString& x, const QString& y) {
+    return QString("file:%1?x=%2&y=%3").arg(p).arg(x).arg(y.toInt() - 1);
+}
+
+static QString consoleMarkError(const QString& s) {
+    QString str(s);
+    QRegularExpression re(R"(^(.+?):(\d+):(\d+):(.+?):(.+?)$)");
+    re.setPatternOptions(QRegularExpression::MultilineOption);
+    QRegularExpressionMatchIterator it = re.globalMatch(s);
+    while(it.hasNext()) {
+        QRegularExpressionMatch m = it.next();
+        QString text = m.captured(0);
+        QString path = m.captured(1);
+        QString line = m.captured(2);
+        QString col = m.captured(3);
+        QString url = mkUrl(path, line, col);
+        str.replace(text, QString("<a href=\"%1\">%2</a>").arg(url).arg(text));
+    }
+    return str;
+}
+
+static QString consoleToHtml(const QString& s) {
+    return consoleMarkError(QString(s)
+            .replace("\t", "&nbsp;")
+            .replace(" ", "&nbsp;"))
+            .replace("\r\n", "<br>")
+            .replace("\n", "<br>");
+}
+
 LoggerWidget::LoggerWidget(QWidget *parent) :
     QWidget(parent), d_ptr(new LoggerWidget::priv_t)
 {
@@ -85,8 +114,7 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
     });
     connect(proc, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             [this](int exitCode, QProcess::ExitStatus exitStatus) {
-        Q_UNUSED(exitCode);
-        Q_UNUSED(exitStatus);
+        emit processFinished(exitCode, exitStatus);
     });
     connect(proc,
  #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
@@ -141,7 +169,7 @@ void LoggerWidget::clearText()
 
 void LoggerWidget::addText(const QString &text, const QColor& color)
 {
-    d_ptr->addText(text, color);
+    d_ptr->addText(consoleToHtml(text), color);
 }
 
 bool LoggerWidget::startProcess(const QString &cmd, const QStringList &args)
@@ -162,35 +190,6 @@ bool LoggerWidget::startProcess(const QString &command)
     d->view->clear();
     d->proc->start(command);
     return true;
-}
-
-static QString mkUrl(const QString& p, const QString& x, const QString& y) {
-    return QString("file:%1?x=%2&y=%3").arg(p).arg(x).arg(y.toInt() - 1);
-}
-
-static QString consoleMarkError(const QString& s) {
-    QString str(s);
-    QRegularExpression re(R"(^(.+?):(\d+):(\d+):(.+?):(.+?)$)");
-    re.setPatternOptions(QRegularExpression::MultilineOption);
-    QRegularExpressionMatchIterator it = re.globalMatch(s);
-    while(it.hasNext()) {
-        QRegularExpressionMatch m = it.next();
-        QString text = m.captured(0);
-        QString path = m.captured(1);
-        QString line = m.captured(2);
-        QString col = m.captured(3);
-        QString url = mkUrl(path, line, col);
-        str.replace(text, QString("<a href=\"%1\">%2</a>").arg(url).arg(text));
-    }
-    return str;
-}
-
-static QString consoleToHtml(const QString& s) {
-    return consoleMarkError(QString(s)
-            .replace("\t", "&nbsp;")
-            .replace(" ", "&nbsp;"))
-            .replace("\r\n", "<br>")
-            .replace("\n", "<br>");
 }
 
 void LoggerWidget::priv_t::decode(const QString &text, QColor color)

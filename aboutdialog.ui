@@ -53,7 +53,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Embedded IDE&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;for C/C++&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Copyright © 2015-2017&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;by Martin Ribelotta &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Embedded IDE&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;for C/C++&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Copyright © 2015-2017&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;by Martin Ribelotta &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;martinribelotta@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;martinribelotta@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>

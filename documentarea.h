@@ -54,7 +54,6 @@ public slots:
     void saveCurrent();
     void reloadCurrent();
     void closeCurrent();
-    void setDebugToolBarVisible(bool visible);
 
 protected:
     void windowListUpdate();
@@ -72,7 +71,6 @@ private:
     TabWidget *tab;
     CodeEditor *lastIpEditor;
     QStandardItemModel *windowListModel;
-    DebugToolBar *dbgToolbar;
 };
 
 #endif // DOCUMENTAREA_H

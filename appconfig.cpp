@@ -34,7 +34,7 @@ static bool isFixedPitch(const QFont & font) {
     return fi.fixedPitch();
 }
 
-const QFont systemMonoFont() {
+const QFont AppConfig::systemMonoFont() {
     QFont font("monospace");
     if (isFixedPitch(font))
         return font;

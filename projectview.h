@@ -18,7 +18,6 @@ class QLabel;
 class QToolButton;
 class QMenu;
 class QProcess;
-class DebugInterface;
 class TagList;
 
 class MyFileSystemModel: public QFileSystemModel
@@ -48,20 +47,21 @@ public:
     QDir projectPath() const;
     const MakefileInfo &makeInfo() const { return mk_info; }
     const ETags &tags() const { return mk_info.tags; }
-    DebugInterface *getDebugInterface() const;
     void setMainMenu(QMenu *m);
 
 public slots:
     void closeProject();
     void openProject(const QString& projectFile);
-    void setDebugOn(bool on);
+    void setToolsOn(bool on);
+    void debugStarted();
+    void debugStoped();
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);
 
     void updateMakefileInfo(const MakefileInfo &info);
 
-    void on_targetList_doubleClicked(const QModelIndex &index);
+    void on_targetList_clicked(const QModelIndex &index);
 
     void onDocumentNew();
 
@@ -95,6 +95,7 @@ private:
     TagList *tagList;
     QList<QToolButton*> projectButtons;
     QLabel *labelStatus;
+    bool debugStatus;
 
     QMenu *createExternalToolsMenu();
 };
