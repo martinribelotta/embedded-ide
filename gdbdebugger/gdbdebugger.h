@@ -191,6 +191,8 @@ signals:
     void setFrameLine(const QString &fileName, int line);
     void watchCreated(const QString &watch,const QString &name);
     void watchRemoved(const QString &watch);
+    void breakInserted(int id, const QString& file, int line);
+    void breakDeleted(int id);
 
 protected:
     void handleResponse(const QByteArray &buff);

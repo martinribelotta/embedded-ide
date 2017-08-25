@@ -223,12 +223,9 @@ void GdbDebugger::continueRun()
     command("-exec-continue");
 }
 
-//#include <signal.h>
-
 void GdbDebugger::interruptRun()
 {
-    command("-exec-interrupt --all");
-    //kill(m_process->processId(), SIGINT);
+    command("-exec-interrupt");
 }
 
 void GdbDebugger::stepOver()
@@ -988,7 +985,10 @@ void GdbDebugger::handleBreakInsert(const GdbResponse &response, QMap<QString,QV
     if (bkpt.isTuple()) {
         QString number = bkpt.findChild("number").data();
         QString org_location= bkpt.findChild("original-location").data();
+        QString file = bkpt.findChild("file").data();
+        QString line = bkpt.findChild("line").data();
         m_locationBkMap.insert(number,org_location);
+        emit breakInserted(number.toInt(), file, line.toInt());
     }
 }
 
@@ -1003,6 +1003,7 @@ void GdbDebugger::handleBreakDelete(const GdbResponse &response, QMap<QString,QV
     }
     QString number = cmdList.at(1);
     m_locationBkMap.remove(number);
+    emit breakDeleted(number.toInt());
 }
 
 void GdbDebugger::handleRemoteResponse(const GdbResponse &response, QMap<QString, QVariant> &map)

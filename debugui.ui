@@ -145,7 +145,17 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QTreeView" name="viewVars"/>
+        <widget class="QTreeView" name="viewVars">
+         <property name="editTriggers">
+          <set>QAbstractItemView::AllEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="uniformRowHeights">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -178,7 +188,17 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QTreeView" name="viewWatch"/>
+        <widget class="QTreeView" name="viewWatch">
+         <property name="editTriggers">
+          <set>QAbstractItemView::AllEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="uniformRowHeights">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -211,7 +231,17 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QTreeView" name="viewStack"/>
+        <widget class="QTreeView" name="viewStack">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="uniformRowHeights">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

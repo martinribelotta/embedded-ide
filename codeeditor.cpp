@@ -130,10 +130,26 @@ CodeEditor::CodeEditor(QWidget *parent) :
             if (GdbDebugger::instance()->isRunning()) {
                 qDebug() << "add mark in" << margin << line;
                 GdbDebugger::instance()->insertBreakPoint(m_documentFile, line);
-                markerAdd(line, SC_MARK_ARROW);
             }
         }
     });
+    connect(GdbDebugger::instance(), &GdbDebugger::breakInserted, [this](int id, const QString& file, int line){
+        const QFileInfo otherFile(QDir(mk->workingDir).absoluteFilePath(file));
+        const QFileInfo thisFile(QDir(mk->workingDir).absoluteFilePath(m_documentFile));
+        qDebug() << otherFile.absoluteFilePath() << thisFile.absoluteFilePath();
+        if (thisFile == otherFile) {
+            line--;
+            breakPointMarkToLine.insert(id, line);
+            markerAdd(line, SC_MARK_ARROW);
+        }
+    });
+    connect(GdbDebugger::instance(), &GdbDebugger::breakDeleted, [this](int id){
+        if (breakPointMarkToLine.contains(id)) {
+            int line = breakPointMarkToLine.value(id);
+            markerDelete(line);
+        }
+    });
+
     connect(this, &QsciScintilla::linesChanged, this, &CodeEditor::adjustLineNumberMargin);
 
     loadConfig();

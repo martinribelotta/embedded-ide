@@ -67,8 +67,6 @@ signals:
     void updateCodeContext();
     void requireOpen(const QString& file, int row, int col, const MakefileInfo *mk);
     void requestForSave(CodeEditor *sender);
-    void breakpointAdd(const QString& thisFile, int thisLine);
-    void breakpointDelete(const QString& thisFile, int thisLine);
 
 private:
     QString wordUnderCursor() const;
@@ -80,7 +78,7 @@ private:
     FormFindReplace *replaceDialog;
     QCompleter *m_completer;
     QString m_documentFile;
-    QHash<int, QColor> highlightLines;
+    QHash<int, int> breakPointMarkToLine;
     const MakefileInfo *mk;
     int ip;
 };
