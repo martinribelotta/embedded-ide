@@ -79,6 +79,8 @@
 
 #include <QtXml/qdom.h>
 
+#include <gdbdebugger/gdbdebugger.h>
+
 #undef CLANG_DEBUG
 
 CodeEditor::CodeEditor(QWidget *parent) :
@@ -119,11 +121,17 @@ CodeEditor::CodeEditor(QWidget *parent) :
         Q_UNUSED(margin);
         Q_UNUSED(state);
         if (markersAtLine(line) != 0) {
-            qDebug() << "del mark in" << margin << line;
-            markerDelete(line);
+            if (GdbDebugger::instance()->isRunning()) {
+                qDebug() << "del mark in" << margin << line;
+                GdbDebugger::instance()->removeBreakPoint(m_documentFile, line);
+                markerDelete(line);
+            }
         } else {
-            qDebug() << "add mark in" << margin << line;
-            markerAdd(line, SC_MARK_ARROW);
+            if (GdbDebugger::instance()->isRunning()) {
+                qDebug() << "add mark in" << margin << line;
+                GdbDebugger::instance()->insertBreakPoint(m_documentFile, line);
+                markerAdd(line, SC_MARK_ARROW);
+            }
         }
     });
     connect(this, &QsciScintilla::linesChanged, this, &CodeEditor::adjustLineNumberMargin);
@@ -219,6 +227,15 @@ QMenu *CodeEditor::createContextMenu()
     return m;
 }
 
+class MyQsciLexerCPP: public QsciLexerCPP {
+public:
+    MyQsciLexerCPP(QObject *parent = 0, bool caseInsensitiveKeywords = false) :
+        QsciLexerCPP(parent, caseInsensitiveKeywords)
+    {
+        setFoldCompact(false);
+    }
+};
+
 template<typename T>
 T *helperCreator() {
     return new T();
@@ -269,7 +286,7 @@ _("text/x-java", QsciLexerJava) +
 _("text/x-csharp", QsciLexerCSharp) +
 _("text/x-properties", QsciLexerProperties) +
 _("text/x-vhdl", QsciLexerVHDL) +
-_("text/x-csrc", QsciLexerCPP) +
+_("text/x-csrc", MyQsciLexerCPP) +
 _("text/x-pascal", QsciLexerPascal) +
 _("text/x-spice", QsciLexerSpice) +
 _("text/x-matlab", QsciLexerMatlab) +

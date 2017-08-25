@@ -67,6 +67,8 @@ signals:
     void updateCodeContext();
     void requireOpen(const QString& file, int row, int col, const MakefileInfo *mk);
     void requestForSave(CodeEditor *sender);
+    void breakpointAdd(const QString& thisFile, int thisLine);
+    void breakpointDelete(const QString& thisFile, int thisLine);
 
 private:
     QString wordUnderCursor() const;

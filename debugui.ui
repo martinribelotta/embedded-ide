@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>268</width>
-    <height>356</height>
+    <width>256</width>
+    <height>340</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,11 +31,14 @@
      <property name="spacing">
       <number>0</number>
      </property>
+     <property name="topMargin">
+      <number>2</number>
+     </property>
      <item>
       <widget class="QToolButton" name="debugRun">
        <property name="icon">
         <iconset resource="resources.qrc">
-         <normaloff>:/images/actions/debug-run.svg</normaloff>:/images/actions/debug-run.svg</iconset>
+         <normaloff>:/images/actions/media-playback-start.svg</normaloff>:/images/actions/media-playback-start.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -121,8 +124,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>268</width>
-        <height>208</height>
+        <width>256</width>
+        <height>191</height>
        </rect>
       </property>
       <attribute name="label">
@@ -151,8 +154,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>268</width>
-        <height>208</height>
+        <width>256</width>
+        <height>191</height>
        </rect>
       </property>
       <attribute name="label">
@@ -184,8 +187,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>268</width>
-        <height>208</height>
+        <width>256</width>
+        <height>191</height>
        </rect>
       </property>
       <attribute name="label">

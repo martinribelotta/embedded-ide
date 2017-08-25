@@ -23,6 +23,7 @@
 
 #include "gdbdebugger.h"
 
+#include <QCoreApplication>
 #include <QStandardItemModel>
 #include <QProcess>
 #include <QFile>
@@ -132,6 +133,15 @@ GdbDebugger::~GdbDebugger()
     }
 }
 
+GdbDebugger *GdbDebugger::instance()
+{
+    static GdbDebugger *_instance = nullptr;
+    if (!_instance) {
+        _instance = new GdbDebugger(QCoreApplication::instance());
+    }
+    return _instance;
+}
+
 void GdbDebugger::appLoaded()
 {
     // m_envManager = LiteApi::findExtensionObject<LiteApi::IEnvManager*>(m_liteApp,"LiteApi.IEnvManager");
@@ -178,6 +188,7 @@ bool GdbDebugger::start(const QString &program, const QStringList& argv, const Q
 
     clear();
     QStringList args;
+    args << "-ex" << "set mi-async 1";
     args << argv;
     args << "--interpreter=mi";
     args << progName;
@@ -210,6 +221,14 @@ bool GdbDebugger::isRunning()
 void GdbDebugger::continueRun()
 {
     command("-exec-continue");
+}
+
+//#include <signal.h>
+
+void GdbDebugger::interruptRun()
+{
+    command("-exec-interrupt --all");
+    //kill(m_process->processId(), SIGINT);
 }
 
 void GdbDebugger::stepOver()
@@ -431,7 +450,7 @@ void GdbDebugger::enterDebugText(const QString &text)
 
 void  GdbDebugger::command(const QByteArray &cmd)
 {
-    command_helper(GdbCmd(cmd),false);
+    command_helper(GdbCmd(cmd),true);
 }
 
 void GdbDebugger::readStdError()
@@ -497,6 +516,7 @@ nl -> CR | CR-LF
 
 void GdbDebugger::handleResponse(const QByteArray &buff)
 {
+    qDebug() << "response " << buff;
     if (buff.isEmpty() || buff == "(gdb) ")
         return;
 
@@ -570,6 +590,7 @@ void GdbDebugger::handleResponse(const QByteArray &buff)
             response.resultClass = GdbResultDone;
         } else if (resultClass == "running") {
             response.resultClass = GdbResultRunning;
+            emit execRunning();
         } else if (resultClass == "connected") {
             response.resultClass = GdbResultConnected;
         } else if (resultClass == "error") {
@@ -636,6 +657,7 @@ void GdbDebugger::handleStopped(const GdbMiValue &result)
             }
         }
     }
+    emit execStop(QString(reason));
 }
 
 void GdbDebugger::handleLibrary(const GdbMiValue &result)
@@ -1090,8 +1112,9 @@ void GdbDebugger::initGdb()
             insertBreakPoint(fileName,line);
         }
     }
+    //command("-gdb-set mi-async on");
+    command("-gdb-show mi-async");
     command("-break-insert main");
-
     command("-exec-run");
     debugLoaded();
 }

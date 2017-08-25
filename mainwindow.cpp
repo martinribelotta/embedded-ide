@@ -40,6 +40,8 @@
 
 #include <QtDebug>
 
+#include <gdbdebugger/gdbdebugger.h>
+
 static QFileInfoList lastProjectsList(bool includeAllInWorkspace = true) {
     QFileInfoList list;
     if (includeAllInWorkspace) {
@@ -108,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
     ui->dockWidget->setTitleBarWidget(new QWidget(this));
     ui->projectDock->setTitleBarWidget(new QWidget(this));
+    ui->debugDocker->setTitleBarWidget(new QWidget(this));
     connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
     connect(ui->loggerCompiler, &LoggerWidget::processFinished, [this](int exitCode, QProcess::ExitStatus exitStatus){
         Q_UNUSED(exitCode);
@@ -136,15 +139,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->debugUI->setLoggers(ui->loggerDebugger, ui->loggerApplication);
     connect(ui->projectView, &ProjectView::debugChange, [this](bool enabled){
         if (enabled)
-            ui->debugUI->startDebug(ui->projectView->projectPath().absolutePath());
+            ui->debugUI->startDebug();
         else
             ui->debugUI->stopDebug();
     });
-    connect(ui->debugUI, &DebugUI::debugStarted, [this](){
+
+    connect(GdbDebugger::instance(), &GdbDebugger::debugStarted, [this](){
         ui->debugDocker->setVisible(true);
         ui->projectView->debugStarted();
     });
-    connect(ui->debugUI, &DebugUI::debugStoped, [this](){
+    connect(GdbDebugger::instance(), &GdbDebugger::debugStoped, [this](){
         ui->projectView->debugStoped();
         ui->debugDocker->setVisible(false);
     });

@@ -2,6 +2,7 @@
 #define GDBSTARTDIALOG_H
 
 #include <QDialog>
+#include <makefileinfo.h>
 
 namespace Ui {
 class GDBStartDialog;
@@ -18,7 +19,7 @@ public:
         QStringList initCommands;
     };
 
-    explicit GDBStartDialog(const QString& currentProjectPath, QWidget *parent = 0);
+    explicit GDBStartDialog(const MakefileInfo& info, QWidget *parent = 0);
     ~GDBStartDialog();
 
     GdbConfig config() const;
@@ -34,7 +35,7 @@ private slots:
 
 private:
     Ui::GDBStartDialog *ui;
-    QString m_currentProjectPath;
+    const MakefileInfo &m_info;
 };
 
 #endif // GDBSTARTDIALOG_H

@@ -7,7 +7,6 @@ namespace Ui {
 class DebugUI;
 }
 
-class GdbDebugger;
 class DocumentArea;
 class ProjectView;
 class LoggerWidget;
@@ -24,12 +23,8 @@ public:
     void setProjectView(ProjectView *view) { this->view = view; }
     void setLoggers(LoggerWidget *gdbLog, LoggerWidget *appLog);
 
-    void startDebug(const QString& projectPath);
+    void startDebug();
     void stopDebug();
-
-signals:
-    void debugStarted();
-    void debugStoped();
 
 private slots:
     void on_debugRun_clicked();
@@ -42,7 +37,6 @@ private slots:
 
 private:
     Ui::DebugUI *ui;
-    GdbDebugger *iface;
     DocumentArea *docs;
     ProjectView *view;
     LoggerWidget *gdbLog;

@@ -123,15 +123,18 @@ class QStandardItem;
 class GdbDebugger : public QObject
 {
     Q_OBJECT
-public:
+private:
     GdbDebugger(QObject *parent = 0);
     ~GdbDebugger();
+
+public:
     enum VarItemDataRole{
         VarNameRole = Qt::UserRole + 1,
         VarNumChildRole,
         VarExpanded
     };
 
+    static GdbDebugger *instance();
 public:
     virtual QString mimeType() const;
     virtual QAbstractItemModel *debugModel(DEBUG_MODEL_TYPE type);
@@ -145,6 +148,7 @@ public:
     virtual void stepInto();
     virtual void stepOut();
     virtual void continueRun();
+    virtual void interruptRun();
     virtual void runToLine(const QString &fileName, int line);
     virtual void command(const QByteArray &cmd);
     virtual void enterAppText(const QString &text);
@@ -182,6 +186,8 @@ signals:
     void debugLog(DEBUG_LOG_TYPE type, const QString &log);
     void setExpand(DEBUG_MODEL_TYPE type, const QModelIndex &index, bool expanded);
     void setCurrentLine(const QString &fileName, int line);
+    void execStop(const QString& reason);
+    void execRunning();
     void setFrameLine(const QString &fileName, int line);
     void watchCreated(const QString &watch,const QString &name);
     void watchRemoved(const QString &watch);

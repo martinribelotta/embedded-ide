@@ -11,13 +11,7 @@ struct MakefileInfo {
     ETags tags;
     QString workingDir;
     QHash<QString, QString> allTargets;
-
-
     QStringList targets;
-    QStringList include;
-    QStringList defines;
-    QString cc_cflags;
-    QString cflags;
 };
 
 Q_DECLARE_METATYPE(MakefileInfo)

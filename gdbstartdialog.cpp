@@ -9,10 +9,10 @@
 
 #include "appconfig.h"
 
-GDBStartDialog::GDBStartDialog(const QString& currentProjectPath, QWidget *parent) :
+GDBStartDialog::GDBStartDialog(const MakefileInfo &info, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::GDBStartDialog),
-    m_currentProjectPath(currentProjectPath)
+    m_info(info)
 {
     ui->setupUi(this);
     ui->textEditCommands->setFont(AppConfig::systemMonoFont());
@@ -55,22 +55,30 @@ void GDBStartDialog::on_buttonLoadGDBExecutable_clicked()
 void GDBStartDialog::on_buttonLoadProgramExecutable_clicked()
 {
     QString name = QFileDialog::getOpenFileName(window(), tr("Open executable to debug"),
-                                                QDir::homePath(), tr(
+                                                m_info.workingDir, tr(
 #ifdef Q_OS_WIN
                                                     "Executables (*.exe);;"
 #endif
                                                     "All files (*)"));
     if (!name.isEmpty())
-        ui->editGdbExecutable->setText(name);
+        ui->editProgramExecutable->setText(name);
 }
 
-#ifdef Q_OS_UNIX
-#define EXEC_MIMETYPE "application/x-executable"
-#else
-#define EXEC_MIMETYPE "application/x-msdownload"
+static const QStringList EXEC_MIMETYPE_LIST = {
+    "application/x-executable",
+#ifdef Q_OS_WIN
+    "application/x-msdownload",
 #endif
+};
 
 static QMimeDatabase mimeDb;
+
+static bool isExecMimetype(const QMimeType& type) {
+    for(auto a: EXEC_MIMETYPE_LIST)
+        if (type.inherits(a))
+            return true;
+    return false;
+}
 
 static void findExecutables(QStandardItemModel *m, const QDir& path) {
     auto entries = path.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries);
@@ -80,7 +88,7 @@ static void findExecutables(QStandardItemModel *m, const QDir& path) {
         } else {
             QFile f(info.absoluteFilePath());
             QMimeType type = mimeDb.mimeTypeForFileNameAndData(info.absoluteFilePath(), &f);
-            if (type.inherits(EXEC_MIMETYPE)) {
+            if (isExecMimetype(type)) {
                 QStandardItem *item = new QStandardItem();
                 item->setText(info.fileName());
                 item->setData(QVariant(info.absoluteFilePath()));
@@ -92,7 +100,7 @@ static void findExecutables(QStandardItemModel *m, const QDir& path) {
 
 void GDBStartDialog::on_buttonFindProgramExecutable_clicked()
 {
-    QDialog dialog;
+    QDialog dialog(window());
     QListView *view = new QListView(&dialog);
     QHBoxLayout *layout = new QHBoxLayout(&dialog);
     layout->addWidget(view);
@@ -101,7 +109,7 @@ void GDBStartDialog::on_buttonFindProgramExecutable_clicked()
         Q_UNUSED(idx);
         dialog.accept();
     });
-    findExecutables(model, QDir(m_currentProjectPath));
+    findExecutables(model, QDir(m_info.workingDir));
     view->setModel(model);
     dialog.exec();
     auto itemIdx = view->currentIndex();
