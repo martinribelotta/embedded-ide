@@ -188,10 +188,11 @@ bool GdbDebugger::start(const QString &program, const QStringList& argv, const Q
 
     clear();
     QStringList args;
-    args << "-ex" << "set mi-async 1";
-    args << argv;
-    args << "--interpreter=mi";
-    args << progName;
+    args << "-iex" << "set mi-async 1"
+         << "-iex" << "set auto-load safe-path ."
+         << argv
+         << "--interpreter=mi"
+         << progName;
     m_process->start(m_gdbFilePath, args);
 
     QString log = QString("%1 %2 [%3]").arg(m_gdbFilePath).arg(args.join(' ')).arg(m_process->workingDirectory());

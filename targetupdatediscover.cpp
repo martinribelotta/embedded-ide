@@ -59,12 +59,26 @@ static QStringList filterTargetHeuristic(const QStringList& all)
     return targets;
 }
 
+static QStringList findPosiblePrefixes(const QString& text)
+{
+    QSet<QString> set;
+    QRegularExpression re(R"(\s?([a-zA-Z0-9\-\_]+\-)(?:gcc|g\+\+|clang|cc|cxx|c\+\+)\s+)",
+                          QRegularExpression::MultilineOption);
+    QRegularExpressionMatchIterator it = re.globalMatch(text);
+    while(it.hasNext()) {
+        QRegularExpressionMatch me = it.next();
+        set.insert(me.captured(1));
+    }
+    return set.toList();
+}
+
 void TargetUpdateDiscover::finish(int ret)
 {
     Q_UNUSED(ret);
     MakefileInfo info;
     QString text = proc->readAllStandardOutput();
     info.workingDir = proc->workingDirectory();
+    info.prefixs = findPosiblePrefixes(text);
     info.allTargets = findAllTargets(text);
     auto it = info.allTargets.cbegin();
     while (it != info.allTargets.cend()) {

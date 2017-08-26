@@ -10,6 +10,7 @@
 struct MakefileInfo {
     ETags tags;
     QString workingDir;
+    QStringList prefixs;
     QHash<QString, QString> allTargets;
     QStringList targets;
 };

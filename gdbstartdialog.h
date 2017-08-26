@@ -25,13 +25,9 @@ public:
     GdbConfig config() const;
 
 private slots:
-    void on_buttonLoadPredefinedConfig_clicked();
-
     void on_buttonLoadGDBExecutable_clicked();
 
     void on_buttonLoadProgramExecutable_clicked();
-
-    void on_buttonFindProgramExecutable_clicked();
 
 private:
     Ui::GDBStartDialog *ui;
