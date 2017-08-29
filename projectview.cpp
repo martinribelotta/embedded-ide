@@ -143,7 +143,7 @@ void ProjectView::openProject(const QString &projectFile)
     }
 }
 
-void ProjectView::setToolsOn(bool on)
+void ProjectView::setTargetsViewOn(bool on)
 {
     ui->targetList->setEnabled(on);
 }
@@ -236,7 +236,7 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
 void ProjectView::on_targetList_clicked(const QModelIndex &index)
 {
     QListWidgetItem *item = ui->targetList->item(index.row());
-    emit startBuild(item->text());
+    doTarget(item->text());
 }
 
 void ProjectView::onDocumentNew()

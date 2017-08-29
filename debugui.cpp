@@ -7,6 +7,7 @@
 #include "projectview.h"
 #include "gdbdebugger/gdbdebugger.h"
 
+#include <QTimer>
 #include <QtDebug>
 
 DebugUI::DebugUI(QWidget *parent) :
@@ -71,8 +72,16 @@ void DebugUI::startDebug()
         for(auto a: cfg.initCommands)
             if (!a.isEmpty())
                argv << "-ex" << a;
-        GdbDebugger::instance()->setWorkingDirectory(view->projectPath().absolutePath());
-        GdbDebugger::instance()->start(cfg.gdbProgram, argv, cfg.dbgProgram);
+        auto executor = [cfg, argv, this]() {
+            GdbDebugger::instance()->setWorkingDirectory(view->projectPath().absolutePath());
+            GdbDebugger::instance()->start(cfg.gdbProgram, argv, cfg.dbgProgram);
+        };
+        if (cfg.premakeTarget.isEmpty()) {
+            executor();
+        } else {
+            view->doTarget(cfg.premakeTarget);
+            QTimer::singleShot(cfg.startupDelay, executor);
+        }
     }
 }
 

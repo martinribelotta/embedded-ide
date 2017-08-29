@@ -8,8 +8,13 @@
 #include <QToolButton>
 #include <QRegularExpression>
 #include <QUrlQuery>
+#include <QTimer>
 
 #include <QtDebug>
+
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
 
 struct LoggerWidget::priv_t {
     QProcess *proc;
@@ -77,12 +82,13 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
         clearText();
     });
     connect(killProc, &QToolButton::clicked, [this]() {
-        QProcess *buildProc = d_ptr->proc;
-        buildProc->terminate();
-        if (!buildProc->waitForFinished(1000)) {
-            d_ptr->addText("Killing process...", Qt::red);
-            buildProc->kill();
-        }
+        d_ptr->proc->terminate();
+        QTimer::singleShot(1500, [this](){
+            if (d_ptr->proc->state() != QProcess::NotRunning) {
+                d_ptr->addText("Killing process...", Qt::red);
+                d_ptr->proc->kill();
+            }
+        });
     });
 
     view->setOpenExternalLinks(false);
@@ -142,6 +148,8 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
 
 LoggerWidget::~LoggerWidget()
 {
+    // FIXME: Prevent non terminated process to emit signals in destructor
+    d_ptr->proc->disconnect();
     delete d_ptr;
 }
 

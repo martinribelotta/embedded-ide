@@ -43,6 +43,29 @@ static QStringList findExecutables(const QDir& path) {
     return list;
 }
 
+static QStringList buildPosibleGdbNames(const QStringList& prefixsList)
+{
+    QStringList gdbPrefixed;
+    for(const auto& e: prefixsList)
+        gdbPrefixed << QString("%1gdb").arg(e);
+    gdbPrefixed << "gdb";
+    return gdbPrefixed;
+}
+
+static const QStringList POSIBLE_PRETARGET_MAKE = {
+    R"(.*debug\w*.*)",
+    R"(.*openocd.*)",
+};
+
+static int findPosiblePreTargetMake(const QComboBox *c)
+{
+    for(int i=0; i<c->count(); i++)
+        for(const auto& rt: POSIBLE_PRETARGET_MAKE)
+            if (QRegularExpression(rt).match(c->itemText(i)).hasMatch())
+                return i;
+    return 0;
+}
+
 GDBStartDialog::GDBStartDialog(const MakefileInfo &info, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::GDBStartDialog),
@@ -51,17 +74,14 @@ GDBStartDialog::GDBStartDialog(const MakefileInfo &info, QWidget *parent) :
     ui->setupUi(this);
     ui->textEditCommands->setFont(AppConfig::systemMonoFont());
 
-    auto executableListModel = new QStringListModel(findExecutables(QDir(m_info.workingDir)), this);
-    ui->comboProgramExecutable->setModel(executableListModel);
+    ui->comboProgramExecutable->addItems(findExecutables(QDir(m_info.workingDir)));
     ui->comboProgramExecutable->setCurrentIndex(0);
 
-    QStringList gdbPrefixed;
-    for(const auto& e: info.prefixs)
-        gdbPrefixed << QString("%1gdb").arg(e);
-    gdbPrefixed << "gdb";
-    auto gdbExecListModel = new QStringListModel(gdbPrefixed, this);
-    ui->comboGdbExecutable->setModel(gdbExecListModel);
+    ui->comboGdbExecutable->addItems(buildPosibleGdbNames(m_info.prefixs));
     ui->comboGdbExecutable->setCurrentIndex(0);
+
+    ui->comboPreTargetMake->addItems(m_info.targets);
+    ui->comboPreTargetMake->setCurrentIndex(findPosiblePreTargetMake(ui->comboPreTargetMake));
 }
 
 GDBStartDialog::~GDBStartDialog()
@@ -74,7 +94,10 @@ GDBStartDialog::GdbConfig GDBStartDialog::config() const
     return GdbConfig{
         ui->comboGdbExecutable->currentText(),
         ui->comboProgramExecutable->currentText(),
-        ui->textEditCommands->toPlainText().split(QRegularExpression(R"(\r?\n)"))
+        ui->groupPreTarget->isChecked()?
+                ui->comboPreTargetMake->currentText() : QString(),
+        ui->textEditCommands->toPlainText().split(QRegularExpression(R"(\r?\n)")),
+        ui->spinStartDelay->value()
     };
 }
 

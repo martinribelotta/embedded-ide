@@ -52,9 +52,12 @@ public:
 public slots:
     void closeProject();
     void openProject(const QString& projectFile);
-    void setToolsOn(bool on);
+    void setTargetsViewOn(bool on);
     void debugStarted();
     void debugStoped();
+    void doTarget(const QString& target) {
+        emit startBuild(target);
+    }
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);

@@ -23,6 +23,8 @@
 
 #include "appconfig.h"
 
+#include <Qsci/qscilexer.h>
+
 const QStringList FORMAT_STYLE = {
     "allman",
     "java",
@@ -188,10 +190,14 @@ void ConfigDialog::refreshEditor()
 {
     QString currentStyle = ui->colorStyleComboBox->currentText();
     ui->codeEditor->loadStyle(stylePath(currentStyle));
-    QFont fonts(ui->fontComboBox->font());
+    QFont fonts(ui->fontComboBox->currentFont());
     fonts.setPointSize(ui->fontSpinBox->value());
     ui->codeEditor->setFont(fonts);
     ui->codeEditor->setMarginsFont(fonts);
+    if (ui->codeEditor->lexer()) {
+        ui->codeEditor->lexer()->setDefaultFont(fonts);
+        ui->codeEditor->lexer()->setFont(fonts);
+    }
 }
 
 void ConfigDialog::on_projectPathSetButton_clicked()

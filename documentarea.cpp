@@ -230,6 +230,8 @@ bool DocumentArea::documentToClose(int idx)
     QWidget *w = tab->widget(idx);
     if (w) {
         if (w->close()) {
+            if (w == lastIpEditor)
+                lastIpEditor = nullptr;
             w->deleteLater();
             tab->removeTab(idx);
             return true;

@@ -115,7 +115,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->loggerCompiler, &LoggerWidget::processFinished, [this](int exitCode, QProcess::ExitStatus exitStatus){
         Q_UNUSED(exitCode);
         Q_UNUSED(exitStatus);
-        ui->projectView->setToolsOn(true);
+        ui->projectView->setTargetsViewOn(true);
     });
     connect(ui->projectView, &ProjectView::startBuild,
             [this](const QString &target) {
@@ -124,7 +124,7 @@ MainWindow::MainWindow(QWidget *parent) :
                     ui->projectView->projectPath().absolutePath();
                 QStringList args;
                 args << "-f" << ui->projectView->project() << target;
-                ui->projectView->setToolsOn(false);
+                ui->projectView->setTargetsViewOn(false);
                 ui->loggerCompiler->setWorkingDir(projectPath)
                     .startProcess("make", args);
               }

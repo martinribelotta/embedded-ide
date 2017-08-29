@@ -3,6 +3,7 @@
 #include "passwordpromtdialog.h"
 
 #include <QSettings>
+#include <QFontDatabase>
 #include <QDir>
 
 #define DEFAULT_PROJECT_PATH_ON_WS "projects"
@@ -28,6 +29,16 @@
 #define LOGGER_FONT_STYLE "behavior/logger/font/face"
 #define LOGGER_FONT_SIZE "behavior/logger/font/size"
 
+#if defined(Q_OS_WIN)
+# define PREFERRED_FIXED_FONT "Consolas"
+#elif defined(Q_OS_LINUX)
+# define PREFERRED_FIXED_FONT "Monospace"
+#elif defined(Q_OS_MAC)
+# define PREFERRED_FIXED_FONT "Monaco"
+#else
+# define PREFERRED_FIXED_FONT "Courier New"
+#endif
+
 static bool isFixedPitch(const QFont & font) {
     const QFontInfo fi(font);
     // qDebug() << fi.family() << fi.fixedPitch();
@@ -35,7 +46,7 @@ static bool isFixedPitch(const QFont & font) {
 }
 
 const QFont AppConfig::systemMonoFont() {
-    QFont font("monospace");
+    QFont font(PREFERRED_FIXED_FONT);
     if (isFixedPitch(font))
         return font;
     font.setStyleHint(QFont::Monospace);
