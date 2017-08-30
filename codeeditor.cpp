@@ -124,7 +124,6 @@ CodeEditor::CodeEditor(QWidget *parent) :
             if (GdbDebugger::instance()->isRunning()) {
                 qDebug() << "del mark in" << margin << line;
                 GdbDebugger::instance()->removeBreakPoint(m_documentFile, line);
-                markerDelete(line);
             }
         } else {
             if (GdbDebugger::instance()->isRunning()) {
@@ -141,7 +140,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
             if (thisFile == otherFile) {
                 line--;
                 breakPointMarkToLine.insert(id, line);
-                markerAdd(line, SC_MARK_ARROW);
+                markerAdd(line, SC_MARK_CIRCLE);
             }
         }
     });
@@ -151,6 +150,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
             markerDelete(line);
         }
     });
+    connect(GdbDebugger::instance(), &GdbDebugger::debugStoped, this, &CodeEditor::clearDebugPointer);
 
     connect(this, &QsciScintilla::linesChanged, this, &CodeEditor::adjustLineNumberMargin);
 
@@ -441,10 +441,10 @@ void CodeEditor::setDebugPointer(int line)
 {
     qDebug() << "set debug pointer " << line;
     if (ip != -1)
-       markerDelete(ip - 1, SC_MARK_BACKGROUND);
+       markerDelete(ip, SC_MARK_ARROW);
     ip = line;
     if (ip != -1) {
-       markerAdd(ip - 1, SC_MARK_BACKGROUND);
+       markerAdd(ip, SC_MARK_ARROW);
     }
 }
 
@@ -619,10 +619,11 @@ void CodeEditor::loadConfig()
     SendScintilla(SCI_SETADDITIONALSELECTIONTYPING, 1l, 0l);
 
     setMarginSensitivity(1, true);
+    markerDefine(QsciScintilla::Circle, SC_MARK_CIRCLE);
     markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
-    markerDefine(QsciScintilla::Background, SC_MARK_BACKGROUND);
     setMargins(3);
-    // setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
+    setMarkerBackgroundColor(QColor("#1111ee"), SC_MARK_CIRCLE);
+    setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
     setAnnotationDisplay(AnnotationIndented);
     adjustLineNumberMargin();
 }

@@ -55,7 +55,7 @@ public slots:
     void clearSelection();
     void findTagUnderCursor();
 
-    int getIp() const { return ip; }
+    int getDebugPointer() const { return ip; }
     void clearDebugPointer() { setDebugPointer(-1); }
     void setDebugPointer(int line);
 

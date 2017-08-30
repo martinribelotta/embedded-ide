@@ -14,6 +14,8 @@
 
 #ifdef Q_OS_WIN
 #include <windows.h>
+#elif defined(Q_OS_UNIX)
+#include <signal.h>
 #endif
 
 struct LoggerWidget::priv_t {
@@ -82,13 +84,55 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
         clearText();
     });
     connect(killProc, &QToolButton::clicked, [this]() {
+#ifdef Q_OS_UNIX
+        QProcess *psProc = new QProcess(this);
+        connect(psProc, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                [this, psProc](int){
+            QList<int> childPid;
+            QString out = psProc->readAllStandardOutput();
+            QRegularExpression re(R"((\d+)\s+(\d+)\s+(.*))");
+            auto mi = re.globalMatch(out);
+            while(mi.hasNext()) {
+                auto m = mi.next();
+                int pid = m.captured(1).toInt();
+                int ppid = m.captured(2).toInt();
+                QString comm = m.captured(3);
+                // qDebug() << "pid" << pid << "ppid" << ppid << comm;
+                if (ppid == d_ptr->proc->processId()) {
+                    qDebug() << comm << "parent for" << d_ptr->proc->processId();
+                    childPid.append(pid);
+                } else if (childPid.contains(ppid)) {
+                    qDebug() << comm << "child of child";
+                    childPid.append(pid);
+                }
+            }
+            qDebug() << "child proc" << childPid;
+            d_ptr->proc->terminate();
+            for(auto a: childPid)
+                kill(a, SIGQUIT);
+            QTimer::singleShot(1500, [this, childPid](){
+                if (d_ptr->proc->state() == QProcess::Running) {
+                    qDebug() << "killing owner";
+                    d_ptr->proc->kill();
+                    qDebug() << "killing child";
+                    for(auto a: childPid)
+                        kill(a, SIGKILL);
+                }
+            });
+            psProc->deleteLater();
+        });
+        psProc->start("ps -axo pid,ppid,comm");
+#else
         d_ptr->proc->terminate();
+#endif
+#if 0
         QTimer::singleShot(1500, [this](){
             if (d_ptr->proc->state() != QProcess::NotRunning) {
                 d_ptr->addText("Killing process...", Qt::red);
                 d_ptr->proc->kill();
             }
         });
+#endif
     });
 
     view->setOpenExternalLinks(false);
