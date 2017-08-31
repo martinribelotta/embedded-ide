@@ -14,6 +14,41 @@
 
 #ifdef Q_OS_WIN
 #include <windows.h>
+
+#include <tlhelp32.h>
+
+struct ProcessInfo_t {
+    long pid;
+    long ppid;
+    QString comm;
+};
+
+QList<ProcessInfo_t> GetRawProcessList() {
+    QList<ProcessInfo_t> process_info;
+    // Fetch the PID and PPIDs
+    PROCESSENTRY32 process_entry;
+    HANDLE snapshot_handle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (snapshot_handle == NULL) {
+        qDebug() << "CreateToolhelp32Snapshot fail";
+        return process_info;
+    }
+    process_entry.dwSize = sizeof(PROCESSENTRY32);
+    if (Process32First(snapshot_handle, &process_entry)) {
+        do {
+            if (process_entry.th32ProcessID != 0) {
+                ProcessInfo_t pi;
+                pi.pid = static_cast<long>(process_entry.th32ProcessID);
+                pi.ppid = static_cast<long>(process_entry.th32ParentProcessID);
+                pi.comm = QString::fromWCharArray(process_entry.szExeFile);
+                process_info.append(pi);
+            }
+        } while (Process32Next(snapshot_handle, &process_entry));
+    } else
+        qDebug() << "Process32First fail";
+    CloseHandle(snapshot_handle);
+    return process_info;
+}
+
 #elif defined(Q_OS_UNIX)
 #include <signal.h>
 #endif
@@ -122,6 +157,31 @@ LoggerWidget::LoggerWidget(QWidget *parent) :
             psProc->deleteLater();
         });
         psProc->start("ps -axo pid,ppid,comm");
+#elif defined(Q_OS_WIN)
+        auto list = GetRawProcessList();
+        QList<int> childPid;
+        for(const auto& pinfo: list) {
+            if (pinfo.ppid == d_ptr->proc->processId()) {
+                qDebug() << pinfo.comm << "parent for" << d_ptr->proc->processId();
+                childPid.append(pinfo.pid);
+            } else if (childPid.contains(pinfo.ppid)) {
+                qDebug() << pinfo.comm << "child of child";
+                childPid.append(pinfo.pid);
+            }
+        }
+        qDebug() << "child proc" << childPid;
+        d_ptr->proc->terminate();
+        for(auto pid: childPid) {
+            auto h = OpenProcess(PROCESS_ALL_ACCESS, false, static_cast<DWORD>(pid));
+            TerminateProcess(h, 1);
+            CloseHandle(h);
+        }
+        QTimer::singleShot(1500, [this, childPid](){
+            if (d_ptr->proc->state() == QProcess::Running) {
+                qDebug() << "killing owner";
+                d_ptr->proc->kill();
+            }
+        });
 #else
         d_ptr->proc->terminate();
 #endif
