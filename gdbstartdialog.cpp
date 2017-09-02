@@ -103,7 +103,7 @@ void GDBStartDialog::on_buttonLoadGDBExecutable_clicked()
 {
     QString name = QFileDialog::getOpenFileName(window(), tr("Open GDB executable"),
                                                 QDir::homePath(),
-                                                tr("GDB Configuration files (*gdb*);;"
+                                                tr("GDB executable (*gdb*);;"
                                                    "All files (*)"));
     if (!name.isEmpty())
         ui->comboGdbExecutable->setCurrentText(name);
@@ -112,11 +112,13 @@ void GDBStartDialog::on_buttonLoadGDBExecutable_clicked()
 void GDBStartDialog::on_buttonLoadProgramExecutable_clicked()
 {
     QString name = QFileDialog::getOpenFileName(window(), tr("Open executable to debug"),
-                                                m_info.workingDir, tr(
-#ifdef Q_OS_WIN
-                                                    "Executables (*.exe);;"
-#endif
-                                                    "All files (*)"));
+                                                m_info.workingDir,
+                                            #ifdef Q_OS_WIN
+                                                tr("Executables (*.exe);;All files (*)")
+                                            #else
+                                                tr("All files (*)")
+                                            #endif
+                                                );
     if (!name.isEmpty()) {
         ui->comboProgramExecutable->setCurrentText(name);
     }
