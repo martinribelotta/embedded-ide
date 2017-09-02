@@ -18,7 +18,6 @@ public:
         QString dbgProgram;
         QString premakeTarget;
         QStringList initCommands;
-        int startupDelay;
     };
 
     explicit GDBStartDialog(const MakefileInfo& info, QWidget *parent = 0);

@@ -72,7 +72,6 @@ ProjectView::ProjectView(QWidget *parent) :
     projectButtons += ui->toolButton_startDebug;
 
     ui->toolButton_tools->setMenu(createExternalToolsMenu());
-    debugStatus = false;
 }
 
 ProjectView::~ProjectView()
@@ -151,13 +150,13 @@ void ProjectView::setTargetsViewOn(bool on)
 void ProjectView::debugStarted()
 {
     ui->toolButton_startDebug->setIcon(QIcon(":/images/actions/media-playback-stop.svg"));
-    debugStatus = true;
+    setProperty("onDebug", true);
 }
 
 void ProjectView::debugStoped()
 {
-    debugStatus = false;
-    ui->toolButton_startDebug->setIcon(QIcon(":/images/actions/media-playback-start.svg"));
+    setProperty("onDebug", false);
+    ui->toolButton_startDebug->setIcon(QIcon(":/images/actions/debug.svg"));
 }
 
 void ProjectView::on_treeView_activated(const QModelIndex &index)
@@ -510,5 +509,5 @@ void ProjectView::on_toolButton_find_clicked()
 
 void ProjectView::on_toolButton_startDebug_clicked()
 {
-    emit debugChange(!debugStatus);
+    emit debugChange(!property("onDebug").toBool());
 }

@@ -94,10 +94,8 @@ GDBStartDialog::GdbConfig GDBStartDialog::config() const
     return GdbConfig{
         ui->comboGdbExecutable->currentText(),
         ui->comboProgramExecutable->currentText(),
-        ui->groupPreTarget->isChecked()?
-                ui->comboPreTargetMake->currentText() : QString(),
+        ui->groupPreTarget->isChecked()? ui->comboPreTargetMake->currentText() : QString(),
         ui->textEditCommands->toPlainText().split(QRegularExpression(R"(\r?\n)")),
-        ui->spinStartDelay->value()
     };
 }
 

@@ -98,7 +98,6 @@ private:
     TagList *tagList;
     QList<QToolButton*> projectButtons;
     QLabel *labelStatus;
-    bool debugStatus;
 
     QMenu *createExternalToolsMenu();
 };

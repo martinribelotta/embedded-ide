@@ -130,5 +130,6 @@
         <file>styles/Material-Dark.xml</file>
         <file>images/document-close-all.svg</file>
         <file>images/actions/media-playback-pause.svg</file>
+        <file>images/actions/debug.svg</file>
     </qresource>
 </RCC>

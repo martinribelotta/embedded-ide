@@ -16,15 +16,25 @@ DebugUI::DebugUI(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QList<QAbstractButton*> rungroup{ ui->debugNext, ui->debugNextInto, ui->debugNextToEnd };
+    auto enableRunGroup = [rungroup]() { for(auto b: rungroup) b->setEnabled(true);  };
+    auto disableRunGroup = [rungroup]() { for(auto b: rungroup) b->setEnabled(false);  };
+
+    disableRunGroup();
     setEnabled(false);
     setProperty("isRunning", false);
-    connect(GdbDebugger::instance(), &GdbDebugger::debugStarted, [this]() { setEnabled(true); });
+
+    connect(GdbDebugger::instance(), &GdbDebugger::debugStarted, [this]() { setEnabled(true);  });
+    connect(GdbDebugger::instance(), &GdbDebugger::debugStarted, enableRunGroup);
     connect(GdbDebugger::instance(), &GdbDebugger::debugStoped, [this]() { setEnabled(false); });
+    connect(GdbDebugger::instance(), &GdbDebugger::debugStoped, disableRunGroup);
+    connect(GdbDebugger::instance(), &GdbDebugger::execStop, enableRunGroup);
     connect(GdbDebugger::instance(), &GdbDebugger::execStop, [this](const QString& r) {
         qDebug() << "stoped by" << r;
         setProperty("isRunning", false);
         ui->debugRun->setIcon(QIcon(":/images/actions/media-playback-start.svg"));
     });
+    connect(GdbDebugger::instance(), &GdbDebugger::execRunning, disableRunGroup);
     connect(GdbDebugger::instance(), &GdbDebugger::execRunning, [this]() {
         qDebug() << "exec run";
         setProperty("isRunning", true);
@@ -76,12 +86,8 @@ void DebugUI::startDebug()
             GdbDebugger::instance()->setWorkingDirectory(view->projectPath().absolutePath());
             GdbDebugger::instance()->start(cfg.gdbProgram, argv, cfg.dbgProgram);
         };
-        if (cfg.premakeTarget.isEmpty()) {
-            executor();
-        } else {
-            view->doTarget(cfg.premakeTarget);
-            QTimer::singleShot(cfg.startupDelay, executor);
-        }
+        view->doTarget(cfg.premakeTarget);
+        executor();
     }
 }
 

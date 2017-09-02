@@ -99,7 +99,7 @@
    <item>
     <widget class="QGroupBox" name="groupPreTarget">
      <property name="title">
-      <string>Execute make target before gdb startup</string>
+      <string>Execute &amp;make target before gdb startup</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -118,22 +118,6 @@
         </property>
         <property name="editable">
          <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="spinStartDelay">
-        <property name="suffix">
-         <string> miliseconds</string>
-        </property>
-        <property name="prefix">
-         <string>Start before of </string>
-        </property>
-        <property name="maximum">
-         <number>99999999</number>
-        </property>
-        <property name="value">
-         <number>1500</number>
         </property>
        </widget>
       </item>
