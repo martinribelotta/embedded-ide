@@ -153,6 +153,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     connect(GdbDebugger::instance(), &GdbDebugger::debugStoped, this, &CodeEditor::clearDebugPointer);
 
     connect(this, &QsciScintilla::linesChanged, this, &CodeEditor::adjustLineNumberMargin);
+    connect(this, &CodeEditor::selectionChanged, this, &CodeEditor::textSelected);
 
     loadConfig();
     connect(&AppConfig::mutableInstance(), &AppConfig::configChanged, this, &CodeEditor::loadConfig);
@@ -208,6 +209,22 @@ QRect CodeEditor::cursorRect() const
     int sizey = static_cast<int>(SendScintilla(SCI_TEXTHEIGHT, static_cast<unsigned long>(pos_line), 0l));
     QRect r(x, y, sizex, sizey);
     return r;
+}
+
+int CodeEditor::findText(const QString &text, int flags, int start, int *targend)
+{
+    ScintillaBytes s = textAsBytes(text);
+    int endpos = SendScintilla(SCI_GETLENGTH);
+    SendScintilla(SCI_SETSEARCHFLAGS, flags);
+    SendScintilla(SCI_SETTARGETSTART, start);
+    SendScintilla(SCI_SETTARGETEND, endpos);
+
+    int pos = SendScintilla(SCI_SEARCHINTARGET, s.length(), ScintillaBytesConstData(s));
+    if (pos == -1)
+        return -1;
+    long targstart = SendScintilla(SCI_GETTARGETSTART);
+    *targend = SendScintilla(SCI_GETTARGETEND);
+    return targstart;
 }
 
 void CodeEditor::completionShow()
@@ -452,6 +469,28 @@ void CodeEditor::adjustLineNumberMargin()
 {
     QFontMetrics m(font());
     setMarginWidth(0, m.width(QString().fill('0', 2 + static_cast<int>(std::log10(lines())))));
+}
+
+void CodeEditor::textSelected()
+{
+    int editorLength = SendScintilla(SCI_GETLENGTH);
+    SendScintilla(SCI_SETINDICATORCURRENT, 0);
+    SendScintilla(SCI_INDICATORCLEARRANGE, 0, editorLength);
+
+    QString word = selectedText();
+    if (word.isEmpty())
+        return;
+
+    SendScintilla(SCI_INDICSETSTYLE, 0, INDIC_ROUNDBOX);
+    SendScintilla(SCI_INDICSETFORE, 0, 255);
+
+    int endpos = 0;
+    int startpos = 0;
+    startpos = findText(word, SCFIND_WHOLEWORD, startpos, &endpos);
+    while(startpos != -1) {
+        SendScintilla(SCI_INDICATORFILLRANGE, startpos, endpos - startpos);
+        startpos = findText(word, SCFIND_WHOLEWORD, endpos + 1, &endpos);
+    }
 }
 
 QString CodeEditor::wordUnderCursor() const {

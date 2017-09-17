@@ -61,6 +61,7 @@ public slots:
 
 private slots:
     void adjustLineNumberMargin();
+    void textSelected();
 
 signals:
     void fileError(const QString& errorText);
@@ -74,6 +75,7 @@ private:
     void completionShow();
     QMenu *createContextMenu();
     QRect cursorRect() const;
+    int findText(const QString& text, int flags, int start, int *targend);
 
     FormFindReplace *replaceDialog;
     QCompleter *m_completer;
