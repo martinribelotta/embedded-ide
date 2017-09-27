@@ -61,6 +61,7 @@ struct LoggerWidget::priv_t {
 
     void addText(const QString &text, QColor color) {
         QTextCursor c = view->textCursor();
+        c.movePosition(QTextCursor::End);
         c.insertHtml(QString("<span style=\"color: %2\">%1</span>")
                      .arg(text)
                      .arg(color.name()));
