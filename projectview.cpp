@@ -21,6 +21,7 @@
 #include <QtConcurrent>
 #include <QtDebug>
 #include <QPushButton>
+#include <QStylePainter>
 
 #include "projecticonprovider.h"
 #include "targetupdatediscover.h"
@@ -52,6 +53,34 @@ QVariant MyFileSystemModel::headerData(int section, Qt::Orientation orientation,
     }
     return QFileSystemModel::headerData(section,orientation,role);
 }
+
+class MyButton : public QToolButton {
+public:
+  explicit MyButton(QWidget* parent = nullptr) : QToolButton(parent) {}
+  virtual ~MyButton() {}
+
+  void setPixmap(const QPixmap& pixmap) { m_pixmap = pixmap; }
+
+  virtual QSize sizeHint() const override {
+    const auto parentHint = QToolButton::sizeHint();
+    // add margins here if needed
+    return QSize(parentHint.width() + m_pixmap.width(), std::max(parentHint.height(), m_pixmap.height()));
+  }
+
+protected:
+  virtual void paintEvent(QPaintEvent* e) override {
+    QToolButton::paintEvent(e);
+
+    if (!m_pixmap.isNull()) {
+      const int y = (height() - m_pixmap.height()) / 2; // add margin if needed
+      QPainter painter(this);
+      painter.drawPixmap(5, y, m_pixmap); // hardcoded horizontal margin
+    }
+  }
+
+private:
+  QPixmap m_pixmap;
+};
 
 ProjectView::ProjectView(QWidget *parent) :
     QWidget(parent),
@@ -194,17 +223,14 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
         QIcon icon = QIcon(QString("://images/actions/%1.svg").arg(iconName));
         QListWidgetItem *item = new QListWidgetItem;
         ui->targetList->addItem(item);
-        QToolButton *button = new QToolButton;
+        auto *button = new QPushButton;
         button->setIcon(icon);
+        button->setIconSize(QSize(32, 32));
         button->setText(toHumanReadable(text));
-        button->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         button->setStyleSheet ("text-align: left; padding: 4px;");
-        button->setAutoRaise(true);
         ui->targetList->setItemWidget(item, button);
         item->setSizeHint(button->sizeHint());
-        connect(button, &QToolButton::clicked, [text, this](){
-            emit startBuild(text);
-        });
+        connect(button, &QPushButton::clicked, [text, this](){ emit startBuild(text); });
     }
     sender()->deleteLater();
     auto ctagProc = new QProcess(this);

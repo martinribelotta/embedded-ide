@@ -8,17 +8,40 @@
 #include <QTabWidget>
 #include <QTabBar>
 #include <QtDebug>
+#include <QSvgRenderer>
 
 void TabWidget::tabInserted(int) { emit refresh(); }
 void TabWidget::tabRemoved(int) { emit refresh(); }
+
+static QPixmap loadImage(const QSize& size = QSize(256,256))
+{
+    QString url = ":/images/embedded-ide.svg";
+    QImage img(size, QImage::Format_ARGB32);
+    img.fill(QColor(0, 0, 0, 0));
+    QPainter p(&img);
+    QSvgRenderer r(url);
+    r.render(&p, QRect(QPoint(), size));
+    return QPixmap::fromImage(img);
+}
 
 DocumentArea::DocumentArea(QWidget *parent) :
     QWidget(parent),
     tab(nullptr),
     lastIpEditor(nullptr)
 {
-    auto l1 = new QVBoxLayout(this);
-    auto buttonBox = new QWidget(this);
+    QStackedLayout *topLayout = new QStackedLayout(this);
+    topLayout->setObjectName("topLayout");
+    QLabel *imageLabel = new QLabel(this);
+    imageLabel->setPixmap(loadImage());
+    imageLabel->setAlignment (Qt::AlignCenter);
+    imageLabel->setBackgroundRole(QPalette::Base);
+    imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    QWidget *mainFrame = new QWidget(this);
+    topLayout->addWidget(imageLabel);
+    topLayout->addWidget(mainFrame);
+    topLayout->setCurrentIndex(0);
+    auto l1 = new QVBoxLayout(mainFrame);
+    auto buttonBox = new QWidget(mainFrame);
     auto buttonBoxLayout = new QHBoxLayout(buttonBox);
     buttonBoxLayout->setMargin(0);
     buttonBoxLayout->setSpacing(0);
@@ -34,10 +57,10 @@ DocumentArea::DocumentArea(QWidget *parent) :
     windowListModel = new QStandardItemModel(this);
     windowListCombo->setModel(windowListModel);
     windowListCombo->setObjectName("windowListCombo");
-    tab = new TabWidget(this);
-    connect(tab, &TabWidget::refresh, [this, buttonBox]() {
+    tab = new TabWidget(mainFrame);
+    connect(tab, &TabWidget::refresh, [this, topLayout]() {
         windowListModel->clear();
-        buttonBox->setEnabled(tab->count() > 0);
+        topLayout->setCurrentIndex((tab->count() > 0)? 1 : 0);
         for(int i=0; i<tab->count(); i++) {
             QWidget *w = tab->widget(i);
             QStandardItem *item = new QStandardItem(tab->tabText(i));
@@ -96,7 +119,7 @@ DocumentArea::DocumentArea(QWidget *parent) :
     l1->setMargin(0);
     l1->setContentsMargins(0, 0, 0, 0);
     l1->setSpacing(0);
-    buttonBox->setEnabled(tab->count() > 0);
+    topLayout->setCurrentIndex((tab->count() > 0)? 1 : 0);
 }
 
 DocumentArea::~DocumentArea()
@@ -306,10 +329,11 @@ void DocumentArea::tabDestroy(QObject *obj)
 
 int DocumentArea::documentFind(const QString &file, QWidget **ww)
 {
+    QFileInfo fileInfo(file);
     for(int i=0; i<tab->count(); i++) {
         QWidget *w = tab->widget(i);
         if (w) {
-            if (w->windowFilePath() == file) {
+            if (QFileInfo(w->windowFilePath()) == fileInfo) {
                 if (ww)
                     *ww = w;
                 return i;

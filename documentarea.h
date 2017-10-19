@@ -57,8 +57,7 @@ public slots:
 
 protected:
     void windowListUpdate();
-    void resizeEvent(QResizeEvent *event);
-
+    void resizeEvent(QResizeEvent *event) override;
 
 private slots:
     bool documentToClose(int idx);
