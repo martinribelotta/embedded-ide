@@ -49,7 +49,7 @@ static QStringList filterTargetHeuristic(const QStringList& all)
 {
     QStringList targets;
     QRegularExpression re("^[a-zA-Z0-9_]+$");
-    foreach(QString target, all) {
+    for(const auto& target: all) {
         if (target == QString("Makefile"))
             continue;
         QRegularExpressionMatch m = re.match(target);

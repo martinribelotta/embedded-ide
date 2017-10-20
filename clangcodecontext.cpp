@@ -33,8 +33,7 @@ void CLangCodeContext::setWorkingDir(const QString &path)
 
 static const QStringList prepend(const QString& s, const QStringList& l) {
     QStringList r;
-    foreach(QString x, l)
-        r.append(s + x);
+    for(const auto& x: l) r.append(s + x);
     return r;
 }
 
@@ -141,7 +140,7 @@ static void parseCompilerInfo(const QString& text, QStringList *incs, QStringLis
     Q_UNUSED(defs);
 #endif
     bool onIncludes = false;
-    foreach(QString line, text.split('\n')) {
+    for(const auto& line: text.split('\n')) {
         if (!onIncludes) {
             if (line.startsWith("#include <")) {
                 onIncludes = true;
@@ -189,7 +188,7 @@ void CLangCodeContext::discoverFor(const QString &path)
                     QStringList parameterList = cmdLineTokenizer(parameters);
                     QList<int> toRemove;
                     int idx = 0;
-                    foreach(QString arg, parameterList) {
+                    for(const auto& arg: parameterList) {
                         if (arg.startsWith("-I"))
                             includes.append(QString(arg).remove(0, 2));
                         else if (arg.startsWith("-D"))
@@ -206,7 +205,7 @@ void CLangCodeContext::discoverFor(const QString &path)
                     }
                     qSort(toRemove.begin(), toRemove.end(),
                           [](int a, int b) -> bool { return a > b; });
-                    foreach(int i, toRemove)
+                    for(const auto& i: toRemove)
                         parameterList.removeAt(i);
                     parameterList.append("-dM");
                     parameterList.append("-E");
@@ -223,7 +222,7 @@ void CLangCodeContext::discoverFor(const QString &path)
                         temporaryDefines->setObjectName("temporaryDefines");
                         if (temporaryDefines->open()) {
                             QTextStream stream(temporaryDefines);
-                            foreach(QString line, defines) {
+                            for(const auto& line: defines) {
                                 stream << QString("%1\n").arg(line);
                             }
                             temporaryDefines->close();

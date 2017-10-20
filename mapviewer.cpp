@@ -370,7 +370,7 @@ bool MapViewer::load(const QString &path)
                                                            }));
         qSort(data.memoryRegions.begin(), data.memoryRegions.end(),
               [](const MemoryRegion& a, const MemoryRegion& b) -> bool { return a.used > b.used; });
-        foreach(auto r, data.memoryRegions) {
+        for(const auto& r: data.memoryRegions) {
             QList<QStandardItem*> items;
             items += new QStandardItem(r.name);
             items += new QStandardItem(toHex(r.base));
@@ -392,7 +392,7 @@ bool MapViewer::load(const QString &path)
         ui->symbolsTable->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
         ui->symbolsTable->header()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
         ui->symbolsTable->header()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
-        foreach(QString name, data.memoryMap.keys()) {
+        for(const auto& name: data.memoryMap.keys()) {
             Section section = data.memoryMap.value(name);
             QList<QStandardItem*> items;
             items += new QStandardItem(name.isEmpty()? tr("Symbols without section") : name);
@@ -403,7 +403,7 @@ bool MapViewer::load(const QString &path)
             items += new QStandardItem(toHumanReadableSize(section.size));
             items.last()->setData(section.size, Qt::UserRole);
             symbolsTree->appendRow(items);
-            foreach(auto tru, section.translationUnits) {
+            for(const auto& tru: section.translationUnits) {
                 if (tru.symbols.isEmpty())
                     continue;
                 QList<QStandardItem*> childItems;
@@ -414,7 +414,7 @@ bool MapViewer::load(const QString &path)
                 childItems += new QStandardItem(toHumanReadableSize(tru.size));
                 childItems.last()->setData(tru.size, Qt::UserRole);
                 items.first()->appendRow(childItems);
-                foreach(auto symbol,tru.symbols) {
+                for(const auto& symbol: tru.symbols) {
                     QList<QStandardItem*> symbolItems;
                     symbolItems += new QStandardItem(symbol.expr);
                     symbolItems += new QStandardItem(toHex(symbol.value));

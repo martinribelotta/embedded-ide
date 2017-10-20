@@ -46,7 +46,7 @@ static QFileInfoList lastProjectsList(bool includeAllInWorkspace = true) {
     QFileInfoList list;
     if (includeAllInWorkspace) {
         QDir prjDir(AppConfig::mutableInstance().buildDefaultProjectPath());
-        foreach(QFileInfo dirInfo, prjDir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot)) {
+        for(const auto& dirInfo: prjDir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot)) {
             QDir dir(dirInfo.absoluteFilePath());
             QFileInfo make(dir.absoluteFilePath("Makefile"));
             if (make.exists()) {
@@ -57,7 +57,7 @@ static QFileInfoList lastProjectsList(bool includeAllInWorkspace = true) {
     }
     QSettings sets;
     sets.beginGroup("last_projects");
-    foreach(QString k, sets.allKeys()) {
+    for(const auto& k: sets.allKeys()) {
         QFileInfo make(sets.value(k).toString());
         if (make.exists() && !list.contains(make))
                 list.append(make);
@@ -69,7 +69,7 @@ static QFileInfoList lastProjectsList(bool includeAllInWorkspace = true) {
 static void removeFromLastProject(const QString& path) {
     QSettings sets;
     sets.beginGroup("last_projects");
-    foreach(QString key, sets.allKeys()) {
+    for(const auto& key: sets.allKeys()) {
         if (sets.value(key) == path) {
             sets.remove(key);
             break;
@@ -201,7 +201,7 @@ MainWindow::MainWindow(QWidget *parent) :
     configChanged(&AppConfig::mutableInstance());
     statusBar()->showMessage(tr("Application ready..."), 1500);
     statusBar()->hide();
-    foreach(QToolButton *b, findChildren<QToolButton*>())
+    for(auto *b: findChildren<QToolButton*>())
         b->setAutoRaise(true);
 }
 

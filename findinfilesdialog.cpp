@@ -48,7 +48,7 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
     auto filterListView = new QListView(this);
     filterListView->setEditTriggers(QListView::NoEditTriggers);
     auto filterModel = new QStandardItemModel(filterListView);
-    foreach(QString e, STANDARD_FILTERS) {
+    for(const auto& e: STANDARD_FILTERS) {
         auto i = new QStandardItem(e);
         i->setCheckable(true);
         filterModel->appendRow(i);

@@ -90,7 +90,7 @@ void ConfigDialog::load()
     ui->codeEditor->load(":/help/reference-code.c");
     ui->codeEditor->setReadOnly(true);
     QDir d(":/styles/");
-    foreach(QString path, d.entryList(QStringList("*.xml"))) {
+    for(const auto& path: d.entryList(QStringList("*.xml"))) {
         ui->colorStyleComboBox->addItem(styleName(path));
     }
 
@@ -222,7 +222,7 @@ void ConfigDialog::on_tbPathAdd_clicked()
 
 void ConfigDialog::on_tbPathRm_clicked()
 {
-    foreach(QModelIndex idx, ui->additionalPathList->selectionModel()->selectedIndexes()) {
+    for(const auto& idx: ui->additionalPathList->selectionModel()->selectedIndexes()) {
         ui->additionalPathList->model()->removeRow(idx.row());
     }
 }
@@ -295,7 +295,7 @@ void ConfigDialog::on_projectTemplatesDownload_clicked()
         Q_UNUSED(url);
         QJsonDocument contents = QJsonDocument::fromJson(data);
         if (!contents.isNull() && contents.isArray()) {
-            foreach(QJsonValue entry, contents.array()) {
+            for(const auto& entry: contents.array()) {
                 QJsonObject oEntry = entry.toObject();
                 QString name = oEntry.value("name").toString();
                 QString download_url = oEntry.value("download_url").toString();

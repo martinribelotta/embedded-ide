@@ -27,14 +27,14 @@ void MainMenuWidget::setProjectList(const QFileInfoList &list)
 {
     model->clear();
     m_projectList = list;
-    foreach(QFileInfo info, m_projectList) {
+    for(const auto& info: m_projectList) {
         if (info.exists()) {
             QString name = QFileInfo(QDir(info.path()).path()).fileName();
             //QString path = info.path();
             //QStringList pathPart = path.split(QDir::separator());
             //QString name = pathPart.last();
             auto item = new QStandardItem(name);
-            item->setToolTip(info.absoluteFilePath());
+            item->setToolTip(info.absolutePath());
             item->setData(QVariant::fromValue(info), Qt::UserRole);
             item->setIcon(QIcon("://images/mimetypes/text-x-makefile.svg"));
             model->appendRow(item);

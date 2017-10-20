@@ -164,6 +164,9 @@
       <enum>Qt::Vertical</enum>
      </property>
      <widget class="QTreeView" name="treeView">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
       <property name="editTriggers">
        <set>QAbstractItemView::EditKeyPressed</set>
       </property>

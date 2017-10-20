@@ -347,10 +347,10 @@ static QsciLexer *lexerFromFile(const QString& name) {
         qDebug() << "for" << name << "mime found as" << mimename;
         return creatorMap.value(mimename)();
     }
-    foreach(mimename, type.parentMimeTypes()) {
-        if (creatorMap.contains(mimename)) {
-            qDebug() << "for" << name << "parent mime found as" << mimename;
-            return creatorMap.value(mimename)();
+    for(const auto& mname: type.parentMimeTypes()) {
+        if (creatorMap.contains(mname)) {
+            qDebug() << "for" << name << "parent mime found as" << mname;
+            return creatorMap.value(mname)();
         }
     }
     return nullptr;

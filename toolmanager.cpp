@@ -35,11 +35,7 @@ void ToolManager::setTools(const ProjectView::EntryList_t &toolList)
 {
     model->clear();
     model->setHorizontalHeaderLabels(QStringList{ tr("Name"), tr("Command") });
-    foreach(auto e, toolList) {
-        QString k = e.first;
-        QString v = e.second.toString();
-        model->appendRow(makeItem(k, v));
-    }
+    for(const auto& e: toolList) model->appendRow(makeItem(e.first, e.second.toString()));
     ui->itemsTableView->resizeColumnsToContents();
 }
 
@@ -87,7 +83,7 @@ void ToolManager::on_toolButton_itemUp_clicked()
         selectable.append(toRow);
         m.removeLast();
     }
-    foreach(int row, selectable)
+    for(auto row: selectable)
         ui->itemsTableView->selectRow(row);
 }
 
@@ -105,7 +101,7 @@ void ToolManager::on_toolButton_itemDown_clicked()
         selectable.append(toRow);
         m.removeLast();
     }
-    foreach(int row, selectable)
+    for(auto row: selectable)
         ui->itemsTableView->selectRow(row);
 }
 

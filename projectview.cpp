@@ -141,7 +141,7 @@ void ProjectView::closeProject()
         ui->treeView->setModel(nullptr);
     }
     ui->targetList->clear();
-    foreach(QToolButton *b, projectButtons) b->setEnabled(false);
+    for(auto b: projectButtons) b->setEnabled(false);
 }
 
 void ProjectView::openProject(const QString &projectFile)
@@ -167,7 +167,7 @@ void ProjectView::openProject(const QString &projectFile)
         auto discover = new TargetUpdateDiscover(this);
         connect(discover, SIGNAL(updateFinish(MakefileInfo)), this, SLOT(updateMakefileInfo(MakefileInfo)));
         discover->start(project());
-        foreach(QToolButton *b, projectButtons) b->setEnabled(true);
+        for(auto b: projectButtons) b->setEnabled(true);
     }
 }
 
@@ -218,7 +218,7 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
     ui->targetList->clear();
     QStringList orderedTargets = mk_info.targets;
     orderedTargets.sort();
-    foreach(QString text, orderedTargets) {
+    for(const auto& text: orderedTargets) {
         QString iconName = mapNameToMkIcon.contains(text)? mapNameToMkIcon.value(text) : "run-build";
         QIcon icon = QIcon(QString("://images/actions/%1.svg").arg(iconName));
         QListWidgetItem *item = new QListWidgetItem;
@@ -338,7 +338,7 @@ void ProjectView::onElementDel()
         msg.addButton(QMessageBox::Cancel);
     }
     int last = -1;
-    foreach(QModelIndex idx, items) {
+    for(const auto& idx: items) {
         QModelIndex parent = idx.parent();
         QString name = m->filePath(idx);
         bool doForAll = false;
@@ -451,19 +451,11 @@ static ProjectView::EntryList_t loadEntries()
         }
     }
 
-    QJsonDocument doc = QJsonDocument::fromJson(::getenv("EMBEDDED_IDE_TOOLS"));
-    if (doc.isArray()) {
-        QJsonArray a = doc.array();
-        foreach(QJsonValue e, a) {
-            QJsonObject o = e.toObject();
-            QString k = o.value("name").toString();
-            QString v = o.value("command").toString();
-            ProjectView::Entry_t en{ k, v };
-            if (!k.isEmpty() && !v.isEmpty()) {
-                if (!list.contains(en))
-                    list.append(en);
-            }
-        }
+    for(auto e: QJsonDocument::fromJson(::getenv("EMBEDDED_IDE_TOOLS")).array()) {
+        QJsonObject o = e.toObject();
+        ProjectView::Entry_t en{ o.value("name").toString(), o.value("command").toString() };
+        if (!en.first.isEmpty() && !en.second.isNull() && !list.contains(en))
+            list.append(en);
     }
     return list;
 }
@@ -473,7 +465,7 @@ QMenu *ProjectView::createExternalToolsMenu()
     auto menu = new QMenu(this);
     EntryList_t entries = loadEntries();
     if (!entries.isEmpty()) {
-        foreach(auto e, entries) {
+        for(auto e: entries) {
             QString key = e.first;
             QString val = e.second.toString();
             menu->addAction(QIcon(":/images/actions/run-build.svg"), key,
@@ -510,21 +502,21 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
     auto menu = new QMenu(this);
     auto fileNew = menu->addAction(QIcon(":/images/document-new.svg"), tr("File New"));
     auto folderNew = menu->addAction(QIcon(":/images/folder-new.svg"), tr("Folder New"));
-    auto itemDel = menu->addAction(QIcon(":/images/actions/list-remove.svg"), tr("Delete"));
     connect(fileNew, &QAction::triggered, this, &ProjectView::onDocumentNew);
     connect(folderNew, &QAction::triggered, this, &ProjectView::onFolderNew);
-    connect(itemDel, &QAction::triggered, this, &ProjectView::onElementDel);
     auto editFindAction = menu->addAction(QIcon(":/images/edit-find.svg"), tr("Properties"));
     connect(editFindAction, &QAction::triggered, [this, fInfo]() { fileProperties(fInfo); });
     if (fInfo.isExecutable() && !fInfo.isDir()) {
         auto runAction = menu->addAction(QIcon(":/images/actions/run-build.svg"), tr("Execute"));
         connect(runAction, &QAction::triggered, [fInfo] { RUN(fInfo); });
     }
-    menu->addSeparator();
-    auto refreshAction = menu->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Rename"));
-    connect(refreshAction, &QAction::triggered, [this, index]() { ui->treeView->edit(index); });
-    auto editDelAction = menu->addAction(QIcon(":/images/edit-delete.svg"), tr("Delete"));
-    connect(editDelAction, &QAction::triggered, this, &ProjectView::onElementDel);
+    if (ui->treeView->rootIndex() != index) {
+        menu->addSeparator();
+        auto refreshAction = menu->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Rename"));
+        connect(refreshAction, &QAction::triggered, [this, index]() { ui->treeView->edit(index); });
+        auto editDelAction = menu->addAction(QIcon(":/images/edit-delete.svg"), tr("Delete"));
+        connect(editDelAction, &QAction::triggered, this, &ProjectView::onElementDel);
+    }
     menu->exec(QCursor::pos());
 }
 
@@ -536,4 +528,12 @@ void ProjectView::on_toolButton_find_clicked()
 void ProjectView::on_toolButton_startDebug_clicked()
 {
     emit debugChange(!property("onDebug").toBool());
+}
+
+void ProjectView::on_treeView_customContextMenuRequested(const QPoint &pos)
+{
+    auto idx = ui->treeView->indexAt(pos);
+    if (!idx.isValid())
+        idx = ui->treeView->rootIndex();
+    on_treeView_pressed(idx);
 }

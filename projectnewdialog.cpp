@@ -258,7 +258,7 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     ui->setupUi(this);
     ui->parameterTable->horizontalHeader()->setStretchLastSection(true);
     QStringList prjList;
-    foreach(QFileInfo info, localTemplates.entryInfoList(QStringList{"*.template", "*.jtemplate"})) {
+    for(const auto& info: localTemplates.entryInfoList(QStringList{"*.template", "*.jtemplate"})) {
         if (info.suffix() == "jtemplate") {
             QFile f(info.absoluteFilePath());
             auto root = loadJSONMetadata(f);
@@ -273,7 +273,7 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
         }
     }
     // Prefer downloaded template name over bundled template
-    foreach(QFileInfo info, defTemplates.entryInfoList(QStringList{"*.template", "*.jtemplate"})) {
+    for(const auto& info: defTemplates.entryInfoList(QStringList{"*.template", "*.jtemplate"})) {
         if (info.suffix() == "jtemplate") {
             QFile f(info.absoluteFilePath());
             auto root = loadJSONMetadata(f);
