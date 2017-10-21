@@ -51,7 +51,9 @@ int main(int argc, char *argv[])
     AppConfig::mutableInstance().addFilterTextVariable(
                 "appExecName", QCoreApplication::applicationFilePath);
 
-    qDebug() << "Support ssl " << QSslSocket::supportsSsl();
+    qDebug() << "Support ssl " << QSslSocket::supportsSsl() << "\n"
+             << "SSL Version: " << QSslSocket::sslLibraryVersionString() << "\n"
+             << "SSL Build: " << QSslSocket::sslLibraryBuildVersionString();
 
     QTranslator tr;
     qDebug() << "load translations"

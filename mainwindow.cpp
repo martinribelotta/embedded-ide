@@ -35,6 +35,7 @@
 #include <QTimer>
 #include <QWidgetAction>
 #include <QSystemTrayIcon>
+#include <QFileSystemWatcher>
 
 #include <functional>
 
@@ -59,8 +60,11 @@ static QFileInfoList lastProjectsList(bool includeAllInWorkspace = true) {
     sets.beginGroup("last_projects");
     for(const auto& k: sets.allKeys()) {
         QFileInfo make(sets.value(k).toString());
-        if (make.exists() && !list.contains(make))
-                list.append(make);
+        if (!make.exists()) {
+            sets.remove(k);
+        }
+        if (!list.contains(make))
+            list.append(make);
     }
 
     return list;
@@ -177,6 +181,12 @@ MainWindow::MainWindow(QWidget *parent) :
             removeFromLastProject(name);
             menuWidget->setProjectList(lastProjectsList());
         }
+    });
+
+    auto projectWatch = new QFileSystemWatcher(this);
+    projectWatch->addPath(AppConfig::mutableInstance().buildDefaultProjectPath());
+    connect(projectWatch, &QFileSystemWatcher::directoryChanged, [menuWidget](){
+        menuWidget->setProjectList(lastProjectsList());
     });
     connect(ui->projectView, &ProjectView::projectOpened, [menuWidget]() {
         menuWidget->setProjectList(lastProjectsList());
