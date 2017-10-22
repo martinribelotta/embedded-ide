@@ -183,9 +183,9 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     });
 
-    auto projectWatch = new QFileSystemWatcher(this);
-    projectWatch->addPath(AppConfig::mutableInstance().buildDefaultProjectPath());
-    connect(projectWatch, &QFileSystemWatcher::directoryChanged, [menuWidget](){
+    auto projectDirWatch = new QFileSystemWatcher(this);
+    projectDirWatch->addPath(AppConfig::mutableInstance().buildDefaultProjectPath());
+    connect(projectDirWatch, &QFileSystemWatcher::directoryChanged, [menuWidget](){
         menuWidget->setProjectList(lastProjectsList());
     });
     connect(ui->projectView, &ProjectView::projectOpened, [menuWidget]() {
