@@ -22,6 +22,7 @@
 #include "filedownloader.h"
 
 #include "appconfig.h"
+#include "componentsdialog.h"
 
 #include <Qsci/qscilexer.h>
 
@@ -237,6 +238,10 @@ void ConfigDialog::on_projectTemplatesPathChange_clicked()
 
 void ConfigDialog::on_projectTemplatesDownload_clicked()
 {
+#if 1
+    ComponentsDialog d(this);
+    d.exec();
+#else
   AppConfig& config = AppConfig::mutableInstance();
     QUrl templateUrl(ui->templateUrl->text());
     if (!templateUrl.isValid())
@@ -308,4 +313,5 @@ void ConfigDialog::on_projectTemplatesDownload_clicked()
         }
     });
     downloader->startDownload(templateUrl);
+#endif
 }

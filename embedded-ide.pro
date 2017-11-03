@@ -16,7 +16,9 @@ TEMPLATE = app
 target.path = /tmp/$${TARGET}/bin
 INSTALLS += target
 
-linux:QMAKE_LFLAGS += -fuse-ld=gold
+#linux:QMAKE_LFLAGS += -fuse-ld=gold -fno-lto
+#linux:QMAKE_CXXFLAGS += -fsanitize=address -fno-lto
+#linux:LIBS += -lasan -lubsan
 
 #win32{
 #    LIBS += -LC:/OpenSSL-Win32/lib -lubsec
@@ -74,7 +76,10 @@ SOURCES += main.cpp\
     findinfilesdialog.cpp \
     qtc_gdbmi/gdbmi.cpp \
     debugui.cpp \
-    gdbstartdialog.cpp
+    gdbstartdialog.cpp \
+    codetemplate.cpp \
+    componentsdialog.cpp \
+    componentitemwidget.cpp
 
 HEADERS  += mainwindow.h \
     documentarea.h \
@@ -117,7 +122,10 @@ HEADERS  += mainwindow.h \
     findinfilesdialog.h \
     qtc_gdbmi/gdbmi.h \
     debugui.h \
-    gdbstartdialog.h
+    gdbstartdialog.h \
+    codetemplate.h \
+    componentsdialog.h \
+    componentitemwidget.h
 
 FORMS    += mainwindow.ui \
     projectnewdialog.ui \
@@ -134,7 +142,9 @@ FORMS    += mainwindow.ui \
     filepropertiesdialog.ui \
     findinfilesdialog.ui \
     debugui.ui \
-    gdbstartdialog.ui
+    gdbstartdialog.ui \
+    componentsdialog.ui \
+    componentitemwidget.ui
 
 RESOURCES += \
     resources.qrc

@@ -2,8 +2,10 @@
 #define FILEDOWNLOADER_H
 
 #include <QObject>
+#include <QUrl>
 
 class FileDownloaderPrivate;
+class QProgressBar;
 
 class FileDownloader : public QObject
 {
@@ -13,6 +15,8 @@ public:
     explicit FileDownloader(QObject *parent = 0);
     virtual ~FileDownloader();
 
+    void setProgressBar(QProgressBar *globalbar, QProgressBar *itembar);
+
 signals:
     void downloadProgress(const QUrl& url, int percent);
     void downloadFinished(const QUrl& url, const QString& path);
@@ -21,7 +25,7 @@ signals:
     void allDownloadsFinished();
 
 public slots:
-    void startDownload(const QUrl& url, const QString& path = QString());
+    void startDownload(const QUrl& url=QUrl(), const QString& path = QString());
     void enqueueDownload(const QUrl& url, const QString& path = QString());
     void processEnqueued();
 

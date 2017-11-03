@@ -5,6 +5,7 @@
 #include <QNetworkReply>
 #include <QHash>
 #include <QFile>
+#include <QProgressBar>
 
 #include <QtDebug>
 
@@ -69,9 +70,15 @@ public:
             emit q->downloadError(QObject::tr("Network error downloading %1: %2")
                                   .arg(reply->errorString())
                                   .arg(entry.url.toString()));
+            reply->deleteLater();
         });
 
         return true;
+    }
+
+    bool startDownload()
+    {
+        return downloadQueue.isEmpty()? false : startDownload(downloadQueue.takeFirst());
     }
 
     bool processNext()
@@ -81,7 +88,7 @@ public:
             emit q->allDownloadsFinished();
             return false;
         }
-        startDownload(downloadQueue.takeFirst());
+        startDownload();
         return true;
     }
 
@@ -90,6 +97,8 @@ public:
 
     QNetworkAccessManager *net;
     QList<DownloadEntry> downloadQueue;
+    QProgressBar *progressBarGlobal = nullptr;
+    QProgressBar *progressBarItem = nullptr;
 };
 
 FileDownloader::FileDownloader(QObject *parent) :
@@ -102,14 +111,37 @@ FileDownloader::~FileDownloader()
     delete d_ptr;
 }
 
+void FileDownloader::setProgressBar(QProgressBar *globalbar, QProgressBar *itembar)
+{
+    Q_D(FileDownloader);
+    d->progressBarGlobal = globalbar;
+    d->progressBarItem = itembar;
+    globalbar->setRange(0, d->downloadQueue.count());
+    itembar->setRange(0, 100);
+    connect(this, &FileDownloader::downloadProgress, [this](const QUrl& url, int percent){
+        Q_D(FileDownloader);
+        Q_UNUSED(url);
+        d->progressBarItem->setValue(percent);
+    });
+    connect(this, &FileDownloader::downloadFinished, [this](const QUrl& url, const QString& path) {
+        Q_D(FileDownloader);
+        Q_UNUSED(url);
+        Q_UNUSED(path);
+        d->progressBarGlobal->setValue(d_ptr->progressBarGlobal->value() + 1);
+    });
+}
+
 void FileDownloader::startDownload(const QUrl &url, const QString &path)
 {
     Q_D(FileDownloader);
-    DownloadEntry entry(url, path);
-    d->startDownload(entry);
+    enqueueDownload(url, path);
+    d->startDownload();
 }
+
 void FileDownloader::enqueueDownload(const QUrl &url, const QString &path)
 {
+    if (url.isEmpty())
+        return;
     Q_D(FileDownloader);
     DownloadEntry entry(url, path);
     d->downloadQueue.append(entry);
