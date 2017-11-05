@@ -70,6 +70,8 @@ private slots:
 
     void onFolderNew();
 
+    void onLinkNew();
+
     void onElementDel();
 
     void on_toolButton_export_clicked();

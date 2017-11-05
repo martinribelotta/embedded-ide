@@ -48,7 +48,7 @@ static QHash<QString, QString> findAllTargets(const QString& text) {
 static QStringList filterTargetHeuristic(const QStringList& all)
 {
     QStringList targets;
-    QRegularExpression re("^[a-zA-Z0-9_]+$");
+    QRegularExpression re("^[a-zA-Z0-9_\\-]+$");
     for(const auto& target: all) {
         if (target == QString("Makefile"))
             continue;

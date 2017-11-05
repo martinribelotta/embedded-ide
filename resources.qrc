@@ -8,6 +8,7 @@
         <file>templates/lpcopen-picociaa.template</file>
         <file>templates/lpcopen.template</file>
         <file>templates/sAPI-Project.template</file>
+        <file>templates/empty.template</file>
     </qresource>
     <qresource prefix="/">
         <file>style.css</file>
@@ -131,5 +132,6 @@
         <file>images/document-close-all.svg</file>
         <file>images/actions/media-playback-pause.svg</file>
         <file>images/actions/debug.svg</file>
+        <file>images/actions/insert-link-symbolic.svg</file>
     </qresource>
 </RCC>

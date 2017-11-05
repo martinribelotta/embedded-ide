@@ -318,6 +318,41 @@ void ProjectView::onFolderNew()
     }
 }
 
+void ProjectView::onLinkNew()
+{
+    if (!ui->treeView->selectionModel())
+        return;
+    QFileSystemModel *m = qobject_cast<QFileSystemModel*>(ui->treeView->model());
+    if (!m)
+        return;
+    QModelIndex idx = ui->treeView->selectionModel()->selectedIndexes().isEmpty()?
+                ui->treeView->rootIndex():
+                ui->treeView->selectionModel()->selectedIndexes().first();
+    if (!QFileInfo(m->fileInfo(idx)).isDir()) {
+        idx = idx.parent();
+        if (!m->fileInfo(idx).isDir()) {
+            qDebug() << "ERROR parent not a dir";
+            return;
+        }
+    }
+    QDir targetDir(m->fileInfo(idx).absoluteFilePath());
+    QFileDialog dialog(window());
+    dialog.setWindowTitle(tr("Link target"));
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setDirectory(targetDir.absolutePath());
+    dialog.setFileMode(QFileDialog::Directory);
+    if (dialog.exec() != QDialog::Accepted || dialog.selectedFiles().isEmpty())
+        return;
+    QFile target(dialog.selectedFiles().first());
+    QString linkName(targetDir.absoluteFilePath(QFileInfo(target.fileName()).fileName()));
+#ifdef Q_OS_UNIX
+    if (!target.link(linkName))
+        QMessageBox::critical(window(), tr("Link creation fail"), tr("ERROR: %1").arg(target.errorString()));
+#else
+    qDebug() << "windows symlink TODO";
+#endif
+}
+
 void ProjectView::onElementDel()
 {
     if (!ui->treeView->selectionModel())
@@ -504,6 +539,10 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
     auto folderNew = menu->addAction(QIcon(":/images/folder-new.svg"), tr("Folder New"));
     connect(fileNew, &QAction::triggered, this, &ProjectView::onDocumentNew);
     connect(folderNew, &QAction::triggered, this, &ProjectView::onFolderNew);
+#ifdef Q_OS_UNIX
+    auto linkNew = menu->addAction(QIcon(":/images/actions/insert-link-symbolic.svg"), tr("New Link"));
+    connect(linkNew, &QAction::triggered, this, &ProjectView::onLinkNew);
+#endif
     auto editFindAction = menu->addAction(QIcon(":/images/edit-find.svg"), tr("Properties"));
     connect(editFindAction, &QAction::triggered, [this, fInfo]() { fileProperties(fInfo); });
     if (fInfo.isExecutable() && !fInfo.isDir()) {

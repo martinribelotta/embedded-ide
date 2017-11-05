@@ -217,10 +217,7 @@ private:
 
 QString projectPath(const QString& path)
 {
-    QDir projecPath(
-          path.isEmpty()
-          ? AppConfig::mutableInstance().defaultProjectPath()
-          : path);
+    QDir projecPath(path.isEmpty()? AppConfig::mutableInstance().defaultProjectPath() : path);
     if (!projecPath.exists())
         projecPath.mkpath(".");
     return projecPath.absolutePath();
@@ -258,6 +255,7 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
     ui->setupUi(this);
     ui->parameterTable->horizontalHeader()->setStretchLastSection(true);
     QStringList prjList;
+    int defaultIdx = 0;
     for(const auto& info: localTemplates.entryInfoList(QStringList{"*.template", "*.jtemplate"})) {
         if (info.suffix() == "jtemplate") {
             QFile f(info.absoluteFilePath());
@@ -285,11 +283,12 @@ ProjectNewDialog::ProjectNewDialog(QWidget *parent) :
         } else {
             if (!prjList.contains(info.baseName()))
                 ui->templateFile->addItem(info.baseName(), info.absoluteFilePath());
+            if (info.baseName() == "empty")
+                defaultIdx = ui->templateFile->count() - 1;
         }
     }
-    ui->projectPath->setText(
-          ::projectPath(
-            AppConfig::mutableInstance().buildDefaultProjectPath()));
+    ui->templateFile->setCurrentIndex(defaultIdx);
+    ui->projectPath->setText(::projectPath(AppConfig::mutableInstance().buildDefaultProjectPath()));
     refreshProjectName();
 }
 
@@ -412,6 +411,11 @@ void ProjectNewDialog::on_templateFile_editTextChanged(const QString &fileName)
         } else {
             ui->infoView->clear();
             setProperty("isJTemplate", false);
+            QRegularExpressionMatch matchComments = QRegularExpression(R"((^[\s\S]*?)^diff )", QRegularExpression::MultilineOption).match(text);
+            if (matchComments.hasMatch()) {
+                auto text = matchComments.captured(1);
+                ui->infoView->setText(text);
+            }
             QRegExp re(R"(\$\{\{([a-zA-Z0-9_]+)\s*([a-zA-Z0-9_]+)*\s*\:*(.*)\}\})");
             re.setMinimal(true);
             re.setPatternSyntax(QRegExp::RegExp2);
