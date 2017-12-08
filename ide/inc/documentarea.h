@@ -34,7 +34,7 @@ public slots:
     void closeCurrent();
 
 protected:
-    void resizeEvent(QResizeEvent *e) override;
+    virtual void resizeEvent(QResizeEvent *e) override;
 
 private slots:
     bool documentToClose(int idx);

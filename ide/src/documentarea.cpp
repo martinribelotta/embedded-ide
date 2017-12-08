@@ -32,36 +32,32 @@ DocumentArea::DocumentArea(QWidget *parent) :
     banner->setBackgroundRole(QPalette::Base);
     banner->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
-    QList<QAction*> actions({
-        addActionToRightCorner(QIcon(":/images/actions/view-refresh.svg"), this, SLOT(reloadCurrent())),
-        addActionToRightCorner(QIcon(":/images/document-save.svg"), this, SLOT(saveCurrent())),
-        addActionToRightCorner(QIcon(":/images/document-save-all.svg"), this, SLOT(saveAll())),
-        addActionToRightCorner(QIcon(":/images/document-close.svg"), this, SLOT(closeCurrent())),
-        addActionToRightCorner(QIcon(":/images/document-close-all.svg"), this, SLOT(closeAll()))
-                            });
-
-    actions[0]->setToolTip(tr("Reload File"));
-    actions[1]->setToolTip(tr("Save File"));
-    actions[2]->setToolTip(tr("Save All"));
-    actions[3]->setToolTip(tr("Close Document"));
-    actions[4]->setToolTip(tr("Close All"));
+    QList<QAction*> actions
+            ({
+                 addActionToRightCorner(QIcon(":/images/actions/view-refresh.svg"), tr("Reload File"), this, SLOT(reloadCurrent())),
+                 addActionToRightCorner(QIcon(":/images/document-save.svg"), tr("Save File"), this, SLOT(saveCurrent())),
+                 addActionToRightCorner(QIcon(":/images/document-save-all.svg"), tr("Save All"), this, SLOT(saveAll())),
+                 addActionToRightCorner(QIcon(":/images/document-close.svg"), tr("Close Document"), this, SLOT(closeCurrent())),
+                 addActionToRightCorner(QIcon(":/images/document-close-all.svg"), tr("Close All"), this, SLOT(closeAll()))
+             });
+    auto actionsEnable = [actions](bool en) { for(auto a: actions) a->setEnabled(en); };
 
     connect(this, &ComboDocumentView::widgetAdded,
-            [this, actions](int idx, QWidget *w) {
+            [this, actionsEnable](int idx, QWidget *w) {
         Q_UNUSED(idx);
         Q_UNUSED(w);
-        for(auto a: actions) a->setEnabled(true);
+        actionsEnable(true);
         banner->setVisible(false);
     });
     connect(this, &ComboDocumentView::widgetRemoved,
-            [this, actions](int idx, QWidget *w) {
+            [this, actionsEnable](int idx, QWidget *w) {
         Q_UNUSED(idx);
         Q_UNUSED(w);
         bool noDocs = widgetCount() == 0;
-        for(auto a: actions) a->setDisabled(noDocs);
+        actionsEnable(!noDocs);
         banner->setVisible(noDocs);
     });
-    for(auto a: actions) a->setEnabled(false);
+    actionsEnable(false);
     banner->setVisible(true);
 }
 

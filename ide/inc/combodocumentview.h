@@ -16,16 +16,16 @@ public:
     void addWidgetToRigthCorner(QWidget *w);
 
     void addActionToLeftCorner(QAction *a);
-    QAction *addActionToLeftCorner(const QIcon& icon, QObject *recv, const char *slot_name) {
-        auto a = new QAction(icon, QString(), this);
+    QAction *addActionToLeftCorner(const QIcon& icon, const QString& text, QObject *recv, const char *slot_name) {
+        auto a = new QAction(icon, text, this);
         addActionToLeftCorner(a);
         connect(a, SIGNAL(triggered()), recv, slot_name);
         return a;
     }
 
     void addActionToRightCorner(QAction *a);
-    QAction *addActionToRightCorner(const QIcon& icon, QObject *recv, const char *slot_name) {
-        auto a = new QAction(icon, QString(), this);
+    QAction *addActionToRightCorner(const QIcon& icon, const QString& text, QObject *recv, const char *slot_name) {
+        auto a = new QAction(icon, text, this);
         addActionToRightCorner(a);
         connect(a, SIGNAL(triggered()), recv, slot_name);
         return a;

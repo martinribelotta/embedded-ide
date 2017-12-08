@@ -41,6 +41,8 @@ ComboDocumentView::ComboDocumentView(QWidget *parent) :
 
     verticalLayout->addWidget(priv->stackedWidget);
 
+    priv->comboDocuments->setEnabled(false);
+
     QMetaObject::connectSlotsByName(this);
 }
 
@@ -81,6 +83,7 @@ int ComboDocumentView::addWidget(QWidget *w, const QString &title)
 {
     int idx = priv->stackedWidget->addWidget(w);
     priv->comboDocuments->addItem(title, QVariant::fromValue(w));
+    priv->comboDocuments->setEnabled(true);
     emit widgetAdded(idx, w);
     LOG(idx);
     return idx;
@@ -91,6 +94,7 @@ void ComboDocumentView::removeWidget(QWidget *w)
     int idx = priv->stackedWidget->indexOf(w);
     LOG(idx);
     priv->stackedWidget->removeWidget(w);
+    priv->comboDocuments->setEnabled(widgetCount() > 0);
     emit widgetRemoved(idx, w);
 }
 
@@ -110,6 +114,7 @@ void ComboDocumentView::removeWidget(int idx)
         else
             LOG("comboIdx -1");
         priv->comboDocuments->blockSignals(s);
+        priv->comboDocuments->setEnabled(widgetCount() > 0);
         emit widgetRemoved(idx, w);
     }
 }
