@@ -68,7 +68,8 @@ SOURCES += \
     src/gdbstartdialog.cpp \
     src/codetemplate.cpp \
     src/componentsdialog.cpp \
-    src/componentitemwidget.cpp
+    src/componentitemwidget.cpp \
+    src/combodocumentview.cpp
 
 INCLUDEPATH += inc
 
@@ -107,7 +108,8 @@ HEADERS  += \
     inc/gdbstartdialog.h \
     inc/codetemplate.h \
     inc/componentsdialog.h \
-    inc/componentitemwidget.h
+    inc/componentitemwidget.h \
+    inc/combodocumentview.h
 
 FORMS += \
     ui/mainwindow.ui \

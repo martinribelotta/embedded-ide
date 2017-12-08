@@ -1,36 +1,14 @@
 #ifndef DOCUMENTAREA_H
 #define DOCUMENTAREA_H
 
-#include <QWidget>
-#include <QTabWidget>
-#include <QTabBar>
+#include "combodocumentview.h"
 
 class MakefileInfo;
 class CodeEditor;
-class DebugToolBar;
 
-class QStandardItemModel;
+class QLabel;
 
-class TabWidget: public QTabWidget {
-    Q_OBJECT
-public:
-    TabWidget(QWidget *parent) :
-        QTabWidget(parent) { tabBar()->hide(); }
-
-    void setTabTitle(int idx, const QString& text) {
-        setTabText(idx, text);
-    }
-
-signals:
-    void refresh();
-
-protected:
-    void tabInserted(int) Q_DECL_OVERRIDE;
-    void tabRemoved(int) Q_DECL_OVERRIDE;
-};
-
-
-class DocumentArea : public QWidget
+class DocumentArea : public ComboDocumentView
 {
     Q_OBJECT
 public:
@@ -56,8 +34,7 @@ public slots:
     void closeCurrent();
 
 protected:
-    void windowListUpdate();
-    void resizeEvent(QResizeEvent *event) override;
+    void resizeEvent(QResizeEvent *e) override;
 
 private slots:
     bool documentToClose(int idx);
@@ -66,10 +43,8 @@ private slots:
 
 private:
     int documentFind(const QString& file, QWidget **ww = nullptr);
-
-    TabWidget *tab;
     CodeEditor *lastIpEditor;
-    QStandardItemModel *windowListModel;
+    QLabel *banner;
 };
 
 #endif // DOCUMENTAREA_H
