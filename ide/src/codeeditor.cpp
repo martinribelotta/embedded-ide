@@ -150,7 +150,12 @@ CodeEditor::CodeEditor(QWidget *parent) :
             markerDelete(line);
         }
     });
-    connect(GdbDebugger::instance(), &GdbDebugger::debugStoped, this, &CodeEditor::clearDebugPointer);
+    connect(GdbDebugger::instance(), &GdbDebugger::debugStoped, [this]{
+        clearDebugPointer();
+        for(auto line: breakPointMarkToLine.values())
+            markerDelete(line);
+        breakPointMarkToLine.clear();
+    });
 
     connect(this, &QsciScintilla::linesChanged, this, &CodeEditor::adjustLineNumberMargin);
     connect(this, &CodeEditor::selectionChanged, this, &CodeEditor::textSelected);
