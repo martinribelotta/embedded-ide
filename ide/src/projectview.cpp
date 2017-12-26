@@ -246,8 +246,12 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
         qDebug() << "ctags exit code" << exitCode
                  << "ctags exit status" << exitStatus << "\n"
                  << mk_info.tags.parse(ctagProc);
-        labelStatus->setText(tr("Done"));
-        QTimer::singleShot(LAST_MESSAGE_TIMEOUT, labelStatus, &QLabel::clear);
+        // Defer execution due to prevent crash in windows while ctagProg is running
+        // If this is called during destructor. The single shot is never executed
+        QTimer::singleShot(0, [this]() {
+            labelStatus->setText(tr("Done"));
+            QTimer::singleShot(LAST_MESSAGE_TIMEOUT, labelStatus, &QLabel::clear);
+        });
         ctagProc->deleteLater();
     });
     connect(ctagProc, &QProcess::stateChanged, [this](QProcess::ProcessState state) {

@@ -486,9 +486,6 @@ void CodeEditor::textSelected()
     if (word.isEmpty())
         return;
 
-    SendScintilla(SCI_INDICSETSTYLE, 0, INDIC_ROUNDBOX);
-    SendScintilla(SCI_INDICSETFORE, 0, 255);
-
     int endpos = 0;
     int startpos = 0;
     startpos = findText(word, SCFIND_WHOLEWORD, startpos, &endpos);
@@ -670,6 +667,10 @@ void CodeEditor::loadConfig()
     setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
     setAnnotationDisplay(AnnotationIndented);
     adjustLineNumberMargin();
+
+    SendScintilla(SCI_INDICSETSTYLE, 0, INDIC_ROUNDBOX);
+    SendScintilla(SCI_INDICSETFORE, 0, 255);
+
 }
 
 bool CodeEditor::loadStyle(const QString &xmlStyleFile)
