@@ -32,6 +32,7 @@ public slots:
     void saveCurrent();
     void reloadCurrent();
     void closeCurrent();
+    void setTopBarHeight(int h);
 
 protected:
     virtual void resizeEvent(QResizeEvent *e) override;

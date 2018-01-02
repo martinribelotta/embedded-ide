@@ -225,6 +225,19 @@ void DocumentArea::closeCurrent()
     documentToClose(currentIndex());
 }
 
+void DocumentArea::setTopBarHeight(int h)
+{
+    QSize z(h, h);
+    for(auto b: findChildren<QToolButton*>()) {
+        b->setIconSize(z);
+    }
+    // z.scale(h*1.25, h*1.25, Qt::IgnoreAspectRatio);
+    for(auto c: findChildren<QComboBox*>()) {
+        c->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        c->setMaximumHeight(z.height());
+    }
+}
+
 void DocumentArea::resizeEvent(QResizeEvent *e)
 {
     ComboDocumentView::resizeEvent(e);
