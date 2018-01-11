@@ -268,11 +268,30 @@ QMenu *CodeEditor::createContextMenu()
 }
 
 class MyQsciLexerCPP: public QsciLexerCPP {
+    mutable QLatin1String keywordList;
 public:
     MyQsciLexerCPP(QObject *parent = 0, bool caseInsensitiveKeywords = false) :
         QsciLexerCPP(parent, caseInsensitiveKeywords)
     {
         setFoldCompact(false);
+    }
+
+    virtual const char *keywords(int set) const
+    {
+        if (set == 5) {
+            updateKeywordList();
+            return keywordList.data();
+        } else {
+            return QsciLexerCPP::keywords(set);
+        }
+    }
+
+private:
+    void updateKeywordList() const {
+        auto c = qobject_cast<CodeEditor*>(editor());
+        if (c) {
+            // keywordList = c->keywordList();
+        }
     }
 };
 

@@ -56,6 +56,7 @@ public:
     const QString& networkProxyUsername() const;
     const QString& networkProxyPassword() const;
     bool projectTmplatesAutoUpdate() const;
+    bool useDevelopMode() const;
 
     void adjustPath();
     void adjustPath(const QStringList& paths);
@@ -93,6 +94,7 @@ private:
     void setNetworkProxyUsername(const QString& username);
     void setNetworkProxyPassword(const QString& password);
     void setProjectTmplatesAutoUpdate(bool automatic);
+    void setUseDevelopMode(bool use);
 
     QHash<QString, std::function<QString ()> > filterTextMap;
 };

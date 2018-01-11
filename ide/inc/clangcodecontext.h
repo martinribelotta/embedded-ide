@@ -20,6 +20,7 @@ public:
 
 signals:
     void completionListUpdate(const QStringList& list);
+    void discoverCompleted(const QStringList& incl, const QStringList& defs);
 
 public slots:
     void startContextUpdate();

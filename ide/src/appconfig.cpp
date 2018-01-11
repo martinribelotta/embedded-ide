@@ -28,6 +28,7 @@
 #define PROJECTTMPLATES_AUTOUPDATE "behavior/projecttmplates/autoupdate"
 #define LOGGER_FONT_STYLE "behavior/logger/font/face"
 #define LOGGER_FONT_SIZE "behavior/logger/font/size"
+#define USE_DEVELOP_MODE "behavior/use_develop"
 
 #if defined(Q_OS_WIN)
 # define PREFERRED_FIXED_FONT "Consolas"
@@ -86,6 +87,7 @@ struct AppConfigData {
     bool editorSaveOnAction;
     bool editorTabsToSpaces;
     bool autoUpdateProjectTmplates;
+    bool useDevelopMode;
 };
 
 AppConfigData* appData()
@@ -236,6 +238,11 @@ bool AppConfig::projectTmplatesAutoUpdate() const
     return appData()->autoUpdateProjectTmplates;
 }
 
+bool AppConfig::useDevelopMode() const
+{
+    return appData()->useDevelopMode;
+}
+
 AppConfig::AppConfig()
 {
     load();
@@ -291,6 +298,7 @@ void AppConfig::load()
     }
     this->setProjectTmplatesAutoUpdate(
                 s.value(PROJECTTMPLATES_AUTOUPDATE, true).toBool());
+    this->setUseDevelopMode(s.value(USE_DEVELOP_MODE, false).toBool());
     emit configChanged(this);
 }
 
@@ -317,6 +325,7 @@ void AppConfig::save()
     s.setValue(NETWORK_PROXY_USERNAME, this->networkProxyUsername());
     s.setValue(PROJECTTMPLATES_AUTOUPDATE,
                this->projectTmplatesAutoUpdate());
+    s.setValue(USE_DEVELOP_MODE, this->useDevelopMode());
     this->adjustPath();
     emit configChanged(this);
 }
@@ -434,6 +443,11 @@ void AppConfig::setNetworkProxyPassword(const QString& password)
 void AppConfig::setProjectTmplatesAutoUpdate(bool automatic)
 {
     appData()->autoUpdateProjectTmplates = automatic;
+}
+
+void AppConfig::setUseDevelopMode(bool use)
+{
+    appData()->useDevelopMode = use;
 }
 
 void AppConfig::adjustPath()

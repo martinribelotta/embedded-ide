@@ -143,6 +143,7 @@ void ConfigDialog::load()
     ui->username->setText(config.networkProxyUsername());
     ui->autoUpdateProjectTmplates->setChecked(
           config.projectTmplatesAutoUpdate());
+    ui->useDevelopment->setChecked(config.useDevelopMode());
 }
 
 void ConfigDialog::save()
@@ -179,6 +180,7 @@ void ConfigDialog::save()
   config.setNetworkProxyPassword(ui->password->text());
   config.setProjectTmplatesAutoUpdate(
         ui->autoUpdateProjectTmplates->isChecked());
+  config.setUseDevelopMode(ui->useDevelopment->isChecked());
   config.save();
 }
 

@@ -34,6 +34,10 @@ DocumentArea::DocumentArea(QWidget *parent) :
 
     QList<QAction*> actions
             ({
+#if 0
+                 addActionToLeftCorner(QIcon(":/images/actions/go-next.svg"), tr("Next Position"), this, SLOT(goNext())),
+                 addActionToLeftCorner(QIcon(":/images/actions/go-previous.svg"), tr("Prev Position"), this, SLOT(goPrev())),
+#endif
                  addActionToRightCorner(QIcon(":/images/actions/view-refresh.svg"), tr("Reload File"), this, SLOT(reloadCurrent())),
                  addActionToRightCorner(QIcon(":/images/document-save.svg"), tr("Save File"), this, SLOT(saveCurrent())),
                  addActionToRightCorner(QIcon(":/images/document-save-all.svg"), tr("Save All"), this, SLOT(saveAll())),
@@ -41,6 +45,16 @@ DocumentArea::DocumentArea(QWidget *parent) :
                  addActionToRightCorner(QIcon(":/images/document-close-all.svg"), tr("Close All"), this, SLOT(closeAll()))
              });
     auto actionsEnable = [actions](bool en) { for(auto a: actions) a->setEnabled(en); };
+#if 0
+    auto *prev = actions[0];
+    auto *next = actions[1];
+    prev->setEnabled(false);
+    next->setEnabled(false);
+    connect(this, &ComboDocumentView::widgetCurrentChanged,
+            [this, prev, next](int idx, QWidget *w) {
+        QString documentPath = w->windowFilePath();
+    });
+#endif
 
     connect(this, &ComboDocumentView::widgetAdded,
             [this, actionsEnable](int idx, QWidget *w) {
@@ -236,6 +250,16 @@ void DocumentArea::setTopBarHeight(int h)
         c->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         c->setMaximumHeight(z.height());
     }
+}
+
+void DocumentArea::goNext()
+{
+    // TODO
+}
+
+void DocumentArea::goPrev()
+{
+    // TODO
 }
 
 void DocumentArea::resizeEvent(QResizeEvent *e)

@@ -213,6 +213,7 @@ MainWindow::MainWindow(QWidget *parent) :
     statusBar()->hide();
     for(auto *b: findChildren<QToolButton*>())
         b->setAutoRaise(true);
+
 }
 
 MainWindow::~MainWindow()
@@ -336,10 +337,15 @@ void MainWindow::configureShow()
 
 void MainWindow::configChanged(AppConfig* config)
 {
-  this->setUpProxy();
-  if (config && config->projectTmplatesAutoUpdate()) {
-    this->checkForUpdates();
-  }
+    ui->tabWidget->tabBar()->setVisible(config->useDevelopMode());
+    ui->tabWidget->setCurrentIndex(0);
+    QToolButton *debugButton = ui->projectView->findChild<QToolButton*>("toolButton_startDebug");
+    if (debugButton)
+        debugButton->setVisible(config->useDevelopMode());
+    this->setUpProxy();
+    if (config && config->projectTmplatesAutoUpdate()) {
+        this->checkForUpdates();
+    }
 }
 
 void MainWindow::loggerOpenPath(const QString& path, int col, int row)

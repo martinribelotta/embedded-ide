@@ -68,6 +68,8 @@
         <file>images/actions/dialog-cancel.svg</file>
         <file>images/actions/dialog-close.svg</file>
         <file>images/actions/dialog-ok-apply.svg</file>
+        <file>images/actions/go-next.svg</file>
+        <file>images/actions/go-previous.svg</file>
         <file>images/actions/list-add.svg</file>
         <file>images/actions/list-remove.svg</file>
         <file>images/actions/run-build-clean.svg</file>

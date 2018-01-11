@@ -3,6 +3,8 @@
 
 #include "combodocumentview.h"
 
+#include <QMutableLinkedListIterator>
+
 class MakefileInfo;
 class CodeEditor;
 
@@ -33,6 +35,8 @@ public slots:
     void reloadCurrent();
     void closeCurrent();
     void setTopBarHeight(int h);
+    void goNext();
+    void goPrev();
 
 protected:
     virtual void resizeEvent(QResizeEvent *e) override;

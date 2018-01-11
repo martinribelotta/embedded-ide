@@ -21,6 +21,7 @@ CLangCodeContext::CLangCodeContext(CodeEditor *parent) : QObject(parent), ed(par
     connect(clangProc, SIGNAL(finished(int)), this, SLOT(clangTerminated()));
     connect(ed, SIGNAL(updateCodeContext()), this, SLOT(startContextUpdate()));
     connect(this, SIGNAL(completionListUpdate(QStringList)), ed, SLOT(codeContextUpdate(QStringList)));
+    connect(this, SIGNAL(discoverCompleted(QStringList,QStringList)), ed, SLOT(discoverCompletion(QStringList,QStringList)));
 }
 
 CLangCodeContext::~CLangCodeContext()
@@ -234,6 +235,7 @@ void CLangCodeContext::discoverFor(const QString &path)
                         cc->deleteLater();
                         qDebug() << "Includes:" << includes;
                         qDebug() << "Defines:" << defines;
+                        emit discoverCompleted(includes, defines);
                     });
                     connect(cc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error), [this, cc](QProcess::ProcessError err) {
                         Q_UNUSED(err);
