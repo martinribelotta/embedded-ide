@@ -38,7 +38,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../resources/resources.qrc">:/images/embedded-ide.ico</pixmap>
+      <pixmap resource="../resources/resources.qrc">:/images/embedded-ide.png</pixmap>
      </property>
     </widget>
    </item>

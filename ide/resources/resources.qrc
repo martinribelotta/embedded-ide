@@ -135,5 +135,6 @@
         <file>images/actions/media-playback-pause.svg</file>
         <file>images/actions/debug.svg</file>
         <file>images/actions/insert-link-symbolic.svg</file>
+        <file>images/documentarea-bg.svg</file>
     </qresource>
 </RCC>

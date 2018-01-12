@@ -13,12 +13,13 @@
 
 static QPixmap loadImage(const QSize& size = QSize(256,256))
 {
-    QString url = ":/images/embedded-ide.svg";
+    QString url = ":/images/documentarea-bg.svg";
     QImage img(size, QImage::Format_ARGB32);
     img.fill(QColor(0, 0, 0, 0));
     QPainter p(&img);
     QSvgRenderer r(url);
-    r.render(&p, QRect(QPoint(), size));
+    if (r.isValid())
+        r.render(&p, QRect(QPoint(), size));
     return QPixmap::fromImage(img);
 }
 

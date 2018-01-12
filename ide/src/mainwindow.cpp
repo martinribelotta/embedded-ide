@@ -36,6 +36,7 @@
 #include <QWidgetAction>
 #include <QSystemTrayIcon>
 #include <QFileSystemWatcher>
+#include <QShortcut>
 
 #include <functional>
 
@@ -207,6 +208,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->projectView->setMainMenu(mainMenu);
 
     ui->debugDocker->hide();
+
+    auto global_ctrln = new QShortcut(QKeySequence("CTRL+N"), this);
+    global_ctrln->setContext(Qt::ApplicationShortcut);
+    connect(global_ctrln, &QShortcut::activated, this, &MainWindow::projectNew);
+
+    auto global_ctrlo = new QShortcut(QKeySequence("CTRL+O"), this);
+    global_ctrlo->setContext(Qt::ApplicationShortcut);
+    connect(global_ctrlo, &QShortcut::activated, this, &MainWindow::projectOpen);
 
     configChanged(&AppConfig::mutableInstance());
     statusBar()->showMessage(tr("Application ready..."), 1500);
