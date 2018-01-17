@@ -57,8 +57,8 @@ struct ComponentsDialog::Priv_t
 private:
     QListWidgetItem *addItemToList(const CodeTemplate& t)
     {
-        auto item{new QListWidgetItem()};
-        auto widget{new ComponentItemWidget(t, self)};
+        auto item = new QListWidgetItem();
+        auto widget = new ComponentItemWidget(t, self);
         item->setSizeHint(widget->sizeHint());
         ui->templateList->addItem(item);
         ui->templateList->setItemWidget(item, widget);
