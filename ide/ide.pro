@@ -69,7 +69,8 @@ SOURCES += \
     src/codetemplate.cpp \
     src/componentsdialog.cpp \
     src/componentitemwidget.cpp \
-    src/combodocumentview.cpp
+    src/combodocumentview.cpp \
+    src/bannerwidget.cpp
 
 INCLUDEPATH += inc
 
@@ -109,7 +110,8 @@ HEADERS  += \
     inc/codetemplate.h \
     inc/componentsdialog.h \
     inc/componentitemwidget.h \
-    inc/combodocumentview.h
+    inc/combodocumentview.h \
+    inc/bannerwidget.h
 
 FORMS += \
     ui/mainwindow.ui \
@@ -129,7 +131,8 @@ FORMS += \
     ui/debugui.ui \
     ui/gdbstartdialog.ui \
     ui/componentsdialog.ui \
-    ui/componentitemwidget.ui
+    ui/componentitemwidget.ui \
+    ui/bannerwidget.ui
 
 RESOURCES += resources/resources.qrc
 

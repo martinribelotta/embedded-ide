@@ -49,7 +49,7 @@ private slots:
 private:
     int documentFind(const QString& file, QWidget **ww = nullptr);
     CodeEditor *lastIpEditor;
-    QLabel *banner;
+    QWidget *banner;
 };
 
 #endif // DOCUMENTAREA_H

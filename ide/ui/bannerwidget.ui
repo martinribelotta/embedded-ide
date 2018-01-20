@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BannerWidget</class>
+ <widget class="QWidget" name="BannerWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>421</width>
+    <height>361</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="1">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;Embedded IDE: &lt;/span&gt;&lt;span style=&quot; font-size:18pt; font-weight:600; font-style:italic;&quot;&gt;Fast Usage&lt;/span&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p&gt;&lt;span style=&quot; font-size:x-large; font-weight:600;&quot;&gt;Project shortcuts&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#073b88;&quot;&gt;CTRL+O&lt;/span&gt;: Open Project&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#073b88;&quot;&gt;CTRL+N&lt;/span&gt;: New Project&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:x-large; font-weight:600;&quot;&gt;Editor Shortcuts&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#073b88;&quot;&gt;CTRL+C&lt;/span&gt;: Copy text&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#073b88;&quot;&gt;CTRL+X&lt;/span&gt;: Cut Text&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#073b88;&quot;&gt;CTRL+V&lt;/span&gt;: Paste Text&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#073b88;&quot;&gt;CTRL+F&lt;/span&gt;: Find in current file&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#073b88;&quot;&gt;CTRL+I&lt;/span&gt;: Auto format code&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#073b88;&quot;&gt;CTRL+&amp;lt;Space&amp;gt;&lt;/span&gt;: Open Autocomplete&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

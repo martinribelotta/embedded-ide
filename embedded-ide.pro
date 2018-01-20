@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
-SUBDIRS = ide socketwaiter
+SUBDIRS = ide socketwaiter \
+    launcher
 
 RESOURCES += \
     ide/ui/resources.qrc

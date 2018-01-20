@@ -3,6 +3,7 @@
 #include "codeeditor.h"
 #include "qhexedit.h"
 #include "mapviewer.h"
+#include "bannerwidget.h"
 
 #include <QHBoxLayout>
 #include <QToolButton>
@@ -11,27 +12,11 @@
 #include <QtDebug>
 #include <QSvgRenderer>
 
-static QPixmap loadImage(const QSize& size = QSize(256,256))
-{
-    QString url = ":/images/documentarea-bg.svg";
-    QImage img(size, QImage::Format_ARGB32);
-    img.fill(QColor(0, 0, 0, 0));
-    QPainter p(&img);
-    QSvgRenderer r(url);
-    if (r.isValid())
-        r.render(&p, QRect(QPoint(), size));
-    return QPixmap::fromImage(img);
-}
-
 DocumentArea::DocumentArea(QWidget *parent) :
     ComboDocumentView(parent),
     lastIpEditor(nullptr)
 {
-    banner = new QLabel(this);
-    banner->setPixmap(loadImage());
-    banner->setAlignment (Qt::AlignCenter);
-    banner->setBackgroundRole(QPalette::Base);
-    banner->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    banner = new BannerWidget(this);
 
     QList<QAction*> actions
             ({
