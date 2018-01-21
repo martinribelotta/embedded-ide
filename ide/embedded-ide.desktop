@@ -4,7 +4,7 @@ Name=Embedded IDE
 Name[es]=Embedded IDE
 Comment=Makefile based IDE for embedded systems
 Comment[es]=IDE basado en Makefile para sistemas embebidos
-Exec=embedded-ide.sh.wrapper
+Exec=embedded-ide
 Icon=embedded-ide
 Terminal=false
 Categories=Development;
@@ -13,14 +13,14 @@ Actions=FTDI-Install;FTDI-Uninstall;Uninstall;
 [Desktop Action FTDI-Install]
 Name=Install FTDI Drivers
 Name[es]=Instalar Drivers FTDI
-Exec=pkexec XXX_APPIMAGE_XXX --install-ftdi
+Exec=embedded-ide --exec "ftdi-tools.sh --install-ftdi"
 
 [Desktop Action FTDI-Uninstall]
 Name=Uninstall FTDI Drivers
 Name[es]=Desinstalar Drivers FTDI
-Exec=pkexec XXX_APPIMAGE_XXX --uninstall-ftdi
+Exec=embedded-ide --exec "ftdi-tools.sh --uninstall-ftdi
 
 [Desktop Action Uninstall]
-Name=Remove desktop integration for XXX_APP_FULL_XXX
-Name[es]=Remover integración con el escritorio de XXX_APP_FULL_XXX
-Exec=XXX_APPIMAGE_XXX --remove-appimage-desktop-integration
+Name=Remove desktop integration for Embedded IDE
+Name[es]=Remover integración con el escritorio de Embedded IDE
+Exec=embedded-ide --exec "remove-appimage-desktop-integration"
