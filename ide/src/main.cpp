@@ -19,6 +19,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QCommandLineParser>
+#include <QTimer>
+#include <QProcess>
 
 #ifdef Q_OS_LINUX
 #include <stdlib.h>
@@ -45,6 +48,23 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("none.unknown.com");
     QCoreApplication::setApplicationName("embedded IDE");
     a.setWindowIcon(QIcon(":/images/embedded-ide.png"));
+
+    QCommandLineParser opt;
+    opt.addHelpOption();
+    opt.addVersionOption();
+    opt.addPositionalArgument("filename", "Makefile filename");
+#define _(str) QCoreApplication::translate(str, "main")
+    opt.addOptions({ { { "e", "exec" }, "Execute stript or file", "execname" }
+                   });
+#undef _
+    opt.process(a);
+
+    if (opt.isSet("exec")) {
+        QString execname = opt.value("exec");
+        qDebug() << "executing" << execname;
+        QProcess::startDetached(execname);
+        return 0;
+    }
 
     AppConfig::mutableInstance().addFilterTextVariable(
                 "appExecPath", QCoreApplication::applicationDirPath);
@@ -111,6 +131,11 @@ int main(int argc, char *argv[])
           QCoreApplication::applicationName() +
               QObject::tr(" can not detect any system tray on this "
                           "desktop, notify this to developers."));
+    }
+
+    if (!opt.positionalArguments().isEmpty()) {
+        QString path = opt.positionalArguments().first();
+        QTimer::singleShot(0, [path, &w]() { w.openProject(path); });
     }
 
     return a.exec();

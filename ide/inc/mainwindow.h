@@ -18,6 +18,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void openProject(const QString& makefilePath);
+
 protected:
     virtual void closeEvent(QCloseEvent *e);
 

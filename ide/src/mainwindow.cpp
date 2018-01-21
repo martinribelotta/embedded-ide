@@ -230,6 +230,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::openProject(const QString &makefilePath)
+{
+    ui->projectView->openProject(makefilePath);
+}
+
 void MainWindow::closeEvent(QCloseEvent *e)
 {
     if (ui->centralWidget->hasUnsavedChanges()) {
