@@ -18,7 +18,7 @@ Exec=embedded-ide --exec "ftdi-tools.sh --install-ftdi"
 [Desktop Action FTDI-Uninstall]
 Name=Uninstall FTDI Drivers
 Name[es]=Desinstalar Drivers FTDI
-Exec=embedded-ide --exec "ftdi-tools.sh --uninstall-ftdi
+Exec=embedded-ide --exec "ftdi-tools.sh --uninstall-ftdi"
 
 [Desktop Action Uninstall]
 Name=Remove desktop integration for Embedded IDE
