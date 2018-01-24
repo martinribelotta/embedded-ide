@@ -237,8 +237,12 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
     ctagProc->setWorkingDirectory(mk_info.workingDir);
     connect(ctagProc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
             [ctagProc, this] () {
-        labelStatus->setText(tr("Done with errors"));
-        QTimer::singleShot(LAST_MESSAGE_TIMEOUT, labelStatus, &QLabel::clear);
+        // Defer execution due to prevent crash in windows while ctagProg is running
+        // If this is called during destructor. The single shot is never executed
+        QTimer::singleShot(0, [this]() {
+            labelStatus->setText(tr("Done with errors"));
+            QTimer::singleShot(LAST_MESSAGE_TIMEOUT, labelStatus, &QLabel::clear);
+        });
         ctagProc->deleteLater();
     });
     connect(ctagProc, static_cast<void (QProcess::*)(int, QProcess::ExitStatus exitStatus)>(&QProcess::finished),
