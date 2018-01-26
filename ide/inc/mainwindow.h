@@ -39,6 +39,8 @@ private slots:
 
     void openProject();
 
+    void projectExport();
+
     void helpShow();
 
     void projectClose();

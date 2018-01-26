@@ -410,20 +410,23 @@ void ProjectView::onElementDel()
 
 void ProjectView::on_toolButton_export_clicked()
 {
-    if (!project().isEmpty())
-        (new ProjectExporter(
-                QFileDialog::
+    if (!project().isEmpty()) {
+        auto fileName = QFileDialog::
                 getSaveFileName(this,
                                 tr("Export file"),
                                 tr("Unknown.template"),
                                 tr("Tempalte files (*.template *.jtemplate);;"
                                    "Diff files (*.diff);;"
                                    "All files (*)")
-                                ),
-                QFileInfo(project()).absolutePath(),
-                parentWidget()->window(),
-                SLOT(actionExportFinish(QString)))
-            )->start();
+                                );
+        if (!fileName.isEmpty())
+            (new ProjectExporter(
+                    fileName,
+                    QFileInfo(project()).absolutePath(),
+                    parentWidget()->window(),
+                    SLOT(actionExportFinish(QString)))
+                )->start();
+    }
 }
 
 static void messageCancelOp(QWidget *w) {

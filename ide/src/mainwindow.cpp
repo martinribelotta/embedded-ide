@@ -209,13 +209,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->debugDocker->hide();
 
-    auto global_ctrln = new QShortcut(QKeySequence("CTRL+N"), this);
-    global_ctrln->setContext(Qt::ApplicationShortcut);
-    connect(global_ctrln, &QShortcut::activated, this, &MainWindow::projectNew);
-
-    auto global_ctrlo = new QShortcut(QKeySequence("CTRL+O"), this);
-    global_ctrlo->setContext(Qt::ApplicationShortcut);
-    connect(global_ctrlo, &QShortcut::activated, this, &MainWindow::projectOpen);
+#define _(shortcut, method) do { \
+        auto tmp = new QShortcut(QKeySequence(shortcut), this); \
+        tmp->setContext(Qt::ApplicationShortcut); \
+        connect(tmp, &QShortcut::activated, this, method); \
+    } while(0)
+    _("CTRL+N", &MainWindow::projectNew);
+    _("CTRL+O", &MainWindow::projectOpen);
+    _("CTRL+SHIFT+X", &MainWindow::projectClose);
+    _("CTRL+SHIFT+F", &MainWindow::on_projectView_openFindDialog);
+    _("CTRL+E", &MainWindow::projectExport);
+    _("CTRL+Q", &MainWindow::configureShow);
+    _("CTRL+W", &MainWindow::helpShow);
+#undef _
 
     configChanged(&AppConfig::mutableInstance());
     statusBar()->showMessage(tr("Application ready..."), 1500);
@@ -318,6 +324,11 @@ void MainWindow::openProject()
             removeFromLastProject(name);
         }
     }
+}
+
+void MainWindow::projectExport()
+{
+    ui->projectView->doExport();
 }
 
 void MainWindow::helpShow()
@@ -436,6 +447,8 @@ void MainWindow::setUpProxy() {
 
 void MainWindow::on_projectView_openFindDialog()
 {
+    if (ui->projectView->project().isEmpty())
+        return;
     auto d = new FindInFilesDialog(ui->centralWidget, ui->projectView, this);
     d->show();
     connect(d, &QDialog::finished, d, &QObject::deleteLater);

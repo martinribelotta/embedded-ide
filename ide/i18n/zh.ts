@@ -4,12 +4,12 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../aboutdialog.ui" line="14"/>
+        <location filename="../ui/aboutdialog.ui" line="14"/>
         <source>About</source>
         <translation>关于我</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.ui" line="56"/>
+        <location filename="../ui/aboutdialog.ui" line="56"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Embedded IDE&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;for C/C++&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Copyright © 2015-2017&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;by Martin Ribelotta &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;martinribelotta@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;martinribelotta@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -18,80 +18,93 @@
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;嵌入式系统 集成开发环境&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;用于 C / C ++&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;版权 © 2015-2017&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;由马丁Ribelotta &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../aboutdialog.ui" line="63"/>
+        <location filename="../ui/aboutdialog.ui" line="63"/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../aboutdialog.cpp" line="11"/>
+        <location filename="../src/aboutdialog.cpp" line="11"/>
         <source>Version %1&lt;br&gt;build date:&lt;br&gt;%2</source>
         <translation>版本 %1&lt;br&gt;生成日期:&lt;br&gt;%2</translation>
     </message>
 </context>
 <context>
+    <name>BannerWidget</name>
+    <message>
+        <location filename="../ui/bannerwidget.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/bannerwidget.ui" line="20"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/ide_design/EmbeddedIDE_00.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CodeEditor</name>
     <message>
-        <location filename="../codeeditor.cpp" line="253"/>
+        <location filename="../src/codeeditor.cpp" line="258"/>
         <source>&amp;Undo</source>
         <translation>&amp;撤消</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="254"/>
+        <location filename="../src/codeeditor.cpp" line="259"/>
         <source>&amp;Redo</source>
         <translation>&amp;重做</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="256"/>
+        <location filename="../src/codeeditor.cpp" line="261"/>
         <source>Cu&amp;t</source>
         <translation>&amp;切</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="257"/>
+        <location filename="../src/codeeditor.cpp" line="262"/>
         <source>&amp;Copy</source>
         <translation>&amp;复制</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="258"/>
+        <location filename="../src/codeeditor.cpp" line="263"/>
         <source>&amp;Paste</source>
         <translation>&amp;糊</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="259"/>
+        <location filename="../src/codeeditor.cpp" line="264"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="261"/>
+        <location filename="../src/codeeditor.cpp" line="266"/>
         <source>&amp;Select All</source>
         <translation>&amp;全选</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="571"/>
+        <location filename="../src/codeeditor.cpp" line="592"/>
         <source>Find symbol under cursor</source>
         <translation>光标下查找符号</translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="582"/>
+        <location filename="../src/codeeditor.cpp" line="603"/>
         <source>Document Modified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="583"/>
+        <location filename="../src/codeeditor.cpp" line="604"/>
         <source>The document is not save. Save it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="586"/>
+        <location filename="../src/codeeditor.cpp" line="607"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="587"/>
+        <location filename="../src/codeeditor.cpp" line="608"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../codeeditor.cpp" line="588"/>
+        <location filename="../src/codeeditor.cpp" line="609"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
@@ -99,22 +112,22 @@
 <context>
     <name>ComponentItemWidget</name>
     <message>
-        <location filename="../componentitemwidget.ui" line="14"/>
+        <location filename="../ui/componentitemwidget.ui" line="14"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../componentitemwidget.ui" line="34"/>
+        <location filename="../ui/componentitemwidget.ui" line="34"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../componentitemwidget.ui" line="47"/>
+        <location filename="../ui/componentitemwidget.ui" line="47"/>
         <source>Component Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../componentitemwidget.ui" line="62"/>
+        <location filename="../ui/componentitemwidget.ui" line="62"/>
         <source>Component URL</source>
         <translation type="unfinished"></translation>
     </message>
@@ -122,27 +135,27 @@
 <context>
     <name>ComponentsDialog</name>
     <message>
-        <location filename="../componentsdialog.ui" line="14"/>
+        <location filename="../ui/componentsdialog.ui" line="14"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../componentsdialog.ui" line="112"/>
+        <location filename="../ui/componentsdialog.ui" line="112"/>
         <source>Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../componentsdialog.ui" line="133"/>
+        <location filename="../ui/componentsdialog.ui" line="133"/>
         <source>total</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../componentsdialog.cpp" line="88"/>
+        <location filename="../src/componentsdialog.cpp" line="88"/>
         <source>URL Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../componentsdialog.cpp" line="88"/>
+        <location filename="../src/componentsdialog.cpp" line="88"/>
         <source>Enter url to add</source>
         <translation type="unfinished"></translation>
     </message>
@@ -150,205 +163,210 @@
 <context>
     <name>ConfigDialog</name>
     <message>
-        <location filename="../configdialog.ui" line="14"/>
+        <location filename="../ui/configdialog.ui" line="14"/>
         <source>Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="24"/>
+        <location filename="../ui/configdialog.ui" line="24"/>
         <source>Editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="105"/>
+        <location filename="../ui/configdialog.ui" line="105"/>
         <source>Color style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="59"/>
+        <location filename="../ui/configdialog.ui" line="59"/>
         <source>Replace tabs with spaces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="30"/>
+        <location filename="../ui/configdialog.ui" line="30"/>
         <source> spaces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="33"/>
+        <location filename="../ui/configdialog.ui" line="33"/>
         <source>Tab width is </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="72"/>
+        <location filename="../ui/configdialog.ui" line="72"/>
         <source>Editor Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="112"/>
+        <location filename="../ui/configdialog.ui" line="112"/>
         <source>Save editor contents on target action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="123"/>
+        <location filename="../ui/configdialog.ui" line="123"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="137"/>
+        <location filename="../ui/configdialog.ui" line="137"/>
         <source>Default project path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="147"/>
+        <location filename="../ui/configdialog.ui" line="147"/>
         <source>Project templates path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="157"/>
+        <location filename="../ui/configdialog.ui" line="157"/>
         <source>Additional PATHs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="166"/>
-        <location filename="../configdialog.ui" line="183"/>
+        <location filename="../ui/configdialog.ui" line="166"/>
+        <location filename="../ui/configdialog.ui" line="183"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="241"/>
+        <location filename="../ui/configdialog.ui" line="241"/>
         <source>Remote template URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="252"/>
+        <location filename="../ui/configdialog.ui" line="252"/>
         <source>Proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="258"/>
+        <location filename="../ui/configdialog.ui" line="258"/>
         <source>HTTP proxy for network access</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="266"/>
+        <location filename="../ui/configdialog.ui" line="266"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="273"/>
+        <location filename="../ui/configdialog.ui" line="273"/>
         <source>System proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="280"/>
+        <location filename="../ui/configdialog.ui" line="280"/>
         <source>Custom proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="289"/>
+        <location filename="../ui/configdialog.ui" line="289"/>
         <source>Proxy authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="300"/>
+        <location filename="../ui/configdialog.ui" line="300"/>
         <source>With credentials</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="309"/>
+        <location filename="../ui/configdialog.ui" line="309"/>
         <source>Username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="343"/>
+        <location filename="../ui/configdialog.ui" line="343"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="382"/>
+        <location filename="../ui/configdialog.ui" line="382"/>
         <source>Host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="392"/>
+        <location filename="../ui/configdialog.ui" line="392"/>
         <source>localhost</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="399"/>
+        <location filename="../ui/configdialog.ui" line="399"/>
         <source>Port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="409"/>
+        <location filename="../ui/configdialog.ui" line="409"/>
         <source>3128</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="435"/>
+        <location filename="../ui/configdialog.ui" line="435"/>
         <source>Behavior</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="470"/>
+        <location filename="../ui/configdialog.ui" line="483"/>
         <source>Log View Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="490"/>
+        <location filename="../ui/configdialog.ui" line="510"/>
+        <source>Use in-progress/development characteristics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/configdialog.ui" line="454"/>
         <source>Check for project templates updates at start up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.ui" line="503"/>
+        <location filename="../ui/configdialog.ui" line="490"/>
         <source>Format Style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="136"/>
+        <location filename="../src/configdialog.cpp" line="136"/>
         <source>Uknow proxy setting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="206"/>
-        <location filename="../configdialog.cpp" line="233"/>
+        <location filename="../src/configdialog.cpp" line="208"/>
+        <location filename="../src/configdialog.cpp" line="235"/>
         <source>Select directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="215"/>
+        <location filename="../src/configdialog.cpp" line="217"/>
         <source>Select file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="250"/>
-        <location filename="../configdialog.cpp" line="256"/>
+        <location filename="../src/configdialog.cpp" line="252"/>
+        <location filename="../src/configdialog.cpp" line="258"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="250"/>
+        <location filename="../src/configdialog.cpp" line="252"/>
         <source>No valid URL: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="256"/>
+        <location filename="../src/configdialog.cpp" line="258"/>
         <source>Error creating %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="264"/>
+        <location filename="../src/configdialog.cpp" line="266"/>
         <source>Downloading template list...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="286"/>
+        <location filename="../src/configdialog.cpp" line="288"/>
         <source>Network error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../configdialog.cpp" line="293"/>
+        <location filename="../src/configdialog.cpp" line="295"/>
         <source>Downloading %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -356,42 +374,42 @@
 <context>
     <name>DebugUI</name>
     <message>
-        <location filename="../debugui.ui" line="14"/>
+        <location filename="../ui/debugui.ui" line="14"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debugui.ui" line="40"/>
+        <location filename="../ui/debugui.ui" line="40"/>
         <source>Run/Continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debugui.ui" line="73"/>
+        <location filename="../ui/debugui.ui" line="73"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debugui.ui" line="93"/>
+        <location filename="../ui/debugui.ui" line="93"/>
         <source>Next Into</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debugui.ui" line="113"/>
+        <location filename="../ui/debugui.ui" line="113"/>
         <source>Run to End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debugui.ui" line="144"/>
+        <location filename="../ui/debugui.ui" line="144"/>
         <source>Variables</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debugui.ui" line="184"/>
+        <location filename="../ui/debugui.ui" line="184"/>
         <source>Watchpoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../debugui.ui" line="227"/>
+        <location filename="../ui/debugui.ui" line="227"/>
         <source>Stack</source>
         <translation type="unfinished"></translation>
     </message>
@@ -399,52 +417,52 @@
 <context>
     <name>DialogConfigWorkspace</name>
     <message>
-        <location filename="../dialogconfigworkspace.ui" line="14"/>
+        <location filename="../ui/dialogconfigworkspace.ui" line="14"/>
         <source>Workspace Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.ui" line="20"/>
+        <location filename="../ui/dialogconfigworkspace.ui" line="20"/>
         <source>Select workspace path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.ui" line="29"/>
+        <location filename="../ui/dialogconfigworkspace.ui" line="29"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="31"/>
+        <location filename="../src/dialogconfigworkspace.cpp" line="31"/>
         <source>Select workspace PATH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="38"/>
+        <location filename="../src/dialogconfigworkspace.cpp" line="38"/>
         <source>All directories (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="40"/>
+        <location filename="../src/dialogconfigworkspace.cpp" line="40"/>
         <source>Look in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="41"/>
+        <location filename="../src/dialogconfigworkspace.cpp" line="41"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="42"/>
+        <location filename="../src/dialogconfigworkspace.cpp" line="42"/>
         <source>File Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="43"/>
+        <location filename="../src/dialogconfigworkspace.cpp" line="43"/>
         <source>Select file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../dialogconfigworkspace.cpp" line="44"/>
+        <location filename="../src/dialogconfigworkspace.cpp" line="44"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -452,32 +470,42 @@
 <context>
     <name>DocumentArea</name>
     <message>
-        <location filename="../documentarea.cpp" line="84"/>
+        <location filename="../src/documentarea.cpp" line="27"/>
         <source>Reload File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="87"/>
+        <location filename="../src/documentarea.cpp" line="31"/>
         <source>Close All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="90"/>
+        <location filename="../src/documentarea.cpp" line="30"/>
         <source>Close Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="93"/>
+        <location filename="../src/documentarea.cpp" line="24"/>
+        <source>Next Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/documentarea.cpp" line="25"/>
+        <source>Prev Position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/documentarea.cpp" line="29"/>
         <source>Save All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="97"/>
+        <location filename="../src/documentarea.cpp" line="28"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../documentarea.cpp" line="309"/>
+        <location filename="../src/documentarea.cpp" line="265"/>
         <source> [*]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -485,55 +513,55 @@
 <context>
     <name>FilePropertiesDialog</name>
     <message>
-        <location filename="../filepropertiesdialog.ui" line="14"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="14"/>
         <source>File Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.ui" line="22"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="22"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.ui" line="32"/>
-        <location filename="../filepropertiesdialog.ui" line="54"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="32"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="54"/>
         <source>Owner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.ui" line="42"/>
-        <location filename="../filepropertiesdialog.ui" line="84"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="42"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="84"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.ui" line="60"/>
-        <location filename="../filepropertiesdialog.ui" line="90"/>
-        <location filename="../filepropertiesdialog.ui" line="120"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="60"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="90"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="120"/>
         <source>Read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.ui" line="67"/>
-        <location filename="../filepropertiesdialog.ui" line="97"/>
-        <location filename="../filepropertiesdialog.ui" line="127"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="67"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="97"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="127"/>
         <source>Write</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.ui" line="74"/>
-        <location filename="../filepropertiesdialog.ui" line="104"/>
-        <location filename="../filepropertiesdialog.ui" line="134"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="74"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="104"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="134"/>
         <source>Execute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.ui" line="114"/>
+        <location filename="../ui/filepropertiesdialog.ui" line="114"/>
         <source>Others</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filepropertiesdialog.cpp" line="62"/>
+        <location filename="../src/filepropertiesdialog.cpp" line="62"/>
         <source>Permissions</source>
         <translation type="unfinished"></translation>
     </message>
@@ -541,62 +569,62 @@
 <context>
     <name>FindInFilesDialog</name>
     <message>
-        <location filename="../findinfilesdialog.ui" line="14"/>
+        <location filename="../ui/findinfilesdialog.ui" line="14"/>
         <source>Find in files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.ui" line="22"/>
+        <location filename="../ui/findinfilesdialog.ui" line="22"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.ui" line="54"/>
+        <location filename="../ui/findinfilesdialog.ui" line="54"/>
         <source>File pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.ui" line="86"/>
+        <location filename="../ui/findinfilesdialog.ui" line="86"/>
         <source>Text to find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="39"/>
+        <location filename="../src/findinfilesdialog.cpp" line="39"/>
         <source>Regular Expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="40"/>
+        <location filename="../src/findinfilesdialog.cpp" line="40"/>
         <source>Case Sensitive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="41"/>
+        <location filename="../src/findinfilesdialog.cpp" line="41"/>
         <source>Wole Words</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="43"/>
+        <location filename="../src/findinfilesdialog.cpp" line="43"/>
         <source>Ready</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="101"/>
+        <location filename="../src/findinfilesdialog.cpp" line="101"/>
         <source>Scanning %1 file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="120"/>
+        <location filename="../src/findinfilesdialog.cpp" line="120"/>
         <source>Line %1 Char %2: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="132"/>
+        <location filename="../src/findinfilesdialog.cpp" line="132"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="137"/>
+        <location filename="../src/findinfilesdialog.cpp" line="137"/>
         <source>Select directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -604,52 +632,52 @@
 <context>
     <name>FormFindReplace</name>
     <message>
-        <location filename="../formfindreplace.ui" line="14"/>
+        <location filename="../ui/formfindreplace.ui" line="14"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../formfindreplace.ui" line="35"/>
+        <location filename="../ui/formfindreplace.ui" line="35"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../formfindreplace.ui" line="71"/>
+        <location filename="../ui/formfindreplace.ui" line="71"/>
         <source>Replace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="17"/>
+        <location filename="../src/formfindreplace.cpp" line="17"/>
         <source>Regular Expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="18"/>
+        <location filename="../src/formfindreplace.cpp" line="18"/>
         <source>Case Sensitive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="19"/>
+        <location filename="../src/formfindreplace.cpp" line="19"/>
         <source>Wole Words</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="20"/>
+        <location filename="../src/formfindreplace.cpp" line="20"/>
         <source>Selection Only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="21"/>
+        <location filename="../src/formfindreplace.cpp" line="21"/>
         <source>Wrap search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="22"/>
+        <location filename="../src/formfindreplace.cpp" line="22"/>
         <source>Backward search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="25"/>
+        <location filename="../src/formfindreplace.cpp" line="25"/>
         <source>Replace All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -657,63 +685,63 @@
 <context>
     <name>GDBStartDialog</name>
     <message>
-        <location filename="../gdbstartdialog.ui" line="14"/>
+        <location filename="../ui/gdbstartdialog.ui" line="14"/>
         <source>Debugger Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.ui" line="20"/>
+        <location filename="../ui/gdbstartdialog.ui" line="20"/>
         <source>GDB Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.ui" line="29"/>
+        <location filename="../ui/gdbstartdialog.ui" line="29"/>
         <source>GDB executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.ui" line="51"/>
-        <location filename="../gdbstartdialog.ui" line="86"/>
+        <location filename="../ui/gdbstartdialog.ui" line="51"/>
+        <location filename="../ui/gdbstartdialog.ui" line="86"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.ui" line="64"/>
+        <location filename="../ui/gdbstartdialog.ui" line="64"/>
         <source>Program to debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.ui" line="102"/>
+        <location filename="../ui/gdbstartdialog.ui" line="102"/>
         <source>Execute &amp;make target before gdb startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.ui" line="130"/>
+        <location filename="../ui/gdbstartdialog.ui" line="130"/>
         <source>GDB Startup commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.cpp" line="104"/>
+        <location filename="../src/gdbstartdialog.cpp" line="104"/>
         <source>Open GDB executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.cpp" line="106"/>
+        <location filename="../src/gdbstartdialog.cpp" line="106"/>
         <source>GDB executable (*gdb*);;All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.cpp" line="114"/>
+        <location filename="../src/gdbstartdialog.cpp" line="114"/>
         <source>Open executable to debug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.cpp" line="117"/>
+        <location filename="../src/gdbstartdialog.cpp" line="117"/>
         <source>Executables (*.exe);;All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gdbstartdialog.cpp" line="119"/>
+        <location filename="../src/gdbstartdialog.cpp" line="119"/>
         <source>All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -721,7 +749,7 @@
 <context>
     <name>LoggerWidget</name>
     <message>
-        <location filename="../loggerwidget.cpp" line="238"/>
+        <location filename="../src/loggerwidget.cpp" line="238"/>
         <source>Process ERROR: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -729,27 +757,27 @@
 <context>
     <name>MainMenuWidget</name>
     <message>
-        <location filename="../mainmenuwidget.ui" line="35"/>
+        <location filename="../ui/mainmenuwidget.ui" line="35"/>
         <source>New Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainmenuwidget.ui" line="71"/>
+        <location filename="../ui/mainmenuwidget.ui" line="71"/>
         <source>Open Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainmenuwidget.ui" line="88"/>
+        <location filename="../ui/mainmenuwidget.ui" line="88"/>
         <source>Close current project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainmenuwidget.ui" line="105"/>
+        <location filename="../ui/mainmenuwidget.ui" line="105"/>
         <source>Configure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainmenuwidget.ui" line="122"/>
+        <location filename="../ui/mainmenuwidget.ui" line="122"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -757,111 +785,111 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.ui" line="14"/>
-        <location filename="../mainwindow.cpp" line="318"/>
+        <location filename="../ui/mainwindow.ui" line="14"/>
+        <location filename="../src/mainwindow.cpp" line="339"/>
         <source>Embedded IDE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="28"/>
+        <location filename="../ui/mainwindow.ui" line="28"/>
         <source>&amp;Loggin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="66"/>
+        <location filename="../ui/mainwindow.ui" line="66"/>
         <source>Compiler Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="71"/>
+        <location filename="../ui/mainwindow.ui" line="71"/>
         <source>GDB Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="76"/>
+        <location filename="../ui/mainwindow.ui" line="76"/>
         <source>Application Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="89"/>
+        <location filename="../ui/mainwindow.ui" line="89"/>
         <source>Pro&amp;ject</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="180"/>
-        <location filename="../mainwindow.cpp" line="283"/>
-        <location filename="../mainwindow.cpp" line="302"/>
+        <location filename="../src/mainwindow.cpp" line="181"/>
+        <location filename="../src/mainwindow.cpp" line="304"/>
+        <location filename="../src/mainwindow.cpp" line="323"/>
         <source>Open Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="180"/>
-        <location filename="../mainwindow.cpp" line="302"/>
+        <location filename="../src/mainwindow.cpp" line="181"/>
+        <location filename="../src/mainwindow.cpp" line="323"/>
         <source>Cannot open %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="212"/>
+        <location filename="../src/mainwindow.cpp" line="227"/>
         <source>Application ready...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="240"/>
+        <location filename="../src/mainwindow.cpp" line="261"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="245"/>
+        <location filename="../src/mainwindow.cpp" line="266"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="247"/>
+        <location filename="../src/mainwindow.cpp" line="268"/>
         <source>Success</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="285"/>
+        <location filename="../src/mainwindow.cpp" line="306"/>
         <source>Makefile (Makefile);;Make (*.mk);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="323"/>
+        <location filename="../src/mainwindow.cpp" line="344"/>
         <source>Embedded IDE %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="105"/>
+        <location filename="../src/mainwindow.cpp" line="106"/>
         <source>Updates available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="99"/>
+        <location filename="../src/mainwindow.cpp" line="100"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="106"/>
+        <location filename="../src/mainwindow.cpp" line="107"/>
         <source>New project templates available, click here for details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="364"/>
+        <location filename="../src/mainwindow.cpp" line="390"/>
         <source>Save files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="365"/>
+        <location filename="../src/mainwindow.cpp" line="391"/>
         <source>Save all files before build?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="367"/>
+        <location filename="../src/mainwindow.cpp" line="393"/>
         <source>Do not show again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="375"/>
+        <location filename="../src/mainwindow.cpp" line="401"/>
         <source>This dialog not will show again</source>
         <translation type="unfinished"></translation>
     </message>
@@ -869,73 +897,73 @@
 <context>
     <name>MapViewer</name>
     <message>
-        <location filename="../mapviewer.ui" line="42"/>
+        <location filename="../ui/mapviewer.ui" line="42"/>
         <source>Memory Usage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.ui" line="95"/>
+        <location filename="../ui/mapviewer.ui" line="95"/>
         <source>Symbol Tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.ui" line="120"/>
+        <location filename="../ui/mapviewer.ui" line="120"/>
         <source>Plain Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="364"/>
+        <location filename="../src/mapviewer.cpp" line="364"/>
         <source>Memory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="365"/>
+        <location filename="../src/mapviewer.cpp" line="365"/>
         <source>Base address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="366"/>
-        <location filename="../mapviewer.cpp" line="389"/>
+        <location filename="../src/mapviewer.cpp" line="366"/>
+        <location filename="../src/mapviewer.cpp" line="389"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="367"/>
+        <location filename="../src/mapviewer.cpp" line="367"/>
         <source>Used</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="368"/>
+        <location filename="../src/mapviewer.cpp" line="368"/>
         <source>Percent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="369"/>
+        <location filename="../src/mapviewer.cpp" line="369"/>
         <source>Attributes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="386"/>
+        <location filename="../src/mapviewer.cpp" line="386"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="387"/>
+        <location filename="../src/mapviewer.cpp" line="387"/>
         <source>Store address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="388"/>
+        <location filename="../src/mapviewer.cpp" line="388"/>
         <source>Load address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="398"/>
+        <location filename="../src/mapviewer.cpp" line="398"/>
         <source>Symbols without section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mapviewer.cpp" line="410"/>
+        <location filename="../src/mapviewer.cpp" line="410"/>
         <source>No unit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -943,12 +971,12 @@
 <context>
     <name>MyFileSystemModel</name>
     <message>
-        <location filename="../projectview.cpp" line="45"/>
+        <location filename="../src/projectview.cpp" line="45"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="46"/>
+        <location filename="../src/projectview.cpp" line="46"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
@@ -956,17 +984,17 @@
 <context>
     <name>PasswordPromtDialog</name>
     <message>
-        <location filename="../passwordpromtdialog.ui" line="14"/>
+        <location filename="../ui/passwordpromtdialog.ui" line="14"/>
         <source>Password requiered</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../passwordpromtdialog.ui" line="45"/>
+        <location filename="../ui/passwordpromtdialog.ui" line="45"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../appconfig.cpp" line="287"/>
+        <location filename="../src/appconfig.cpp" line="294"/>
         <source>Proxy require password</source>
         <translation type="unfinished"></translation>
     </message>
@@ -974,17 +1002,17 @@
 <context>
     <name>ProjectExporter</name>
     <message>
-        <location filename="../projectexporter.cpp" line="45"/>
+        <location filename="../src/projectexporter.cpp" line="45"/>
         <source>Can not create empty tmp directory %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectexporter.cpp" line="52"/>
+        <location filename="../src/projectexporter.cpp" line="52"/>
         <source>Abnormal termination %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectexporter.cpp" line="56"/>
+        <location filename="../src/projectexporter.cpp" line="56"/>
         <source>End with error code %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -992,63 +1020,63 @@
 <context>
     <name>ProjectNewDialog</name>
     <message>
-        <location filename="../projectnewdialog.ui" line="20"/>
+        <location filename="../ui/projectnewdialog.ui" line="20"/>
         <source>New Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.ui" line="28"/>
+        <location filename="../ui/projectnewdialog.ui" line="28"/>
         <source>Project Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.ui" line="40"/>
+        <location filename="../ui/projectnewdialog.ui" line="40"/>
         <source>Project PATH</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.ui" line="49"/>
-        <location filename="../projectnewdialog.ui" line="92"/>
+        <location filename="../ui/projectnewdialog.ui" line="49"/>
+        <location filename="../ui/projectnewdialog.ui" line="92"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.ui" line="61"/>
+        <location filename="../ui/projectnewdialog.ui" line="61"/>
         <source>Project file path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.ui" line="77"/>
+        <location filename="../ui/projectnewdialog.ui" line="77"/>
         <source>Template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.ui" line="122"/>
+        <location filename="../ui/projectnewdialog.ui" line="122"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.ui" line="127"/>
+        <location filename="../ui/projectnewdialog.ui" line="127"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.cpp" line="331"/>
+        <location filename="../src/projectnewdialog.cpp" line="331"/>
         <source>Project location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.cpp" line="339"/>
+        <location filename="../src/projectnewdialog.cpp" line="339"/>
         <source>Open template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.cpp" line="341"/>
+        <location filename="../src/projectnewdialog.cpp" line="341"/>
         <source>Template files (*.template *.jtemplate);;Diff files (*.diff);;All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectnewdialog.cpp" line="368"/>
+        <location filename="../src/projectnewdialog.cpp" line="368"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;center&gt;&lt;h1&gt;%1&lt;/h1&gt;&lt;/center&gt;&lt;h3&gt;&lt;font color=&quot;blue&quot;&gt;%2&lt;/font&gt;&lt;/h3&gt;&lt;tt&gt;%3&lt;/tt&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1056,180 +1084,180 @@
 <context>
     <name>ProjectView</name>
     <message>
-        <location filename="../projectview.cpp" line="152"/>
+        <location filename="../src/projectview.cpp" line="152"/>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="240"/>
+        <location filename="../src/projectview.cpp" line="243"/>
         <source>Done with errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="249"/>
+        <location filename="../src/projectview.cpp" line="256"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="256"/>
+        <location filename="../src/projectview.cpp" line="264"/>
         <source>Indexing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="281"/>
+        <location filename="../src/projectview.cpp" line="289"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="282"/>
+        <location filename="../src/projectview.cpp" line="290"/>
         <source>Create file on %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="287"/>
+        <location filename="../src/projectview.cpp" line="295"/>
         <source>Error creating file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="312"/>
+        <location filename="../src/projectview.cpp" line="320"/>
         <source>Folder name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="313"/>
+        <location filename="../src/projectview.cpp" line="321"/>
         <source>Create folder on %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="340"/>
+        <location filename="../src/projectview.cpp" line="348"/>
         <source>Link target</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="350"/>
+        <location filename="../src/projectview.cpp" line="358"/>
         <source>Link creation fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="350"/>
+        <location filename="../src/projectview.cpp" line="358"/>
         <source>ERROR: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="365"/>
+        <location filename="../src/projectview.cpp" line="373"/>
         <source>Delete files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="370"/>
+        <location filename="../src/projectview.cpp" line="378"/>
         <source>Do this operation for all items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="383"/>
+        <location filename="../src/projectview.cpp" line="391"/>
         <source>Realy remove %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="409"/>
+        <location filename="../src/projectview.cpp" line="417"/>
         <source>Export file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="410"/>
+        <location filename="../src/projectview.cpp" line="418"/>
         <source>Unknown.template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="411"/>
+        <location filename="../src/projectview.cpp" line="419"/>
         <source>Tempalte files (*.template *.jtemplate);;Diff files (*.diff);;All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="435"/>
+        <location filename="../src/projectview.cpp" line="443"/>
         <source>Input text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="449"/>
+        <location filename="../src/projectview.cpp" line="457"/>
         <source>Input items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="510"/>
+        <location filename="../src/projectview.cpp" line="518"/>
         <source>No entries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="513"/>
+        <location filename="../src/projectview.cpp" line="521"/>
         <source>Manage tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="538"/>
+        <location filename="../src/projectview.cpp" line="546"/>
         <source>File New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="539"/>
+        <location filename="../src/projectview.cpp" line="547"/>
         <source>Folder New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="543"/>
+        <location filename="../src/projectview.cpp" line="551"/>
         <source>New Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="546"/>
+        <location filename="../src/projectview.cpp" line="554"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="549"/>
+        <location filename="../src/projectview.cpp" line="557"/>
         <source>Execute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="554"/>
+        <location filename="../src/projectview.cpp" line="562"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.cpp" line="556"/>
+        <location filename="../src/projectview.cpp" line="564"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="37"/>
+        <location filename="../ui/projectview.ui" line="37"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="76"/>
-        <location filename="../projectview.ui" line="99"/>
-        <location filename="../projectview.ui" line="122"/>
-        <location filename="../projectview.ui" line="142"/>
+        <location filename="../ui/projectview.ui" line="76"/>
+        <location filename="../ui/projectview.ui" line="99"/>
+        <location filename="../ui/projectview.ui" line="122"/>
+        <location filename="../ui/projectview.ui" line="142"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="119"/>
+        <location filename="../ui/projectview.ui" line="119"/>
         <source>Find</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="96"/>
+        <location filename="../ui/projectview.ui" line="96"/>
         <source>Project export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="139"/>
+        <location filename="../ui/projectview.ui" line="139"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tools&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projectview.ui" line="73"/>
+        <location filename="../ui/projectview.ui" line="73"/>
         <source>Debug</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1237,12 +1265,12 @@
 <context>
     <name>ProjetFromTemplate</name>
     <message>
-        <location filename="../projetfromtemplate.cpp" line="32"/>
+        <location filename="../src/projetfromtemplate.cpp" line="32"/>
         <source>Cant create path %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../projetfromtemplate.cpp" line="55"/>
+        <location filename="../src/projetfromtemplate.cpp" line="55"/>
         <source>Diff return %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1250,17 +1278,17 @@
 <context>
     <name>QMainWindow</name>
     <message>
-        <location filename="../templatedownloader.cpp" line="43"/>
+        <location filename="../src/templatedownloader.cpp" line="43"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatedownloader.cpp" line="44"/>
+        <location filename="../src/templatedownloader.cpp" line="44"/>
         <source>No valid URL: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatedownloader.cpp" line="53"/>
+        <location filename="../src/templatedownloader.cpp" line="53"/>
         <source>Network error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1268,37 +1296,37 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../filedownloader.cpp" line="52"/>
+        <location filename="../src/filedownloader.cpp" line="52"/>
         <source>Error downloading %1 to %2: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../filedownloader.cpp" line="70"/>
+        <location filename="../src/filedownloader.cpp" line="70"/>
         <source>Network error downloading %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="110"/>
+        <location filename="../src/main.cpp" line="130"/>
         <source>Desktop support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="112"/>
+        <location filename="../src/main.cpp" line="132"/>
         <source> can not detect any system tray on this desktop, notify this to developers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.cpp" line="137"/>
+        <location filename="../src/templatesdownloadselector.cpp" line="137"/>
         <source>Network error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.cpp" line="277"/>
+        <location filename="../src/templatesdownloadselector.cpp" line="277"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.cpp" line="278"/>
+        <location filename="../src/templatesdownloadselector.cpp" line="278"/>
         <source>Error creating %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1306,492 +1334,492 @@
 <context>
     <name>QsciCommand</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="59"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="59"/>
         <source>Move down one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="69"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="69"/>
         <source>Extend selection down one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="79"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="79"/>
         <source>Extend rectangular selection down one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="86"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="86"/>
         <source>Scroll view down one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="96"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="96"/>
         <source>Move up one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="106"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="106"/>
         <source>Extend selection up one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="116"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="116"/>
         <source>Extend rectangular selection up one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="123"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="123"/>
         <source>Scroll view up one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="133"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="133"/>
         <source>Scroll to start of document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="143"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="143"/>
         <source>Scroll to end of document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="153"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="153"/>
         <source>Scroll vertically to centre current line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="160"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="160"/>
         <source>Move down one paragraph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="166"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="166"/>
         <source>Extend selection down one paragraph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="173"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="173"/>
         <source>Move up one paragraph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="179"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="179"/>
         <source>Extend selection up one paragraph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="190"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="190"/>
         <source>Move left one character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="200"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="200"/>
         <source>Extend selection left one character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="211"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="211"/>
         <source>Extend rectangular selection left one character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="222"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="222"/>
         <source>Move right one character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="232"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="232"/>
         <source>Extend selection right one character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="243"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="243"/>
         <source>Extend rectangular selection right one character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="254"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="254"/>
         <source>Move left one word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="264"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="264"/>
         <source>Extend selection left one word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="274"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="274"/>
         <source>Move right one word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="280"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="280"/>
         <source>Extend selection right one word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="286"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="286"/>
         <source>Move to end of previous word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="292"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="292"/>
         <source>Extend selection to end of previous word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="303"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="303"/>
         <source>Move to end of next word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="313"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="313"/>
         <source>Extend selection to end of next word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="320"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="320"/>
         <source>Move left one word part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="326"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="326"/>
         <source>Extend selection left one word part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="333"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="333"/>
         <source>Move right one word part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="339"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="339"/>
         <source>Extend selection right one word part</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="350"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="350"/>
         <source>Move to start of document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="360"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="360"/>
         <source>Extend selection to start of document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="371"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="371"/>
         <source>Extend rectangular selection to start of document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="382"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="382"/>
         <source>Move to start of display line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="392"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="392"/>
         <source>Extend selection to start of display line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="399"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="399"/>
         <source>Move to start of display or document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="406"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="406"/>
         <source>Extend selection to start of display or document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="417"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="417"/>
         <source>Move to first visible character in document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="428"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="428"/>
         <source>Extend selection to first visible character in document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="439"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="439"/>
         <source>Extend rectangular selection to first visible character in document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="446"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="446"/>
         <source>Move to first visible character of display in document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="453"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="453"/>
         <source>Extend selection to first visible character in display or document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="464"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="464"/>
         <source>Move to end of document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="474"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="474"/>
         <source>Extend selection to end of document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="485"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="485"/>
         <source>Extend rectangular selection to end of document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="496"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="496"/>
         <source>Move to end of display line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="506"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="506"/>
         <source>Extend selection to end of display line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="513"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="513"/>
         <source>Move to end of display or document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="520"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="520"/>
         <source>Extend selection to end of display or document line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="531"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="531"/>
         <source>Move to start of document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="541"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="541"/>
         <source>Extend selection to start of document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="552"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="552"/>
         <source>Move to end of document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="562"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="562"/>
         <source>Extend selection to end of document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="569"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="569"/>
         <source>Move up one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="575"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="575"/>
         <source>Extend selection up one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="581"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="581"/>
         <source>Extend rectangular selection up one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="592"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="592"/>
         <source>Move down one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="602"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="602"/>
         <source>Extend selection down one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="612"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="612"/>
         <source>Extend rectangular selection down one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="619"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="619"/>
         <source>Stuttered move up one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="625"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="625"/>
         <source>Stuttered extend selection up one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="632"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="632"/>
         <source>Stuttered move down one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="638"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="638"/>
         <source>Stuttered extend selection down one page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="649"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="649"/>
         <source>Delete current character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="659"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="659"/>
         <source>Delete previous character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="665"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="665"/>
         <source>Delete previous character if not at start of line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="672"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="672"/>
         <source>Delete word to left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="678"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="678"/>
         <source>Delete word to right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="688"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="688"/>
         <source>Delete right to end of next word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="695"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="695"/>
         <source>Delete line to left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="705"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="705"/>
         <source>Delete line to right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="711"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="711"/>
         <source>Delete current line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="717"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="717"/>
         <source>Cut current line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="723"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="723"/>
         <source>Copy current line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="729"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="729"/>
         <source>Transpose current and previous lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="736"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="736"/>
         <source>Duplicate the current line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="742"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="742"/>
         <source>Select all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="748"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="748"/>
         <source>Move selected lines up one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="754"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="754"/>
         <source>Move selected lines down one line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="761"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="761"/>
         <source>Duplicate selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="767"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="767"/>
         <source>Convert selection to lower case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="773"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="773"/>
         <source>Convert selection to upper case</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="779"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="779"/>
         <source>Cut selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="785"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="785"/>
         <source>Copy selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="791"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="791"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="797"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="797"/>
         <source>Toggle insert/overtype</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="803"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="803"/>
         <source>Insert newline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="809"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="809"/>
         <source>Formfeed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="815"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="815"/>
         <source>Indent one level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="821"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="821"/>
         <source>De-indent one level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="827"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="827"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="833"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="833"/>
         <source>Undo last command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="843"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="843"/>
         <source>Redo last command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="849"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="849"/>
         <source>Zoom in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscicommandset.cpp" line="855"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscicommandset.cpp" line="855"/>
         <source>Zoom out</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1799,77 +1827,77 @@
 <context>
     <name>QsciLexerAVS</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="290"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="290"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="293"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="293"/>
         <source>Block comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="296"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="296"/>
         <source>Nested block comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="299"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="299"/>
         <source>Line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="302"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="302"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="305"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="305"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="308"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="308"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="311"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="311"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="314"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="314"/>
         <source>Triple double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="317"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="317"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="320"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="320"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="323"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="323"/>
         <source>Plugin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="326"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="326"/>
         <source>Function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="329"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="329"/>
         <source>Clip property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeravs.cpp" line="332"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeravs.cpp" line="332"/>
         <source>User defined</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1877,72 +1905,72 @@
 <context>
     <name>QsciLexerBash</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="203"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="203"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="206"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="206"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="209"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="209"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="212"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="212"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="215"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="215"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="218"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="218"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="221"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="221"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="224"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="224"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="227"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="227"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="230"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="230"/>
         <source>Scalar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="233"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="233"/>
         <source>Parameter expansion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="236"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="236"/>
         <source>Backticks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="239"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="239"/>
         <source>Here document delimiter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbash.cpp" line="242"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbash.cpp" line="242"/>
         <source>Single-quoted here document</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1950,42 +1978,42 @@
 <context>
     <name>QsciLexerBatch</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="174"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="174"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="177"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="177"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="180"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="180"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="183"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="183"/>
         <source>Label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="186"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="186"/>
         <source>Hide command character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="189"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="189"/>
         <source>External command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="192"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="192"/>
         <source>Variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="195"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerbatch.cpp" line="195"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1993,77 +2021,77 @@
 <context>
     <name>QsciLexerCMake</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="190"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="190"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="193"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="193"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="196"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="196"/>
         <source>String</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="199"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="199"/>
         <source>Left quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="202"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="202"/>
         <source>Right quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="205"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="205"/>
         <source>Function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="208"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="208"/>
         <source>Variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="211"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="211"/>
         <source>Label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="214"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="214"/>
         <source>User defined</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="217"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="217"/>
         <source>WHILE block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="220"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="220"/>
         <source>FOREACH block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="223"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="223"/>
         <source>IF block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="226"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="226"/>
         <source>MACRO block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="229"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="229"/>
         <source>Variable within a string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercmake.cpp" line="232"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercmake.cpp" line="232"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2071,282 +2099,282 @@
 <context>
     <name>QsciLexerCPP</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="364"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="364"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="367"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="367"/>
         <source>Inactive default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="370"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="370"/>
         <source>C comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="373"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="373"/>
         <source>Inactive C comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="376"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="376"/>
         <source>C++ comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="379"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="379"/>
         <source>Inactive C++ comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="382"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="382"/>
         <source>JavaDoc style C comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="385"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="385"/>
         <source>Inactive JavaDoc style C comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="388"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="388"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="391"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="391"/>
         <source>Inactive number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="394"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="394"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="397"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="397"/>
         <source>Inactive keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="400"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="400"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="403"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="403"/>
         <source>Inactive double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="406"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="406"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="409"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="409"/>
         <source>Inactive single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="412"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="412"/>
         <source>IDL UUID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="415"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="415"/>
         <source>Inactive IDL UUID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="418"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="418"/>
         <source>Pre-processor block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="421"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="421"/>
         <source>Inactive pre-processor block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="424"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="424"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="427"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="427"/>
         <source>Inactive operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="430"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="430"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="433"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="433"/>
         <source>Inactive identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="436"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="436"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="439"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="439"/>
         <source>Inactive unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="442"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="442"/>
         <source>C# verbatim string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="445"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="445"/>
         <source>Inactive C# verbatim string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="448"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="448"/>
         <source>JavaScript regular expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="451"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="451"/>
         <source>Inactive JavaScript regular expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="454"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="454"/>
         <source>JavaDoc style C++ comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="457"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="457"/>
         <source>Inactive JavaDoc style C++ comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="460"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="460"/>
         <source>Secondary keywords and identifiers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="463"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="463"/>
         <source>Inactive secondary keywords and identifiers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="466"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="466"/>
         <source>JavaDoc keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="469"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="469"/>
         <source>Inactive JavaDoc keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="472"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="472"/>
         <source>JavaDoc keyword error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="475"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="475"/>
         <source>Inactive JavaDoc keyword error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="478"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="478"/>
         <source>Global classes and typedefs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="481"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="481"/>
         <source>Inactive global classes and typedefs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="484"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="484"/>
         <source>C++ raw string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="487"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="487"/>
         <source>Inactive C++ raw string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="490"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="490"/>
         <source>Vala triple-quoted verbatim string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="493"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="493"/>
         <source>Inactive Vala triple-quoted verbatim string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="496"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="496"/>
         <source>Pike hash-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="499"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="499"/>
         <source>Inactive Pike hash-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="502"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="502"/>
         <source>Pre-processor C comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="505"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="505"/>
         <source>Inactive pre-processor C comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="508"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="508"/>
         <source>JavaDoc style pre-processor comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="511"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="511"/>
         <source>Inactive JavaDoc style pre-processor comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="514"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="514"/>
         <source>User-defined literal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="517"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="517"/>
         <source>Inactive user-defined literal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="520"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="520"/>
         <source>Task marker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="523"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="523"/>
         <source>Inactive task marker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="526"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="526"/>
         <source>Escape sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercpp.cpp" line="529"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercpp.cpp" line="529"/>
         <source>Inactive escape sequence</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2354,117 +2382,117 @@
 <context>
     <name>QsciLexerCSS</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="232"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="232"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="235"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="235"/>
         <source>Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="238"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="238"/>
         <source>Class selector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="241"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="241"/>
         <source>Pseudo-class</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="244"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="244"/>
         <source>Unknown pseudo-class</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="247"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="247"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="250"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="250"/>
         <source>CSS1 property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="253"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="253"/>
         <source>Unknown property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="256"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="256"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="259"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="259"/>
         <source>ID selector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="262"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="262"/>
         <source>Important</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="265"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="265"/>
         <source>@-rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="268"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="268"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="271"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="271"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="274"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="274"/>
         <source>CSS2 property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="277"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="277"/>
         <source>Attribute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="280"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="280"/>
         <source>CSS3 property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="283"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="283"/>
         <source>Pseudo-element</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="286"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="286"/>
         <source>Extended CSS property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="289"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="289"/>
         <source>Extended pseudo-class</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="292"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="292"/>
         <source>Extended pseudo-element</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="295"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="295"/>
         <source>Media rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercss.cpp" line="298"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercss.cpp" line="298"/>
         <source>Variable</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2472,7 +2500,7 @@
 <context>
     <name>QsciLexerCSharp</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercsharp.cpp" line="105"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercsharp.cpp" line="105"/>
         <source>Verbatim string</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2480,122 +2508,122 @@
 <context>
     <name>QsciLexerCoffeeScript</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="258"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="258"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="261"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="261"/>
         <source>C-style comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="264"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="264"/>
         <source>C++-style comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="267"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="267"/>
         <source>JavaDoc C-style comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="270"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="270"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="273"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="273"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="276"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="276"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="279"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="279"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="282"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="282"/>
         <source>IDL UUID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="285"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="285"/>
         <source>Pre-processor block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="288"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="288"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="291"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="291"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="294"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="294"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="297"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="297"/>
         <source>C# verbatim string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="300"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="300"/>
         <source>Regular expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="303"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="303"/>
         <source>JavaDoc C++-style comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="306"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="306"/>
         <source>Secondary keywords and identifiers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="309"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="309"/>
         <source>JavaDoc keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="312"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="312"/>
         <source>JavaDoc keyword error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="315"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="315"/>
         <source>Global classes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="318"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="318"/>
         <source>Block comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="321"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="321"/>
         <source>Block regular expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="324"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="324"/>
         <source>Block regular expression comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="327"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexercoffeescript.cpp" line="327"/>
         <source>Instance property</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2603,117 +2631,117 @@
 <context>
     <name>QsciLexerD</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="266"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="266"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="269"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="269"/>
         <source>Block comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="272"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="272"/>
         <source>Line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="275"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="275"/>
         <source>DDoc style block comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="278"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="278"/>
         <source>Nesting comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="281"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="281"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="284"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="284"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="287"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="287"/>
         <source>Secondary keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="290"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="290"/>
         <source>Documentation keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="293"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="293"/>
         <source>Type definition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="296"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="296"/>
         <source>String</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="299"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="299"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="302"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="302"/>
         <source>Character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="305"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="305"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="308"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="308"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="311"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="311"/>
         <source>DDoc style line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="314"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="314"/>
         <source>DDoc keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="317"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="317"/>
         <source>DDoc keyword error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="320"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="320"/>
         <source>Backquoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="323"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="323"/>
         <source>Raw string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="326"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="326"/>
         <source>User defined 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="329"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="329"/>
         <source>User defined 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerd.cpp" line="332"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerd.cpp" line="332"/>
         <source>User defined 3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2721,42 +2749,42 @@
 <context>
     <name>QsciLexerDiff</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="102"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="102"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="105"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="105"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="108"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="108"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="111"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="111"/>
         <source>Header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="114"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="114"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="117"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="117"/>
         <source>Removed line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="120"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="120"/>
         <source>Added line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="123"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerdiff.cpp" line="123"/>
         <source>Changed line</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2764,77 +2792,77 @@
 <context>
     <name>QsciLexerFortran77</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="185"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="185"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="188"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="188"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="191"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="191"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="194"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="194"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="197"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="197"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="200"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="200"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="203"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="203"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="206"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="206"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="209"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="209"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="212"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="212"/>
         <source>Intrinsic function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="215"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="215"/>
         <source>Extended function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="218"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="218"/>
         <source>Pre-processor block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="221"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="221"/>
         <source>Dotted operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="224"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="224"/>
         <source>Label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="227"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerfortran77.cpp" line="227"/>
         <source>Continuation</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2842,547 +2870,547 @@
 <context>
     <name>QsciLexerHTML</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="563"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="563"/>
         <source>HTML default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="566"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="566"/>
         <source>Tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="569"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="569"/>
         <source>Unknown tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="572"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="572"/>
         <source>Attribute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="575"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="575"/>
         <source>Unknown attribute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="578"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="578"/>
         <source>HTML number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="581"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="581"/>
         <source>HTML double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="584"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="584"/>
         <source>HTML single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="587"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="587"/>
         <source>Other text in a tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="590"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="590"/>
         <source>HTML comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="593"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="593"/>
         <source>Entity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="596"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="596"/>
         <source>End of a tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="599"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="599"/>
         <source>Start of an XML fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="602"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="602"/>
         <source>End of an XML fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="605"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="605"/>
         <source>Script tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="608"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="608"/>
         <source>Start of an ASP fragment with @</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="611"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="611"/>
         <source>Start of an ASP fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="614"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="614"/>
         <source>CDATA</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="617"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="617"/>
         <source>Start of a PHP fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="620"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="620"/>
         <source>Unquoted HTML value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="623"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="623"/>
         <source>ASP X-Code comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="626"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="626"/>
         <source>SGML default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="629"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="629"/>
         <source>SGML command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="632"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="632"/>
         <source>First parameter of an SGML command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="635"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="635"/>
         <source>SGML double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="638"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="638"/>
         <source>SGML single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="641"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="641"/>
         <source>SGML error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="644"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="644"/>
         <source>SGML special entity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="647"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="647"/>
         <source>SGML comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="650"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="650"/>
         <source>First parameter comment of an SGML command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="653"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="653"/>
         <source>SGML block default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="656"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="656"/>
         <source>Start of a JavaScript fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="659"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="659"/>
         <source>JavaScript default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="662"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="662"/>
         <source>JavaScript comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="665"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="665"/>
         <source>JavaScript line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="668"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="668"/>
         <source>JavaDoc style JavaScript comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="671"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="671"/>
         <source>JavaScript number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="674"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="674"/>
         <source>JavaScript word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="677"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="677"/>
         <source>JavaScript keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="680"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="680"/>
         <source>JavaScript double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="683"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="683"/>
         <source>JavaScript single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="686"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="686"/>
         <source>JavaScript symbol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="689"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="689"/>
         <source>JavaScript unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="692"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="692"/>
         <source>JavaScript regular expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="695"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="695"/>
         <source>Start of an ASP JavaScript fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="698"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="698"/>
         <source>ASP JavaScript default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="701"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="701"/>
         <source>ASP JavaScript comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="704"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="704"/>
         <source>ASP JavaScript line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="707"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="707"/>
         <source>JavaDoc style ASP JavaScript comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="710"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="710"/>
         <source>ASP JavaScript number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="713"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="713"/>
         <source>ASP JavaScript word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="716"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="716"/>
         <source>ASP JavaScript keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="719"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="719"/>
         <source>ASP JavaScript double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="722"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="722"/>
         <source>ASP JavaScript single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="725"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="725"/>
         <source>ASP JavaScript symbol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="728"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="728"/>
         <source>ASP JavaScript unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="731"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="731"/>
         <source>ASP JavaScript regular expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="734"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="734"/>
         <source>Start of a VBScript fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="737"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="737"/>
         <source>VBScript default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="740"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="740"/>
         <source>VBScript comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="743"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="743"/>
         <source>VBScript number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="746"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="746"/>
         <source>VBScript keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="749"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="749"/>
         <source>VBScript string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="752"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="752"/>
         <source>VBScript identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="755"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="755"/>
         <source>VBScript unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="758"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="758"/>
         <source>Start of an ASP VBScript fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="761"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="761"/>
         <source>ASP VBScript default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="764"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="764"/>
         <source>ASP VBScript comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="767"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="767"/>
         <source>ASP VBScript number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="770"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="770"/>
         <source>ASP VBScript keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="773"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="773"/>
         <source>ASP VBScript string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="776"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="776"/>
         <source>ASP VBScript identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="779"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="779"/>
         <source>ASP VBScript unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="782"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="782"/>
         <source>Start of a Python fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="785"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="785"/>
         <source>Python default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="788"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="788"/>
         <source>Python comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="791"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="791"/>
         <source>Python number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="794"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="794"/>
         <source>Python double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="797"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="797"/>
         <source>Python single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="800"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="800"/>
         <source>Python keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="803"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="803"/>
         <source>Python triple double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="806"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="806"/>
         <source>Python triple single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="809"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="809"/>
         <source>Python class name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="812"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="812"/>
         <source>Python function or method name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="815"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="815"/>
         <source>Python operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="818"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="818"/>
         <source>Python identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="821"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="821"/>
         <source>Start of an ASP Python fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="824"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="824"/>
         <source>ASP Python default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="827"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="827"/>
         <source>ASP Python comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="830"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="830"/>
         <source>ASP Python number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="833"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="833"/>
         <source>ASP Python double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="836"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="836"/>
         <source>ASP Python single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="839"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="839"/>
         <source>ASP Python keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="842"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="842"/>
         <source>ASP Python triple double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="845"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="845"/>
         <source>ASP Python triple single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="848"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="848"/>
         <source>ASP Python class name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="851"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="851"/>
         <source>ASP Python function or method name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="854"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="854"/>
         <source>ASP Python operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="857"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="857"/>
         <source>ASP Python identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="860"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="860"/>
         <source>PHP default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="863"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="863"/>
         <source>PHP double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="866"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="866"/>
         <source>PHP single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="869"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="869"/>
         <source>PHP keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="872"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="872"/>
         <source>PHP number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="875"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="875"/>
         <source>PHP variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="878"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="878"/>
         <source>PHP comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="881"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="881"/>
         <source>PHP line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="884"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="884"/>
         <source>PHP double-quoted variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="887"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerhtml.cpp" line="887"/>
         <source>PHP operator</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3390,7 +3418,7 @@
 <context>
     <name>QsciLexerIDL</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeridl.cpp" line="97"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeridl.cpp" line="97"/>
         <source>UUID</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3398,72 +3426,72 @@
 <context>
     <name>QsciLexerJSON</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="160"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="160"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="163"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="163"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="166"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="166"/>
         <source>String</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="169"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="169"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="172"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="172"/>
         <source>Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="175"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="175"/>
         <source>Escape sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="178"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="178"/>
         <source>Line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="181"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="181"/>
         <source>Block comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="184"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="184"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="187"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="187"/>
         <source>IRI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="190"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="190"/>
         <source>JSON-LD compact IRI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="193"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="193"/>
         <source>JSON keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="196"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="196"/>
         <source>JSON-LD keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjson.cpp" line="199"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjson.cpp" line="199"/>
         <source>Parsing error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3471,7 +3499,7 @@
 <context>
     <name>QsciLexerJavaScript</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerjavascript.cpp" line="107"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerjavascript.cpp" line="107"/>
         <source>Regular expression</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3479,102 +3507,102 @@
 <context>
     <name>QsciLexerLua</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="227"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="227"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="230"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="230"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="233"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="233"/>
         <source>Line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="236"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="236"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="239"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="239"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="242"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="242"/>
         <source>String</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="245"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="245"/>
         <source>Character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="248"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="248"/>
         <source>Literal string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="251"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="251"/>
         <source>Preprocessor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="254"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="254"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="257"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="257"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="260"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="260"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="263"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="263"/>
         <source>Basic functions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="266"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="266"/>
         <source>String, table and maths functions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="269"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="269"/>
         <source>Coroutines, i/o and system facilities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="272"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="272"/>
         <source>User defined 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="275"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="275"/>
         <source>User defined 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="278"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="278"/>
         <source>User defined 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="281"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="281"/>
         <source>User defined 4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerlua.cpp" line="284"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerlua.cpp" line="284"/>
         <source>Label</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3582,37 +3610,37 @@
 <context>
     <name>QsciLexerMakefile</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="126"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="126"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="129"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="129"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="132"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="132"/>
         <source>Preprocessor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="135"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="135"/>
         <source>Variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="138"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="138"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="141"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="141"/>
         <source>Target</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="144"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermakefile.cpp" line="144"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3620,112 +3648,112 @@
 <context>
     <name>QsciLexerMarkdown</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="222"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="222"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="225"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="225"/>
         <source>Special</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="228"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="228"/>
         <source>Strong emphasis using double asterisks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="231"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="231"/>
         <source>Strong emphasis using double underscores</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="234"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="234"/>
         <source>Emphasis using single asterisks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="237"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="237"/>
         <source>Emphasis using single underscores</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="240"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="240"/>
         <source>Level 1 header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="243"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="243"/>
         <source>Level 2 header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="246"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="246"/>
         <source>Level 3 header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="249"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="249"/>
         <source>Level 4 header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="252"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="252"/>
         <source>Level 5 header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="255"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="255"/>
         <source>Level 6 header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="258"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="258"/>
         <source>Pre-char</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="261"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="261"/>
         <source>Unordered list item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="264"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="264"/>
         <source>Ordered list item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="267"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="267"/>
         <source>Block quote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="270"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="270"/>
         <source>Strike out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="273"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="273"/>
         <source>Horizontal rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="276"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="276"/>
         <source>Link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="279"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="279"/>
         <source>Code between backticks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="282"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="282"/>
         <source>Code between double backticks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="285"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermarkdown.cpp" line="285"/>
         <source>Code block</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3733,47 +3761,47 @@
 <context>
     <name>QsciLexerMatlab</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="133"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="133"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="136"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="136"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="139"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="139"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="142"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="142"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="145"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="145"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="148"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="148"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="151"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="151"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="154"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="154"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="157"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexermatlab.cpp" line="157"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3781,77 +3809,77 @@
 <context>
     <name>QsciLexerPO</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="99"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="99"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="102"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="102"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="105"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="105"/>
         <source>Message identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="108"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="108"/>
         <source>Message identifier text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="111"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="111"/>
         <source>Message string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="114"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="114"/>
         <source>Message string text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="117"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="117"/>
         <source>Message context</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="120"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="120"/>
         <source>Message context text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="123"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="123"/>
         <source>Fuzzy flag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="126"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="126"/>
         <source>Programmer comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="129"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="129"/>
         <source>Reference</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="132"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="132"/>
         <source>Flags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="135"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="135"/>
         <source>Message identifier text end-of-line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="138"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="138"/>
         <source>Message string text end-of-line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpo.cpp" line="141"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpo.cpp" line="141"/>
         <source>Message context text end-of-line</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3859,87 +3887,87 @@
 <context>
     <name>QsciLexerPOV</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="277"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="277"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="280"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="280"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="283"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="283"/>
         <source>Comment line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="286"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="286"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="289"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="289"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="292"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="292"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="295"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="295"/>
         <source>String</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="298"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="298"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="301"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="301"/>
         <source>Directive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="304"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="304"/>
         <source>Bad directive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="307"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="307"/>
         <source>Objects, CSG and appearance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="310"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="310"/>
         <source>Types, modifiers and items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="313"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="313"/>
         <source>Predefined identifiers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="316"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="316"/>
         <source>Predefined functions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="319"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="319"/>
         <source>User defined 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="322"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="322"/>
         <source>User defined 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpov.cpp" line="325"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpov.cpp" line="325"/>
         <source>User defined 3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3947,77 +3975,77 @@
 <context>
     <name>QsciLexerPascal</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="256"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="256"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="259"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="259"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="262"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="262"/>
         <source>&apos;{ ... }&apos; style comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="265"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="265"/>
         <source>&apos;(* ... *)&apos; style comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="268"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="268"/>
         <source>Line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="271"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="271"/>
         <source>&apos;{$ ... }&apos; style pre-processor block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="274"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="274"/>
         <source>&apos;(*$ ... *)&apos; style pre-processor block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="277"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="277"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="280"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="280"/>
         <source>Hexadecimal number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="283"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="283"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="286"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="286"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="289"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="289"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="292"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="292"/>
         <source>Character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="295"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="295"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="298"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpascal.cpp" line="298"/>
         <source>Inline asm</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4025,207 +4053,207 @@
 <context>
     <name>QsciLexerPerl</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="328"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="328"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="331"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="331"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="334"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="334"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="337"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="337"/>
         <source>POD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="340"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="340"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="343"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="343"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="346"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="346"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="349"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="349"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="352"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="352"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="355"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="355"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="358"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="358"/>
         <source>Scalar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="361"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="361"/>
         <source>Array</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="364"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="364"/>
         <source>Hash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="367"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="367"/>
         <source>Symbol table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="370"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="370"/>
         <source>Regular expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="373"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="373"/>
         <source>Substitution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="376"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="376"/>
         <source>Backticks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="379"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="379"/>
         <source>Data section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="382"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="382"/>
         <source>Here document delimiter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="385"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="385"/>
         <source>Single-quoted here document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="388"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="388"/>
         <source>Double-quoted here document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="391"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="391"/>
         <source>Backtick here document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="394"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="394"/>
         <source>Quoted string (q)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="397"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="397"/>
         <source>Quoted string (qq)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="400"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="400"/>
         <source>Quoted string (qx)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="403"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="403"/>
         <source>Quoted string (qr)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="406"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="406"/>
         <source>Quoted string (qw)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="409"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="409"/>
         <source>POD verbatim</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="412"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="412"/>
         <source>Subroutine prototype</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="415"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="415"/>
         <source>Format identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="418"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="418"/>
         <source>Format body</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="421"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="421"/>
         <source>Double-quoted string (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="424"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="424"/>
         <source>Translation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="427"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="427"/>
         <source>Regular expression (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="430"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="430"/>
         <source>Substitution (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="433"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="433"/>
         <source>Backticks (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="436"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="436"/>
         <source>Double-quoted here document (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="439"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="439"/>
         <source>Backtick here document (interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="442"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="442"/>
         <source>Quoted string (qq, interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="445"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="445"/>
         <source>Quoted string (qx, interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerperl.cpp" line="448"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerperl.cpp" line="448"/>
         <source>Quoted string (qr, interpolated variable)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4233,82 +4261,82 @@
 <context>
     <name>QsciLexerPostScript</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="259"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="259"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="262"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="262"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="265"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="265"/>
         <source>DSC comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="268"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="268"/>
         <source>DSC comment value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="271"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="271"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="274"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="274"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="277"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="277"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="280"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="280"/>
         <source>Literal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="283"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="283"/>
         <source>Immediately evaluated literal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="286"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="286"/>
         <source>Array parenthesis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="289"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="289"/>
         <source>Dictionary parenthesis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="292"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="292"/>
         <source>Procedure parenthesis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="295"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="295"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="298"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="298"/>
         <source>Hexadecimal string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="301"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="301"/>
         <source>Base85 string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="304"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpostscript.cpp" line="304"/>
         <source>Bad string character</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4316,32 +4344,32 @@
 <context>
     <name>QsciLexerProperties</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="120"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="120"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="123"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="123"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="126"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="126"/>
         <source>Section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="129"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="129"/>
         <source>Assignment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="132"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="132"/>
         <source>Default value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="135"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerproperties.cpp" line="135"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4349,82 +4377,82 @@
 <context>
     <name>QsciLexerPython</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="232"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="232"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="235"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="235"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="238"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="238"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="241"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="241"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="244"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="244"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="247"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="247"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="250"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="250"/>
         <source>Triple single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="253"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="253"/>
         <source>Triple double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="256"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="256"/>
         <source>Class name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="259"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="259"/>
         <source>Function or method name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="262"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="262"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="265"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="265"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="268"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="268"/>
         <source>Comment block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="271"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="271"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="274"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="274"/>
         <source>Highlighted identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerpython.cpp" line="277"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerpython.cpp" line="277"/>
         <source>Decorator</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4432,157 +4460,157 @@
 <context>
     <name>QsciLexerRuby</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="248"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="248"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="251"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="251"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="254"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="254"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="257"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="257"/>
         <source>POD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="260"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="260"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="263"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="263"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="266"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="266"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="269"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="269"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="272"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="272"/>
         <source>Class name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="275"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="275"/>
         <source>Function or method name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="278"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="278"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="281"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="281"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="284"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="284"/>
         <source>Regular expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="287"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="287"/>
         <source>Global</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="290"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="290"/>
         <source>Symbol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="293"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="293"/>
         <source>Module name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="296"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="296"/>
         <source>Instance variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="299"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="299"/>
         <source>Class variable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="302"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="302"/>
         <source>Backticks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="305"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="305"/>
         <source>Data section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="308"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="308"/>
         <source>Here document delimiter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="311"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="311"/>
         <source>Here document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="314"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="314"/>
         <source>%q string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="317"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="317"/>
         <source>%Q string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="320"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="320"/>
         <source>%x string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="323"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="323"/>
         <source>%r string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="326"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="326"/>
         <source>%w string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="329"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="329"/>
         <source>Demoted keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="332"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="332"/>
         <source>stdin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="335"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="335"/>
         <source>stdout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerruby.cpp" line="338"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerruby.cpp" line="338"/>
         <source>stderr</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4590,112 +4618,112 @@
 <context>
     <name>QsciLexerSQL</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="266"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="266"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="269"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="269"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="272"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="272"/>
         <source>Comment line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="275"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="275"/>
         <source>JavaDoc style comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="278"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="278"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="281"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="281"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="284"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="284"/>
         <source>Double-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="287"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="287"/>
         <source>Single-quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="290"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="290"/>
         <source>SQL*Plus keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="293"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="293"/>
         <source>SQL*Plus prompt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="296"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="296"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="299"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="299"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="302"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="302"/>
         <source>SQL*Plus comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="305"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="305"/>
         <source># comment line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="308"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="308"/>
         <source>JavaDoc keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="311"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="311"/>
         <source>JavaDoc keyword error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="314"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="314"/>
         <source>User defined 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="317"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="317"/>
         <source>User defined 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="320"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="320"/>
         <source>User defined 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="323"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="323"/>
         <source>User defined 4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="326"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="326"/>
         <source>Quoted identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexersql.cpp" line="329"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexersql.cpp" line="329"/>
         <source>Quoted operator</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4703,47 +4731,47 @@
 <context>
     <name>QsciLexerSpice</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerspice.cpp" line="166"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerspice.cpp" line="166"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerspice.cpp" line="169"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerspice.cpp" line="169"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerspice.cpp" line="172"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerspice.cpp" line="172"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerspice.cpp" line="175"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerspice.cpp" line="175"/>
         <source>Function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerspice.cpp" line="178"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerspice.cpp" line="178"/>
         <source>Parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerspice.cpp" line="181"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerspice.cpp" line="181"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerspice.cpp" line="184"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerspice.cpp" line="184"/>
         <source>Delimiter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerspice.cpp" line="187"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerspice.cpp" line="187"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerspice.cpp" line="190"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerspice.cpp" line="190"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4751,112 +4779,112 @@
 <context>
     <name>QsciLexerTCL</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="292"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="292"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="295"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="295"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="298"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="298"/>
         <source>Comment line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="301"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="301"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="304"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="304"/>
         <source>Quoted keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="307"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="307"/>
         <source>Quoted string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="310"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="310"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="313"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="313"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="316"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="316"/>
         <source>Substitution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="319"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="319"/>
         <source>Brace substitution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="322"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="322"/>
         <source>Modifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="325"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="325"/>
         <source>Expand keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="328"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="328"/>
         <source>TCL keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="331"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="331"/>
         <source>Tk keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="334"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="334"/>
         <source>iTCL keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="337"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="337"/>
         <source>Tk command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="340"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="340"/>
         <source>User defined 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="343"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="343"/>
         <source>User defined 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="346"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="346"/>
         <source>User defined 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="349"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="349"/>
         <source>User defined 4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="352"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="352"/>
         <source>Comment box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertcl.cpp" line="355"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertcl.cpp" line="355"/>
         <source>Comment block</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4864,32 +4892,32 @@
 <context>
     <name>QsciLexerTeX</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertex.cpp" line="187"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertex.cpp" line="187"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertex.cpp" line="190"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertex.cpp" line="190"/>
         <source>Special</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertex.cpp" line="193"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertex.cpp" line="193"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertex.cpp" line="196"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertex.cpp" line="196"/>
         <source>Symbol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertex.cpp" line="199"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertex.cpp" line="199"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexertex.cpp" line="202"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexertex.cpp" line="202"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4897,82 +4925,82 @@
 <context>
     <name>QsciLexerVHDL</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="207"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="207"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="210"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="210"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="213"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="213"/>
         <source>Comment line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="216"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="216"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="219"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="219"/>
         <source>String</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="222"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="222"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="225"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="225"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="228"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="228"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="231"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="231"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="234"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="234"/>
         <source>Standard operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="237"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="237"/>
         <source>Attribute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="240"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="240"/>
         <source>Standard function</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="243"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="243"/>
         <source>Standard package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="246"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="246"/>
         <source>Standard type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="249"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="249"/>
         <source>User defined</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="252"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexervhdl.cpp" line="252"/>
         <source>Comment block</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4980,122 +5008,122 @@
 <context>
     <name>QsciLexerVerilog</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="296"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="296"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="299"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="299"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="302"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="302"/>
         <source>Line comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="305"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="305"/>
         <source>Bang comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="308"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="308"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="311"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="311"/>
         <source>Primary keywords and identifiers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="314"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="314"/>
         <source>String</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="317"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="317"/>
         <source>Secondary keywords and identifiers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="320"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="320"/>
         <source>System task</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="323"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="323"/>
         <source>Preprocessor block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="326"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="326"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="329"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="329"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="332"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="332"/>
         <source>Unclosed string</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="335"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="335"/>
         <source>User defined tasks and identifiers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="338"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="338"/>
         <source>Keyword comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="341"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="341"/>
         <source>Inactive keyword comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="344"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="344"/>
         <source>Input port declaration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="347"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="347"/>
         <source>Inactive input port declaration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="350"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="350"/>
         <source>Output port declaration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="353"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="353"/>
         <source>Inactive output port declaration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="356"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="356"/>
         <source>Input/output port declaration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="359"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="359"/>
         <source>Inactive input/output port declaration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="362"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="362"/>
         <source>Port connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="365"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexerverilog.cpp" line="365"/>
         <source>Inactive port connection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5103,52 +5131,52 @@
 <context>
     <name>QsciLexerYAML</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="170"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="170"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="173"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="173"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="176"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="176"/>
         <source>Identifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="179"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="179"/>
         <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="182"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="182"/>
         <source>Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="185"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="185"/>
         <source>Reference</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="188"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="188"/>
         <source>Document delimiter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="191"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="191"/>
         <source>Text block marker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="194"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="194"/>
         <source>Syntax error marker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="197"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qscilexeryaml.cpp" line="197"/>
         <source>Operator</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5156,37 +5184,37 @@
 <context>
     <name>QsciScintilla</name>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4414"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4414"/>
         <source>&amp;Undo</source>
         <translation type="unfinished">&amp;撤消</translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4418"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4418"/>
         <source>&amp;Redo</source>
         <translation type="unfinished">&amp;重做</translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4424"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4424"/>
         <source>Cu&amp;t</source>
         <translation type="unfinished">&amp;切</translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4429"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4429"/>
         <source>&amp;Copy</source>
         <translation type="unfinished">&amp;复制</translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4435"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4435"/>
         <source>&amp;Paste</source>
         <translation type="unfinished">&amp;糊</translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4439"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4439"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4446"/>
+        <location filename="../3rdpart/qscintilla/Qt4Qt5/qsciscintilla.cpp" line="4446"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5194,52 +5222,52 @@
 <context>
     <name>TemplatesDownloadSelector</name>
     <message>
-        <location filename="../templatesdownloadselector.ui" line="14"/>
+        <location filename="../ui/templatesdownloadselector.ui" line="14"/>
         <source>Update project templates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.ui" line="22"/>
+        <location filename="../ui/templatesdownloadselector.ui" line="22"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.ui" line="47"/>
+        <location filename="../ui/templatesdownloadselector.ui" line="47"/>
         <source>Available updates:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.ui" line="59"/>
+        <location filename="../ui/templatesdownloadselector.ui" line="59"/>
         <source>xx new</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.ui" line="82"/>
+        <location filename="../ui/templatesdownloadselector.ui" line="82"/>
         <source>xx updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.ui" line="109"/>
+        <location filename="../ui/templatesdownloadselector.ui" line="109"/>
         <source>Download selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.cpp" line="229"/>
+        <location filename="../src/templatesdownloadselector.cpp" line="229"/>
         <source>%1 new</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.cpp" line="234"/>
+        <location filename="../src/templatesdownloadselector.cpp" line="234"/>
         <source>%1 updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.cpp" line="361"/>
+        <location filename="../src/templatesdownloadselector.cpp" line="361"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../templatesdownloadselector.cpp" line="361"/>
+        <location filename="../src/templatesdownloadselector.cpp" line="361"/>
         <source>Error creating %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5247,27 +5275,27 @@
 <context>
     <name>ToolManager</name>
     <message>
-        <location filename="../toolmanager.ui" line="14"/>
+        <location filename="../ui/toolmanager.ui" line="14"/>
         <source>Tool Manager</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../toolmanager.cpp" line="37"/>
+        <location filename="../src/toolmanager.cpp" line="37"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../toolmanager.cpp" line="37"/>
+        <location filename="../src/toolmanager.cpp" line="37"/>
         <source>Command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../toolmanager.cpp" line="117"/>
+        <location filename="../src/toolmanager.cpp" line="117"/>
         <source>&lt;tr&gt;&lt;td&gt;%1&lt;/td&gt;&lt;td&gt;%2&lt;/td&gt;&lt;/tr&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../toolmanager.cpp" line="118"/>
+        <location filename="../src/toolmanager.cpp" line="118"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;h2&gt;&lt;/h2&gt;&lt;p&gt;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Variable&lt;/th&gt;&lt;th&gt;Value&lt;/th&gt;&lt;/tr&gt;%1&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>

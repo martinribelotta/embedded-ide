@@ -141,6 +141,9 @@ RC_ICONS = resources/images/embedded-ide.ico
 #######################################
 #i18n
 #######################################
+qtPrepareTool(LUPDATE, lupdate)
+qtPrepareTool(LRELEASE, lrelease)
+
 ### FIXIT:
 ### LANGUAGES = es zh
 ### defineReplace(prependAll) {
@@ -148,8 +151,6 @@ RC_ICONS = resources/images/embedded-ide.ico
 ###  return($$result)
 ### }
 ### TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/i18n/, .ts)
-### qtPrepareTool(LUPDATE, lupdate)
-### qtPrepareTool(LRELEASE, lrelease)
 ### ts-all.commands = cd $$PWD && $$LUPDATE $$PWD/embedded-ide.pro && $$LRELEASE $$PWD/embedded-ide.pro
 ### QMAKE_EXTRA_TARGETS ''= ts-all
 ### # FIXME(denisacostaq@gmail.com): this invoke the build always becuase the qm
@@ -189,3 +190,7 @@ unix {
     INSTALLS += desktopfile
     INSTALLS += iconfiles
 }
+
+DISTFILES += \
+    i18n/zh.ts \
+    i18n/es.ts

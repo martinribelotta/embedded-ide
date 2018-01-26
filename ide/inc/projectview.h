@@ -58,6 +58,7 @@ public slots:
     void doTarget(const QString& target) {
         emit startBuild(target);
     }
+    void doExport() { on_toolButton_export_clicked(); }
 
 private slots:
     void on_treeView_activated(const QModelIndex &index);
