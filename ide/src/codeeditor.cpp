@@ -641,9 +641,16 @@ void CodeEditor::formatSelection()
         QString inText = text();
         QByteArray rawText = inText.toUtf8();
         char* utf8In = rawText.data();
-        const QString style = AppConfig::mutableInstance().editorFormatterStyle();
+        auto& cfg = AppConfig::mutableInstance();
+        const QString style = cfg.editorFormatterStyle();
+        const QString indentType = cfg.editorTabsToSpaces()? "spaces" : "tab";
+        int indentCount = cfg.editorTabWidth();
         char* utf8Out = AStyleMain(utf8In,
-                                   QString("--style=%1").arg(style).toLatin1().data(),
+                                   (QString("--style=%1 "
+                                           "--indent=%2=%3")
+                                    .arg(style)
+                                    .arg(indentType)
+                                    .arg(indentCount)).toLatin1().data(),
                                    tempError,
                                    tempMemoryAllocation);
         setText(QString::fromUtf8(utf8Out));

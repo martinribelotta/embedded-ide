@@ -54,7 +54,8 @@ int main(int argc, char *argv[])
     opt.addVersionOption();
     opt.addPositionalArgument("filename", "Makefile filename");
 #define _(str) QCoreApplication::translate(str, "main")
-    opt.addOptions({ { { "e", "exec" }, "Execute stript or file", "execname" }
+    opt.addOptions({
+                       { { "e", "exec" }, "Execute stript or file", "execname" }
                    });
 #undef _
     opt.process(a);
@@ -94,6 +95,7 @@ int main(int argc, char *argv[])
         AppConfig::mutableInstance().adjustPath(additionalPaths);
         AppConfig::mutableInstance().setBuildTemplateUrl(hardConf.value("templateUrl").toString());
         AppConfig::mutableInstance().save();
+        a.setProperty("hardConf", hardConf.toVariantHash());
     }
 
     AppConfig::mutableInstance().load();
