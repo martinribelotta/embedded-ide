@@ -638,7 +638,11 @@ void CodeEditor::formatSelection()
     if (mime.inherits("text/x-csrc")) {
         int l, i;
         getCursorPosition(&l, &i);
-        QString inText = text();
+        QString inText = selectedText();
+        if (inText.isEmpty()) {
+            selectAll();
+            inText = selectedText();
+        }
         QByteArray rawText = inText.toUtf8();
         char* utf8In = rawText.data();
         auto& cfg = AppConfig::mutableInstance();
@@ -653,7 +657,7 @@ void CodeEditor::formatSelection()
                                     .arg(indentCount)).toLatin1().data(),
                                    tempError,
                                    tempMemoryAllocation);
-        setText(QString::fromUtf8(utf8Out));
+        replaceSelectedText(QString::fromUtf8(utf8Out));
         setCursorPosition(l, i);
         ensureLineVisible(l);
     }
