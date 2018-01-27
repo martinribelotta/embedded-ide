@@ -508,14 +508,13 @@ static ProjectView::EntryList_t loadEntries()
             list.append(en);
     }
 
-    auto obj = QCoreApplication::instance()->property("hardConf").toHash();
-    for(auto e: obj.value("tools").toList()) {
-        auto le = e.toHash();
-        if (le.size() == 2) {
-            ProjectView::Entry_t en{ le.value("name").toString(), le.value("command").toString() };
-            if (!en.first.isEmpty() && !en.second.isNull() && !list.contains(en))
-                list.append(en);
-        }
+    auto obj = QCoreApplication::instance()->property("hardConf").toJsonObject();
+    auto tools = obj.value("tools").toArray();
+    for(const QJsonValue& e: tools) {
+        auto le = e.toObject();
+        ProjectView::Entry_t en{ le.value("name").toString(), le.value("command").toString() };
+        if (!en.first.isEmpty() && !en.second.isNull() && !list.contains(en))
+            list.append(en);
     }
 
     return list;

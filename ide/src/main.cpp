@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
         AppConfig::mutableInstance().adjustPath(additionalPaths);
         AppConfig::mutableInstance().setBuildTemplateUrl(hardConf.value("templateUrl").toString());
         AppConfig::mutableInstance().save();
-        a.setProperty("hardConf", hardConf.toVariantHash());
+        a.setProperty("hardConf", QVariant(hardConf));
     }
 
     AppConfig::mutableInstance().load();
