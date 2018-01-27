@@ -22,6 +22,7 @@
 #include <QtDebug>
 #include <QPushButton>
 #include <QStylePainter>
+#include <QShortcut>
 
 #include "projecticonprovider.h"
 #include "targetupdatediscover.h"
@@ -89,6 +90,9 @@ ProjectView::ProjectView(QWidget *parent) :
     ui->setupUi(this);
     ui->treeView->setAcceptDrops(true);
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(new QShortcut(QKeySequence(Qt::Key_Delete), ui->treeView), &QShortcut::activated,
+            this, &ProjectView::onElementDel);
 
     labelStatus = new QLabel(ui->targetList);
     QHBoxLayout *lsLayout = new QHBoxLayout(ui->targetList);
