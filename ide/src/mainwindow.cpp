@@ -209,19 +209,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->debugDocker->hide();
 
-#define _(shortcut, method) do { \
+#define SHCUT(shortcut, method) do { \
         auto tmp = new QShortcut(QKeySequence(shortcut), this); \
         tmp->setContext(Qt::ApplicationShortcut); \
         connect(tmp, &QShortcut::activated, this, method); \
     } while(0)
-    _("CTRL+N", &MainWindow::projectNew);
-    _("CTRL+O", &MainWindow::projectOpen);
-    _("CTRL+SHIFT+X", &MainWindow::projectClose);
-    _("CTRL+SHIFT+F", &MainWindow::on_projectView_openFindDialog);
-    _("CTRL+E", &MainWindow::projectExport);
-    _("CTRL+Q", &MainWindow::configureShow);
-    _("CTRL+W", &MainWindow::helpShow);
-#undef _
+    SHCUT("CTRL+N", &MainWindow::projectNew);
+    SHCUT("CTRL+O", &MainWindow::projectOpen);
+    SHCUT("CTRL+SHIFT+Q", &MainWindow::projectClose);
+    SHCUT("CTRL+SHIFT+F", &MainWindow::on_projectView_openFindDialog);
+    SHCUT("CTRL+E", &MainWindow::projectExport);
+    SHCUT("CTRL+SHIFT+P", &MainWindow::configureShow);
+    SHCUT("CTRL+H", &MainWindow::helpShow);
+#undef SHCUT
 
     configChanged(&AppConfig::mutableInstance());
     statusBar()->showMessage(tr("Application ready..."), 1500);

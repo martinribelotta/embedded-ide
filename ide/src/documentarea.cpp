@@ -31,6 +31,10 @@ DocumentArea::DocumentArea(QWidget *parent) :
                  addActionToRightCorner(QIcon(":/images/document-close-all.svg"), tr("Close All"), this, SLOT(closeAll()))
              });
     auto actionsEnable = [actions](bool en) { for(auto a: actions) a->setEnabled(en); };
+
+    auto s = new QShortcut(QKeySequence("CTRL+Q"), this);
+    s->setContext(Qt::ApplicationShortcut);
+    connect(s, &QShortcut::activated, this, &DocumentArea::closeCurrent);
 #if 0
     auto *prev = actions[0];
     auto *next = actions[1];

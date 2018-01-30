@@ -102,20 +102,19 @@ CodeEditor::CodeEditor(QWidget *parent) :
     replaceDialog = new FormFindReplace(this);
     replaceDialog->hide();
 
-    auto findAction = new QAction(this);
-    findAction->setShortcut(QKeySequence("ctrl+f"));
-    connect(findAction, &QAction::triggered, replaceDialog, &FormFindReplace::show);
-    addAction(findAction);
+#define SHCUT(keycode, ptr, method) do { \
+        auto acc = new QAction(this); \
+        acc->setShortcut(QKeySequence(keycode)); \
+        connect(acc, &QAction::triggered, ptr, method); \
+        addAction(acc); \
+    } while(0)
+    SHCUT("ctrl+return", this, &CodeEditor::findTagUnderCursor);
+    SHCUT("ctrl+f", replaceDialog, &FormFindReplace::show);
+    SHCUT("ctrl+i", this, &CodeEditor::formatSelection);
+    SHCUT("ctrl+s", this, &CodeEditor::save);
+    SHCUT("ctrl+r", this, &CodeEditor::reload);
+#undef SHCUT
 
-    auto formatAction = new QAction(this);
-    formatAction->setShortcut(QKeySequence("ctrl+i"));
-    connect(formatAction, &QAction::triggered, this, &CodeEditor::formatSelection);
-    addAction(formatAction);
-
-    auto saveAction = new QAction(this);
-    saveAction->setShortcut(QKeySequence("ctrl+s"));
-    connect(saveAction, &QAction::triggered, this, &CodeEditor::save);
-    addAction(saveAction);
     connect(this, &QsciScintilla::marginClicked,
             [this](int margin, int line, Qt::KeyboardModifiers state){
         Q_UNUSED(margin);

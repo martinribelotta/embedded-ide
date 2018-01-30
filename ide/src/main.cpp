@@ -25,6 +25,7 @@
 
 #ifdef Q_OS_LINUX
 #include <stdlib.h>
+#include <unistd.h>
 #define HARD_CONF_PATH "../share/embedded-ide/embedded-ide.hardconf"
 #endif
 

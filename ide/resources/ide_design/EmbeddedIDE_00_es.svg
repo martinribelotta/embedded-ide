@@ -28,11 +28,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.96488199"
-     inkscape:cx="257.63082"
-     inkscape:cy="106.88749"
+     inkscape:zoom="1.1745653"
+     inkscape:cx="305.645"
+     inkscape:cy="182.23579"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g9017"
      showgrid="false"
      inkscape:window-width="1366"
      inkscape:window-height="703"
@@ -51,7 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -93,108 +93,108 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#999999;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="680.21106"
+         x="684.46796"
          y="563.54712"
          id="text5339-2-6"
          sodipodi:linespacing="125%"><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="563.54712"
            style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999"
            id="tspan7179">Atajos del editor de texto</tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="579.17212"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7263-2">     Grabar archivo con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan7229-6">Ctrl+S</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="594.79712"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7265-1">     Refrescar archivo con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan7271-8">Ctrl+R</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="610.42212"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan5367-8-7">     Cerrar archivo con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
-   id="tspan7233-9">Ctrl+Shift+X</tspan></tspan><tspan
+   id="tspan7233-9">Ctrl+Q</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="626.04712"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7245-2">     Deshacer con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan7273-0">Ctrl+Z</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="641.67212"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7247-2">     Rehacer con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
-   id="tspan7257-3">Ctrl+Shift+Z</tspan></tspan><tspan
+   id="tspan7257-3">Ctrl+Y</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="657.29712"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7249-7">     Seleccionar todo el texto con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan7923-5">Ctrl+A</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="672.92212"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7251-9">     Copiar texto seleccionado con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan7253-2">Ctrl+C</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="688.54712"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan5375-7-2">     Pegar texto seleccionado con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan7191-8">Ctrl+V</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="704.17212"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7921-9">     Cortar texto seleccionado con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan7925-7">Ctrl+X</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="719.79712"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7931-3">     Buscar Símbolo bajo el cursor con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan7933-6">Ctrl+&lt;Enter&gt;</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="735.42212"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7209-1">     Abrir autocompletar con <tspan
    id="tspan5381-9-2"
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff">Ctrl+&lt;Space&gt;</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="751.04712"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan7211-9">     Autoformatear código con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan7215-3">Ctrl+I</tspan></tspan><tspan
            sodipodi:role="line"
-           x="680.21106"
+           x="684.46796"
            y="766.67212"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#999999"
            id="tspan8611-1">     Buscar en archivo con <tspan
    style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:FreeSans;fill:#0000ff"
    id="tspan8613-9">Ctrl+F</tspan></tspan></text>
       <g
-         transform="translate(156.02266,-3e-5)"
+         transform="translate(160.27955,-3e-5)"
          id="g13327">
         <g
            id="g4489"
@@ -461,7 +461,7 @@
         </g>
       </g>
       <g
-         transform="translate(-18.534419,-112.75345)"
+         transform="translate(-26.196828,-112.75345)"
          id="g7787">
         <path
            inkscape:connector-curvature="0"
@@ -530,7 +530,7 @@
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999"
              id="tspan9504">Cerrar Proyecto con <tspan
    id="tspan7619"
-   style="fill:#0000ff">Ctrl+Shift+X</tspan></tspan><tspan
+   style="fill:#0000ff">Ctrl+Shift+Q</tspan></tspan><tspan
              id="tspan7600"
              sodipodi:role="line"
              x="414.30634"
@@ -564,16 +564,16 @@
              sodipodi:role="line"
              x="414.30634"
              y="819.31976"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999">Abrir configuración de Embedded IDE con <tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999">Abrir preferencias de Embedded IDE con <tspan
    id="tspan7625"
-   style="fill:#0000ff">Ctrl+Q</tspan></tspan><tspan
+   style="fill:#0000ff">Ctrl+Shift+P</tspan></tspan><tspan
              sodipodi:role="line"
              x="414.30634"
              y="834.94476"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999"
              id="tspan8488">Abrir información de Embedded IDE con <tspan
    id="tspan7627"
-   style="fill:#0000ff">Ctrl+W</tspan></tspan></text>
+   style="fill:#0000ff">Ctrl+H</tspan></tspan></text>
         <path
            class="ColorScheme-Text"
            id="path36"

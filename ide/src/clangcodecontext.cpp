@@ -21,7 +21,7 @@ CLangCodeContext::CLangCodeContext(CodeEditor *parent) : QObject(parent), ed(par
     connect(clangProc, SIGNAL(finished(int)), this, SLOT(clangTerminated()));
     connect(ed, SIGNAL(updateCodeContext()), this, SLOT(startContextUpdate()));
     connect(this, SIGNAL(completionListUpdate(QStringList)), ed, SLOT(codeContextUpdate(QStringList)));
-    connect(this, SIGNAL(discoverCompleted(QStringList,QStringList)), ed, SLOT(discoverCompletion(QStringList,QStringList)));
+    // connect(this, SIGNAL(discoverCompleted(QStringList,QStringList)), ed, SLOT(discoverCompletion(QStringList,QStringList)));
 }
 
 CLangCodeContext::~CLangCodeContext()

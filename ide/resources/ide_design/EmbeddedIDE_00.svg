@@ -32,7 +32,7 @@
      inkscape:cx="282.72981"
      inkscape:cy="180.28163"
      inkscape:document-units="px"
-     inkscape:current-layer="g9329"
+     inkscape:current-layer="g7820"
      showgrid="false"
      inkscape:window-width="1366"
      inkscape:window-height="703"
@@ -51,7 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -91,7 +91,7 @@
        id="g7820"
        transform="translate(-22.676555,-29.683377)">
       <g
-         transform="translate(178.69922,-3e-5)"
+         transform="translate(188.02781,-3e-5)"
          id="g13327">
         <g
            id="g4489"
@@ -388,7 +388,7 @@
              x="524.52533"
              sodipodi:role="line">     Close file with <tspan
    id="tspan7233"
-   style="fill:#0000ff">Ctrl+Shift+X</tspan></tspan><tspan
+   style="fill:#0000ff">Ctrl+Q</tspan></tspan><tspan
              id="tspan7245"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999"
              y="626.04718"
@@ -402,7 +402,7 @@
              x="524.52533"
              sodipodi:role="line">     Redo with <tspan
    id="tspan7257"
-   style="fill:#0000ff">Ctrl+Shift+Z</tspan></tspan><tspan
+   style="fill:#0000ff">Ctrl+Y</tspan></tspan><tspan
              id="tspan7249"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999"
              y="657.29718"
@@ -530,7 +530,7 @@
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999"
              id="tspan9504">Close Project with <tspan
    id="tspan7619"
-   style="fill:#0000ff">Ctrl+Shift+X</tspan></tspan><tspan
+   style="fill:#0000ff">Ctrl+Shift+Q</tspan></tspan><tspan
              id="tspan7600"
              sodipodi:role="line"
              x="414.30634"
@@ -564,16 +564,16 @@
              sodipodi:role="line"
              x="414.30634"
              y="819.31976"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999">Open Embedded IDE configuration with <tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999">Open Embedded IDE preferences with <tspan
    id="tspan7625"
-   style="fill:#0000ff">Ctrl+Q</tspan></tspan><tspan
+   style="fill:#0000ff">Ctrl+Shift+P</tspan></tspan><tspan
              sodipodi:role="line"
              x="414.30634"
              y="834.94476"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:FreeSans;-inkscape-font-specification:'FreeSans Semi-Bold';fill:#999999"
              id="tspan8488">Open Embedded IDE information with <tspan
    id="tspan7627"
-   style="fill:#0000ff">Ctrl+W</tspan></tspan></text>
+   style="fill:#0000ff">Ctrl+H</tspan></tspan></text>
         <path
            class="ColorScheme-Text"
            id="path36"
