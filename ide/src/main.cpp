@@ -94,7 +94,9 @@ int main(int argc, char *argv[])
             additionalPaths.append(QDir::cleanPath(AppConfig::mutableInstance()
                                         .filterTextWithVariables(p.toString())));
         AppConfig::mutableInstance().adjustPath(additionalPaths);
-        AppConfig::mutableInstance().setBuildTemplateUrl(hardConf.value("templateUrl").toString());
+        auto extraUrl = hardConf.value("templateUrl").toString();
+        if (!extraUrl.isEmpty())
+            AppConfig::mutableInstance().setBuildTemplateUrl(extraUrl);
         AppConfig::mutableInstance().save();
         a.setProperty("hardConf", QVariant(hardConf));
     }
