@@ -38,6 +38,12 @@ if [ -z "$APP" ] || [ -z "$APP_FULL" ] ; then
     APP_FULL="$APP"
 fi
 
+# Install the icon files for the application; TODO: scalable
+ICONS=$(find "${APPDIR}" -iwholename "*/${APP}.png" 2>/dev/null || true)
+if [ -z $ICONS ]; then
+    ICONS=$(find "${APPDIR}" -name $(grep "^Icon=" $DESKTOPFILE |head -n 1|cut -f 2 -d '=').png)
+fi
+
 check_dep() {
     DEP=$1
     if [ -z $(which $DEP) ] ; then
@@ -130,15 +136,6 @@ if [ "x$1" = "x--install" ]; then
     chmod a+x "$DESTINATION_DIR_DESKTOP/"*
     echo $RESOURCE_NAME
     echo $APP
-
-    # delete "Actions" entry and add an "Uninstall" action
-    echo $(date)
-
-    # Install the icon files for the application; TODO: scalable
-    ICONS=$(find "${APPDIR}" -iwholename "*/${APP}.png" 2>/dev/null || true)
-    if [ -z $ICONS ]; then
-        ICONS=$(find "${APPDIR}" -name $(grep "^Icon=" $DESKTOPFILE |head -n 1|cut -f 2 -d '=').png)
-    fi
     echo "Icons for ${APP} on ${APPDIR} ${ICONS}"
     for ICON in $ICONS ; do
         ICON_SIZE=256
@@ -162,7 +159,13 @@ if [ "x$1" = "x--install" ]; then
 elif [ "x$1" = "x--uninstall" ]; then
     echo "Uninstalling from destkop..."
     rm -f "$STAMP_DIR/${APP}_no_desktopintegration" "$DESTINATION_DIR_DESKTOP/$VENDORPREFIX-$DESKTOPFILE_NAME"
+    for ICON in $ICONS ; do
+        ICON_SIZE=256
+        echo "Uninstalling ${ICON} to size ${ICON_SIZE} on resource ${RESOURCE_NAME}"
+        xdg-icon-resource uninstall --context apps --size ${ICON_SIZE} "${ICON}" "${RESOURCE_NAME}"
+    done
     xdg-desktop-menu forceupdate
+    gtk-update-icon-cache
     echo "Done."
 else
     echo "Unrecognized option $1"
