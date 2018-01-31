@@ -1,0 +1,8 @@
+{
+	"tools" : [
+		{ "name": "Install FTDI drivers", "command": "bash {{appExecPath}}/ftdi-tool.sh --install" },
+		{ "name": "Uninstall FTDI drivers", "command": "bash {{appExecPath}}/ftdi-tool.sh --uninstall" },
+		{ "name": "Add desktop integration", "command": "bash {{appExecPath}}/desktop-integration.sh --install" },
+		{ "name": "Remove desktop integration", "command": "bash {{appExecPath}}/desktop-integration.sh --uninstall" }
+	]
+}

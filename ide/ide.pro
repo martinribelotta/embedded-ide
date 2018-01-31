@@ -181,14 +181,25 @@ unix {
     isEmpty(PREFIX) {
         PREFIX = /usr
     }
+
     target.path = $$PREFIX/bin
+
     desktopfile.files = embedded-ide.desktop
     desktopfile.path = $$PREFIX/share/applications
+
     iconfiles.files = resources/images/embedded-ide.svg resources/images/embedded-ide.png
     iconfiles.path = $$PREFIX/share/icons/default/256x256/apps/
 
+    scripts.path = $$PREFIX/bin
+    scripts.files = skeleton/desktop-integration.sh skeleton/ftdi-tools.sh
+
+    hardconf.path = $$PREFIX/share/embedded-ide
+    hardconf.files = skeleton/embedded-ide.hardconf
+
     INSTALLS += desktopfile
     INSTALLS += iconfiles
+    INSTALLS += scripts
+    INSTALLS += hardconf
 }
 
 DISTFILES += \
