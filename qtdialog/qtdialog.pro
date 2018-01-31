@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 DESTDIR  = ../build
-QT       += core gui
+QT       += core gui widgets
 TARGET   = qtdialog
 TEMPLATE = app
 INSTALLS += target

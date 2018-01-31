@@ -1,4 +1,4 @@
-#include <QApplication>
+#include <QGuiApplication>
 #include <QCommandLineParser>
 #include <QtWidgets>
 
