@@ -137,7 +137,7 @@ if [ "x$1" = "x--install" ]; then
     # Install the icon files for the application; TODO: scalable
     ICONS=$(find "${APPDIR}" -iwholename "*/${APP}.png" 2>/dev/null || true)
     if [ -z $ICONS ]; then
-        ICONS=$(find tmp/ -name $(grep "^Icon=" $DESKTOPFILE |head -n 1|cut -f 2 -d '=').png)
+        ICONS=$(find "${APPDIR}" -name $(grep "^Icon=" $DESKTOPFILE |head -n 1|cut -f 2 -d '=').png)
     fi
     echo "Icons for ${APP} on ${APPDIR} ${ICONS}"
     for ICON in $ICONS ; do
