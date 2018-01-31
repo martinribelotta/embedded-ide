@@ -46,6 +46,9 @@ check_dep() {
     fi
 }
 
+check_dep xdg-icon-resource
+check_dep xdg-desktop-menu
+
 # Determine where the desktop file should be installed
 if [ $(id -u) -ne 0 ]; then
     DESTINATION_DIR_DESKTOP="$HOME/.local/share/applications"
@@ -58,14 +61,6 @@ else
     SYSTEM_WIDE="--mode system" # for xdg-mime and xdg-icon-resource
 fi
 
-msgbox() {
-    qtdialog --msgbox "$1"
-}
-
-yesno() {
-    qtdialog --yesno "$1" && RETURN="no" || RETURN="yes"
-}
-
 usage() {
     echo "Usage: $0 [--install | --uninstall]"
     exit 1
@@ -75,35 +70,25 @@ check_prevent()
 {
   FILE=$1
   if [ -e "$FILE" ] ; then
+    echo "Desktop integration disabled. For enable it remove $FILE."
     exit 0
   fi
-}
-
-uninstall_to_system() {
-    rm -f "$STAMP_DIR/${APP}_no_desktopintegration" "$DESTINATION_DIR_DESKTOP/$VENDORPREFIX-$DESKTOPFILE_NAME"
-    check_dep xdg-desktop-menu
-    xdg-desktop-menu forceupdate
-    exit 0
 }
 
 if [ $# -eq 0 ]; then
     usage
 fi
+
 if [ "x$1" = "x--install" ]; then
-    echo "Log 1"
     # Exit immediately if one of these files is present
     # (e.g., because the desktop environment wants to handle desktop integration itself)
     check_prevent "$HOME/.local/share/$VENDORPREFIX/no_desktopintegration"
-    echo "Log 2"
     check_prevent "/usr/share/$VENDORPREFIX/no_desktopintegration"
-    echo "Log 3"
     check_prevent "/etc/$VENDORPREFIX/no_desktopintegration"
-    echo "Log 4"
     if [ -z "$APPIMAGE" ] ; then
         APPIMAGE="$APPDIR/AppRun"
         # Not running from within an AppImage; hence using the AppRun for Exec=
     fi
-    echo "Log 5"
 
     ICONFILE="$APPDIR/.DirIcon"
 
@@ -114,7 +99,6 @@ if [ "x$1" = "x--install" ]; then
         echo "\$XDG_DATA_DIRS is missing. Please run ${THIS} from within an AppImage."
         exit 0
     fi
-    echo "Log 6"
 
     # Check if the desktop file is already there
     # and if so, whether it points to the same AppImage
@@ -123,24 +107,9 @@ if [ "x$1" = "x--install" ]; then
         EXEC=$(grep "^Exec=" "$DESTINATION_DIR_DESKTOP/$VENDORPREFIX-$DESKTOPFILE_NAME" | head -n 1 | cut -d " " -f 1)
         # echo $EXEC
         if [ "Exec=\"$APPIMAGE\"" == "$EXEC" ] ; then
+            echo "Already installed. Finished"
             exit 0
         fi
-    fi
-    echo "Log 7"
-
-    # We ask the user only if we have found no reason to skip until here
-    if [ -z "$SKIP" ] ; then
-        yesno "Install" "Would you like to integrate $APPIMAGE with your system?\n\nThis will add it to your applications menu and install icons.\nIf you don't do this you can still launch the application by double-clicking on the AppImage."
-    fi
-    echo "Log 8"
-    echo "Return: $RETURN"
-    if [ "$RETURN" = "no" ] ; then
-        yesno "Disable question?" "Should this question be permanently disabled for $APP?\n\nTo re-enable this question you have to delete\n\"$STAMP_DIR/${APP}_no_desktopintegration\""
-        if [ "$RETURN" = "yes" ] ; then
-            mkdir -p "$STAMP_DIR"
-            touch "$STAMP_DIR/${APP}_no_desktopintegration"
-        fi
-        exit 0
     fi
 
     # desktop-file-install is supposed to install .desktop files to the user's
@@ -151,7 +120,7 @@ if [ "x$1" = "x--install" ]; then
     # For Exec we must use quotes
     # For TryExec quotes is not supported, so, space must be replaced to \s
     # https://askubuntu.com/questions/175404/how-to-add-space-to-exec-path-in-a-thumbnailer-descrption/175567
-    echo "Installing into system ${APPIMAGE}"
+    echo "Installing into system..."
     RESOURCE_NAME=$(echo "$VENDORPREFIX-$DESKTOPFILE_NAME" | sed -e 's/.desktop//g')
     desktop-file-install --rebuild-mime-info-cache \
         --vendor=$VENDORPREFIX --set-key=Exec --set-value="\"${APPIMAGE}\" %U" \
@@ -164,16 +133,12 @@ if [ "x$1" = "x--install" ]; then
 
     # delete "Actions" entry and add an "Uninstall" action
     echo $(date)
-    sed -i -e "s/XXX_APP_FULL_XXX/$APP_FULL/" "$DESTINATION_DIR_DESKTOP/$VENDORPREFIX-$DESKTOPFILE_NAME"
-    sed -i -e "s!XXX_APPIMAGE_XXX!\"$APPIMAGE\"!" "$DESTINATION_DIR_DESKTOP/$VENDORPREFIX-$DESKTOPFILE_NAME"
-    #sed -i -e '/^Actions=/d' "$DESTINATION_DIR_DESKTOP/$VENDORPREFIX-$DESKTOPFILE_NAME"
-    #cat >> "$DESTINATION_DIR_DESKTOP/$VENDORPREFIX-$DESKTOPFILE_NAME" << EOF
-    #
-    #
-    #EOF
 
     # Install the icon files for the application; TODO: scalable
     ICONS=$(find "${APPDIR}" -iwholename "*/${APP}.png" 2>/dev/null || true)
+    if [ -z $ICONS ]; then
+        ICONS=$(find tmp/ -name $(grep "^Icon=" $DESKTOPFILE |head -n 1|cut -f 2 -d '=').png)
+    fi
     echo "Icons for ${APP} on ${APPDIR} ${ICONS}"
     for ICON in $ICONS ; do
         ICON_SIZE=256
@@ -193,9 +158,12 @@ if [ "x$1" = "x--install" ]; then
 
     xdg-desktop-menu forceupdate
     gtk-update-icon-cache # for MIME
-    msgbox "$APPIMAGE"
+    echo "Install $APPIMAGE to desktop"
 elif [ "x$1" = "x--uninstall" ]; then
-    echo 
+    echo "Uninstalling from destkop..."
+    rm -f "$STAMP_DIR/${APP}_no_desktopintegration" "$DESTINATION_DIR_DESKTOP/$VENDORPREFIX-$DESKTOPFILE_NAME"
+    xdg-desktop-menu forceupdate
+    echo "Done."
 else
     echo "Unrecognized option $1"
     usage
