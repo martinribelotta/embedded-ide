@@ -2,7 +2,11 @@
 #include "mapviewer.h"
 #include "ui_mapviewer.h"
 
+#ifdef __ANDROID__
+#define UINT32_MAX __UINT32_MAX__
+#else
 #include <limits>
+#endif
 
 #include <QApplication>
 #include <QFile>

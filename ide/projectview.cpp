@@ -33,6 +33,7 @@
 #include "filepropertiesdialog.h"
 #include "appconfig.h"
 #include "findinfilesdialog.h"
+#include "clangdmanager.h"
 
 static const int LAST_MESSAGE_TIMEOUT=1500;
 
@@ -150,6 +151,7 @@ void ProjectView::closeProject()
 
 void ProjectView::openProject(const QString &projectFile)
 {
+    ClangdManager::instance()->start(QFileInfo(projectFile).absolutePath());
     if (!project().isEmpty())
         closeProject();
     if (!projectFile.isEmpty()) {

@@ -13,9 +13,6 @@ DESTDIR = ../build
 TARGET = embedded-ide
 TEMPLATE = app
 
-target.path = /tmp/$${TARGET}/bin
-INSTALLS += target
-
 #linux:QMAKE_LFLAGS += -fuse-ld=gold -fno-lto
 #linux:QMAKE_CXXFLAGS += -fsanitize=address -fno-lto
 #linux:LIBS += -lasan -lubsan
@@ -71,7 +68,7 @@ SOURCES += \
     componentitemwidget.cpp \
     combodocumentview.cpp \
     bannerwidget.cpp \
-    clangdprovider.cpp
+    clangdmanager.cpp
 
 INCLUDEPATH += inc
 
@@ -113,7 +110,7 @@ HEADERS  += \
     componentitemwidget.h \
     combodocumentview.h \
     bannerwidget.h \
-    clangdprovider.h
+    clangdmanager.h
 
 FORMS += \
     mainwindow.ui \
@@ -138,7 +135,7 @@ FORMS += \
 
 RESOURCES += resources/resources.qrc
 
-RC_ICONS = resources/images/embedded-ide.ico
+win32: RC_ICONS = resources/images/embedded-ide.ico
 
 #######################################
 #i18n
@@ -177,6 +174,19 @@ for(tsfile, TRANSLATIONS) {
     TRANSLATIONS_FILES''= $$qmfile
 }
 
+DISTFILES += \
+    i18n/zh.ts \
+    i18n/es.ts
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat
+
 unix {
     QMAKE_LFLAGS_RELEASE += -static-libstdc++ -static-libgcc
     QMAKE_LFLAGS_DEBUG += -static-libstdc++ -static-libgcc
@@ -202,8 +212,5 @@ unix {
     INSTALLS += iconfiles
     INSTALLS += scripts
     INSTALLS += hardconf
+    INSTALLS += target
 }
-
-DISTFILES += \
-    i18n/zh.ts \
-    i18n/es.ts

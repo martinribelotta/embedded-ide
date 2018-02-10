@@ -1,8 +1,5 @@
 #include "codeeditor.h"
 
-#include <cmath>
-#include <strstream>
-
 #include <QAction>
 #include <QDir>
 #include <QPainter>
