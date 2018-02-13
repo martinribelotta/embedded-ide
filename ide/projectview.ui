@@ -37,7 +37,7 @@
         <string>Project</string>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="resources/resources.qrc">
          <normaloff>:/images/application-menu.svg</normaloff>:/images/application-menu.svg</iconset>
        </property>
        <property name="iconSize">
@@ -76,7 +76,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="resources/resources.qrc">
          <normaloff>:/images/actions/debug.svg</normaloff>:/images/actions/debug.svg</iconset>
        </property>
        <property name="iconSize">
@@ -99,7 +99,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="resources/resources.qrc">
          <normaloff>:/images/document-export.svg</normaloff>:/images/document-export.svg</iconset>
        </property>
        <property name="iconSize">
@@ -122,7 +122,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="resources/resources.qrc">
          <normaloff>:/images/edit-find.svg</normaloff>:/images/edit-find.svg</iconset>
        </property>
        <property name="iconSize">
@@ -142,7 +142,7 @@
         <string>...</string>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="resources/resources.qrc">
          <normaloff>:/images/actions/run-build-configure.svg</normaloff>:/images/actions/run-build-configure.svg</iconset>
        </property>
        <property name="iconSize">
@@ -220,7 +220,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../resources/resources.qrc"/>
+  <include location="resources/resources.qrc"/>
  </resources>
  <connections/>
  <slots>

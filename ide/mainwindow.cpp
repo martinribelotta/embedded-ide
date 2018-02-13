@@ -89,6 +89,9 @@ MainWindow::MainWindow(QWidget *parent) :
     templateDownloader(new TemplateDownloader{})
 {
     ui->setupUi(this);
+
+    ui->centralWidget->setProjectView(ui->projectView);
+
     trayIcon->setIcon(QIcon(":/images/embedded-ide.svg"));
     {
         auto m = new QMenu();
@@ -278,7 +281,7 @@ void MainWindow::on_projectView_fileOpen(const QString &file)
     if (inf.suffix().toLower() == "map") {
         ui->centralWidget->mapOpen(file);
     } else if (m.inherits("text/plain") || (inf.size() == 0)) {
-        ui->centralWidget->fileOpenAt(file, 0, 0, &ui->projectView->makeInfo());
+        ui->centralWidget->fileOpen(file);
     } else {
         ui->centralWidget->binOpen(file);
     }
@@ -377,12 +380,22 @@ void MainWindow::loggerOpenPath(const QString& path, int col, int row)
 {
     QString file = ui->projectView->projectPath().absoluteFilePath(path);
     qDebug() << "Opening" << file << row << col;
-    ui->centralWidget->fileOpenAt(file, row - 1, col, &ui->projectView->makeInfo());
+    ui->centralWidget->fileOpen(file, row - 1, col);
 }
 
 void MainWindow::checkForUpdates() {
     templateDownloader->setSilent(true);
     templateDownloader->requestPendantDownloads();
+}
+
+bool MainWindow::event(QEvent *event)
+{
+    switch (event->type()) {
+    case QEvent::WindowActivate:
+        ui->centralWidget->setFocus();
+        break;
+    }
+    return QMainWindow::event(event);
 }
 
 bool MainWindow::goToBuildStage() {

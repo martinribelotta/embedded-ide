@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QFuture>
+#include <QEvent>
 
 class ProjectView;
 class DocumentArea;
@@ -22,6 +23,19 @@ public:
     explicit FindInFilesDialog(DocumentArea *docView, ProjectView *projView, QWidget *parent = 0);
     ~FindInFilesDialog();
 
+protected:
+    bool event(QEvent *event) override
+    {
+        switch (event->type()) {
+        case QEvent::WindowActivate:
+            setWindowOpacity(1.0);
+            break;
+        case QEvent::WindowDeactivate:
+            setWindowOpacity(0.5);
+            break;
+        }
+        return QDialog::event(event);
+    }
 private:
     Ui::FindInFilesDialog *ui;
 };

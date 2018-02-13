@@ -1,6 +1,7 @@
 #include "combodocumentview.h"
 
 #include <QComboBox>
+#include <QEvent>
 #include <QHBoxLayout>
 #include <QStackedWidget>
 #include <QToolButton>
@@ -178,6 +179,17 @@ void ComboDocumentView::setWidgetTitle(QWidget *w, const QString &title)
         priv->comboDocuments->setItemText(comboIndex, title);
     } else
         LOG("comboIndex == -1");
+}
+
+bool ComboDocumentView::event(QEvent *event)
+{
+    switch (event->type()) {
+    case QEvent::WindowActivate:
+        if (currentWidget())
+            currentWidget()->setFocus();
+        break;
+    }
+    return QWidget::event(event);
 }
 
 void ComboDocumentView::on_stackedWidget_currentChanged(int index)

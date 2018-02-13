@@ -55,6 +55,8 @@ private slots:
 
     void checkForUpdates();
 
+    bool event(QEvent *event);
+
 private:
     Ui::MainWindow *ui;
     QSystemTrayIcon *trayIcon;

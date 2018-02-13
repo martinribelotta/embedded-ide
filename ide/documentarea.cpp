@@ -4,6 +4,7 @@
 #include "qhexedit.h"
 #include "mapviewer.h"
 #include "bannerwidget.h"
+#include "projectview.h"
 
 #include <QHBoxLayout>
 #include <QToolButton>
@@ -35,23 +36,19 @@ DocumentArea::DocumentArea(QWidget *parent) :
     auto s = new QShortcut(QKeySequence("CTRL+Q"), this);
     s->setContext(Qt::ApplicationShortcut);
     connect(s, &QShortcut::activated, this, &DocumentArea::closeCurrent);
-#if 0
-    auto *prev = actions[0];
-    auto *next = actions[1];
-    prev->setEnabled(false);
-    next->setEnabled(false);
+
     connect(this, &ComboDocumentView::widgetCurrentChanged,
-            [this, prev, next](int idx, QWidget *w) {
-        QString documentPath = w->windowFilePath();
+            [this](int idx, QWidget *w) {
+        Q_UNUSED(idx);
+        w->setFocus();
     });
-#endif
 
     connect(this, &ComboDocumentView::widgetAdded,
             [this, actionsEnable](int idx, QWidget *w) {
         Q_UNUSED(idx);
-        Q_UNUSED(w);
         actionsEnable(true);
         banner->setVisible(false);
+        w->setFocus();
     });
     connect(this, &ComboDocumentView::widgetRemoved,
             [this, actionsEnable](int idx, QWidget *w) {
@@ -88,33 +85,25 @@ bool DocumentArea::hasUnsavedChanges() {
     return !documentsDirty().isEmpty();
 }
 
-int DocumentArea::fileOpenAt(const QString &file, int row, int col, const MakefileInfo *mk)
-{
-    int idx = fileOpen(file, mk);
-    if (idx == -1)
-        return -1;
-    CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
-    if (w) {
-        w->moveTextCursor(row, col);
-        w->setFocus();
-    }
-    return idx;
-}
-
-int DocumentArea::fileOpen(const QString &file, const MakefileInfo *mk)
+int DocumentArea::fileOpen(const QString &file, int row, int col)
 {
     int idx = documentFind(file);
+    CodeEditor *editor;
     if (idx == -1) {
-        auto editor = new CodeEditor(this);
-        connect(editor, &CodeEditor::requireOpen, this, &DocumentArea::fileOpenAt);
-        editor->setMakefileInfo(mk);
+        editor = new CodeEditor(this);
+        connect(editor, &CodeEditor::requireOpen, this, &DocumentArea::fileOpen);
+        editor->setMakefileInfo(&pView->makeInfo());
         if (!editor->load(file))
             return -1;
         idx = addWidget(editor, editor->windowTitle());
         connect(editor, SIGNAL(modificationChanged(bool)), this, SLOT(modifyTab(bool)));
         connect(editor, &CodeEditor::destroyed, this, &DocumentArea::tabDestroy);
-    }
+    } else
+        editor = qobject_cast<CodeEditor*>(widget(idx));
     setCurrentIndex(idx);
+    widget(idx)->setFocus();
+    if (row != -1 && col != -1 && editor)
+       editor->moveTextCursor(row, col);
     return idx;
 }
 
@@ -124,9 +113,9 @@ void DocumentArea::clearIp()
         lastIpEditor->clearDebugPointer();
 }
 
-int DocumentArea::fileOpenAndSetIP(const QString &file, int line, const MakefileInfo *mk)
+int DocumentArea::fileOpenAndSetIP(const QString &file, int line)
 {
-    int idx = fileOpenAt(file, line, 0, mk);
+    int idx = fileOpen(file, line, 0);
     if (idx == -1)
         return -1;
     CodeEditor *w = qobject_cast<CodeEditor*>(widget(idx));
@@ -240,16 +229,6 @@ void DocumentArea::setTopBarHeight(int h)
         c->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         c->setMaximumHeight(z.height());
     }
-}
-
-void DocumentArea::goNext()
-{
-    // TODO
-}
-
-void DocumentArea::goPrev()
-{
-    // TODO
 }
 
 void DocumentArea::resizeEvent(QResizeEvent *e)

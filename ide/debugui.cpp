@@ -47,7 +47,7 @@ DebugUI::DebugUI(QWidget *parent) :
     ui->viewStack->setModel(GdbDebugger::instance()->debugModel(CALLSTACK_MODEL));
 
     connect(GdbDebugger::instance(), &GdbDebugger::setCurrentLine, [this](const QString& file, int line) {
-        docs->fileOpenAndSetIP(file, line, &view->makeInfo());
+        docs->fileOpenAndSetIP(file, line);
     });
 
     connect(GdbDebugger::instance(), &GdbDebugger::debugLog, [this](DEBUG_LOG_TYPE type, const QString &log){

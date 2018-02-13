@@ -77,7 +77,8 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
         auto item = model->itemFromIndex(index);
         if (item) {
             auto pos = item->data().value<FilePos>();
-            docView->fileOpenAt(pos.path, pos.line, pos.column, &projView->makeInfo());
+            docView->fileOpen(pos.path, pos.line, pos.column);
+            docView->window()->activateWindow();
         }
     });
 

@@ -7,8 +7,10 @@
 
 class MakefileInfo;
 class CodeEditor;
+class ProjectView;
 
 class QLabel;
+class QUndoStack;
 
 class DocumentArea : public ComboDocumentView
 {
@@ -19,14 +21,14 @@ public:
 
     QList<CodeEditor*> documentsDirty() const;
     bool hasUnsavedChanges();
+    void setProjectView(ProjectView *pView) { this->pView = pView; }
 
 signals:
 
 public slots:
-    int fileOpenAt(const QString& file, int row, int col, const MakefileInfo *mk);
-    int fileOpen(const QString& file, const MakefileInfo *mk);
+    int fileOpen(const QString& file, int row=-1, int col=-1);
     void clearIp();
-    int fileOpenAndSetIP(const QString& file, int line, const MakefileInfo *mk);
+    int fileOpenAndSetIP(const QString& file, int line);
     int binOpen(const QString& file);
     int mapOpen(const QString& file);
     void saveAll();
@@ -35,8 +37,6 @@ public slots:
     void reloadCurrent();
     void closeCurrent();
     void setTopBarHeight(int h);
-    void goNext();
-    void goPrev();
 
 protected:
     virtual void resizeEvent(QResizeEvent *e) override;
@@ -50,6 +50,7 @@ private:
     int documentFind(const QString& file, QWidget **ww = nullptr);
     CodeEditor *lastIpEditor;
     QWidget *banner;
+    ProjectView *pView;
 };
 
 #endif // DOCUMENTAREA_H

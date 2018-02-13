@@ -307,50 +307,66 @@ static QHash<K, V> operator+(QHash<K, V> h, const QHashVal<V>& e) {
 
 typedef QsciLexer* (*creator_t)();
 
-#define _(mime, type) \
-    (QHashVal<creator_t>{QString(mime), reinterpret_cast<creator_t>(&helperCreator<type>)})
+#define _(mime, type) { QString(mime), reinterpret_cast<creator_t>(&helperCreator<type>) }
 
-static QHash<QString, creator_t> creatorMap = QHash<QString, creator_t>() +
-_("application/json", QsciLexerJSON) +
-_("text/x-octave", QsciLexerOctave) +
-_("text/x-fortran", QsciLexerFortran) +
-_("text/x-yaml", QsciLexerYAML) +
-_("text/x-css", QsciLexerCSS) +
-_("text/x-ps", QsciLexerPostScript) +
-_("text/x-diff", QsciLexerDiff) +
-_("text/x-avs", QsciLexerAVS) +
-_("text/x-markdown", QsciLexerMarkdown) +
-_("text/markdown", QsciLexerMarkdown) +
-_("text/x-makefile", QsciLexerMakefile) +
-_("text/x-pov", QsciLexerPOV) +
-_("text/x-sql", QsciLexerSQL) +
-_("text/x-html", QsciLexerHTML) +
-_("text/x-po", QsciLexerPO) +
-_("text/x-python", QsciLexerPython) +
-_("text/x-lua", QsciLexerLua) +
-_("text/x-xml", QsciLexerXML) +
-_("text/x-idl", QsciLexerIDL) +
-_("text/x-fortran", QsciLexerFortran) +
-_("text/x-ruby", QsciLexerRuby) +
-_("text/x-tex", QsciLexerTeX) +
-_("text/x-bat", QsciLexerBatch) +
-_("application/x-shellscript", QsciLexerBash) +
-_("text/x-perl", QsciLexerPerl) +
-_("text/x-cmake", QsciLexerCMake) +
-_("text/x-java", QsciLexerJava) +
-_("text/x-csharp", QsciLexerCSharp) +
-_("text/x-properties", QsciLexerProperties) +
-_("text/x-vhdl", QsciLexerVHDL) +
-_("text/x-csrc", MyQsciLexerCPP) +
-_("text/x-pascal", QsciLexerPascal) +
-_("text/x-spice", QsciLexerSpice) +
-_("text/x-matlab", QsciLexerMatlab) +
-_("text/x-tcl", QsciLexerTCL) +
-_("text/x-verilog", QsciLexerVerilog) +
-_("text/x-javascript", QsciLexerJavaScript) +
-_("text/x-dlang", QsciLexerD) +
-_("text/x-coffe", QsciLexerCoffeeScript)
-;
+static QHash<QString, creator_t> creatorMap = {
+    _("application/json", QsciLexerJSON),
+    _("text/x-octave", QsciLexerOctave),
+    _("text/x-fortran", QsciLexerFortran),
+    _("text/x-yaml", QsciLexerYAML),
+    _("text/x-css", QsciLexerCSS),
+    _("text/x-ps", QsciLexerPostScript),
+    _("text/x-diff", QsciLexerDiff),
+    _("text/x-avs", QsciLexerAVS),
+    _("text/x-markdown", QsciLexerMarkdown),
+    _("text/markdown", QsciLexerMarkdown),
+    _("text/x-makefile", QsciLexerMakefile),
+    _("text/x-pov", QsciLexerPOV),
+    _("text/x-sql", QsciLexerSQL),
+    _("text/x-html", QsciLexerHTML),
+    _("text/x-po", QsciLexerPO),
+    _("text/x-python", QsciLexerPython),
+    _("text/x-lua", QsciLexerLua),
+    _("text/x-xml", QsciLexerXML),
+    _("text/x-idl", QsciLexerIDL),
+    _("text/x-fortran", QsciLexerFortran),
+    _("text/x-ruby", QsciLexerRuby),
+    _("text/x-tex", QsciLexerTeX),
+    _("text/x-bat", QsciLexerBatch),
+    _("application/x-shellscript", QsciLexerBash),
+    _("text/x-perl", QsciLexerPerl),
+    _("text/x-cmake", QsciLexerCMake),
+    _("text/x-java", QsciLexerJava),
+    _("text/x-csharp", QsciLexerCSharp),
+    _("text/x-properties", QsciLexerProperties),
+    _("text/x-vhdl", QsciLexerVHDL),
+    _("text/x-csrc", MyQsciLexerCPP),
+    _("text/x-pascal", QsciLexerPascal),
+    _("text/x-spice", QsciLexerSpice),
+    _("text/x-matlab", QsciLexerMatlab),
+    _("text/x-tcl", QsciLexerTCL),
+    _("text/x-verilog", QsciLexerVerilog),
+    _("text/x-javascript", QsciLexerJavaScript),
+    _("text/x-dlang", QsciLexerD),
+    _("text/x-coffe", QsciLexerCoffeeScript)
+};
+
+static QHash<QString, creator_t> creatorFromExtMap = {
+    _("c", MyQsciLexerCPP),
+    _("cc", MyQsciLexerCPP),
+    _("cxx", MyQsciLexerCPP),
+    _("cpp", MyQsciLexerCPP),
+    _("c++", MyQsciLexerCPP),
+    _("h", MyQsciLexerCPP),
+    _("hh", MyQsciLexerCPP),
+    _("hxx", MyQsciLexerCPP),
+    _("hpp", MyQsciLexerCPP),
+    _("h++", MyQsciLexerCPP),
+#if 0
+    _("s", SciLexerASM),
+    _("S", SciLexerASM),
+#endif
+};
 #undef _
 
 static QsciLexer *lexerFromFile(const QString& name) {
@@ -359,8 +375,10 @@ static QsciLexer *lexerFromFile(const QString& name) {
     QMimeType type;
     if (f.open(QFile::ReadOnly))
         type = QMimeDatabase().mimeTypeForFileNameAndData(name, &f);
-    else
+    else {
+        qDebug() << "Open file error" << f.errorString();
         type = QMimeDatabase().mimeTypeForFile(name);
+    }
     QString mimename = type.name();
     // qDebug() << "mime" << mimename;
     if (creatorMap.contains(mimename)) {
@@ -373,6 +391,13 @@ static QsciLexer *lexerFromFile(const QString& name) {
             return creatorMap.value(mname)();
         }
     }
+    auto suffix = QFileInfo(name).suffix();
+    for(const auto& ext: creatorFromExtMap.keys())
+        if (suffix == ext) {
+            qDebug() << "Lexer found for suffix" << suffix;
+            return creatorFromExtMap.value(ext)();
+        }
+    qDebug() << "No lexer found";
     return nullptr;
 }
 
@@ -387,7 +412,7 @@ bool CodeEditor::load(const QString &fileName)
            QFileInfo info(f);
            setWindowFilePath(info.absoluteFilePath());
            setWindowTitle(info.fileName());
-           QsciLexer *l=lexerFromFile(info.fileName());
+           QsciLexer *l=lexerFromFile(info.absoluteFilePath());
            if (l) {
                setLexer(l);
                lexer()->setFont(font());
@@ -469,7 +494,7 @@ void CodeEditor::findTagUnderCursor()
         } else {
             QString url = makefileInfo()->workingDir + QDir::separator() + sel.file;
             qDebug() << "opening " << url;
-            emit requireOpen(url, sel.line, 0, makefileInfo());
+            emit requireOpen(url, sel.line, 0);
         }
     }
 }

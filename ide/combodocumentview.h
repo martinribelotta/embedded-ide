@@ -49,6 +49,9 @@ public:
     void setWidgetTitle(int idx, const QString& title);
     void setWidgetTitle(QWidget *w, const QString& title);
 
+protected:
+    bool event(QEvent *event);
+
 signals:
     void widgetAdded(int idx, QWidget *w);
     void widgetRemoved(int idx, QWidget *w);
