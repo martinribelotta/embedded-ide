@@ -14,7 +14,7 @@ public:
     static const QStringList HANDLE_TYPE;
 
     explicit CLangCodeContext(CodeEditor *parent = 0);
-    ~CLangCodeContext();
+    ~CLangCodeContext() = default;
 
     void setWorkingDir(const QString& path);
 

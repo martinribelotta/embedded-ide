@@ -33,7 +33,6 @@
 #include "filepropertiesdialog.h"
 #include "appconfig.h"
 #include "findinfilesdialog.h"
-#include "clangdmanager.h"
 
 static const int LAST_MESSAGE_TIMEOUT=1500;
 
@@ -103,6 +102,7 @@ ProjectView::ProjectView(QWidget *parent) :
 
     projectButtons += ui->toolButton_export;
     projectButtons += ui->toolButton_find;
+    projectButtons += ui->toolButton_refreshProject;
     projectButtons += ui->toolButton_startDebug;
 
     ui->toolButton_tools->setMenu(createExternalToolsMenu());
@@ -151,7 +151,6 @@ void ProjectView::closeProject()
 
 void ProjectView::openProject(const QString &projectFile)
 {
-    ClangdManager::instance()->start(QFileInfo(projectFile).absolutePath());
     if (!project().isEmpty())
         closeProject();
     if (!projectFile.isEmpty()) {
@@ -167,11 +166,13 @@ void ProjectView::openProject(const QString &projectFile)
         ui->treeView->model()->deleteLater();
         ui->treeView->setModel(model);
         ui->treeView->setRootIndex(model->setRootPath(mk.path()));
-        for(int i=2; i<model->columnCount(); i++)
+        for(int i=1; i<model->columnCount(); i++)
             ui->treeView->hideColumn(i);
         ui->treeView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        ui->treeView->header()->hide();
         auto discover = new TargetUpdateDiscover(this);
         connect(discover, SIGNAL(updateFinish(MakefileInfo)), this, SLOT(updateMakefileInfo(MakefileInfo)));
+        connect(discover, SIGNAL(updateFinish(MakefileInfo)), discover, SLOT(deleteLater()));
         discover->start(project());
         for(auto b: projectButtons) b->setEnabled(true);
     }
@@ -238,7 +239,7 @@ void ProjectView::updateMakefileInfo(const MakefileInfo &info)
         item->setSizeHint(button->sizeHint());
         connect(button, &QPushButton::clicked, [text, this](){ emit startBuild(text); });
     }
-    sender()->deleteLater();
+    // sender()->deleteLater();
     auto ctagProc = new QProcess(this);
     ctagProc->setWorkingDirectory(mk_info.workingDir);
     connect(ctagProc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
@@ -576,6 +577,9 @@ void ProjectView::on_treeView_pressed(const QModelIndex &index)
         auto runAction = menu->addAction(QIcon(":/images/actions/run-build.svg"), tr("Execute"));
         connect(runAction, &QAction::triggered, [fInfo] { RUN(fInfo); });
     }
+    auto externalOpenAction = menu->addAction(QIcon(":/images/document-open.svg"), tr("Open External"));
+    connect(externalOpenAction, &QAction::triggered, [fInfo] { QDesktopServices::openUrl(QUrl::fromLocalFile(fInfo.absoluteFilePath())); });
+
     if (ui->treeView->rootIndex() != index) {
         menu->addSeparator();
         auto refreshAction = menu->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Rename"));
@@ -602,4 +606,11 @@ void ProjectView::on_treeView_customContextMenuRequested(const QPoint &pos)
     if (!idx.isValid())
         idx = ui->treeView->rootIndex();
     on_treeView_pressed(idx);
+}
+
+void ProjectView::on_toolButton_refreshProject_clicked()
+{
+    auto saved = project();
+    closeProject();
+    openProject(saved);
 }

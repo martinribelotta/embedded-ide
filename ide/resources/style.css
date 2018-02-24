@@ -5,7 +5,7 @@ ComboDocumentView QComboBox {
     min-width: 6em;
 }
 
-ComboDocumentView   QComboBox::drop-down {
+ComboDocumentView QComboBox::drop-down {
     subcontrol-origin: padding;
     subcontrol-position: top right;
     width: 15px;
@@ -15,4 +15,8 @@ ComboDocumentView   QComboBox::drop-down {
     border-left-style: solid;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
+}
+
+ComboDocumentView QComboBox QAbstractItemView {
+    padding-left: 13px;
 }

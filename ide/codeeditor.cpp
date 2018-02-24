@@ -91,7 +91,7 @@ CodeEditor::CodeEditor(QWidget *parent) :
     m_completer->setWidget(this);
 
     auto pModel = new QSortFilterProxyModel(m_completer);
-    pModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    pModel->setFilterCaseSensitivity(Qt::CaseSensitive);
     pModel->setSourceModel(new QStringListModel(m_completer));
     m_completer->setModel(pModel);
     connect(m_completer, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
@@ -230,7 +230,7 @@ int CodeEditor::findText(const QString &text, int flags, int start, int *targend
 
 void CodeEditor::completionShow()
 {
-    QString underCursor = wordUnderCursor(); // textUnderCursor().selectedText();
+    QString underCursor = wordUnderCursor();
     QSortFilterProxyModel *pModel = qobject_cast<QSortFilterProxyModel*>(m_completer->model());
     pModel->setFilterFixedString(underCursor);
     int w = m_completer->popup()->sizeHintForColumn(0) +

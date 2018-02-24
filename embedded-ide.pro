@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-SUBDIRS = ide socketwaiter qtdialog
+SUBDIRS = ide # socketwaiter qtdialog
 
 RESOURCES += \
     resources/resources.qrc

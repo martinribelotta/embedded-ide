@@ -89,6 +89,8 @@ private slots:
 
     void on_treeView_customContextMenuRequested(const QPoint &pos);
 
+    void on_toolButton_refreshProject_clicked();
+
 signals:
     void projectOpened();
     void fileOpen(const QString& file);

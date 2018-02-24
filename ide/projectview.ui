@@ -11,6 +11,9 @@
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -58,7 +61,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>0</width>
          <height>20</height>
         </size>
        </property>
@@ -78,6 +81,26 @@
        <property name="icon">
         <iconset resource="resources/resources.qrc">
          <normaloff>:/images/actions/debug.svg</normaloff>:/images/actions/debug.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton_refreshProject">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Reload Project</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/resources.qrc">
+         <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
        </property>
        <property name="iconSize">
         <size>

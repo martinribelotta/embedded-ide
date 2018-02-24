@@ -24,9 +24,6 @@ CLangCodeContext::CLangCodeContext(CodeEditor *parent) : QObject(parent), ed(par
     // connect(this, SIGNAL(discoverCompleted(QStringList,QStringList)), ed, SLOT(discoverCompletion(QStringList,QStringList)));
 }
 
-CLangCodeContext::~CLangCodeContext()
-= default;
-
 void CLangCodeContext::setWorkingDir(const QString &path)
 {
     clangProc->setWorkingDirectory(path);
@@ -44,9 +41,19 @@ void CLangCodeContext::startContextUpdate()
     int row, col;
     ed->getCursorPosition(&row, &col);
     QStringList argv;
-    argv << "-cc1";
-    argv << "-code-completion-at";
-    argv << QString("-:%1:%2").arg(row + 1).arg(col + 1);
+    argv << "-x"
+         << "c"
+         << "-fcolor-diagnostics"
+         << "-fsyntax-only"
+         << "-Xclang"
+         << "-code-completion-macros"
+         << "-Xclang"
+         << "-code-completion-patterns"
+         << "-Xclang"
+         << "-code-completion-brief-comments"
+         << "-Xclang"
+         << QString("-code-completion-at=-:%1:%2").arg(row + 1).arg(col + 1)
+         << "-";
     argv << prepend("-D", defines);
     argv << prepend("-I", includes);
     qDebug() << "workdir:" << clangProc->workingDirectory();
@@ -67,7 +74,7 @@ static QString findDependency(const QString dep, const MakefileInfo *mk)
 }
 
 static const QString TOKEN_SEPARATORS(" \t");
-static const QString TOKEN_CUOTATIONS(R"("')");
+static const QString TOKEN_CUOTATIONS("\"'");
 static const QChar ESCAPE_CHAR = '\\';
 
 static QString getToken(QTextStream *s)

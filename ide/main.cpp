@@ -125,6 +125,7 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
+
     a.setStyleSheet([]() -> QString {
                         QFile f(":/style.css");
                         return f.open(QFile::ReadOnly)? f.readAll() : QString();

@@ -13,15 +13,6 @@ DESTDIR = ../build
 TARGET = embedded-ide
 TEMPLATE = app
 
-#linux:QMAKE_LFLAGS += -fuse-ld=gold -fno-lto
-#linux:QMAKE_CXXFLAGS += -fsanitize=address -fno-lto
-#linux:LIBS += -lasan -lubsan
-
-#win32{
-#    LIBS += -LC:/OpenSSL-Win32/lib -lubsec
-#    INCLUDEPATH += C:/OpenSSL-Win32/include
-#}
-
 QSCINTILLA_SRC_DIR=3rdpart/qscintilla/
 include(3rdpart/qscintilla/qscintilla.pri)
 include(3rdpart/astyle/astyle.pri)
@@ -67,8 +58,7 @@ SOURCES += \
     componentsdialog.cpp \
     componentitemwidget.cpp \
     combodocumentview.cpp \
-    bannerwidget.cpp \
-    clangdmanager.cpp
+    bannerwidget.cpp
 
 INCLUDEPATH += inc
 
@@ -109,8 +99,7 @@ HEADERS  += \
     componentsdialog.h \
     componentitemwidget.h \
     combodocumentview.h \
-    bannerwidget.h \
-    clangdmanager.h
+    bannerwidget.h
 
 FORMS += \
     mainwindow.ui \
@@ -144,26 +133,27 @@ qtPrepareTool(LUPDATE, lupdate)
 qtPrepareTool(LRELEASE, lrelease)
 
 ### FIXIT:
-### LANGUAGES = es zh
-### defineReplace(prependAll) {
-###  for(a,$$1):result = $$result $$2$${a}$$3
-###  return($$result)
-### }
-### TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/i18n/, .ts)
-### ts-all.commands = cd $$PWD && $$LUPDATE $$PWD/embedded-ide.pro && $$LRELEASE $$PWD/embedded-ide.pro
-### QMAKE_EXTRA_TARGETS ''= ts-all
-### # FIXME(denisacostaq@gmail.com): this invoke the build always becuase the qm
-### # files are included as resouces, make it depend on "all" target
-### # ts-all.deppends = all not work
-### PRE_TARGETDEPS += ts-all
+LANGUAGES = es zh
+defineReplace(prependAll) {
+    for(a,$$1):result = $$result $$2$${a}$$3
+    return($$result)
+}
+TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/i18n/, .ts)
 
-TRANSLATIONS = i18n/es.ts \
-               i18n/zh.ts
+## FIXME(denisacostaq@gmail.com): this invoke the build always becuase the qm
+## files are included as resouces, make it depend on "all" target
+## ts-all.deppends = all not work
+#ts-all.commands = cd $$PWD && $$LUPDATE $$PWD/ide.pro && $$LRELEASE $$PWD/ide.pro
+#QMAKE_EXTRA_TARGETS ''= ts-all
+#PRE_TARGETDEPS += ts-all
+
+#TRANSLATIONS = i18n/es.ts \
+#               i18n/zh.ts
 
 TRANSLATIONS_FILES =
 qtPrepareTool(LRELEASE, lrelease)
 for(tsfile, TRANSLATIONS) {
-    qmfile = $$tsfile #$$shadowed($$tsfile)
+    qmfile = $$shadowed($$tsfile)
     qmfile ~= s,.ts$,.qm,
     qmdir = $$dirname(qmfile)
     !exists($$qmdir) {
@@ -173,19 +163,6 @@ for(tsfile, TRANSLATIONS) {
     system($$command)|error("Failed to run: $$command")
     TRANSLATIONS_FILES''= $$qmfile
 }
-
-DISTFILES += \
-    i18n/zh.ts \
-    i18n/es.ts
-
-DISTFILES += \
-    android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
-    android/res/values/libs.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat
 
 unix {
     QMAKE_LFLAGS_RELEASE += -static-libstdc++ -static-libgcc
