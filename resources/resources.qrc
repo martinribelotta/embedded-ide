@@ -1,0 +1,122 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/embedded-ide-mono.svg</file>
+        <file>images/embedded-ide.ico</file>
+        <file>images/embedded-ide.png</file>
+        <file>images/embedded-ide.svg</file>
+        <file>images/actions/code-context.svg</file>
+        <file>images/actions/code-function.svg</file>
+        <file>images/actions/code-typedef.svg</file>
+        <file>images/actions/code-variable.svg</file>
+        <file>images/actions/configure.svg</file>
+        <file>images/actions/debug-execute-from-cursor.svg</file>
+        <file>images/actions/debug-execute-to-cursor.svg</file>
+        <file>images/actions/debug-run-cursor.svg</file>
+        <file>images/actions/debug-run.svg</file>
+        <file>images/actions/debug-step-instruction.svg</file>
+        <file>images/actions/debug-step-into-instruction.svg</file>
+        <file>images/actions/debug-step-into.svg</file>
+        <file>images/actions/debug-step-out.svg</file>
+        <file>images/actions/debug-step-over.svg</file>
+        <file>images/actions/debug.svg</file>
+        <file>images/actions/dialog-cancel.svg</file>
+        <file>images/actions/dialog-close.svg</file>
+        <file>images/actions/dialog-ok-apply.svg</file>
+        <file>images/actions/document-close-all.svg</file>
+        <file>images/actions/document-close.svg</file>
+        <file>images/actions/document-export.svg</file>
+        <file>images/actions/document-import.svg</file>
+        <file>images/actions/document-new.svg</file>
+        <file>images/actions/document-open.svg</file>
+        <file>images/actions/document-save-all.svg</file>
+        <file>images/actions/document-save-as.svg</file>
+        <file>images/actions/document-save.svg</file>
+        <file>images/actions/edit-clear.svg</file>
+        <file>images/actions/edit-copy.svg</file>
+        <file>images/actions/edit-cut.svg</file>
+        <file>images/actions/edit-delete.svg</file>
+        <file>images/actions/edit-download.svg</file>
+        <file>images/actions/edit-find-replace.svg</file>
+        <file>images/actions/edit-find.svg</file>
+        <file>images/actions/edit-paste.svg</file>
+        <file>images/actions/edit-redo.svg</file>
+        <file>images/actions/edit-undo.svg</file>
+        <file>images/actions/folder-new.svg</file>
+        <file>images/actions/go-next.svg</file>
+        <file>images/actions/go-previous.svg</file>
+        <file>images/actions/help-about.svg</file>
+        <file>images/actions/insert-link-symbolic.svg</file>
+        <file>images/actions/list-add.svg</file>
+        <file>images/actions/list-remove.svg</file>
+        <file>images/actions/media-playback-pause.svg</file>
+        <file>images/actions/media-playback-start.svg</file>
+        <file>images/actions/media-playback-stop.svg</file>
+        <file>images/actions/run-build-clean.svg</file>
+        <file>images/actions/run-build-configure.svg</file>
+        <file>images/actions/run-build-file.svg</file>
+        <file>images/actions/run-build-install-root.svg</file>
+        <file>images/actions/run-build-install.svg</file>
+        <file>images/actions/run-build-prune.svg</file>
+        <file>images/actions/run-build.svg</file>
+        <file>images/actions/view-refresh.svg</file>
+        <file>images/actions/window-close.svg</file>
+        <file>images/actions/window-new.svg</file>
+        <file>images/mimetypes/application-x-executable-script.svg</file>
+        <file>images/mimetypes/application-x-java.svg</file>
+        <file>images/mimetypes/application-x-javascript.svg</file>
+        <file>images/mimetypes/application-x-m4.svg</file>
+        <file>images/mimetypes/application-x-python-bytecode.svg</file>
+        <file>images/mimetypes/application-x-zerosize.svg</file>
+        <file>images/mimetypes/folder.svg</file>
+        <file>images/mimetypes/image-x-generic.svg</file>
+        <file>images/mimetypes/inode-directory.svg</file>
+        <file>images/mimetypes/text-html.svg</file>
+        <file>images/mimetypes/text-markdown.svg</file>
+        <file>images/mimetypes/text-plain.svg</file>
+        <file>images/mimetypes/text-x-c++hdr.svg</file>
+        <file>images/mimetypes/text-x-c++src.svg</file>
+        <file>images/mimetypes/text-x-chdr.svg</file>
+        <file>images/mimetypes/text-x-csrc.svg</file>
+        <file>images/mimetypes/text-x-generic.svg</file>
+        <file>images/mimetypes/text-x-hex.svg</file>
+        <file>images/mimetypes/text-x-java.svg</file>
+        <file>images/mimetypes/text-x-javascript.svg</file>
+        <file>images/mimetypes/text-x-makefile.svg</file>
+        <file>images/mimetypes/text-x-markdown.svg</file>
+        <file>images/mimetypes/text-x-patch.svg</file>
+        <file>images/mimetypes/text-x-plain.svg</file>
+        <file>images/mimetypes/text-x-python.svg</file>
+        <file>images/mimetypes/text-x-readme.svg</file>
+        <file>images/mimetypes/text-x-script.svg</file>
+        <file>images/mimetypes/text-x-texinfo.svg</file>
+        <file>images/mimetypes/text-xml.svg</file>
+        <file>images/mimetypes/unknown.svg</file>
+        <file>styles/Bespin.xml</file>
+        <file>styles/Black board.xml</file>
+        <file>styles/Choco.xml</file>
+        <file>styles/Deep Black.xml</file>
+        <file>styles/Default.xml</file>
+        <file>styles/Hello Kitty.xml</file>
+        <file>styles/HotFudgeSundae.xml</file>
+        <file>styles/khaki.xml</file>
+        <file>styles/Material-Dark.xml</file>
+        <file>styles/Mono Industrial.xml</file>
+        <file>styles/Monokai.xml</file>
+        <file>styles/MossyLawn.xml</file>
+        <file>styles/Navajo.xml</file>
+        <file>styles/Obsidian.xml</file>
+        <file>styles/Plastic Code Wrap.xml</file>
+        <file>styles/Ruby Blue.xml</file>
+        <file>styles/Solarized-light.xml</file>
+        <file>styles/Solarized.xml</file>
+        <file>styles/Twilight.xml</file>
+        <file>styles/Vibrant Ink.xml</file>
+        <file>styles/vim Dark Blue.xml</file>
+        <file>styles/Zenburn.xml</file>
+        <file>images/actions/application-exit.svg</file>
+        <file>images/actions/application-menu.svg</file>
+        <file>images/actions/archive-remove.svg</file>
+        <file>images/actions/code-block.svg</file>
+        <file>images/actions/code-class.svg</file>
+    </qresource>
+</RCC>
