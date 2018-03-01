@@ -22,6 +22,10 @@ public:
 
     static IDocumentEditorCreator *creator();
 
+private slots:
+    void adjustLineNumberMargin();
+    int findText(const QString &text, int flags, int start, int *targend);
+
 private:
     void loadConfig();
     bool loadStyle(const QString &xmlStyleFile);

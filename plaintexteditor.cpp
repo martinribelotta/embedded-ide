@@ -10,9 +10,21 @@
 PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
 {
     loadConfig();
-    connect(this, &QsciScintilla::linesChanged, [this]() {
-        QFontMetrics m(font());
-        setMarginWidth(0, m.width(QString().fill('0', 2 + static_cast<int>(std::log10(lines())))));
+    connect(this, &QsciScintilla::linesChanged, this, &PlainTextEditor::adjustLineNumberMargin);
+    connect(this, &QsciScintilla::selectionChanged, [this](){
+        int editorLength = SendScintilla(SCI_GETLENGTH);
+        SendScintilla(SCI_SETINDICATORCURRENT, 0);
+        SendScintilla(SCI_INDICATORCLEARRANGE, 0, editorLength);
+        auto word = selectedText();
+        if (!word.isEmpty()) {
+            int endpos = 0;
+            int startpos = 0;
+            startpos = findText(word, SCFIND_WHOLEWORD, startpos, &endpos);
+            while(startpos != -1) {
+                SendScintilla(SCI_INDICATORFILLRANGE, startpos, endpos - startpos);
+                startpos = findText(word, SCFIND_WHOLEWORD, endpos + 1, &endpos);
+            }
+        }
     });
 }
 
@@ -94,6 +106,28 @@ IDocumentEditorCreator *PlainTextEditor::creator()
     return staticCreator;
 }
 
+void PlainTextEditor::adjustLineNumberMargin()
+{
+    QFontMetrics m(font());
+    setMarginWidth(0, m.width(QString().fill('0', 2 + static_cast<int>(std::log10(lines())))));
+}
+
+int PlainTextEditor::findText(const QString &text, int flags, int start, int *targend)
+{
+    ScintillaBytes s = textAsBytes(text);
+    int endpos = SendScintilla(SCI_GETLENGTH);
+    SendScintilla(SCI_SETSEARCHFLAGS, flags);
+    SendScintilla(SCI_SETTARGETSTART, start);
+    SendScintilla(SCI_SETTARGETEND, endpos);
+
+    int pos = SendScintilla(SCI_SEARCHINTARGET, s.length(), ScintillaBytesConstData(s));
+    if (pos == -1)
+        return -1;
+    long targstart = SendScintilla(SCI_GETTARGETSTART);
+    *targend = SendScintilla(SCI_GETTARGETEND);
+    return targstart;
+}
+
 void PlainTextEditor::loadConfig()
 {
     QFont fonts("Monospace");
@@ -126,8 +160,7 @@ void PlainTextEditor::loadConfig()
     setMarkerBackgroundColor(QColor("#1111ee"), SC_MARK_CIRCLE);
     setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
     setAnnotationDisplay(AnnotationIndented);
-    QFontMetrics m(fonts);
-    setMarginWidth(0, m.width(QString().fill('0', 2 + static_cast<int>(std::log10(lines())))));
+    adjustLineNumberMargin();
 
     SendScintilla(SCI_INDICSETSTYLE, 0, INDIC_ROUNDBOX);
     SendScintilla(SCI_INDICSETFORE, 0, 255);

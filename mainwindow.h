@@ -15,8 +15,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     virtual ~MainWindow();
 
-private slots:
-    void openProject();
+public slots:
+    void openProject(const QString& path);
 
 private:
     Ui::MainWindow *ui;

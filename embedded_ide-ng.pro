@@ -28,25 +28,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    appmenu.cpp \
     projectmanager.cpp \
-    projecticonprovider.cpp \
     documentmanager.cpp \
     idocumenteditor.cpp \
-    plaintexteditor.cpp
+    plaintexteditor.cpp \
+    filesystemmanager.cpp
 
 HEADERS += \
         mainwindow.h \
-    appmenu.h \
     projectmanager.h \
-    projecticonprovider.h \
     documentmanager.h \
     idocumenteditor.h \
-    plaintexteditor.h
+    plaintexteditor.h \
+    filesystemmanager.h
 
 FORMS += \
-        mainwindow.ui \
-    appmenu.ui
+        mainwindow.ui
 
 CONFIG += mobility
 MOBILITY = 

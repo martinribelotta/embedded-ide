@@ -1,4 +1,3 @@
-#include "projecticonprovider.h"
 #include "projectmanager.h"
 
 #include <QFileInfo>
@@ -16,8 +15,6 @@ public:
     QStringList targets;
     QHash<QString, QString> allTargets;
     QRegularExpression targetFilter{ R"(^(?!Makefile)[a-zA-Z0-9_\\-]+$)", QRegularExpression::MultilineOption };
-
-    QTreeView *fileView = nullptr;
     QListView *targetView = nullptr;
 };
 
@@ -30,20 +27,6 @@ ProjectManager::ProjectManager(QObject *parent) :
 ProjectManager::~ProjectManager()
 {
     delete priv;
-}
-
-void ProjectManager::setFileView(QTreeView *view)
-{
-    if (priv->fileView)
-        priv->fileView->disconnect(this);
-    priv->fileView = view;
-    connect(priv->fileView, &QTreeView::activated, [this](const QModelIndex& idx) {
-        auto model = qobject_cast<QFileSystemModel*>(priv->fileView->model());
-        if (model) {
-            auto path = model->filePath(idx);
-            emit requestFileOpen(path);
-        }
-    });
 }
 
 void ProjectManager::setTargetView(QListView *view)
@@ -103,20 +86,6 @@ void ProjectManager::openProject(const QString &makefile)
         }
         make->deleteLater();
     });
-    if (priv->fileView) {
-        auto model = qobject_cast<QFileSystemModel*>(priv->fileView->model());
-        if (!model) {
-            if (priv->fileView->model())
-                priv->fileView->model()->deleteLater();
-            priv->fileView->setModel(model = new QFileSystemModel(priv->fileView));
-        }
-        model->setIconProvider(new ProjectIconProvider);
-        priv->fileView->setRootIndex(model->setRootPath(make->workingDirectory()));
-        for(int i=1; i<model->columnCount(); i++)
-            priv->fileView->hideColumn(i);
-        priv->fileView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-        priv->fileView->header()->hide();
-    }
     make->start();
     emit projectOpened(makefile);
 }
@@ -125,10 +94,6 @@ void ProjectManager::closeProject()
 {
     priv->allTargets.clear();
     priv->targets.clear();
-
-    if (priv->fileView->model())
-        priv->fileView->model()->deleteLater();
-    priv->fileView->setModel(nullptr);
 
     if (priv->targetView->model())
         priv->targetView->model()->deleteLater();

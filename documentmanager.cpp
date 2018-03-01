@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include <QFileInfo>
 #include <QMimeDatabase>
+#include <QSortFilterProxyModel>
 #include <QStackedLayout>
 
 class DocumentManager::Priv_t {
@@ -45,13 +46,11 @@ void DocumentManager::setComboBox(QComboBox *cb)
             auto iface = priv->mapedWidgets.value(path, nullptr);
             if (iface) {
                 int comboIdx = priv->combo->findData(path);
-                if (comboIdx != -1) {
-                    priv->combo->setCurrentIndex(comboIdx);
-                } else {
+                if (comboIdx == -1) {
                     priv->combo->addItem(QFileInfo(path).fileName(), path);
-                    priv->combo->setCurrentIndex(priv->combo->count() - 1);
-                    priv->combo->model()->sort(0);
+                    comboIdx = priv->combo->findData(path);
                 }
+                priv->combo->setCurrentIndex(comboIdx);
             }
         }
     });

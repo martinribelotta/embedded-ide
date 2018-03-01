@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-class QTreeView;
 class QListView;
 
 class ProjectManager : public QObject
@@ -13,7 +12,6 @@ public:
     explicit ProjectManager(QObject *parent = nullptr);
     virtual ~ProjectManager();
 
-    void setFileView(QTreeView *view);
     void setTargetView(QListView *view);
 
 signals:
