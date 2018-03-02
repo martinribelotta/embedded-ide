@@ -13,7 +13,7 @@
 class MainWindow::Priv_t {
 public:
     ProjectManager *projectManager;
-    FilesystemManager *fileManager;
+    FileSystemManager *fileManager;
 };
 
 static void setEnableAllButtonGroup(QButtonGroup *b, bool en) {
@@ -33,8 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     priv->projectManager = new ProjectManager(this);
     priv->projectManager->setTargetView(ui->actionViewer);
-    priv->fileManager = new FilesystemManager(ui->fileViewer, this);
-    connect(priv->fileManager, &FilesystemManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
+    priv->fileManager = new FileSystemManager(ui->fileViewer, this);
+    connect(priv->fileManager, &FileSystemManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
 
     if (1) {
         auto gl = new QGridLayout(ui->logView);

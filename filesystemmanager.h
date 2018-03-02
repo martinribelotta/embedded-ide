@@ -5,11 +5,12 @@
 
 class QTreeView;
 
-class FilesystemManager : public QObject
+class FileSystemManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit FilesystemManager(QTreeView *v, QObject *parent = nullptr);
+    explicit FileSystemManager(QTreeView *v, QObject *parent = nullptr);
+    virtual ~FileSystemManager();
 
 signals:
     void requestFileOpen(const QString& path);
@@ -17,6 +18,18 @@ signals:
 public slots:
     void openPath(const QString& path);
     void closePath();
+
+private slots:
+    void customContextMenu(const QPoint& pos);
+
+    void menuNewFile();
+    void menuNewDirectory();
+    void menuNewSymlink();
+    void menuItemProperties();
+    void menuItemExecute();
+    void menuItemOpenExternal();
+    void menuItemRename();
+    void menuItemDelete();
 
 private:
     QTreeView *view;

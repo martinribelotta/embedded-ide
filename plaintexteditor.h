@@ -7,7 +7,8 @@
 class PlainTextEditor : public IDocumentEditor, public QsciScintilla
 {
 public:
-    PlainTextEditor(QWidget *parent = nullptr);
+    explicit PlainTextEditor(QWidget *parent = nullptr);
+    virtual ~PlainTextEditor();
 
     virtual QWidget *widget() { return this; }
     virtual bool load(const QString& path) override;

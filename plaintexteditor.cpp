@@ -28,6 +28,11 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
     });
 }
 
+PlainTextEditor::~PlainTextEditor()
+{
+
+}
+
 bool PlainTextEditor::load(const QString &path)
 {
     QFile f(path);
