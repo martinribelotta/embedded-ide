@@ -106,20 +106,24 @@ void FileSystemManager::customContextMenu(const QPoint &pos)
     if (!index.isValid())
         return;
 
+    auto noSelection = view->selectionModel()->selectedRows(0).isEmpty();
     auto info = model->fileInfo(index);
     auto m = new QMenu(view);
-    m->addAction(QIcon(":/images/actions/document-new.svg"), tr("New File"), this, &FileSystemManager::menuNewFile);
-    m->addAction(QIcon(":/images/actions/folder-new.svg"), tr("New Directory"), this, &FileSystemManager::menuNewDirectory);
-#ifdef Q_OS_UNIX
-    m->addAction(QIcon(":/images/actions/insert-link-symbolic.svg"), tr("New Symlink"), this, &FileSystemManager::menuNewSymlink);
-#endif
-    m->addAction(QIcon(":/images/actions/edit-find.svg"), tr("Properties"), this, &FileSystemManager::menuItemProperties);
-    m->addAction(QIcon(":/images/actions/run-build-file.svg"), tr("Execute"), this, &FileSystemManager::menuItemExecute)->setEnabled(isExec(info));
-    m->addAction(QIcon(":/images/actions/window-new.svg"), tr("Open External"), this, &FileSystemManager::menuItemOpenExternal);
-    m->addSeparator();
-    m->addAction(QIcon(":/images/actions/debug-execute-from-cursor.svg"), tr("Rename"), this, &FileSystemManager::menuItemRename);
-    m->addAction(QIcon(":/images/actions/document-close.svg"), tr("Delete"), this, &FileSystemManager::menuItemDelete);
+#define _(icon, text, slot) \
+    m->addAction(QIcon(":/images/actions/" icon ".svg"), text, this, slot)
 
+    _("document-new", tr("New File"), &FileSystemManager::menuNewFile);
+    _("folder-new", tr("New Directory"), &FileSystemManager::menuNewDirectory);
+#ifdef Q_OS_UNIX
+    _("insert-link-symbolic", tr("New Symlink"), &FileSystemManager::menuNewSymlink);
+#endif
+    _("edit-find", tr("Properties"), &FileSystemManager::menuItemProperties);
+    _("run-build-file", tr("Execute"), &FileSystemManager::menuItemExecute)->setEnabled(isExec(info));
+    _("window-new", tr("Open External"), &FileSystemManager::menuItemOpenExternal);
+    m->addSeparator();
+    _("debug-execute-from-cursor", tr("Rename"), &FileSystemManager::menuItemRename)->setDisabled(noSelection);
+    _("document-close", tr("Delete"), &FileSystemManager::menuItemDelete)->setDisabled(noSelection);
+#undef _
     m->exec(view->mapToGlobal(pos));
     m->deleteLater();
 }
