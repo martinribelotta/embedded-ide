@@ -1,3 +1,4 @@
+#include "processmanager.h"
 #include "projectmanager.h"
 
 #include <QFileInfo>
@@ -16,25 +17,8 @@ public:
     QHash<QString, QString> allTargets;
     QRegularExpression targetFilter{ R"(^(?!Makefile)[a-zA-Z0-9_\\-]+$)", QRegularExpression::MultilineOption };
     QListView *targetView = nullptr;
+    ProcessManager *pman;
 };
-
-ProjectManager::ProjectManager(QObject *parent) :
-    QObject(parent),
-    priv(new Priv_t)
-{
-    setProperty("project", QString());
-}
-
-ProjectManager::~ProjectManager()
-{
-    delete priv;
-}
-
-void ProjectManager::setTargetView(QListView *view)
-{
-    priv->targetView = view;
-    priv->targetView->setModel(new QStandardItemModel(priv->targetView));
-}
 
 static QHash<QString, QString> findAllTargets(const QString& text)
 {
@@ -49,47 +33,53 @@ static QHash<QString, QString> findAllTargets(const QString& text)
     return map;
 }
 
+const QString DISCOVER_PROC = "makeDiscover";
+
+ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *parent) :
+    QObject(parent),
+    priv(new Priv_t)
+{
+    setProperty("project", QString());
+    priv->targetView = view;
+    priv->targetView->setModel(new QStandardItemModel(priv->targetView));
+    priv->pman = pman;
+    priv->pman->setTerminationHandler(DISCOVER_PROC, [this](QProcess *make, int code, QProcess::ExitStatus status) {
+        Q_UNUSED(code);
+        if (status == QProcess::NormalExit) {
+            auto out = QString(make->readAllStandardOutput());
+            priv->allTargets = findAllTargets(out);
+            priv->targets = priv->allTargets.keys().filter(priv->targetFilter);
+            priv->targets.sort();
+            auto targetModel = qobject_cast<QStandardItemModel*>(priv->targetView->model());
+            if (targetModel) {
+                for(auto& t: priv->targets) {
+                    auto item = new QStandardItem;
+                    auto *button = new QPushButton;
+                    targetModel->appendRow(item);
+                    button->setIcon(QIcon(":/images/actions/run-build.svg"));
+                    button->setIconSize(QSize(32, 32));
+                    button->setText(t);
+                    button->setStyleSheet("text-align: left; padding: 4px;");
+                    priv->targetView->setIndexWidget(item->index(), button);
+                    item->setSizeHint(button->sizeHint());
+                    connect(button, &QPushButton::clicked, [t, this](){ emit targetTriggered(t); });
+                }
+            }
+        }
+    });
+}
+
+ProjectManager::~ProjectManager()
+{
+    delete priv;
+}
+
 void ProjectManager::openProject(const QString &makefile)
 {
     auto doOpenProject = [makefile, this]() {
-        auto make = new QProcess(this);
-        make->setObjectName("makeProcess");
-        make->setWorkingDirectory(QFileInfo(makefile).absolutePath());
-        auto env = make->processEnvironment();
-        // Important: Set LANG to C for non-tr messages
-        env.insert("LC_ALL", "C");
-        make->setProcessEnvironment(env);
-        make->setProgram("make");
-        make->setArguments({ "-B", "-p", "-r", "-n", "-f", makefile });
-        connect(make, &QProcess::errorOccurred, [make]() { make->deleteLater(); });
-        connect(make, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-                [make, this](int code, QProcess::ExitStatus status) {
-            Q_UNUSED(code);
-            if (status == QProcess::NormalExit) {
-                auto out = QString(make->readAllStandardOutput());
-                priv->allTargets = findAllTargets(out);
-                priv->targets = priv->allTargets.keys().filter(priv->targetFilter);
-                priv->targets.sort();
-                auto targetModel = qobject_cast<QStandardItemModel*>(priv->targetView->model());
-                if (targetModel) {
-                    for(auto& t: priv->targets) {
-                        auto item = new QStandardItem;
-                        auto *button = new QPushButton;
-                        targetModel->appendRow(item);
-                        button->setIcon(QIcon(":/images/actions/run-build.svg"));
-                        button->setIconSize(QSize(32, 32));
-                        button->setText(t);
-                        button->setStyleSheet("text-align: left; padding: 4px;");
-                        priv->targetView->setIndexWidget(item->index(), button);
-                        item->setSizeHint(button->sizeHint());
-                        connect(button, &QPushButton::clicked, [t, this](){ emit targetTriggered(t); });
-                    }
-                }
-            }
-            make->deleteLater();
-        });
-        make->start();
         setProperty("project", makefile);
+        priv->pman->processFor(DISCOVER_PROC)->setWorkingDirectory(QFileInfo(makefile).absolutePath());
+        priv->pman->start(DISCOVER_PROC, "make", { "-B", "-p", "-r", "-n", "-f", makefile }, { { "LC_ALL", "C" } });
         emit projectOpened(makefile);
     };
 
@@ -111,13 +101,8 @@ void ProjectManager::closeProject()
         priv->targetView->model()->deleteLater();
     priv->targetView->setModel(new QStandardItemModel(priv->targetView));
 
-    auto make = findChild<QProcess*>("makeProcess");
-    if (make) {
-        make->terminate();
-        if (!make->waitForFinished(1000))
-            make->kill();
-        make->deleteLater();
-    }
+    if (priv->pman->isRunning(DISCOVER_PROC))
+        priv->pman->terminate(DISCOVER_PROC, true, 1000);
     setProperty("project", QString());
     emit projectClosed();
 }

@@ -33,7 +33,8 @@ SOURCES += \
     idocumenteditor.cpp \
     plaintexteditor.cpp \
     filesystemmanager.cpp \
-    unsavedfilesdialog.cpp
+    unsavedfilesdialog.cpp \
+    processmanager.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +43,8 @@ HEADERS += \
     idocumenteditor.h \
     plaintexteditor.h \
     filesystemmanager.h \
-    unsavedfilesdialog.h
+    unsavedfilesdialog.h \
+    processmanager.h
 
 FORMS += \
         mainwindow.ui \

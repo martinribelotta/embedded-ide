@@ -6,14 +6,14 @@
 
 class QListView;
 
+class ProcessManager;
+
 class ProjectManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit ProjectManager(QObject *parent = nullptr);
+    explicit ProjectManager(QListView *view, ProcessManager *pman, QObject *parent = nullptr);
     virtual ~ProjectManager();
-
-    void setTargetView(QListView *view);
 
     QString projectName() const { return property("project").toString(); }
     bool isProjectOpen() const { return !projectName().isEmpty(); }

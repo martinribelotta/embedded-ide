@@ -4,6 +4,7 @@
 #include "projectmanager.h"
 #include "filesystemmanager.h"
 #include "unsavedfilesdialog.h"
+#include "processmanager.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -17,6 +18,7 @@ class MainWindow::Priv_t {
 public:
     ProjectManager *projectManager;
     FileSystemManager *fileManager;
+    ProcessManager *pman;
 };
 
 static void setEnableAllButtonGroup(QButtonGroup *b, bool en) {
@@ -34,8 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->documentContainer->setComboBox(ui->documentSelector);
     ui->labelVersion->setText(ui->labelVersion->text().replace("{{version}}", CURRENT_VERSION));
 
-    priv->projectManager = new ProjectManager(this);
-    priv->projectManager->setTargetView(ui->actionViewer);
+    priv->pman = new ProcessManager(this);
+    priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);
     priv->fileManager = new FileSystemManager(ui->fileViewer, this);
     connect(priv->fileManager, &FileSystemManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
 
