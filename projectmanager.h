@@ -2,6 +2,7 @@
 #define PROJECTMANAGER_H
 
 #include <QObject>
+#include <QVariant>
 
 class QListView;
 
@@ -13,6 +14,9 @@ public:
     virtual ~ProjectManager();
 
     void setTargetView(QListView *view);
+
+    QString projectName() const { return property("project").toString(); }
+    bool isProjectOpen() const { return !projectName().isEmpty(); }
 
 signals:
     void projectOpened(const QString& makePath);

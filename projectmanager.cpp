@@ -22,6 +22,7 @@ ProjectManager::ProjectManager(QObject *parent) :
     QObject(parent),
     priv(new Priv_t)
 {
+    setProperty("project", QString());
 }
 
 ProjectManager::~ProjectManager()
@@ -50,44 +51,55 @@ static QHash<QString, QString> findAllTargets(const QString& text)
 
 void ProjectManager::openProject(const QString &makefile)
 {
-    closeProject();
-    auto make = new QProcess(this);
-    make->setWorkingDirectory(QFileInfo(makefile).absolutePath());
-    auto env = make->processEnvironment();
-    // Important: Set LANG to C for non-tr messages
-    env.insert("LC_ALL", "C");
-    make->setProcessEnvironment(env);
-    make->setProgram("make");
-    make->setArguments({ "-B", "-p", "-r", "-n", "-f", makefile });
-    connect(make, &QProcess::errorOccurred, [make]() { make->deleteLater(); });
-    connect(make, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            [make, this](int code, QProcess::ExitStatus status) {
-        Q_UNUSED(code);
-        if (status == QProcess::NormalExit) {
-            auto out = QString(make->readAllStandardOutput());
-            priv->allTargets = findAllTargets(out);
-            priv->targets = priv->allTargets.keys().filter(priv->targetFilter);
-            priv->targets.sort();
-            auto targetModel = qobject_cast<QStandardItemModel*>(priv->targetView->model());
-            if (targetModel) {
-                for(auto& t: priv->targets) {
-                    auto item = new QStandardItem;
-                    auto *button = new QPushButton;
-                    targetModel->appendRow(item);
-                    button->setIcon(QIcon(":/images/actions/run-build.svg"));
-                    button->setIconSize(QSize(32, 32));
-                    button->setText(t);
-                    button->setStyleSheet("text-align: left; padding: 4px;");
-                    priv->targetView->setIndexWidget(item->index(), button);
-                    item->setSizeHint(button->sizeHint());
-                    connect(button, &QPushButton::clicked, [t, this](){ emit targetTriggered(t); });
+    auto doOpenProject = [makefile, this]() {
+        auto make = new QProcess(this);
+        make->setObjectName("makeProcess");
+        make->setWorkingDirectory(QFileInfo(makefile).absolutePath());
+        auto env = make->processEnvironment();
+        // Important: Set LANG to C for non-tr messages
+        env.insert("LC_ALL", "C");
+        make->setProcessEnvironment(env);
+        make->setProgram("make");
+        make->setArguments({ "-B", "-p", "-r", "-n", "-f", makefile });
+        connect(make, &QProcess::errorOccurred, [make]() { make->deleteLater(); });
+        connect(make, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                [make, this](int code, QProcess::ExitStatus status) {
+            Q_UNUSED(code);
+            if (status == QProcess::NormalExit) {
+                auto out = QString(make->readAllStandardOutput());
+                priv->allTargets = findAllTargets(out);
+                priv->targets = priv->allTargets.keys().filter(priv->targetFilter);
+                priv->targets.sort();
+                auto targetModel = qobject_cast<QStandardItemModel*>(priv->targetView->model());
+                if (targetModel) {
+                    for(auto& t: priv->targets) {
+                        auto item = new QStandardItem;
+                        auto *button = new QPushButton;
+                        targetModel->appendRow(item);
+                        button->setIcon(QIcon(":/images/actions/run-build.svg"));
+                        button->setIconSize(QSize(32, 32));
+                        button->setText(t);
+                        button->setStyleSheet("text-align: left; padding: 4px;");
+                        priv->targetView->setIndexWidget(item->index(), button);
+                        item->setSizeHint(button->sizeHint());
+                        connect(button, &QPushButton::clicked, [t, this](){ emit targetTriggered(t); });
+                    }
                 }
             }
-        }
-        make->deleteLater();
-    });
-    make->start();
-    emit projectOpened(makefile);
+            make->deleteLater();
+        });
+        make->start();
+        setProperty("project", makefile);
+        emit projectOpened(makefile);
+    };
+
+    // FIXME: Unnecesary if force to close project after open other
+    if (isProjectOpen()) {
+        auto con = connect(this, &ProjectManager::projectClosed, doOpenProject);
+        connect(this, &ProjectManager::projectClosed, [con]() { disconnect(con); });
+        closeProject();
+    } else
+        doOpenProject();
 }
 
 void ProjectManager::closeProject()
@@ -99,5 +111,13 @@ void ProjectManager::closeProject()
         priv->targetView->model()->deleteLater();
     priv->targetView->setModel(new QStandardItemModel(priv->targetView));
 
+    auto make = findChild<QProcess*>("makeProcess");
+    if (make) {
+        make->terminate();
+        if (!make->waitForFinished(1000))
+            make->kill();
+        make->deleteLater();
+    }
+    setProperty("project", QString());
     emit projectClosed();
 }
