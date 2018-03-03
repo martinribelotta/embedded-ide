@@ -118,5 +118,6 @@
         <file>images/actions/archive-remove.svg</file>
         <file>images/actions/code-block.svg</file>
         <file>images/actions/code-class.svg</file>
+        <file>images/actions/document-new-from-template.svg</file>
     </qresource>
 </RCC>

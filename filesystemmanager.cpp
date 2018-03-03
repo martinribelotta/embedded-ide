@@ -22,17 +22,8 @@ class ProjectIconProvider: public QFileIconProvider
 public:
     QIcon icon(const QFileInfo &info) const
     {
-        QMimeDatabase db;
-        auto t = db.mimeTypeForFile(info);
-        if (t.isValid()) {
-            auto resName = QString(":/images/mimetypes/%1.svg").arg(t.iconName());
-            if (QFile(resName).exists())
-                return QIcon(resName);
-            resName = QString(":/images/mimetypes/%1.svg").arg(t.genericIconName());
-            if (QFile(resName).exists())
-                return QIcon(resName);
-        }
-        return QFileIconProvider::icon(info);
+        auto icon = FileSystemManager::iconForFile(info);
+        return icon.isNull()? QFileIconProvider::icon(info) : icon;
     }
 };
 
@@ -64,6 +55,21 @@ FileSystemManager::FileSystemManager(QTreeView *v, QObject *parent) : QObject(pa
 
 FileSystemManager::~FileSystemManager()
 {
+}
+
+QIcon FileSystemManager::iconForFile(const QFileInfo &info)
+{
+    QMimeDatabase db;
+    auto t = db.mimeTypeForFile(info);
+    if (t.isValid()) {
+        auto resName = QString(":/images/mimetypes/%1.svg").arg(t.iconName());
+        if (QFile(resName).exists())
+            return QIcon(resName);
+        resName = QString(":/images/mimetypes/%1.svg").arg(t.genericIconName());
+        if (QFile(resName).exists())
+            return QIcon(resName);
+    }
+    return QIcon();
 }
 
 void FileSystemManager::openPath(const QString &path)

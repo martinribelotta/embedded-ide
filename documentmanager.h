@@ -32,6 +32,9 @@ public slots:
     void closeDocument(const QString& path);
     void closeCurrent() { closeDocument(documentCurrent()); }
     void closeAll();
+    void saveDocument(const QString& path);
+    void saveCurrent() { saveDocument(documentCurrent()); }
+    void saveAll();
 
 private:
     class Priv_t;

@@ -5,6 +5,7 @@
 #include <Qsci/qscilexer.h>
 
 #include <QFile>
+#include <QMessageBox>
 #include <QtDebug>
 
 PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
@@ -26,6 +27,9 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
             }
         }
     });
+    connect(this, &PlainTextEditor::modificationChanged, [this]() {
+        notifyModifyObservers();
+    });
 }
 
 PlainTextEditor::~PlainTextEditor()
@@ -38,7 +42,7 @@ bool PlainTextEditor::load(const QString &path)
     QFile f(path);
     if (f.open(QFile::ReadOnly)) {
         if (read(&f)) {
-            setWindowFilePath(path);
+            setPath(path);
             return true;
         }
     }
@@ -48,15 +52,14 @@ bool PlainTextEditor::load(const QString &path)
 bool PlainTextEditor::save(const QString &path)
 {
     QFile f(path);
-    if (f.open(QFile::WriteOnly))
-        return write(&f);
-    else
-        return false;
-}
-
-QString PlainTextEditor::path() const
-{
-    return windowFilePath();
+    if (f.open(QFile::WriteOnly)) {
+        if (write(&f)) {
+            setPath(path);
+            setModified(false);
+            return true;
+        }
+    }
+    return false;
 }
 
 bool PlainTextEditor::isReadonly() const
@@ -131,6 +134,31 @@ int PlainTextEditor::findText(const QString &text, int flags, int start, int *ta
     long targstart = SendScintilla(SCI_GETTARGETSTART);
     *targend = SendScintilla(SCI_GETTARGETEND);
     return targstart;
+}
+
+void PlainTextEditor::closeEvent(QCloseEvent *event)
+{
+    if (isModified()) {
+        QMessageBox messageBox(QMessageBox::Question,
+                               tr("Document Modified"),
+                               tr("The document is not save. Save it?"),
+                               QMessageBox::Yes | QMessageBox::No | QMessageBox::Abort,
+                               this);
+        messageBox.setButtonText(QMessageBox::Yes, tr("Yes"));
+        messageBox.setButtonText(QMessageBox::No, tr("No"));
+        messageBox.setButtonText(QMessageBox::Abort, tr("Abort"));
+        int r = messageBox.exec();
+        switch (r) {
+        case QMessageBox::Yes:
+            save(windowFilePath());
+            break;
+        case QMessageBox::Abort:
+            event->ignore();
+            break;
+        case QMessageBox::No:
+            break;
+        }
+    }
 }
 
 void PlainTextEditor::loadConfig()

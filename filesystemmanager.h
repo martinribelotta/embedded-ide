@@ -1,6 +1,7 @@
 #ifndef FILESYSTEMMANAGER_H
 #define FILESYSTEMMANAGER_H
 
+#include <QFileInfo>
 #include <QObject>
 
 class QTreeView;
@@ -11,6 +12,8 @@ class FileSystemManager : public QObject
 public:
     explicit FileSystemManager(QTreeView *v, QObject *parent = nullptr);
     virtual ~FileSystemManager();
+
+    static QIcon iconForFile(const QFileInfo &info);
 
 signals:
     void requestFileOpen(const QString& path);

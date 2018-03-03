@@ -10,10 +10,10 @@ public:
     explicit PlainTextEditor(QWidget *parent = nullptr);
     virtual ~PlainTextEditor();
 
+    virtual const QWidget *widget() const { return this; }
     virtual QWidget *widget() { return this; }
     virtual bool load(const QString& path) override;
     virtual bool save(const QString& path) override;
-    virtual QString path() const override;
     virtual bool isReadonly() const override;
     virtual void setReadonly(bool rdOnly) override;
     virtual bool isModified() const override;
@@ -26,6 +26,9 @@ public:
 private slots:
     void adjustLineNumberMargin();
     int findText(const QString &text, int flags, int start, int *targend);
+
+protected:
+    virtual void closeEvent(QCloseEvent *event);
 
 private:
     void loadConfig();
