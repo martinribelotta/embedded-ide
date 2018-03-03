@@ -32,7 +32,8 @@ SOURCES += \
     documentmanager.cpp \
     idocumenteditor.cpp \
     plaintexteditor.cpp \
-    filesystemmanager.cpp
+    filesystemmanager.cpp \
+    unsavedfilesdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,10 +41,12 @@ HEADERS += \
     documentmanager.h \
     idocumenteditor.h \
     plaintexteditor.h \
-    filesystemmanager.h
+    filesystemmanager.h \
+    unsavedfilesdialog.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    unsavedfilesdialog.ui
 
 CONFIG += mobility
 MOBILITY = 

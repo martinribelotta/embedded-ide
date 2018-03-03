@@ -3,10 +3,13 @@
 #include "ui_mainwindow.h"
 #include "projectmanager.h"
 #include "filesystemmanager.h"
+#include "unsavedfilesdialog.h"
 
+#include <QCloseEvent>
 #include <QFileDialog>
 #include <QStringListModel>
 #include <QScrollBar>
+#include <QMessageBox>
 
 #define CURRENT_VERSION "0.7-pre"
 
@@ -96,17 +99,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonConfiguration, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->configPage); });
     connect(ui->buttonConfigAccept, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->welcomePage); });
     connect(ui->buttonConfigReject, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->welcomePage); });
-
-#if 0
-    ui->recentProjectsView->setModel(new QStringListModel({
-                                                              "Proyecto1",
-                                                              "Proyecto2",
-                                                              "Proyecto3",
-                                                              "Proyecto4",
-                                                              "Proyecto5",
-                                                              "Proyecto Nro 6",
-                                                          }));
-#endif
 }
 
 MainWindow::~MainWindow()
@@ -118,4 +110,18 @@ MainWindow::~MainWindow()
 void MainWindow::openProject(const QString &path)
 {
     priv->projectManager->openProject(path);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    auto unsaved = ui->documentContainer->unsavedDocuments();
+    if (unsaved.isEmpty()) {
+        event->accept();
+    } else {
+        UnsavedFilesDialog d(unsaved, this);
+        event->setAccepted(d.exec() == QDialog::Accepted);
+        if (event->isAccepted())
+            for(const auto& a: d.checkedForSave())
+               ui->documentContainer->saveDocument(a);
+    }
 }

@@ -16,6 +16,7 @@ public:
 
     void setComboBox(QComboBox *cb);
 
+    QStringList unsavedDocuments() const;
     QStringList documents() const;
     int documentCount() const;
     QString documentCurrent() const;

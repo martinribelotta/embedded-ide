@@ -68,6 +68,15 @@ void DocumentManager::setComboBox(QComboBox *cb)
     });
 }
 
+QStringList DocumentManager::unsavedDocuments() const
+{
+    QStringList unsaved;
+    for(auto d: priv->mapedWidgets.values())
+        if (d->isModified())
+            unsaved.append(d->path());
+    return unsaved;
+}
+
 QStringList DocumentManager::documents() const
 {
     return priv->mapedWidgets.keys();
@@ -95,7 +104,7 @@ void DocumentManager::openDocument(const QString &path)
     if (QFileInfo(path).isDir())
         return;
     QWidget *widget = nullptr;
-    auto item = priv->mapedWidgets.value(path, nullptr);
+        auto item = priv->mapedWidgets.value(path, nullptr);
     if (!item) {
         item = DocumentEditorFactory::instance()->create(path, this);
         if (item) {

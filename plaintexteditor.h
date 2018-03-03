@@ -28,7 +28,7 @@ private slots:
     int findText(const QString &text, int flags, int start, int *targend);
 
 protected:
-    virtual void closeEvent(QCloseEvent *event);
+    virtual void closeEvent(QCloseEvent *event) override;
 
 private:
     void loadConfig();
