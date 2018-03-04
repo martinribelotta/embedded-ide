@@ -26,11 +26,6 @@ public:
     BuildManager *buildManager;
 };
 
-static void setEnableAllButtonGroup(QButtonGroup *b, bool en) {
-    for(auto& btn: b->buttons())
-        btn->setEnabled(en);
-}
-
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWindow),
@@ -71,21 +66,21 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     });
     connect(priv->projectManager, &ProjectManager::projectOpened, [this](const QString& makefile) {
-        setEnableAllButtonGroup(ui->projectButtons, true);
+        for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(true);
         ui->stackedWidget->setCurrentWidget(ui->mainPage);
         priv->fileManager->openPath(QFileInfo(makefile).absolutePath());
     });
     connect(priv->projectManager, &ProjectManager::projectClosed, [this]() {
+        for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(false);
         ui->stackedWidget->setCurrentWidget(ui->welcomePage);
-        setEnableAllButtonGroup(ui->projectButtons, false);
         ui->documentContainer->closeAll();
         priv->fileManager->closePath();
     });
 
     auto enableEdition = [this]() {
-        bool haveDocuments = ui->documentContainer->documentCount() > 0;
+        auto haveDocuments = ui->documentContainer->documentCount() > 0;
         auto current = ui->documentContainer->documentEditorCurrent();
-        bool isModified = current? current->isModified() : false;
+        auto isModified = current? current->isModified() : false;
         ui->documentSelector->setEnabled(haveDocuments);
         ui->buttonDocumentClose->setEnabled(haveDocuments);
         ui->buttonDocumentCloseAll->setEnabled(haveDocuments);

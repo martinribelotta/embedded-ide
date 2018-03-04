@@ -38,7 +38,8 @@ SOURCES += \
     processmanager.cpp \
     consoleinterceptor.cpp \
     buildmanager.cpp \
-    binaryviewer.cpp
+    binaryviewer.cpp \
+    codetexteditor.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +52,8 @@ HEADERS += \
     processmanager.h \
     consoleinterceptor.h \
     buildmanager.h \
-    binaryviewer.h
+    binaryviewer.h \
+    codetexteditor.h
 
 FORMS += \
         mainwindow.ui \

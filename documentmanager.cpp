@@ -1,6 +1,7 @@
 #include "documentmanager.h"
 #include "idocumenteditor.h"
 #include "plaintexteditor.h"
+#include "codetexteditor.h"
 #include "binaryviewer.h"
 #include "filesystemmanager.h"
 
@@ -27,6 +28,7 @@ DocumentManager::DocumentManager(QWidget *parent) :
     priv->stack = new QStackedLayout(this);
     priv->stack->setMargin(0);
 
+    DocumentEditorFactory::instance()->registerDocumentInterface(CodeTextEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(PlainTextEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(BinaryViewer::creator());
 
@@ -156,10 +158,7 @@ void DocumentManager::closeDocument(const QString &path)
     if (iface->widget()->close()) {
         priv->stack->removeWidget(iface->widget());
         if (priv->combo) {
-            //auto proxy = qobject_cast<QSortFilterProxyModel*>(priv->combo->model());
-            //auto model = proxy->sourceModel();
             int idx = priv->combo->findData(iface->path());
-            //idx = proxy->mapFromSource(model->index(idx, 0)).row();
             if (idx != -1)
                 priv->combo->removeItem(idx);
         }

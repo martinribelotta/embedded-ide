@@ -40,8 +40,5 @@ public:
 
 IDocumentEditorCreator *BinaryViewer::creator()
 {
-    IDocumentEditorCreator *staticCreator = nullptr;
-    if (!staticCreator)
-        staticCreator = new BinaryViewerCreator();
-    return staticCreator;
+    return IDocumentEditorCreator::staticCreator<BinaryViewerCreator>();
 }

@@ -30,7 +30,6 @@ private slots:
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
 
-private:
     void loadConfig();
     bool loadStyle(const QString &xmlStyleFile);
 };

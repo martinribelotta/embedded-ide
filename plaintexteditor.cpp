@@ -108,10 +108,7 @@ public:
 
 IDocumentEditorCreator *PlainTextEditor::creator()
 {
-    IDocumentEditorCreator *staticCreator = nullptr;
-    if (!staticCreator)
-        staticCreator = new PlainTextEditorCreator();
-    return staticCreator;
+    return IDocumentEditorCreator::staticCreator<PlainTextEditorCreator>();
 }
 
 void PlainTextEditor::adjustLineNumberMargin()

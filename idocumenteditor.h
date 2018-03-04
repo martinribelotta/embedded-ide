@@ -44,9 +44,17 @@ private:
 class IDocumentEditorCreator
 {
 public:
-    virtual bool canHandleExtentions(const QStringList&) { return false; }
+    virtual bool canHandleExtentions(const QStringList&) const { return false; }
     virtual bool canHandleMime(const QMimeType& mime) const = 0;
     virtual IDocumentEditor *create(QWidget *parent = nullptr) const = 0;
+
+    template<typename T>
+    static IDocumentEditorCreator *staticCreator() {
+        static IDocumentEditorCreator *singleton = nullptr;
+        if (!singleton)
+            singleton = new T;
+        return singleton;
+    }
 };
 
 class DocumentEditorFactory: public QObject
