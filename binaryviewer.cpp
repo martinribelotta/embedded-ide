@@ -8,7 +8,7 @@ bool BinaryViewer::load(const QString &path)
 {
     try {
         setData(new DataStorageFile(path));
-        setWindowFilePath(path);
+        setPath(path);
         return true;
     } catch(std::runtime_error) {
         return false;

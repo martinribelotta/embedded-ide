@@ -4,8 +4,6 @@
 #include <QFileInfo>
 #include <QMimeDatabase>
 
-#include <QtDebug>
-
 DocumentEditorFactory::DocumentEditorFactory()
 {
 }
@@ -28,7 +26,6 @@ IDocumentEditor *DocumentEditorFactory::create(const QString &path, QWidget *par
     auto mime = QMimeDatabase().mimeTypeForFile(path);
     auto suffixes = QStringList(QFileInfo(path).suffix()) << mime.suffixes();
 
-    qDebug() << "Opening" << mime.name() << suffixes;
     // Try first from suffix
     for(auto c: creators)
         if (c->canHandleExtentions(suffixes))
