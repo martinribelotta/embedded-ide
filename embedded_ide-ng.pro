@@ -24,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+include(3rdpart/qhexview.pri)
 
 SOURCES += \
         main.cpp \
@@ -34,7 +35,10 @@ SOURCES += \
     plaintexteditor.cpp \
     filesystemmanager.cpp \
     unsavedfilesdialog.cpp \
-    processmanager.cpp
+    processmanager.cpp \
+    consoleinterceptor.cpp \
+    buildmanager.cpp \
+    binaryviewer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,7 +48,10 @@ HEADERS += \
     plaintexteditor.h \
     filesystemmanager.h \
     unsavedfilesdialog.h \
-    processmanager.h
+    processmanager.h \
+    consoleinterceptor.h \
+    buildmanager.h \
+    binaryviewer.h
 
 FORMS += \
         mainwindow.ui \
@@ -55,3 +62,6 @@ MOBILITY =
 
 RESOURCES += \
     resources/resources.qrc
+
+DISTFILES += \
+    3rdpart/qhexview.pri

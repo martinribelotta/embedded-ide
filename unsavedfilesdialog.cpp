@@ -28,10 +28,7 @@ UnsavedFilesDialog::UnsavedFilesDialog(const QStringList& unsaved, QWidget *pare
     };
     connect(ui->buttonAbort, &QToolButton::clicked, this, &UnsavedFilesDialog::reject);
     connect(ui->buttonSaveSelected, &QToolButton::clicked, this, &UnsavedFilesDialog::accept);
-    connect(ui->buttonDiscartAll, &QToolButton::clicked, [this, setCheckAll]() {
-        setCheckAll(false);
-        accept();
-    });
+    connect(ui->buttonUnselectAll, &QToolButton::clicked, [setCheckAll]() { setCheckAll(false); });
     connect(ui->buttonSelectAll, &QToolButton::clicked, [setCheckAll]() { setCheckAll(true); });
 }
 

@@ -40,6 +40,18 @@ void ProcessManager::setErrorHandler(const QString &name, ProcessManager::errorH
     connect(proc, &QProcess::errorOccurred, [proc, func](QProcess::ProcessError error) { func(proc, error); });
 }
 
+void ProcessManager::setStderrInterceptor(const QString &name, ProcessManager::outputHandler_t func)
+{
+    auto proc = processFor(name);
+    connect(proc, &QProcess::readyReadStandardError, [proc, func]() { func(proc, QString(proc->readAllStandardError())); });
+}
+
+void ProcessManager::setStdoutInterceptor(const QString &name, ProcessManager::outputHandler_t func)
+{
+    auto proc = processFor(name);
+    connect(proc, &QProcess::readyReadStandardOutput, [proc, func]() { func(proc, QString(proc->readAllStandardOutput())); });
+}
+
 template<class Map>
 struct RangeWrapper {
     typedef typename Map::const_iterator MapIterator;
@@ -75,7 +87,7 @@ RangeWrapper<Map> toRange(Map & map)
     return RangeWrapper<Map>(map);
 }
 
-void ProcessManager::start(const QString &name, const QString &command, const QStringList &args, const QHash<QString,QString> &extraEnv)
+void ProcessManager::start(const QString &name, const QString &command, const QStringList &args, const QHash<QString,QString> &extraEnv, const QString &workingDir)
 {
     auto proc = processFor(name);
     if (!extraEnv.isEmpty()) {
@@ -84,6 +96,7 @@ void ProcessManager::start(const QString &name, const QString &command, const QS
             env.insert(e.key(), e.value());
         proc->setProcessEnvironment(env);
     }
+    proc->setWorkingDirectory(workingDir);
     proc->start(command, args);
 }
 

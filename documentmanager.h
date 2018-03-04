@@ -34,6 +34,7 @@ public slots:
     void closeCurrent() { closeDocument(documentCurrent()); }
     void closeAll();
     void saveDocument(const QString& path);
+    void saveDocuments(const QStringList& list) { for(const auto& a: list) saveDocument(a); }
     void saveCurrent() { saveDocument(documentCurrent()); }
     void saveAll();
 

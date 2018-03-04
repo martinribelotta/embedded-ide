@@ -119,5 +119,6 @@
         <file>images/actions/code-block.svg</file>
         <file>images/actions/code-class.svg</file>
         <file>images/actions/document-new-from-template.svg</file>
+        <file>images/screens/EmbeddedIDE_02.png</file>
     </qresource>
 </RCC>

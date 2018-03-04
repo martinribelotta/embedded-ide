@@ -15,8 +15,10 @@ public:
     explicit ProjectManager(QListView *view, ProcessManager *pman, QObject *parent = nullptr);
     virtual ~ProjectManager();
 
-    QString projectName() const { return property("project").toString(); }
-    bool isProjectOpen() const { return !projectName().isEmpty(); }
+    QString projectName() const;
+    QString projectPath() const;
+    QString projectFile() const;
+    bool isProjectOpen() const;
 
 signals:
     void projectOpened(const QString& makePath);

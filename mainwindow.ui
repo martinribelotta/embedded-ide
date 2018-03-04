@@ -511,6 +511,9 @@ QComboBox QAbstractItemView {
               <property name="verticalScrollBarPolicy">
                <enum>Qt::ScrollBarAlwaysOn</enum>
               </property>
+              <property name="lineWrapMode">
+               <enum>QTextEdit::NoWrap</enum>
+              </property>
              </widget>
             </widget>
            </item>

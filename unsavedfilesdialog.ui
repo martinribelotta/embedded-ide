@@ -6,15 +6,44 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>407</width>
+    <width>434</width>
     <height>238</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Unsaved Changes</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" rowspan="5">
+   <item row="2" column="1">
+    <widget class="QToolButton" name="buttonSaveSelected">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Continue</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources/resources.qrc">
+       <normaloff>:/images/actions/document-save-all.svg</normaloff>:/images/actions/document-save-all.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="toolButtonStyle">
+      <enum>Qt::ToolButtonTextBesideIcon</enum>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" rowspan="6">
     <widget class="QListView" name="listView">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
@@ -59,65 +88,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QToolButton" name="buttonSaveSelected">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Save Selected</string>
-     </property>
-     <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/document-save-all.svg</normaloff>:/images/actions/document-save-all.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>32</width>
-       <height>32</height>
-      </size>
-     </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextBesideIcon</enum>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QToolButton" name="buttonDiscartAll">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Discart All</string>
-     </property>
-     <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/edit-delete.svg</normaloff>:/images/actions/edit-delete.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>32</width>
-       <height>32</height>
-      </size>
-     </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextBesideIcon</enum>
-     </property>
-     <property name="autoRaise">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
+   <item row="4" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -130,7 +101,7 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="1">
+   <item row="5" column="1">
     <widget class="QToolButton" name="buttonAbort">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -139,11 +110,40 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Abort Close</string>
+      <string>Abort</string>
      </property>
      <property name="icon">
       <iconset resource="resources/resources.qrc">
        <normaloff>:/images/actions/dialog-close.svg</normaloff>:/images/actions/dialog-close.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="toolButtonStyle">
+      <enum>Qt::ToolButtonTextBesideIcon</enum>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QToolButton" name="buttonUnselectAll">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Unselect All</string>
+     </property>
+     <property name="icon">
+      <iconset resource="resources/resources.qrc">
+       <normaloff>:/images/actions/list-remove.svg</normaloff>:/images/actions/list-remove.svg</iconset>
      </property>
      <property name="iconSize">
       <size>

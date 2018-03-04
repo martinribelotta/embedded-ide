@@ -18,6 +18,7 @@ public:
     QRegularExpression targetFilter{ R"(^(?!Makefile)[a-zA-Z0-9_\\-]+$)", QRegularExpression::MultilineOption };
     QListView *targetView = nullptr;
     ProcessManager *pman;
+    QFileInfo makeFile;
 };
 
 static QHash<QString, QString> findAllTargets(const QString& text)
@@ -39,7 +40,6 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
     QObject(parent),
     priv(new Priv_t)
 {
-    setProperty("project", QString());
     priv->targetView = view;
     priv->targetView->setModel(new QStandardItemModel(priv->targetView));
     priv->pman = pman;
@@ -57,7 +57,7 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
                     auto *button = new QPushButton;
                     targetModel->appendRow(item);
                     button->setIcon(QIcon(":/images/actions/run-build.svg"));
-                    button->setIconSize(QSize(32, 32));
+                    button->setIconSize(QSize(16, 16));
                     button->setText(t);
                     button->setStyleSheet("text-align: left; padding: 4px;");
                     priv->targetView->setIndexWidget(item->index(), button);
@@ -74,12 +74,32 @@ ProjectManager::~ProjectManager()
     delete priv;
 }
 
+QString ProjectManager::projectName() const
+{
+    return priv->makeFile.absoluteDir().dirName();
+}
+
+QString ProjectManager::projectPath() const
+{
+    return priv->makeFile.canonicalPath();
+}
+
+QString ProjectManager::projectFile() const
+{
+    return priv->makeFile.canonicalFilePath();
+}
+
+bool ProjectManager::isProjectOpen() const
+{
+    return priv->makeFile.exists();
+}
+
 void ProjectManager::openProject(const QString &makefile)
 {
     auto doOpenProject = [makefile, this]() {
-        setProperty("project", makefile);
         priv->pman->processFor(DISCOVER_PROC)->setWorkingDirectory(QFileInfo(makefile).absolutePath());
         priv->pman->start(DISCOVER_PROC, "make", { "-B", "-p", "-r", "-n", "-f", makefile }, { { "LC_ALL", "C" } });
+        priv->makeFile = QFileInfo(makefile);
         emit projectOpened(makefile);
     };
 
@@ -103,6 +123,6 @@ void ProjectManager::closeProject()
 
     if (priv->pman->isRunning(DISCOVER_PROC))
         priv->pman->terminate(DISCOVER_PROC, true, 1000);
-    setProperty("project", QString());
+    priv->makeFile = QFileInfo();
     emit projectClosed();
 }

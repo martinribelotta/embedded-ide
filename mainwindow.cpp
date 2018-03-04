@@ -5,6 +5,8 @@
 #include "filesystemmanager.h"
 #include "unsavedfilesdialog.h"
 #include "processmanager.h"
+#include "consoleinterceptor.h"
+#include "buildmanager.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -19,6 +21,8 @@ public:
     ProjectManager *projectManager;
     FileSystemManager *fileManager;
     ProcessManager *pman;
+    ConsoleInterceptor *console;
+    BuildManager *buildManager;
 };
 
 static void setEnableAllButtonGroup(QButtonGroup *b, bool en) {
@@ -35,33 +39,28 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->setCurrentWidget(ui->welcomePage);
     ui->documentContainer->setComboBox(ui->documentSelector);
     ui->labelVersion->setText(ui->labelVersion->text().replace("{{version}}", CURRENT_VERSION));
+    resize(800, 600);
 
     priv->pman = new ProcessManager(this);
+    priv->console = new ConsoleInterceptor(ui->logView, priv->pman, BuildManager::PROCESS_NAME, this);
     priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);
+    priv->buildManager = new BuildManager(priv->projectManager, priv->pman, this);
     priv->fileManager = new FileSystemManager(ui->fileViewer, this);
+
+    connect(priv->buildManager, &BuildManager::buildStarted, [this]() { ui->actionViewer->setEnabled(false); });
+    connect(priv->buildManager, &BuildManager::buildTerminated, [this]() { ui->actionViewer->setEnabled(true); });
+    connect(priv->projectManager, &ProjectManager::targetTriggered, [this](const QString& target) {
+        ui->logView->clear();
+        auto unsaved = ui->documentContainer->unsavedDocuments();
+        if (!unsaved.isEmpty()) {
+            UnsavedFilesDialog d(unsaved, this);
+            if (d.exec() == QDialog::Rejected)
+                return;
+            ui->documentContainer->saveDocuments(d.checkedForSave());
+        }
+        priv->buildManager->startBuild(target);
+    });
     connect(priv->fileManager, &FileSystemManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
-
-    if (1) {
-        auto gl = new QGridLayout(ui->logView);
-        auto bclr = new QToolButton(ui->logView);
-        bclr->setIcon(QIcon(":/images/actions/edit-clear.svg"));
-        bclr->setAutoRaise(true);
-        bclr->setIconSize(QSize(32, 32));
-
-        auto bstop = new QToolButton(ui->logView);
-        bstop->setEnabled(false);
-        bstop->setIcon(QIcon(":/images/actions/window-close.svg"));
-        bstop->setAutoRaise(true);
-        bstop->setIconSize(QSize(32, 32));
-
-        gl->addWidget(bclr,  0, 1);
-        gl->addWidget(bstop, 1, 1);
-        gl->setColumnStretch(0, 1);
-        gl->setRowStretch(2, 1);
-        auto rMargin = ui->logView->verticalScrollBar()->sizeHint().width();
-        gl->setContentsMargins(0, 0, rMargin, 0);
-    }
-
     connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);
     connect(ui->buttonOpenProject, &QToolButton::clicked, [this]() {
         auto lastDir = QDir::homePath();
@@ -70,7 +69,6 @@ MainWindow::MainWindow(QWidget *parent) :
             openProject(path);
         }
     });
-
     connect(priv->projectManager, &ProjectManager::projectOpened, [this](const QString& makefile) {
         setEnableAllButtonGroup(ui->projectButtons, true);
         ui->stackedWidget->setCurrentWidget(ui->mainPage);
@@ -123,7 +121,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
         UnsavedFilesDialog d(unsaved, this);
         event->setAccepted(d.exec() == QDialog::Accepted);
         if (event->isAccepted())
-            for(const auto& a: d.checkedForSave())
-               ui->documentContainer->saveDocument(a);
+            ui->documentContainer->saveDocuments(d.checkedForSave());
     }
 }

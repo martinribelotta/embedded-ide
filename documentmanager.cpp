@@ -1,10 +1,12 @@
 #include "documentmanager.h"
 #include "idocumenteditor.h"
 #include "plaintexteditor.h"
+#include "binaryviewer.h"
 #include "filesystemmanager.h"
 
 #include <QComboBox>
 #include <QFileInfo>
+#include <QLabel>
 #include <QMimeDatabase>
 #include <QSortFilterProxyModel>
 #include <QStackedLayout>
@@ -24,7 +26,14 @@ DocumentManager::DocumentManager(QWidget *parent) :
 {
     priv->stack = new QStackedLayout(this);
     priv->stack->setMargin(0);
+
     DocumentEditorFactory::instance()->registerDocumentInterface(PlainTextEditor::creator());
+    DocumentEditorFactory::instance()->registerDocumentInterface(BinaryViewer::creator());
+
+    auto label = new QLabel(this);
+    label->setPixmap(QPixmap(":/images/screens/EmbeddedIDE_02.png"));
+    label->setAlignment(Qt::AlignHCenter | Qt::AlignCenter);
+    priv->stack->addWidget(label);
 }
 
 DocumentManager::~DocumentManager()
