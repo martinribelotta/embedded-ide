@@ -5,6 +5,7 @@
 #include <Qsci/qscilexer.h>
 
 #include <QFile>
+#include <QMenu>
 #include <QMessageBox>
 #include <QtDebug>
 
@@ -30,11 +31,19 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
     connect(this, &PlainTextEditor::modificationChanged, [this]() {
         notifyModifyObservers();
     });
+#define _(keycode, functor) do { \
+        auto acc = new QAction(this); \
+        acc->setShortcut(QKeySequence(keycode)); \
+        connect(acc, &QAction::triggered, [this]() functor); \
+        addAction(acc); \
+    } while(0)
+    _("ctrl+s", { save(path()); });
+    _("ctrl+r", { load(path()); });
+#undef _
 }
 
 PlainTextEditor::~PlainTextEditor()
 {
-
 }
 
 bool PlainTextEditor::load(const QString &path)
@@ -156,6 +165,12 @@ void PlainTextEditor::closeEvent(QCloseEvent *event)
             break;
         }
     }
+}
+
+void PlainTextEditor::contextMenuEvent(QContextMenuEvent *event)
+{
+    Q_UNUSED(event);
+    createContextualMenu()->exec(event->globalPos());
 }
 
 void PlainTextEditor::loadConfig()
@@ -328,4 +343,27 @@ set_global:
             qDebug() << "No styles element";
     }
     return true;
+}
+
+QMenu *PlainTextEditor::createContextualMenu()
+{
+    QMenu *m = new QMenu(this);
+    bool isSelected = !selectedText().isEmpty(); // textCursor().hasSelection();
+    bool canPaste = static_cast<bool>(SendScintilla(SCI_CANPASTE));
+#define _(en, icon, text, keys, functor) do { \
+    auto a = m->addAction(QIcon(":/images/actions/" icon ".svg"), text, [this]() functor); \
+    a->setShortcut(QKeySequence(keys)); \
+    a->setEnabled(en); \
+} while(0)
+    _(isUndoAvailable(), "edit-undo", tr("Undo"), "Ctrl+Z", { undo(); });
+    _(isRedoAvailable(), "edit-redo", tr("Redo"), "Ctrl+Shift+Z", { redo(); });
+    m->addSeparator();
+    _(isSelected, "edit-cut", tr("Cut"), "Ctrl+X", { cut(); });
+    _(isSelected, "edit-copy", tr("Copy"), "Ctrl+C", { copy(); });
+    _(canPaste, "edit-paste", tr("Paste"), "Ctrl+V", { paste(); });
+    _(isSelected, "edit-delete", tr("Delete"), "DEL", { removeSelectedText(); });
+    m->addSeparator();
+    _(true, "edit-select-all", tr("Select All"), "CTRL+A", { selectAll(); });
+#undef _
+    return m;
 }

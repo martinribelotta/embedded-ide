@@ -29,9 +29,13 @@ private slots:
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
+    virtual void contextMenuEvent(QContextMenuEvent *event) override;
 
     void loadConfig();
     bool loadStyle(const QString &xmlStyleFile);
+
+
+    virtual QMenu *createContextualMenu();
 };
 
 #endif // PLAINTEXTEDITOR_H

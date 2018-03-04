@@ -13,6 +13,10 @@ public:
     virtual bool load(const QString &path);
 
     static IDocumentEditorCreator *creator();
+
+protected:
+
+    virtual QMenu *createContextualMenu();
 };
 
 #endif // CODETEXTEDITOR_H

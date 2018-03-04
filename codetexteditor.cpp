@@ -1,6 +1,7 @@
 #include "codetexteditor.h"
 
 #include <QFileInfo>
+#include <QMenu>
 #include <QMimeDatabase>
 #include <QtDebug>
 
@@ -201,4 +202,10 @@ public:
 IDocumentEditorCreator *CodeTextEditor::creator()
 {
     return IDocumentEditorCreator::staticCreator<CodeEditorCreator>();
+}
+
+QMenu *CodeTextEditor::createContextualMenu()
+{
+    QMenu *menu = PlainTextEditor::createContextualMenu();
+    return menu;
 }
