@@ -7,6 +7,7 @@
 #include "processmanager.h"
 #include "consoleinterceptor.h"
 #include "buildmanager.h"
+#include "idocumenteditor.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -82,10 +83,21 @@ MainWindow::MainWindow(QWidget *parent) :
     });
 
     auto enableEdition = [this]() {
-        bool en = ui->documentContainer->documentCount() > 0;
-        setEnableAllButtonGroup(ui->editionButtons, en);
-        ui->documentSelector->setEnabled(en);
+        bool haveDocuments = ui->documentContainer->documentCount() > 0;
+        auto current = ui->documentContainer->documentEditorCurrent();
+        bool isModified = current? current->isModified() : false;
+        ui->documentSelector->setEnabled(haveDocuments);
+        ui->buttonDocumentClose->setEnabled(haveDocuments);
+        ui->buttonDocumentCloseAll->setEnabled(haveDocuments);
+        ui->buttonDocumentSave->setEnabled(isModified);
+        ui->buttonDocumentSaveAll->setEnabled(ui->documentContainer->unsavedDocuments().count() > 0);
     };
+    connect(ui->documentContainer, &DocumentManager::documentModified, [this](const QString& path, IDocumentEditor *iface, bool modify){
+        Q_UNUSED(path);
+        Q_UNUSED(iface);
+        ui->buttonDocumentSave->setEnabled(modify);
+        ui->buttonDocumentSaveAll->setEnabled(ui->documentContainer->unsavedDocuments().count() > 0);
+    });
 
     connect(ui->documentContainer, &DocumentManager::documentFocushed, enableEdition);
     connect(ui->documentContainer, &DocumentManager::documentClosed, enableEdition);

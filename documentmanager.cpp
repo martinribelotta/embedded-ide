@@ -133,6 +133,7 @@ void DocumentManager::openDocument(const QString &path)
                         priv->combo->setItemIcon(idx, m? QIcon(":/images/actions/document-close.svg") :
                                                          FileSystemManager::iconForFile(QFileInfo(path)));
                     }
+                    emit documentModified(path, ed, m);
                 });
             }
         }

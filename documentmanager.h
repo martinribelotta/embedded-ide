@@ -27,6 +27,7 @@ signals:
     void documentFocushed(const QString& path);
     void documentNotFound(const QString& path);
     void documentClosed(const QString& path);
+    void documentModified(const QString& path, IDocumentEditor *iface, bool modify);
 
 public slots:
     void openDocument(const QString& path);
