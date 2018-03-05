@@ -39,6 +39,7 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
     } while(0)
     _("ctrl+s", { save(path()); });
     _("ctrl+r", { load(path()); });
+    _("ctrl+space", { triggerAutocompletion(); });
 #undef _
 }
 
@@ -343,6 +344,11 @@ set_global:
             qDebug() << "No styles element";
     }
     return true;
+}
+
+void PlainTextEditor::triggerAutocompletion()
+{
+    autoCompleteFromDocument();
 }
 
 QMenu *PlainTextEditor::createContextualMenu()

@@ -35,6 +35,7 @@ protected:
     bool loadStyle(const QString &xmlStyleFile);
 
 
+    virtual void triggerAutocompletion();
     virtual QMenu *createContextualMenu();
 };
 
