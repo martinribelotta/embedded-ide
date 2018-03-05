@@ -19,6 +19,7 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     bclr->setIcon(QIcon(":/images/actions/edit-clear.svg"));
     bclr->setAutoRaise(true);
     bclr->setIconSize(size);
+    bclr->setToolTip(tr("Clear Console"));
     connect(bclr, &QToolButton::clicked, textBrowser, &QTextBrowser::clear);
 
     auto bstop = new QToolButton(textBrowser);
@@ -26,6 +27,7 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     bstop->setIcon(QIcon(":/images/actions/window-close.svg"));
     bstop->setAutoRaise(true);
     bstop->setIconSize(size);
+    bstop->setToolTip(tr("Stop Current Process"));
     connect(bstop, &QToolButton::clicked, [pman, pname]() { pman->terminate(pname, true, 300); });
     connect(pman->processFor(pname), &QProcess::stateChanged,
             [bstop](QProcess::ProcessState state) { bstop->setEnabled(state == QProcess::Running); });

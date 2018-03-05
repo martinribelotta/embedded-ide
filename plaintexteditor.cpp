@@ -347,14 +347,15 @@ set_global:
 
 QMenu *PlainTextEditor::createContextualMenu()
 {
-    QMenu *m = new QMenu(this);
-    bool isSelected = !selectedText().isEmpty(); // textCursor().hasSelection();
-    bool canPaste = static_cast<bool>(SendScintilla(SCI_CANPASTE));
 #define _(en, icon, text, keys, functor) do { \
     auto a = m->addAction(QIcon(":/images/actions/" icon ".svg"), text, [this]() functor); \
     a->setShortcut(QKeySequence(keys)); \
     a->setEnabled(en); \
 } while(0)
+
+    auto m = new QMenu(this);
+    bool isSelected = !selectedText().isEmpty();
+    bool canPaste = static_cast<bool>(SendScintilla(SCI_CANPASTE));
     _(isUndoAvailable(), "edit-undo", tr("Undo"), "Ctrl+Z", { undo(); });
     _(isRedoAvailable(), "edit-redo", tr("Redo"), "Ctrl+Shift+Z", { redo(); });
     m->addSeparator();

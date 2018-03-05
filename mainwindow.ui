@@ -29,7 +29,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="configPage">
       <layout class="QGridLayout" name="gridLayout_4">
@@ -51,9 +51,6 @@
        </item>
        <item row="1" column="1">
         <widget class="QToolButton" name="buttonConfigAccept">
-         <property name="text">
-          <string>Accept</string>
-         </property>
          <property name="icon">
           <iconset resource="resources/resources.qrc">
            <normaloff>:/images/actions/dialog-ok-apply.svg</normaloff>:/images/actions/dialog-ok-apply.svg</iconset>
@@ -64,9 +61,6 @@
            <height>32</height>
           </size>
          </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextUnderIcon</enum>
-         </property>
          <property name="autoRaise">
           <bool>true</bool>
          </property>
@@ -74,9 +68,6 @@
        </item>
        <item row="1" column="2">
         <widget class="QToolButton" name="buttonConfigReject">
-         <property name="text">
-          <string>Cancel</string>
-         </property>
          <property name="icon">
           <iconset resource="resources/resources.qrc">
            <normaloff>:/images/actions/dialog-close.svg</normaloff>:/images/actions/dialog-close.svg</iconset>
@@ -86,9 +77,6 @@
            <width>32</width>
            <height>32</height>
           </size>
-         </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextUnderIcon</enum>
          </property>
          <property name="autoRaise">
           <bool>true</bool>
@@ -145,6 +133,9 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>Export project</string>
+              </property>
               <property name="icon">
                <iconset resource="resources/resources.qrc">
                 <normaloff>:/images/actions/document-export.svg</normaloff>:/images/actions/document-export.svg</iconset>
@@ -181,6 +172,9 @@
             </item>
             <item row="0" column="5">
              <widget class="QToolButton" name="buttonTools">
+              <property name="toolTip">
+               <string>Tool menu</string>
+              </property>
               <property name="icon">
                <iconset resource="resources/resources.qrc">
                 <normaloff>:/images/actions/run-build-configure.svg</normaloff>:/images/actions/run-build-configure.svg</iconset>
@@ -200,6 +194,9 @@
              <widget class="QToolButton" name="buttonFindAll">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Find in files</string>
               </property>
               <property name="icon">
                <iconset resource="resources/resources.qrc">
@@ -264,6 +261,9 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="toolTip">
+               <string>Reload Project</string>
+              </property>
               <property name="icon">
                <iconset resource="resources/resources.qrc">
                 <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
@@ -284,6 +284,9 @@
             </item>
             <item row="0" column="0">
              <widget class="QToolButton" name="buttonCloseProject">
+              <property name="toolTip">
+               <string>Close Project</string>
+              </property>
               <property name="icon">
                <iconset resource="resources/resources.qrc">
                 <normaloff>:/images/actions/document-close.svg</normaloff>:/images/actions/document-close.svg</iconset>
@@ -389,6 +392,9 @@ QComboBox QAbstractItemView {
              <property name="enabled">
               <bool>false</bool>
              </property>
+             <property name="toolTip">
+              <string>Save current</string>
+             </property>
              <property name="icon">
               <iconset resource="resources/resources.qrc">
                <normaloff>:/images/actions/document-save.svg</normaloff>:/images/actions/document-save.svg</iconset>
@@ -411,6 +417,9 @@ QComboBox QAbstractItemView {
             <widget class="QToolButton" name="buttonDocumentSaveAll">
              <property name="enabled">
               <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Save all</string>
              </property>
              <property name="icon">
               <iconset resource="resources/resources.qrc">
@@ -435,6 +444,9 @@ QComboBox QAbstractItemView {
              <property name="enabled">
               <bool>false</bool>
              </property>
+             <property name="toolTip">
+              <string>Close current</string>
+             </property>
              <property name="icon">
               <iconset resource="resources/resources.qrc">
                <normaloff>:/images/actions/document-close.svg</normaloff>:/images/actions/document-close.svg</iconset>
@@ -457,6 +469,9 @@ QComboBox QAbstractItemView {
             <widget class="QToolButton" name="buttonDocumentCloseAll">
              <property name="enabled">
               <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Close all</string>
              </property>
              <property name="icon">
               <iconset resource="resources/resources.qrc">
@@ -640,6 +655,9 @@ QComboBox QAbstractItemView {
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="toolTip">
+              <string>Open Confioguration</string>
+             </property>
              <property name="text">
               <string>Configuration</string>
              </property>
@@ -698,6 +716,9 @@ QComboBox QAbstractItemView {
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="toolTip">
+              <string>Create New Project</string>
+             </property>
              <property name="text">
               <string>New Project</string>
              </property>
@@ -739,6 +760,9 @@ QComboBox QAbstractItemView {
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Open Existing Project</string>
              </property>
              <property name="text">
               <string>Open Project</string>
@@ -805,6 +829,9 @@ QComboBox QAbstractItemView {
              <width>360</width>
              <height>0</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string>Recent Projects</string>
            </property>
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>

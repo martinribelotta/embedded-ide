@@ -109,7 +109,7 @@ void FileSystemManager::customContextMenu(const QPoint &pos)
 
     auto index = view->currentIndex();
     if (!index.isValid())
-        return;
+        index = view->rootIndex();
 
     auto noSelection = view->selectionModel()->selectedRows(0).isEmpty();
     auto info = model->fileInfo(index);

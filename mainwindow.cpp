@@ -14,6 +14,7 @@
 #include <QStringListModel>
 #include <QScrollBar>
 #include <QMessageBox>
+#include <QFileSystemModel>
 
 #define CURRENT_VERSION "0.7-pre"
 
@@ -86,6 +87,15 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->buttonDocumentCloseAll->setEnabled(haveDocuments);
         ui->buttonDocumentSave->setEnabled(isModified);
         ui->buttonDocumentSaveAll->setEnabled(ui->documentContainer->unsavedDocuments().count() > 0);
+        if (current) {
+            auto m = qobject_cast<QFileSystemModel*>(ui->fileViewer->model());
+            if (m) {
+                auto i = m->index(current->path());
+                if (i.isValid()) {
+                    ui->fileViewer->setCurrentIndex(i);
+                }
+            }
+        }
     };
     connect(ui->documentContainer, &DocumentManager::documentModified, [this](const QString& path, IDocumentEditor *iface, bool modify){
         Q_UNUSED(path);
