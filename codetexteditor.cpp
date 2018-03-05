@@ -46,6 +46,12 @@
 #include <Qsci/qscilexerxml.h>
 #include <Qsci/qscilexeryaml.h>
 
+#if 0
+#define DBG qDebug()
+#else
+#define DBG qDebug()
+#endif
+
 class MyQsciLexerCPP: public QsciLexerCPP {
     mutable QLatin1String keywordList;
 public:

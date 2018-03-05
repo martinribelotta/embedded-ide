@@ -58,7 +58,8 @@ void DocumentManager::setComboBox(QComboBox *cb)
     priv->combo->setModel(proxy);
     connect(priv->combo, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int idx) {
         auto path = priv->combo->itemData(idx).toString();
-        openDocument(path);
+        if (!path.isEmpty())
+            openDocument(path);
     });
     connect(priv->stack, &QStackedLayout::currentChanged, [this](int idx) {
         auto widget = priv->stack->widget(idx);
@@ -100,9 +101,13 @@ int DocumentManager::documentCount() const
 
 QString DocumentManager::documentCurrent() const
 {
-    auto path = priv->stack->currentWidget()->windowFilePath();
-    auto iface = priv->mapedWidgets.value(path, nullptr);
-    return iface? iface->path() : QString();
+    if (priv->stack->currentWidget()) {
+        auto path = priv->stack->currentWidget()->windowFilePath();
+        auto iface = priv->mapedWidgets.value(path, nullptr);
+        if (iface)
+            return iface->path();
+    }
+    return QString();
 }
 
 IDocumentEditor *DocumentManager::documentEditor(const QString& path) const

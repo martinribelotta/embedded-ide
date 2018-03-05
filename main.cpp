@@ -18,7 +18,11 @@ int main(int argc, char *argv[])
     opt.addHelpOption();
     opt.addVersionOption();
     opt.addPositionalArgument("filename", "Makefile filename");
-    opt.addOptions({ { { "e", "exec" }, "Execute stript or file", "execname" } });
+    opt.addOptions({
+                       { { "e", "exec" }, "Execute stript or file", "execname" },
+                       { { "d", "debug"}, "Enable debug" },
+                       { { "s", "stacktrace" }, "Add stack trace to debug" }
+                   });
     opt.process(app);
 
     if (opt.isSet("exec")) {
@@ -26,6 +30,14 @@ int main(int argc, char *argv[])
         QProcess::startDetached(execname);
         return 0;
     }
+
+    if (opt.isSet("debug")) {
+        QString debugString = "[%{type}] %{appname} (%{file}:%{line}) - %{message}";
+        if (opt.isSet("stacktrace"))
+            debugString += "\n\t%{backtrace separator=\"\n\t\"}";
+        qSetMessagePattern(debugString);
+    } else
+        qSetMessagePattern("");
 
     MainWindow w;
     w.show();
