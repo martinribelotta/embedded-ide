@@ -41,7 +41,8 @@ SOURCES += \
         binaryviewer.cpp \
         codetexteditor.cpp \
         findlineedit.cpp \
-        formfindreplace.cpp
+        formfindreplace.cpp \
+    cpptexteditor.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -57,7 +58,8 @@ HEADERS += \
         binaryviewer.h \
         codetexteditor.h \
         findlineedit.h \
-        formfindreplace.h
+        formfindreplace.h \
+    cpptexteditor.h
 
 FORMS += \
         mainwindow.ui \

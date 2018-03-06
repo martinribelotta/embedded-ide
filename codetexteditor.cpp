@@ -46,47 +46,29 @@
 #include <Qsci/qscilexerxml.h>
 #include <Qsci/qscilexeryaml.h>
 
-#if 0
-#define DBG qDebug()
-#else
-#define DBG qDebug()
-#endif
+CodeTextEditor::CodeTextEditor(QWidget *parent) : PlainTextEditor(parent)
+{
+}
 
-class MyQsciLexerCPP: public QsciLexerCPP {
-    mutable QLatin1String keywordList;
-public:
-    MyQsciLexerCPP(QObject *parent = 0, bool caseInsensitiveKeywords = false) :
-        QsciLexerCPP(parent, caseInsensitiveKeywords)
-    {
-        setFoldCompact(false);
-    }
+CodeTextEditor::~CodeTextEditor()
+{
+}
 
-    virtual const char *keywords(int set) const
-    {
-        if (set == 5) {
-            updateKeywordList();
-            return keywordList.data();
-        } else {
-            return QsciLexerCPP::keywords(set);
-        }
-    }
-
-private:
-    void updateKeywordList() const {
-        auto c = qobject_cast<CodeTextEditor*>(editor());
-        if (c) {
-            // keywordList = c->keywordList();
-        }
-    }
-};
+bool CodeTextEditor::load(const QString &path)
+{
+    if (!PlainTextEditor::load(path))
+        return false;
+    setLexer(lexerFromFile(path));
+    loadConfig();
+    return true;
+}
 
 template<typename T> T *helperCreator() { return new T(); }
 
 typedef QsciLexer* (*creator_t)();
 
 #define _(mime, type) { mime, reinterpret_cast<creator_t>(&helperCreator<type>) }
-
-static QHash<QString, creator_t> creatorMap = {
+static const QHash<QString, creator_t> creatorMap = {
     _("application/json", QsciLexerJSON),
     _("text/x-octave", QsciLexerOctave),
     _("text/x-fortran", QsciLexerFortran),
@@ -117,7 +99,7 @@ static QHash<QString, creator_t> creatorMap = {
     _("text/x-csharp", QsciLexerCSharp),
     _("text/x-properties", QsciLexerProperties),
     _("text/x-vhdl", QsciLexerVHDL),
-    _("text/x-csrc", MyQsciLexerCPP),
+    _("text/x-csrc", QsciLexerCPP),
     _("text/x-pascal", QsciLexerPascal),
     _("text/x-spice", QsciLexerSpice),
     _("text/x-matlab", QsciLexerMatlab),
@@ -127,75 +109,11 @@ static QHash<QString, creator_t> creatorMap = {
     _("text/x-dlang", QsciLexerD),
     _("text/x-coffe", QsciLexerCoffeeScript)
 };
-
-static QHash<QString, creator_t> creatorFromExtMap = {
-    _("c", MyQsciLexerCPP),
-    _("cc", MyQsciLexerCPP),
-    _("cxx", MyQsciLexerCPP),
-    _("cpp", MyQsciLexerCPP),
-    _("c++", MyQsciLexerCPP),
-    _("h", MyQsciLexerCPP),
-    _("hh", MyQsciLexerCPP),
-    _("hxx", MyQsciLexerCPP),
-    _("hpp", MyQsciLexerCPP),
-    _("h++", MyQsciLexerCPP),
-#if 0
-    _("s", SciLexerASM),
-    _("S", SciLexerASM),
-#endif
-};
 #undef _
-
-static QsciLexer *lexerFromFile(const QString& name) {
-    auto type = QMimeDatabase().mimeTypeForFile(name);
-    auto mimename = type.name();
-    if (creatorMap.contains(mimename)) {
-        qDebug() << "for" << name << "mime found as" << mimename;
-        return creatorMap.value(mimename)();
-    }
-    for(const auto& mname: type.parentMimeTypes()) {
-        if (creatorMap.contains(mname)) {
-            qDebug() << "for" << name << "parent mime found as" << mname;
-            return creatorMap.value(mname)();
-        }
-    }
-    auto suffix = QFileInfo(name).suffix();
-    for(const auto& ext: creatorFromExtMap.keys())
-        if (suffix == ext) {
-            qDebug() << "Lexer found for suffix" << suffix;
-            return creatorFromExtMap.value(ext)();
-        }
-    qDebug() << "No lexer found";
-    return nullptr;
-}
-
-CodeTextEditor::CodeTextEditor(QWidget *parent) : PlainTextEditor(parent)
-{
-}
-
-CodeTextEditor::~CodeTextEditor()
-{
-}
-
-bool CodeTextEditor::load(const QString &path)
-{
-    if (!PlainTextEditor::load(path))
-        return false;
-    setLexer(lexerFromFile(path));
-    loadConfig();
-    return true;
-}
 
 class CodeEditorCreator: public IDocumentEditorCreator
 {
 public:
-    bool canHandleExtentions(const QStringList &suffixes) const override {
-        for(const auto& suffix: suffixes)
-            if (creatorFromExtMap.contains(suffix))
-                return true;
-        return false;
-    }
-
     bool canHandleMime(const QMimeType &mime) const override {
         return creatorMap.contains(mime.name());
     }
@@ -214,4 +132,22 @@ QMenu *CodeTextEditor::createContextualMenu()
 {
     QMenu *menu = PlainTextEditor::createContextualMenu();
     return menu;
+}
+
+QsciLexer *CodeTextEditor::lexerFromFile(const QString& name)
+{
+    auto type = QMimeDatabase().mimeTypeForFile(name);
+    auto mimename = type.name();
+    if (creatorMap.contains(mimename)) {
+        qDebug() << "for" << name << "mime found as" << mimename;
+        return creatorMap.value(mimename)();
+    }
+    for(const auto& mname: type.parentMimeTypes()) {
+        if (creatorMap.contains(mname)) {
+            qDebug() << "for" << name << "parent mime found as" << mname;
+            return creatorMap.value(mname)();
+        }
+    }
+    qDebug() << "No lexer found";
+    return nullptr;
 }

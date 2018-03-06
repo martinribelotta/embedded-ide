@@ -4,6 +4,7 @@
 #include "codetexteditor.h"
 #include "binaryviewer.h"
 #include "filesystemmanager.h"
+#include "cpptexteditor.h"
 
 #include <QComboBox>
 #include <QFileInfo>
@@ -28,6 +29,7 @@ DocumentManager::DocumentManager(QWidget *parent) :
     priv->stack = new QStackedLayout(this);
     priv->stack->setMargin(0);
 
+    DocumentEditorFactory::instance()->registerDocumentInterface(CPPTextEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(CodeTextEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(PlainTextEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(BinaryViewer::creator());

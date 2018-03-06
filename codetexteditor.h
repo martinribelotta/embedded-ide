@@ -17,6 +17,7 @@ public:
 protected:
 
     virtual QMenu *createContextualMenu();
+    virtual QsciLexer *lexerFromFile(const QString& name);
 };
 
 #endif // CODETEXTEDITOR_H
