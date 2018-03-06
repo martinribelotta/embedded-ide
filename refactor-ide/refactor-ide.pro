@@ -3,6 +3,7 @@
 # Project created by QtCreator 2018-02-24T13:51:54
 #
 #-------------------------------------------------
+DESTDIR  = ../build
 
 QT       += core gui svg xml
 
@@ -10,7 +11,7 @@ CONFIG += qscintilla2
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = embedded_ide-ng
+TARGET = embedded_ide
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
