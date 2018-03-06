@@ -65,7 +65,9 @@ bool FormFindReplace::eventFilter(QObject *watched, QEvent *event)
     switch (event->type()) {
     case QEvent::KeyPress:
         if (isVisible()) {
-            event->ignore();
+            if (!ui->textToFind->hasFocus())
+                ui->textToFind->setFocus();
+            this->event(event);
             return true;
         }
         break;

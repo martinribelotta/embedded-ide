@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->setCurrentWidget(ui->welcomePage);
     ui->documentContainer->setComboBox(ui->documentSelector);
     ui->labelVersion->setText(ui->labelVersion->text().replace("{{version}}", CURRENT_VERSION));
-    resize(800, 600);
+    resize(900, 600);
 
     priv->pman = new ProcessManager(this);
     priv->console = new ConsoleInterceptor(ui->logView, priv->pman, BuildManager::PROCESS_NAME, this);
