@@ -184,6 +184,8 @@ void PlainTextEditor::loadConfig()
 {
     QFont fonts("Monospace");
     fonts.setPointSize(10);
+    fonts.setHintingPreference(QFont::PreferFullHinting);
+    fonts.setStyleStrategy(QFont::PreferAntialias);
     setFont(fonts);
 
     loadStyle(":/styles/Default.xml");
