@@ -29,35 +29,40 @@ include(3rdpart/qhexview.pri)
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    projectmanager.cpp \
-    documentmanager.cpp \
-    idocumenteditor.cpp \
-    plaintexteditor.cpp \
-    filesystemmanager.cpp \
-    unsavedfilesdialog.cpp \
-    processmanager.cpp \
-    consoleinterceptor.cpp \
-    buildmanager.cpp \
-    binaryviewer.cpp \
-    codetexteditor.cpp
+        projectmanager.cpp \
+        documentmanager.cpp \
+        idocumenteditor.cpp \
+        plaintexteditor.cpp \
+        filesystemmanager.cpp \
+        unsavedfilesdialog.cpp \
+        processmanager.cpp \
+        consoleinterceptor.cpp \
+        buildmanager.cpp \
+        binaryviewer.cpp \
+        codetexteditor.cpp \
+        findlineedit.cpp \
+        formfindreplace.cpp
 
 HEADERS += \
         mainwindow.h \
-    projectmanager.h \
-    documentmanager.h \
-    idocumenteditor.h \
-    plaintexteditor.h \
-    filesystemmanager.h \
-    unsavedfilesdialog.h \
-    processmanager.h \
-    consoleinterceptor.h \
-    buildmanager.h \
-    binaryviewer.h \
-    codetexteditor.h
+        projectmanager.h \
+        documentmanager.h \
+        idocumenteditor.h \
+        plaintexteditor.h \
+        filesystemmanager.h \
+        unsavedfilesdialog.h \
+        processmanager.h \
+        consoleinterceptor.h \
+        buildmanager.h \
+        binaryviewer.h \
+        codetexteditor.h \
+        findlineedit.h \
+        formfindreplace.h
 
 FORMS += \
         mainwindow.ui \
-    unsavedfilesdialog.ui
+        unsavedfilesdialog.ui \
+        formfindreplace.ui
 
 CONFIG += mobility
 MOBILITY = 

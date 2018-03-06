@@ -1,3 +1,4 @@
+#include "formfindreplace.h"
 #include "plaintexteditor.h"
 
 #include <QDomDocument>
@@ -31,15 +32,20 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
     connect(this, &PlainTextEditor::modificationChanged, [this]() {
         notifyModifyObservers();
     });
+
+    auto findDialog = new FormFindReplace(this);
+    findDialog->hide();
+
 #define _(keycode, functor) do { \
         auto acc = new QAction(this); \
         acc->setShortcut(QKeySequence(keycode)); \
-        connect(acc, &QAction::triggered, [this]() functor); \
+        connect(acc, &QAction::triggered, functor); \
         addAction(acc); \
     } while(0)
-    _("ctrl+s", { save(path()); });
-    _("ctrl+r", { load(path()); });
-    _("ctrl+space", { triggerAutocompletion(); });
+    _("ctrl+s", [this]() { save(path()); });
+    _("ctrl+r", [this]() { load(path()); });
+    _("ctrl+space", [this]() { triggerAutocompletion(); });
+    _("ctrl+f", [findDialog]() { findDialog->show(); });
 #undef _
 }
 
@@ -354,7 +360,7 @@ void PlainTextEditor::triggerAutocompletion()
 QMenu *PlainTextEditor::createContextualMenu()
 {
 #define _(en, icon, text, keys, functor) do { \
-    auto a = m->addAction(QIcon(":/images/actions/" icon ".svg"), text, [this]() functor); \
+    auto a = m->addAction(QIcon(":/images/actions/" icon ".svg"), text, functor); \
     a->setShortcut(QKeySequence(keys)); \
     a->setEnabled(en); \
 } while(0)
@@ -362,15 +368,15 @@ QMenu *PlainTextEditor::createContextualMenu()
     auto m = new QMenu(this);
     bool isSelected = !selectedText().isEmpty();
     bool canPaste = static_cast<bool>(SendScintilla(SCI_CANPASTE));
-    _(isUndoAvailable(), "edit-undo", tr("Undo"), "Ctrl+Z", { undo(); });
-    _(isRedoAvailable(), "edit-redo", tr("Redo"), "Ctrl+Shift+Z", { redo(); });
+    _(isUndoAvailable(), "edit-undo", tr("Undo"), "Ctrl+Z", [this]() { undo(); });
+    _(isRedoAvailable(), "edit-redo", tr("Redo"), "Ctrl+Shift+Z", [this]() { redo(); });
     m->addSeparator();
-    _(isSelected, "edit-cut", tr("Cut"), "Ctrl+X", { cut(); });
-    _(isSelected, "edit-copy", tr("Copy"), "Ctrl+C", { copy(); });
-    _(canPaste, "edit-paste", tr("Paste"), "Ctrl+V", { paste(); });
-    _(isSelected, "edit-delete", tr("Delete"), "DEL", { removeSelectedText(); });
+    _(isSelected, "edit-cut", tr("Cut"), "Ctrl+X", [this]() { cut(); });
+    _(isSelected, "edit-copy", tr("Copy"), "Ctrl+C", [this]() { copy(); });
+    _(canPaste, "edit-paste", tr("Paste"), "Ctrl+V", [this]() { paste(); });
+    _(isSelected, "edit-delete", tr("Delete"), "DEL", [this]() { removeSelectedText(); });
     m->addSeparator();
-    _(true, "edit-select-all", tr("Select All"), "CTRL+A", { selectAll(); });
+    _(true, "edit-select-all", tr("Select All"), "CTRL+A", [this]() { selectAll(); });
 #undef _
     return m;
 }
