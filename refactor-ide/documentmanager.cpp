@@ -196,3 +196,13 @@ void DocumentManager::saveAll()
     for(auto& path: priv->mapedWidgets.keys())
         saveDocument(path);
 }
+
+void DocumentManager::reloadDocument(const QString &path)
+{
+    if (path.isEmpty())
+        return;
+    auto iface = priv->mapedWidgets.value(path);
+    if (!iface)
+        return;
+    iface->reload();
+}

@@ -14,6 +14,7 @@ public:
     virtual QWidget *widget() { return this; }
     virtual bool load(const QString& path) override;
     virtual bool save(const QString& path) override;
+    virtual void reload() override;
     virtual bool isReadonly() const override;
     virtual void setReadonly(bool rdOnly) override;
     virtual bool isModified() const override;

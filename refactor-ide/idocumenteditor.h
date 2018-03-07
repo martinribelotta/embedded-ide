@@ -18,6 +18,7 @@ public:
     virtual QWidget *widget() = 0;
     virtual bool load(const QString& path) = 0;
     virtual bool save(const QString& path) = 0;
+    virtual void reload() = 0;
     virtual QString path() const { return widget()->windowFilePath(); }
     virtual void setPath(const QString& path) { widget()->setWindowFilePath(path); }
     virtual bool isReadonly() const = 0;

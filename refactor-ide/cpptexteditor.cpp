@@ -36,6 +36,10 @@ CPPTextEditor::CPPTextEditor(QWidget *parent) : CodeTextEditor(parent)
 {
 }
 
+CPPTextEditor::~CPPTextEditor()
+{
+}
+
 static const QStringList C_CXX_EXTENSIONS = { "c", "cpp", "h", "hpp", "cc", "hh", "hxx", "cxx", "c++", "h++" };
 static const QStringList C_CXX_MIMETYPES = { "text/x-c", "text/x-csrc", "text/x-c++src", "text/x-chdr", "text/x-c++hdr" };
 

@@ -6,7 +6,8 @@
 class CPPTextEditor : public CodeTextEditor
 {
 public:
-    CPPTextEditor(QWidget *parent = nullptr);
+    explicit CPPTextEditor(QWidget *parent = nullptr);
+    virtual ~CPPTextEditor();
 
     static IDocumentEditorCreator *creator();
 

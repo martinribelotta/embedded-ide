@@ -38,6 +38,8 @@ public slots:
     void saveDocuments(const QStringList& list) { for(const auto& a: list) saveDocument(a); }
     void saveCurrent() { saveDocument(documentCurrent()); }
     void saveAll();
+    void reloadDocument(const QString& path);
+    void reloadDocumentCurrent() { reloadDocument(documentCurrent()); }
 
 private:
     class Priv_t;

@@ -85,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->documentSelector->setEnabled(haveDocuments);
         ui->buttonDocumentClose->setEnabled(haveDocuments);
         ui->buttonDocumentCloseAll->setEnabled(haveDocuments);
+        ui->buttonDocumentReload->setEnabled(haveDocuments);
         ui->buttonDocumentSave->setEnabled(isModified);
         ui->buttonDocumentSaveAll->setEnabled(ui->documentContainer->unsavedDocuments().count() > 0);
         if (current) {
@@ -112,6 +113,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonDocumentCloseAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::closeAll);
     connect(ui->buttonDocumentSave, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveCurrent);
     connect(ui->buttonDocumentSaveAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveAll);
+    connect(ui->buttonDocumentReload, &QToolButton::clicked, ui->documentContainer, &DocumentManager::reloadDocumentCurrent);
 
     connect(ui->buttonConfiguration, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->configPage); });
     connect(ui->buttonConfigAccept, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->welcomePage); });

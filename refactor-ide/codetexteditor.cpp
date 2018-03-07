@@ -56,10 +56,9 @@ CodeTextEditor::~CodeTextEditor()
 
 bool CodeTextEditor::load(const QString &path)
 {
+    setLexer(lexerFromFile(path));
     if (!PlainTextEditor::load(path))
         return false;
-    setLexer(lexerFromFile(path));
-    loadConfig();
     return true;
 }
 

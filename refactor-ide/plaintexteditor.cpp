@@ -59,6 +59,7 @@ bool PlainTextEditor::load(const QString &path)
     if (f.open(QFile::ReadOnly)) {
         if (read(&f)) {
             setPath(path);
+            loadConfig();
             return true;
         }
     }
@@ -76,6 +77,17 @@ bool PlainTextEditor::save(const QString &path)
         }
     }
     return false;
+}
+
+void PlainTextEditor::reload()
+{
+    QFile f(path());
+    if (f.open(QFile::ReadOnly)) {
+        auto c = cursor();
+        read(&f);
+        setCursor(c);
+        setModified(false);
+    }
 }
 
 bool PlainTextEditor::isReadonly() const
@@ -184,8 +196,6 @@ void PlainTextEditor::loadConfig()
 {
     QFont fonts("Monospace");
     fonts.setPointSize(10);
-    fonts.setHintingPreference(QFont::PreferFullHinting);
-    fonts.setStyleStrategy(QFont::PreferAntialias);
     setFont(fonts);
 
     loadStyle(":/styles/Default.xml");
