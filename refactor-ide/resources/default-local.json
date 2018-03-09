@@ -1,0 +1,5 @@
+{
+    "additionalPaths": [
+        "${APPLICATION_DIR_PATH}"
+    ]
+}

@@ -43,7 +43,8 @@ SOURCES += \
         codetexteditor.cpp \
         findlineedit.cpp \
         formfindreplace.cpp \
-    cpptexteditor.cpp
+    cpptexteditor.cpp \
+    appconfig.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -60,7 +61,8 @@ HEADERS += \
         codetexteditor.h \
         findlineedit.h \
         formfindreplace.h \
-    cpptexteditor.h
+    cpptexteditor.h \
+    appconfig.h
 
 FORMS += \
         mainwindow.ui \
@@ -72,6 +74,3 @@ MOBILITY =
 
 RESOURCES += \
     resources/resources.qrc
-
-DISTFILES += \
-    3rdpart/qhexview.pri

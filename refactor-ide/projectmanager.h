@@ -29,6 +29,7 @@ signals:
 public slots:
     void openProject(const QString& makefile);
     void closeProject();
+    void reloadProject();
 
 private:
     class Priv_t;

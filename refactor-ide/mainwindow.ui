@@ -538,7 +538,7 @@ QComboBox QAbstractItemView {
               <bool>false</bool>
              </property>
              <property name="toolTip">
-              <string>Save current</string>
+              <string>Reload Document</string>
              </property>
              <property name="icon">
               <iconset resource="resources/resources.qrc">

@@ -121,5 +121,7 @@
         <file>images/actions/document-new-from-template.svg</file>
         <file>images/screens/EmbeddedIDE_02.png</file>
         <file>images/actions/edit-select-all.svg</file>
+        <file>default-global.json</file>
+        <file>default-local.json</file>
     </qresource>
 </RCC>

@@ -58,7 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
         priv->buildManager->startBuild(target);
     });
     connect(priv->fileManager, &FileSystemManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
-    connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);
     connect(ui->buttonOpenProject, &QToolButton::clicked, [this]() {
         auto lastDir = QDir::homePath();
         auto path = QFileDialog::getOpenFileName(this, tr("Open Project"), lastDir, tr("Makefile (Makefile);;All files (*)"));
@@ -66,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent) :
             openProject(path);
         }
     });
+    connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);
+    connect(ui->buttonReload, &QToolButton::clicked, priv->projectManager, &ProjectManager::reloadProject);
     connect(priv->projectManager, &ProjectManager::projectOpened, [this](const QString& makefile) {
         for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(true);
         ui->stackedWidget->setCurrentWidget(ui->mainPage);

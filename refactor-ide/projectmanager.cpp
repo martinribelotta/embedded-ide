@@ -126,3 +126,10 @@ void ProjectManager::closeProject()
     priv->makeFile = QFileInfo();
     emit projectClosed();
 }
+
+void ProjectManager::reloadProject()
+{
+    auto project = projectFile();
+    closeProject();
+    openProject(project);
+}
