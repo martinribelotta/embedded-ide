@@ -24,6 +24,10 @@ public:
 
     static IDocumentEditorCreator *creator();
 
+public slots:
+    void loadConfigWithStyle(const QString& style, const QFont &editorFont, int tabs, bool tabSpace);
+    void loadConfig();
+
 private slots:
     void adjustLineNumberMargin();
     int findText(const QString &text, int flags, int start, int *targend);
@@ -32,7 +36,6 @@ protected:
     virtual void closeEvent(QCloseEvent *event) override;
     virtual void contextMenuEvent(QContextMenuEvent *event) override;
 
-    void loadConfig();
     bool loadStyle(const QString &xmlStyleFile);
 
 

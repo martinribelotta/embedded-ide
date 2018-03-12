@@ -44,7 +44,8 @@ SOURCES += \
         findlineedit.cpp \
         formfindreplace.cpp \
     cpptexteditor.cpp \
-    appconfig.cpp
+    appconfig.cpp \
+    configwidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -62,12 +63,14 @@ HEADERS += \
         findlineedit.h \
         formfindreplace.h \
     cpptexteditor.h \
-    appconfig.h
+    appconfig.h \
+    configwidget.h
 
 FORMS += \
         mainwindow.ui \
         unsavedfilesdialog.ui \
-        formfindreplace.ui
+        formfindreplace.ui \
+    configwidget.ui
 
 CONFIG += mobility
 MOBILITY = 

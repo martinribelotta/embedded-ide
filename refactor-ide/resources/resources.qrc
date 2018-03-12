@@ -123,5 +123,11 @@
         <file>images/actions/edit-select-all.svg</file>
         <file>default-global.json</file>
         <file>default-local.json</file>
+        <file>fonts/FiraCode-Bold.ttf</file>
+        <file>fonts/FiraCode-Light.ttf</file>
+        <file>fonts/FiraCode-Medium.ttf</file>
+        <file>fonts/FiraCode-Regular.ttf</file>
+        <file>fonts/FiraCode-Retina.ttf</file>
+        <file>reference-code.c</file>
     </qresource>
 </RCC>

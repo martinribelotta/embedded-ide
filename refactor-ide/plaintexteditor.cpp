@@ -1,3 +1,4 @@
+#include "appconfig.h"
 #include "formfindreplace.h"
 #include "plaintexteditor.h"
 
@@ -13,6 +14,7 @@
 PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
 {
     loadConfig();
+    connect(&AppConfig::instance(), &AppConfig::configChanged, this, &PlainTextEditor::loadConfig);
     connect(this, &QsciScintilla::linesChanged, this, &PlainTextEditor::adjustLineNumberMargin);
     connect(this, &QsciScintilla::selectionChanged, [this](){
         int editorLength = SendScintilla(SCI_GETLENGTH);
@@ -192,16 +194,15 @@ void PlainTextEditor::contextMenuEvent(QContextMenuEvent *event)
     createContextualMenu()->exec(event->globalPos());
 }
 
-void PlainTextEditor::loadConfig()
+void PlainTextEditor::loadConfigWithStyle(const QString& style, const QFont& editorFont, int tabs, bool tabSpace)
 {
-    QFont fonts("Monospace");
-    fonts.setPointSize(10);
-    setFont(fonts);
+    setFont(editorFont);
+    if (lexer())
+        lexer()->setDefaultFont(editorFont);
+    loadStyle(QString(":/styles/%1.xml").arg(style));
+    setIndentationsUseTabs(tabSpace);
+    setTabWidth(tabs);
 
-    loadStyle(":/styles/Default.xml");
-
-    setIndentationsUseTabs(false);
-    setTabWidth(4);
     setAutoIndent(true);
     setBraceMatching(StrictBraceMatch);
     resetMatchedBraceIndicator();
@@ -210,7 +211,7 @@ void PlainTextEditor::loadConfig()
     setIndentationGuides(true);
 
     setCaretLineVisible(true);
-    setMarginsFont(fonts);
+    setMarginsFont(font());
     setMarginLineNumbers(0, true);
     // setMarginsBackgroundColor(QColor("#cccccc"));
 
@@ -228,6 +229,12 @@ void PlainTextEditor::loadConfig()
 
     SendScintilla(SCI_INDICSETSTYLE, 0, INDIC_ROUNDBOX);
     SendScintilla(SCI_INDICSETFORE, 0, 255);
+}
+
+void PlainTextEditor::loadConfig()
+{
+    auto &conf = AppConfig::instance();
+    loadConfigWithStyle(conf.editorStyle(), conf.editorFont(), conf.editorTabWidth(), conf.editorTabsToSpaces());
 }
 
 bool PlainTextEditor::loadStyle(const QString &xmlStyleFile)

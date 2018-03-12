@@ -117,7 +117,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonDocumentReload, &QToolButton::clicked, ui->documentContainer, &DocumentManager::reloadDocumentCurrent);
 
     connect(ui->buttonConfiguration, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->configPage); });
-    connect(ui->buttonConfigAccept, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->welcomePage); });
+    connect(ui->buttonConfigAccept, &QToolButton::clicked, [this]() {
+        ui->configWidget->save();
+        ui->stackedWidget->setCurrentWidget(ui->welcomePage);
+    });
     connect(ui->buttonConfigReject, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->welcomePage); });
 }
 

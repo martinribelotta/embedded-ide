@@ -1,5 +1,37 @@
 {
     "additionalPaths": [
         "${APPLICATION_DIR_PATH}"
-    ]
+    ],
+    "editor": {
+        "font": {
+            "name": "Fira Code Retina",
+            "size": 10
+        },
+        "formatterStyle": "linux",
+        "saveOnAction": false,
+        "style": "Default",
+        "tabWidth": 4,
+        "tabsOnSpaces": true
+    },
+    "logger": {
+        "font": {
+            "name": "Fira Code Retina",
+            "size": 10
+        }
+    },
+    "network": {
+        "proxy": {
+            "host": "",
+            "pass": "",
+            "port": "",
+            "type": "None",
+            "useCredentials": false,
+            "user": ""
+        }
+    },
+    "templates": {
+        "autoUpdate": true
+    },
+    "useDevelopMode": false,
+    "key": "value"
 }

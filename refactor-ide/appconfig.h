@@ -19,10 +19,10 @@ public:
     static void adjustEnv();
     static QFont systemMonoFont();
     static QString replaceWithEnv(const QString& str);
+    static QByteArray readEntireTextFile(const QString& path);
 
-    enum class NetworkProxyType {
-        None, System, Custom
-    };
+    enum class NetworkProxyType { None, System, Custom };
+    Q_ENUM(NetworkProxyType)
 
     QString workspacePath() const;
     QString projectsPath() const;
@@ -30,6 +30,8 @@ public:
     QString localConfigFilePath() const;
 
     QStringList additionalPaths() const;
+
+    QString templatesUrl() const;
 
     QString editorStyle() const;
     QFont editorFont() const;
@@ -71,7 +73,7 @@ public slots:
 
     void setLoggerFont(const QFont& f);
 
-    void networkProxyHost(const QString& name);
+    void setNetworkProxyHost(const QString& name);
     void setNetworkProxyPort(const QString& port);
     void setNetworkProxyUseCredentials(bool use);
     void setNetworkProxyType(NetworkProxyType type);
@@ -82,7 +84,5 @@ public slots:
 
     void setUseDevelopMode(bool use);
 };
-
-
 
 #endif // APPCONFIG_H

@@ -1,9 +1,15 @@
+#include "appconfig.h"
 #include "mainwindow.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QIcon>
 #include <QProcess>
 #include <QTimer>
+
+#include <QFont>
+
+#include <QFontDatabase>
+#include <QtDebug>
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +19,8 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/images/embedded-ide.svg"));
+
+    AppConfig::instance().load();
 
     QCommandLineParser opt;
     opt.addHelpOption();

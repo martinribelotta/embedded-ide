@@ -1,3 +1,4 @@
+#include "appconfig.h"
 #include "consoleinterceptor.h"
 #include "processmanager.h"
 
@@ -41,12 +42,14 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     gl->setSpacing(0);
 
     auto consoleText = [textBrowser](const QString &text, const QColor& color) {
+        auto &conf = AppConfig::instance();
         auto cursor = textBrowser->textCursor();
         cursor.beginEditBlock();
         cursor.movePosition(QTextCursor::End);
         QTextCharFormat fmt;
-        fmt.setFontFamily("monospace");
-        fmt.setFontPointSize(10);
+        auto font = conf.loggerFont();
+        fmt.setFontFamily(font.family());
+        fmt.setFontPointSize(font.pointSize());
         fmt.setForeground(color);
         cursor.setCharFormat(fmt);
         cursor.insertText(text);

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ConfigDialog</class>
- <widget class="QDialog" name="ConfigDialog">
+ <class>ConfigWidget</class>
+ <widget class="QWidget" name="ConfigWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>537</width>
-    <height>437</height>
+    <width>606</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Configuration</string>
+   <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -19,13 +19,13 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="editorSettings">
       <attribute name="title">
        <string>Editor</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="5" column="0" colspan="3">
-        <widget class="QSpinBox" name="spinTabWidth">
+        <widget class="QSpinBox" name="editorTabWidth">
          <property name="suffix">
           <string> spaces</string>
          </property>
@@ -44,7 +44,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QFontComboBox" name="fontComboBox">
+        <widget class="QFontComboBox" name="editorFontName">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -54,7 +54,7 @@
         </widget>
        </item>
        <item row="4" column="0" colspan="3">
-        <widget class="QCheckBox" name="checkBox_replaceTabsWithSpaces">
+        <widget class="QCheckBox" name="editorReplaceTabs">
          <property name="text">
           <string>Replace tabs with spaces</string>
          </property>
@@ -74,7 +74,7 @@
         </widget>
        </item>
        <item row="1" column="1" colspan="2">
-        <widget class="QComboBox" name="colorStyleComboBox">
+        <widget class="QComboBox" name="editorStyle">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -84,7 +84,7 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QSpinBox" name="fontSpinBox">
+        <widget class="QSpinBox" name="editorFontSize">
          <property name="minimum">
           <number>6</number>
          </property>
@@ -107,51 +107,33 @@
         </widget>
        </item>
        <item row="3" column="0" colspan="3">
-        <widget class="QCheckBox" name="checkBox_saveOnAction">
+        <widget class="QCheckBox" name="saveOnActionTarget">
          <property name="text">
           <string>Save editor contents on target action</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0" colspan="3">
-        <widget class="CodeEditor" name="codeEditor" native="true"/>
+        <widget class="CPPTextEditor" name="codeEditor" native="true"/>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="toolsSettings">
       <attribute name="title">
        <string>Tools</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="3">
-        <widget class="QToolButton" name="projectPathSetButton">
-         <property name="icon">
-          <iconset resource="resources/resources.qrc">
-           <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Default project path</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Project templates path</string>
+          <string>Remote template URL</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="4">
+       <item row="2" column="0" colspan="3">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
           <string>Additional PATHs</string>
@@ -210,35 +192,32 @@
          </layout>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QLineEdit" name="projectTemplatesPath"/>
-       </item>
-       <item row="0" column="1" colspan="2">
-        <widget class="QLineEdit" name="projectPath"/>
-       </item>
-       <item row="1" column="3">
-        <widget class="QToolButton" name="projectTemplatesPathChange">
+       <item row="0" column="2">
+        <widget class="QToolButton" name="projectPathSetButton">
          <property name="icon">
           <iconset resource="resources/resources.qrc">
-           <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
+           <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2">
+       <item row="1" column="1">
         <widget class="QLineEdit" name="templateUrl"/>
        </item>
-       <item row="2" column="3">
+       <item row="1" column="2">
         <widget class="QToolButton" name="projectTemplatesDownload">
          <property name="icon">
           <iconset resource="resources/resources.qrc">
-           <normaloff>:/images/edit-download.svg</normaloff>:/images/edit-download.svg</iconset>
+           <normaloff>:/images/actions/edit-download.svg</normaloff>:/images/actions/edit-download.svg</iconset>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_5">
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="workspacePath"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>Remote template URL</string>
+          <string>Workspace PATH</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -430,12 +409,48 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="behavior">
+     <widget class="QWidget" name="behaviorSettings">
       <attribute name="title">
        <string>Behavior</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
-       <item row="4" column="0" colspan="3">
+       <item row="0" column="0" colspan="3">
+        <widget class="QCheckBox" name="autoUpdateProjectTmplates">
+         <property name="text">
+          <string>Check for project templates updates at start up</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QSpinBox" name="loggerFontSize">
+         <property name="minimum">
+          <number>6</number>
+         </property>
+         <property name="maximum">
+          <number>72</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QComboBox" name="formatterStyle"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QFontComboBox" name="loggerFontName">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="fontFilters">
+          <set>QFontComboBox::MonospacedFonts</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -448,26 +463,17 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="0" colspan="3">
-        <widget class="QCheckBox" name="autoUpdateProjectTmplates">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Check for project templates updates at start up</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
+          <string>Format Style</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" colspan="2">
-        <widget class="QComboBox" name="formatterStyles"/>
-       </item>
-       <item row="1" column="2">
-        <widget class="QSpinBox" name="logFontSpinBox">
-         <property name="minimum">
-          <number>6</number>
-         </property>
-         <property name="maximum">
-          <number>72</number>
+       <item row="4" column="0" colspan="3">
+        <widget class="QCheckBox" name="useDevelopment">
+         <property name="text">
+          <string>Use in-progress/development characteristics</string>
          </property>
         </widget>
        </item>
@@ -484,30 +490,17 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Format Style</string>
+       <item row="2" column="0" colspan="3">
+        <widget class="QWidget" name="widget" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>1</height>
+          </size>
          </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QFontComboBox" name="logFontComboBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="fontFilters">
-          <set>QFontComboBox::MonospacedFonts</set>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="3">
-        <widget class="QCheckBox" name="useDevelopment">
-         <property name="text">
-          <string>Use in-progress/development characteristics</string>
+         <property name="styleSheet">
+          <string notr="true">border-bottom: 1px solid;
+border-bottom-color: rgb(0, 0, 0, 96);</string>
          </property>
         </widget>
        </item>
@@ -515,224 +508,18 @@
      </widget>
     </widget>
    </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CodeEditor</class>
+   <class>CPPTextEditor</class>
    <extends>QWidget</extends>
-   <header>codeeditor.h</header>
+   <header>cpptexteditor.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
   <include location="resources/resources.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>ConfigDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>236</x>
-     <y>427</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>ConfigDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>304</x>
-     <y>427</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>useAutentication</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>username</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>268</x>
-     <y>214</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>303</x>
-     <y>267</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>useAutentication</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>password</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>268</x>
-     <y>214</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>301</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>userProxy</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>proxyHost</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>268</x>
-     <y>106</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>161</x>
-     <y>160</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>userProxy</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>proxyPort</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>268</x>
-     <y>106</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>409</x>
-     <y>160</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>userProxy</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>useAutentication</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>268</x>
-     <y>106</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>268</x>
-     <y>214</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>userProxy</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>groupBox</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>75</x>
-     <y>126</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>168</x>
-     <y>232</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>useAutentication</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>labelUsername</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>97</x>
-     <y>212</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>66</x>
-     <y>239</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>useAutentication</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>labelPassword</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>97</x>
-     <y>212</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>64</x>
-     <y>267</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>userProxy</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>labelHost</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>168</x>
-     <y>126</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>38</x>
-     <y>155</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>userProxy</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>labelPort</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>168</x>
-     <y>126</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>185</x>
-     <y>155</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
- <slots>
-  <signal>refreshEditor()</signal>
- </slots>
+ <connections/>
 </ui>

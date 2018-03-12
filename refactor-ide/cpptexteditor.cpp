@@ -13,14 +13,20 @@ public:
         setFoldCompact(false);
     }
 
+    void refreshProperties()
+    {
+        QsciLexerCPP::refreshProperties();
+        emit propertyChanged("lexer.cpp.track.preprocessor", "0");
+    }
+
     virtual const char *keywords(int set) const
     {
-        if (set == 5) {
-            updateKeywordList();
-            return keywordList.data();
-        } else {
-            return QsciLexerCPP::keywords(set);
-        }
+        //if (set == 5) {
+        //    updateKeywordList();
+        //    return keywordList.data();
+        //} else {
+        return QsciLexerCPP::keywords(set);
+        //}
     }
 
 private:
