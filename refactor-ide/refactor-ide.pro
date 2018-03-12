@@ -46,7 +46,8 @@ SOURCES += \
     cpptexteditor.cpp \
     appconfig.cpp \
     configwidget.cpp \
-    externaltoolmanager.cpp
+    externaltoolmanager.cpp \
+    version.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -66,7 +67,8 @@ HEADERS += \
     cpptexteditor.h \
     appconfig.h \
     configwidget.h \
-    externaltoolmanager.h
+    externaltoolmanager.h \
+    version.h
 
 FORMS += \
         mainwindow.ui \

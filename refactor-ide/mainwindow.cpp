@@ -19,7 +19,7 @@
 #include <QMessageBox>
 #include <QFileSystemModel>
 
-#define CURRENT_VERSION "0.7-pre"
+#include "version.h"
 
 class MainWindow::Priv_t {
 public:
@@ -38,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->welcomePage);
     ui->documentContainer->setComboBox(ui->documentSelector);
-    ui->labelVersion->setText(ui->labelVersion->text().replace("{{version}}", CURRENT_VERSION));
+    auto version = tr("%1 build at %2").arg(VERSION).arg(BUILD_DATE);
+    ui->labelVersion->setText(ui->labelVersion->text().replace("{{version}}", version));
     resize(900, 600);
 
     priv->pman = new ProcessManager(this);
