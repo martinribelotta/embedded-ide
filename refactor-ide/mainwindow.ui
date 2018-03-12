@@ -29,7 +29,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="configPage">
       <layout class="QGridLayout" name="gridLayout_4">
@@ -184,6 +184,9 @@
                 <width>22</width>
                 <height>22</height>
                </size>
+              </property>
+              <property name="popupMode">
+               <enum>QToolButton::InstantPopup</enum>
               </property>
               <property name="autoRaise">
                <bool>true</bool>
@@ -966,7 +969,7 @@ QComboBox QAbstractItemView {
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="projectButtons"/>
   <buttongroup name="editionButtons"/>
+  <buttongroup name="projectButtons"/>
  </buttongroups>
 </ui>

@@ -12,6 +12,7 @@
 #include <QFontInfo>
 #include <QMetaEnum>
 #include <QFontDatabase>
+#include <QSaveFile>
 
 #include <QtDebug>
 
@@ -43,10 +44,11 @@ static QByteArray readEntireFile(const QString& path, const QByteArray& ifFail =
 
 static bool writeEntireFile(const QString& path, const QByteArray& data)
 {
-    QFile f(path);
+    QSaveFile f(path);
     if (!f.open(QFile::WriteOnly))
         return false;
-    return f.write(data) == data.length();
+    f.write(data);
+    return f.commit();
 }
 
 static QString globalConfigFilePath() { return QDir::home().absoluteFilePath(".embedded_ide-config.json"); }
@@ -56,9 +58,7 @@ const QString DEFAULT_LOCAL_RES = ":/default-local.json";
 
 static void addResourcesFont()
 {
-    auto fontDir = QDir(":/fonts/");
-    auto fontList = fontDir.entryInfoList({ "*.ttf" });
-    for(const auto& fontPath: fontList)
+    for(const auto& fontPath: QDir(":/fonts/").entryInfoList({ "*.ttf" }))
         QFontDatabase::addApplicationFont(fontPath.absoluteFilePath());
 }
 
@@ -119,34 +119,6 @@ void AppConfig::adjustEnv()
     env.insert("PATH", path);
 }
 
-static bool isFixedPitch(const QFont& font) { return QFontInfo(font).fixedPitch(); }
-
-QFont AppConfig::systemMonoFont() {
-#if defined(Q_OS_WIN)
-    QFont font("Consolas");
-#elif defined(Q_OS_LINUX)
-    QFont font("Monospace");
-#elif defined(Q_OS_MAC)
-    QFont font("Monaco");
-#else
-    QFont font("Courier New");
-#endif
-
-    if (isFixedPitch(font))
-        return font;
-    font.setStyleHint(QFont::Monospace);
-    if (isFixedPitch(font))
-        return font;
-    font.setStyleHint(QFont::TypeWriter);
-    if (isFixedPitch(font))
-        return font;
-    font.setFamily("courier");
-
-    if (isFixedPitch(font))
-        return font;
-    return font;
-}
-
 QString AppConfig::replaceWithEnv(const QString &str)
 {
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -179,6 +151,15 @@ QString AppConfig::projectsPath() const { return ensureExist(QDir(workspacePath(
 QString AppConfig::templatesPath() const { return ensureExist(QDir(workspacePath()).absoluteFilePath("templates")); }
 
 QString AppConfig::localConfigFilePath() const { return QDir(ensureExist(workspacePath())).absoluteFilePath("config.json"); }
+
+QHash<QString, QString> AppConfig::externalTools() const
+{
+    QHash<QString, QString> map;
+    auto tools = CFG_LOCAL["externalTools"].toObject();
+    for(auto it=tools.begin(); it != tools.end(); ++it)
+        map.insert(it.key(), it.value().toString());
+    return map;
+}
 
 QStringList AppConfig::additionalPaths() const
 {
@@ -304,6 +285,14 @@ void AppConfig::save()
 void AppConfig::setWorkspacePath(const QString &path)
 {
     CFG_GLOBAL.insert("workspacePath", path);
+}
+
+void AppConfig::setExternalTools(const QHash<QString, QString> &tools)
+{
+    QJsonObject o;
+    for (auto it=tools.begin(); it != tools.end(); ++it)
+        o.insert(it.key(), it.value());
+    CFG_LOCAL.insert("externalTools", o);
 }
 
 void AppConfig::setAdditionalPaths(const QStringList &paths)

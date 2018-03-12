@@ -17,7 +17,6 @@ private:
 public:
     static AppConfig &instance();
     static void adjustEnv();
-    static QFont systemMonoFont();
     static QString replaceWithEnv(const QString& str);
     static QByteArray readEntireTextFile(const QString& path);
 
@@ -28,6 +27,8 @@ public:
     QString projectsPath() const;
     QString templatesPath() const;
     QString localConfigFilePath() const;
+
+    QHash<QString, QString> externalTools() const;
 
     QStringList additionalPaths() const;
 
@@ -61,6 +62,8 @@ public slots:
     void save();
 
     void setWorkspacePath(const QString& path);
+
+    void setExternalTools(const QHash<QString, QString> &tools);
 
     void setAdditionalPaths(const QStringList& paths);
 

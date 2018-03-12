@@ -95,6 +95,7 @@ void ConfigWidget::load()
     ui->editorTabWidth->setValue(conf.editorTabWidth());
     ui->formatterStyle->setCurrentText(conf.editorFormatterStyle());
     auto loggerFont = conf.loggerFont();
+    qDebug() << "logger font" << loggerFont;
     ui->loggerFontName->setCurrentFont(loggerFont);
     ui->loggerFontSize->setValue(loggerFont.pointSize());
     // conf.setNetworkProxyHost(const QString& name);

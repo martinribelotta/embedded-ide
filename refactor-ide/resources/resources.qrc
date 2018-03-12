@@ -129,5 +129,7 @@
         <file>fonts/FiraCode-Regular.ttf</file>
         <file>fonts/FiraCode-Retina.ttf</file>
         <file>reference-code.c</file>
+        <file>images/actions/go-down.svg</file>
+        <file>images/actions/go-up.svg</file>
     </qresource>
 </RCC>

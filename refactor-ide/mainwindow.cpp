@@ -8,11 +8,14 @@
 #include "consoleinterceptor.h"
 #include "buildmanager.h"
 #include "idocumenteditor.h"
+#include "externaltoolmanager.h"
+#include "appconfig.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QStringListModel>
 #include <QScrollBar>
+#include <QMenu>
 #include <QMessageBox>
 #include <QFileSystemModel>
 
@@ -122,6 +125,12 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->stackedWidget->setCurrentWidget(ui->welcomePage);
     });
     connect(ui->buttonConfigReject, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->welcomePage); });
+    ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman));
+    connect(&AppConfig::instance(), &AppConfig::configChanged, [this]() {
+        if (ui->buttonTools->menu())
+            ui->buttonTools->menu()->deleteLater();
+        ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman));
+    });
 }
 
 MainWindow::~MainWindow()

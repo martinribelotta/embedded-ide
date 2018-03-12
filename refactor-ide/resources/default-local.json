@@ -7,11 +7,15 @@
             "name": "Fira Code Retina",
             "size": 10
         },
-        "formatterStyle": "linux",
+        "formatterStyle": "",
         "saveOnAction": false,
         "style": "Default",
         "tabWidth": 4,
         "tabsOnSpaces": true
+    },
+    "externalTools": {
+        "git status": "git status",
+        "hello world": "echo Hello martin"
     },
     "logger": {
         "font": {
@@ -32,6 +36,5 @@
     "templates": {
         "autoUpdate": true
     },
-    "useDevelopMode": false,
-    "key": "value"
+    "useDevelopMode": false
 }
