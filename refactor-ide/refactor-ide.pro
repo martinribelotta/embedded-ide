@@ -47,7 +47,8 @@ SOURCES += \
     appconfig.cpp \
     configwidget.cpp \
     externaltoolmanager.cpp \
-    version.cpp
+    version.cpp \
+    newprojectdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -68,14 +69,16 @@ HEADERS += \
     appconfig.h \
     configwidget.h \
     externaltoolmanager.h \
-    version.h
+    version.h \
+    newprojectdialog.h
 
 FORMS += \
         mainwindow.ui \
         unsavedfilesdialog.ui \
         formfindreplace.ui \
     configwidget.ui \
-    externaltoolmanager.ui
+    externaltoolmanager.ui \
+    newprojectdialog.ui
 
 CONFIG += mobility
 MOBILITY = 

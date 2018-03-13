@@ -1,3 +1,4 @@
+#include "appconfig.h"
 #include "processmanager.h"
 #include "projectmanager.h"
 
@@ -10,6 +11,8 @@
 #include <QRegularExpression>
 #include <QStandardItemModel>
 #include <QTreeView>
+
+#include <QtDebug>
 
 class ProjectManager::Priv_t {
 public:
@@ -35,6 +38,8 @@ static QHash<QString, QString> findAllTargets(const QString& text)
 }
 
 const QString DISCOVER_PROC = "makeDiscover";
+const QString PATCH_PROC = "patch";
+const QString DIFF_PROC = "diff";
 
 ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *parent) :
     QObject(parent),
@@ -54,11 +59,12 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
             if (targetModel) {
                 for(auto& t: priv->targets) {
                     auto item = new QStandardItem;
-                    auto *button = new QPushButton;
+                    auto button = new QPushButton;
+                    auto name = QString(t).replace('_', ' ');
                     targetModel->appendRow(item);
                     button->setIcon(QIcon(":/images/actions/run-build.svg"));
                     button->setIconSize(QSize(16, 16));
-                    button->setText(t);
+                    button->setText(name);
                     button->setStyleSheet("text-align: left; padding: 4px;");
                     priv->targetView->setIndexWidget(item->index(), button);
                     item->setSizeHint(button->sizeHint());
@@ -66,6 +72,19 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
                 }
             }
         }
+    });
+    priv->pman->setTerminationHandler(PATCH_PROC, [this](QProcess *p, int code, QProcess::ExitStatus status) {
+        Q_UNUSED(p);
+        Q_UNUSED(code);
+        qDebug() << "Finish project creation on " << p->workingDirectory() << " with code" << code << status;
+        if (status == QProcess::NormalExit) {
+            auto path = QDir(p->workingDirectory()).absoluteFilePath("Makefile");
+            qDebug() << "Open" << path;
+            openProject(path);
+        }
+    });
+    priv->pman->setTerminationHandler(DIFF_PROC, [this](QProcess *p, int code, QProcess::ExitStatus status) {
+
     });
 }
 
@@ -92,6 +111,16 @@ QString ProjectManager::projectFile() const
 bool ProjectManager::isProjectOpen() const
 {
     return priv->makeFile.exists();
+}
+
+void ProjectManager::createProject(const QString& projectFilePath, const QString& templateFile)
+{
+    AppConfig::ensureExist(projectFilePath);
+    priv->pman->setStartupHandler(PATCH_PROC, [templateFile](QProcess *p) {
+        p->write(templateFile.toLocal8Bit());
+        p->closeWriteChannel();
+    });
+    priv->pman->start(PATCH_PROC, "patch", { "-p1" }, {}, projectFilePath);
 }
 
 void ProjectManager::openProject(const QString &makefile)

@@ -27,6 +27,7 @@ signals:
     void requestFileOpen(const QString& path);
 
 public slots:
+    void createProject(const QString& projectFilePath, const QString& templateFile);
     void openProject(const QString& makefile);
     void closeProject();
     void reloadProject();

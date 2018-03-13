@@ -12,6 +12,7 @@ class ProcessManager : public QObject
 public:
     typedef std::function<void (QProcess *, const QString&)> outputHandler_t;
     typedef std::function<void (QProcess *, int, QProcess::ExitStatus)> terminationHandler_t;
+    typedef std::function<void (QProcess *)> startupHandler_t;
     typedef std::function<void (QProcess *, QProcess::ProcessError)> errorHandler_t;
 
     explicit ProcessManager(QObject *parent = nullptr);
@@ -20,6 +21,7 @@ public:
     QProcess *processFor(const QString& name);
 
     void setTerminationHandler(const QString& name, terminationHandler_t func);
+    void setStartupHandler(const QString& name, startupHandler_t func, bool weak = false);
     void setErrorHandler(const QString& name, errorHandler_t func);
     void setStderrInterceptor(const QString& name, outputHandler_t func);
     void setStdoutInterceptor(const QString& name, outputHandler_t func);

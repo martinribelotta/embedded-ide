@@ -139,7 +139,7 @@ QString AppConfig::workspacePath() const
     return valueOrDefault(CFG_GLOBAL.value("workspacePath"), defaultPath).toString();
 }
 
-static const QString& ensureExist(const QString& d)
+const QString& AppConfig::ensureExist(const QString& d)
 {
     if (!QDir(d).exists())
         QDir::root().mkpath(d);

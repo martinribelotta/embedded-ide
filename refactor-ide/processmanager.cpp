@@ -33,6 +33,20 @@ void ProcessManager::setTerminationHandler(const QString &name, ProcessManager::
             [proc, func](int exitCode, QProcess::ExitStatus exitStatus) { func(proc, exitCode, exitStatus); });
 }
 
+void ProcessManager::setStartupHandler(const QString &name, ProcessManager::startupHandler_t func, bool weak)
+{
+    auto proc = processFor(name);
+    auto conn_normal = connect(proc, &QProcess::started, [proc, func]() { func(proc); });
+    if (weak) {
+        auto* conn_delete = new QMetaObject::Connection();
+        *conn_delete = connect(proc, &QProcess::started, [conn_normal, conn_delete]() {
+            QObject::disconnect(conn_normal);
+            QObject::disconnect(*conn_delete);
+            delete conn_delete;
+        });
+    }
+}
+
 void ProcessManager::setErrorHandler(const QString &name, ProcessManager::errorHandler_t func)
 {
     auto proc = processFor(name);

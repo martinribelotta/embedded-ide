@@ -1,15 +1,18 @@
 #include "mainwindow.h"
 
 #include "ui_mainwindow.h"
-#include "projectmanager.h"
-#include "filesystemmanager.h"
-#include "unsavedfilesdialog.h"
-#include "processmanager.h"
-#include "consoleinterceptor.h"
+
+#include "appconfig.h"
 #include "buildmanager.h"
+#include "consoleinterceptor.h"
+#include "filesystemmanager.h"
 #include "idocumenteditor.h"
 #include "externaltoolmanager.h"
-#include "appconfig.h"
+#include "processmanager.h"
+#include "projectmanager.h"
+#include "unsavedfilesdialog.h"
+#include "version.h"
+#include "newprojectdialog.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -18,8 +21,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QFileSystemModel>
-
-#include "version.h"
+#include <QShortcut>
 
 class MainWindow::Priv_t {
 public:
@@ -62,13 +64,26 @@ MainWindow::MainWindow(QWidget *parent) :
         priv->buildManager->startBuild(target);
     });
     connect(priv->fileManager, &FileSystemManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
-    connect(ui->buttonOpenProject, &QToolButton::clicked, [this]() {
+
+    auto openProjectCallback = [this]() {
         auto lastDir = QDir::homePath();
         auto path = QFileDialog::getOpenFileName(this, tr("Open Project"), lastDir, tr("Makefile (Makefile);;All files (*)"));
-        if (!path.isEmpty()) {
+        if (!path.isEmpty())
             openProject(path);
-        }
-    });
+    };
+    auto newProjectCallback = [this]() {
+        NewProjectDialog d(this);
+        if (d.exec() == QDialog::Accepted)
+            priv->projectManager->createProject(d.absoluteProjectPath(), d.templateFile());
+    };
+    auto openConfigurationCallback = [this]() { ui->stackedWidget->setCurrentWidget(ui->configPage); };
+    connect(ui->buttonOpenProject, &QToolButton::clicked, openProjectCallback);
+    connect(ui->buttonNewProject, &QToolButton::clicked, newProjectCallback);
+    connect(ui->buttonConfiguration, &QToolButton::clicked, openConfigurationCallback);
+    connect(new QShortcut(QKeySequence("CTRL+N"), this), &QShortcut::activated, newProjectCallback);
+    connect(new QShortcut(QKeySequence("CTRL+O"), this), &QShortcut::activated, openProjectCallback);
+    connect(new QShortcut(QKeySequence("CTRL+SHIFT+P"), this), &QShortcut::activated, openConfigurationCallback);
+
     connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);
     connect(ui->buttonReload, &QToolButton::clicked, priv->projectManager, &ProjectManager::reloadProject);
     connect(priv->projectManager, &ProjectManager::projectOpened, [this](const QString& makefile) {
@@ -120,13 +135,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonDocumentSaveAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveAll);
     connect(ui->buttonDocumentReload, &QToolButton::clicked, ui->documentContainer, &DocumentManager::reloadDocumentCurrent);
 
-    connect(ui->buttonConfiguration, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->configPage); });
     connect(ui->buttonConfigAccept, &QToolButton::clicked, [this]() {
         ui->configWidget->save();
         ui->stackedWidget->setCurrentWidget(ui->welcomePage);
     });
+
     connect(ui->buttonConfigReject, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->welcomePage); });
     ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman));
+
     connect(&AppConfig::instance(), &AppConfig::configChanged, [this]() {
         if (ui->buttonTools->menu())
             ui->buttonTools->menu()->deleteLater();

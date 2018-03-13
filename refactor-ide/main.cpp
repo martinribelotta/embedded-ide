@@ -1,14 +1,14 @@
 #include "appconfig.h"
 #include "mainwindow.h"
+
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QFont>
+#include <QFontDatabase>
 #include <QIcon>
 #include <QProcess>
 #include <QTimer>
 
-#include <QFont>
-
-#include <QFontDatabase>
 #include <QtDebug>
 
 int main(int argc, char *argv[])
