@@ -186,7 +186,9 @@ QString NewProjectDialog::absoluteProjectPath() const
 
 QString NewProjectDialog::templateFile() const
 {
-    auto text = QString(AppConfig::readEntireTextFile(ui->templateName->currentData().toString()));
+    auto templatePath = ui->templateName->currentData().toString();
+    qDebug() << "create project from template" << templatePath;
+    auto text = QString(AppConfig::readEntireTextFile(templatePath));
     auto m = ui->parameterTable->model();
     for(int row = 0; row < m->rowCount(); row++) {
         auto name = m->data(m->index(row, 0), Qt::UserRole).toString();

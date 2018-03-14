@@ -22,6 +22,10 @@
 #include <QMessageBox>
 #include <QFileSystemModel>
 #include <QShortcut>
+#include <QStandardItemModel>
+#include <QFileSystemWatcher>
+
+#include <QtDebug>
 
 class MainWindow::Priv_t {
 public:
@@ -65,11 +69,33 @@ MainWindow::MainWindow(QWidget *parent) :
     });
     connect(priv->fileManager, &FileSystemManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
 
+    ui->recentProjectsView->setModel(new QStandardItemModel(ui->recentProjectsView));
+    auto makeRecentProjects = [this]() {
+        auto m = static_cast<QStandardItemModel*>(ui->recentProjectsView->model());
+        m->clear();
+        for(const auto& e: AppConfig::instance().recentProjects()) {
+            auto item = new QStandardItem(QIcon(":/images/mimetypes/text-x-makefile.svg"), e.dir().dirName());
+            item->setData(e.absoluteFilePath());
+            item->setToolTip(e.absoluteFilePath());
+            m->appendRow(item);
+        }
+    };
+    makeRecentProjects();
+    connect(new QFileSystemWatcher({AppConfig::instance().projectsPath()}, this),
+            &QFileSystemWatcher::directoryChanged, makeRecentProjects);
+    connect(ui->recentProjectsView, &QListView::activated, [this](const QModelIndex& m) {
+        openProject(static_cast<const QStandardItemModel*>(m.model())->data(m, Qt::UserRole + 1).toString());
+    });
+
     auto openProjectCallback = [this]() {
-        auto lastDir = QDir::homePath();
+        auto lastDir = property("lastDir").toString();
+        if (lastDir.isEmpty())
+            lastDir = AppConfig::instance().projectsPath();
         auto path = QFileDialog::getOpenFileName(this, tr("Open Project"), lastDir, tr("Makefile (Makefile);;All files (*)"));
-        if (!path.isEmpty())
+        if (!path.isEmpty()) {
             openProject(path);
+            setProperty("lastDir", QFileInfo(QFileInfo(path).absolutePath()).absolutePath());
+        }
     };
     auto newProjectCallback = [this]() {
         NewProjectDialog d(this);
@@ -80,19 +106,23 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonOpenProject, &QToolButton::clicked, openProjectCallback);
     connect(ui->buttonNewProject, &QToolButton::clicked, newProjectCallback);
     connect(ui->buttonConfiguration, &QToolButton::clicked, openConfigurationCallback);
+    connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);
     connect(new QShortcut(QKeySequence("CTRL+N"), this), &QShortcut::activated, newProjectCallback);
     connect(new QShortcut(QKeySequence("CTRL+O"), this), &QShortcut::activated, openProjectCallback);
     connect(new QShortcut(QKeySequence("CTRL+SHIFT+P"), this), &QShortcut::activated, openConfigurationCallback);
+    connect(new QShortcut(QKeySequence("CTRL+SHIFT+Q"), this), &QShortcut::activated, priv->projectManager, &ProjectManager::closeProject);
 
-    connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);
     connect(ui->buttonReload, &QToolButton::clicked, priv->projectManager, &ProjectManager::reloadProject);
     connect(priv->projectManager, &ProjectManager::projectOpened, [this](const QString& makefile) {
         for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(true);
         ui->stackedWidget->setCurrentWidget(ui->mainPage);
         priv->fileManager->openPath(QFileInfo(makefile).absolutePath());
+        AppConfig::instance().appendToRecentProjects(QFileInfo(makefile).absoluteFilePath());
+        AppConfig::instance().save();
     });
-    connect(priv->projectManager, &ProjectManager::projectClosed, [this]() {
+    connect(priv->projectManager, &ProjectManager::projectClosed, [this, makeRecentProjects]() {
         for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(false);
+        makeRecentProjects();
         ui->stackedWidget->setCurrentWidget(ui->welcomePage);
         ui->documentContainer->closeAll();
         priv->fileManager->closePath();

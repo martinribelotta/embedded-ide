@@ -161,6 +161,23 @@ QHash<QString, QString> AppConfig::externalTools() const
     return map;
 }
 
+QFileInfoList AppConfig::recentProjects() const
+{
+    QFileInfoList list;
+    for(const auto& e: QDir(projectsPath()).entryInfoList(QDir::Dirs)) {
+        QFileInfo info(QDir(e.absoluteFilePath()).absoluteFilePath("Makefile"));
+        if (info.isFile())
+            list.append(info);
+    }
+    auto history = CFG_LOCAL["history"].toArray();
+    for(const auto& e: history) {
+        QFileInfo info(e.toString());
+        if (info.exists() && !list.contains(info))
+            list.append(info);
+    }
+    return list;
+}
+
 QStringList AppConfig::additionalPaths() const
 {
     QStringList paths;
@@ -293,6 +310,16 @@ void AppConfig::setExternalTools(const QHash<QString, QString> &tools)
     for (auto it=tools.begin(); it != tools.end(); ++it)
         o.insert(it.key(), it.value());
     CFG_LOCAL.insert("externalTools", o);
+}
+
+void AppConfig::appendToRecentProjects(const QString &path)
+{
+    if (!path.startsWith(projectsPath())) {
+        QJsonArray history = CFG_LOCAL["history"].toArray();
+        if (!history.contains(path))
+            history.append(path);
+        CFG_LOCAL["history"] = history;
+    }
 }
 
 void AppConfig::setAdditionalPaths(const QStringList &paths)

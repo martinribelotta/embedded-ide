@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>436</width>
-    <height>596</height>
+    <width>441</width>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -118,7 +118,7 @@
     </spacer>
    </item>
    <item row="5" column="1">
-    <widget class="QToolButton" name="buttonOk">
+    <widget class="QPushButton" name="buttonOk">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -135,13 +135,13 @@
        <height>22</height>
       </size>
      </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextBesideIcon</enum>
+     <property name="default">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
    <item row="5" column="2" colspan="2">
-    <widget class="QToolButton" name="buttonCancel">
+    <widget class="QPushButton" name="buttonCancel">
      <property name="text">
       <string>Cancel</string>
      </property>
@@ -154,9 +154,6 @@
        <width>22</width>
        <height>22</height>
       </size>
-     </property>
-     <property name="toolButtonStyle">
-      <enum>Qt::ToolButtonTextBesideIcon</enum>
      </property>
     </widget>
    </item>
@@ -173,12 +170,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>334</x>
-     <y>457</y>
+     <x>287</x>
+     <y>567</y>
     </hint>
     <hint type="destinationlabel">
-     <x>275</x>
-     <y>455</y>
+     <x>228</x>
+     <y>569</y>
     </hint>
    </hints>
   </connection>
@@ -189,12 +186,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>379</x>
-     <y>467</y>
+     <x>396</x>
+     <y>570</y>
     </hint>
     <hint type="destinationlabel">
-     <x>302</x>
-     <y>466</y>
+     <x>406</x>
+     <y>590</y>
     </hint>
    </hints>
   </connection>
