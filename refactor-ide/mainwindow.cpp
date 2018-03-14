@@ -69,6 +69,10 @@ MainWindow::MainWindow(QWidget *parent) :
     });
     connect(priv->fileManager, &FileSystemManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
 
+    auto showMessageCallback = [this](const QString& msg) { priv->console->writeMessage(msg, Qt::darkGreen); };
+    auto clearMessageCallback = [this]() { ui->logView->clear(); };
+    connect(priv->projectManager, &ProjectManager::exportFinish, showMessageCallback);
+
     ui->recentProjectsView->setModel(new QStandardItemModel(ui->recentProjectsView));
     auto makeRecentProjects = [this]() {
         auto m = static_cast<QStandardItemModel*>(ui->recentProjectsView->model());
@@ -99,11 +103,23 @@ MainWindow::MainWindow(QWidget *parent) :
     };
     auto newProjectCallback = [this]() {
         NewProjectDialog d(this);
-        if (d.exec() == QDialog::Accepted)
+        if (d.exec() == QDialog::Accepted) {
             priv->projectManager->createProject(d.absoluteProjectPath(), d.templateFile());
+        }
     };
     auto openConfigurationCallback = [this]() { ui->stackedWidget->setCurrentWidget(ui->configPage); };
+    auto exportCallback = [this, clearMessageCallback]() {
+        auto path = QFileDialog::getSaveFileName(this, tr("New File"), AppConfig::instance().templatesPath(),
+                                                 tr("Templates (*.template);;All files (*)"));
+        if (!path.isEmpty()) {
+            if (QFileInfo(path).suffix().isEmpty())
+                path.append(".template");
+            clearMessageCallback();
+            priv->projectManager->exportCurrentProjectTo(path);
+        }
+    };
     connect(ui->buttonOpenProject, &QToolButton::clicked, openProjectCallback);
+    connect(ui->buttonExport, &QToolButton::clicked, exportCallback);
     connect(ui->buttonNewProject, &QToolButton::clicked, newProjectCallback);
     connect(ui->buttonConfiguration, &QToolButton::clicked, openConfigurationCallback);
     connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);

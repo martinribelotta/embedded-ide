@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QFile>
 
 class QListView;
 
@@ -25,9 +26,11 @@ signals:
     void projectClosed();
     void targetTriggered(const QString& target);
     void requestFileOpen(const QString& path);
+    void exportFinish(const QString& exportMessage);
 
 public slots:
     void createProject(const QString& projectFilePath, const QString& templateFile);
+    void exportCurrentProjectTo(const QString& patchFile);
     void openProject(const QString& makefile);
     void closeProject();
     void reloadProject();

@@ -17,6 +17,10 @@ public:
 signals:
 
 public slots:
+    void writeMessage(const QString& message, const QColor& color);
+
+private:
+    QTextBrowser *browser;
 };
 
 #endif // CONSOLEINTERCEPTOR_H

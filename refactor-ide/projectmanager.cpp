@@ -10,6 +10,8 @@
 #include <QPushButton>
 #include <QRegularExpression>
 #include <QStandardItemModel>
+#include <QStandardPaths>
+#include <QTemporaryDir>
 #include <QTreeView>
 
 #include <QtDebug>
@@ -83,9 +85,6 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
             openProject(path);
         }
     });
-    priv->pman->setTerminationHandler(DIFF_PROC, [this](QProcess *p, int code, QProcess::ExitStatus status) {
-
-    });
 }
 
 ProjectManager::~ProjectManager()
@@ -119,8 +118,34 @@ void ProjectManager::createProject(const QString& projectFilePath, const QString
     priv->pman->setStartupHandler(PATCH_PROC, [templateFile](QProcess *p) {
         p->write(templateFile.toLocal8Bit());
         p->closeWriteChannel();
+        p->deleteLater();
     });
     priv->pman->start(PATCH_PROC, "patch", { "-p1" }, {}, projectFilePath);
+}
+
+void ProjectManager::exportCurrentProjectTo(const QString &patchFile)
+{
+    auto tmpDir = QDir(QDir(QStandardPaths::writableLocation(QStandardPaths::TempLocation)).filePath(QString("%1-empty").arg(projectName())));
+    if (!tmpDir.exists())
+        QDir::root().mkpath(tmpDir.absolutePath());
+    priv->pman->setTerminationHandler(DIFF_PROC, [this, tmpDir, patchFile](QProcess *p, int code, QProcess::ExitStatus status) {
+        Q_UNUSED(code);
+        QDir::root().rmpath(tmpDir.absolutePath());
+        if (status == QProcess::NormalExit) {
+            QFile f(patchFile);
+            if (f.open(QFile::WriteOnly)) {
+                f.write(p->readAllStandardOutput());
+                f.close();
+            }
+            if (f.error() == QFile::NoError)
+                emit exportFinish(tr("Export sucessfull"));
+            else
+                emit exportFinish(f.errorString());
+        } else
+            emit exportFinish(p->errorString());
+        p->deleteLater();;
+    });
+    priv->pman->start(DIFF_PROC, "diff", { "-N", "-u", "-r", tmpDir.absolutePath(), "." }, {}, projectPath());
 }
 
 void ProjectManager::openProject(const QString &makefile)

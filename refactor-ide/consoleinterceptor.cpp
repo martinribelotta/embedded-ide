@@ -9,11 +9,8 @@
 #include <QToolButton>
 
 ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager *pman, const QString& pname, QObject *parent) :
-    QObject(parent)
+    QObject(parent), browser(textBrowser)
 {
-    connect(textBrowser, &QTextBrowser::textChanged,
-            [textBrowser]() { textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum()); });
-
     const auto size = QSize(16, 16);
     auto gl = new QGridLayout(textBrowser);
     auto bclr = new QToolButton(textBrowser);
@@ -37,28 +34,30 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     gl->addWidget(bstop, 0, 2);
     gl->setColumnStretch(0, 1);
     gl->setRowStretch(1, 1);
-    auto rMargin = textBrowser->verticalScrollBar()->sizeHint().width();
-    gl->setContentsMargins(0, 0, rMargin, 0);
+    gl->setContentsMargins(0, 0, textBrowser->verticalScrollBar()->sizeHint().width(), 0);
     gl->setSpacing(0);
 
-    auto consoleText = [textBrowser](const QString &text, const QColor& color) {
-        auto &conf = AppConfig::instance();
-        auto cursor = textBrowser->textCursor();
-        cursor.beginEditBlock();
-        cursor.movePosition(QTextCursor::End);
-        QTextCharFormat fmt;
-        auto font = conf.loggerFont();
-        fmt.setFontFamily(font.family());
-        fmt.setFontPointSize(font.pointSize());
-        fmt.setForeground(color);
-        cursor.setCharFormat(fmt);
-        cursor.insertText(text);
-        cursor.endEditBlock();
-    };
-    pman->setStderrInterceptor(pname, [consoleText](QProcess *, const QString& text) { consoleText(text, Qt::red); });
-    pman->setStdoutInterceptor(pname, [consoleText](QProcess *, const QString& text) { consoleText(text, Qt::blue); });
+    pman->setStderrInterceptor(pname, [this](QProcess *, const QString& text) { writeMessage(text, Qt::red); });
+    pman->setStdoutInterceptor(pname, [this](QProcess *, const QString& text) { writeMessage(text, Qt::blue); });
 }
 
 ConsoleInterceptor::~ConsoleInterceptor()
 {
+}
+
+void ConsoleInterceptor::writeMessage(const QString &message, const QColor &color)
+{
+    auto &conf = AppConfig::instance();
+    auto cursor = browser->textCursor();
+    cursor.beginEditBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextCharFormat fmt;
+    auto font = conf.loggerFont();
+    fmt.setFontFamily(font.family());
+    fmt.setFontPointSize(font.pointSize());
+    fmt.setForeground(color);
+    cursor.setCharFormat(fmt);
+    cursor.insertText(message);
+    cursor.endEditBlock();
+    browser->verticalScrollBar()->setValue(browser->verticalScrollBar()->maximum());
 }

@@ -1,19 +1,14 @@
 #include "processmanager.h"
 
-class ProcessManager::Priv_t
-{
-public:
-};
+#include <QtDebug>
 
 ProcessManager::ProcessManager(QObject *parent) :
-    QObject(parent),
-    priv(new Priv_t)
+    QObject(parent)
 {
 }
 
 ProcessManager::~ProcessManager()
 {
-    delete priv;
 }
 
 QProcess *ProcessManager::processFor(const QString &name)
@@ -30,21 +25,15 @@ void ProcessManager::setTerminationHandler(const QString &name, ProcessManager::
 {
     auto proc = processFor(name);
     connect(proc, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            [proc, func](int exitCode, QProcess::ExitStatus exitStatus) { func(proc, exitCode, exitStatus); });
+            [proc, func](int exitCode, QProcess::ExitStatus exitStatus) {
+        func(proc, exitCode, exitStatus);
+    });
 }
 
-void ProcessManager::setStartupHandler(const QString &name, ProcessManager::startupHandler_t func, bool weak)
+void ProcessManager::setStartupHandler(const QString &name, ProcessManager::startupHandler_t func)
 {
     auto proc = processFor(name);
-    auto conn_normal = connect(proc, &QProcess::started, [proc, func]() { func(proc); });
-    if (weak) {
-        auto* conn_delete = new QMetaObject::Connection();
-        *conn_delete = connect(proc, &QProcess::started, [conn_normal, conn_delete]() {
-            QObject::disconnect(conn_normal);
-            QObject::disconnect(*conn_delete);
-            delete conn_delete;
-        });
-    }
+    connect(proc, &QProcess::started, [proc, func]() { func(proc); });
 }
 
 void ProcessManager::setErrorHandler(const QString &name, ProcessManager::errorHandler_t func)
@@ -75,6 +64,7 @@ void ProcessManager::start(const QString &name, const QString &command, const QS
         proc->setProcessEnvironment(env);
     }
     proc->setWorkingDirectory(workingDir);
+    qDebug() << "START:" << command << args;
     proc->start(command, args);
 }
 
