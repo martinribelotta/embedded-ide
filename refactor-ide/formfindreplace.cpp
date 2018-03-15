@@ -28,6 +28,8 @@ FormFindReplace::FormFindReplace(QsciScintilla *ed) :
     auto layout = new QGridLayout(ed->viewport());
     layout->setRowStretch(0, 1);
     layout->addWidget(this, 1, 0);
+    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     editor->installEventFilter(this);
 }
 
