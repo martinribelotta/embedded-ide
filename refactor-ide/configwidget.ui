@@ -1,34 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ConfigWidget</class>
- <widget class="QWidget" name="ConfigWidget">
+ <widget class="QDialog" name="ConfigWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>606</width>
-    <height>442</height>
+    <width>601</width>
+    <height>485</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
@@ -523,6 +508,13 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
      </widget>
     </widget>
    </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -536,5 +528,38 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
  <resources>
   <include location="resources/resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ConfigWidget</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>457</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>183</x>
+     <y>480</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ConfigWidget</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>272</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>272</x>
+     <y>483</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

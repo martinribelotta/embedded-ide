@@ -13,6 +13,7 @@
 #include "unsavedfilesdialog.h"
 #include "version.h"
 #include "newprojectdialog.h"
+#include "configwidget.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -107,7 +108,11 @@ MainWindow::MainWindow(QWidget *parent) :
             priv->projectManager->createProject(d.absoluteProjectPath(), d.templateFile());
         }
     };
-    auto openConfigurationCallback = [this]() { ui->stackedWidget->setCurrentWidget(ui->configPage); };
+    auto openConfigurationCallback = [this]() {
+        ConfigWidget d(this);
+        if (d.exec())
+            d.save();
+    };
     auto exportCallback = [this, clearMessageCallback]() {
         auto path = QFileDialog::getSaveFileName(this, tr("New File"), AppConfig::instance().templatesPath(),
                                                  tr("Templates (*.template);;All files (*)"));
@@ -181,12 +186,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonDocumentSaveAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveAll);
     connect(ui->buttonDocumentReload, &QToolButton::clicked, ui->documentContainer, &DocumentManager::reloadDocumentCurrent);
 
-    connect(ui->buttonConfigAccept, &QToolButton::clicked, [this]() {
-        ui->configWidget->save();
-        ui->stackedWidget->setCurrentWidget(ui->welcomePage);
-    });
-
-    connect(ui->buttonConfigReject, &QToolButton::clicked, [this]() { ui->stackedWidget->setCurrentWidget(ui->welcomePage); });
     ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman));
 
     connect(&AppConfig::instance(), &AppConfig::configChanged, [this]() {

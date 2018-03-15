@@ -10,7 +10,7 @@
 #include <QtDebug>
 
 ConfigWidget::ConfigWidget(QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::ConfigWidget)
 {
     ui->setupUi(this);

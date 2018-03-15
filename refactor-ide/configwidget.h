@@ -1,13 +1,13 @@
 #ifndef CONFIGWIDGET_H
 #define CONFIGWIDGET_H
 
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
 class ConfigWidget;
 }
 
-class ConfigWidget : public QWidget
+class ConfigWidget : public QDialog
 {
     Q_OBJECT
 
