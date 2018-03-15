@@ -155,6 +155,14 @@ void DocumentManager::openDocument(const QString &path)
         emit documentNotFound(path);
 }
 
+void DocumentManager::openDocumentHere(const QString &path, int line, int col)
+{
+    openDocument(path);
+    auto ed = documentEditor(path);
+    if (ed)
+        ed->setCursor(QPoint(col, line));
+}
+
 void DocumentManager::closeDocument(const QString &path)
 {
     if (path.isEmpty())
@@ -205,4 +213,12 @@ void DocumentManager::reloadDocument(const QString &path)
     if (!iface)
         return;
     iface->reload();
+}
+
+void DocumentManager::focusInEvent(QFocusEvent *event)
+{
+    Q_UNUSED(event);
+    auto w = priv->stack->currentWidget();
+    if (w)
+        w->setFocus();
 }

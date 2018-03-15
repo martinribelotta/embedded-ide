@@ -48,7 +48,8 @@ SOURCES += \
     configwidget.cpp \
     externaltoolmanager.cpp \
     version.cpp \
-    newprojectdialog.cpp
+    newprojectdialog.cpp \
+    findinfilesdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -70,7 +71,8 @@ HEADERS += \
     configwidget.h \
     externaltoolmanager.h \
     version.h \
-    newprojectdialog.h
+    newprojectdialog.h \
+    findinfilesdialog.h
 
 FORMS += \
         mainwindow.ui \
@@ -78,7 +80,8 @@ FORMS += \
         formfindreplace.ui \
     configwidget.ui \
     externaltoolmanager.ui \
-    newprojectdialog.ui
+    newprojectdialog.ui \
+    findinfilesdialog.ui
 
 CONFIG += mobility
 MOBILITY = 

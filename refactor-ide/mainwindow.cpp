@@ -14,6 +14,7 @@
 #include "version.h"
 #include "newprojectdialog.h"
 #include "configwidget.h"
+#include "findinfilesdialog.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -193,6 +194,22 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->buttonTools->menu()->deleteLater();
         ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman));
     });
+
+    auto findInFilesCallback = [this]() {
+        auto path = priv->projectManager->projectPath();
+        if (!path.isEmpty()) {
+            auto d = new FindInFilesDialog(path, this);
+            connect(d, &FindInFilesDialog::finished, d, &QObject::deleteLater);
+            connect(d, &FindInFilesDialog::queryToOpen, [d, this](const QString& path, int line, int column) {
+                activateWindow();
+                ui->documentContainer->setFocus();
+                ui->documentContainer->openDocumentHere(path, line, column);
+            });
+            d->show();
+        }
+    };
+    connect(ui->buttonFindAll, &QToolButton::clicked, findInFilesCallback);
+    connect(new QShortcut(QKeySequence("CTRL+SHIFT+F"), this), &QShortcut::activated, findInFilesCallback);
 }
 
 MainWindow::~MainWindow()

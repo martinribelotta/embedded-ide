@@ -31,6 +31,7 @@ signals:
 
 public slots:
     void openDocument(const QString& path);
+    void openDocumentHere(const QString& path, int line, int col);
     void closeDocument(const QString& path);
     void closeCurrent() { closeDocument(documentCurrent()); }
     void closeAll();
@@ -40,6 +41,9 @@ public slots:
     void saveAll();
     void reloadDocument(const QString& path);
     void reloadDocumentCurrent() { reloadDocument(documentCurrent()); }
+
+protected:
+    void focusInEvent(QFocusEvent *event) override;
 
 private:
     class Priv_t;
