@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
+    <width>609</width>
     <height>372</height>
    </rect>
   </property>
@@ -122,6 +122,9 @@
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
+     <property name="textElideMode">
+      <enum>Qt::ElideLeft</enum>
+     </property>
      <property name="uniformRowHeights">
       <bool>true</bool>
      </property>
@@ -137,6 +140,16 @@
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QLabel" name="labelStatus"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelFilename">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QToolButton" name="buttonStop">

@@ -96,7 +96,9 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
                         QDir::NoFilter, QDirIterator::Subdirectories);
         while (it.hasNext()) {
             QCoreApplication::processEvents();
-            ui->labelStatus->setText(tr("Scanning %1 file").arg(it.next()));
+            ui->labelStatus->setText(tr("Scanning file:"));
+            ui->labelFilename->setText(QFontMetrics(ui->labelStatus->font())
+                                       .elidedText(it.next(), Qt::ElideLeft, ui->labelStatus->width()));
             auto info = it.fileInfo();
             if (!info.isFile())
                 continue;
@@ -108,7 +110,7 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
             if (!doc->findFirst(textToFind, isRegex, isCS, isWWord, false, true, -1, -1, false, false))
                 continue;
             auto fileItem = model->itemPrototype()->clone();
-            fileItem->setText(info.absoluteFilePath());
+            fileItem->setText(info.absoluteFilePath().remove(ui->textDirectory->text() + QDir::separator()));
             model->appendRow(fileItem);
             do {
                 int line, column;
@@ -128,6 +130,7 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
         ui->buttonFind->setEnabled(true);
         ui->treeView->expandAll();
         ui->labelStatus->setText(tr("Done"));
+        ui->labelFilename->clear();
     });
 
     connect(ui->buttonChoseDirectory, &QToolButton::clicked, [this]() {
