@@ -14,6 +14,7 @@ class ProcessManager;
 class ExternalToolManager : public QDialog
 {
     Q_OBJECT
+    Q_DISABLE_COPY(ExternalToolManager)
 
 public:
     explicit ExternalToolManager(QWidget *parent = 0);

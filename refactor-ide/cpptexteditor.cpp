@@ -1,8 +1,16 @@
 #include "cpptexteditor.h"
+#include "icodemodelprovider.h"
 
 #include <Qsci/qscilexercpp.h>
+#include <Qsci/qsciabstractapis.h>
 
 #include <QMenu>
+
+#include <QMimeDatabase>
+#include <QtDebug>
+
+static const QStringList C_CXX_EXTENSIONS = { "c", "cpp", "h", "hpp", "cc", "hh", "hxx", "cxx", "c++", "h++" };
+static const QStringList C_CXX_MIMETYPES = { "text/x-c", "text/x-csrc", "text/x-c++src", "text/x-chdr", "text/x-c++hdr" };
 
 class MyQsciLexerCPP: public QsciLexerCPP {
     mutable QLatin1String keywordList;
@@ -40,14 +48,30 @@ private:
 
 CPPTextEditor::CPPTextEditor(QWidget *parent) : CodeTextEditor(parent)
 {
+    for (auto& suffix: C_CXX_EXTENSIONS)
+        if ((provider = CodeModelFactory::instance().modelForSuffix(suffix)) != nullptr)
+            break;
+    QMimeDatabase db;
+    for (auto& mimeName: C_CXX_MIMETYPES)
+        if ((provider = CodeModelFactory::instance().modelForMime(db.mimeTypeForName(mimeName))) != nullptr)
+            break;
+    setAutoCompletionSource(AcsNone);
+    connect(this, &CPPTextEditor::userListActivated, [this](int id, const QString& text) {
+        Q_UNUSED(id);
+        int line, index;
+        getCursorPosition(&line, &index);
+        if (hasSelectedText()) {
+            qDebug() << "replace selection" << selectedText() << "by" << text;
+            removeSelectedText();
+        }
+        insert(text);
+        setCursorPosition(line, index + text.length());
+    });
 }
 
 CPPTextEditor::~CPPTextEditor()
 {
 }
-
-static const QStringList C_CXX_EXTENSIONS = { "c", "cpp", "h", "hpp", "cc", "hh", "hxx", "cxx", "c++", "h++" };
-static const QStringList C_CXX_MIMETYPES = { "text/x-c", "text/x-csrc", "text/x-c++src", "text/x-chdr", "text/x-c++hdr" };
 
 class CPPEditorCreator: public IDocumentEditorCreator
 {
@@ -77,11 +101,42 @@ IDocumentEditorCreator *CPPTextEditor::creator()
     return IDocumentEditorCreator::staticCreator<CPPEditorCreator>();
 }
 
+void CPPTextEditor::findDeclaration()
+{
+    if (provider) {
+    }
+}
+
+void CPPTextEditor::findDefinition()
+{
+    if (provider) {
+    }
+}
+
 QMenu *CPPTextEditor::createContextualMenu()
 {
     auto menu = CodeTextEditor::createContextualMenu();
-    menu->addAction(QIcon(":/images/actions/edit-find-replace.svg"), tr("Find symbol under cursor"), [this]() {});
+#define _(icon, text, slot, sh) \
+    menu->addAction(QIcon(":/images/actions/" icon ".svg", text, this, slot)->setShortcut(QKeySequence(sh))
+    _("edit-find-replace", tr("Find declaration"), &CPPEditorCreator::findDeclaration, "CTRL+ENTER");
+    _("edit-find-replace", tr("Find definition"), &CPPEditorCreator::findDefinition, "CTRL+SHIFT+ENTER");
+#undef _
     return menu;
+}
+
+void CPPTextEditor::triggerAutocompletion()
+{
+    if (provider) {
+        int line, index;
+        getCursorPosition(&line, &index);
+        provider->completionAt({ path(), line, index }, text(),
+                               [this](const QStringList& completions)
+        {
+            showUserList(1, completions);
+        });
+    } else {
+        CodeTextEditor::triggerAutocompletion();
+    }
 }
 
 QsciLexer *CPPTextEditor::lexerFromFile(const QString &name)

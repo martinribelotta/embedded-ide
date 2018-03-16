@@ -9,6 +9,7 @@ class ProjectManager;
 class BuildManager : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(BuildManager)
 public:
     static const QString PROCESS_NAME;
 

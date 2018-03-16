@@ -9,6 +9,7 @@
 class ProcessManager : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(ProcessManager)
 public:
     typedef std::function<void (QProcess *, const QString&)> outputHandler_t;
     typedef std::function<void (QProcess *, int, QProcess::ExitStatus)> terminationHandler_t;

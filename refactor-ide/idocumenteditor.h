@@ -61,6 +61,7 @@ public:
 class DocumentEditorFactory: public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(DocumentEditorFactory)
 
 private:
     DocumentEditorFactory();

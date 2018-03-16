@@ -9,6 +9,8 @@ class QTreeView;
 class FileSystemManager : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(FileSystemManager)
+
 public:
     explicit FileSystemManager(QTreeView *v, QObject *parent = nullptr);
     virtual ~FileSystemManager();

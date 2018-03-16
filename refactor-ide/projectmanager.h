@@ -12,6 +12,7 @@ class ProcessManager;
 class ProjectManager : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(ProjectManager)
 public:
     explicit ProjectManager(QListView *view, ProcessManager *pman, QObject *parent = nullptr);
     virtual ~ProjectManager();

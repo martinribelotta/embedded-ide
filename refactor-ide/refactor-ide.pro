@@ -49,7 +49,9 @@ SOURCES += \
     externaltoolmanager.cpp \
     version.cpp \
     newprojectdialog.cpp \
-    findinfilesdialog.cpp
+    findinfilesdialog.cpp \
+    icodemodelprovider.cpp \
+    backward.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -72,7 +74,9 @@ HEADERS += \
     externaltoolmanager.h \
     version.h \
     newprojectdialog.h \
-    findinfilesdialog.h
+    findinfilesdialog.h \
+    icodemodelprovider.h \
+    backward.hpp
 
 FORMS += \
         mainwindow.ui \

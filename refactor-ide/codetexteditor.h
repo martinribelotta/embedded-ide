@@ -16,7 +16,9 @@ public:
 
 protected:
 
-    virtual QMenu *createContextualMenu();
+    QMenu *createContextualMenu() override;
+    void triggerAutocompletion() override;
+
     virtual QsciLexer *lexerFromFile(const QString& name);
 };
 

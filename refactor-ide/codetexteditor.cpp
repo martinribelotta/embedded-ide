@@ -133,6 +133,11 @@ QMenu *CodeTextEditor::createContextualMenu()
     return menu;
 }
 
+void CodeTextEditor::triggerAutocompletion()
+{
+    autoCompleteFromAll();
+}
+
 QsciLexer *CodeTextEditor::lexerFromFile(const QString& name)
 {
     auto type = QMimeDatabase().mimeTypeForFile(name);

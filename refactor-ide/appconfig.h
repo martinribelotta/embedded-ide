@@ -7,6 +7,8 @@
 class AppConfig : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(AppConfig)
+
 private:
     class Priv_t;
     Priv_t *priv;
