@@ -277,6 +277,16 @@ bool AppConfig::useDevelopMode() const
     return CFG_LOCAL.value("useDevelopMode").toBool();
 }
 
+QByteArray AppConfig::fileHash(const QString &filename)
+{
+    auto path = QDir(workspacePath()).filePath("hashes.json");
+    auto o = QJsonDocument::fromJson(readEntireTextFile(path)).object();
+    auto v = o.value(QFileInfo(filename).fileName());
+    if (v.isUndefined())
+        return QByteArray();
+    return QByteArray::fromHex(v.toString().toLatin1());
+}
+
 void AppConfig::load()
 {
     auto def = QJsonDocument::fromJson(replaceWithEnv(readEntireFile(DEFAULT_LOCAL_RES)).toLocal8Bit()).object();
@@ -328,6 +338,13 @@ void AppConfig::setAdditionalPaths(const QStringList &paths)
     for(const auto& p: paths)
         array.append(p);
     CFG_LOCAL.insert("additionalPaths", array);
+}
+
+void AppConfig::setTemplatesUrl(const QString &url)
+{
+    auto t = CFG_LOCAL["templates"].toObject();
+    t.insert("url", url);
+    CFG_LOCAL["templates"] = t;
 }
 
 void AppConfig::setEditorStyle(const QString &name)
@@ -450,4 +467,22 @@ void AppConfig::setProjectTemplatesAutoUpdate(bool en)
 void AppConfig::setUseDevelopMode(bool use)
 {
     CFG_LOCAL.insert("useDevelopMode", use);
+}
+
+void AppConfig::addHash(const QString &filename, const QByteArray &hash)
+{
+    auto path = QDir(workspacePath()).filePath("hashes.json");
+    auto o = QJsonDocument::fromJson(readEntireTextFile(path)).object();
+    o.insert(QFileInfo(filename).fileName(), QString(hash.toHex()));
+    writeEntireFile(path, QJsonDocument(o).toJson());
+}
+
+void AppConfig::purgeHash()
+{
+    auto path = QDir(workspacePath()).filePath("hashes.json");
+    auto o = QJsonDocument::fromJson(readEntireTextFile(path)).object();
+    for(auto& k: o.keys())
+        if (!QFileInfo(QDir(templatesPath()).filePath(k)).exists())
+            o.remove(k);
+    writeEntireFile(path, QJsonDocument(o).toJson());
 }

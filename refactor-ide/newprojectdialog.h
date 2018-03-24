@@ -13,7 +13,7 @@ class NewProjectDialog : public QDialog
 
 public:
     explicit NewProjectDialog(QWidget *parent = 0);
-    ~NewProjectDialog();
+    virtual ~NewProjectDialog();
 
     QString absoluteProjectPath() const;
     QString templateFile() const;

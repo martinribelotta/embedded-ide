@@ -66,6 +66,7 @@ void ConfigWidget::save()
     conf.setEditorTabsToSpaces(ui->editorReplaceTabs->isChecked());
     conf.setEditorTabWidth(ui->editorTabWidth->value());
     conf.setEditorFormatterStyle(ui->formatterStyle->currentText());
+    conf.setTemplatesUrl(ui->templateSettings->repositoryUrl().toString());
     auto loggerFont = ui->loggerFontName->currentFont();
     loggerFont.setPointSize(ui->loggerFontSize->value());
     conf.setLoggerFont(loggerFont);
@@ -94,6 +95,7 @@ void ConfigWidget::load()
     ui->editorReplaceTabs->setChecked(conf.editorTabsToSpaces());
     ui->editorTabWidth->setValue(conf.editorTabWidth());
     ui->formatterStyle->setCurrentText(conf.editorFormatterStyle());
+    ui->templateSettings->setRepositoryUrl(conf.templatesUrl());
     auto loggerFont = conf.loggerFont();
     qDebug() << "logger font" << loggerFont;
     ui->loggerFontName->setCurrentFont(loggerFont);

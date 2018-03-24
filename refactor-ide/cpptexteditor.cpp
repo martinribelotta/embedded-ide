@@ -48,13 +48,7 @@ private:
 
 CPPTextEditor::CPPTextEditor(QWidget *parent) : CodeTextEditor(parent)
 {
-    for (auto& suffix: C_CXX_EXTENSIONS)
-        if ((provider = CodeModelFactory::instance().modelForSuffix(suffix)) != nullptr)
-            break;
-    QMimeDatabase db;
-    for (auto& mimeName: C_CXX_MIMETYPES)
-        if ((provider = CodeModelFactory::instance().modelForMime(db.mimeTypeForName(mimeName))) != nullptr)
-            break;
+    provider = nullptr;
     setAutoCompletionSource(AcsNone);
     connect(this, &CPPTextEditor::userListActivated, [this](int id, const QString& text) {
         Q_UNUSED(id);
@@ -116,10 +110,12 @@ void CPPTextEditor::findDefinition()
 QMenu *CPPTextEditor::createContextualMenu()
 {
     auto menu = CodeTextEditor::createContextualMenu();
-#define _(icon, text, slot, sh) \
-    menu->addAction(QIcon(":/images/actions/" icon ".svg", text, this, slot)->setShortcut(QKeySequence(sh))
-    _("edit-find-replace", tr("Find declaration"), &CPPEditorCreator::findDeclaration, "CTRL+ENTER");
-    _("edit-find-replace", tr("Find definition"), &CPPEditorCreator::findDefinition, "CTRL+SHIFT+ENTER");
+#define _(icon, text, functor, keys) do { \
+    auto a = menu->addAction(QIcon(":/images/actions/" icon ".svg"), text, this, &CPPTextEditor::functor); \
+    a->setShortcut(QKeySequence(keys)); \
+} while(0)
+    _("edit-find-replace", tr("Find declaration"), findDeclaration, "CTRL+ENTER");
+    _("edit-find-replace", tr("Find definition"), findDefinition, "CTRL+SHIFT+ENTER");
 #undef _
     return menu;
 }

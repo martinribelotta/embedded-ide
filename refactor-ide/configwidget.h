@@ -13,7 +13,7 @@ class ConfigWidget : public QDialog
 
 public:
     explicit ConfigWidget(QWidget *parent = 0);
-    ~ConfigWidget();
+    virtual ~ConfigWidget();
 
 public slots:
     void save();

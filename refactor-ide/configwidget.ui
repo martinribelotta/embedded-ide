@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="editorSettings">
       <attribute name="title">
@@ -120,20 +120,31 @@
      </widget>
      <widget class="QWidget" name="toolsSettings">
       <attribute name="title">
-       <string>Tools</string>
+       <string>Paths</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_5">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>Remote template URL</string>
+          <string>Workspace PATH</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="3">
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="workspacePath"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QToolButton" name="projectPathSetButton">
+         <property name="icon">
+          <iconset resource="resources/resources.qrc">
+           <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="3">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
           <string>Additional PATHs</string>
@@ -192,39 +203,12 @@
          </layout>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QToolButton" name="projectPathSetButton">
-         <property name="icon">
-          <iconset resource="resources/resources.qrc">
-           <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="templateUrl"/>
-       </item>
-       <item row="1" column="2">
-        <widget class="QToolButton" name="projectTemplatesDownload">
-         <property name="icon">
-          <iconset resource="resources/resources.qrc">
-           <normaloff>:/images/actions/edit-download.svg</normaloff>:/images/actions/edit-download.svg</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="workspacePath"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Workspace PATH</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
       </layout>
+     </widget>
+     <widget class="TemplateManager" name="templateSettings">
+      <attribute name="title">
+       <string>Templates</string>
+      </attribute>
      </widget>
      <widget class="QWidget" name="proxySettings">
       <attribute name="title">
@@ -522,6 +506,12 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
    <class>CPPTextEditor</class>
    <extends>QWidget</extends>
    <header>cpptexteditor.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TemplateManager</class>
+   <extends>QWidget</extends>
+   <header>templatemanager.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

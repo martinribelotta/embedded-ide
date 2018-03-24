@@ -21,7 +21,7 @@ class FindInFilesDialog : public QDialog
 
 public:
     explicit FindInFilesDialog(const QString& path, QWidget *parent = 0);
-    ~FindInFilesDialog();
+    virtual ~FindInFilesDialog();
 
 signals:
     void queryToOpen(const QString& path, int line, int column);

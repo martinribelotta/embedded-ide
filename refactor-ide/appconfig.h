@@ -58,6 +58,8 @@ public:
 
     bool useDevelopMode() const;
 
+    QByteArray fileHash(const QString& filename);
+
 signals:
     void configChanged(AppConfig*);
 
@@ -71,6 +73,8 @@ public slots:
     void appendToRecentProjects(const QString& path);
 
     void setAdditionalPaths(const QStringList& paths);
+
+    void setTemplatesUrl(const QString& url);
 
     void setEditorStyle(const QString& name);
     void setEditorFont(const QFont& f);
@@ -91,6 +95,9 @@ public slots:
     void setProjectTemplatesAutoUpdate(bool en);
 
     void setUseDevelopMode(bool use);
+
+    void addHash(const QString& filename, const QByteArray& hash);
+    void purgeHash();
 };
 
 #endif // APPCONFIG_H

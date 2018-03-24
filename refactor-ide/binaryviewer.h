@@ -7,7 +7,8 @@
 class BinaryViewer : public IDocumentEditor, public QHexView
 {
 public:
-    BinaryViewer(QWidget *parent = nullptr);
+    explicit BinaryViewer(QWidget *parent = nullptr);
+    virtual ~BinaryViewer() {}
 
     virtual const QWidget *widget() const override { return this; }
     virtual QWidget *widget() override { return this; }

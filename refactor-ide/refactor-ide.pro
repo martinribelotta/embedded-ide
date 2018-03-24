@@ -5,7 +5,7 @@
 #-------------------------------------------------
 DESTDIR  = ../build
 
-QT       += core gui svg xml
+QT       += core gui svg xml network
 
 CONFIG += qscintilla2
 
@@ -51,7 +51,9 @@ SOURCES += \
     newprojectdialog.cpp \
     findinfilesdialog.cpp \
     icodemodelprovider.cpp \
-    backward.cpp
+    backward.cpp \
+    templatemanager.cpp \
+    templateitemwidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -76,7 +78,9 @@ HEADERS += \
     newprojectdialog.h \
     findinfilesdialog.h \
     icodemodelprovider.h \
-    backward.hpp
+    backward.hpp \
+    templatemanager.h \
+    templateitemwidget.h
 
 FORMS += \
         mainwindow.ui \
@@ -85,7 +89,9 @@ FORMS += \
     configwidget.ui \
     externaltoolmanager.ui \
     newprojectdialog.ui \
-    findinfilesdialog.ui
+    findinfilesdialog.ui \
+    templatemanager.ui \
+    templateitemwidget.ui
 
 CONFIG += mobility
 MOBILITY = 

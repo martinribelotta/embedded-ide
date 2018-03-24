@@ -34,7 +34,8 @@
         }
     },
     "templates": {
-        "autoUpdate": true
+        "autoUpdate": true,
+        "url": ""
     },
     "useDevelopMode": false
 }
