@@ -8,6 +8,8 @@ namespace Ui {
 class TemplateManager;
 }
 
+class QListWidgetItem;
+
 class TemplateManager : public QWidget
 {
     Q_OBJECT
@@ -30,6 +32,9 @@ protected:
 
 private:
     Ui::TemplateManager *ui;
+    QHash<QString, QListWidgetItem*> itemList;
+
+    void updateLocalTemplates();
 };
 
 #endif // TEMPLATEMANAGER_H

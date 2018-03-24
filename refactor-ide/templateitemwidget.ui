@@ -58,6 +58,14 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QToolButton" name="deleteFile">
+     <property name="icon">
+      <iconset resource="resources/resources.qrc">
+       <normaloff>:/images/actions/list-remove.svg</normaloff>:/images/actions/list-remove.svg</iconset>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources>

@@ -55,6 +55,7 @@ TemplateManager::TemplateManager(QWidget *parent) :
         auto first = qobject_cast<TemplateItemWidget*>(ui->widgetList->itemWidget(ui->widgetList->item(0)));
         if (first) {
             ui->groupBox->setEnabled(false);
+            ui->totalProgressBar->setValue(0);
             first->startDownload(net);
         }
     });
@@ -63,82 +64,84 @@ TemplateManager::TemplateManager(QWidget *parent) :
     connect(ui->selectAll, &QToolButton::clicked, [setSelectAllItems]() { setSelectAllItems(true); });
     connect(ui->unselectAll, &QToolButton::clicked, [setSelectAllItems]() { setSelectAllItems(false); });
     connect(ui->updateRepository, &QToolButton::clicked, [net, percentChange, this]() {
+        updateLocalTemplates();
         ui->groupBox->setEnabled(false);
         auto reply = net->get(QNetworkRequest(QUrl(ui->repoUrl->text())));
         emit message(tr("Downloading metadata..."));
         if (!reply) {
             ui->groupBox->setEnabled(true);
             emit errorMessage(tr("Cannot download template metadata!"));
-        } else {
-            connect(reply, &QNetworkReply::downloadProgress, percentChange);
-            connect(reply, &QNetworkReply::finished, [this, reply, percentChange, net]() {
-                reply->deleteLater();
-                ui->groupBox->setEnabled(true);
-                ui->totalProgressBar->setValue(100);
-                auto contents = QJsonDocument::fromJson(reply->readAll());
-                if (!contents.isNull() && contents.isArray()) {
-                    ui->widgetList->clear();
-                    auto entryList = contents.array();
-                    for (const auto& entry : entryList) {
-                        auto oEntry = entry.toObject();
-                        auto name = oEntry.value("name").toString();
-                        if ("template" == QFileInfo(name).suffix()) {
-                            auto item = new QListWidgetItem();
-                            auto url = QUrl(oEntry.value("download_url").toString());
-                            auto hash = QByteArray::fromHex(oEntry.value("sha").toString().toLatin1());
-                            auto templateItem = TemplateItem(url, hash);
-                            auto w = new TemplateItemWidget(templateItem);
-                            ui->widgetList->addItem(item);
-                            ui->widgetList->setItemWidget(item, w);
-                            item->setSizeHint(w->sizeHint());
-                            int row = ui->widgetList->row(item);
-                            connect(w, &TemplateItemWidget::downloadMessage, this, &TemplateManager::message);
-                            connect(w, &TemplateItemWidget::downloadError, this, &TemplateManager::errorMessage);
-                            connect(w, &TemplateItemWidget::downloadStart,
-                                    [this, net, w, item]()
-                            {
-                                ui->widgetList->scrollToItem(item, QAbstractItemView::PositionAtCenter);
-                                w->startDownload(net);
-                            });
-                            connect(w, &TemplateItemWidget::downloadEnd,
-                                    [this, row, percentChange, item, hash, net](const TemplateItem& templateItem)
-                            {
-                                AppConfig::instance().addHash(templateItem.file().absoluteFilePath(), hash);
-                                QListWidgetItem *nextItem = item;
-                                int elements = property("elementCount").toInt();
-                                do {
-                                    ui->widgetList->removeItemWidget(nextItem);
-                                    delete ui->widgetList->takeItem(0);
-                                    percentChange(elements - ui->widgetList->count(), elements);
-                                    nextItem = ui->widgetList->item(0);
-                                    auto nextW = qobject_cast<TemplateItemWidget*>(ui->widgetList->itemWidget(nextItem));
-                                    if (!nextW)
-                                        break;
-                                    if (nextW->isChecked()) {
-                                        nextW->startDownload(net);
-                                        break;
-                                    }
-                                    emit message(tr("Skipping download of %1").arg(nextW->templateItem().file().fileName()));
-                                } while(nextItem);
-                                ui->groupBox->setEnabled(ui->widgetList->count() == 0);
-                            });
-                        }
+            return;
+        }
+
+        connect(reply, &QNetworkReply::downloadProgress, percentChange);
+        connect(reply, &QNetworkReply::finished, [this, percentChange, reply, net]() {
+            reply->deleteLater();
+            ui->groupBox->setEnabled(true);
+            ui->totalProgressBar->setValue(100);
+            auto contents = QJsonDocument::fromJson(reply->readAll());
+            for (const auto& entry : contents.array()) {
+                auto oEntry = entry.toObject();
+                auto name = oEntry.value("name").toString();
+                if ("template" == QFileInfo(name).suffix()) {
+                    auto url = QUrl(oEntry.value("download_url").toString());
+                    auto hash = QByteArray::fromHex(oEntry.value("sha").toString().toLatin1());
+                    auto templateItem = TemplateItem(url, hash);
+                    if (itemList.contains(templateItem.file().fileName())) {
+                        auto item = itemList.value(templateItem.file().fileName());
+                        auto w = qobject_cast<TemplateItemWidget*>(ui->widgetList->itemWidget(item));
+                        w->setTemplate(templateItem);
+                    } else {
+                        auto item = new QListWidgetItem();
+                        auto w = new TemplateItemWidget(templateItem);
+                        ui->widgetList->addItem(item);
+                        ui->widgetList->setItemWidget(item, w);
+                        item->setSizeHint(w->sizeHint());
+                        itemList.insert(templateItem.file().fileName(), item);
                     }
                 }
-                setProperty("elementCount", ui->widgetList->count());
-                emit message(tr("Metadata download finished"));
-                ui->selectAll->click();
-                AppConfig::instance().purgeHash();
-            });
-            connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
-                    [this, reply] (QNetworkReply::NetworkError)
-            {
-                ui->groupBox->setEnabled(true);
-                reply->deleteLater();
-                emit errorMessage(tr("Network error downloading template metadata: %1")
-                                  .arg(reply->errorString()));
-            });
-        }
+            }
+            emit message(tr("Metadata download finished"));
+            ui->selectAll->click();
+            AppConfig::instance().purgeHash();
+            int elementCount = ui->widgetList->count();
+            for(int i=0; i<ui->widgetList->count(); i++) {
+                auto item = ui->widgetList->item(i);
+                auto w = qobject_cast<TemplateItemWidget*>(ui->widgetList->itemWidget(item));
+                connect(w, &TemplateItemWidget::downloadMessage, this, &TemplateManager::message);
+                connect(w, &TemplateItemWidget::downloadError, this, &TemplateManager::errorMessage);
+                connect(w, &TemplateItemWidget::downloadStart, [net, w]() { w->startDownload(net); });
+                connect(w, &TemplateItemWidget::downloadEnd,
+                        [this, elementCount, percentChange, item, net](const TemplateItem& templateItem)
+                {
+                    AppConfig::instance().addHash(templateItem.file().absoluteFilePath(), templateItem.hash());
+                    auto nextItem = item;
+                    do {
+                        ui->widgetList->removeItemWidget(nextItem);
+                        delete ui->widgetList->takeItem(0);
+                        percentChange(elementCount - ui->widgetList->count(), elementCount);
+                        nextItem = ui->widgetList->item(0);
+                        auto nextW = qobject_cast<TemplateItemWidget*>(ui->widgetList->itemWidget(nextItem));
+                        if (!nextW)
+                            break;
+                        if (nextW->isChecked()) {
+                            nextW->startDownload(net);
+                            break;
+                        }
+                        emit message(tr("Skipping download of %1").arg(nextW->templateItem().file().fileName()));
+                    } while(nextItem);
+                    ui->groupBox->setEnabled(ui->widgetList->count() == 0);
+                });
+            }
+        });
+        connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+                [this, reply] (QNetworkReply::NetworkError)
+        {
+            ui->groupBox->setEnabled(true);
+            reply->deleteLater();
+            emit errorMessage(tr("Network error downloading template metadata: %1")
+                              .arg(reply->errorString()));
+        });
     });
 }
 
@@ -163,5 +166,19 @@ void TemplateManager::showEvent(QShowEvent *event)
     if (property("firstTime").toBool()) {
         ui->updateRepository->click();
         setProperty("firstTime", false);
+    }
+}
+
+void TemplateManager::updateLocalTemplates()
+{
+    auto templates = QDir(AppConfig::instance().templatesPath()).entryInfoList({ "*.template" });
+    itemList.clear();
+    ui->widgetList->clear();
+    for(const QFileInfo& t: templates) {
+        auto item = new QListWidgetItem(ui->widgetList);
+        auto w = new TemplateItemWidget(TemplateItem(t));
+        ui->widgetList->setItemWidget(item, w);
+        itemList.insert(t.fileName(), item);
+        item->setSizeHint(w->sizeHint());
     }
 }

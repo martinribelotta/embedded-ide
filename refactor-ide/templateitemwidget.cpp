@@ -5,6 +5,8 @@
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QSaveFile>
+#include <QTemporaryFile>
 
 TemplateItem::TemplateItem(const QUrl &u, const QByteArray &h) : _url(u), _hash(h)
 {
@@ -25,6 +27,13 @@ TemplateItemWidget::TemplateItemWidget(const TemplateItem &item, QWidget *parent
     ui->setupUi(this);
     setTemplate(item);
     connect(ui->currentDownload, &QToolButton::clicked, [this]() { emit downloadStart(_item); });
+    connect(ui->deleteFile, &QToolButton::clicked, [this]() {
+        QFile f(_item.file().absoluteFilePath());
+        if (f.remove())
+            emit downloadMessage(tr("Remove File %1 ok").arg(f.fileName()));
+        else
+            emit downloadError(tr("Error %1 removing %2").arg(f.errorString()).arg(f.fileName()));
+    });
 }
 
 TemplateItemWidget::~TemplateItemWidget()
@@ -45,29 +54,42 @@ bool TemplateItemWidget::isChecked() const
 void TemplateItemWidget::setTemplate(const TemplateItem &item)
 {
     _item = item;
+    QString state = tr("New");
     QColor color = Qt::darkMagenta;
-    if (item.file().exists())
+    if (item.file().exists()) {
         color = Qt::darkGreen;
+        state = tr("Updated");
+    }
     auto savedHash = AppConfig::instance().fileHash(item.file().absoluteFilePath());
-    if (item.hash() != savedHash && !savedHash.isEmpty())
+    if (item.hash() != savedHash && !savedHash.isEmpty()) {
         color = Qt::darkYellow;
-    if (!item.url().isValid())
-        color = Qt::red;
-    ui->urlLabel->setText(tr(R"(<a style="color: %3" href="%1">%2</a>)")
+        state = tr("Updatable");
+    }
+    if (!item.url().isValid()) {
+        color = Qt::darkRed;
+        state = tr("Local");
+    }
+    ui->urlLabel->setText(tr(R"(<a href="%1">%2</a>&nbsp;<tt style="color: %3">[%4]</tt>)")
                           .arg(item.url().url())
                           .arg(item.url().fileName())
-                          .arg(color.name()));
+                          .arg(color.name())
+                          .arg(state));
     ui->progress->setValue(0);
 }
 
 void TemplateItemWidget::startDownload(QNetworkAccessManager *net)
 {
+    qDebug() << _item.file().fileName() << _item.url().toString();
+    if (_item.url().toString().isEmpty()) {
+        emit downloadEnd(_item);
+        return;
+    }
     auto reply = net->get(QNetworkRequest(_item.url()));
     if (!reply) {
         emit downloadError(tr("Cannot start download to %1").arg(_item.url().toString()));
         return;
     }
-    auto file = new QFile(_item.file().absoluteFilePath(), this);
+    auto file = new QSaveFile(_item.file().absoluteFilePath(), this);
     connect(reply, &QNetworkReply::destroyed, file, &QFile::deleteLater);
     if (!file->open(QFile::WriteOnly)) {
         emit downloadError(tr("Cannot create file %1: %2").arg(file->fileName()).arg(file->errorString()));
@@ -89,7 +111,9 @@ void TemplateItemWidget::startDownload(QNetworkAccessManager *net)
         file->write(reply->readAll());
     });
     connect(reply, &QNetworkReply::finished, [this, reply, file]() {
-        file->close();
+        auto targetName = _item.file().absoluteFilePath();
+        if (!file->commit())
+            emit downloadError(tr("Cannot write temporay file %1 to %2").arg(file->fileName()).arg(targetName));
         reply->deleteLater();
         ui->progress->setValue(100);
         emit downloadMessage(tr("Download of %1 finished ok").arg(_item.file().fileName()));
