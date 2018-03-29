@@ -19,13 +19,24 @@ TemplateItem::TemplateItem(const QFileInfo &local) : _localFile(local)
     _url.setPath(_localFile.fileName());
 }
 
-TemplateItemWidget::TemplateItemWidget(const TemplateItem &item, QWidget *parent) :
+TemplateItem::State TemplateItem::state() const
+{
+    State s = State::New;
+    if (file().exists())
+        s = State::Updated;
+    auto savedHash = AppConfig::instance().fileHash(file().absoluteFilePath());
+    if (hash() != savedHash && !savedHash.isEmpty())
+        s = State::Updatable;
+    if (!url().isValid())
+        s = State::Local;
+    return s;
+}
+
+TemplateItemWidget::TemplateItemWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::TemplateItemWidget),
-    _item(item)
+    ui(new Ui::TemplateItemWidget)
 {
     ui->setupUi(this);
-    setTemplate(item);
     connect(ui->currentDownload, &QToolButton::clicked, [this]() { emit downloadStart(_item); });
     connect(ui->deleteFile, &QToolButton::clicked, [this]() {
         QFile f(_item.file().absoluteFilePath());
@@ -54,20 +65,25 @@ bool TemplateItemWidget::isChecked() const
 void TemplateItemWidget::setTemplate(const TemplateItem &item)
 {
     _item = item;
-    QString state = tr("New");
-    QColor color = Qt::darkMagenta;
-    if (item.file().exists()) {
+    QColor color;
+    QString state;
+    switch(_item.state()) {
+    case TemplateItem::State::New:
+        color = Qt::darkMagenta;
+        state = tr("New");
+        break;
+    case TemplateItem::State::Updated:
         color = Qt::darkGreen;
         state = tr("Updated");
-    }
-    auto savedHash = AppConfig::instance().fileHash(item.file().absoluteFilePath());
-    if (item.hash() != savedHash && !savedHash.isEmpty()) {
+        break;
+    case TemplateItem::State::Updatable:
         color = Qt::darkYellow;
         state = tr("Updatable");
-    }
-    if (!item.url().isValid()) {
+        break;
+    case TemplateItem::State::Local:
         color = Qt::darkRed;
         state = tr("Local");
+        break;
     }
     ui->urlLabel->setText(tr(R"(<a href="%1">%2</a>&nbsp;<tt style="color: %3">[%4]</tt>)")
                           .arg(item.url().url())
@@ -80,9 +96,22 @@ void TemplateItemWidget::setTemplate(const TemplateItem &item)
 void TemplateItemWidget::startDownload(QNetworkAccessManager *net)
 {
     qDebug() << _item.file().fileName() << _item.url().toString();
-    if (_item.url().toString().isEmpty()) {
+    if (!isChecked()) {
+        emit downloadMessage(tr("Skipping %1").arg(_item.file().fileName()));
         emit downloadEnd(_item);
         return;
+    }
+    switch (_item.state()) {
+    case TemplateItem::State::Local:
+        emit downloadMessage(tr("%1 not downloadable").arg(_item.file().fileName()));
+        emit downloadEnd(_item);
+        return;
+    case TemplateItem::State::Updated:
+        emit downloadMessage(tr("%1 already updated").arg(_item.file().fileName()));
+        emit downloadEnd(_item);
+        return;
+    default:
+        break;
     }
     auto reply = net->get(QNetworkRequest(_item.url()));
     if (!reply) {

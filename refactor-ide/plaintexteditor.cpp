@@ -141,6 +141,13 @@ IDocumentEditorCreator *PlainTextEditor::creator()
     return IDocumentEditorCreator::staticCreator<PlainTextEditorCreator>();
 }
 
+QString PlainTextEditor::wordUnderCursor() const
+{
+    int line, col;
+    getCursorPosition(&line, &col);
+    return wordAtLineIndex(line, col);
+}
+
 void PlainTextEditor::adjustLineNumberMargin()
 {
     QFontMetrics m(font());

@@ -21,9 +21,6 @@ protected:
     QMenu *createContextualMenu() override;
     void triggerAutocompletion() override;
     QsciLexer *lexerFromFile(const QString &name) override;
-
-private:
-    ICodeModelProvider *provider;
 };
 
 #endif // CPPTEXTEDITOR_H

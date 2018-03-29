@@ -14,7 +14,7 @@ BuildManager::BuildManager(ProjectManager *_proj, ProcessManager *_pman, QObject
     pman(_pman)
 {
     pman->setErrorHandler(PROCESS_NAME, [this](QProcess *proc, QProcess::ProcessError err) {
-        // TODO
+        // TODO Implement this (maybe unnecesary?)
         Q_UNUSED(proc);
         Q_UNUSED(err);
     });

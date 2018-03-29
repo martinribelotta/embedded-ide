@@ -19,6 +19,13 @@ private:
     QFileInfo _localFile;
     QByteArray _hash;
 public:
+    enum class State {
+        New,
+        Updated,
+        Updatable,
+        Local,
+    };
+
     TemplateItem() {}
     TemplateItem(const QUrl& u, const QByteArray& h);
     TemplateItem(const QFileInfo& local);
@@ -31,6 +38,7 @@ public:
     void setFile(const QFileInfo& f) { _localFile = f; }
     const QByteArray& hash() const { return _hash; }
     void setHash(const QByteArray& h) { _hash = h; }
+    State state() const;
 };
 
 Q_DECLARE_METATYPE(TemplateItem)
@@ -40,7 +48,7 @@ class TemplateItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit TemplateItemWidget(const TemplateItem& item, QWidget *parent = 0);
+    explicit TemplateItemWidget(QWidget *parent = 0);
     virtual ~TemplateItemWidget();
 
     void setChecked(bool ck);

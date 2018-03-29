@@ -15,6 +15,7 @@
 #include "newprojectdialog.h"
 #include "configwidget.h"
 #include "findinfilesdialog.h"
+#include "clangautocompletionprovider.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -55,6 +56,8 @@ MainWindow::MainWindow(QWidget *parent) :
     priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);
     priv->buildManager = new BuildManager(priv->projectManager, priv->pman, this);
     priv->fileManager = new FileSystemManager(ui->fileViewer, this);
+    ui->documentContainer->setProjectManager(priv->projectManager);
+    priv->projectManager->setCodeModelProvider(new ClangAutocompletionProvider(priv->pman, this));
 
     connect(priv->buildManager, &BuildManager::buildStarted, [this]() { ui->actionViewer->setEnabled(false); });
     connect(priv->buildManager, &BuildManager::buildTerminated, [this]() { ui->actionViewer->setEnabled(true); });

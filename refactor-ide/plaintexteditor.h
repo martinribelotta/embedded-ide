@@ -24,6 +24,8 @@ public:
 
     static IDocumentEditorCreator *creator();
 
+    QString wordUnderCursor() const;
+
 public slots:
     void loadConfigWithStyle(const QString& style, const QFont &editorFont, int tabs, bool tabSpace);
     void loadConfig();

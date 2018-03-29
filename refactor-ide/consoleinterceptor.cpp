@@ -45,7 +45,7 @@ ConsoleInterceptor::~ConsoleInterceptor()
 {
 }
 
-void ConsoleInterceptor::writeMessage(const QString &message, const QColor &color)
+void ConsoleInterceptor::writeMessageTo(QTextBrowser *browser, const QString &message, const QColor &color)
 {
     auto &conf = AppConfig::instance();
     auto cursor = browser->textCursor();
@@ -60,4 +60,9 @@ void ConsoleInterceptor::writeMessage(const QString &message, const QColor &colo
     cursor.insertText(message);
     cursor.endEditBlock();
     browser->verticalScrollBar()->setValue(browser->verticalScrollBar()->maximum());
+}
+
+void ConsoleInterceptor::writeMessage(const QString &message, const QColor &color)
+{
+    writeMessageTo(browser, message, color);
 }

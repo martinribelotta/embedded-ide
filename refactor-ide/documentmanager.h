@@ -4,6 +4,7 @@
 #include <QWidget>
 
 class IDocumentEditor;
+class ProjectManager;
 
 class QComboBox;
 
@@ -22,6 +23,8 @@ public:
     QString documentCurrent() const;
     IDocumentEditor *documentEditor(const QString &path) const;
     IDocumentEditor *documentEditorCurrent() { return documentEditor(documentCurrent()); }
+
+    void setProjectManager(const ProjectManager *projectManager);
 
 signals:
     void documentFocushed(const QString& path);

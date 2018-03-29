@@ -9,6 +9,8 @@
 
 #include <functional>
 
+class ICodeModelProvider;
+
 class IDocumentEditor
 {
 public:
@@ -32,6 +34,9 @@ public:
         modifyObserverList.append(fptr);
     }
 
+    void setCodeModel(ICodeModelProvider *m) { _codeModel = m; }
+    ICodeModelProvider *codeModel() const { return _codeModel; }
+
 protected:
     void notifyModifyObservers() {
         for(auto& a: modifyObserverList)
@@ -40,6 +45,7 @@ protected:
 
 private:
     QList<ModifyObserver_t> modifyObserverList;
+    ICodeModelProvider *_codeModel;
 };
 
 class IDocumentEditorCreator

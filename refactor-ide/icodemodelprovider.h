@@ -2,6 +2,7 @@
 #define ICPPCODEMODELPROVIDER_H
 
 #include <QObject>
+
 #include <QMimeType>
 
 #include <functional>
@@ -18,6 +19,9 @@ public:
 
     typedef std::function<void (const FileReferenceList& ref)> FindReferenceCallback_t;
     typedef std::function<void (const QStringList& completionList)> CompletionCallback_t;
+
+    virtual void startIndexingProject(const QString& path, const QHash<QString, QString> &targetsMap) = 0;
+    virtual void startIndexingFile(const QString& path) = 0;
 
     virtual void declarationOf(const QString& entity, FindReferenceCallback_t cb) = 0;
     virtual void referenceOf(const QString& entity, FindReferenceCallback_t cb) = 0;

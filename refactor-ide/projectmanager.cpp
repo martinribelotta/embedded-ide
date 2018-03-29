@@ -24,6 +24,7 @@ public:
     QListView *targetView = nullptr;
     ProcessManager *pman;
     QFileInfo makeFile;
+    ICodeModelProvider *codeModelProvider = nullptr;
 };
 
 static QHash<QString, QString> findAllTargets(const QString& text)
@@ -110,6 +111,16 @@ QString ProjectManager::projectFile() const
 bool ProjectManager::isProjectOpen() const
 {
     return priv->makeFile.exists();
+}
+
+ICodeModelProvider *ProjectManager::codeModel() const
+{
+    return priv->codeModelProvider;
+}
+
+void ProjectManager::setCodeModelProvider(ICodeModelProvider *modelProvider)
+{
+    priv->codeModelProvider = modelProvider;
 }
 
 void ProjectManager::createProject(const QString& projectFilePath, const QString& templateFile)

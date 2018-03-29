@@ -14,6 +14,7 @@ public:
     explicit ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager *pman, const QString &pname, QObject *parent = nullptr);
     virtual ~ConsoleInterceptor();
 
+    static void writeMessageTo(QTextBrowser *browser, const QString& message, const QColor& color);
 signals:
 
 public slots:

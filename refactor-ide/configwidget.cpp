@@ -70,7 +70,7 @@ void ConfigWidget::save()
     auto loggerFont = ui->loggerFontName->currentFont();
     loggerFont.setPointSize(ui->loggerFontSize->value());
     conf.setLoggerFont(loggerFont);
-    // TODO
+    // TODO Implement network proxy settings
     // conf.setNetworkProxyHost(const QString& name);
     // conf.setNetworkProxyPort(const QString& port);
     // conf.setNetworkProxyUseCredentials(bool use);

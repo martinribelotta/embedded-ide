@@ -27,6 +27,11 @@ signals:
 public slots:
     void setRepositoryUrl(const QUrl& url);
 
+private slots:
+    void msgLog(const QString& text, const QColor& color);
+    void logError(const QString& text);
+    void logMsg(const QString& text);
+
 protected:
     void showEvent(QShowEvent *event);
 

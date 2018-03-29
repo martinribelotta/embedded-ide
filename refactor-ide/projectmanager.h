@@ -8,6 +8,7 @@
 class QListView;
 
 class ProcessManager;
+class ICodeModelProvider;
 
 class ProjectManager : public QObject
 {
@@ -21,6 +22,8 @@ public:
     QString projectPath() const;
     QString projectFile() const;
     bool isProjectOpen() const;
+    ICodeModelProvider *codeModel() const;
+    void setCodeModelProvider(ICodeModelProvider *modelProvider);
 
 signals:
     void projectOpened(const QString& makePath);

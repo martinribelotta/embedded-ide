@@ -1,6 +1,7 @@
 #include "documentmanager.h"
 #include "idocumenteditor.h"
 #include "plaintexteditor.h"
+#include "projectmanager.h"
 #include "codetexteditor.h"
 #include "binaryviewer.h"
 #include "filesystemmanager.h"
@@ -20,6 +21,7 @@ public:
     QComboBox *combo = nullptr;
     QStackedLayout *stack = nullptr;
     QHash<QString, IDocumentEditor*> mapedWidgets;
+    const ProjectManager *projectManager = nullptr;
 };
 
 DocumentManager::DocumentManager(QWidget *parent) :
@@ -117,12 +119,17 @@ IDocumentEditor *DocumentManager::documentEditor(const QString& path) const
     return priv->mapedWidgets.value(path, nullptr);
 }
 
+void DocumentManager::setProjectManager(const ProjectManager *projectManager)
+{
+    priv->projectManager = projectManager;
+}
+
 void DocumentManager::openDocument(const QString &path)
 {
     if (QFileInfo(path).isDir())
         return;
     QWidget *widget = nullptr;
-        auto item = priv->mapedWidgets.value(path, nullptr);
+    auto item = priv->mapedWidgets.value(path, nullptr);
     if (!item) {
         item = DocumentEditorFactory::instance()->create(path, this);
         if (item) {
@@ -144,6 +151,8 @@ void DocumentManager::openDocument(const QString &path)
                     }
                     emit documentModified(path, ed, m);
                 });
+                if (priv->projectManager)
+                    item->setCodeModel(priv->projectManager->codeModel());
             }
         }
     } else

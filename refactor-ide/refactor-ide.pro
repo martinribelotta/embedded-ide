@@ -25,7 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-include(3rdpart/qhexview.pri)
+include(3rdpart/qhexview/qhexview.pri)
+!win32: include(3rdpart/backward/backward.pri)
+#include(3rdpart/qt-promise/qt-promise.pri)
 
 SOURCES += \
         main.cpp \
@@ -43,17 +45,17 @@ SOURCES += \
         codetexteditor.cpp \
         findlineedit.cpp \
         formfindreplace.cpp \
-    cpptexteditor.cpp \
-    appconfig.cpp \
-    configwidget.cpp \
-    externaltoolmanager.cpp \
-    version.cpp \
-    newprojectdialog.cpp \
-    findinfilesdialog.cpp \
-    icodemodelprovider.cpp \
-    backward.cpp \
-    templatemanager.cpp \
-    templateitemwidget.cpp
+        cpptexteditor.cpp \
+        appconfig.cpp \
+        configwidget.cpp \
+        externaltoolmanager.cpp \
+        version.cpp \
+        newprojectdialog.cpp \
+        findinfilesdialog.cpp \
+        icodemodelprovider.cpp \
+        templatemanager.cpp \
+        templateitemwidget.cpp \
+    clangautocompletionprovider.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -70,17 +72,17 @@ HEADERS += \
         codetexteditor.h \
         findlineedit.h \
         formfindreplace.h \
-    cpptexteditor.h \
-    appconfig.h \
-    configwidget.h \
-    externaltoolmanager.h \
-    version.h \
-    newprojectdialog.h \
-    findinfilesdialog.h \
-    icodemodelprovider.h \
-    backward.hpp \
-    templatemanager.h \
-    templateitemwidget.h
+        cpptexteditor.h \
+        appconfig.h \
+        configwidget.h \
+        externaltoolmanager.h \
+        version.h \
+        newprojectdialog.h \
+        findinfilesdialog.h \
+        icodemodelprovider.h \
+        templatemanager.h \
+        templateitemwidget.h \
+    clangautocompletionprovider.h
 
 FORMS += \
         mainwindow.ui \

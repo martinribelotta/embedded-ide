@@ -7,10 +7,12 @@
 #include <QMenu>
 
 #include <QMimeDatabase>
+#include <QRegularExpression>
 #include <QtDebug>
 
 static const QStringList C_CXX_EXTENSIONS = { "c", "cpp", "h", "hpp", "cc", "hh", "hxx", "cxx", "c++", "h++" };
-static const QStringList C_CXX_MIMETYPES = { "text/x-c", "text/x-csrc", "text/x-c++src", "text/x-chdr", "text/x-c++hdr" };
+static const QStringList C_MIMETYPE = { "text/x-c++src", "text/x-c++hdr" };
+static const QStringList CXX_MIMETYPE = { "text/x-c", "text/x-csrc", "text/x-chdr" };
 
 class MyQsciLexerCPP: public QsciLexerCPP {
     mutable QLatin1String keywordList;
@@ -48,18 +50,17 @@ private:
 
 CPPTextEditor::CPPTextEditor(QWidget *parent) : CodeTextEditor(parent)
 {
-    provider = nullptr;
+    setProperty("isCXX", false);
     setAutoCompletionSource(AcsNone);
     connect(this, &CPPTextEditor::userListActivated, [this](int id, const QString& text) {
         Q_UNUSED(id);
-        int line, index;
-        getCursorPosition(&line, &index);
-        if (hasSelectedText()) {
-            qDebug() << "replace selection" << selectedText() << "by" << text;
-            removeSelectedText();
-        }
-        insert(text);
-        setCursorPosition(line, index + text.length());
+        auto position = SendScintilla(SCI_GETCURRENTPOS);
+        auto start = SendScintilla(SCI_WORDSTARTPOSITION, position, true);
+        auto end = SendScintilla(SCI_WORDENDPOSITION, position, true);
+        SendScintilla(SCI_SETSELECTIONSTART, start);
+        SendScintilla(SCI_SETSELECTIONEND, end);
+        SendScintilla(SCI_REPLACESEL, textAsBytes(text).constData());
+        SendScintilla(SCI_GOTOPOS, start + text.length());
     });
 }
 
@@ -70,6 +71,12 @@ CPPTextEditor::~CPPTextEditor()
 class CPPEditorCreator: public IDocumentEditorCreator
 {
 public:
+    static bool in(const QMimeType& t, const QStringList list) {
+        for(const auto& mtype: list)
+            if (t.inherits(mtype))
+                return true;
+        return false;
+    }
 
     bool canHandleExtentions(const QStringList &suffixes) const override {
         for(const auto& suffix: suffixes)
@@ -79,9 +86,10 @@ public:
     }
 
     bool canHandleMime(const QMimeType &mime) const override {
-        for(const auto& mtype: C_CXX_MIMETYPES)
-            if (mime.inherits(mtype))
-                return true;
+        if (in(mime, C_MIMETYPE))
+            return true;
+        if (in(mime, CXX_MIMETYPE))
+            return true;
         return false;
     }
 
@@ -97,38 +105,55 @@ IDocumentEditorCreator *CPPTextEditor::creator()
 
 void CPPTextEditor::findDeclaration()
 {
-    if (provider) {
-    }
+    if (codeModel()) {
+        codeModel()->declarationOf(wordUnderCursor(), [](const ICodeModelProvider::FileReferenceList& refs)
+        {
+            Q_UNUSED(refs);
+            // TODO
+        });
+    } else
+        qDebug() << "No code model defined";
 }
 
 void CPPTextEditor::findDefinition()
 {
-    if (provider) {
-    }
+    if (codeModel()) {
+        codeModel()->declarationOf(wordUnderCursor(), [](const ICodeModelProvider::FileReferenceList& refs)
+        {
+            Q_UNUSED(refs);
+            // TODO
+        });
+    } else
+        qDebug() << "No code model defined";
 }
 
 QMenu *CPPTextEditor::createContextualMenu()
 {
     auto menu = CodeTextEditor::createContextualMenu();
 #define _(icon, text, functor, keys) do { \
-    auto a = menu->addAction(QIcon(":/images/actions/" icon ".svg"), text, this, &CPPTextEditor::functor); \
+    auto a = menu->addAction(QIcon(icon), text, this, &CPPTextEditor::functor); \
     a->setShortcut(QKeySequence(keys)); \
 } while(0)
-    _("edit-find-replace", tr("Find declaration"), findDeclaration, "CTRL+ENTER");
-    _("edit-find-replace", tr("Find definition"), findDefinition, "CTRL+SHIFT+ENTER");
+    _(":/images/actions/code-context.svg", tr("Find declaration"), findDeclaration, "CTRL+ENTER");
+    _(":/images/actions/code-function.svg", tr("Find definition"), findDefinition, "CTRL+SHIFT+ENTER");
 #undef _
     return menu;
 }
 
 void CPPTextEditor::triggerAutocompletion()
 {
-    if (provider) {
+    if (codeModel()) {
         int line, index;
         getCursorPosition(&line, &index);
-        provider->completionAt({ path(), line, index }, text(),
-                               [this](const QStringList& completions)
+        codeModel()->completionAt({ path(), line, index }, text(),
+                                  [this](const QStringList& completions)
         {
-            showUserList(1, completions);
+            auto w = wordUnderCursor();
+            auto filtered = completions.filter(QRegularExpression(QString(R"(^%1)").arg(w)));
+            if (!filtered.isEmpty()) {
+                showUserList(1, filtered);
+            } else // Fallback autocompletion
+                CodeTextEditor::triggerAutocompletion();
         });
     } else {
         CodeTextEditor::triggerAutocompletion();
@@ -138,5 +163,6 @@ void CPPTextEditor::triggerAutocompletion()
 QsciLexer *CPPTextEditor::lexerFromFile(const QString &name)
 {
     Q_UNUSED(name);
+    setProperty("isCXX", CPPEditorCreator::in(QMimeDatabase().mimeTypeForFile(name), CXX_MIMETYPE));
     return new MyQsciLexerCPP(this);
 }
