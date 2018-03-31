@@ -57,7 +57,7 @@ class IDocumentEditorCreator
 {
 public:
     virtual bool canHandleExtentions(const QStringList&) const { return false; }
-    virtual bool canHandleMime(const QMimeType& mime) const = 0;
+    virtual bool canHandleMime(const QMimeType&) const { return false; }
     virtual IDocumentEditor *create(QWidget *parent = nullptr) const = 0;
 
     template<typename T>

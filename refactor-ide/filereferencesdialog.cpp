@@ -15,14 +15,16 @@ FileReferencesDialog::FileReferencesDialog(const ICodeModelProvider::FileReferen
         emit itemClicked(ref.path, ref.line);
         accept();
     });
-    for(const auto& r: refList) {
-        auto url = r.encode();
-        auto item = new QListWidgetItem(QString("%1: %2\n%3").arg(r.path).arg(r.line).arg(r.meta));
-        item->setData(Qt::UserRole, url);
-        ui->listWidget->addItem(item);
+    if (!refList.isEmpty()) {
+        for(const auto& r: refList) {
+            auto url = r.encode();
+            auto item = new QListWidgetItem(QString("%1: %2\n%3").arg(r.path).arg(r.line).arg(r.meta));
+            item->setData(Qt::UserRole, url);
+            ui->listWidget->addItem(item);
+        }
+        ui->listWidget->setMinimumWidth(ui->listWidget->sizeHintForColumn(0) + 2 + ui->listWidget->frameWidth());
+        resize(minimumWidth(), height());
     }
-    ui->listWidget->setMinimumWidth(ui->listWidget->sizeHintForColumn(0) + 2 + ui->listWidget->frameWidth());
-    resize(minimumWidth(), height());
 }
 
 FileReferencesDialog::~FileReferencesDialog()

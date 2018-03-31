@@ -6,6 +6,7 @@
 #include "binaryviewer.h"
 #include "filesystemmanager.h"
 #include "cpptexteditor.h"
+#include "mapfileviewer.h"
 
 #include <QComboBox>
 #include <QDir>
@@ -40,6 +41,7 @@ DocumentManager::DocumentManager(QWidget *parent) :
     DocumentEditorFactory::instance()->registerDocumentInterface(CodeTextEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(PlainTextEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(BinaryViewer::creator());
+    DocumentEditorFactory::instance()->registerDocumentInterface(MapFileViewer::creator());
 
     auto label = new QLabel(this);
     label->setPixmap(QPixmap(":/images/screens/EmbeddedIDE_02.png"));
