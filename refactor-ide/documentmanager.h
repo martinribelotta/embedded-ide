@@ -33,9 +33,9 @@ signals:
     void documentModified(const QString& path, IDocumentEditor *iface, bool modify);
 
 public slots:
-    void openDocument(const QString& path);
+    void openDocument(const QString& filePath);
     void openDocumentHere(const QString& path, int line, int col);
-    void closeDocument(const QString& path);
+    void closeDocument(const QString& filePath);
     void closeCurrent() { closeDocument(documentCurrent()); }
     void closeAll();
     void saveDocument(const QString& path);

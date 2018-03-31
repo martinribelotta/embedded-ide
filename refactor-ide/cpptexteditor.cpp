@@ -1,4 +1,5 @@
 #include "cpptexteditor.h"
+#include "filereferencesdialog.h"
 #include "icodemodelprovider.h"
 
 #include <Qsci/qscilexercpp.h>
@@ -8,6 +9,7 @@
 
 #include <QMimeDatabase>
 #include <QRegularExpression>
+#include <QShortcut>
 #include <QtDebug>
 
 static const QStringList C_CXX_EXTENSIONS = { "c", "cpp", "h", "hpp", "cc", "hh", "hxx", "cxx", "c++", "h++" };
@@ -62,6 +64,7 @@ CPPTextEditor::CPPTextEditor(QWidget *parent) : CodeTextEditor(parent)
         SendScintilla(SCI_REPLACESEL, textAsBytes(text).constData());
         SendScintilla(SCI_GOTOPOS, start + text.length());
     });
+    connect(new QShortcut(QKeySequence("Ctrl+Return"), this), &QShortcut::activated, this, &CPPTextEditor::findReference);
 }
 
 CPPTextEditor::~CPPTextEditor()
@@ -103,25 +106,19 @@ IDocumentEditorCreator *CPPTextEditor::creator()
     return IDocumentEditorCreator::staticCreator<CPPEditorCreator>();
 }
 
-void CPPTextEditor::findDeclaration()
+void CPPTextEditor::findReference()
 {
     if (codeModel()) {
-        codeModel()->declarationOf(wordUnderCursor(), [](const ICodeModelProvider::FileReferenceList& refs)
-        {
-            Q_UNUSED(refs);
-            // TODO
-        });
-    } else
-        qDebug() << "No code model defined";
-}
+        auto word = wordUnderCursor();
 
-void CPPTextEditor::findDefinition()
-{
-    if (codeModel()) {
-        codeModel()->declarationOf(wordUnderCursor(), [](const ICodeModelProvider::FileReferenceList& refs)
+        codeModel()->referenceOf(word, [this, word](const ICodeModelProvider::FileReferenceList& refs)
         {
-            Q_UNUSED(refs);
-            // TODO
+            FileReferencesDialog d(refs, window());
+            connect(&d, &FileReferencesDialog::itemClicked, [this](const QString& path, int line) {
+                qDebug() << "open" << path << "at" << line;
+                documentManager()->openDocumentHere(path, line, 0);
+            });
+            d.exec();
         });
     } else
         qDebug() << "No code model defined";
@@ -130,13 +127,10 @@ void CPPTextEditor::findDefinition()
 QMenu *CPPTextEditor::createContextualMenu()
 {
     auto menu = CodeTextEditor::createContextualMenu();
-#define _(icon, text, functor, keys) do { \
-    auto a = menu->addAction(QIcon(icon), text, this, &CPPTextEditor::functor); \
-    a->setShortcut(QKeySequence(keys)); \
-} while(0)
-    _(":/images/actions/code-context.svg", tr("Find declaration"), findDeclaration, "CTRL+ENTER");
-    _(":/images/actions/code-function.svg", tr("Find definition"), findDefinition, "CTRL+SHIFT+ENTER");
-#undef _
+    menu->addAction(QIcon(":/images/actions/code-context.svg"),
+                    tr("Find Reference"),
+                    this, &CPPTextEditor::findReference)
+            ->setShortcut(QKeySequence("CTRL+ENTER"));
     return menu;
 }
 
@@ -145,7 +139,7 @@ void CPPTextEditor::triggerAutocompletion()
     if (codeModel()) {
         int line, index;
         getCursorPosition(&line, &index);
-        codeModel()->completionAt({ path(), line, index }, text(),
+        codeModel()->completionAt({ path(), line, index, QString() }, text(),
                                   [this](const QStringList& completions)
         {
             auto w = wordUnderCursor();

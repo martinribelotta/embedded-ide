@@ -25,6 +25,9 @@ public:
     ICodeModelProvider *codeModel() const;
     void setCodeModelProvider(ICodeModelProvider *modelProvider);
 
+    QStringList dependenciesForTarget(const QString& target);
+    QStringList targetsOfDependency(const QString& dep);
+
 signals:
     void projectOpened(const QString& makePath);
     void projectClosed();

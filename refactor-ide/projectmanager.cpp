@@ -1,7 +1,9 @@
 #include "appconfig.h"
+#include "icodemodelprovider.h"
 #include "processmanager.h"
 #include "projectmanager.h"
 
+#include <QBuffer>
 #include <QFileInfo>
 #include <QFileSystemModel>
 #include <QHeaderView>
@@ -16,10 +18,15 @@
 
 #include <QtDebug>
 
+const QString SPACE_SEPARATORS = R"(\s)";
+
+typedef QHash<QString, QStringList> targetMap_t;
+
 class ProjectManager::Priv_t {
 public:
     QStringList targets;
-    QHash<QString, QString> allTargets;
+    targetMap_t allTargets;
+    targetMap_t allRefs;
     QRegularExpression targetFilter{ R"(^(?!Makefile)[a-zA-Z0-9_\\-]+$)", QRegularExpression::MultilineOption };
     QListView *targetView = nullptr;
     ProcessManager *pman;
@@ -27,15 +34,21 @@ public:
     ICodeModelProvider *codeModelProvider = nullptr;
 };
 
-static QHash<QString, QString> findAllTargets(const QString& text)
+static QPair<targetMap_t, targetMap_t> findAllTargets(QIODevice *in)
 {
-    QHash<QString, QString> map;
-    QRegularExpression re(R"(^([a-zA-Z0-9 \t\\\/_\.\:\-]*?):(?!=)\s*([^#\r\n]*?)\s*$)",
-                          QRegularExpression::MultilineOption);
-    QRegularExpressionMatchIterator it = re.globalMatch(text);
-    while(it.hasNext()) {
-        QRegularExpressionMatch me = it.next();
-        map.insert(me.captured(1), me.captured(2));
+    QPair<targetMap_t, targetMap_t> map;
+    QRegularExpression re(R"(^([^\#\s][^\%\=]*?):[^\=]\s*([^#\r\n]*?)\s*$)");
+    while (!in->atEnd()) {
+        auto line = in->readLine();
+        auto me = re.match(line);
+        if (me.hasMatch()) {
+            auto tgt = me.captured(1);
+            auto depsText = me.captured(2);
+            auto deps = depsText.split(' ');
+            map.first[tgt].append(deps);
+            for(const auto& a: deps)
+                map.second[a].append(tgt);
+        }
     }
     return map;
 }
@@ -54,8 +67,9 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
     priv->pman->setTerminationHandler(DISCOVER_PROC, [this](QProcess *make, int code, QProcess::ExitStatus status) {
         Q_UNUSED(code);
         if (status == QProcess::NormalExit) {
-            auto out = QString(make->readAllStandardOutput());
-            priv->allTargets = findAllTargets(out);
+            auto res = findAllTargets(make);
+            priv->allTargets = res.first;
+            priv->allRefs = res.second;
             priv->targets = priv->allTargets.keys().filter(priv->targetFilter);
             priv->targets.sort();
             auto targetModel = qobject_cast<QStandardItemModel*>(priv->targetView->model());
@@ -123,6 +137,16 @@ void ProjectManager::setCodeModelProvider(ICodeModelProvider *modelProvider)
     priv->codeModelProvider = modelProvider;
 }
 
+QStringList ProjectManager::dependenciesForTarget(const QString &target)
+{
+    return priv->allTargets.value(target);
+}
+
+QStringList ProjectManager::targetsOfDependency(const QString &dep)
+{
+    return priv->allRefs.value(dep);
+}
+
 void ProjectManager::createProject(const QString& projectFilePath, const QString& templateFile)
 {
     AppConfig::ensureExist(projectFilePath);
@@ -162,9 +186,9 @@ void ProjectManager::exportCurrentProjectTo(const QString &patchFile)
 void ProjectManager::openProject(const QString &makefile)
 {
     auto doOpenProject = [makefile, this]() {
-        priv->pman->processFor(DISCOVER_PROC)->setWorkingDirectory(QFileInfo(makefile).absolutePath());
-        priv->pman->start(DISCOVER_PROC, "make", { "-B", "-p", "-r", "-n", "-f", makefile }, { { "LC_ALL", "C" } });
+        priv->pman->start(DISCOVER_PROC, "make", { "-B", "-p", "-r", "-n", "-f", makefile }, { { "LC_ALL", "C" } }, QFileInfo(makefile).absolutePath());
         priv->makeFile = QFileInfo(makefile);
+        priv->codeModelProvider->startIndexingProject(projectPath());
         emit projectOpened(makefile);
     };
 

@@ -8,6 +8,7 @@
 #include "cpptexteditor.h"
 
 #include <QComboBox>
+#include <QDir>
 #include <QFileInfo>
 #include <QLabel>
 #include <QMimeDatabase>
@@ -15,6 +16,10 @@
 #include <QStackedLayout>
 
 #include <QtDebug>
+
+static QString absoluteTo(const QString& path, const QString& file) {
+    return QFileInfo(file).isAbsolute()? file : QDir(path).absoluteFilePath(file);
+}
 
 class DocumentManager::Priv_t {
 public:
@@ -116,7 +121,7 @@ QString DocumentManager::documentCurrent() const
 
 IDocumentEditor *DocumentManager::documentEditor(const QString& path) const
 {
-    return priv->mapedWidgets.value(path, nullptr);
+    return priv->mapedWidgets.value(absoluteTo(priv->projectManager->projectPath(), path), nullptr);
 }
 
 void DocumentManager::setProjectManager(const ProjectManager *projectManager)
@@ -124,10 +129,13 @@ void DocumentManager::setProjectManager(const ProjectManager *projectManager)
     priv->projectManager = projectManager;
 }
 
-void DocumentManager::openDocument(const QString &path)
+void DocumentManager::openDocument(const QString &filePath)
 {
+    QString path = absoluteTo(priv->projectManager->projectPath(), filePath);
     if (QFileInfo(path).isDir())
         return;
+    if (QFileInfo(path).isRelative())
+        path = QDir(priv->projectManager->projectPath()).absoluteFilePath(path);
     QWidget *widget = nullptr;
     auto item = priv->mapedWidgets.value(path, nullptr);
     if (!item) {
@@ -151,6 +159,7 @@ void DocumentManager::openDocument(const QString &path)
                     }
                     emit documentModified(path, ed, m);
                 });
+                item->setDocumentManager(this);
                 if (priv->projectManager)
                     item->setCodeModel(priv->projectManager->codeModel());
             }
@@ -166,14 +175,16 @@ void DocumentManager::openDocument(const QString &path)
 
 void DocumentManager::openDocumentHere(const QString &path, int line, int col)
 {
+    qDebug() << "open document here" << path << line << col;
     openDocument(path);
     auto ed = documentEditor(path);
     if (ed)
         ed->setCursor(QPoint(col, line));
 }
 
-void DocumentManager::closeDocument(const QString &path)
+void DocumentManager::closeDocument(const QString &filePath)
 {
+    auto path = absoluteTo(priv->projectManager->projectPath(), filePath);
     if (path.isEmpty())
         return;
     auto iface = priv->mapedWidgets.value(path);
@@ -202,7 +213,7 @@ void DocumentManager::saveDocument(const QString &path)
 {
     if (path.isEmpty())
         return;
-    auto iface = priv->mapedWidgets.value(path);
+    auto iface = priv->mapedWidgets.value(absoluteTo(priv->projectManager->projectPath(), path));
     if (!iface)
         return;
     iface->save(iface->path());
@@ -218,7 +229,7 @@ void DocumentManager::reloadDocument(const QString &path)
 {
     if (path.isEmpty())
         return;
-    auto iface = priv->mapedWidgets.value(path);
+    auto iface = priv->mapedWidgets.value(absoluteTo(priv->projectManager->projectPath(), path));
     if (!iface)
         return;
     iface->reload();

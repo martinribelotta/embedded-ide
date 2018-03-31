@@ -1,6 +1,8 @@
 #ifndef IDOCUMENTEDITOR_H
 #define IDOCUMENTEDITOR_H
 
+#include "documentmanager.h"
+
 #include <QObject>
 #include <QWidget>
 #include <QString>
@@ -30,6 +32,8 @@ public:
     virtual QPoint cursor() const = 0;
     virtual void setCursor(const QPoint& pos) = 0;
 
+    void setDocumentManager(DocumentManager *man) { this->man = man; }
+    DocumentManager *documentManager() const { return this->man; }
     void addModifyObserver(ModifyObserver_t fptr) {
         modifyObserverList.append(fptr);
     }
@@ -46,6 +50,7 @@ protected:
 private:
     QList<ModifyObserver_t> modifyObserverList;
     ICodeModelProvider *_codeModel;
+    DocumentManager *man = nullptr;
 };
 
 class IDocumentEditorCreator

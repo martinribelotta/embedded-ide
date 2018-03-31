@@ -55,7 +55,9 @@ SOURCES += \
         icodemodelprovider.cpp \
         templatemanager.cpp \
         templateitemwidget.cpp \
-    clangautocompletionprovider.cpp
+    clangautocompletionprovider.cpp \
+    childprocess.cpp \
+    filereferencesdialog.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -82,7 +84,9 @@ HEADERS += \
         icodemodelprovider.h \
         templatemanager.h \
         templateitemwidget.h \
-    clangautocompletionprovider.h
+    clangautocompletionprovider.h \
+    childprocess.h \
+    filereferencesdialog.h
 
 FORMS += \
         mainwindow.ui \
@@ -93,7 +97,8 @@ FORMS += \
     newprojectdialog.ui \
     findinfilesdialog.ui \
     templatemanager.ui \
-    templateitemwidget.ui
+    templateitemwidget.ui \
+    filereferencesdialog.ui
 
 CONFIG += mobility
 MOBILITY = 

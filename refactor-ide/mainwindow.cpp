@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     priv->buildManager = new BuildManager(priv->projectManager, priv->pman, this);
     priv->fileManager = new FileSystemManager(ui->fileViewer, this);
     ui->documentContainer->setProjectManager(priv->projectManager);
-    priv->projectManager->setCodeModelProvider(new ClangAutocompletionProvider(priv->pman, this));
+    priv->projectManager->setCodeModelProvider(new ClangAutocompletionProvider(priv->projectManager, this));
 
     connect(priv->buildManager, &BuildManager::buildStarted, [this]() { ui->actionViewer->setEnabled(false); });
     connect(priv->buildManager, &BuildManager::buildTerminated, [this]() { ui->actionViewer->setEnabled(true); });

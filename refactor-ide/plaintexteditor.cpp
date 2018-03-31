@@ -121,7 +121,7 @@ QPoint PlainTextEditor::cursor() const
 
 void PlainTextEditor::setCursor(const QPoint &pos)
 {
-    setCursorPosition(pos.y(), pos.x());
+    setCursorPosition(pos.y() - 1, pos.x());
 }
 
 class PlainTextEditorCreator: public IDocumentEditorCreator

@@ -21,6 +21,7 @@ public:
     static void adjustEnv();
     static QString replaceWithEnv(const QString& str);
     static QByteArray readEntireTextFile(const QString& path);
+    static QIODevice *writeEntireTextFile(const QString& text, const QString& path);
     static const QString& ensureExist(const QString& d);
 
     enum class NetworkProxyType { None, System, Custom };

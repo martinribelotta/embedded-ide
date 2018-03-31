@@ -133,6 +133,16 @@ QByteArray AppConfig::readEntireTextFile(const QString &path)
     return readEntireFile(path);
 }
 
+QIODevice *AppConfig::writeEntireTextFile(const QString& text, const QString& path)
+{
+    QFile *f = new QFile(path, QApplication::instance());
+    if (f->open(QFile::WriteOnly)) {
+        f->write(text.toLocal8Bit());
+    }
+    f->deleteLater();
+    return f;
+}
+
 QString AppConfig::workspacePath() const
 {
     QJsonValue defaultPath = QDir::home().absoluteFilePath(".embedded_ide-workspace");

@@ -14,8 +14,7 @@ public:
     static IDocumentEditorCreator *creator();
 
 private slots:
-    void findDeclaration();
-    void findDefinition();
+    void findReference();
 
 protected:
     QMenu *createContextualMenu() override;
