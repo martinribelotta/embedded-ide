@@ -86,7 +86,7 @@ void ConfigWidget::load()
 {
     auto &conf = AppConfig::instance();
     ui->workspacePath->setText(conf.workspacePath());
-    ui->additionalPathList->setModel(new QStringListModel(conf.additionalPaths(), this));
+    ui->additionalPathList->setModel(new QStringListModel(conf.additionalRawPaths(), this));
     ui->editorStyle->setCurrentText(conf.editorStyle());
     auto editorFont = conf.editorFont();
     ui->editorFontName->setCurrentFont(editorFont);

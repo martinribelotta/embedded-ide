@@ -143,6 +143,8 @@ void DocumentManager::openDocument(const QString &filePath)
     if (!item) {
         item = DocumentEditorFactory::instance()->create(path, this);
         if (item) {
+            if (priv->projectManager)
+                item->setCodeModel(priv->projectManager->codeModel());
             widget = item->widget();
             if (!item->load(path)) {
                 item->widget()->deleteLater();
@@ -162,8 +164,6 @@ void DocumentManager::openDocument(const QString &filePath)
                     emit documentModified(path, ed, m);
                 });
                 item->setDocumentManager(this);
-                if (priv->projectManager)
-                    item->setCodeModel(priv->projectManager->codeModel());
             }
         }
     } else

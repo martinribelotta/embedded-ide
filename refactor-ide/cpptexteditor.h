@@ -11,6 +11,8 @@ public:
     explicit CPPTextEditor(QWidget *parent = nullptr);
     virtual ~CPPTextEditor();
 
+    bool load(const QString &path) override;
+
     static IDocumentEditorCreator *creator();
 
 private slots:

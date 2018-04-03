@@ -83,12 +83,7 @@ static bool completeToLeft(QJsonObject& a, const QJsonObject& b)
 
 AppConfig::AppConfig() : QObject(QApplication::instance()), priv(new Priv_t)
 {
-    // Not in adjustEnv due prevent infinite recursion
-    QProcessEnvironment::systemEnvironment().insert("APPLICATION_DIR_PATH", QApplication::applicationDirPath());
-    QProcessEnvironment::systemEnvironment().insert("APPLICATION_FILE_PATH", QApplication::applicationFilePath());
-
-    addResourcesFont();
-
+    adjustEnv();
     load();
 }
 
@@ -107,6 +102,13 @@ AppConfig &AppConfig::instance()
 
 void AppConfig::adjustEnv()
 {
+    qputenv("APPLICATION_DIR_PATH", QApplication::applicationDirPath().toLocal8Bit());
+    qputenv("APPLICATION_FILE_PATH", QApplication::applicationFilePath().toLocal8Bit());
+    qputenv("WORKSPACE_PATH", workspacePath().toLocal8Bit());
+    qputenv("WORKSPACE_PROJECT_PATH", projectsPath().toLocal8Bit());
+    qputenv("WORKSPACE_TEMPLATE_PATH", templatesPath().toLocal8Bit());
+    qputenv("WORKSPACE_CONFIG_FILE", localConfigFilePath().toLocal8Bit());
+
 #ifdef Q_OS_WIN
     QChar PATH_SEP = ';';
 #else
@@ -114,9 +116,11 @@ void AppConfig::adjustEnv()
 #endif
     auto env = QProcessEnvironment::systemEnvironment();
     auto old = env.value("PATH");
-    auto extras = instance().additionalPaths().join(PATH_SEP);
+    auto extras = additionalPaths().join(PATH_SEP);
     auto path = QString("%1%2%3").arg(extras).arg(PATH_SEP).arg(old);
-    env.insert("PATH", path);
+    qputenv("PATH", path.toLocal8Bit());
+
+    addResourcesFont();
 }
 
 QString AppConfig::replaceWithEnv(const QString &str)
@@ -188,11 +192,15 @@ QFileInfoList AppConfig::recentProjects() const
     return list;
 }
 
-QStringList AppConfig::additionalPaths() const
+QStringList AppConfig::additionalPaths(bool raw) const
 {
     QStringList paths;
-    for(const auto& e: CFG_LOCAL.value("additionalPaths").toArray())
-        paths.append(e.toString());
+    if (raw)
+        for(const auto& e: CFG_LOCAL.value("additionalPaths").toArray())
+            paths.append(e.toString());
+    else
+        for(const auto& e: CFG_LOCAL.value("additionalPaths").toArray())
+            paths.append(replaceWithEnv(e.toString()));
     return paths;
 }
 
@@ -299,9 +307,9 @@ QByteArray AppConfig::fileHash(const QString &filename)
 
 void AppConfig::load()
 {
-    auto def = QJsonDocument::fromJson(replaceWithEnv(readEntireFile(DEFAULT_LOCAL_RES)).toLocal8Bit()).object();
-    CFG_GLOBAL = QJsonDocument::fromJson(replaceWithEnv(readEntireFile(globalConfigFilePath(), readEntireFile(DEFAULT_GLOBAL_RES))).toLocal8Bit()).object();
-    CFG_LOCAL = QJsonDocument::fromJson(replaceWithEnv(readEntireFile(localConfigFilePath())).toLocal8Bit()).object();
+    auto def = QJsonDocument::fromJson(readEntireFile(DEFAULT_LOCAL_RES)).object();
+    CFG_GLOBAL = QJsonDocument::fromJson(readEntireFile(globalConfigFilePath(), readEntireFile(DEFAULT_GLOBAL_RES))).object();
+    CFG_LOCAL = QJsonDocument::fromJson(readEntireFile(localConfigFilePath())).object();
 
     if (completeToLeft(CFG_LOCAL, def))
         save();

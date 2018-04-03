@@ -3,6 +3,7 @@
 #include "processmanager.h"
 #include "buildmanager.h"
 #include "ui_externaltoolmanager.h"
+#include "projectmanager.h"
 
 #include <QMenu>
 #include <QStandardItemModel>
@@ -74,14 +75,17 @@ ExternalToolManager::~ExternalToolManager()
     delete ui;
 }
 
-QMenu *ExternalToolManager::makeMenu(QWidget *parent, ProcessManager *pman)
+QMenu *ExternalToolManager::makeMenu(QWidget *parent, ProcessManager *pman, ProjectManager *proj)
 {
     auto p = pman->processFor(BuildManager::PROCESS_NAME);
     auto m = new QMenu(parent);
     auto t = AppConfig::instance().externalTools();
     for(auto it = t.begin(); it != t.end(); ++it) {
         auto cmd = it.value();
-        m->addAction(QIcon(":/images/actions/run-build.svg"), it.key(), [p, cmd]() { p->start(cmd); });
+        m->addAction(QIcon(":/images/actions/run-build.svg"), it.key(), [p, cmd, proj]() {
+            p->setWorkingDirectory(proj->projectPath());
+            p->start(AppConfig::replaceWithEnv(cmd));
+        });
     }
     m->addSeparator();
     m->addAction(QIcon(":/images/actions/window-new.svg"), QObject::tr("Open Tool Manager"), [parent]() {

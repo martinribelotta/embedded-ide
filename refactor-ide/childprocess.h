@@ -17,6 +17,17 @@ public:
         return *this;
     }
 
+    ChildProcess& makeDeleteLater() {
+        connect(this, QOverload<int>::of(&ChildProcess::finished), this, &ChildProcess::deleteLater);
+        connect(this, &ChildProcess::errorOccurred, this, &ChildProcess::deleteLater);
+        return *this;
+    }
+
+    ChildProcess& mergeStdOutAndErr() {
+        setReadChannelMode(MergedChannels);
+        return *this;
+    }
+
     ChildProcess& setenv(const QHash<QString, QString> &extraEnv) {
         QProcessEnvironment env = processEnvironment();
         for(auto it = extraEnv.begin(); it != extraEnv.end(); ++it)

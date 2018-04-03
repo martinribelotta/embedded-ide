@@ -71,6 +71,13 @@ CPPTextEditor::~CPPTextEditor()
 {
 }
 
+bool CPPTextEditor::load(const QString &path)
+{
+    if (codeModel())
+        codeModel()->startIndexingFile(path);
+    return CodeTextEditor::load(path);
+}
+
 class CPPEditorCreator: public IDocumentEditorCreator
 {
 public:

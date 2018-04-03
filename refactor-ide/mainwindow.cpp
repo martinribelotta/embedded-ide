@@ -190,12 +190,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonDocumentSaveAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveAll);
     connect(ui->buttonDocumentReload, &QToolButton::clicked, ui->documentContainer, &DocumentManager::reloadDocumentCurrent);
 
-    ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman));
+    ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager));
 
     connect(&AppConfig::instance(), &AppConfig::configChanged, [this]() {
         if (ui->buttonTools->menu())
             ui->buttonTools->menu()->deleteLater();
-        ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman));
+        ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager));
     });
 
     auto findInFilesCallback = [this]() {

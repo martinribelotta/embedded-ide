@@ -10,6 +10,7 @@ class ExternalToolManager;
 class QMenu;
 
 class ProcessManager;
+class ProjectManager;
 
 class ExternalToolManager : public QDialog
 {
@@ -20,7 +21,7 @@ public:
     explicit ExternalToolManager(QWidget *parent = 0);
     virtual ~ExternalToolManager();
 
-    static QMenu *makeMenu(QWidget *parent, ProcessManager *pman);
+    static QMenu *makeMenu(QWidget *parent, ProcessManager *pman, ProjectManager *proj);
 
 private:
     Ui::ExternalToolManager *ui;

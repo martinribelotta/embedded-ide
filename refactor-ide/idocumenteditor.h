@@ -49,7 +49,7 @@ protected:
 
 private:
     QList<ModifyObserver_t> modifyObserverList;
-    ICodeModelProvider *_codeModel;
+    ICodeModelProvider *_codeModel = nullptr;
     DocumentManager *man = nullptr;
 };
 

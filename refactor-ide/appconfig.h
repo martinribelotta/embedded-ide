@@ -15,10 +15,10 @@ private:
 
     explicit AppConfig();
     virtual ~AppConfig();
+    void adjustEnv();
 
 public:
     static AppConfig &instance();
-    static void adjustEnv();
     static QString replaceWithEnv(const QString& str);
     static QByteArray readEntireTextFile(const QString& path);
     static QIODevice *writeEntireTextFile(const QString& text, const QString& path);
@@ -35,7 +35,8 @@ public:
     QHash<QString, QString> externalTools() const;
     QFileInfoList recentProjects() const;
 
-    QStringList additionalPaths() const;
+    QStringList additionalPaths(bool raw = false) const;
+    QStringList additionalRawPaths() const { return additionalPaths(true); }
 
     QString templatesUrl() const;
 
