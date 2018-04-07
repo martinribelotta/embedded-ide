@@ -2,6 +2,7 @@
 #include "icodemodelprovider.h"
 #include "processmanager.h"
 #include "projectmanager.h"
+#include "textmessagebrocker.h"
 
 #include <QBuffer>
 #include <QFileInfo>
@@ -14,6 +15,7 @@
 #include <QStandardItemModel>
 #include <QStandardPaths>
 #include <QTemporaryDir>
+#include <QTimer>
 #include <QTreeView>
 
 #include <QtDebug>
@@ -89,6 +91,8 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
                 }
             }
         }
+        TextMessageBrocker::instance().publish("actionLabel", tr("Finish target discover"));
+        QTimer::singleShot(3000, []() { TextMessageBrocker::instance().publish("actionLabel", QString()); });
     });
     priv->pman->setTerminationHandler(PATCH_PROC, [this](QProcess *p, int code, QProcess::ExitStatus status) {
         Q_UNUSED(p);
@@ -190,6 +194,7 @@ void ProjectManager::openProject(const QString &makefile)
         priv->makeFile = QFileInfo(makefile);
         priv->codeModelProvider->startIndexingProject(projectPath());
         emit projectOpened(makefile);
+        TextMessageBrocker::instance().publish("actionLabel", tr("Discovering targets..."));
     };
 
     // FIXME: Unnecesary if force to close project after open other

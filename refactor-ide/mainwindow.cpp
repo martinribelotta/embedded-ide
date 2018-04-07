@@ -16,6 +16,7 @@
 #include "configwidget.h"
 #include "findinfilesdialog.h"
 #include "clangautocompletionprovider.h"
+#include "textmessagebrocker.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -58,6 +59,21 @@ MainWindow::MainWindow(QWidget *parent) :
     priv->fileManager = new FileSystemManager(ui->fileViewer, this);
     ui->documentContainer->setProjectManager(priv->projectManager);
     priv->projectManager->setCodeModelProvider(new ClangAutocompletionProvider(priv->projectManager, this));
+
+    TextMessageBrocker::instance().subscribe("stderrLog", [this](const QString& msg) {
+        priv->console->writeMessage(msg, Qt::darkRed);
+    });
+
+    TextMessageBrocker::instance().subscribe("stdoutLog", [this](const QString& msg) {
+        priv->console->writeMessage(msg, Qt::darkBlue);
+    });
+
+    auto label = new QLabel(ui->actionViewer);
+    auto g = new QGridLayout(ui->actionViewer);
+    g->addWidget(label, 1, 1);
+    g->setRowStretch(0, 1);
+    g->setColumnStretch(0, 1);
+    TextMessageBrocker::instance().subscribe("actionLabel", label, &QLabel::setText);
 
     connect(priv->buildManager, &BuildManager::buildStarted, [this]() { ui->actionViewer->setEnabled(false); });
     connect(priv->buildManager, &BuildManager::buildTerminated, [this]() { ui->actionViewer->setEnabled(true); });

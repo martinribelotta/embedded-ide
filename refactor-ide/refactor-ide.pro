@@ -59,7 +59,8 @@ SOURCES += \
     clangautocompletionprovider.cpp \
     childprocess.cpp \
     filereferencesdialog.cpp \
-    mapfileviewer.cpp
+    mapfileviewer.cpp \
+    textmessagebrocker.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -89,7 +90,8 @@ HEADERS += \
     clangautocompletionprovider.h \
     childprocess.h \
     filereferencesdialog.h \
-    mapfileviewer.h
+    mapfileviewer.h \
+    textmessagebrocker.h
 
 FORMS += \
         mainwindow.ui \

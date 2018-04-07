@@ -2,12 +2,14 @@
 #include "childprocess.h"
 #include "clangautocompletionprovider.h"
 #include "projectmanager.h"
+#include "textmessagebrocker.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QProcess>
 #include <QRegularExpressionMatch>
+#include <QTimer>
 
 #include <QtDebug>
 
@@ -124,6 +126,10 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
     ChildProcess::create(this)
     .changeCWD(path)
     .makeDeleteLater()
+    .onError([this](QProcess *ctags, QProcess::ProcessError) {
+        TextMessageBrocker::instance().publish("actionLabel", tr("ctags error: %1").arg(ctags->errorString()));
+        QTimer::singleShot(3000, []() { TextMessageBrocker::instance().publish("actionLabel", QString()); });
+    })
     .onFinished([this](QProcess *ctags, int exitStatus) {
         qDebug() << "ctags end with" << exitStatus;
         ctags->setReadChannel(QProcess::StandardOutput);
@@ -141,6 +147,8 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
                 priv->nameMap[name].append(r);
             }
         }
+        TextMessageBrocker::instance().publish("actionLabel", tr("Index finished"));
+        QTimer::singleShot(3000, []() { TextMessageBrocker::instance().publish("actionLabel", QString()); });
     })
     .start("universal-ctags", {
                  "--map-R=-.s",
@@ -151,6 +159,7 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
                  "-x",
                  R"(--_xformat={ "name": "%N", "lang": "%l", "type": "%K", "path": "%F", "line": %n, "text": "%C" })"
              });
+    TextMessageBrocker::instance().publish("actionLabel", tr("Start indexing"));
 }
 
 void ClangAutocompletionProvider::startIndexingFile(const QString &path)
