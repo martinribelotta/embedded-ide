@@ -65,7 +65,7 @@ Go to **Configure** icon and next go to **Tools** tab.
 
 Into **Additional PATHs** section you can add multiple directories. The list is append to system PATH at runtime in top-to-bottom order.
 
-## Images
+## Screenshots
 
 ![](docs/screen_1.png)
 ![](docs/screen_2.png)
