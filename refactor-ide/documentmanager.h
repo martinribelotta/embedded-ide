@@ -35,9 +35,10 @@ signals:
 public slots:
     void openDocument(const QString& filePath);
     void openDocumentHere(const QString& path, int line, int col);
-    void closeDocument(const QString& filePath);
-    void closeCurrent() { closeDocument(documentCurrent()); }
-    void closeAll();
+    bool closeDocument(const QString& filePath);
+    bool closeCurrent() { return closeDocument(documentCurrent()); }
+    bool closeAll();
+    bool aboutToCloseAll();
     void saveDocument(const QString& path);
     void saveDocuments(const QStringList& list) { for(const auto& a: list) saveDocument(a); }
     void saveCurrent() { saveDocument(documentCurrent()); }

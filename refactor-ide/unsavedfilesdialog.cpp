@@ -26,9 +26,9 @@ UnsavedFilesDialog::UnsavedFilesDialog(const QStringList& unsaved, QWidget *pare
         for(int i=0; i<m->rowCount(); i++)
             m->item(i)->setCheckState(ch? Qt::Checked : Qt::Unchecked);
     };
-    connect(ui->buttonAbort, &QToolButton::clicked, this, &UnsavedFilesDialog::reject);
-    connect(ui->buttonSaveSelected, &QToolButton::clicked, this, &UnsavedFilesDialog::accept);
-    connect(ui->buttonUnselectAll, &QToolButton::clicked, [setCheckAll]() { setCheckAll(false); });
+    connect(ui->buttonCancel, &QToolButton::clicked, this, &UnsavedFilesDialog::reject);
+    connect(ui->buttonSave, &QToolButton::clicked, this, &UnsavedFilesDialog::accept);
+    connect(ui->buttonDiscart, &QToolButton::clicked, [setCheckAll, this]() { setCheckAll(false); accept(); });
     connect(ui->buttonSelectAll, &QToolButton::clicked, [setCheckAll]() { setCheckAll(true); });
 }
 

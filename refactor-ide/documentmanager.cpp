@@ -7,6 +7,7 @@
 #include "filesystemmanager.h"
 #include "cpptexteditor.h"
 #include "mapfileviewer.h"
+#include "unsavedfilesdialog.h"
 
 #include <QComboBox>
 #include <QDir>
@@ -184,14 +185,16 @@ void DocumentManager::openDocumentHere(const QString &path, int line, int col)
         ed->setCursor(QPoint(col, line));
 }
 
-void DocumentManager::closeDocument(const QString &filePath)
+bool DocumentManager::closeDocument(const QString &filePath)
 {
     auto path = absoluteTo(priv->projectManager->projectPath(), filePath);
+    // Cannot save due not name on path
     if (path.isEmpty())
-        return;
+        return true;
+    // Cannot save due not in map (not widget interface registered)
     auto iface = priv->mapedWidgets.value(path);
     if (!iface)
-        return;
+        return true;
     if (iface->widget()->close()) {
         priv->stack->removeWidget(iface->widget());
         if (priv->combo) {
@@ -202,13 +205,37 @@ void DocumentManager::closeDocument(const QString &filePath)
         iface->widget()->deleteLater();
         priv->mapedWidgets.remove(path);
         emit documentClosed(path);
+        return true;
     }
+    return false;
 }
 
-void DocumentManager::closeAll()
+bool DocumentManager::closeAll()
 {
     for(auto& path: priv->mapedWidgets.keys())
-        closeDocument(path);
+        if (!closeDocument(path))
+            return false;
+    return true;
+}
+
+bool DocumentManager::aboutToCloseAll()
+{
+    auto unsaved = unsavedDocuments();
+    if (unsaved.isEmpty()) {
+        return closeAll();
+    } else {
+        UnsavedFilesDialog d(unsaved, this);
+        if (d.exec() == QDialog::Accepted) {
+            saveDocuments(d.checkedForSave());
+            for(auto doc: unsavedDocuments()) {
+                auto iface = documentEditor(doc);
+                if (iface)
+                    iface->setModified(false);
+            }
+            return closeAll();
+        }
+    }
+    return false;
 }
 
 void DocumentManager::saveDocument(const QString &path)

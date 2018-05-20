@@ -162,11 +162,14 @@ MainWindow::MainWindow(QWidget *parent) :
         AppConfig::instance().save();
     });
     connect(priv->projectManager, &ProjectManager::projectClosed, [this, makeRecentProjects]() {
-        for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(false);
-        makeRecentProjects();
-        ui->stackedWidget->setCurrentWidget(ui->welcomePage);
-        ui->documentContainer->closeAll();
-        priv->fileManager->closePath();
+        bool ok = ui->documentContainer->aboutToCloseAll();
+        qDebug() << "can close" << ok;
+        if (ok) {
+            for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(false);
+            makeRecentProjects();
+            ui->stackedWidget->setCurrentWidget(ui->welcomePage);
+            priv->fileManager->closePath();
+        }
     });
 
     auto enableEdition = [this]() {
@@ -201,7 +204,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(priv->projectManager, &ProjectManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
     connect(ui->buttonDocumentClose, &QToolButton::clicked, ui->documentContainer, &DocumentManager::closeCurrent);
-    connect(ui->buttonDocumentCloseAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::closeAll);
+    connect(ui->buttonDocumentCloseAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::aboutToCloseAll);
     connect(ui->buttonDocumentSave, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveCurrent);
     connect(ui->buttonDocumentSaveAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveAll);
     connect(ui->buttonDocumentReload, &QToolButton::clicked, ui->documentContainer, &DocumentManager::reloadDocumentCurrent);
