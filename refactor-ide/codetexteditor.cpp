@@ -23,10 +23,12 @@
 #include <Qsci/qscilexeridl.h>
 #include <Qsci/qscilexerjava.h>
 #include <Qsci/qscilexerjavascript.h>
+#if QSCINTILLA_VERSION > 0x020900
 #include <Qsci/qscilexerjson.h>
+#include <Qsci/qscilexermarkdown.h>
+#endif
 #include <Qsci/qscilexerlua.h>
 #include <Qsci/qscilexermakefile.h>
-#include <Qsci/qscilexermarkdown.h>
 #include <Qsci/qscilexermatlab.h>
 #include <Qsci/qscilexeroctave.h>
 #include <Qsci/qscilexerpascal.h>
@@ -68,9 +70,12 @@ typedef QsciLexer* (*creator_t)();
 
 #define _(mime, type) { mime, reinterpret_cast<creator_t>(&helperCreator<type>) }
 static const QHash<QString, creator_t> EXTENTION_MAP = {
+#if QSCINTILLA_VERSION > 0x020900
     _("json", QsciLexerJSON),
-    _("sh", QsciLexerBash),
     _("md", QsciLexerMarkdown),
+    _("md", QsciLexerMarkdown),
+#endif
+    _("sh", QsciLexerBash),
     _("bat", QsciLexerBatch),
     _("coffee", QsciLexerCoffeeScript),
     _("litcoffee", QsciLexerCoffeeScript),
@@ -82,7 +87,6 @@ static const QHash<QString, creator_t> EXTENTION_MAP = {
     _("js", QsciLexerJavaScript),
     _("lua", QsciLexerLua),
     _("mk", QsciLexerMakefile),
-    _("md", QsciLexerMarkdown),
     _("pas", QsciLexerPascal),
     _("ps", QsciLexerPostScript),
     _("py", QsciLexerPython),
@@ -98,9 +102,12 @@ static const QHash<QString, creator_t> EXTENTION_MAP = {
 };
 
 static const QHash<QString, creator_t> MIMETYPE_MAP = {
+#if QSCINTILLA_VERSION > 0x020900
     _("application/json", QsciLexerJSON),
-    _("application/x-shellscript", QsciLexerBash),
     _("text/markdown", QsciLexerMarkdown),
+    _("text/x-markdown", QsciLexerMarkdown),
+#endif
+    _("application/x-shellscript", QsciLexerBash),
     _("text/x-avs", QsciLexerAVS),
     _("text/x-bat", QsciLexerBatch),
     _("text/x-cmake", QsciLexerCMake),
@@ -117,7 +124,6 @@ static const QHash<QString, creator_t> MIMETYPE_MAP = {
     _("text/x-javascript", QsciLexerJavaScript),
     _("text/x-lua", QsciLexerLua),
     _("text/x-makefile", QsciLexerMakefile),
-    _("text/x-markdown", QsciLexerMarkdown),
     _("text/x-matlab", QsciLexerMatlab),
     _("text/x-octave", QsciLexerOctave),
     _("text/x-pascal", QsciLexerPascal),
@@ -142,7 +148,7 @@ static const QHash<QString, creator_t> MIMETYPE_MAP = {
 class CodeEditorCreator: public IDocumentEditorCreator
 {
 public:
-    bool canHandleExtentions(const QStringList &suffixes) const {
+    bool canHandleExtentions(const QStringList &suffixes) const override  {
         for (const auto& suffix: suffixes)
             return EXTENTION_MAP.contains(suffix);
         return false;

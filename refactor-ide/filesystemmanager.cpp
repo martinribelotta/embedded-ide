@@ -218,8 +218,10 @@ void FileSystemManager::menuNewSymlink()
     QFile target(dialog.selectedFiles().first());
     auto linkName = targetDir.absoluteFilePath(QFileInfo(target.fileName()).fileName());
     if (!target.link(linkName))
-#endif
         QMessageBox::critical(view->window(), tr("Link creation fail"), tr("ERROR: %1").arg(target.errorString()));
+#else
+    QMessageBox::critical(view->window(), tr("Link creation fail"), tr("ERROR: Not implemented"));
+#endif
 }
 
 void FileSystemManager::menuItemProperties()

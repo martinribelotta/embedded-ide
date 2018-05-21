@@ -11,6 +11,8 @@
 #include <QMessageBox>
 #include <QtDebug>
 
+#include <cmath>
+
 PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
 {
     loadConfig();
