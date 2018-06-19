@@ -206,7 +206,10 @@ void ClangAutocompletionProvider::startIndexingFile(const QString &path)
             parameterList.append("-E");
             parameterList.append("-v");
             qDebug() << parameterList;
-            ChildProcess::create(this).changeCWD(make->workingDirectory()).mergeStdOutAndErr().makeDeleteLater()
+            ChildProcess::create(this)
+                    .changeCWD(make->workingDirectory())
+                    .mergeStdOutAndErr()
+                    .makeDeleteLater()
                     .onFinished([this](QProcess *cc, int) {
                 QString out = cc->readAll();
                 parseCompilerInfo(out, &priv->includes, &priv->defines);

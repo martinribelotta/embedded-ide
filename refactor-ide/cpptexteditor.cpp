@@ -1,6 +1,8 @@
+#include "appconfig.h"
 #include "cpptexteditor.h"
 #include "filereferencesdialog.h"
 #include "icodemodelprovider.h"
+#include "textmessagebrocker.h"
 
 #include <Qsci/qscilexercpp.h>
 #include <Qsci/qsciabstractapis.h>
@@ -10,7 +12,10 @@
 #include <QMimeDatabase>
 #include <QRegularExpression>
 #include <QShortcut>
+#include <astyle.h>
+
 #include <QtDebug>
+#include <astyle_main.h>
 
 static const QStringList C_CXX_EXTENSIONS = { "c", "cpp", "h", "hpp", "cc", "hh", "hxx", "cxx", "c++", "h++" };
 static const QStringList C_MIMETYPE = { "text/x-c++src", "text/x-c++hdr" };
@@ -65,6 +70,7 @@ CPPTextEditor::CPPTextEditor(QWidget *parent) : CodeTextEditor(parent)
         SendScintilla(SCI_GOTOPOS, start + text.length());
     });
     connect(new QShortcut(QKeySequence("Ctrl+Return"), this), &QShortcut::activated, this, &CPPTextEditor::findReference);
+    connect(new QShortcut(QKeySequence("Ctrl+i"), this), &QShortcut::activated, this, &CPPTextEditor::formatCode);
 }
 
 CPPTextEditor::~CPPTextEditor()
@@ -129,6 +135,46 @@ void CPPTextEditor::findReference()
         });
     } else
         qDebug() << "No code model defined";
+}
+
+static STDCALL char* tempMemoryAllocation(unsigned long memoryNeeded)
+{
+    char* buffer = new char[memoryNeeded];
+    return buffer;
+}
+
+static STDCALL void tempError(int errorNumber, const char* errorMessage)
+{
+    qDebug() << errorNumber << errorMessage;
+    TextMessageBrocker::instance().publish("stderrLog", QString("%1: %2").arg(errorNumber).arg(errorMessage));
+}
+
+void CPPTextEditor::formatCode()
+{
+    int l, i;
+    getCursorPosition(&l, &i);
+    auto inText = selectedText();
+    if (inText.isEmpty()) {
+        selectAll();
+        inText = selectedText();
+    }
+    auto rawText = inText.toUtf8();
+    char* utf8In = rawText.data();
+    auto& cfg = AppConfig::instance();
+    const auto style = cfg.editorFormatterStyle();
+    const auto indentType = cfg.editorTabsToSpaces()? "spaces" : "tab";
+    int indentCount = cfg.editorTabWidth();
+    char* utf8Out = AStyleMain(utf8In,
+                               (QString("--style=%1 "
+                                       "--indent=%2=%3")
+                                .arg(style)
+                                .arg(indentType)
+                                .arg(indentCount)).toLatin1().data(),
+                               tempError,
+                               tempMemoryAllocation);
+    replaceSelectedText(QString::fromUtf8(utf8Out));
+    setCursorPosition(l, i);
+    ensureLineVisible(l);
 }
 
 QMenu *CPPTextEditor::createContextualMenu()

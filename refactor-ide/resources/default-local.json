@@ -11,7 +11,8 @@
         "saveOnAction": false,
         "style": "Default",
         "tabWidth": 4,
-        "tabsOnSpaces": true
+        "tabsOnSpaces": true,
+        "formatterStyle": "linux"
     },
     "externalTools": {
         "git status": "git status",

@@ -190,7 +190,11 @@ void ProjectManager::exportCurrentProjectTo(const QString &patchFile)
 void ProjectManager::openProject(const QString &makefile)
 {
     auto doOpenProject = [makefile, this]() {
-        priv->pman->start(DISCOVER_PROC, "make", { "-B", "-p", "-r", "-n", "-f", makefile }, { { "LC_ALL", "C" } }, QFileInfo(makefile).absolutePath());
+        priv->pman->start(DISCOVER_PROC,
+                          "make",
+                          { "-B", "-p", "-r", "-n", "-f", makefile },
+                          { { "LC_ALL", "C" } },
+                          QFileInfo(makefile).absolutePath());
         priv->makeFile = QFileInfo(makefile);
         priv->codeModelProvider->startIndexingProject(projectPath());
         emit projectOpened(makefile);

@@ -85,6 +85,7 @@ AppConfig::AppConfig() : QObject(QApplication::instance()), priv(new Priv_t)
 {
     adjustEnv();
     load();
+    adjustEnv();
 }
 
 AppConfig::~AppConfig()

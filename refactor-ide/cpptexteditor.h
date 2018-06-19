@@ -17,6 +17,7 @@ public:
 
 private slots:
     void findReference();
+    void formatCode();
 
 protected:
     QMenu *createContextualMenu() override;

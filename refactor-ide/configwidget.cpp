@@ -9,6 +9,29 @@
 
 #include <QtDebug>
 
+static const QStringList ASTYLE_STYLES = {
+    "1tbs",
+    "allman",
+    "attach",
+    "banner",
+    "break",
+    "bsd",
+    "gnu",
+    "google",
+    "horstmann",
+    "java",
+    "k",
+    "knf",
+    "kr",
+    "linux",
+    "lisp",
+    "otbs",
+    "pico",
+    "stroustrup",
+    "vtk",
+    "whitesmith"
+};
+
 ConfigWidget::ConfigWidget(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ConfigWidget)
@@ -19,6 +42,7 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
         ui->editorStyle->addItem(fi.baseName());
     ui->codeEditor->load(":/reference-code.c");
     ui->codeEditor->setReadonly(true);
+    ui->formatterStyle->addItems(ASTYLE_STYLES);
     auto updateEditor = [this]() {
         // Defer execution to next event loop due sender actualization
         QTimer::singleShot(0, [this]() {
@@ -44,6 +68,28 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
         auto path = QFileDialog::getExistingDirectory(this, tr("Select workspace directory"), dir);
         if (!path.isEmpty())
             ui->workspacePath->setText(path);
+    });
+    connect(ui->tbPathRm, &QToolButton::clicked, [this]() {
+        auto idx = ui->additionalPathList->currentIndex().row();
+        if (idx != -1) {
+            auto m = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
+            m->removeRows(idx, 1);
+        }
+    });
+    connect(ui->tbPathAdd, &QToolButton::clicked, [this]() {
+        auto path = QDir::homePath();
+        auto idx = ui->additionalPathList->currentIndex();
+        if (idx.isValid()) {
+            path = ui->additionalPathList->model()->data(idx, Qt::DisplayRole).toString();
+            path = AppConfig::replaceWithEnv(path);
+        }
+        path = QFileDialog::getExistingDirectory(window(), tr("Select directory"), path, 0);
+        if (!path.isEmpty()) {
+            auto m = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
+            auto list = m->stringList();
+            list.append(path);
+            m->setStringList(list);
+        }
     });
 }
 

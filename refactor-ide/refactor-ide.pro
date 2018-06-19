@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 include(../mapview/mapview.pri)
 include(3rdpart/qhexview/qhexview.pri)
+include(3rdpart/astyle/astyle.pri)
 !win32: include(3rdpart/backward/backward.pri)
 #include(3rdpart/qt-promise/qt-promise.pri)
 
