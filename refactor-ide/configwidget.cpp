@@ -141,6 +141,7 @@ void ConfigWidget::load()
     ui->editorReplaceTabs->setChecked(conf.editorTabsToSpaces());
     ui->editorTabWidth->setValue(conf.editorTabWidth());
     ui->formatterStyle->setCurrentText(conf.editorFormatterStyle());
+    ui->formatterExtra->setText(conf.editorFormatterExtra());
     ui->templateSettings->setRepositoryUrl(conf.templatesUrl());
     auto loggerFont = conf.loggerFont();
     qDebug() << "logger font" << loggerFont;

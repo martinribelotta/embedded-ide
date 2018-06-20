@@ -244,6 +244,11 @@ QString AppConfig::editorFormatterStyle() const
     return CFG_LOCAL.value("editor").toObject().value("formatterStyle").toString();
 }
 
+QString AppConfig::editorFormatterExtra() const
+{
+    return CFG_LOCAL.value("editor").toObject().value("formatterExtra").toString();
+}
+
 QFont AppConfig::loggerFont() const
 {
     auto ed = CFG_LOCAL.value("logger").toObject();
@@ -408,6 +413,13 @@ void AppConfig::setEditorFormatterStyle(const QString &name)
 {
     auto ed = CFG_LOCAL["editor"].toObject();
     ed.insert("formatterStyle", name);
+    CFG_LOCAL["editor"] = ed;
+}
+
+void AppConfig::setEditorFormatterExtra(const QString &text)
+{
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed.insert("formatterExtra", text);
     CFG_LOCAL["editor"] = ed;
 }
 

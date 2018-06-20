@@ -164,12 +164,13 @@ void CPPTextEditor::formatCode()
     const auto style = cfg.editorFormatterStyle();
     const auto indentType = cfg.editorTabsToSpaces()? "spaces" : "tab";
     int indentCount = cfg.editorTabWidth();
+    auto extraAstyleParams = cfg.editorFormatterExtra();
     char* utf8Out = AStyleMain(utf8In,
-                               (QString("--style=%1 "
-                                       "--indent=%2=%3")
+                               (QString("--style=%1 --indent=%2=%3 %4")
                                 .arg(style)
                                 .arg(indentType)
-                                .arg(indentCount)).toLatin1().data(),
+                                .arg(indentCount)
+                                .arg(extraAstyleParams)).toLatin1().data(),
                                tempError,
                                tempMemoryAllocation);
     replaceSelectedText(QString::fromUtf8(utf8Out));
