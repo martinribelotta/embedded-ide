@@ -191,9 +191,11 @@ QString NewProjectDialog::templateFile() const
     auto text = QString(AppConfig::readEntireTextFile(templatePath));
     auto m = ui->parameterTable->model();
     for(int row = 0; row < m->rowCount(); row++) {
-        auto name = m->data(m->index(row, 0), Qt::UserRole).toString();
-        auto value = m->data(m->index(row, 1), Qt::UserRole).toString();
-        text.replace(QRegularExpression(QString(R"(\$\{\{%1\s+.*?\}\})").arg(name)), value);
+        auto name = m->data(m->index(row, 0), Qt::UserRole).toString().replace(' ', '_');
+        auto value = m->data(m->index(row, 1), Qt::EditRole).toString();
+        auto reText = QString(R"(\$\{\{%1\s+.*\}\})").arg(name);
+        qDebug() << name << value << reText;
+        text.replace(QRegularExpression(reText), value);
     }
     return text;
 }

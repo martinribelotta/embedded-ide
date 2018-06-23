@@ -1,4 +1,5 @@
 #include "appconfig.h"
+#include "childprocess.h"
 #include "icodemodelprovider.h"
 #include "processmanager.h"
 #include "projectmanager.h"
@@ -154,12 +155,27 @@ QStringList ProjectManager::targetsOfDependency(const QString &dep)
 void ProjectManager::createProject(const QString& projectFilePath, const QString& templateFile)
 {
     AppConfig::ensureExist(projectFilePath);
-    priv->pman->setStartupHandler(PATCH_PROC, [templateFile](QProcess *p) {
+    auto onStartCb = [templateFile](QProcess *p)
+    {
         p->write(templateFile.toLocal8Bit());
         p->closeWriteChannel();
-        p->deleteLater();
-    });
-    priv->pman->start(PATCH_PROC, "patch", { "-p1" }, {}, projectFilePath);
+    };
+    auto onFinishCb = [this, projectFilePath](QProcess *p, int exitCode) {
+        Q_UNUSED(p);
+        TextMessageBrocker::instance().publish("stdoutLog", tr("Diff terminate. Exit code %1").arg(exitCode));
+        openProject(QDir(projectFilePath).filePath("Makefile"));
+    };
+    auto onErrCb = [](QProcess *p, QProcess::ProcessError err) {
+        Q_UNUSED(err);
+        TextMessageBrocker::instance().publish("stderrLog", tr("Diff error: %1").arg(p->errorString()));
+    };
+    ChildProcess::create(this)
+            .makeDeleteLater()
+            .changeCWD(projectFilePath)
+            .onStarted(onStartCb)
+            .onFinished(onFinishCb)
+            .onError(onErrCb)
+            .start("patch", { "-p1" });
 }
 
 void ProjectManager::exportCurrentProjectTo(const QString &patchFile)

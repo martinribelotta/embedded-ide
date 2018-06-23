@@ -147,6 +147,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonExport, &QToolButton::clicked, exportCallback);
     connect(ui->buttonNewProject, &QToolButton::clicked, newProjectCallback);
     connect(ui->buttonConfiguration, &QToolButton::clicked, openConfigurationCallback);
+    connect(ui->buttonConfigurationMain, &QToolButton::clicked, openConfigurationCallback);
     connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);
     connect(new QShortcut(QKeySequence("CTRL+N"), this), &QShortcut::activated, newProjectCallback);
     connect(new QShortcut(QKeySequence("CTRL+O"), this), &QShortcut::activated, openProjectCallback);
