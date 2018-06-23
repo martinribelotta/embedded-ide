@@ -6,6 +6,8 @@
 #include <QFont>
 #include <QFontDatabase>
 #include <QIcon>
+#include <QNetworkProxy>
+#include <QNetworkProxyFactory>
 #include <QProcess>
 #include <QTimer>
 
@@ -20,6 +22,27 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/images/embedded-ide.svg"));
 
+    QObject::connect(&AppConfig::instance(), &AppConfig::configChanged, [](AppConfig *config)
+    {
+        switch (config->networkProxyType()) {
+        case AppConfig::NetworkProxyType::None:
+            QNetworkProxy::setApplicationProxy(QNetworkProxy::NoProxy);
+            break;
+        case AppConfig::NetworkProxyType::System:
+            QNetworkProxyFactory::setUseSystemConfiguration(true);
+            break;
+        case AppConfig::NetworkProxyType::Custom:
+            QNetworkProxy proxy(
+                        QNetworkProxy::HttpProxy, config->networkProxyHost(),
+                        static_cast<quint16>(config->networkProxyPort().toInt()));
+            if (config->networkProxyUseCredentials()) {
+                proxy.setUser(config->networkProxyUsername());
+                proxy.setPassword(config->networkProxyPassword());
+            }
+            QNetworkProxy::setApplicationProxy(proxy);
+            break;
+        }
+    });
     AppConfig::instance().load();
 
     QCommandLineParser opt;

@@ -116,13 +116,20 @@ void ConfigWidget::save()
     auto loggerFont = ui->loggerFontName->currentFont();
     loggerFont.setPointSize(ui->loggerFontSize->value());
     conf.setLoggerFont(loggerFont);
-    // TODO Implement network proxy settings
-    // conf.setNetworkProxyHost(const QString& name);
-    // conf.setNetworkProxyPort(const QString& port);
-    // conf.setNetworkProxyUseCredentials(bool use);
-    // conf.setNetworkProxyType(NetworkProxyType type);
-    // conf.setNetworkProxyUsername(const QString& user);
-    // conf.setNetworkProxyPassword(const QString& pass);
+    conf.setNetworkProxyHost(ui->proxyHost->text());
+    conf.setNetworkProxyPort(ui->proxyPort->text());
+    conf.setNetworkProxyUseCredentials(ui->useAutentication->isChecked());
+    conf.setNetworkProxyType([this]() {
+        if(ui->systemProxy->isChecked()) {
+            return AppConfig::NetworkProxyType::System;
+        } else if(ui->userProxy->isChecked()) {
+            return AppConfig::NetworkProxyType::Custom;
+        } else {
+            return AppConfig::NetworkProxyType::None;
+        }
+    }());
+    conf.setNetworkProxyUsername(ui->username->text());
+    conf.setNetworkProxyPassword(ui->password->text());
     conf.setProjectTemplatesAutoUpdate(ui->autoUpdateProjectTmplates->isChecked());
     conf.setUseDevelopMode(ui->useDevelopment->isChecked());
     conf.save();
@@ -147,12 +154,26 @@ void ConfigWidget::load()
     qDebug() << "logger font" << loggerFont;
     ui->loggerFontName->setCurrentFont(loggerFont);
     ui->loggerFontSize->setValue(loggerFont.pointSize());
-    // conf.setNetworkProxyHost(const QString& name);
-    // conf.setNetworkProxyPort(const QString& port);
-    // conf.setNetworkProxyUseCredentials(bool use);
-    // conf.setNetworkProxyType(NetworkProxyType type);
-    // conf.setNetworkProxyUsername(const QString& user);
-    // conf.setNetworkProxyPassword(const QString& pass);
+    ui->proxyHost->setText(conf.networkProxyHost());
+    ui->proxyPort->setText(conf.networkProxyPort());
+    ui->useAutentication->setChecked(conf.networkProxyUseCredentials());
+    switch (static_cast<AppConfig::NetworkProxyType>(conf.networkProxyType())) {
+    case AppConfig::NetworkProxyType::None:
+        ui->noProxy->setChecked(true);
+        break;
+    case AppConfig::NetworkProxyType::System:
+        ui->systemProxy->setChecked(true);
+        break;
+    case AppConfig::NetworkProxyType::Custom:
+        ui->userProxy->setChecked(true);
+        break;
+    default:
+        ui->noProxy->setChecked(true);
+        qDebug() << tr("Uknow proxy setting");
+        break;
+    }
+    ui->username->setText(conf.networkProxyUsername());
+    ui->password->setText(conf.networkProxyPassword());
     ui->autoUpdateProjectTmplates->setChecked(conf.projectTemplatesAutoUpdate());
     ui->useDevelopment->setChecked(conf.useDevelopMode());
 }

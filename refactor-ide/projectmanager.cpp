@@ -57,7 +57,6 @@ static QPair<targetMap_t, targetMap_t> findAllTargets(QIODevice *in)
 }
 
 const QString DISCOVER_PROC = "makeDiscover";
-const QString PATCH_PROC = "patch";
 const QString DIFF_PROC = "diff";
 
 ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *parent) :
@@ -94,16 +93,6 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
         }
         TextMessageBrocker::instance().publish("actionLabel", tr("Finish target discover"));
         QTimer::singleShot(3000, []() { TextMessageBrocker::instance().publish("actionLabel", QString()); });
-    });
-    priv->pman->setTerminationHandler(PATCH_PROC, [this](QProcess *p, int code, QProcess::ExitStatus status) {
-        Q_UNUSED(p);
-        Q_UNUSED(code);
-        qDebug() << "Finish project creation on " << p->workingDirectory() << " with code" << code << status;
-        if (status == QProcess::NormalExit) {
-            auto path = QDir(p->workingDirectory()).absoluteFilePath("Makefile");
-            qDebug() << "Open" << path;
-            openProject(path);
-        }
     });
 }
 

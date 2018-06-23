@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>4</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="editorSettings">
       <attribute name="title">
@@ -220,14 +220,17 @@
          <property name="title">
           <string>HTTP proxy for network access</string>
          </property>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <widget class="QRadioButton" name="noProxy">
               <property name="text">
                <string>None</string>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -235,6 +238,9 @@
               <property name="text">
                <string>System proxy</string>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -242,102 +248,14 @@
               <property name="text">
                <string>Custom proxy</string>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup</string>
+              </attribute>
              </widget>
             </item>
            </layout>
           </item>
-          <item row="3" column="0">
-           <widget class="QGroupBox" name="groupBox">
-            <property name="title">
-             <string>Proxy authentication</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_4">
-             <item row="0" column="0">
-              <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item>
-                <widget class="QCheckBox" name="useAutentication">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="text">
-                  <string>With credentials</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_2">
-                 <item>
-                  <widget class="QLabel" name="labelUsername">
-                   <property name="text">
-                    <string>Username</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="username">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="echoMode">
-                    <enum>QLineEdit::Normal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_3">
-                 <item>
-                  <widget class="QLabel" name="labelPassword">
-                   <property name="text">
-                    <string>Password</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_2">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="password">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="echoMode">
-                    <enum>QLineEdit::Password</enum>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="1" column="0">
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
              <widget class="QLabel" name="labelHost">
@@ -375,7 +293,7 @@
             </item>
            </layout>
           </item>
-          <item row="2" column="0">
+          <item>
            <spacer name="verticalSpacer_2">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -387,6 +305,49 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="useAutentication">
+            <property name="title">
+             <string>Proxy authentication</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="labelUsername">
+               <property name="text">
+                <string>Username</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="username">
+               <property name="echoMode">
+                <enum>QLineEdit::Normal</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="labelPassword">
+               <property name="text">
+                <string>Password</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="password">
+               <property name="echoMode">
+                <enum>QLineEdit::Password</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -561,5 +522,56 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>userProxy</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>proxyHost</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>119</x>
+     <y>147</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>126</x>
+     <y>182</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>userProxy</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>proxyPort</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>429</x>
+     <y>160</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>429</x>
+     <y>182</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>userProxy</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>useAutentication</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>46</x>
+     <y>147</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>50</x>
+     <y>311</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

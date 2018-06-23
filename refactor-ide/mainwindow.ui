@@ -74,22 +74,6 @@
             <property name="spacing">
              <number>0</number>
             </property>
-            <item row="0" column="2">
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Preferred</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>22</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
             <item row="0" column="4">
              <widget class="QToolButton" name="buttonReload">
               <property name="enabled">
@@ -257,7 +241,7 @@
             <item row="0" column="1">
              <widget class="QToolButton" name="buttonConfigurationMain">
               <property name="toolTip">
-               <string>Reload Project</string>
+               <string>Configuration</string>
               </property>
               <property name="icon">
                <iconset resource="resources/resources.qrc">
@@ -273,6 +257,22 @@
                <bool>true</bool>
               </property>
              </widget>
+            </item>
+            <item row="0" column="2" colspan="2">
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>22</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
