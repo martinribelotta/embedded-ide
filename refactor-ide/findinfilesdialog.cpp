@@ -15,6 +15,9 @@ struct FilePos {
     int line{ 0 };
     int column{ 0 };
     QString path;
+
+    FilePos() = default;
+    FilePos(int l, int c, const QString& p): line(l), column(c), path(p) {}
 };
 
 Q_DECLARE_METATYPE(FilePos)
