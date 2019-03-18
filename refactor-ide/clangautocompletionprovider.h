@@ -11,7 +11,7 @@ class ClangAutocompletionProvider: public QObject, public ICodeModelProvider
     Q_OBJECT
 public:
     explicit ClangAutocompletionProvider(ProjectManager *proj, QObject *parent);
-    virtual ~ClangAutocompletionProvider();
+    virtual ~ClangAutocompletionProvider() override;
 
     void startIndexingProject(const QString& path) override;
     void startIndexingFile(const QString& path) override;

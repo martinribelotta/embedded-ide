@@ -27,7 +27,7 @@ public:
     };
 
     TemplateItem() {}
-    TemplateItem(const QUrl& u, const QByteArray& h);
+    TemplateItem(const QUrl& u, QByteArray  h);
     TemplateItem(const QFileInfo& local);
 
     const QUrl& url() const { return _url; }
@@ -48,7 +48,7 @@ class TemplateItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit TemplateItemWidget(QWidget *parent = 0);
+    explicit TemplateItemWidget(QWidget *parent = nullptr);
     virtual ~TemplateItemWidget();
 
     void setChecked(bool ck);

@@ -20,7 +20,7 @@ class FindInFilesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit FindInFilesDialog(const QString& path, QWidget *parent = 0);
+    explicit FindInFilesDialog(const QString& path, QWidget *parent = nullptr);
     virtual ~FindInFilesDialog();
 
 signals:

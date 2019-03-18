@@ -18,7 +18,7 @@ class ExternalToolManager : public QDialog
     Q_DISABLE_COPY(ExternalToolManager)
 
 public:
-    explicit ExternalToolManager(QWidget *parent = 0);
+    explicit ExternalToolManager(QWidget *parent = nullptr);
     virtual ~ExternalToolManager();
 
     static QMenu *makeMenu(QWidget *parent, ProcessManager *pman, ProjectManager *proj);

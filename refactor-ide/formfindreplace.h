@@ -15,7 +15,7 @@ class FormFindReplace : public QWidget
 
 public:
     explicit FormFindReplace(QsciScintilla *ed);
-    virtual ~FormFindReplace();
+    virtual ~FormFindReplace() override;
 
 protected:
     void showEvent(QShowEvent *event) override;

@@ -29,6 +29,7 @@ void BinaryViewer::setCursor(const QPoint &pos)
 class BinaryViewerCreator: public IDocumentEditorCreator
 {
 public:
+    ~BinaryViewerCreator() override;
     bool canHandleMime(const QMimeType &mime) const override {
         return mime.inherits("application/octet-stream");
     }
@@ -42,3 +43,6 @@ IDocumentEditorCreator *BinaryViewer::creator()
 {
     return IDocumentEditorCreator::staticCreator<BinaryViewerCreator>();
 }
+
+BinaryViewerCreator::~BinaryViewerCreator()
+= default;

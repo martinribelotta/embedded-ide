@@ -19,8 +19,9 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("none");
     QCoreApplication::setOrganizationDomain("unknown.tk");
 
+
     QApplication app(argc, argv);
-    app.setWindowIcon(QIcon(":/images/embedded-ide.svg"));
+    QApplication::setWindowIcon(QIcon(":/images/embedded-ide.svg"));
 
     QObject::connect(&AppConfig::instance(), &AppConfig::configChanged, [](AppConfig *config)
     {
@@ -78,5 +79,5 @@ int main(int argc, char *argv[])
         QTimer::singleShot(0, [path, &w]() { w.openProject(path); });
     }
 
-    return app.exec();
+    return QApplication::exec();
 }

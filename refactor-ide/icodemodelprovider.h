@@ -11,6 +11,7 @@
 class ICodeModelProvider
 {
 public:
+    virtual ~ICodeModelProvider();
     struct FileReference {
         QString path;
         int line;

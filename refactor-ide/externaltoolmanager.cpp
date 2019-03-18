@@ -22,7 +22,7 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
     ui->setupUi(this);
     auto model = new QStandardItemModel(this);
     ui->tableView->setModel(model);
-    connect(ui->itemAdd, &QToolButton::clicked, [model, this]() {
+    connect(ui->itemAdd, &QToolButton::clicked, [model]() {
         model->appendRow(makeItem());
     });
     connect(ui->itemDel, &QToolButton::clicked, [model, this]() {

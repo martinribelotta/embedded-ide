@@ -74,7 +74,7 @@
             <property name="spacing">
              <number>0</number>
             </property>
-            <item row="0" column="4">
+            <item row="0" column="5">
              <widget class="QToolButton" name="buttonReload">
               <property name="enabled">
                <bool>false</bool>
@@ -123,7 +123,7 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0" colspan="8">
+            <item row="1" column="0" colspan="9">
              <widget class="QTreeView" name="fileViewer">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -163,7 +163,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="6">
+            <item row="0" column="7">
              <widget class="QToolButton" name="buttonExport">
               <property name="enabled">
                <bool>false</bool>
@@ -189,7 +189,7 @@
               </attribute>
              </widget>
             </item>
-            <item row="0" column="5">
+            <item row="0" column="6">
              <widget class="QToolButton" name="buttonFindAll">
               <property name="enabled">
                <bool>false</bool>
@@ -215,7 +215,7 @@
               </attribute>
              </widget>
             </item>
-            <item row="0" column="7">
+            <item row="0" column="8">
              <widget class="QToolButton" name="buttonTools">
               <property name="toolTip">
                <string>Tool menu</string>
@@ -238,6 +238,22 @@
               </property>
              </widget>
             </item>
+            <item row="0" column="2" colspan="2">
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>22</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
             <item row="0" column="1">
              <widget class="QToolButton" name="buttonConfigurationMain">
               <property name="toolTip">
@@ -258,21 +274,31 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="2" colspan="2">
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+            <item row="0" column="4">
+             <widget class="QToolButton" name="buttonDebugLaunch">
+              <property name="enabled">
+               <bool>false</bool>
               </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Preferred</enum>
+              <property name="toolTip">
+               <string>Launch Debug</string>
               </property>
-              <property name="sizeHint" stdset="0">
+              <property name="icon">
+               <iconset resource="resources/resources.qrc">
+                <normaloff>:/images/actions/debug.svg</normaloff>:/images/actions/debug.svg</iconset>
+              </property>
+              <property name="iconSize">
                <size>
                 <width>22</width>
-                <height>20</height>
+                <height>22</height>
                </size>
               </property>
-             </spacer>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">projectButtons</string>
+              </attribute>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -497,6 +523,9 @@ QComboBox QAbstractItemView {
               </property>
               <property name="lineWrapMode">
                <enum>QTextEdit::NoWrap</enum>
+              </property>
+              <property name="openLinks">
+               <bool>false</bool>
               </property>
              </widget>
             </widget>
@@ -929,7 +958,15 @@ QComboBox QAbstractItemView {
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="projectButtons"/>
-  <buttongroup name="editionButtons"/>
+  <buttongroup name="editionButtons">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="projectButtons">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>

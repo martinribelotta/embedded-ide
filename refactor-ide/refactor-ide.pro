@@ -61,7 +61,8 @@ SOURCES += \
     childprocess.cpp \
     filereferencesdialog.cpp \
     mapfileviewer.cpp \
-    textmessagebrocker.cpp
+    textmessagebrocker.cpp \
+    regexhtmltranslator.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -92,7 +93,8 @@ HEADERS += \
     childprocess.h \
     filereferencesdialog.h \
     mapfileviewer.h \
-    textmessagebrocker.h
+    textmessagebrocker.h \
+    regexhtmltranslator.h
 
 FORMS += \
         mainwindow.ui \

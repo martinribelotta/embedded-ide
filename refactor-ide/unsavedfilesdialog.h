@@ -12,7 +12,7 @@ class UnsavedFilesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit UnsavedFilesDialog(const QStringList &unsaved, QWidget *parent = 0);
+    explicit UnsavedFilesDialog(const QStringList &unsaved, QWidget *parent = nullptr);
     virtual ~UnsavedFilesDialog();
 
     QStringList checkedForSave() const;

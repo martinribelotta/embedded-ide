@@ -21,11 +21,11 @@ public:
 
     QProcess *processFor(const QString& name);
 
-    void setTerminationHandler(const QString& name, terminationHandler_t func);
-    void setStartupHandler(const QString& name, startupHandler_t func);
-    void setErrorHandler(const QString& name, errorHandler_t func);
-    void setStderrInterceptor(const QString& name, outputHandler_t func);
-    void setStdoutInterceptor(const QString& name, outputHandler_t func);
+    void setTerminationHandler(const QString& name, const terminationHandler_t& func);
+    void setStartupHandler(const QString& name, const startupHandler_t& func);
+    void setErrorHandler(const QString& name, const errorHandler_t& func);
+    void setStderrInterceptor(const QString& name, const outputHandler_t& func);
+    void setStdoutInterceptor(const QString& name, const outputHandler_t& func);
 
     bool isRunning(const QString& name) { return processFor(name)->state() == QProcess::Running; }
 

@@ -5,8 +5,7 @@
 #include <QMimeDatabase>
 
 DocumentEditorFactory::DocumentEditorFactory()
-{
-}
+= default;
 
 DocumentEditorFactory *DocumentEditorFactory::instance()
 {
@@ -36,3 +35,9 @@ IDocumentEditor *DocumentEditorFactory::create(const QString &path, QWidget *par
             return c->create(parent);
     return nullptr;
 }
+
+IDocumentEditor::~IDocumentEditor()
+= default;
+
+IDocumentEditorCreator::~IDocumentEditorCreator()
+= default;

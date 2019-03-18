@@ -15,7 +15,7 @@ class TemplateManager : public QWidget
     Q_OBJECT
 
 public:
-    explicit TemplateManager(QWidget *parent = 0);
+    explicit TemplateManager(QWidget *parent = nullptr);
     virtual ~TemplateManager();
 
     QUrl repositoryUrl() const;

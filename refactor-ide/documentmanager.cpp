@@ -8,6 +8,7 @@
 #include "cpptexteditor.h"
 #include "mapfileviewer.h"
 #include "unsavedfilesdialog.h"
+#include "textmessagebrocker.h"
 
 #include <QComboBox>
 #include <QDir>
@@ -137,6 +138,10 @@ void DocumentManager::openDocument(const QString &filePath)
     QString path = absoluteTo(priv->projectManager->projectPath(), filePath);
     if (QFileInfo(path).isDir())
         return;
+    if (!QFileInfo(path).exists()) {
+        TextMessageBrocker::instance().publish("stderrLog", tr("%1 not exist").arg(filePath));
+        return;
+    }
     if (QFileInfo(path).isRelative())
         path = QDir(priv->projectManager->projectPath()).absoluteFilePath(path);
     QWidget *widget = nullptr;
@@ -223,18 +228,17 @@ bool DocumentManager::aboutToCloseAll()
     auto unsaved = unsavedDocuments();
     if (unsaved.isEmpty()) {
         return closeAll();
-    } else {
-        UnsavedFilesDialog d(unsaved, this);
-        if (d.exec() == QDialog::Accepted) {
-            saveDocuments(d.checkedForSave());
-            for(auto doc: unsavedDocuments()) {
-                auto iface = documentEditor(doc);
-                if (iface)
-                    iface->setModified(false);
-            }
-            return closeAll();
-        }
     }
+    UnsavedFilesDialog d(unsaved, this);
+    if (d.exec() == QDialog::Accepted) {
+        saveDocuments(d.checkedForSave());
+        for(const auto& doc: unsavedDocuments()) {
+            auto iface = documentEditor(doc);
+            if (iface)
+                iface->setModified(false);
+        }
+        return closeAll();
+   }
     return false;
 }
 

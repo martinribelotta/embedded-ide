@@ -8,16 +8,15 @@ class CodeTextEditor : public PlainTextEditor
     Q_OBJECT
 public:
     explicit CodeTextEditor(QWidget *parent = nullptr);
-    virtual ~CodeTextEditor();
+    virtual ~CodeTextEditor() override;
 
-    virtual bool load(const QString &path);
+    virtual bool load(const QString &path) override;
 
     static IDocumentEditorCreator *creator();
 
 protected:
 
     QMenu *createContextualMenu() override;
-    void triggerAutocompletion() override;
 
     virtual QsciLexer *lexerFromFile(const QString& name);
 };

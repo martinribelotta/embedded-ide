@@ -18,6 +18,8 @@ class IDocumentEditor
 public:
     typedef std::function<void (IDocumentEditor*, bool)> ModifyObserver_t;
 
+    virtual ~IDocumentEditor();
+
     virtual const QWidget *widget() const = 0;
     virtual QWidget *widget() = 0;
     virtual bool load(const QString& path) = 0;
@@ -56,6 +58,8 @@ private:
 class IDocumentEditorCreator
 {
 public:
+    virtual ~IDocumentEditorCreator();
+
     virtual bool canHandleExtentions(const QStringList&) const { return false; }
     virtual bool canHandleMime(const QMimeType&) const { return false; }
     virtual IDocumentEditor *create(QWidget *parent = nullptr) const = 0;

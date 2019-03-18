@@ -37,22 +37,23 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     gl->setContentsMargins(0, 0, textBrowser->verticalScrollBar()->sizeHint().width(), 0);
     gl->setSpacing(0);
 
-    pman->setStderrInterceptor(pname, [this](QProcess *, const QString& text) { writeMessage(text, Qt::red); });
-    pman->setStdoutInterceptor(pname, [this](QProcess *, const QString& text) { writeMessage(text, Qt::blue); });
+    pman->setStderrInterceptor(pname, [this](QProcess *p, const QString& text) {
+        appendToConsole(QProcess::StandardError, p, text);
+    });
+    pman->setStdoutInterceptor(pname, [this](QProcess *p, const QString& text) {
+        appendToConsole(QProcess::StandardError, p, text);
+    });
 }
 
-ConsoleInterceptor::~ConsoleInterceptor()
-{
-}
+ConsoleInterceptor::~ConsoleInterceptor() = default;
 
 void ConsoleInterceptor::writeMessageTo(QTextBrowser *browser, const QString &message, const QColor &color)
 {
-    auto &conf = AppConfig::instance();
     auto cursor = browser->textCursor();
     cursor.beginEditBlock();
     cursor.movePosition(QTextCursor::End);
     QTextCharFormat fmt;
-    auto font = conf.loggerFont();
+    auto font = AppConfig::instance().loggerFont();
     fmt.setFontFamily(font.family());
     fmt.setFontPointSize(font.pointSize());
     fmt.setForeground(color);
@@ -62,7 +63,31 @@ void ConsoleInterceptor::writeMessageTo(QTextBrowser *browser, const QString &me
     browser->verticalScrollBar()->setValue(browser->verticalScrollBar()->maximum());
 }
 
+void ConsoleInterceptor::writeHtmlTo(QTextBrowser *browser, const QString &html)
+{
+    auto cursor = browser->textCursor();
+    cursor.beginEditBlock();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertHtml(html);
+    cursor.endEditBlock();
+    browser->verticalScrollBar()->setValue(browser->verticalScrollBar()->maximum());
+}
+
+void ConsoleInterceptor::appendToConsole(QProcess::ProcessChannel s, QProcess *p, const QString &text)
+{
+    const auto& filters = s == QProcess::StandardError? stderrFilters : stdoutFilters;
+    QString processedText{ text };
+    for(const auto& c: filters)
+        processedText = c(p, processedText);
+    writeHtml(processedText);
+}
+
 void ConsoleInterceptor::writeMessage(const QString &message, const QColor &color)
 {
     writeMessageTo(browser, message, color);
+}
+
+void ConsoleInterceptor::writeHtml(const QString &html)
+{
+    writeHtmlTo(browser, html);
 }

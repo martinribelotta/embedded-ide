@@ -13,7 +13,7 @@ class FileReferencesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit FileReferencesDialog(const ICodeModelProvider::FileReferenceList& refList, QWidget *parent = 0);
+    explicit FileReferencesDialog(const ICodeModelProvider::FileReferenceList& refList, QWidget *parent = nullptr);
     ~FileReferencesDialog();
 
 signals:

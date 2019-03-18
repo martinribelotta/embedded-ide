@@ -9,7 +9,7 @@ class CPPTextEditor : public CodeTextEditor
 {
 public:
     explicit CPPTextEditor(QWidget *parent = nullptr);
-    virtual ~CPPTextEditor();
+    virtual ~CPPTextEditor() override;
 
     bool load(const QString &path) override;
 

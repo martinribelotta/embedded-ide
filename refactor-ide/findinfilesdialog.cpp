@@ -12,8 +12,8 @@
 #include <Qsci/qsciscintilla.h>
 
 struct FilePos {
-    int line;
-    int column;
+    int line{ 0 };
+    int column{ 0 };
     QString path;
 };
 

@@ -53,20 +53,17 @@ CodeTextEditor::CodeTextEditor(QWidget *parent) : PlainTextEditor(parent)
 }
 
 CodeTextEditor::~CodeTextEditor()
-{
-}
+= default;
 
 bool CodeTextEditor::load(const QString &path)
 {
     setLexer(lexerFromFile(path));
-    if (!PlainTextEditor::load(path))
-        return false;
-    return true;
+    return PlainTextEditor::load(path);
 }
 
 template<typename T> T *helperCreator() { return new T(); }
 
-typedef QsciLexer* (*creator_t)();
+using creator_t = QsciLexer *(*)();
 
 #define _(mime, type) { mime, reinterpret_cast<creator_t>(&helperCreator<type>) }
 static const QHash<QString, creator_t> EXTENTION_MAP = {
@@ -148,6 +145,7 @@ static const QHash<QString, creator_t> MIMETYPE_MAP = {
 class CodeEditorCreator: public IDocumentEditorCreator
 {
 public:
+    ~CodeEditorCreator() override;
     bool canHandleExtentions(const QStringList &suffixes) const override  {
         for (const auto& suffix: suffixes)
             return EXTENTION_MAP.contains(suffix);
@@ -174,11 +172,6 @@ QMenu *CodeTextEditor::createContextualMenu()
     return menu;
 }
 
-void CodeTextEditor::triggerAutocompletion()
-{
-    autoCompleteFromAll();
-}
-
 QsciLexer *CodeTextEditor::lexerFromFile(const QString& name)
 {
     auto suffix = QFileInfo(name).suffix();
@@ -201,3 +194,6 @@ QsciLexer *CodeTextEditor::lexerFromFile(const QString& name)
     qDebug() << "No lexer found";
     return nullptr;
 }
+
+CodeEditorCreator::~CodeEditorCreator()
+= default;

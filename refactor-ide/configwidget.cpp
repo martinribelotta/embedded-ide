@@ -83,7 +83,7 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
             path = ui->additionalPathList->model()->data(idx, Qt::DisplayRole).toString();
             path = AppConfig::replaceWithEnv(path);
         }
-        path = QFileDialog::getExistingDirectory(window(), tr("Select directory"), path, 0);
+        path = QFileDialog::getExistingDirectory(window(), tr("Select directory"), path, nullptr);
         if (!path.isEmpty()) {
             auto m = qobject_cast<QStringListModel*>(ui->additionalPathList->model());
             auto list = m->stringList();
@@ -122,7 +122,8 @@ void ConfigWidget::save()
     conf.setNetworkProxyType([this]() {
         if(ui->systemProxy->isChecked()) {
             return AppConfig::NetworkProxyType::System;
-        } else if(ui->userProxy->isChecked()) {
+        }
+        if(ui->userProxy->isChecked()) {
             return AppConfig::NetworkProxyType::Custom;
         } else {
             return AppConfig::NetworkProxyType::None;
@@ -166,10 +167,6 @@ void ConfigWidget::load()
         break;
     case AppConfig::NetworkProxyType::Custom:
         ui->userProxy->setChecked(true);
-        break;
-    default:
-        ui->noProxy->setChecked(true);
-        qDebug() << tr("Uknow proxy setting");
         break;
     }
     ui->username->setText(conf.networkProxyUsername());

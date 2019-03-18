@@ -17,6 +17,7 @@
 #include "findinfilesdialog.h"
 #include "clangautocompletionprovider.h"
 #include "textmessagebrocker.h"
+#include "regexhtmltranslator.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -28,6 +29,7 @@
 #include <QShortcut>
 #include <QStandardItemModel>
 #include <QFileSystemWatcher>
+#include <QTextBrowser>
 
 #include <QtDebug>
 
@@ -53,19 +55,33 @@ MainWindow::MainWindow(QWidget *parent) :
     resize(900, 600);
 
     priv->pman = new ProcessManager(this);
+    ui->logView->setFont(QFont("Courier"));
     priv->console = new ConsoleInterceptor(ui->logView, priv->pman, BuildManager::PROCESS_NAME, this);
+    priv->console->addStdErrFilter(RegexHTMLTranslator());
     priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);
     priv->buildManager = new BuildManager(priv->projectManager, priv->pman, this);
     priv->fileManager = new FileSystemManager(ui->fileViewer, this);
     ui->documentContainer->setProjectManager(priv->projectManager);
     priv->projectManager->setCodeModelProvider(new ClangAutocompletionProvider(priv->projectManager, this));
 
+    connect(ui->logView, &QTextBrowser::anchorClicked, [this](const QUrl& url) {
+        auto path = url.path();
+        auto lr = url.fragment().split('#');
+        bool ok1 = false, ok2 = false;
+        int line = lr.size()>0? lr.at(0).toInt(&ok1, 10) : 1;
+        int chdr = lr.size()>1? lr.at(1).toInt(&ok2, 10) : 1;
+        if (!ok1) line = 1;
+        if (!ok2) chdr = 1;
+        ui->documentContainer->openDocumentHere(path, line, chdr);
+        ui->documentContainer->setFocus();
+    });
+
     TextMessageBrocker::instance().subscribe("stderrLog", [this](const QString& msg) {
-        priv->console->writeMessage(msg, Qt::darkRed);
+        priv->console->writeHtml(msg);
     });
 
     TextMessageBrocker::instance().subscribe("stdoutLog", [this](const QString& msg) {
-        priv->console->writeMessage(msg, Qt::darkBlue);
+        priv->console->writeHtml(msg);
     });
 
     auto label = new QLabel(ui->actionViewer);
@@ -96,7 +112,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->recentProjectsView->setModel(new QStandardItemModel(ui->recentProjectsView));
     auto makeRecentProjects = [this]() {
-        auto m = static_cast<QStandardItemModel*>(ui->recentProjectsView->model());
+        auto m = dynamic_cast<QStandardItemModel*>(ui->recentProjectsView->model());
         m->clear();
         for(const auto& e: AppConfig::instance().recentProjects()) {
             auto item = new QStandardItem(QIcon(":/images/mimetypes/text-x-makefile.svg"), e.dir().dirName());
@@ -109,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(new QFileSystemWatcher({AppConfig::instance().projectsPath()}, this),
             &QFileSystemWatcher::directoryChanged, makeRecentProjects);
     connect(ui->recentProjectsView, &QListView::activated, [this](const QModelIndex& m) {
-        openProject(static_cast<const QStandardItemModel*>(m.model())->data(m, Qt::UserRole + 1).toString());
+        openProject(dynamic_cast<const QStandardItemModel*>(m.model())->data(m, Qt::UserRole + 1).toString());
     });
 
     auto openProjectCallback = [this]() {
@@ -223,7 +239,7 @@ MainWindow::MainWindow(QWidget *parent) :
         if (!path.isEmpty()) {
             auto d = new FindInFilesDialog(path, this);
             connect(d, &FindInFilesDialog::finished, d, &QObject::deleteLater);
-            connect(d, &FindInFilesDialog::queryToOpen, [d, this](const QString& path, int line, int column) {
+            connect(d, &FindInFilesDialog::queryToOpen, [this](const QString& path, int line, int column) {
                 activateWindow();
                 ui->documentContainer->setFocus();
                 ui->documentContainer->openDocumentHere(path, line, column);

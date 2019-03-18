@@ -23,7 +23,7 @@
 
 const QString SPACE_SEPARATORS = R"(\s)";
 
-typedef QHash<QString, QStringList> targetMap_t;
+using targetMap_t = QHash<QString, QStringList>;
 
 class ProjectManager::Priv_t {
 public:
@@ -31,10 +31,10 @@ public:
     targetMap_t allTargets;
     targetMap_t allRefs;
     QRegularExpression targetFilter{ R"(^(?!Makefile)[a-zA-Z0-9_\\-]+$)", QRegularExpression::MultilineOption };
-    QListView *targetView = nullptr;
-    ProcessManager *pman;
+    QListView *targetView{ nullptr };
+    ProcessManager *pman{ nullptr };
     QFileInfo makeFile;
-    ICodeModelProvider *codeModelProvider = nullptr;
+    ICodeModelProvider *codeModelProvider{ nullptr };
 };
 
 static QPair<targetMap_t, targetMap_t> findAllTargets(QIODevice *in)

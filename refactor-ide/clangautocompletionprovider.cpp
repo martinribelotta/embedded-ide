@@ -103,7 +103,7 @@ static void parseCompilerInfo(const QString& text, QStringList *incs, QStringLis
 class ClangAutocompletionProvider::Priv_t
 {
 public:
-    ProjectManager *project;
+    ProjectManager *project{ nullptr };
     QHash<QString, ICodeModelProvider::FileReferenceList> nameMap;
     QStringList includes;
     QStringList defines;
@@ -126,7 +126,7 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
     ChildProcess::create(this)
     .changeCWD(path)
     .makeDeleteLater()
-    .onError([this](QProcess *ctags, QProcess::ProcessError) {
+    .onError([](QProcess *ctags, QProcess::ProcessError) {
         TextMessageBrocker::instance().publish("actionLabel", tr("ctags error: %1").arg(ctags->errorString()));
         QTimer::singleShot(3000, []() { TextMessageBrocker::instance().publish("actionLabel", QString()); });
     })
@@ -215,7 +215,7 @@ void ClangAutocompletionProvider::startIndexingFile(const QString &path)
                 parseCompilerInfo(out, &priv->includes, &priv->defines);
                 qDebug() << "Includes:" << priv->includes;
                 qDebug() << "Defines:" << priv->defines;
-            }).onError([this](QProcess *cc, QProcess::ProcessError err) {
+            }).onError([](QProcess *cc, QProcess::ProcessError err) {
                 Q_UNUSED(err);
                 qDebug() << "CC ERROR: " << cc->program() << cc->arguments() << "\n"
                          << "\t" << cc->errorString();
@@ -242,13 +242,13 @@ void ClangAutocompletionProvider::completionAt(const ICodeModelProvider::FileRef
     ChildProcess::create(this)
             .makeDeleteLater()
             .changeCWD(priv->project->projectPath())
-            .onStarted([this, unsaved](QProcess *clang) {
+            .onStarted([unsaved](QProcess *clang) {
         clang->write(unsaved.toLocal8Bit());
         clang->waitForBytesWritten();
         clang->closeWriteChannel();
-    }).onError([this](QProcess *clang, QProcess::ProcessError err) {
+    }).onError([](QProcess *clang, QProcess::ProcessError err) {
         qDebug() << "clang error:" << clang->errorString() << err;
-    }).onFinished([this, cb](QProcess *clang, int exitStatus) {
+    }).onFinished([cb](QProcess *clang, int exitStatus) {
         Q_UNUSED(exitStatus);
         clang->deleteLater();
         // qDebug() << "clang finish:" << exitStatus;

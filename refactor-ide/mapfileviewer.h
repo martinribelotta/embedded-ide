@@ -9,7 +9,7 @@ class MapFileViewer : public QTreeView, public IDocumentEditor
 {
 public:
     explicit MapFileViewer(QWidget *parent = nullptr);
-    virtual ~MapFileViewer();
+    virtual ~MapFileViewer() override;
 
     const QWidget *widget() const override { return this; }
     QWidget *widget() override { return this; }

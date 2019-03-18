@@ -20,7 +20,8 @@
 class ProjectIconProvider: public QFileIconProvider
 {
 public:
-    QIcon icon(const QFileInfo &info) const
+    ~ProjectIconProvider() override;
+    QIcon icon(const QFileInfo &info) const override
     {
         QMimeDatabase db;
         auto t = db.mimeTypeForFile(info);
@@ -39,6 +40,7 @@ public:
 class FileSystemModel: public QFileSystemModel
 {
 public:
+    ~FileSystemModel() override;
     FileSystemModel(QObject *parent = nullptr) : QFileSystemModel(parent)
     {
         setFilter(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Files | QDir::Hidden | QDir::System);
@@ -63,8 +65,7 @@ FileSystemManager::FileSystemManager(QTreeView *v, QObject *parent) : QObject(pa
 }
 
 FileSystemManager::~FileSystemManager()
-{
-}
+= default;
 
 QIcon FileSystemManager::iconForFile(const QFileInfo &info)
 {
@@ -137,8 +138,7 @@ static QModelIndex selectedOnView(QTreeView *v)
 {
     if (v->selectionModel()->selectedIndexes().isEmpty())
         return v->rootIndex();
-    else
-        return v->selectionModel()->selectedIndexes().first();
+    return v->selectionModel()->selectedIndexes().first();
 }
 
 void FileSystemManager::menuNewFile()
@@ -307,3 +307,9 @@ void FileSystemManager::menuItemDelete()
         }
     }
 }
+
+ProjectIconProvider::~ProjectIconProvider()
+= default;
+
+FileSystemModel::~FileSystemModel()
+= default;

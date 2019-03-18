@@ -8,8 +8,7 @@ ProcessManager::ProcessManager(QObject *parent) :
 }
 
 ProcessManager::~ProcessManager()
-{
-}
+= default;
 
 QProcess *ProcessManager::processFor(const QString &name)
 {
@@ -21,7 +20,7 @@ QProcess *ProcessManager::processFor(const QString &name)
     return proc;
 }
 
-void ProcessManager::setTerminationHandler(const QString &name, ProcessManager::terminationHandler_t func)
+void ProcessManager::setTerminationHandler(const QString &name, const ProcessManager::terminationHandler_t& func)
 {
     auto proc = processFor(name);
     connect(proc, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
@@ -30,25 +29,25 @@ void ProcessManager::setTerminationHandler(const QString &name, ProcessManager::
     });
 }
 
-void ProcessManager::setStartupHandler(const QString &name, ProcessManager::startupHandler_t func)
+void ProcessManager::setStartupHandler(const QString &name, const ProcessManager::startupHandler_t& func)
 {
     auto proc = processFor(name);
     connect(proc, &QProcess::started, [proc, func]() { func(proc); });
 }
 
-void ProcessManager::setErrorHandler(const QString &name, ProcessManager::errorHandler_t func)
+void ProcessManager::setErrorHandler(const QString &name, const ProcessManager::errorHandler_t& func)
 {
     auto proc = processFor(name);
     connect(proc, &QProcess::errorOccurred, [proc, func](QProcess::ProcessError error) { func(proc, error); });
 }
 
-void ProcessManager::setStderrInterceptor(const QString &name, ProcessManager::outputHandler_t func)
+void ProcessManager::setStderrInterceptor(const QString &name, const ProcessManager::outputHandler_t& func)
 {
     auto proc = processFor(name);
     connect(proc, &QProcess::readyReadStandardError, [proc, func]() { func(proc, QString(proc->readAllStandardError())); });
 }
 
-void ProcessManager::setStdoutInterceptor(const QString &name, ProcessManager::outputHandler_t func)
+void ProcessManager::setStdoutInterceptor(const QString &name, const ProcessManager::outputHandler_t& func)
 {
     auto proc = processFor(name);
     connect(proc, &QProcess::readyReadStandardOutput, [proc, func]() { func(proc, QString(proc->readAllStandardOutput())); });
@@ -76,7 +75,7 @@ bool ProcessManager::terminate(const QString &name, bool canKill, int timeout)
         if (canKill) {
             proc->kill();
             return true;
-        } else
+        } 
             return false;
     } else
         return true;

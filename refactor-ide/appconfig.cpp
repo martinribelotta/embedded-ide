@@ -140,7 +140,7 @@ QByteArray AppConfig::readEntireTextFile(const QString &path)
 
 QIODevice *AppConfig::writeEntireTextFile(const QString& text, const QString& path)
 {
-    QFile *f = new QFile(path, QApplication::instance());
+    auto *f = new QFile(path, QApplication::instance());
     if (f->open(QFile::WriteOnly)) {
         f->write(text.toLocal8Bit());
     }
@@ -151,7 +151,7 @@ QIODevice *AppConfig::writeEntireTextFile(const QString& text, const QString& pa
 QString AppConfig::workspacePath() const
 {
     QJsonValue defaultPath = QDir::home().absoluteFilePath(".embedded_ide-workspace");
-    return valueOrDefault(CFG_GLOBAL.value("workspacePath"), defaultPath).toString();
+    return replaceWithEnv(valueOrDefault(CFG_GLOBAL.value("workspacePath"), defaultPath).toString());
 }
 
 const QString& AppConfig::ensureExist(const QString& d)
@@ -185,7 +185,7 @@ QFileInfoList AppConfig::recentProjects() const
             list.append(info);
     }
     auto history = CFG_LOCAL["history"].toArray();
-    for(const auto& e: history) {
+    for(const auto e: history) {
         QFileInfo info(e.toString());
         if (info.exists() && !list.contains(info))
             list.append(info);
@@ -197,10 +197,10 @@ QStringList AppConfig::additionalPaths(bool raw) const
 {
     QStringList paths;
     if (raw)
-        for(const auto& e: CFG_LOCAL.value("additionalPaths").toArray())
+        for(const auto e: CFG_LOCAL.value("additionalPaths").toArray())
             paths.append(e.toString());
     else
-        for(const auto& e: CFG_LOCAL.value("additionalPaths").toArray())
+        for(const auto e: CFG_LOCAL.value("additionalPaths").toArray())
             paths.append(replaceWithEnv(e.toString()));
     return paths;
 }

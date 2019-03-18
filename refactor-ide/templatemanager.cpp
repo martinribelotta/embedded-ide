@@ -24,7 +24,11 @@ TemplateManager::TemplateManager(QWidget *parent) :
     auto net = new QNetworkAccessManager(this);
 
     auto percentChange = [this](quint64 rcv, quint64 total) {
-        ui->totalProgressBar->setValue(quint64(rcv*1000000)/quint64(total*10000));
+        if (total == 0) {
+            rcv = 0;
+            total = 1;
+        }
+        ui->totalProgressBar->setValue(int(quint64(rcv*1000000)/quint64(total*10000)));
     };
 
     auto setSelectAllItems = [this](bool select) {
@@ -72,7 +76,7 @@ TemplateManager::TemplateManager(QWidget *parent) :
             ui->groupBox->setEnabled(true);
             ui->totalProgressBar->setValue(100);
             auto contents = QJsonDocument::fromJson(reply->readAll());
-            for (const auto& entry : contents.array()) {
+            for (const auto entry : contents.array()) {
                 auto oEntry = entry.toObject();
                 auto name = oEntry.value("name").toString();
                 if ("template" == QFileInfo(name).suffix()) {
@@ -98,13 +102,13 @@ TemplateManager::TemplateManager(QWidget *parent) :
             ui->selectAll->click();
             AppConfig::instance().purgeHash();
             int elementCount = ui->widgetList->count();
-            auto onDownloadEnd =  [this, elementCount, percentChange, net](const TemplateItem& templateItem) {
+            auto onDownloadEnd =  [this, percentChange, elementCount, net](const TemplateItem& templateItem) {
                 AppConfig::instance().addHash(templateItem.file().absoluteFilePath(), templateItem.hash());
                 auto item = ui->widgetList->takeItem(0);
                 ui->widgetList->itemWidget(item)->deleteLater();
                 ui->widgetList->removeItemWidget(item);
                 delete item;
-                percentChange(elementCount - ui->widgetList->count(), elementCount);
+                percentChange(quint64(elementCount - ui->widgetList->count()), quint64(elementCount));
                 if (ui->widgetList->count() > 0)
                     qobject_cast<TemplateItemWidget*>(ui->widgetList->itemWidget(ui->widgetList->item(0)))->startDownload(net);
                 else
@@ -151,7 +155,7 @@ void TemplateManager::updateLocalTemplates()
 {
     itemList.clear();
     ui->widgetList->clear();
-    for(QFileInfo t: QDir(AppConfig::instance().templatesPath()).entryInfoList({ "*.template" })) {
+    for(const auto& t: QDir(AppConfig::instance().templatesPath()).entryInfoList({ "*.template" })) {
         auto item = new QListWidgetItem(ui->widgetList);
         auto w = new TemplateItemWidget();
         w->setTemplate(TemplateItem(t));

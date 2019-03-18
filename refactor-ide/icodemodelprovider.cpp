@@ -18,3 +18,6 @@ ICodeModelProvider::FileReference ICodeModelProvider::FileReference::decode(cons
     QUrlQuery q(url.query());
     return { url.toLocalFile(), q.queryItemValue("line").toInt(), 0, q.queryItemValue("meta") };
 }
+
+ICodeModelProvider::~ICodeModelProvider()
+= default;

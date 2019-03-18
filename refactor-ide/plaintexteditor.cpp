@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QMenu>
 #include <QMessageBox>
+#include <QRegularExpression>
 #include <QtDebug>
 
 #include <cmath>
@@ -19,22 +20,35 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
     connect(&AppConfig::instance(), &AppConfig::configChanged, this, &PlainTextEditor::loadConfig);
     connect(this, &QsciScintilla::linesChanged, this, &PlainTextEditor::adjustLineNumberMargin);
     connect(this, &QsciScintilla::selectionChanged, [this](){
-        int editorLength = SendScintilla(SCI_GETLENGTH);
+        auto editorLength = SendScintilla(SCI_GETLENGTH);
         SendScintilla(SCI_SETINDICATORCURRENT, 0);
         SendScintilla(SCI_INDICATORCLEARRANGE, 0, editorLength);
         auto word = selectedText();
         if (!word.isEmpty()) {
             int endpos = 0;
-            int startpos = 0;
+            auto startpos = 0;
             startpos = findText(word, SCFIND_WHOLEWORD, startpos, &endpos);
             while(startpos != -1) {
-                SendScintilla(SCI_INDICATORFILLRANGE, startpos, endpos - startpos);
+                SendScintilla(SCI_INDICATORFILLRANGE,
+                              static_cast<unsigned long>(startpos),
+                              endpos - startpos);
                 startpos = findText(word, SCFIND_WHOLEWORD, endpos + 1, &endpos);
             }
         }
     });
     connect(this, &PlainTextEditor::modificationChanged, [this]() {
         notifyModifyObservers();
+    });
+    connect(this, &PlainTextEditor::userListActivated,
+            [this](int id, const QString& text) {
+        Q_UNUSED(id);
+        auto position = static_cast<unsigned long>(SendScintilla(SCI_GETCURRENTPOS));
+        auto start = SendScintilla(SCI_WORDSTARTPOSITION, position, true);
+        auto end = SendScintilla(SCI_WORDENDPOSITION, position, true);
+        SendScintilla(SCI_SETSELECTIONSTART, start);
+        SendScintilla(SCI_SETSELECTIONEND, end);
+        SendScintilla(SCI_REPLACESEL, textAsBytes(text).constData());
+        SendScintilla(SCI_GOTOPOS, start + text.length());
     });
 
     auto findDialog = new FormFindReplace(this);
@@ -54,8 +68,7 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
 }
 
 PlainTextEditor::~PlainTextEditor()
-{
-}
+= default;
 
 bool PlainTextEditor::load(const QString &path)
 {
@@ -118,7 +131,7 @@ QPoint PlainTextEditor::cursor() const
 {
     int line, col;
     getCursorPosition(&line, &col);
-    return QPoint(col, line);
+    return {col, line};
 }
 
 void PlainTextEditor::setCursor(const QPoint &pos)
@@ -129,6 +142,7 @@ void PlainTextEditor::setCursor(const QPoint &pos)
 class PlainTextEditorCreator: public IDocumentEditorCreator
 {
 public:
+    ~PlainTextEditorCreator() override;
     bool canHandleMime(const QMimeType &mime) const override {
         return mime.inherits("text/plain");
     }
@@ -137,6 +151,7 @@ public:
         return new PlainTextEditor(parent);
     }
 };
+PlainTextEditorCreator::~PlainTextEditorCreator() = default;
 
 IDocumentEditorCreator *PlainTextEditor::creator()
 {
@@ -159,16 +174,18 @@ void PlainTextEditor::adjustLineNumberMargin()
 int PlainTextEditor::findText(const QString &text, int flags, int start, int *targend)
 {
     ScintillaBytes s = textAsBytes(text);
-    int endpos = SendScintilla(SCI_GETLENGTH);
+    auto endpos = SendScintilla(SCI_GETLENGTH);
     SendScintilla(SCI_SETSEARCHFLAGS, flags);
     SendScintilla(SCI_SETTARGETSTART, start);
     SendScintilla(SCI_SETTARGETEND, endpos);
 
-    int pos = SendScintilla(SCI_SEARCHINTARGET, s.length(), ScintillaBytesConstData(s));
+    auto pos = SendScintilla(SCI_SEARCHINTARGET,
+                             static_cast<unsigned long>(s.length()),
+                             ScintillaBytesConstData(s));
     if (pos == -1)
         return -1;
-    long targstart = SendScintilla(SCI_GETTARGETSTART);
-    *targend = SendScintilla(SCI_GETTARGETEND);
+    auto targstart = static_cast<int>(SendScintilla(SCI_GETTARGETSTART));
+    *targend = static_cast<int>(SendScintilla(SCI_GETTARGETEND));
     return targstart;
 }
 
@@ -264,7 +281,7 @@ bool PlainTextEditor::loadStyle(const QString &xmlStyleFile)
         qDebug() << "cannot load" << xmlStyleFile << "not contain NotepadPlus tag";
         return false;
     }
-    if (1) {
+    if (true) {
         QDomElement globalStyles = root.firstChildElement("GlobalStyles");
         if (globalStyles.isNull()) {
             qDebug() << "cannot load" << xmlStyleFile << "not GlobalStyles";
@@ -380,9 +397,25 @@ set_global:
     return true;
 }
 
+QStringList PlainTextEditor::allWords()
+{
+    QStringList words;
+    QString s = text();
+    QRegularExpression re(R"(\b\w+\b)");
+    auto mi = re.globalMatch(s);
+    while (mi.hasNext())
+        words.append(mi.next().captured());
+    return words;
+}
+
 void PlainTextEditor::triggerAutocompletion()
 {
-    autoCompleteFromDocument();
+    int _;
+    if (!apiContext(int(SendScintilla(SCI_GETCURRENTPOS)), _, _).isEmpty())
+        autoCompleteFromDocument();
+    else {
+        showUserList(1, allWords());
+    }
 }
 
 QMenu *PlainTextEditor::createContextualMenu()

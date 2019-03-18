@@ -22,21 +22,24 @@ static const QStringList C_MIMETYPE = { "text/x-c++src", "text/x-c++hdr" };
 static const QStringList CXX_MIMETYPE = { "text/x-c", "text/x-csrc", "text/x-chdr" };
 
 class MyQsciLexerCPP: public QsciLexerCPP {
+protected:
+    uint32_t dummy{ 0 };
     mutable QLatin1String keywordList;
 public:
-    MyQsciLexerCPP(QObject *parent = 0, bool caseInsensitiveKeywords = false) :
+    MyQsciLexerCPP(QObject *parent = nullptr, bool caseInsensitiveKeywords = false) :
         QsciLexerCPP(parent, caseInsensitiveKeywords)
     {
         setFoldCompact(false);
     }
+    ~MyQsciLexerCPP() override;
 
-    void refreshProperties()
+    void refreshProperties() override
     {
         QsciLexerCPP::refreshProperties();
         emit propertyChanged("lexer.cpp.track.preprocessor", "0");
     }
 
-    virtual const char *keywords(int set) const
+    const char *keywords(int set) const override
     {
         //if (set == 5) {
         //    updateKeywordList();
@@ -59,23 +62,12 @@ CPPTextEditor::CPPTextEditor(QWidget *parent) : CodeTextEditor(parent)
 {
     setProperty("isCXX", false);
     setAutoCompletionSource(AcsNone);
-    connect(this, &CPPTextEditor::userListActivated, [this](int id, const QString& text) {
-        Q_UNUSED(id);
-        auto position = SendScintilla(SCI_GETCURRENTPOS);
-        auto start = SendScintilla(SCI_WORDSTARTPOSITION, position, true);
-        auto end = SendScintilla(SCI_WORDENDPOSITION, position, true);
-        SendScintilla(SCI_SETSELECTIONSTART, start);
-        SendScintilla(SCI_SETSELECTIONEND, end);
-        SendScintilla(SCI_REPLACESEL, textAsBytes(text).constData());
-        SendScintilla(SCI_GOTOPOS, start + text.length());
-    });
     connect(new QShortcut(QKeySequence("Ctrl+Return"), this), &QShortcut::activated, this, &CPPTextEditor::findReference);
     connect(new QShortcut(QKeySequence("Ctrl+i"), this), &QShortcut::activated, this, &CPPTextEditor::formatCode);
 }
 
 CPPTextEditor::~CPPTextEditor()
-{
-}
+= default;
 
 bool CPPTextEditor::load(const QString &path)
 {
@@ -87,6 +79,8 @@ bool CPPTextEditor::load(const QString &path)
 class CPPEditorCreator: public IDocumentEditorCreator
 {
 public:
+    ~CPPEditorCreator() override;
+
     static bool in(const QMimeType& t, const QStringList list) {
         for(const auto& mtype: list)
             if (t.inherits(mtype))
@@ -214,3 +208,9 @@ QsciLexer *CPPTextEditor::lexerFromFile(const QString &name)
     setProperty("isCXX", CPPEditorCreator::in(QMimeDatabase().mimeTypeForFile(name), CXX_MIMETYPE));
     return new MyQsciLexerCPP(this);
 }
+
+MyQsciLexerCPP::~MyQsciLexerCPP()
+= default;
+
+CPPEditorCreator::~CPPEditorCreator()
+= default;

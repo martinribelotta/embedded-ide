@@ -33,6 +33,7 @@ class ItemDelegate: public QItemDelegate
 
 public:
     ItemDelegate(QObject *parent) : QItemDelegate(parent) { }
+    ~ItemDelegate() override;
 
     static QStandardItem *addUserData(QStandardItem *item, const QVariant& data)
     {
@@ -74,7 +75,7 @@ public:
         return model;
     }
 
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem& opt, const QModelIndex &idx) const
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem& opt, const QModelIndex &idx) const override
     {
         auto meta = idx.data(Qt::UserRole);
         switch (meta.type()) {
@@ -87,16 +88,16 @@ public:
         }
     }
 
-    void setEditorData(QWidget *editor, const QModelIndex &index) const
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override
     {
         QString value = index.model()->data(index, Qt::EditRole).toString();
 
-        QComboBox *cBox = qobject_cast<QComboBox*>(editor);
+        auto *cBox = qobject_cast<QComboBox*>(editor);
         if (cBox) {
             cBox->setCurrentIndex(cBox->findText(value));
             return;
         }
-        QLineEdit *ed = qobject_cast<QLineEdit*>(editor);
+        auto *ed = qobject_cast<QLineEdit*>(editor);
         if (ed) {
             ed->setText(value);
             return;
@@ -105,14 +106,14 @@ public:
     }
 
     void setModelData(QWidget *editor, QAbstractItemModel *model,
-                      const QModelIndex &index) const
+                      const QModelIndex &index) const override
     {
-        QComboBox *cBox = qobject_cast<QComboBox*>(editor);
+        auto *cBox = qobject_cast<QComboBox*>(editor);
         if (cBox) {
             model->setData(index, cBox->currentText(), Qt::EditRole);
             return;
         }
-        QLineEdit *ed = qobject_cast<QLineEdit*>(editor);
+        auto *ed = qobject_cast<QLineEdit*>(editor);
         if (ed) {
             model->setData(index, ed->text(), Qt::EditRole);
             return;
@@ -120,7 +121,7 @@ public:
         QItemDelegate::setModelData(editor, model, index);
     }
 
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &/* index */) const override
     {
         editor->setGeometry(option.rect);
     }
@@ -199,3 +200,6 @@ QString NewProjectDialog::templateFile() const
     }
     return text;
 }
+
+ItemDelegate::~ItemDelegate()
+= default;

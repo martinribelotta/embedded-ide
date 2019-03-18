@@ -14,8 +14,7 @@ MapFileViewer::MapFileViewer(QWidget *parent) : QTreeView(parent)
 }
 
 MapFileViewer::~MapFileViewer()
-{
-}
+= default;
 
 bool MapFileViewer::load(const QString &path)
 {
@@ -31,6 +30,7 @@ bool MapFileViewer::load(const QString &path)
 class MAPEditorCreator: public IDocumentEditorCreator
 {
 public:
+    ~MAPEditorCreator() override;
     bool canHandleExtentions(const QStringList &suffixes) const override {
         for(const QString& suffix: suffixes)
             if (suffix.compare("map", Qt::CaseInsensitive) == 0)
@@ -47,3 +47,6 @@ IDocumentEditorCreator *MapFileViewer::creator()
 {
     return IDocumentEditorCreator::staticCreator<MAPEditorCreator>();
 }
+
+MAPEditorCreator::~MAPEditorCreator()
+= default;

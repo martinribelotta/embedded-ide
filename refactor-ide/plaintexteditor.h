@@ -8,10 +8,10 @@ class PlainTextEditor : public IDocumentEditor, public QsciScintilla
 {
 public:
     explicit PlainTextEditor(QWidget *parent = nullptr);
-    virtual ~PlainTextEditor();
+    virtual ~PlainTextEditor() override;
 
-    virtual const QWidget *widget() const { return this; }
-    virtual QWidget *widget() { return this; }
+    virtual const QWidget *widget() const override { return this; }
+    virtual QWidget *widget() override { return this; }
     virtual bool load(const QString& path) override;
     virtual bool save(const QString& path) override;
     virtual void reload() override;
@@ -39,7 +39,7 @@ protected:
     virtual void contextMenuEvent(QContextMenuEvent *event) override;
 
     bool loadStyle(const QString &xmlStyleFile);
-
+    QStringList allWords();
 
     virtual void triggerAutocompletion();
     virtual QMenu *createContextualMenu();

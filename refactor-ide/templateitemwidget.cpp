@@ -7,8 +7,9 @@
 #include <QNetworkReply>
 #include <QSaveFile>
 #include <QTemporaryFile>
+#include <utility>
 
-TemplateItem::TemplateItem(const QUrl &u, const QByteArray &h) : _url(u), _hash(h)
+TemplateItem::TemplateItem(const QUrl &u, QByteArray h) : _url(u), _hash(std::move(h))
 {
     _localFile.setFile(QDir(AppConfig::instance().templatesPath()).filePath(u.fileName()));
 }
@@ -136,7 +137,7 @@ void TemplateItemWidget::startDownload(QNetworkAccessManager *net)
     connect(reply, &QNetworkReply::downloadProgress, [this](quint64 rcv, quint64 total) {
         ui->progress->setValue(int(rcv*100.00/total)/100);
     });
-    connect(reply, &QNetworkReply::readyRead, [this, reply, file]() {
+    connect(reply, &QNetworkReply::readyRead, [reply, file]() {
         file->write(reply->readAll());
     });
     connect(reply, &QNetworkReply::finished, [this, reply, file]() {

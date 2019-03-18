@@ -10,7 +10,7 @@ class FindLineEdit : public QLineEdit
     Q_OBJECT
 
 public:
-    explicit FindLineEdit(QWidget *parent = 0l);
+    explicit FindLineEdit(QWidget *parent = nullptr);
     virtual ~FindLineEdit() {}
 
     void addMenuActions(const QHash<QString, QString>& actionList);

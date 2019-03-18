@@ -5,18 +5,20 @@
 #include <QRegularExpression>
 #include <QTextStream>
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 
 #include <QtDebug>
+#include <utility>
 
-static QString toHex(uint32_t v) {
+template<typename T>
+static QString toHex(T v) {
     return QString("0x%1").arg(v, sizeof(v) * 2, 16, QChar('0'));
 }
 
 BarItemDelegate::BarItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 
-BarItemDelegate::~BarItemDelegate() { }
+BarItemDelegate::~BarItemDelegate() = default;
 
 QStandardItem *setMyData(QStandardItem *i, const QVariant& v) {
     i->setData(v, Qt::UserRole);
@@ -64,8 +66,7 @@ MapViewModel::MapViewModel(QObject *parent): QStandardItemModel(parent)
 }
 
 MapViewModel::~MapViewModel()
-{
-}
+= default;
 
 struct Symbol_t {
     QString name;
@@ -74,35 +75,35 @@ struct Symbol_t {
 
 struct MemSection_t {
     QString name;
-    size_t base;
-    size_t size;
-    size_t lma;
+    size_t base{ 0 };
+    size_t size{ 0 };
+    size_t lma{ 0 };
 
     QList<Symbol_t> symbolList;
 
-    MemSection_t() {}
-    MemSection_t(const QString& n, size_t b, size_t s, size_t l):
-        name(n), base(b), size(s), lma(l) {}
+    MemSection_t() = default;
+    MemSection_t(QString  n, size_t b, size_t s, size_t l):
+        name(std::move(n)), base(b), size(s), lma(l) {}
 
     inline bool into(size_t addr) const { return (addr >= base) && (addr <= (base + size)); }
 };
 
 struct MemRegion_t {
     QString name;
-    size_t base;
-    size_t size;
+    size_t base{};
+    size_t size{};
     QString attr;
-    size_t used;
+    size_t used{};
 
     qreal usedPercent() const {
-        return qreal(used) * 100.0f / qreal(size);
+        return qreal(used) * 100.0 / qreal(size);
     }
 
     QList<MemSection_t> sections;
 
-    MemRegion_t() {}
-    MemRegion_t(const QString& n, size_t b, size_t s, const QString& a):
-        name(n), base(b), size(s), attr(a), used(0) {}
+    MemRegion_t() = default;
+    MemRegion_t(QString  n, size_t b, size_t s, QString  a):
+        name(std::move(n)), base(b), size(s), attr(std::move(a)), used(0) {}
 
     inline bool into(size_t addr) const { return (addr >= base) && (addr <= (base + size)); }
     inline bool into(const MemSection_t& s) const { return into(s.base) && into(s.base + s.size); }
@@ -154,7 +155,7 @@ bool MapViewModel::load(const QString &path)
         while (it.hasNext()) {
             auto line = it.next().captured();
             bool ignore = false;
-            for(QRegularExpression re: ignoredRe)
+            for(const QRegularExpression& re: ignoredRe)
                 if (re.match(line).hasMatch())
                     { ignore = true; break; }
             if (ignore)
@@ -199,13 +200,13 @@ bool MapViewModel::load(const QString &path)
             setMyData(new QStandardItem(QString("%1").arg(r.usedPercent())), r.usedPercent()),
             new QStandardItem(r.attr),
         };
-        for(auto sec: r.sections) {
+        for(const auto& sec: r.sections) {
             QList<QStandardItem*> sectionItems = {
                 new QStandardItem(sec.name),
                 new QStandardItem(toHex(sec.base)),
                 new QStandardItem(tr("%1 (Load %2)").arg(toHex(sec.size)).arg(toHex(sec.lma))),
             };
-            for(auto sym: sec.symbolList) {
+            for(const auto& sym: sec.symbolList) {
                 QList<QStandardItem*> symbolItems = {
                     new QStandardItem(sym.name),
                     new QStandardItem(toHex(sym.base)),
