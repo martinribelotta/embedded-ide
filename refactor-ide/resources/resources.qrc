@@ -133,5 +133,9 @@
         <file>images/actions/go-up.svg</file>
         <file>templates/empty.template</file>
         <file>images/actions/deletecell.svg</file>
+        <file>fonts/UbuntuMono-B.ttf</file>
+        <file>fonts/UbuntuMono-BI.ttf</file>
+        <file>fonts/UbuntuMono-R.ttf</file>
+        <file>fonts/UbuntuMono-RI.ttf</file>
     </qresource>
 </RCC>

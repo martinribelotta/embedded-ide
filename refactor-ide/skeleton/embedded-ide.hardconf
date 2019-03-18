@@ -1,0 +1,44 @@
+{
+        "additionalPaths": [
+            "${APPLICATION_DIR_PATH}"
+        ],
+        "editor": {
+            "font": {
+                "name": "Ubuntu Mono",
+                "size": 12
+            },
+            "formatterStyle": "linux",
+            "saveOnAction": false,
+            "style": "Default",
+            "tabWidth": 4,
+            "tabsOnSpaces": true
+        },
+        "externalTools": {
+            "Install FTDI drivers": "bash {{appExecPath}}/ftdi-tools.sh --install" },
+            "Uninstall FTDI drivers": "bash {{appExecPath}}/ftdi-tools.sh --uninstall" },
+            "Add desktop integration": "bash {{appExecPath}}/desktop-integration.sh --install" },
+            "Remove desktop integration"": "bash {{appExecPath}}/desktop-integration.sh --uninstall" }
+        },
+        "history": null,
+        "logger": {
+            "font": {
+                "name": "Ubuntu Mono",
+                "size": 10
+            }
+        },
+        "network": {
+            "proxy": {
+                "host": "",
+                "pass": "",
+                "port": "",
+                "type": "None",
+                "useCredentials": false,
+                "user": ""
+            }
+        },
+        "templates": {
+            "autoUpdate": true,
+            "url": "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents"
+        },
+        "useDevelopMode": false
+}

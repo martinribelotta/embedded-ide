@@ -113,3 +113,38 @@ MOBILITY =
 
 RESOURCES += \
     resources/resources.qrc
+
+unix {
+    QMAKE_LFLAGS_RELEASE += -static-libstdc++ -static-libgcc
+    QMAKE_LFLAGS_DEBUG += -static-libstdc++ -static-libgcc
+    isEmpty(PREFIX) {
+        PREFIX = /usr
+    }
+
+    target.path = $$PREFIX/bin
+
+    desktopfile.files = embedded-ide.desktop
+    desktopfile.path = $$PREFIX/share/applications
+
+    iconfiles.files = resources/images/embedded-ide.svg resources/images/embedded-ide.png
+    iconfiles.path = $$PREFIX/share/icons/default/256x256/apps/
+
+    scripts.path = $$PREFIX/bin
+    scripts.files = skeleton/desktop-integration.sh skeleton/ftdi-tools.sh
+
+    hardconf.path = $$PREFIX/share/embedded-ide
+    hardconf.files = skeleton/embedded-ide.hardconf
+
+    INSTALLS += desktopfile
+    INSTALLS += iconfiles
+    INSTALLS += scripts
+    INSTALLS += hardconf
+    INSTALLS += target
+}
+
+DISTFILES += \
+    skeleton/desktop-integration.sh \
+    skeleton/embedded-ide.sh \
+    skeleton/embedded-ide.sh.wrapper \
+    skeleton/ftdi-tools.sh \
+    skeleton/embedded-ide.hardconf
