@@ -123,7 +123,7 @@ unix {
 
     target.path = $$PREFIX/bin
 
-    desktopfile.files = embedded-ide.desktop
+    desktopfile.files = skeleton/embedded-ide.desktop
     desktopfile.path = $$PREFIX/share/applications
 
     iconfiles.files = resources/images/embedded-ide.svg resources/images/embedded-ide.png
@@ -147,4 +147,5 @@ DISTFILES += \
     skeleton/embedded-ide.sh \
     skeleton/embedded-ide.sh.wrapper \
     skeleton/ftdi-tools.sh \
-    skeleton/embedded-ide.hardconf
+    skeleton/embedded-ide.hardconf \
+    skeleton/embedded-ide.desktop
