@@ -26,6 +26,8 @@ public:
 
     QString wordUnderCursor() const;
 
+    virtual void triggerAutocompletion();
+
 public slots:
     void loadConfigWithStyle(const QString& style, const QFont &editorFont, int tabs, bool tabSpace);
     void loadConfig();
@@ -41,7 +43,6 @@ protected:
     bool loadStyle(const QString &xmlStyleFile);
     QStringList allWords();
 
-    virtual void triggerAutocompletion();
     virtual QMenu *createContextualMenu();
 };
 
