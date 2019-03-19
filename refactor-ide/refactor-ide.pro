@@ -11,7 +11,7 @@ CONFIG += qscintilla2
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = embedded_ide
+TARGET = embedded-ide
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
