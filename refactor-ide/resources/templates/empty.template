@@ -1,0 +1,10 @@
+<html><body>
+<center><h1>Empty start project</h1></center>
+<h3><font color=blue>by Martin Ribelotta</font></h3>
+<tt>Start an empty project with blank Makefile</tt>
+</body></html>
+diff -u -r --unidirectional-new-file -x '.git*' -x '*.o' -x '*.d' -x '*.elf' -x '*.lst' -x '*.map' -x '.config*' -x '*.conf' -x autoconf.h a_vIdFYl/Makefile ./Makefile
+--- a_vIdFYl/Makefile	1969-12-31 21:00:00.000000000 -0300
++++ ./Makefile	2017-11-05 12:35:59.325561673 -0300
+@@ -0,0 +1 @@
++

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Embedded IDE
+Name[es]=Embedded IDE
+Comment=Makefile based IDE for embedded systems
+Comment[es]=IDE basado en Makefile para sistemas embebidos
+Exec=embedded-ide
+Icon=embedded-ide
+Terminal=false
+Categories=Development;
