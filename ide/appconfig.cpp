@@ -1,477 +1,571 @@
 #include "appconfig.h"
 
-#include "passwordpromtdialog.h"
+#include <QApplication>
 
-#include <QSettings>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QTextStream>
+#include <QProcessEnvironment>
+#include <QFont>
+#include <QFontInfo>
+#include <QMetaEnum>
 #include <QFontDatabase>
-#include <QDir>
+#include <QSaveFile>
 
-#define DEFAULT_PROJECT_PATH_ON_WS "projects"
-#define DEFAULT_TEMPLATE_PATH_ON_WS "templates"
+#include <QtDebug>
 
-#define EDITOR_STYLE "editor/style"
-#define EDITOR_FONT_SIZE "editor/font/size"
-#define EDITOR_FONT_STYLE "editor/font/style"
-#define EDITOR_SAVE_ON_ACTION "editor/saveOnAction"
-#define EDITOR_TABS_TO_SPACES "editor/tabsToSpaces"
-#define EDITOR_TAB_WIDTH "editor/tabWidth"
-#define EDITOR_FORMATTER_NAME "editor/formatter"
-#define BUILD_DEFAULT_PROJECT_PATH "build/defaultprojectpath"
-#define BUILD_TEMPLATE_PATH "build/templatepath"
-#define BUILD_TEMPLATE_URL "build/templateurl"
-#define BUILD_ADDITIONAL_PATHS "build/additional_path"
-#define NETWORK_PROXY_TYPE "/network/proxy/type"
-#define NETWORK_PROXY_HOST "/network/proxy/host"
-#define NETWORK_PROXY_PORT "/network/proxy/port"
-#define NETWORK_PROXY_CREDENTIALS "/network/proxy/credentials"
-#define NETWORK_PROXY_USERNAME "/network/proxy/username"
-#define PROJECTTMPLATES_AUTOUPDATE "behavior/projecttmplates/autoupdate"
-#define LOGGER_FONT_STYLE "behavior/logger/font/face"
-#define LOGGER_FONT_SIZE "behavior/logger/font/size"
-#define USE_DEVELOP_MODE "behavior/use_develop"
-
-#if defined(Q_OS_WIN)
-# define PREFERRED_FIXED_FONT "Consolas"
-#elif defined(Q_OS_LINUX)
-# define PREFERRED_FIXED_FONT "Monospace"
-#elif defined(Q_OS_MAC)
-# define PREFERRED_FIXED_FONT "Monaco"
-#else
-# define PREFERRED_FIXED_FONT "Courier New"
-#endif
-
-static bool isFixedPitch(const QFont & font) {
-    const QFontInfo fi(font);
-    // qDebug() << fi.family() << fi.fixedPitch();
-    return fi.fixedPitch();
-}
-
-const QFont AppConfig::systemMonoFont() {
-    QFont font(PREFERRED_FIXED_FONT);
-    if (isFixedPitch(font))
-        return font;
-    font.setStyleHint(QFont::Monospace);
-    if (isFixedPitch(font))
-        return font;
-    font.setStyleHint(QFont::TypeWriter);
-    if (isFixedPitch(font))
-        return font;
-    font.setFamily("courier");
-    if (isFixedPitch(font))
-        return font;
-    // qDebug() << font << "fallback";
-    return font;
-}
-
-struct AppConfigData {
-    struct NetworkProxy {
-        AppConfig::NetworkProxyType type;
-        bool useCredentials;
-        QString host;
-        QString port;
-        QString username;
-        QString password;
-    } networkProxy;
-
-    QStringList buildAdditionalPaths;
-    QString editorStyle;
-    QString editorFontStyle;
-    QString editorFormatterStyle;
-    QString loggerFontStyle;
-    QString builDefaultProjectPath;
-    QString builTemplatePath;
-    QString builTemplateUrl;
-    int loggerFontSize;
-    int editorFontSize;
-    int editorTabWidth;
-    bool editorSaveOnAction;
-    bool editorTabsToSpaces;
-    bool autoUpdateProjectTmplates;
-    bool useDevelopMode;
+class AppConfig::Priv_t
+{
+public:
+    QJsonObject global;
+    QJsonObject local;
 };
 
-AppConfigData* appData()
+#define CFG_GLOBAL (priv->global)
+#define CFG_LOCAL (priv->local)
+
+const QJsonValue& valueOrDefault(const QJsonValue& v, const QJsonValue& d)
 {
-    static AppConfigData appData;
-    return &appData;
+    return v.isUndefined()? d : v;
 }
 
-AppConfig& AppConfig::mutableInstance()
+const QJsonObject& objectOrDefault(const QJsonObject& v, const QJsonObject& d)
 {
-    static AppConfig appConfig;
-    return appConfig;
+    return v.empty()? d : v;
 }
 
-const QString AppConfig::filterTextWithVariables(const QString &text) const
+static QByteArray readEntireFile(const QString& path, const QByteArray& ifFail = QByteArray())
 {
-    QString result(text);
-    for(auto k: filterTextMap.keys())
-        result.replace(QString("{{%1}}").arg(k), filterTextMap.value(k)());
-    return result;
+    QFile f(path);
+    if (f.open(QFile::ReadOnly))
+        return QTextStream(&f).readAll().toUtf8();
+    else
+        return ifFail;
 }
 
-const QHash<QString, QString> AppConfig::getVariableMap() const
+static bool writeEntireFile(const QString& path, const QByteArray& data)
 {
-    QHash<QString, QString> h;
-    for(auto k: filterTextMap.keys())
-        h.insert(k, filterTextMap[k]());
-    return h;
+    QSaveFile f(path);
+    if (!f.open(QFile::WriteOnly))
+        return false;
+    f.write(data);
+    return f.commit();
 }
 
-const QStringList &AppConfig::buildAdditionalPaths() const
+static QString globalConfigFilePath() { return QDir::home().absoluteFilePath(".embedded_ide-config.json"); }
+
+const QString DEFAULT_GLOBAL_RES = ":/default-global.json";
+const QString DEFAULT_LOCAL_RES = ":/default-local.json";
+const QString DEFAULT_LOCAL_TEMPLATE =
+#ifdef Q_OS_UNIX
+        "../share/embedded-ide/embedded-ide.hardconf";
+#else
+        "default-local.json";
+#endif
+
+static QString defaultLocalTemplateConfig()
 {
-    return appData()->buildAdditionalPaths;
+    return QDir(QApplication::applicationDirPath()).absoluteFilePath(DEFAULT_LOCAL_TEMPLATE);
 }
 
-const QString& AppConfig::editorStyle() const
+static void addResourcesFont()
 {
-    return appData()->editorStyle;
+    for(const auto& fontPath: QDir(":/fonts/").entryInfoList({ "*.ttf" }))
+        QFontDatabase::addApplicationFont(fontPath.absoluteFilePath());
+}
+/*
+static bool completeToLeft(QJsonObject& a, const QJsonObject& b)
+{
+    bool hasReplace = false;
+    for(const auto& k: b.keys()) {
+        auto v = a.value(k);
+        if (v.isUndefined() || v.isNull()) {
+            v = b.value(k);
+            hasReplace = true;
+        }
+        if (v.isObject()) {
+            auto o = v.toObject();
+            hasReplace |= completeToLeft(o, b.value(k).toObject());
+            v = o;
+        }
+        a.insert(k, v);
+    }
+    return hasReplace;
+}
+*/
+
+static bool completeToLeft(QJsonObject& left, const QJsonObject& right)
+{
+    bool modify = false;
+    for(const auto& k: right.keys()) {
+        if (left.contains(k)) {
+            auto obj = left[k].toObject();
+            if (completeToLeft(obj, left[k].toObject())) {
+                modify = true;
+                left.insert(k, obj);
+            }
+        } else {
+            modify = true;
+            left.insert(k, right[k]);
+        }
+    }
+    return modify;
 }
 
-int AppConfig::editorFontSize() const
+AppConfig::AppConfig() : QObject(QApplication::instance()), priv(new Priv_t)
 {
-    return appData()->editorFontSize;
+    adjustEnv();
+    load();
+    adjustEnv();
 }
 
-const QString& AppConfig::editorFontStyle() const
+AppConfig::~AppConfig()
 {
-    return appData()->editorFontStyle;
+    delete priv;
 }
 
-int AppConfig::loggerFontSize() const
+AppConfig &AppConfig::instance()
 {
-    return appData()->loggerFontSize;
+    static AppConfig *singleton = nullptr;
+    if (!singleton)
+        singleton = new AppConfig;
+    return *singleton;
 }
 
-const QString &AppConfig::loggerFontStyle() const
+void AppConfig::adjustEnv()
 {
-    return appData()->loggerFontStyle;
+    qputenv("APPLICATION_DIR_PATH", QApplication::applicationDirPath().toLocal8Bit());
+    qputenv("APPLICATION_FILE_PATH", QApplication::applicationFilePath().toLocal8Bit());
+    qputenv("WORKSPACE_PATH", workspacePath().toLocal8Bit());
+    qputenv("WORKSPACE_PROJECT_PATH", projectsPath().toLocal8Bit());
+    qputenv("WORKSPACE_TEMPLATE_PATH", templatesPath().toLocal8Bit());
+    qputenv("WORKSPACE_CONFIG_FILE", localConfigFilePath().toLocal8Bit());
+
+#ifdef Q_OS_WIN
+    QChar PATH_SEP = ';';
+#else
+    QChar PATH_SEP = ':';
+#endif
+    auto env = QProcessEnvironment::systemEnvironment();
+    auto old = env.value("PATH");
+    auto extras = additionalPaths().join(PATH_SEP);
+    auto path = QString("%1%2%3").arg(extras).arg(PATH_SEP).arg(old);
+    qputenv("PATH", path.toLocal8Bit());
+
+    addResourcesFont();
+}
+
+QString AppConfig::replaceWithEnv(const QString &str)
+{
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QString copy(str);
+    for(const auto& k: env.keys())
+        copy.replace(QString("${%1}").arg(k), env.value(k));
+    return copy;
+}
+
+QByteArray AppConfig::readEntireTextFile(const QString &path)
+{
+    return readEntireFile(path);
+}
+
+QIODevice *AppConfig::writeEntireTextFile(const QString& text, const QString& path)
+{
+    auto *f = new QFile(path, QApplication::instance());
+    if (f->open(QFile::WriteOnly)) {
+        f->write(text.toLocal8Bit());
+    }
+    f->deleteLater();
+    return f;
+}
+
+QString AppConfig::workspacePath() const
+{
+    QJsonValue defaultPath = QDir::home().absoluteFilePath(".embedded_ide-workspace");
+    return replaceWithEnv(valueOrDefault(CFG_GLOBAL.value("workspacePath"), defaultPath).toString());
+}
+
+const QString& AppConfig::ensureExist(const QString& d)
+{
+    if (!QDir(d).exists())
+        QDir::root().mkpath(d);
+    return d;
+}
+
+QString AppConfig::projectsPath() const { return ensureExist(QDir(workspacePath()).absoluteFilePath("projects")); }
+
+QString AppConfig::templatesPath() const { return ensureExist(QDir(workspacePath()).absoluteFilePath("templates")); }
+
+QString AppConfig::localConfigFilePath() const { return QDir(ensureExist(workspacePath())).absoluteFilePath("config.json"); }
+
+QHash<QString, QString> AppConfig::externalTools() const
+{
+    QHash<QString, QString> map;
+    auto tools = CFG_LOCAL["externalTools"].toObject();
+    for(auto it=tools.begin(); it != tools.end(); ++it)
+        map.insert(it.key(), it.value().toString());
+    return map;
+}
+
+QFileInfoList AppConfig::recentProjects() const
+{
+    QFileInfoList list;
+    for(const auto& e: QDir(projectsPath()).entryInfoList(QDir::Dirs)) {
+        QFileInfo info(QDir(e.absoluteFilePath()).absoluteFilePath("Makefile"));
+        if (info.isFile())
+            list.append(info);
+    }
+    auto history = CFG_LOCAL["history"].toArray();
+    for(const auto e: history) {
+        QFileInfo info(e.toString());
+        if (info.exists() && !list.contains(info))
+            list.append(info);
+    }
+    return list;
+}
+
+QStringList AppConfig::additionalPaths(bool raw) const
+{
+    QStringList paths;
+    if (raw)
+        for(const auto e: CFG_LOCAL.value("additionalPaths").toArray())
+            paths.append(e.toString());
+    else
+        for(const auto e: CFG_LOCAL.value("additionalPaths").toArray())
+            paths.append(replaceWithEnv(e.toString()));
+    return paths;
+}
+
+QString AppConfig::templatesUrl() const
+{
+    return CFG_LOCAL.value("templates").toObject().value("url").toString();
+}
+
+QString AppConfig::editorStyle() const
+{
+    return valueOrDefault(CFG_LOCAL.value("editor").toObject().value("style"), "Default").toString();
+}
+
+QFont AppConfig::editorFont() const
+{
+    auto ed = CFG_LOCAL.value("editor").toObject();
+    auto f = ed.value("font").toObject();
+    auto name = f.value("name").toString();
+    auto size = f.value("size").toInt(-1);
+    return QFont(name, size);
 }
 
 bool AppConfig::editorSaveOnAction() const
 {
-    return appData()->editorSaveOnAction;
+    return CFG_LOCAL.value("editor").toObject().value("saveOnAction").toBool();
 }
 
 bool AppConfig::editorTabsToSpaces() const
 {
-    return appData()->editorTabsToSpaces;
+    return CFG_LOCAL.value("editor").toObject().value("tabsOnSpaces").toBool();
 }
 
 int AppConfig::editorTabWidth() const
 {
-    return appData()->editorTabWidth;
+    return CFG_LOCAL.value("editor").toObject().value("tabWidth").toInt();
 }
 
 QString AppConfig::editorFormatterStyle() const
 {
-    return appData()->editorFormatterStyle;
+    return CFG_LOCAL.value("editor").toObject().value("formatterStyle").toString();
 }
 
-const QString& AppConfig::buildDefaultProjectPath() const
+QString AppConfig::editorFormatterExtra() const
 {
-    return appData()->builDefaultProjectPath;
+    return CFG_LOCAL.value("editor").toObject().value("formatterExtra").toString();
 }
 
-const QString &AppConfig::buildTemplatePath() const
+QFont AppConfig::loggerFont() const
 {
-    return appData()->builTemplatePath;
+    auto ed = CFG_LOCAL.value("logger").toObject();
+    auto f = ed.value("font").toObject();
+    auto name = f.value("name").toString();
+    auto size = f.value("size").toInt(-1);
+    return QFont(name, size);
 }
 
-const QString &AppConfig::buildTemplateUrl() const
+QString AppConfig::networkProxyHost() const
 {
-    return appData()->builTemplateUrl;
-}
-
-QString AppConfig::defaultApplicationResources() const
-{
-    return QDir::home().absoluteFilePath("embedded-ide-workspace");
-}
-
-QString AppConfig::defaultProjectPath()
-{
-    return QDir(defaultApplicationResources()).absoluteFilePath(DEFAULT_PROJECT_PATH_ON_WS);
-}
-
-QString AppConfig::defaultTemplatePath()
-{
-    return QDir(defaultApplicationResources()).absoluteFilePath(DEFAULT_TEMPLATE_PATH_ON_WS);
-}
-
-QString AppConfig::defaultTemplateUrl()
-{
-    return "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents";
-}
-
-const QString& AppConfig::networkProxyHost() const
-{
-    return appData()->networkProxy.host;
+    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("host").toString();
 }
 
 QString AppConfig::networkProxyPort() const
 {
-    return appData()->networkProxy.port;
+    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("port").toString();
 }
 
 bool AppConfig::networkProxyUseCredentials() const
 {
-    return appData()->networkProxy.useCredentials;
+    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("useCredentials").toBool();
 }
 
 AppConfig::NetworkProxyType AppConfig::networkProxyType() const
 {
-    return appData()->networkProxy.type;
+    auto type = CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("type").toString();
+    bool ok = false;
+    auto t = NetworkProxyType(QMetaEnum::fromType<AppConfig::NetworkProxyType>().keyToValue(type.toLatin1().data(), &ok));
+    return ok? t : NetworkProxyType::None;
 }
 
-const QString& AppConfig::networkProxyUsername() const
+QString AppConfig::networkProxyUsername() const
 {
-    return appData()->networkProxy.username;
+    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("user").toString();
 }
 
-const QString& AppConfig::networkProxyPassword() const
+QString AppConfig::networkProxyPassword() const
 {
-    return appData()->networkProxy.password;
+    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("pass").toString();
 }
 
-bool AppConfig::projectTmplatesAutoUpdate() const
+bool AppConfig::projectTemplatesAutoUpdate() const
 {
-    return appData()->autoUpdateProjectTmplates;
+    return CFG_LOCAL.value("templates").toObject().value("autoUpdate").toBool();
 }
 
 bool AppConfig::useDevelopMode() const
 {
-    return appData()->useDevelopMode;
+    return CFG_LOCAL.value("useDevelopMode").toBool();
 }
 
-AppConfig::AppConfig()
+QByteArray AppConfig::fileHash(const QString &filename)
 {
-    load();
+    auto path = QDir(workspacePath()).filePath("hashes.json");
+    auto o = QJsonDocument::fromJson(readEntireTextFile(path)).object();
+    auto v = o.value(QFileInfo(filename).fileName());
+    if (v.isUndefined())
+        return QByteArray();
+    return QByteArray::fromHex(v.toString().toLatin1());
 }
 
 void AppConfig::load()
 {
-    QSettings s;
-    this->setLoggerFontStyle(
-                s.value(LOGGER_FONT_STYLE, systemMonoFont()).toString());
-    this->setLoggerFontSize(
-                s.value(LOGGER_FONT_SIZE, 10).toInt());
-    this->setEditorStyle(
-                s.value(EDITOR_STYLE, "Default").toString());
-    this->setEditorFontSize(
-                s.value(EDITOR_FONT_SIZE, 10).toInt());
-    this->setEditorFontStyle(
-                s.value(EDITOR_FONT_STYLE, systemMonoFont()).toString());
-    this->setEditorSaveOnAction(
-                s.value(EDITOR_SAVE_ON_ACTION, true).toBool());
-    this->setEditorTabsToSpaces(
-                s.value(EDITOR_TABS_TO_SPACES, true).toBool());
-    this->setEditorTabWidth(
-                s.value(EDITOR_TAB_WIDTH, 4).toInt());
-    this->setEditorFormatterStyle(
-                s.value(EDITOR_FORMATTER_NAME, "linux").toString());
-    this->setBuildDefaultProjectPath(
-                s.value(BUILD_DEFAULT_PROJECT_PATH, defaultProjectPath()).toString());
-    this->setBuildTemplatePath(
-                s.value(BUILD_TEMPLATE_PATH, defaultTemplatePath()).toString());
-    this->setBuildTemplateUrl(
-                s.value(BUILD_TEMPLATE_URL, defaultTemplateUrl()).toString());
-    this->setBuildAdditionalPaths(
-                s.value(BUILD_ADDITIONAL_PATHS).toStringList());
-    this->setNetworkProxyType(
-                static_cast<NetworkProxyType>(
-                    s.value(NETWORK_PROXY_TYPE, false).toInt()));
-    this->setNetworkProxyHost(
-                s.value(NETWORK_PROXY_HOST).toString());
-    this->setNetworkProxyPort(
-                s.value(NETWORK_PROXY_PORT).toString());
-    this->setNetworkProxyUseCredentials(
-                s.value(NETWORK_PROXY_CREDENTIALS).toBool());
-    this->setNetworkProxyUsername(
-                s.value(NETWORK_PROXY_USERNAME).toString());
-    if (this->networkProxyType() == NetworkProxyType::Custom
-            && this->networkProxyUseCredentials()) {
-        PasswordPromtDialog paswd(
-                    PasswordPromtDialog::tr("Proxy require password"));
-        if (paswd.exec() == QDialog::Accepted) {
-            this->setNetworkProxyPassword(paswd.password());
-        }
+#if 0
+    QByteArray doc;
+    doc = readEntireTextFile(defaultLocalTemplateConfig());
+    if (doc.isEmpty()) {
+        doc = readEntireTextFile(DEFAULT_LOCAL_RES);
     }
-    this->setProjectTmplatesAutoUpdate(
-                s.value(PROJECTTMPLATES_AUTOUPDATE, true).toBool());
-    this->setUseDevelopMode(s.value(USE_DEVELOP_MODE, false).toBool());
+    auto def = QJsonDocument::fromJson(doc).object();
+    CFG_GLOBAL = QJsonDocument::fromJson(readEntireFile(globalConfigFilePath(), readEntireFile(DEFAULT_GLOBAL_RES))).object();
+    CFG_LOCAL = QJsonDocument::fromJson(readEntireFile(localConfigFilePath())).object();
+
+    bool isMerged = false;
+    CFG_LOCAL = merge(CFG_LOCAL, def, MergeWay::ToLeft, &isMerged);
+    if (isMerged)
+        save();
+#else
+    auto docBundle = QJsonDocument::fromJson(readEntireTextFile(DEFAULT_LOCAL_RES)).object();
+    QJsonParseError err;
+    auto docLocal = QJsonDocument::fromJson(readEntireTextFile(defaultLocalTemplateConfig()), &err).object();
+    if (err.error != QJsonParseError::NoError) {
+        qDebug() << err.errorString();
+    }
+    CFG_LOCAL = QJsonDocument::fromJson(readEntireTextFile(localConfigFilePath())).object();
+    completeToLeft(docLocal, docBundle);
+    if (completeToLeft(CFG_LOCAL, docLocal))
+        save();
+#endif
+    projectsPath();
+    templatesPath();
+
     emit configChanged(this);
 }
 
 void AppConfig::save()
 {
-    QSettings s;
-    s.setValue(LOGGER_FONT_SIZE, appData()->loggerFontSize);
-    s.setValue(LOGGER_FONT_STYLE, appData()->loggerFontStyle);
-    s.setValue(EDITOR_STYLE, appData()->editorStyle);
-    s.setValue(EDITOR_FONT_SIZE, appData()->editorFontSize);
-    s.setValue(EDITOR_FONT_STYLE, appData()->editorFontStyle);
-    s.setValue(EDITOR_SAVE_ON_ACTION, appData()->editorSaveOnAction);
-    s.setValue(EDITOR_TABS_TO_SPACES, appData()->editorTabsToSpaces);
-    s.setValue(EDITOR_TAB_WIDTH, appData()->editorTabWidth);
-    s.setValue(EDITOR_FORMATTER_NAME, appData()->editorFormatterStyle);
-    s.setValue(BUILD_DEFAULT_PROJECT_PATH, appData()->builDefaultProjectPath);
-    s.setValue(BUILD_TEMPLATE_PATH, appData()->builTemplatePath);
-    s.setValue(BUILD_TEMPLATE_URL, appData()->builTemplateUrl);
-    s.setValue(BUILD_ADDITIONAL_PATHS, appData()->buildAdditionalPaths);
-    s.setValue(NETWORK_PROXY_TYPE, static_cast<int>(this->networkProxyType()));
-    s.setValue(NETWORK_PROXY_HOST, this->networkProxyHost());
-    s.setValue(NETWORK_PROXY_PORT, this->networkProxyPort());
-    s.setValue(NETWORK_PROXY_CREDENTIALS, this->networkProxyUseCredentials());
-    s.setValue(NETWORK_PROXY_USERNAME, this->networkProxyUsername());
-    s.setValue(PROJECTTMPLATES_AUTOUPDATE,
-               this->projectTmplatesAutoUpdate());
-    s.setValue(USE_DEVELOP_MODE, this->useDevelopMode());
-    this->adjustPath();
+    writeEntireFile(globalConfigFilePath(), QJsonDocument(CFG_GLOBAL).toJson());
+    writeEntireFile(localConfigFilePath(), QJsonDocument(CFG_LOCAL).toJson());
     emit configChanged(this);
 }
 
-void AppConfig::addFilterTextVariable(const QString &key, std::function<QString ()> func)
+void AppConfig::setWorkspacePath(const QString &path)
 {
-    filterTextMap[key] = func;
+    CFG_GLOBAL.insert("workspacePath", path);
 }
 
-void AppConfig::setBuildAdditionalPaths(
-        const QStringList& buildAdditionalPaths) const
+void AppConfig::setExternalTools(const QHash<QString, QString> &tools)
 {
-    appData()->buildAdditionalPaths = buildAdditionalPaths;
+    QJsonObject o;
+    for (auto it=tools.begin(); it != tools.end(); ++it)
+        o.insert(it.key(), it.value());
+    CFG_LOCAL.insert("externalTools", o);
 }
 
-void AppConfig::setEditorStyle(const QString &editorStyle)
+void AppConfig::appendToRecentProjects(const QString &path)
 {
-    appData()->editorStyle = editorStyle;
+    if (!path.startsWith(projectsPath())) {
+        QJsonArray history = CFG_LOCAL["history"].toArray();
+        if (!history.contains(path))
+            history.append(path);
+        CFG_LOCAL["history"] = history;
+    }
 }
 
-void AppConfig::setLoggerFontSize(int loggerFontSize)
+void AppConfig::setAdditionalPaths(const QStringList &paths)
 {
-    appData()->loggerFontSize = loggerFontSize;
+    QJsonArray array;
+    for(const auto& p: paths)
+        array.append(p);
+    CFG_LOCAL.insert("additionalPaths", array);
 }
 
-void AppConfig::setLoggerFontStyle(const QString &loggerFontStyle)
+void AppConfig::setTemplatesUrl(const QString &url)
 {
-    appData()->loggerFontStyle = loggerFontStyle;
+    auto t = CFG_LOCAL["templates"].toObject();
+    t.insert("url", url);
+    CFG_LOCAL["templates"] = t;
 }
 
-void AppConfig::setEditorFontSize(int editorFontSize)
+void AppConfig::setEditorStyle(const QString &name)
 {
-    appData()->editorFontSize = editorFontSize;
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed.insert("style", name);
+    CFG_LOCAL["editor"] = ed;
 }
 
-void AppConfig::setEditorFontStyle(const QString &editorFontStyle)
+void AppConfig::setEditorFont(const QFont &f)
 {
-    appData()->editorFontStyle = editorFontStyle;
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed["font"] = QJsonObject{
+        { "name", f.family() },
+        { "size", f.pointSize() }
+    };
+    CFG_LOCAL["editor"] = ed;
 }
 
-void AppConfig::setEditorSaveOnAction(bool editorSaveOnAction)
+void AppConfig::setEditorSaveOnAction(bool enable)
 {
-    appData()->editorSaveOnAction = editorSaveOnAction;
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed.insert("saveOnAction", enable);
+    CFG_LOCAL["editor"] = ed;
 }
 
-void AppConfig::setEditorTabsToSpaces(bool editorTabsToSpaces)
+void AppConfig::setEditorTabsToSpaces(bool enable)
 {
-    appData()->editorTabsToSpaces = editorTabsToSpaces;
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed.insert("tabsOnSpaces", enable);
+    CFG_LOCAL["editor"] = ed;
 }
 
-void AppConfig::setEditorTabWidth(int editorTabWidth)
+void AppConfig::setEditorTabWidth(int n)
 {
-    appData()->editorTabWidth = editorTabWidth;
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed.insert("tabWidth", n);
+    CFG_LOCAL["editor"] = ed;
 }
 
-void AppConfig::setEditorFormatterStyle(const QString &style)
+void AppConfig::setEditorFormatterStyle(const QString &name)
 {
-    appData()->editorFormatterStyle = style;
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed.insert("formatterStyle", name);
+    CFG_LOCAL["editor"] = ed;
 }
 
-void AppConfig::setWorkspacePath(const QString &workspacePath)
+void AppConfig::setEditorFormatterExtra(const QString &text)
 {
-    QDir wSpace(workspacePath);
-    setBuildDefaultProjectPath(wSpace.absoluteFilePath(DEFAULT_PROJECT_PATH_ON_WS));
-    setBuildTemplatePath(wSpace.absoluteFilePath(DEFAULT_TEMPLATE_PATH_ON_WS));
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed.insert("formatterExtra", text);
+    CFG_LOCAL["editor"] = ed;
 }
 
-void AppConfig::setBuildDefaultProjectPath(const QString &builDefaultProjectPath)
+void AppConfig::setLoggerFont(const QFont &f)
 {
-    appData()->builDefaultProjectPath = builDefaultProjectPath;
-    addFilterTextVariable("projectPath", [this]{ return buildDefaultProjectPath(); });
+    auto log = CFG_LOCAL["logger"].toObject();
+    log.insert("font", QJsonObject{
+                   { "name", f.family() },
+                   { "size", f.pointSize() }
+               });
+    CFG_LOCAL["logger"] = log;
 }
 
-void AppConfig::setBuildTemplatePath(const QString &builTemplatePath)
+void AppConfig::setNetworkProxyHost(const QString &name)
 {
-    appData()->builTemplatePath = builTemplatePath;
-    addFilterTextVariable("templatePath", [this]{ return buildTemplatePath(); });
+    auto net = CFG_LOCAL["network"].toObject();
+    auto proxy = net.value("proxy").toObject();
+    proxy.insert("host", name);
+    net["proxy"] = proxy;
+    CFG_LOCAL["network"] = net;
 }
 
-void AppConfig::setBuildTemplateUrl(const QString &builTemplateUrl)
+void AppConfig::setNetworkProxyPort(const QString &port)
 {
-    appData()->builTemplateUrl = builTemplateUrl;
+    auto net = CFG_LOCAL["network"].toObject();
+    auto proxy = net.value("proxy").toObject();
+    proxy.insert("port", port);
+    net["proxy"] = proxy;
+    CFG_LOCAL["network"] = net;
 }
 
-void AppConfig::setNetworkProxyHost(const QString& host)
+void AppConfig::setNetworkProxyUseCredentials(bool use)
 {
-    appData()->networkProxy.host = host;
+    auto net = CFG_LOCAL["network"].toObject();
+    auto proxy = net.value("proxy").toObject();
+    proxy.insert("useCredentials", use);
+    net["proxy"] = proxy;
+    CFG_LOCAL["network"] = net;
 }
 
-void AppConfig::setNetworkProxyPort(QString port)
+void AppConfig::setNetworkProxyType(AppConfig::NetworkProxyType type)
 {
-    appData()->networkProxy.port = port;
+    auto typeName = QString(QMetaEnum::fromType<AppConfig::NetworkProxyType>().valueToKey(int(type)));
+    auto net = CFG_LOCAL["network"].toObject();
+    auto proxy = net.value("proxy").toObject();
+    proxy.insert("type", typeName);
+    net["proxy"] = proxy;
+    CFG_LOCAL["network"] = net;
 }
 
-void AppConfig::setNetworkProxyUseCredentials(bool useCredentials)
+void AppConfig::setNetworkProxyUsername(const QString &user)
 {
-    appData()->networkProxy.useCredentials = useCredentials;
+    auto net = CFG_LOCAL["network"].toObject();
+    auto proxy = net.value("proxy").toObject();
+    proxy.insert("user", user);
+    net["proxy"] = proxy;
+    CFG_LOCAL["network"] = net;
 }
 
-void AppConfig::setNetworkProxyType(NetworkProxyType type)
+void AppConfig::setNetworkProxyPassword(const QString &pass)
 {
-    appData()->networkProxy.type = type;
+    auto net = CFG_LOCAL["network"].toObject();
+    auto proxy = net.value("proxy").toObject();
+    proxy.insert("pass", pass);
+    net["proxy"] = proxy;
+    CFG_LOCAL["network"] = net;
 }
 
-void AppConfig::setNetworkProxyUsername(const QString& username)
+void AppConfig::setProjectTemplatesAutoUpdate(bool en)
 {
-    appData()->networkProxy.username = username;
-}
-
-void AppConfig::setNetworkProxyPassword(const QString& password)
-{
-    appData()->networkProxy.password = password;
-}
-
-void AppConfig::setProjectTmplatesAutoUpdate(bool automatic)
-{
-    appData()->autoUpdateProjectTmplates = automatic;
+    auto t = CFG_LOCAL["templates"].toObject();
+    t.insert("autoUpdate", en);
+    CFG_LOCAL["templates"] = t;
 }
 
 void AppConfig::setUseDevelopMode(bool use)
 {
-    appData()->useDevelopMode = use;
+    CFG_LOCAL.insert("useDevelopMode", use);
 }
 
-void AppConfig::adjustPath()
+void AppConfig::addHash(const QString &filename, const QByteArray &hash)
 {
-    adjustPath(mutableInstance().buildAdditionalPaths());
+    auto path = QDir(workspacePath()).filePath("hashes.json");
+    auto o = QJsonDocument::fromJson(readEntireTextFile(path)).object();
+    o.insert(QFileInfo(filename).fileName(), QString(hash.toHex()));
+    writeEntireFile(path, QJsonDocument(o).toJson());
 }
 
-void AppConfig::adjustPath(const QStringList& paths)
+void AppConfig::purgeHash()
 {
-    const QChar path_separator
-        #ifdef Q_OS_WIN
-            (';')
-        #else
-            (':')
-        #endif
-            ;
-    QString path = qgetenv("PATH");
-    QStringList pathList = path.split(path_separator);
-#ifdef Q_OS_WIN
-    QStringList additional = QStringList(paths).replaceInStrings("/", R"(\)");
-#else
-    QStringList additional = QStringList(paths);
-#endif
-    pathList = additional << pathList << QCoreApplication::applicationDirPath();
-    path = pathList.join(path_separator);
-    qputenv("PATH", path.toLocal8Bit());
+    auto path = QDir(workspacePath()).filePath("hashes.json");
+    auto o = QJsonDocument::fromJson(readEntireTextFile(path)).object();
+    for(auto& k: o.keys())
+        if (!QFileInfo(QDir(templatesPath()).filePath(k)).exists())
+            o.remove(k);
+    writeEntireFile(path, QJsonDocument(o).toJson());
 }

@@ -1,22 +1,23 @@
 #include "appconfig.h"
-#include "documentarea.h"
 #include "findinfilesdialog.h"
-#include "projectview.h"
 #include "ui_findinfilesdialog.h"
 
+#include <QDirIterator>
 #include <QFileDialog>
 #include <QListView>
 #include <QMenu>
 #include <QStandardItemModel>
 #include <QWidgetAction>
-#include <QtConcurrent>
 
 #include <Qsci/qsciscintilla.h>
 
 struct FilePos {
-    int line;
-    int column;
+    int line{ 0 };
+    int column{ 0 };
     QString path;
+
+    FilePos() = default;
+    FilePos(int l, int c, const QString& p): line(l), column(c), path(p) {}
 };
 
 Q_DECLARE_METATYPE(FilePos)
@@ -24,8 +25,7 @@ Q_DECLARE_METATYPE(FilePos)
 const QStringList STANDARD_FILTERS =
         { "*.*", "*.c", "*.cpp", "*.h", "*.hpp", "*.txt" };
 
-
-FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projView, QWidget *parent) :
+FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::FindInFilesDialog)
 {
@@ -33,7 +33,7 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
     auto model = new QStandardItemModel(this);
     ui->treeView->setModel(model);
     auto protoItem = new QStandardItem();
-    protoItem->setFont(AppConfig::mutableInstance().loggerFont());
+    protoItem->setFont(AppConfig::instance().loggerFont());
     model->setItemPrototype(protoItem);
     ui->textToFind->addMenuActions(QHash<QString, QString>{
                                       { tr("Regular Expression"), "regex" },
@@ -41,7 +41,7 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
                                       { tr("Wole Words"), "wword" },
                                   });
     ui->labelStatus->setText(tr("Ready"));
-    ui->textDirectory->setText(projView->projectPath().absolutePath());
+    ui->textDirectory->setText(path);
 
     auto filterMenu = new QMenu(this);
     auto listViewAction = new QWidgetAction(filterMenu);
@@ -73,12 +73,12 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
     ui->buttonSelectfilePattern->setPopupMode(QToolButton::InstantPopup);
 
     connect(ui->treeView, &QTreeView::activated,
-            [this, docView, projView, model](const QModelIndex& index) {
+            [this, model](const QModelIndex& index) {
         auto item = model->itemFromIndex(index);
         if (item) {
             auto pos = item->data().value<FilePos>();
-            docView->fileOpen(pos.path, pos.line, pos.column);
-            docView->window()->activateWindow();
+            emit queryToOpen(pos.path, pos.line, pos.column);
+            accept();
         }
     });
 
@@ -99,7 +99,9 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
                         QDir::NoFilter, QDirIterator::Subdirectories);
         while (it.hasNext()) {
             QCoreApplication::processEvents();
-            ui->labelStatus->setText(tr("Scanning %1 file").arg(it.next()));
+            ui->labelStatus->setText(tr("Scanning file:"));
+            ui->labelFilename->setText(QFontMetrics(ui->labelStatus->font())
+                                       .elidedText(it.next(), Qt::ElideLeft, ui->labelStatus->width()));
             auto info = it.fileInfo();
             if (!info.isFile())
                 continue;
@@ -111,7 +113,7 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
             if (!doc->findFirst(textToFind, isRegex, isCS, isWWord, false, true, -1, -1, false, false))
                 continue;
             auto fileItem = model->itemPrototype()->clone();
-            fileItem->setText(info.absoluteFilePath());
+            fileItem->setText(info.absoluteFilePath().remove(ui->textDirectory->text() + QDir::separator()));
             model->appendRow(fileItem);
             do {
                 int line, column;
@@ -131,6 +133,7 @@ FindInFilesDialog::FindInFilesDialog(DocumentArea *docView, ProjectView *projVie
         ui->buttonFind->setEnabled(true);
         ui->treeView->expandAll();
         ui->labelStatus->setText(tr("Done"));
+        ui->labelFilename->clear();
     });
 
     connect(ui->buttonChoseDirectory, &QToolButton::clicked, [this]() {

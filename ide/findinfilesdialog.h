@@ -20,22 +20,12 @@ class FindInFilesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit FindInFilesDialog(DocumentArea *docView, ProjectView *projView, QWidget *parent = 0);
-    ~FindInFilesDialog();
+    explicit FindInFilesDialog(const QString& path, QWidget *parent = nullptr);
+    virtual ~FindInFilesDialog();
 
-protected:
-    bool event(QEvent *event) override
-    {
-        switch (event->type()) {
-        case QEvent::WindowActivate:
-            setWindowOpacity(1.0);
-            break;
-        case QEvent::WindowDeactivate:
-            setWindowOpacity(0.5);
-            break;
-        }
-        return QDialog::event(event);
-    }
+signals:
+    void queryToOpen(const QString& path, int line, int column);
+
 private:
     Ui::FindInFilesDialog *ui;
 };

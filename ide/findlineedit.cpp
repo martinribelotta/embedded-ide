@@ -13,7 +13,7 @@ FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
     auto layout = new QHBoxLayout(this);
     auto clearButton = new QToolButton(this);
     optionsButton = new QToolButton(this);
-    optionsButton->setIcon(QIcon(":/images/application-menu.svg"));
+    optionsButton->setIcon(QIcon(":/images/actions/application-menu.svg"));
     clearButton->setIcon(QIcon(":/images/actions/edit-clear.svg"));
     optionsButton->setFocusPolicy(Qt::NoFocus);
     optionsButton->setPopupMode(QToolButton::InstantPopup);
@@ -42,8 +42,8 @@ void FindLineEdit::addMenuActions(const QHash<QString, QString> &actionList)
     auto menu = new QMenu(this);
     QHash<QString, QString>::const_iterator it;
     for (it = actionList.constBegin(); it != actionList.constEnd(); ++it) {
-        auto actionName = it.key();
-        auto propertyName = it.value();
+        const auto& actionName = it.key();
+        const auto& propertyName = it.value();
         auto action = menu->addAction(actionName);
         action->setCheckable(true);
         setProperty(propertyName.toLatin1().constData(), false);

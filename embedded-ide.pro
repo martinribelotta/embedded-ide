@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS = refactor-ide
+SUBDIRS = ide

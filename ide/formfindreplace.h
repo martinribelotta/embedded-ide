@@ -14,12 +14,14 @@ class FormFindReplace : public QWidget
     Q_OBJECT
 
 public:
-    explicit FormFindReplace(QsciScintilla *editor);
-    ~FormFindReplace();
+    explicit FormFindReplace(QsciScintilla *ed);
+    virtual ~FormFindReplace() override;
 
 protected:
-    void showEvent(QShowEvent *event);
-    void keyPressEvent(QKeyEvent *event);
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private slots:
     bool on_buttonFind_clicked();

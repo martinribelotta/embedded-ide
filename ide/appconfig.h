@@ -2,101 +2,106 @@
 #define APPCONFIG_H
 
 #include <QObject>
-#include <functional>
-
-#include "configdialog.h"
-#include "dialogconfigworkspace.h"
-
-int main(int argc, char** argv);
+#include <QDir>
 
 class AppConfig : public QObject
 {
     Q_OBJECT
-    // WARNING(denisacostaq@gmail.com):
-    // These classes can access to the private constructor, but do not create
-    // an instance through this, use mutableInstance instead.
-    friend class ConfigDialog;
-    friend class DialogConfigWorkspace;
-    friend int ::main(int argc, char** argv);
+    Q_DISABLE_COPY(AppConfig)
+
+private:
+    class Priv_t;
+    Priv_t *priv;
+
+    explicit AppConfig();
+    virtual ~AppConfig();
+    void adjustEnv();
+
 public:
-    enum class NetworkProxyType {
-        None, System, Custom
-    };
+    static AppConfig &instance();
+    static QString replaceWithEnv(const QString& str);
+    static QByteArray readEntireTextFile(const QString& path);
+    static QIODevice *writeEntireTextFile(const QString& text, const QString& path);
+    static const QString& ensureExist(const QString& d);
 
-    const QString filterTextWithVariables(const QString& text) const;
-    const QHash<QString, QString> getVariableMap() const;
+    enum class NetworkProxyType { None, System, Custom };
+    Q_ENUM(NetworkProxyType)
 
-    const QStringList& buildAdditionalPaths() const;
-    const QString& editorStyle() const;
-    int editorFontSize() const;
-    const QString& editorFontStyle() const;
-    int loggerFontSize() const;
-    const QString &loggerFontStyle() const;
-    QFont loggerFont() const {
-        QFont font;
-        font.setPixelSize(loggerFontSize());
-        font.setFamily(loggerFontStyle());
-        return font;
-    }
+    QString workspacePath() const;
+    QString projectsPath() const;
+    QString templatesPath() const;
+    QString localConfigFilePath() const;
+
+    QHash<QString, QString> externalTools() const;
+    QFileInfoList recentProjects() const;
+
+    QStringList additionalPaths(bool raw = false) const;
+    QStringList additionalRawPaths() const { return additionalPaths(true); }
+
+    QString templatesUrl() const;
+
+    QString editorStyle() const;
+    QFont editorFont() const;
     bool editorSaveOnAction() const;
     bool editorTabsToSpaces() const;
     int editorTabWidth() const;
     QString editorFormatterStyle() const;
-    const QString& buildDefaultProjectPath() const;
-    const QString& buildTemplatePath() const;
-    const QString& buildTemplateUrl() const;
-    QString defaultApplicationResources() const;
-    QString defaultProjectPath();
-    QString defaultTemplatePath();
-    QString defaultTemplateUrl();
-    const QString& networkProxyHost() const;
+    QString editorFormatterExtra() const;
+
+    QFont loggerFont() const;
+
+    QString networkProxyHost() const;
     QString networkProxyPort() const;
     bool networkProxyUseCredentials() const;
     NetworkProxyType networkProxyType() const;
-    const QString& networkProxyUsername() const;
-    const QString& networkProxyPassword() const;
-    bool projectTmplatesAutoUpdate() const;
+    QString networkProxyUsername() const;
+    QString networkProxyPassword() const;
+
+    bool projectTemplatesAutoUpdate() const;
+
     bool useDevelopMode() const;
 
-    void adjustPath();
-    void adjustPath(const QStringList& paths);
-
-    static AppConfig& mutableInstance();
-    static const QFont systemMonoFont();
+    QByteArray fileHash(const QString& filename);
 
 signals:
     void configChanged(AppConfig*);
 
-private:
-    AppConfig();
+public slots:
     void load();
     void save();
 
-    void addFilterTextVariable(const QString& key, std::function<QString ()> func);
-    void setBuildAdditionalPaths(const QStringList& buildAdditionalPaths) const;
-    void setEditorStyle(const QString& editorStyle);
-    void setLoggerFontSize(int loggerFontSize);
-    void setLoggerFontStyle(const QString& loggerFontStyle);
-    void setEditorFontSize(int editorFontSize);
-    void setEditorFontStyle(const QString& editorFontStyle);
-    void setEditorSaveOnAction(bool editorSaveOnAction);
-    void setEditorTabsToSpaces(bool editorTabsToSpaces);
-    void setEditorTabWidth(int editorTabWidth);
-    void setEditorFormatterStyle(const QString& style);
-    void setWorkspacePath(const QString& workspacePath);
-    void setBuildDefaultProjectPath(const QString& buildDefaultProjectPath);
-    void setBuildTemplatePath(const QString& buildTemplatePath);
-    void setBuildTemplateUrl(const QString& buildTemplateUrl);
-    void setNetworkProxyHost(const QString& host);
-    void setNetworkProxyPort(QString host);
-    void setNetworkProxyUseCredentials(bool useCredentials);
+    void setWorkspacePath(const QString& path);
+
+    void setExternalTools(const QHash<QString, QString> &tools);
+    void appendToRecentProjects(const QString& path);
+
+    void setAdditionalPaths(const QStringList& paths);
+
+    void setTemplatesUrl(const QString& url);
+
+    void setEditorStyle(const QString& name);
+    void setEditorFont(const QFont& f);
+    void setEditorSaveOnAction(bool enable);
+    void setEditorTabsToSpaces(bool enable);
+    void setEditorTabWidth(int n);
+    void setEditorFormatterStyle(const QString& name);
+    void setEditorFormatterExtra(const QString& text);
+
+    void setLoggerFont(const QFont& f);
+
+    void setNetworkProxyHost(const QString& name);
+    void setNetworkProxyPort(const QString& port);
+    void setNetworkProxyUseCredentials(bool use);
     void setNetworkProxyType(NetworkProxyType type);
-    void setNetworkProxyUsername(const QString& username);
-    void setNetworkProxyPassword(const QString& password);
-    void setProjectTmplatesAutoUpdate(bool automatic);
+    void setNetworkProxyUsername(const QString& user);
+    void setNetworkProxyPassword(const QString& pass);
+
+    void setProjectTemplatesAutoUpdate(bool en);
+
     void setUseDevelopMode(bool use);
 
-    QHash<QString, std::function<QString ()> > filterTextMap;
+    void addHash(const QString& filename, const QByteArray& hash);
+    void purgeHash();
 };
 
 #endif // APPCONFIG_H

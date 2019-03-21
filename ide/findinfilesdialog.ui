@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
+    <width>609</width>
     <height>372</height>
    </rect>
   </property>
@@ -41,8 +41,8 @@
        <item>
         <widget class="QToolButton" name="buttonChoseDirectory">
          <property name="icon">
-          <iconset resource="../resources/resources.qrc">
-           <normaloff>:/images/document-open.svg</normaloff>:/images/document-open.svg</iconset>
+          <iconset resource="resources/resources.qrc">
+           <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
          </property>
         </widget>
        </item>
@@ -73,8 +73,8 @@
        <item>
         <widget class="QToolButton" name="buttonSelectfilePattern">
          <property name="icon">
-          <iconset resource="../resources/resources.qrc">
-           <normaloff>:/images/application-menu.svg</normaloff>:/images/application-menu.svg</iconset>
+          <iconset resource="resources/resources.qrc">
+           <normaloff>:/images/actions/application-menu.svg</normaloff>:/images/actions/application-menu.svg</iconset>
          </property>
         </widget>
        </item>
@@ -105,8 +105,8 @@
        <item>
         <widget class="QToolButton" name="buttonFind">
          <property name="icon">
-          <iconset resource="../resources/resources.qrc">
-           <normaloff>:/images/edit-find.svg</normaloff>:/images/edit-find.svg</iconset>
+          <iconset resource="resources/resources.qrc">
+           <normaloff>:/images/actions/edit-find.svg</normaloff>:/images/actions/edit-find.svg</iconset>
          </property>
         </widget>
        </item>
@@ -121,6 +121,9 @@
      </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
+     </property>
+     <property name="textElideMode">
+      <enum>Qt::ElideLeft</enum>
      </property>
      <property name="uniformRowHeights">
       <bool>true</bool>
@@ -139,12 +142,22 @@
       <widget class="QLabel" name="labelStatus"/>
      </item>
      <item>
+      <widget class="QLabel" name="labelFilename">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="buttonStop">
        <property name="enabled">
         <bool>false</bool>
        </property>
        <property name="icon">
-        <iconset resource="../resources/resources.qrc">
+        <iconset resource="resources/resources.qrc">
          <normaloff>:/images/actions/dialog-cancel.svg</normaloff>:/images/actions/dialog-cancel.svg</iconset>
        </property>
       </widget>
@@ -162,16 +175,16 @@
  </customwidgets>
  <tabstops>
   <tabstop>textToFind</tabstop>
+  <tabstop>treeView</tabstop>
   <tabstop>buttonFind</tabstop>
-  <tabstop>textFilePattern</tabstop>
   <tabstop>buttonSelectfilePattern</tabstop>
   <tabstop>textDirectory</tabstop>
+  <tabstop>textFilePattern</tabstop>
   <tabstop>buttonChoseDirectory</tabstop>
-  <tabstop>treeView</tabstop>
   <tabstop>buttonStop</tabstop>
  </tabstops>
  <resources>
-  <include location="../resources/resources.qrc"/>
+  <include location="resources/resources.qrc"/>
  </resources>
  <connections>
   <connection>

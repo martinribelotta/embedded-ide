@@ -1,168 +1,118 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2014-06-29T17:36:01
+# Project created by QtCreator 2018-02-24T13:51:54
 #
 #-------------------------------------------------
+DESTDIR  = ../build
 
-QT       += core gui widgets concurrent network svg xml
+QT       += core gui svg xml network
 
-CONFIG += c++11
+CONFIG += qscintilla2
 
-DESTDIR = ../build
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = embedded-ide
 TEMPLATE = app
 
-QSCINTILLA_SRC_DIR=3rdpart/qscintilla/
-include(3rdpart/qscintilla/qscintilla.pri)
+# The following define makes your compiler emit warnings if you use
+# any feature of Qt which has been marked as deprecated (the exact warnings
+# depend on your compiler). Please consult the documentation of the
+# deprecated API in order to know how to port your code away from it.
+DEFINES += QT_DEPRECATED_WARNINGS
+
+# You can also make your code fail to compile if you use deprecated APIs.
+# In order to do so, uncomment the following line.
+# You can also select to disable deprecated APIs only up to a certain version of Qt.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+include(../mapview/mapview.pri)
+include(3rdpart/qhexview/qhexview.pri)
 include(3rdpart/astyle/astyle.pri)
-include(3rdpart/gdbdebugger/gdbdebugger.pri)
-include(3rdpart/qtc_gdbmi/qtc_gdbmi.pri)
-include(3rdpart/QHexEdit/qhexedit.pri)
+!win32: include(3rdpart/backward/backward.pri)
+#include(3rdpart/qt-promise/qt-promise.pri)
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp \
-    documentarea.cpp \
-    codeeditor.cpp \
-    projectnewdialog.cpp \
-    targetupdatediscover.cpp \
-    projetfromtemplate.cpp \
-    projectexporter.cpp \
-    configdialog.cpp \
-    aboutdialog.cpp \
-    projecticonprovider.cpp \
-    makefileinfo.cpp \
-    clangcodecontext.cpp \
-    etags.cpp \
-    projectview.cpp \
-    filedownloader.cpp \
-    version.cpp \
-    loggerwidget.cpp \
-    taglist.cpp \
-    mapviewer.cpp \
-    dialogconfigworkspace.cpp \
-    mainmenuwidget.cpp \
-    formfindreplace.cpp \
-    findlineedit.cpp \
-    toolmanager.cpp \
-    appconfig.cpp \
-    passwordpromtdialog.cpp \
-    templatedownloader.cpp \
-    templatesdownloadselector.cpp \
-    filepropertiesdialog.cpp \
-    findinfilesdialog.cpp \
-    debugui.cpp \
-    gdbstartdialog.cpp \
-    codetemplate.cpp \
-    componentsdialog.cpp \
-    componentitemwidget.cpp \
-    combodocumentview.cpp \
-    bannerwidget.cpp
+        main.cpp \
+        mainwindow.cpp \
+        projectmanager.cpp \
+        documentmanager.cpp \
+        idocumenteditor.cpp \
+        plaintexteditor.cpp \
+        filesystemmanager.cpp \
+        unsavedfilesdialog.cpp \
+        processmanager.cpp \
+        consoleinterceptor.cpp \
+        buildmanager.cpp \
+        binaryviewer.cpp \
+        codetexteditor.cpp \
+        findlineedit.cpp \
+        formfindreplace.cpp \
+        cpptexteditor.cpp \
+        appconfig.cpp \
+        configwidget.cpp \
+        externaltoolmanager.cpp \
+        version.cpp \
+        newprojectdialog.cpp \
+        findinfilesdialog.cpp \
+        icodemodelprovider.cpp \
+        templatemanager.cpp \
+        templateitemwidget.cpp \
+    clangautocompletionprovider.cpp \
+    childprocess.cpp \
+    filereferencesdialog.cpp \
+    mapfileviewer.cpp \
+    textmessagebrocker.cpp \
+    regexhtmltranslator.cpp
 
-INCLUDEPATH += inc
-
-HEADERS  += \
-    mainwindow.h \
-    documentarea.h \
-    codeeditor.h \
-    projectnewdialog.h \
-    projetfromtemplate.h \
-    projectexporter.h \
-    configdialog.h \
-    aboutdialog.h \
-    projecticonprovider.h \
-    makefileinfo.h \
-    clangcodecontext.h \
-    etags.h \
-    projectview.h \
-    filedownloader.h \
-    version.h \
-    targetupdatediscover.h \
-    loggerwidget.h \
-    taglist.h \
-    mapviewer.h \
-    dialogconfigworkspace.h \
-    mainmenuwidget.h \
-    formfindreplace.h \
-    findlineedit.h \
-    toolmanager.h \
-    appconfig.h \
-    passwordpromtdialog.h \
-    templatedownloader.h \
-    templatesdownloadselector.h \
-    filepropertiesdialog.h \
-    findinfilesdialog.h \
-    debugui.h \
-    gdbstartdialog.h \
-    codetemplate.h \
-    componentsdialog.h \
-    componentitemwidget.h \
-    combodocumentview.h \
-    bannerwidget.h
+HEADERS += \
+        mainwindow.h \
+        projectmanager.h \
+        documentmanager.h \
+        idocumenteditor.h \
+        plaintexteditor.h \
+        filesystemmanager.h \
+        unsavedfilesdialog.h \
+        processmanager.h \
+        consoleinterceptor.h \
+        buildmanager.h \
+        binaryviewer.h \
+        codetexteditor.h \
+        findlineedit.h \
+        formfindreplace.h \
+        cpptexteditor.h \
+        appconfig.h \
+        configwidget.h \
+        externaltoolmanager.h \
+        version.h \
+        newprojectdialog.h \
+        findinfilesdialog.h \
+        icodemodelprovider.h \
+        templatemanager.h \
+        templateitemwidget.h \
+    clangautocompletionprovider.h \
+    childprocess.h \
+    filereferencesdialog.h \
+    mapfileviewer.h \
+    textmessagebrocker.h \
+    regexhtmltranslator.h
 
 FORMS += \
-    mainwindow.ui \
-    projectnewdialog.ui \
-    configdialog.ui \
-    aboutdialog.ui \
-    projectview.ui \
-    mapviewer.ui \
-    dialogconfigworkspace.ui \
-    mainmenuwidget.ui \
-    formfindreplace.ui \
-    toolmanager.ui \
-    passwordpromtdialog.ui \
-    templatesdownloadselector.ui \
-    filepropertiesdialog.ui \
+        mainwindow.ui \
+        unsavedfilesdialog.ui \
+        formfindreplace.ui \
+    configwidget.ui \
+    externaltoolmanager.ui \
+    newprojectdialog.ui \
     findinfilesdialog.ui \
-    debugui.ui \
-    gdbstartdialog.ui \
-    componentsdialog.ui \
-    componentitemwidget.ui \
-    bannerwidget.ui
+    templatemanager.ui \
+    templateitemwidget.ui \
+    filereferencesdialog.ui
 
-RESOURCES += resources/resources.qrc
+CONFIG += mobility
+MOBILITY = 
 
-win32: RC_ICONS = resources/images/embedded-ide.ico
-
-#######################################
-#i18n
-#######################################
-qtPrepareTool(LUPDATE, lupdate)
-qtPrepareTool(LRELEASE, lrelease)
-
-### FIXIT:
-LANGUAGES = es zh
-defineReplace(prependAll) {
-    for(a,$$1):result = $$result $$2$${a}$$3
-    return($$result)
-}
-TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/i18n/, .ts)
-
-## FIXME(denisacostaq@gmail.com): this invoke the build always becuase the qm
-## files are included as resouces, make it depend on "all" target
-## ts-all.deppends = all not work
-#ts-all.commands = cd $$PWD && $$LUPDATE $$PWD/ide.pro && $$LRELEASE $$PWD/ide.pro
-#QMAKE_EXTRA_TARGETS ''= ts-all
-#PRE_TARGETDEPS += ts-all
-
-#TRANSLATIONS = i18n/es.ts \
-#               i18n/zh.ts
-
-TRANSLATIONS_FILES =
-qtPrepareTool(LRELEASE, lrelease)
-for(tsfile, TRANSLATIONS) {
-    qmfile = $$shadowed($$tsfile)
-    qmfile ~= s,.ts$,.qm,
-    qmdir = $$dirname(qmfile)
-    !exists($$qmdir) {
-        mkpath($$qmdir)|error("Aborting.")
-    }
-    command = $$LRELEASE -removeidentical $$tsfile -qm $$qmfile
-    system($$command)|error("Failed to run: $$command")
-    TRANSLATIONS_FILES''= $$qmfile
-}
+RESOURCES += \
+    resources/resources.qrc
 
 unix {
     QMAKE_LFLAGS_RELEASE += -static-libstdc++ -static-libgcc
@@ -173,7 +123,7 @@ unix {
 
     target.path = $$PREFIX/bin
 
-    desktopfile.files = embedded-ide.desktop
+    desktopfile.files = skeleton/embedded-ide.desktop
     desktopfile.path = $$PREFIX/share/applications
 
     iconfiles.files = resources/images/embedded-ide.svg resources/images/embedded-ide.png
@@ -191,3 +141,11 @@ unix {
     INSTALLS += hardconf
     INSTALLS += target
 }
+
+DISTFILES += \
+    skeleton/desktop-integration.sh \
+    skeleton/embedded-ide.sh \
+    skeleton/embedded-ide.sh.wrapper \
+    skeleton/ftdi-tools.sh \
+    skeleton/embedded-ide.hardconf \
+    skeleton/embedded-ide.desktop

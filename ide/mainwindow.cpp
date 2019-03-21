@@ -1,468 +1,276 @@
 #include "mainwindow.h"
+
 #include "ui_mainwindow.h"
 
-#include "projectexporter.h"
-#include "projectnewdialog.h"
-#include "projetfromtemplate.h"
-#include "configdialog.h"
-#include "aboutdialog.h"
-#include "mainmenuwidget.h"
 #include "appconfig.h"
-#include "filedownloader.h"
-#include "templatedownloader.h"
+#include "buildmanager.h"
+#include "consoleinterceptor.h"
+#include "filesystemmanager.h"
+#include "idocumenteditor.h"
+#include "externaltoolmanager.h"
+#include "processmanager.h"
+#include "projectmanager.h"
+#include "unsavedfilesdialog.h"
+#include "version.h"
+#include "newprojectdialog.h"
+#include "configwidget.h"
 #include "findinfilesdialog.h"
+#include "clangautocompletionprovider.h"
+#include "textmessagebrocker.h"
+#include "regexhtmltranslator.h"
 
-#include <QRegularExpression>
 #include <QCloseEvent>
 #include <QFileDialog>
-#include <QMessageBox>
-#include <QStatusBar>
-#include <QCheckBox>
+#include <QStringListModel>
+#include <QScrollBar>
 #include <QMenu>
-#include <QUrl>
-#include <QNetworkProxy>
-#include <QNetworkProxyFactory>
-
-
-#include <QUrlQuery>
-#include <QSettings>
-#include <QFont>
-#include <QFontInfo>
-#include <QFontDatabase>
-#include <QMimeDatabase>
-#include <QDesktopServices>
-#include <QToolButton>
-#include <QTimer>
-#include <QWidgetAction>
-#include <QSystemTrayIcon>
-#include <QFileSystemWatcher>
+#include <QMessageBox>
+#include <QFileSystemModel>
 #include <QShortcut>
-
-#include <functional>
+#include <QStandardItemModel>
+#include <QFileSystemWatcher>
+#include <QTextBrowser>
 
 #include <QtDebug>
 
-#include <gdbdebugger.h>
-
-static QFileInfoList lastProjectsList(bool includeAllInWorkspace = true) {
-    QFileInfoList list;
-    if (includeAllInWorkspace) {
-        QDir prjDir(AppConfig::mutableInstance().buildDefaultProjectPath());
-        for(const auto& dirInfo: prjDir.entryInfoList(QDir::AllDirs|QDir::NoDotAndDotDot)) {
-            QDir dir(dirInfo.absoluteFilePath());
-            QFileInfo make(dir.absoluteFilePath("Makefile"));
-            if (make.exists()) {
-                if (!list.contains(make))
-                    list.append(make);
-            }
-        }
-    }
-    QSettings sets;
-    sets.beginGroup("last_projects");
-    for(const auto& k: sets.allKeys()) {
-        QFileInfo make(sets.value(k).toString());
-        if (!make.exists()) {
-            sets.remove(k);
-        }
-        if (!list.contains(make))
-            list.append(make);
-    }
-
-    return list;
-}
-
-static void removeFromLastProject(const QString& path) {
-    QSettings sets;
-    sets.beginGroup("last_projects");
-    for(const auto& key: sets.allKeys()) {
-        if (sets.value(key) == path) {
-            sets.remove(key);
-            break;
-        }
-    }
-}
+class MainWindow::Priv_t {
+public:
+    ProjectManager *projectManager;
+    FileSystemManager *fileManager;
+    ProcessManager *pman;
+    ConsoleInterceptor *console;
+    BuildManager *buildManager;
+};
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QWidget(parent),
     ui(new Ui::MainWindow),
-    trayIcon(new QSystemTrayIcon(this)),
-    templateDownloader(new TemplateDownloader{})
+    priv(new Priv_t)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentWidget(ui->welcomePage);
+    ui->documentContainer->setComboBox(ui->documentSelector);
+    auto version = tr("%1 build at %2").arg(VERSION).arg(BUILD_DATE);
+    ui->labelVersion->setText(ui->labelVersion->text().replace("{{version}}", version));
+    resize(900, 600);
 
-    ui->centralWidget->setProjectView(ui->projectView);
+    priv->pman = new ProcessManager(this);
+    ui->logView->setFont(QFont("Courier"));
+    priv->console = new ConsoleInterceptor(ui->logView, priv->pman, BuildManager::PROCESS_NAME, this);
+    priv->console->addStdErrFilter(RegexHTMLTranslator());
+    priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);
+    priv->buildManager = new BuildManager(priv->projectManager, priv->pman, this);
+    priv->fileManager = new FileSystemManager(ui->fileViewer, this);
+    ui->documentContainer->setProjectManager(priv->projectManager);
+    priv->projectManager->setCodeModelProvider(new ClangAutocompletionProvider(priv->projectManager, this));
 
-    trayIcon->setIcon(QIcon(":/images/embedded-ide.svg"));
-    {
-        auto m = new QMenu();
-        trayIcon->setContextMenu(m);
-        auto f = [this]() {
-            templateDownloader->download();
-            trayIcon->hide();
-        };
-        auto *refreshAction = m->addAction(QIcon(":/images/actions/view-refresh.svg"), tr("Update"));
-        connect(refreshAction, &QAction::triggered, f);
-        connect(trayIcon, &QSystemTrayIcon::messageClicked, f);
-        connect(templateDownloader, &TemplateDownloader::newUpdatesAvailables, [this]() {
-            trayIcon->show();
-            trayIcon->showMessage(
-                        tr("Updates available"),
-                        tr("New project templates available, click here for details"),
-                        QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information), 15000);
-        });
-    }
-    connect(templateDownloader, &TemplateDownloader::finished, [this]() {
-        templateDownloader->setSilent(false);
+    connect(ui->logView, &QTextBrowser::anchorClicked, [this](const QUrl& url) {
+        auto path = url.path();
+        auto lr = url.fragment().split('#');
+        bool ok1 = false, ok2 = false;
+        int line = lr.size()>0? lr.at(0).toInt(&ok1, 10) : 1;
+        int chdr = lr.size()>1? lr.at(1).toInt(&ok2, 10) : 1;
+        if (!ok1) line = 1;
+        if (!ok2) chdr = 1;
+        ui->documentContainer->openDocumentHere(path, line, chdr);
+        ui->documentContainer->setFocus();
     });
 
-    setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
-    ui->dockWidget->setTitleBarWidget(new QWidget(this));
-    ui->projectDock->setTitleBarWidget(new QWidget(this));
-    ui->debugDocker->setTitleBarWidget(new QWidget(this));
-    connect(ui->loggerCompiler, &LoggerWidget::openEditorIn, this, &MainWindow::loggerOpenPath);
-    connect(ui->loggerCompiler, &LoggerWidget::processFinished, [this](int exitCode, QProcess::ExitStatus exitStatus){
-        Q_UNUSED(exitCode);
-        Q_UNUSED(exitStatus);
-        ui->projectView->setTargetsViewOn(true);
-    });
-    connect(ui->projectView, &ProjectView::startBuild,
-            [this](const QString &target) {
-              if (this->goToBuildStage()) {
-                QString projectPath =
-                    ui->projectView->projectPath().absolutePath();
-                QStringList args;
-                args << "-f" << ui->projectView->project() << target;
-                ui->projectView->setTargetsViewOn(false);
-                ui->loggerCompiler->setWorkingDir(projectPath)
-                    .startProcess("make", args);
-              }
-            });
-    connect(ui->projectView, &ProjectView::execTool, [this](const QString& command) {
-        QString projectPath = ui->projectView->projectPath().absolutePath();
-        ui->loggerCompiler->setWorkingDir(projectPath).startProcess(command);
+    TextMessageBrocker::instance().subscribe("stderrLog", [this](const QString& msg) {
+        priv->console->writeHtml(msg);
     });
 
-    ui->debugUI->setDocumentArea(ui->centralWidget);
-    ui->debugUI->setProjectView(ui->projectView);
-    ui->debugUI->setLoggers(ui->loggerDebugger, ui->loggerApplication);
-    connect(ui->projectView, &ProjectView::debugChange, [this](bool enabled){
-        if (enabled)
-            ui->debugUI->startDebug();
-        else
-            ui->debugUI->stopDebug();
+    TextMessageBrocker::instance().subscribe("stdoutLog", [this](const QString& msg) {
+        priv->console->writeHtml(msg);
     });
 
-    connect(GdbDebugger::instance(), &GdbDebugger::debugStarted, [this](){
-        ui->debugDocker->setVisible(true);
-        ui->projectView->debugStarted();
+    auto label = new QLabel(ui->actionViewer);
+    auto g = new QGridLayout(ui->actionViewer);
+    g->addWidget(label, 1, 1);
+    g->setRowStretch(0, 1);
+    g->setColumnStretch(0, 1);
+    TextMessageBrocker::instance().subscribe("actionLabel", label, &QLabel::setText);
+
+    connect(priv->buildManager, &BuildManager::buildStarted, [this]() { ui->actionViewer->setEnabled(false); });
+    connect(priv->buildManager, &BuildManager::buildTerminated, [this]() { ui->actionViewer->setEnabled(true); });
+    connect(priv->projectManager, &ProjectManager::targetTriggered, [this](const QString& target) {
+        ui->logView->clear();
+        auto unsaved = ui->documentContainer->unsavedDocuments();
+        if (!unsaved.isEmpty()) {
+            UnsavedFilesDialog d(unsaved, this);
+            if (d.exec() == QDialog::Rejected)
+                return;
+            ui->documentContainer->saveDocuments(d.checkedForSave());
+        }
+        priv->buildManager->startBuild(target);
     });
-    connect(GdbDebugger::instance(), &GdbDebugger::debugStoped, [this](){
-        ui->projectView->debugStoped();
-        ui->debugDocker->setVisible(false);
+    connect(priv->fileManager, &FileSystemManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
+
+    auto showMessageCallback = [this](const QString& msg) { priv->console->writeMessage(msg, Qt::darkGreen); };
+    auto clearMessageCallback = [this]() { ui->logView->clear(); };
+    connect(priv->projectManager, &ProjectManager::exportFinish, showMessageCallback);
+
+    ui->recentProjectsView->setModel(new QStandardItemModel(ui->recentProjectsView));
+    auto makeRecentProjects = [this]() {
+        auto m = dynamic_cast<QStandardItemModel*>(ui->recentProjectsView->model());
+        m->clear();
+        for(const auto& e: AppConfig::instance().recentProjects()) {
+            auto item = new QStandardItem(QIcon(":/images/mimetypes/text-x-makefile.svg"), e.dir().dirName());
+            item->setData(e.absoluteFilePath());
+            item->setToolTip(e.absoluteFilePath());
+            m->appendRow(item);
+        }
+    };
+    makeRecentProjects();
+    connect(new QFileSystemWatcher({AppConfig::instance().projectsPath()}, this),
+            &QFileSystemWatcher::directoryChanged, makeRecentProjects);
+    connect(ui->recentProjectsView, &QListView::activated, [this](const QModelIndex& m) {
+        openProject(dynamic_cast<const QStandardItemModel*>(m.model())->data(m, Qt::UserRole + 1).toString());
     });
 
-    auto mainMenu = new QMenu(this);
-    auto wa = new QWidgetAction(mainMenu);
-    auto menuWidget = new MainMenuWidget(mainMenu);
-    menuWidget->setProjectList(lastProjectsList());
-    wa->setDefaultWidget(menuWidget);
-    mainMenu->addAction(wa);
-    connect(menuWidget, SIGNAL(projectNew()), this, SLOT(projectNew()));
-    connect(menuWidget, SIGNAL(projectOpen()), this, SLOT(projectOpen()));
-    connect(menuWidget, &MainMenuWidget::projectOpenAs, [this, mainMenu, menuWidget] (const QFileInfo& info) {
-        mainMenu->hide();
-        QString name = info.absoluteFilePath();
-        if (QFileInfo(name).exists()) {
-            ui->projectView->openProject(name);
-            QString name = ui->projectView->projectPath().dirName();
-            QString path = ui->projectView->project();
-            QSettings sets;
-            sets.beginGroup("last_projects");
-            sets.setValue(name, path);
-            sets.sync();
-        } else {
-            QMessageBox::critical(this, tr("Open Project"), tr("Cannot open %1").arg(name));
-            removeFromLastProject(name);
-            menuWidget->setProjectList(lastProjectsList());
+    auto openProjectCallback = [this]() {
+        auto lastDir = property("lastDir").toString();
+        if (lastDir.isEmpty())
+            lastDir = AppConfig::instance().projectsPath();
+        auto path = QFileDialog::getOpenFileName(this, tr("Open Project"), lastDir, tr("Makefile (Makefile);;All files (*)"));
+        if (!path.isEmpty()) {
+            openProject(path);
+            setProperty("lastDir", QFileInfo(QFileInfo(path).absolutePath()).absolutePath());
+        }
+    };
+    auto newProjectCallback = [this]() {
+        NewProjectDialog d(this);
+        if (d.exec() == QDialog::Accepted) {
+            priv->projectManager->createProject(d.absoluteProjectPath(), d.templateFile());
+        }
+    };
+    auto openConfigurationCallback = [this]() {
+        ConfigWidget d(this);
+        if (d.exec())
+            d.save();
+    };
+    auto exportCallback = [this, clearMessageCallback]() {
+        auto path = QFileDialog::getSaveFileName(this, tr("New File"), AppConfig::instance().templatesPath(),
+                                                 tr("Templates (*.template);;All files (*)"));
+        if (!path.isEmpty()) {
+            if (QFileInfo(path).suffix().isEmpty())
+                path.append(".template");
+            clearMessageCallback();
+            priv->projectManager->exportCurrentProjectTo(path);
+        }
+    };
+    connect(ui->buttonOpenProject, &QToolButton::clicked, openProjectCallback);
+    connect(ui->buttonExport, &QToolButton::clicked, exportCallback);
+    connect(ui->buttonNewProject, &QToolButton::clicked, newProjectCallback);
+    connect(ui->buttonConfiguration, &QToolButton::clicked, openConfigurationCallback);
+    connect(ui->buttonConfigurationMain, &QToolButton::clicked, openConfigurationCallback);
+    connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);
+    connect(new QShortcut(QKeySequence("CTRL+N"), this), &QShortcut::activated, newProjectCallback);
+    connect(new QShortcut(QKeySequence("CTRL+O"), this), &QShortcut::activated, openProjectCallback);
+    connect(new QShortcut(QKeySequence("CTRL+SHIFT+P"), this), &QShortcut::activated, openConfigurationCallback);
+    connect(new QShortcut(QKeySequence("CTRL+SHIFT+Q"), this), &QShortcut::activated, priv->projectManager, &ProjectManager::closeProject);
+
+    connect(ui->buttonReload, &QToolButton::clicked, priv->projectManager, &ProjectManager::reloadProject);
+    connect(priv->projectManager, &ProjectManager::projectOpened, [this](const QString& makefile) {
+        for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(true);
+        ui->stackedWidget->setCurrentWidget(ui->mainPage);
+        priv->fileManager->openPath(QFileInfo(makefile).absolutePath());
+        AppConfig::instance().appendToRecentProjects(QFileInfo(makefile).absoluteFilePath());
+        AppConfig::instance().save();
+    });
+    connect(priv->projectManager, &ProjectManager::projectClosed, [this, makeRecentProjects]() {
+        bool ok = ui->documentContainer->aboutToCloseAll();
+        qDebug() << "can close" << ok;
+        if (ok) {
+            for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(false);
+            makeRecentProjects();
+            ui->stackedWidget->setCurrentWidget(ui->welcomePage);
+            priv->fileManager->closePath();
         }
     });
 
-    auto projectDirWatch = new QFileSystemWatcher(this);
-    projectDirWatch->addPath(AppConfig::mutableInstance().buildDefaultProjectPath());
-    connect(projectDirWatch, &QFileSystemWatcher::directoryChanged, [menuWidget](){
-        menuWidget->setProjectList(lastProjectsList());
+    auto enableEdition = [this]() {
+        auto haveDocuments = ui->documentContainer->documentCount() > 0;
+        auto current = ui->documentContainer->documentEditorCurrent();
+        auto isModified = current? current->isModified() : false;
+        ui->documentSelector->setEnabled(haveDocuments);
+        ui->buttonDocumentClose->setEnabled(haveDocuments);
+        ui->buttonDocumentCloseAll->setEnabled(haveDocuments);
+        ui->buttonDocumentReload->setEnabled(haveDocuments);
+        ui->buttonDocumentSave->setEnabled(isModified);
+        ui->buttonDocumentSaveAll->setEnabled(ui->documentContainer->unsavedDocuments().count() > 0);
+        if (current) {
+            auto m = qobject_cast<QFileSystemModel*>(ui->fileViewer->model());
+            if (m) {
+                auto i = m->index(current->path());
+                if (i.isValid()) {
+                    ui->fileViewer->setCurrentIndex(i);
+                }
+            }
+        }
+    };
+    connect(ui->documentContainer, &DocumentManager::documentModified, [this](const QString& path, IDocumentEditor *iface, bool modify){
+        Q_UNUSED(path);
+        Q_UNUSED(iface);
+        ui->buttonDocumentSave->setEnabled(modify);
+        ui->buttonDocumentSaveAll->setEnabled(ui->documentContainer->unsavedDocuments().count() > 0);
     });
-    connect(ui->projectView, &ProjectView::projectOpened, [menuWidget]() {
-        menuWidget->setProjectList(lastProjectsList());
+
+    connect(ui->documentContainer, &DocumentManager::documentFocushed, enableEdition);
+    connect(ui->documentContainer, &DocumentManager::documentClosed, enableEdition);
+
+    connect(priv->projectManager, &ProjectManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
+    connect(ui->buttonDocumentClose, &QToolButton::clicked, ui->documentContainer, &DocumentManager::closeCurrent);
+    connect(ui->buttonDocumentCloseAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::aboutToCloseAll);
+    connect(ui->buttonDocumentSave, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveCurrent);
+    connect(ui->buttonDocumentSaveAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveAll);
+    connect(ui->buttonDocumentReload, &QToolButton::clicked, ui->documentContainer, &DocumentManager::reloadDocumentCurrent);
+
+    ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager));
+
+    connect(&AppConfig::instance(), &AppConfig::configChanged, [this]() {
+        if (ui->buttonTools->menu())
+            ui->buttonTools->menu()->deleteLater();
+        ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager));
     });
-    connect(menuWidget, SIGNAL(projectClose()), this, SLOT(projectClose()));
-    connect(menuWidget, SIGNAL(configure()), this, SLOT(configureShow()));
-    connect(&(AppConfig::mutableInstance()), SIGNAL(configChanged(AppConfig*)),
-            this, SLOT(configChanged(AppConfig*)));
-    connect(menuWidget, SIGNAL(help()), this, SLOT(helpShow()));
-    connect(menuWidget, SIGNAL(exit()), this, SLOT(close()));
 
-    connect(menuWidget, SIGNAL(projectNew()), mainMenu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(projectOpen()), mainMenu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(projectClose()), mainMenu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(configure()), mainMenu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(help()), mainMenu, SLOT(hide()));
-    connect(menuWidget, SIGNAL(exit()), mainMenu, SLOT(hide()));
-    ui->projectView->setMainMenu(mainMenu);
-
-    ui->debugDocker->hide();
-
-#define SHCUT(shortcut, method) do { \
-        auto tmp = new QShortcut(QKeySequence(shortcut), this); \
-        tmp->setContext(Qt::ApplicationShortcut); \
-        connect(tmp, &QShortcut::activated, this, method); \
-    } while(0)
-    SHCUT("CTRL+N", &MainWindow::projectNew);
-    SHCUT("CTRL+O", &MainWindow::projectOpen);
-    SHCUT("CTRL+SHIFT+Q", &MainWindow::projectClose);
-    SHCUT("CTRL+SHIFT+F", &MainWindow::on_projectView_openFindDialog);
-    SHCUT("CTRL+E", &MainWindow::projectExport);
-    SHCUT("CTRL+SHIFT+P", &MainWindow::configureShow);
-    SHCUT("CTRL+H", &MainWindow::helpShow);
-#undef SHCUT
-
-    configChanged(&AppConfig::mutableInstance());
-    statusBar()->showMessage(tr("Application ready..."), 1500);
-    statusBar()->hide();
-    for(auto *b: findChildren<QToolButton*>())
-        b->setAutoRaise(true);
-
+    auto findInFilesCallback = [this]() {
+        auto path = priv->projectManager->projectPath();
+        if (!path.isEmpty()) {
+            auto d = new FindInFilesDialog(path, this);
+            connect(d, &FindInFilesDialog::finished, d, &QObject::deleteLater);
+            connect(d, &FindInFilesDialog::queryToOpen, [this](const QString& path, int line, int column) {
+                activateWindow();
+                ui->documentContainer->setFocus();
+                ui->documentContainer->openDocumentHere(path, line, column);
+            });
+            d->show();
+        }
+    };
+    connect(ui->buttonFindAll, &QToolButton::clicked, findInFilesCallback);
+    connect(new QShortcut(QKeySequence("CTRL+SHIFT+F"), this), &QShortcut::activated, findInFilesCallback);
 }
 
 MainWindow::~MainWindow()
 {
+    delete priv;
     delete ui;
 }
 
-void MainWindow::openProject(const QString &makefilePath)
+void MainWindow::openProject(const QString &path)
 {
-    ui->projectView->openProject(makefilePath);
+    priv->projectManager->openProject(path);
 }
 
-void MainWindow::closeEvent(QCloseEvent *e)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (ui->centralWidget->hasUnsavedChanges()) {
-        ui->centralWidget->closeAll();
-        if (!ui->centralWidget->hasUnsavedChanges())
-            e->accept();
-        else
-            e->ignore();
-    } else
-        e->accept();
-}
-
-void MainWindow::actionNewFromTemplateEnd(const QString &project, const QString &error)
-{
-    if (error.isEmpty()) {
-        ui->projectView->openProject(project + QDir::separator() + "Makefile");
-    } else
-        QMessageBox::critical(this, tr("Error"), error);
-}
-
-void MainWindow::actionExportFinish(const QString &s)
-{
-    QString dialogTitle(tr("Export"));
-    if (s.isEmpty())
-        QMessageBox::information(this, dialogTitle, tr("Success"));
-    else
-        QMessageBox::warning(this, dialogTitle, s);
-}
-
-void MainWindow::on_projectView_fileOpen(const QString &file)
-{
-    qDebug() << file;
-    QFileInfo inf(file);
-    QMimeType m = QMimeDatabase().mimeTypeForFile(file, QMimeDatabase::MatchDefault);
-    if (inf.suffix().toLower() == "map") {
-        ui->centralWidget->mapOpen(file);
-    } else if (m.inherits("text/plain") || (inf.size() == 0)) {
-        ui->centralWidget->fileOpen(file);
+    auto unsaved = ui->documentContainer->unsavedDocuments();
+    if (unsaved.isEmpty()) {
+        event->accept();
     } else {
-        ui->centralWidget->binOpen(file);
+        UnsavedFilesDialog d(unsaved, this);
+        event->setAccepted(d.exec() == QDialog::Accepted);
+        if (event->isAccepted())
+            ui->documentContainer->saveDocuments(d.checkedForSave());
     }
-}
-
-void MainWindow::projectNew()
-{
-    ProjectNewDialog w(this);
-    switch(w.exec()) {
-    case QDialog::Accepted:
-        (new ProjetFromTemplate(w.projectPath(), w.templateText(),
-                                this, SLOT(actionNewFromTemplateEnd(QString,QString))))->start();
-        break;
-    default:
-        break;
-    }
-}
-
-void MainWindow::projectOpen()
-{
-    QString name = QFileDialog::
-            getOpenFileName(this,
-                            tr("Open Project"),
-                            "Makefile",
-                            tr("Makefile (Makefile);;"
-                               "Make (*.mk);;"
-                               "All Files (*)")
-                            );
-    if (!name.isEmpty()) {
-            ui->projectView->openProject(name);
-    }
-}
-
-void MainWindow::openProject()
-{
-    QAction *a = qobject_cast<QAction*>(sender());
-    if (a) {
-        QString name = a->data().toString();
-        if (QFileInfo(name).exists()) {
-            ui->projectView->openProject(name);
-        } else {
-            QMessageBox::critical(this, tr("Open Project"), tr("Cannot open %1").arg(a->text()));
-            removeFromLastProject(name);
-        }
-    }
-}
-
-void MainWindow::projectExport()
-{
-    ui->projectView->doExport();
-}
-
-void MainWindow::helpShow()
-{
-    AboutDialog(this).exec();
-}
-
-void MainWindow::projectClose()
-{
-    ui->projectView->closeProject();
-    ui->centralWidget->closeAll();
-    ui->loggerCompiler->clearText();
-    setWindowTitle(tr("Embedded IDE"));
-}
-
-void MainWindow::on_projectView_projectOpened()
-{
-    setWindowTitle(tr("Embedded IDE %1").arg(ui->projectView->project()));
-    QString name = ui->projectView->projectPath().dirName();
-    QString path = ui->projectView->project();
-    QSettings sets;
-    sets.beginGroup("last_projects");
-    sets.setValue(name, path);
-    sets.sync();
-}
-
-void MainWindow::configureShow()
-{
-    ConfigDialog(this).exec();
-}
-
-void MainWindow::configChanged(AppConfig* config)
-{
-    ui->tabWidget->tabBar()->setVisible(config->useDevelopMode());
-    ui->tabWidget->setCurrentIndex(0);
-    QToolButton *debugButton = ui->projectView->findChild<QToolButton*>("toolButton_startDebug");
-    if (debugButton)
-        debugButton->setVisible(config->useDevelopMode());
-    this->setUpProxy();
-    if (config && config->projectTmplatesAutoUpdate()) {
-        this->checkForUpdates();
-    }
-}
-
-void MainWindow::loggerOpenPath(const QString& path, int col, int row)
-{
-    QString file = ui->projectView->projectPath().absoluteFilePath(path);
-    qDebug() << "Opening" << file << row << col;
-    ui->centralWidget->fileOpen(file, row - 1, col);
-}
-
-void MainWindow::checkForUpdates() {
-    templateDownloader->setSilent(true);
-    templateDownloader->requestPendantDownloads();
-}
-
-bool MainWindow::event(QEvent *event)
-{
-    switch (event->type()) {
-    case QEvent::WindowActivate:
-        ui->centralWidget->setFocus();
-        break;
-    }
-    return QMainWindow::event(event);
-}
-
-bool MainWindow::goToBuildStage() {
-  static const QString saveBeforeBuildPrompt = "behavior/savebeforebuildprompt";
-  if (ui->centralWidget->hasUnsavedChanges()) {
-    bool promptEnabled =
-        QSettings().value(saveBeforeBuildPrompt, true).toBool();
-    if (promptEnabled) {
-      QMessageBox msgbox(
-          QMessageBox::Icon::Question, tr("Save files"),
-          tr("Save all files before build?"),
-          QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-      QCheckBox cb(tr("Do not show again"));
-      msgbox.setCheckBox(&cb);
-      msgbox.exec();
-      if (msgbox.result() == QMessageBox::StandardButton::Yes ||
-          msgbox.result() == QMessageBox::StandardButton::No) {
-        QSettings().setValue(saveBeforeBuildPrompt,
-                             !msgbox.checkBox()->isChecked());
-        if (msgbox.checkBox()->isChecked()) {
-          this->statusBar()->showMessage(tr("This dialog not will show again"),
-                                         2000);
-          ConfigDialog::setEditorSaveOnAction(
-                msgbox.result() == QMessageBox::StandardButton::Yes);
-        }
-        if (msgbox.result() == QMessageBox::StandardButton::Yes) {
-          ui->centralWidget->saveAll();
-        }
-      } else {
-        return false;
-      }
-    } else {
-      if (AppConfig::mutableInstance().editorSaveOnAction()) {
-        ui->centralWidget->saveAll();
-      }
-    }
-  }
-  return true;
-}
-
-void MainWindow::setUpProxy() {
-  AppConfig &config = AppConfig::mutableInstance();
-  switch (config.networkProxyType()) {
-    case AppConfig::NetworkProxyType::None:
-      QNetworkProxy::setApplicationProxy(QNetworkProxy::NoProxy);
-      break;
-    case AppConfig::NetworkProxyType::System:
-      QNetworkProxyFactory::setUseSystemConfiguration(true);
-      break;
-    case AppConfig::NetworkProxyType::Custom:
-      QNetworkProxy proxy(
-          QNetworkProxy::HttpProxy, config.networkProxyHost(),
-          static_cast<quint16>(config.networkProxyPort().toInt()));
-      if (config.networkProxyUseCredentials()) {
-        proxy.setUser(config.networkProxyUsername());
-        proxy.setPassword(config.networkProxyPassword());
-      }
-      QNetworkProxy::setApplicationProxy(proxy);
-      break;
-  }
-}
-
-void MainWindow::on_projectView_openFindDialog()
-{
-    if (ui->projectView->project().isEmpty())
-        return;
-    auto d = new FindInFilesDialog(ui->centralWidget, ui->projectView, this);
-    d->show();
-    connect(d, &QDialog::finished, d, &QObject::deleteLater);
 }
