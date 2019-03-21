@@ -22,6 +22,8 @@
 #include <QtDebug>
 
 const QString SPACE_SEPARATORS = R"(\s)";
+const QString DISCOVER_PROC = "makeDiscover";
+const QString DIFF_PROC = "diff";
 
 using targetMap_t = QHash<QString, QStringList>;
 
@@ -35,6 +37,19 @@ public:
     ProcessManager *pman{ nullptr };
     QFileInfo makeFile;
     ICodeModelProvider *codeModelProvider{ nullptr };
+
+    void doCloseProject() {
+        allTargets.clear();
+        targets.clear();
+
+        if (targetView->model())
+            targetView->model()->deleteLater();
+        targetView->setModel(new QStandardItemModel(targetView));
+
+        if (pman->isRunning(DISCOVER_PROC))
+            pman->terminate(DISCOVER_PROC, true, 1000);
+        makeFile = QFileInfo();
+    }
 };
 
 static QPair<targetMap_t, targetMap_t> findAllTargets(QIODevice *in)
@@ -55,9 +70,6 @@ static QPair<targetMap_t, targetMap_t> findAllTargets(QIODevice *in)
     }
     return map;
 }
-
-const QString DISCOVER_PROC = "makeDiscover";
-const QString DIFF_PROC = "diff";
 
 ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *parent) :
     QObject(parent),
@@ -217,22 +229,13 @@ void ProjectManager::openProject(const QString &makefile)
 
 void ProjectManager::closeProject()
 {
-    priv->allTargets.clear();
-    priv->targets.clear();
-
-    if (priv->targetView->model())
-        priv->targetView->model()->deleteLater();
-    priv->targetView->setModel(new QStandardItemModel(priv->targetView));
-
-    if (priv->pman->isRunning(DISCOVER_PROC))
-        priv->pman->terminate(DISCOVER_PROC, true, 1000);
-    priv->makeFile = QFileInfo();
+    priv->doCloseProject();
     emit projectClosed();
 }
 
 void ProjectManager::reloadProject()
 {
     auto project = projectFile();
-    closeProject();
+    priv->doCloseProject();
     openProject(project);
 }

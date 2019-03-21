@@ -1,5 +1,14 @@
 #include "processmanager.h"
 
+#ifdef Q_OS_UNIX
+#include <signal.h>
+
+#elif defined(Q_OS_WIN)
+#error TODO windows unsupported kill method
+#else
+#error Unsupported kill method
+#endif
+
 #include <QtDebug>
 
 ProcessManager::ProcessManager(QObject *parent) :
@@ -70,7 +79,13 @@ void ProcessManager::start(const QString &name, const QString &command, const QS
 bool ProcessManager::terminate(const QString &name, bool canKill, int timeout)
 {
     auto proc = processFor(name);
+#ifdef Q_OS_UNIX
+    ::kill(pid_t(proc->pid()), SIGINT);
+#elif defined(Q_OS_WIN)
+    // TODO
+#else
     proc->terminate();
+#endif
     if (!proc->waitForFinished(timeout)) {
         if (canKill) {
             proc->kill();

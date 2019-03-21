@@ -39,7 +39,10 @@ const QJsonObject& objectOrDefault(const QJsonObject& v, const QJsonObject& d)
 static QByteArray readEntireFile(const QString& path, const QByteArray& ifFail = QByteArray())
 {
     QFile f(path);
-    return f.open(QFile::ReadOnly)? QTextStream(&f).readAll().toUtf8() : ifFail;
+    if (f.open(QFile::ReadOnly))
+        return QTextStream(&f).readAll().toUtf8();
+    else
+        return ifFail;
 }
 
 static bool writeEntireFile(const QString& path, const QByteArray& data)
@@ -55,13 +58,24 @@ static QString globalConfigFilePath() { return QDir::home().absoluteFilePath(".e
 
 const QString DEFAULT_GLOBAL_RES = ":/default-global.json";
 const QString DEFAULT_LOCAL_RES = ":/default-local.json";
+const QString DEFAULT_LOCAL_TEMPLATE =
+#ifdef Q_OS_UNIX
+        "../share/embedded-ide/embedded-ide.hardconf";
+#else
+        "default-local.json";
+#endif
+
+static QString defaultLocalTemplateConfig()
+{
+    return QDir(QApplication::applicationDirPath()).absoluteFilePath(DEFAULT_LOCAL_TEMPLATE);
+}
 
 static void addResourcesFont()
 {
     for(const auto& fontPath: QDir(":/fonts/").entryInfoList({ "*.ttf" }))
         QFontDatabase::addApplicationFont(fontPath.absoluteFilePath());
 }
-
+/*
 static bool completeToLeft(QJsonObject& a, const QJsonObject& b)
 {
     bool hasReplace = false;
@@ -79,6 +93,25 @@ static bool completeToLeft(QJsonObject& a, const QJsonObject& b)
         a.insert(k, v);
     }
     return hasReplace;
+}
+*/
+
+static bool completeToLeft(QJsonObject& left, const QJsonObject& right)
+{
+    bool modify = false;
+    for(const auto& k: right.keys()) {
+        if (left.contains(k)) {
+            auto obj = left[k].toObject();
+            if (completeToLeft(obj, left[k].toObject())) {
+                modify = true;
+                left.insert(k, obj);
+            }
+        } else {
+            modify = true;
+            left.insert(k, right[k]);
+        }
+    }
+    return modify;
 }
 
 AppConfig::AppConfig() : QObject(QApplication::instance()), priv(new Priv_t)
@@ -313,13 +346,32 @@ QByteArray AppConfig::fileHash(const QString &filename)
 
 void AppConfig::load()
 {
-    auto def = QJsonDocument::fromJson(readEntireFile(DEFAULT_LOCAL_RES)).object();
+#if 0
+    QByteArray doc;
+    doc = readEntireTextFile(defaultLocalTemplateConfig());
+    if (doc.isEmpty()) {
+        doc = readEntireTextFile(DEFAULT_LOCAL_RES);
+    }
+    auto def = QJsonDocument::fromJson(doc).object();
     CFG_GLOBAL = QJsonDocument::fromJson(readEntireFile(globalConfigFilePath(), readEntireFile(DEFAULT_GLOBAL_RES))).object();
     CFG_LOCAL = QJsonDocument::fromJson(readEntireFile(localConfigFilePath())).object();
 
-    if (completeToLeft(CFG_LOCAL, def))
+    bool isMerged = false;
+    CFG_LOCAL = merge(CFG_LOCAL, def, MergeWay::ToLeft, &isMerged);
+    if (isMerged)
         save();
-
+#else
+    auto docBundle = QJsonDocument::fromJson(readEntireTextFile(DEFAULT_LOCAL_RES)).object();
+    QJsonParseError err;
+    auto docLocal = QJsonDocument::fromJson(readEntireTextFile(defaultLocalTemplateConfig()), &err).object();
+    if (err.error != QJsonParseError::NoError) {
+        qDebug() << err.errorString();
+    }
+    CFG_LOCAL = QJsonDocument::fromJson(readEntireTextFile(localConfigFilePath())).object();
+    completeToLeft(docLocal, docBundle);
+    if (completeToLeft(CFG_LOCAL, docLocal))
+        save();
+#endif
     projectsPath();
     templatesPath();
 

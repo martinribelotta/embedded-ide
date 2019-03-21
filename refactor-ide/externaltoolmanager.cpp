@@ -21,6 +21,7 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
 {
     ui->setupUi(this);
     auto model = new QStandardItemModel(this);
+    model->setHorizontalHeaderLabels({ tr("Description"), tr("Command") });
     ui->tableView->setModel(model);
     connect(ui->itemAdd, &QToolButton::clicked, [model]() {
         model->appendRow(makeItem());
