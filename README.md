@@ -16,9 +16,10 @@ Makefile based, C/C++ IDE
 
   - GNU Make (required)
   - Qt5
+  - QScintilla2
   - clang (optional for autocompletion)
   - diff and patch (optional for import/export project)
-  - ctags (optional for code indexing)
+  - universal-ctags (optional for code indexing)
 
 ## Installation
 
