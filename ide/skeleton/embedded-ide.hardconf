@@ -14,10 +14,10 @@
             "tabsOnSpaces": true
         },
         "externalTools": {
-            "Install FTDI drivers": "bash {{appExecPath}}/ftdi-tools.sh --install" },
-            "Uninstall FTDI drivers": "bash {{appExecPath}}/ftdi-tools.sh --uninstall" },
-            "Add desktop integration": "bash {{appExecPath}}/desktop-integration.sh --install" },
-            "Remove desktop integration"": "bash {{appExecPath}}/desktop-integration.sh --uninstall" }
+            "Install FTDI drivers": "bash ${APPLICATION_DIR_PATH}/ftdi-tools.sh --install",
+            "Uninstall FTDI drivers": "bash ${APPLICATION_DIR_PATH}/ftdi-tools.sh --uninstall",
+            "Add desktop integration": "bash ${APPLICATION_DIR_PATH}/desktop-integration.sh --install",
+            "Remove desktop integration": "bash ${APPLICATION_DIR_PATH}/desktop-integration.sh --uninstall"
         },
         "history": null,
         "logger": {

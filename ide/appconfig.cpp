@@ -346,21 +346,6 @@ QByteArray AppConfig::fileHash(const QString &filename)
 
 void AppConfig::load()
 {
-#if 0
-    QByteArray doc;
-    doc = readEntireTextFile(defaultLocalTemplateConfig());
-    if (doc.isEmpty()) {
-        doc = readEntireTextFile(DEFAULT_LOCAL_RES);
-    }
-    auto def = QJsonDocument::fromJson(doc).object();
-    CFG_GLOBAL = QJsonDocument::fromJson(readEntireFile(globalConfigFilePath(), readEntireFile(DEFAULT_GLOBAL_RES))).object();
-    CFG_LOCAL = QJsonDocument::fromJson(readEntireFile(localConfigFilePath())).object();
-
-    bool isMerged = false;
-    CFG_LOCAL = merge(CFG_LOCAL, def, MergeWay::ToLeft, &isMerged);
-    if (isMerged)
-        save();
-#else
     auto docBundle = QJsonDocument::fromJson(readEntireTextFile(DEFAULT_LOCAL_RES)).object();
     QJsonParseError err;
     auto docLocal = QJsonDocument::fromJson(readEntireTextFile(defaultLocalTemplateConfig()), &err).object();
@@ -368,10 +353,11 @@ void AppConfig::load()
         qDebug() << err.errorString();
     }
     CFG_LOCAL = QJsonDocument::fromJson(readEntireTextFile(localConfigFilePath())).object();
+
     completeToLeft(docLocal, docBundle);
     if (completeToLeft(CFG_LOCAL, docLocal))
         save();
-#endif
+
     projectsPath();
     templatesPath();
 

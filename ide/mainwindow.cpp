@@ -55,7 +55,6 @@ MainWindow::MainWindow(QWidget *parent) :
     resize(900, 600);
 
     priv->pman = new ProcessManager(this);
-    ui->logView->setFont(QFont("Courier"));
     priv->console = new ConsoleInterceptor(ui->logView, priv->pman, BuildManager::PROCESS_NAME, this);
     priv->console->addStdErrFilter(RegexHTMLTranslator());
     priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);

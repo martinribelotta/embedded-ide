@@ -36,6 +36,12 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     gl->setRowStretch(1, 1);
     gl->setContentsMargins(0, 0, textBrowser->verticalScrollBar()->sizeHint().width(), 0);
     gl->setSpacing(0);
+    auto f(AppConfig::instance().loggerFont());
+    textBrowser->setFont(QFont("Courier"));
+    connect(&AppConfig::instance(), &AppConfig::configChanged, [textBrowser](AppConfig *conf) {
+        textBrowser->setFont(conf->loggerFont());
+    });
+
 
     pman->setStderrInterceptor(pname, [this](QProcess *p, const QString& text) {
         appendToConsole(QProcess::StandardError, p, text);

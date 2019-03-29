@@ -1,42 +1,40 @@
 {
-    "additionalPaths": [
-        "${APPLICATION_DIR_PATH}"
-    ],
-    "editor": {
-        "font": {
-            "name": "Fira Code Retina",
-            "size": 10
+        "additionalPaths": [
+            "${APPLICATION_DIR_PATH}"
+        ],
+        "editor": {
+            "font": {
+                "name": "Ubuntu Mono Regular",
+                "size": 12
+            },
+            "formatterStyle": "linux",
+            "saveOnAction": false,
+            "style": "Default",
+            "tabWidth": 4,
+            "tabsOnSpaces": true
         },
-        "formatterStyle": "",
-        "saveOnAction": false,
-        "style": "Default",
-        "tabWidth": 4,
-        "tabsOnSpaces": true,
-        "formatterStyle": "linux"
-    },
-    "externalTools": {
-        "git status": "git status",
-        "hello world": "echo Hello martin"
-    },
-    "logger": {
-        "font": {
-            "name": "Fira Code Retina",
-            "size": 10
-        }
-    },
-    "network": {
-        "proxy": {
-            "host": "",
-            "pass": "",
-            "port": "",
-            "type": "None",
-            "useCredentials": false,
-            "user": ""
-        }
-    },
-    "templates": {
-        "autoUpdate": true,
-        "url": "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents"
-    },
-    "useDevelopMode": false
+        "externalTools": {
+        },
+        "history": [ ],
+        "logger": {
+            "font": {
+                "name": "Ubuntu Mono Regular",
+                "size": 10
+            }
+        },
+        "network": {
+            "proxy": {
+                "host": "",
+                "pass": "",
+                "port": "",
+                "type": "None",
+                "useCredentials": false,
+                "user": ""
+            }
+        },
+        "templates": {
+            "autoUpdate": true,
+            "url": "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents"
+        },
+        "useDevelopMode": false
 }

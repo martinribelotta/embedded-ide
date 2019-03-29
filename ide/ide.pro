@@ -62,7 +62,8 @@ SOURCES += \
     filereferencesdialog.cpp \
     mapfileviewer.cpp \
     textmessagebrocker.cpp \
-    regexhtmltranslator.cpp
+    regexhtmltranslator.cpp \
+    imageviewer.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -94,7 +95,8 @@ HEADERS += \
     filereferencesdialog.h \
     mapfileviewer.h \
     textmessagebrocker.h \
-    regexhtmltranslator.h
+    regexhtmltranslator.h \
+    imageviewer.h
 
 FORMS += \
         mainwindow.ui \
@@ -113,6 +115,12 @@ MOBILITY =
 
 RESOURCES += \
     resources/resources.qrc
+
+win32 {
+    QMAKE_LFLAGS += -lqscintilla2_qt5
+    QMAKE_CXXFLAGS += -g3
+    QMAKE_CFLAGS += -g3
+}
 
 unix {
     QMAKE_LFLAGS_RELEASE += -static-libstdc++ -static-libgcc

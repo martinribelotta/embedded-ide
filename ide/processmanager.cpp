@@ -4,7 +4,7 @@
 #include <signal.h>
 
 #elif defined(Q_OS_WIN)
-#error TODO windows unsupported kill method
+// #error TODO windows unsupported kill method
 #else
 #error Unsupported kill method
 #endif
@@ -82,8 +82,6 @@ bool ProcessManager::terminate(const QString &name, bool canKill, int timeout)
 #ifdef Q_OS_UNIX
     ::kill(pid_t(proc->pid()), SIGINT);
 #elif defined(Q_OS_WIN)
-    // TODO
-#else
     proc->terminate();
 #endif
     if (!proc->waitForFinished(timeout)) {

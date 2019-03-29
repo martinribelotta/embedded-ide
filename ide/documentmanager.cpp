@@ -9,6 +9,7 @@
 #include "mapfileviewer.h"
 #include "unsavedfilesdialog.h"
 #include "textmessagebrocker.h"
+#include "imageviewer.h"
 
 #include <QComboBox>
 #include <QDir>
@@ -40,10 +41,11 @@ DocumentManager::DocumentManager(QWidget *parent) :
     priv->stack->setMargin(0);
 
     DocumentEditorFactory::instance()->registerDocumentInterface(CPPTextEditor::creator());
+    DocumentEditorFactory::instance()->registerDocumentInterface(ImageViewer::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(CodeTextEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(PlainTextEditor::creator());
-    DocumentEditorFactory::instance()->registerDocumentInterface(BinaryViewer::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(MapFileViewer::creator());
+    DocumentEditorFactory::instance()->registerDocumentInterface(BinaryViewer::creator());
 
     auto label = new QLabel(this);
     label->setPixmap(QPixmap(":/images/screens/EmbeddedIDE_02.png"));

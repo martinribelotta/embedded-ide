@@ -73,6 +73,8 @@ static const QHash<QString, creator_t> EXTENTION_MAP = {
     _("md", QsciLexerMarkdown),
 #endif
     _("sh", QsciLexerBash),
+    _("diff", QsciLexerDiff),
+    _("patch", QsciLexerDiff),
     _("bat", QsciLexerBatch),
     _("coffee", QsciLexerCoffeeScript),
     _("litcoffee", QsciLexerCoffeeScript),
@@ -148,7 +150,8 @@ public:
     ~CodeEditorCreator() override;
     bool canHandleExtentions(const QStringList &suffixes) const override  {
         for (const auto& suffix: suffixes)
-            return EXTENTION_MAP.contains(suffix);
+            if (EXTENTION_MAP.contains(suffix))
+                return true;
         return false;
     }
 

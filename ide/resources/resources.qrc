@@ -137,5 +137,8 @@
         <file>fonts/UbuntuMono-BI.ttf</file>
         <file>fonts/UbuntuMono-R.ttf</file>
         <file>fonts/UbuntuMono-RI.ttf</file>
+        <file>images/actions/zoom-fit-best.svg</file>
+        <file>images/actions/zoom-in.svg</file>
+        <file>images/actions/zoom-out.svg</file>
     </qresource>
 </RCC>
