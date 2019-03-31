@@ -17,6 +17,8 @@ const RegexList_t RegexHTMLTranslator::DEFAULT_REGEX =
 #undef _
     };
 
+RegexHTMLTranslator RegexHTMLTranslator::CONSOLE_TRANSLATOR{};
+
 QString &RegexHTMLTranslator::operator()(QProcess *p, QString &s)
 {
     Q_UNUSED(p);

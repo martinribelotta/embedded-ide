@@ -2,6 +2,7 @@
 #define NEWPROJECTDIALOG_H
 
 #include <QDialog>
+#include <QFileInfo>
 
 namespace Ui {
 class NewProjectDialog;
@@ -17,6 +18,8 @@ public:
 
     QString absoluteProjectPath() const;
     QString templateFile() const;
+    QFileInfo selectedTemplateFile() const;
+    bool isTemplate() const;
 private:
     Ui::NewProjectDialog *ui;
 };

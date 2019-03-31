@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     priv->pman = new ProcessManager(this);
     priv->console = new ConsoleInterceptor(ui->logView, priv->pman, BuildManager::PROCESS_NAME, this);
-    priv->console->addStdErrFilter(RegexHTMLTranslator());
+    priv->console->addStdErrFilter(RegexHTMLTranslator::CONSOLE_TRANSLATOR);
     priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);
     priv->buildManager = new BuildManager(priv->projectManager, priv->pman, this);
     priv->fileManager = new FileSystemManager(ui->fileViewer, this);
@@ -140,7 +140,12 @@ MainWindow::MainWindow(QWidget *parent) :
     auto newProjectCallback = [this]() {
         NewProjectDialog d(this);
         if (d.exec() == QDialog::Accepted) {
-            priv->projectManager->createProject(d.absoluteProjectPath(), d.templateFile());
+            if (d.isTemplate()) {
+                priv->projectManager->createProject(d.absoluteProjectPath(), d.templateFile());
+            } else {
+                priv->projectManager->createProjectFromTGZ(d.absoluteProjectPath(),
+                                                           d.selectedTemplateFile().absoluteFilePath());
+            }
         }
     };
     auto openConfigurationCallback = [this]() {
@@ -150,7 +155,9 @@ MainWindow::MainWindow(QWidget *parent) :
     };
     auto exportCallback = [this, clearMessageCallback]() {
         auto path = QFileDialog::getSaveFileName(this, tr("New File"), AppConfig::instance().templatesPath(),
-                                                 tr("Templates (*.template);;All files (*)"));
+                                                 tr("Templates (*.template);;"
+                                                    "Compressed tar with gzip (*.tar.gz);;"
+                                                    "All files (*)"));
         if (!path.isEmpty()) {
             if (QFileInfo(path).suffix().isEmpty())
                 path.append(".template");
@@ -246,8 +253,12 @@ MainWindow::MainWindow(QWidget *parent) :
             d->show();
         }
     };
+
     connect(ui->buttonFindAll, &QToolButton::clicked, findInFilesCallback);
     connect(new QShortcut(QKeySequence("CTRL+SHIFT+F"), this), &QShortcut::activated, findInFilesCallback);
+
+    connect(ui->buttonQuit, &QToolButton::clicked, this, &MainWindow::close);
+    connect(new QShortcut(QKeySequence("ALT+F4"), this), &QShortcut::activated, this, &MainWindow::close);
 }
 
 MainWindow::~MainWindow()

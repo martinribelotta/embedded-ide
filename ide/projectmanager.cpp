@@ -1,8 +1,10 @@
 #include "appconfig.h"
+#include "buildmanager.h"
 #include "childprocess.h"
 #include "icodemodelprovider.h"
 #include "processmanager.h"
 #include "projectmanager.h"
+#include "regexhtmltranslator.h"
 #include "textmessagebrocker.h"
 
 #include <QBuffer>
@@ -23,7 +25,7 @@
 
 const QString SPACE_SEPARATORS = R"(\s)";
 const QString DISCOVER_PROC = "makeDiscover";
-const QString DIFF_PROC = "diff";
+const QString EXPORT_PROC = "exporter";
 
 using targetMap_t = QHash<QString, QStringList>;
 
@@ -179,12 +181,41 @@ void ProjectManager::createProject(const QString& projectFilePath, const QString
             .start("patch", { "-p1" });
 }
 
-void ProjectManager::exportCurrentProjectTo(const QString &patchFile)
+void ProjectManager::createProjectFromTGZ(const QString &projectFilePath, const QString &tgzFile)
+{
+    AppConfig::ensureExist(projectFilePath);
+    auto onFinishCb = [this, projectFilePath](QProcess *p, int exitCode) {
+        Q_UNUSED(p);
+        TextMessageBrocker::instance().publish("stdoutLog", tr("tar terminate. Exit code %1").arg(exitCode));
+        openProject(QDir(projectFilePath).filePath("Makefile"));
+    };
+    auto onErrCb = [](QProcess *p, QProcess::ProcessError err) {
+        Q_UNUSED(err);
+        TextMessageBrocker::instance().publish("stderrLog", tr("tar error: %1").arg(p->errorString()));
+    };
+    ChildProcess::create(this)
+        .makeDeleteLater()
+        .changeCWD(projectFilePath)
+        .onFinished(onFinishCb)
+        .onError(onErrCb)
+        .start("tar", { "-x", "-v", "-z", "-f", tgzFile, "-C", projectFilePath });
+}
+
+void ProjectManager::exportCurrentProjectTo(const QString &fileName)
+{
+    if (QFileInfo(fileName).suffix().compare("template", Qt::CaseInsensitive) == 0) {
+        exportToDiff(fileName);
+    } else {
+        exportToTarGz(fileName);
+    }
+}
+
+void ProjectManager::exportToDiff(const QString &patchFile)
 {
     auto tmpDir = QDir(QDir(QStandardPaths::writableLocation(QStandardPaths::TempLocation)).filePath(QString("%1-empty").arg(projectName())));
     if (!tmpDir.exists())
         QDir::root().mkpath(tmpDir.absolutePath());
-    priv->pman->setTerminationHandler(DIFF_PROC, [this, tmpDir, patchFile](QProcess *p, int code, QProcess::ExitStatus status) {
+    priv->pman->setTerminationHandler(EXPORT_PROC, [this, tmpDir, patchFile](QProcess *p, int code, QProcess::ExitStatus status) {
         Q_UNUSED(code);
         QDir::root().rmpath(tmpDir.absolutePath());
         if (status == QProcess::NormalExit) {
@@ -199,9 +230,26 @@ void ProjectManager::exportCurrentProjectTo(const QString &patchFile)
                 emit exportFinish(f.errorString());
         } else
             emit exportFinish(p->errorString());
-        p->deleteLater();;
+        p->deleteLater();
     });
-    priv->pman->start(DIFF_PROC, "diff", { "-N", "-u", "-r", tmpDir.absolutePath(), "." }, {}, projectPath());
+    priv->pman->setStdoutInterceptor(EXPORT_PROC, [](QProcess* p, const QString& text) {
+        QString s{ text };
+        TextMessageBrocker::instance()
+            .publish("stdoutLog",
+                     RegexHTMLTranslator::CONSOLE_TRANSLATOR(p, s));
+    });
+    priv->pman->start(EXPORT_PROC, "diff", { "-N", "-u", "-r", tmpDir.absolutePath(), "." }, {}, projectPath());
+    TextMessageBrocker::instance()
+        .publish("stdoutLog",
+                 tr(R"(<font color="blue">Exporting to %1</font><br>)").arg(patchFile));
+}
+
+void ProjectManager::exportToTarGz(const QString &tgzFile)
+{
+    priv->pman->start(BuildManager::PROCESS_NAME, "tar", { "-c", "-z", "-v", "-f", tgzFile, "." }, {}, projectPath());
+    TextMessageBrocker::instance()
+        .publish("stdoutLog",
+                 tr(R"(<font color="blue">Exporting to %1</font><br>)").arg(tgzFile));
 }
 
 void ProjectManager::openProject(const QString &makefile)

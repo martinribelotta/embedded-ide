@@ -24,6 +24,7 @@ public:
     QString& operator()(QProcess *p, QString& s);
 
     static const RegexList_t DEFAULT_REGEX;
+    static RegexHTMLTranslator CONSOLE_TRANSLATOR;
 private:
     RegexList_t regexs;
 };

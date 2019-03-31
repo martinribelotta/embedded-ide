@@ -148,16 +148,23 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
 
     auto templateSelectedCallback = [this](int index) {
         auto path = ui->templateName->itemData(index).toString();
-        auto text = AppConfig::readEntireTextFile(path);
-        int startOfDiff = 0;
-        ui->infoView->setHtml(textBeforeDiff(text, &startOfDiff));
-        if (ui->parameterTable->model())
-            ui->parameterTable->model()->deleteLater();
-        ui->parameterTable->setModel(ItemDelegate::extractParameterToModel(ui->parameterTable, text, startOfDiff));
-        ui->parameterTable->resizeColumnToContents(0);
-        ui->parameterTable->resizeRowsToContents();
+        if (QFileInfo(path).suffix().compare("template", Qt::CaseInsensitive) == 0) {
+            auto text = AppConfig::readEntireTextFile(path);
+            int startOfDiff = 0;
+            ui->infoView->setHtml(textBeforeDiff(text, &startOfDiff));
+            if (ui->parameterTable->model())
+                ui->parameterTable->model()->deleteLater();
+            ui->parameterTable->setModel(ItemDelegate::extractParameterToModel(ui->parameterTable, text, startOfDiff));
+            ui->parameterTable->resizeColumnToContents(0);
+            ui->parameterTable->resizeRowsToContents();
+        } else {
+            ui->infoView->setHtml(tr("<h1>Compressed project in tar.gz from:</h1><p><tt>%1</tt>").arg(path));
+            if (ui->parameterTable->model())
+                ui->parameterTable->model()->deleteLater();
+            // TODO? extract metadata from tar.gz and show it?
+        }
     };
-    connect(ui->templateName, QOverload<int>::of(&QComboBox::activated), templateSelectedCallback);
+    connect(ui->templateName, QOverload<int>::of(&QComboBox::currentIndexChanged), templateSelectedCallback);
     connect(ui->pathSelect, &QToolButton::clicked, [this]() {
         auto path = QFileDialog::getExistingDirectory(this, tr("Select Directory"), ui->projectPath->text());
         if (!path.isEmpty())
@@ -165,9 +172,16 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     });
     connect(ui->templateSelect, &QToolButton::clicked, [this]() {
         auto dir = AppConfig::instance().templatesPath();
-        auto path = QFileDialog::getOpenFileName(this, tr("Select File"), dir, tr("Templates (*.template);;All files (*)"));
-        if (!path.isEmpty())
+        auto path = QFileDialog::getOpenFileName(this,
+                                                 tr("Select File"),
+                                                 dir,
+                                                 tr("Templates (*.template);;"
+                                                    "Tar compressed with gzip (*.tar.gz);;"
+                                                    "All files (*)"));
+        if (!path.isEmpty()) {
             ui->templateName->insertItem(0, QFileInfo(path).baseName(), path);
+            ui->templateName->setCurrentIndex(0);
+        }
     });
 
     completePath();
@@ -187,6 +201,8 @@ QString NewProjectDialog::absoluteProjectPath() const
 
 QString NewProjectDialog::templateFile() const
 {
+    if (!isTemplate())
+        return QString{};
     auto templatePath = ui->templateName->currentData().toString();
     qDebug() << "create project from template" << templatePath;
     auto text = QString(AppConfig::readEntireTextFile(templatePath));
@@ -201,5 +217,14 @@ QString NewProjectDialog::templateFile() const
     return text;
 }
 
-ItemDelegate::~ItemDelegate()
-= default;
+QFileInfo NewProjectDialog::selectedTemplateFile() const
+{
+    return QFileInfo(ui->templateName->currentData().toString());
+}
+
+bool NewProjectDialog::isTemplate() const
+{
+    return selectedTemplateFile().suffix().compare("template", Qt::CaseInsensitive) == 0;
+}
+
+ItemDelegate::~ItemDelegate() = default;
