@@ -47,6 +47,7 @@ public:
     int editorTabWidth() const;
     QString editorFormatterStyle() const;
     QString editorFormatterExtra() const;
+    bool editorDetectIdent() const;
 
     QFont loggerFont() const;
 
@@ -86,6 +87,7 @@ public slots:
     void setEditorTabWidth(int n);
     void setEditorFormatterStyle(const QString& name);
     void setEditorFormatterExtra(const QString& text);
+    void setEditorDetectIdent(bool enable);
 
     void setLoggerFont(const QFont& f);
 

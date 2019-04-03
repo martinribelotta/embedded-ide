@@ -282,6 +282,11 @@ QString AppConfig::editorFormatterExtra() const
     return CFG_LOCAL.value("editor").toObject().value("formatterExtra").toString();
 }
 
+bool AppConfig::editorDetectIdent() const
+{
+    return CFG_LOCAL.value("editor").toObject().value("detectIdent").toBool();
+}
+
 QFont AppConfig::loggerFont() const
 {
     auto ed = CFG_LOCAL.value("logger").toObject();
@@ -458,6 +463,13 @@ void AppConfig::setEditorFormatterExtra(const QString &text)
 {
     auto ed = CFG_LOCAL["editor"].toObject();
     ed.insert("formatterExtra", text);
+    CFG_LOCAL["editor"] = ed;
+}
+
+void AppConfig::setEditorDetectIdent(bool enable)
+{
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed.insert("detectIdent", enable);
     CFG_LOCAL["editor"] = ed;
 }
 

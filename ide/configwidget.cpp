@@ -112,6 +112,7 @@ void ConfigWidget::save()
     conf.setEditorTabsToSpaces(ui->editorReplaceTabs->isChecked());
     conf.setEditorTabWidth(ui->editorTabWidth->value());
     conf.setEditorFormatterStyle(ui->formatterStyle->currentText());
+    conf.setEditorDetectIdent(ui->editorDetectIdent->isChecked());
     conf.setTemplatesUrl(ui->templateSettings->repositoryUrl().toString());
     auto loggerFont = ui->loggerFontName->currentFont();
     loggerFont.setPointSize(ui->loggerFontSize->value());

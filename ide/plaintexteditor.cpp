@@ -67,8 +67,110 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
 #undef _
 }
 
-PlainTextEditor::~PlainTextEditor()
-= default;
+PlainTextEditor::~PlainTextEditor() = default;
+
+// NPP detect indent from nppIndenture writed by Evan King
+// https://github.com/evan-king/nppIndenture
+// Licenced by GPL-3.0
+namespace npp_detectident {
+
+constexpr auto MIN_INDENT = 2; // minimum width of a single indentation
+constexpr auto MAX_INDENT = 8; // maximum width of a single indentation
+
+constexpr auto MIN_DEPTH = MIN_INDENT; // ignore lines below this indentation level
+constexpr auto MAX_DEPTH = 3*MAX_INDENT; // ignore lines beyond this indentation level
+
+// % of lines allowed to contradict indentation option without penalty
+constexpr auto GRACE_FREQUENCY = 1/50.0f;
+
+struct ParseResult {
+    int num_tab_lines = 0;
+    int num_space_lines = 0;
+    float grace = 0.0f;
+
+    // indentation => count(lines of that exact indentation)
+    int depth_counts[MAX_DEPTH+1] = {0};
+};
+
+ParseResult parseDocument(QsciScintilla *doc) {
+    ParseResult result;
+
+    const int num_lines = doc->lines();
+    result.grace = float(num_lines) * GRACE_FREQUENCY;
+    for(int i = 0; i < num_lines; ++i) {
+        const int depth = doc->indentation(i);
+        if(depth < MIN_DEPTH || depth > MAX_DEPTH) continue;
+
+        auto pos = doc->SendScintilla(QsciScintilla::SCI_POSITIONFROMLINE, i);
+        auto lineHeadChar = doc->SendScintilla(QsciScintilla::SCI_GETCHARAT, pos);
+
+        if(lineHeadChar == '\t') result.num_tab_lines++;
+
+        if(lineHeadChar == ' ') {
+            result.num_space_lines++;
+            result.depth_counts[depth]++;
+        }
+    }
+
+    return result;
+}
+
+struct IndentInfo {
+    enum class IndentType { Invalid, Space, Tab };
+
+    IndentType type = IndentType::Invalid;
+    int num = 0;
+};
+
+IndentInfo detectIndentInfo(QsciScintilla *doc) {
+
+    const ParseResult result = parseDocument(doc);
+    IndentInfo info;
+
+    // decide `type`
+    if(result.num_tab_lines + result.num_space_lines == 0)
+        info.type = IndentInfo::IndentType::Invalid;
+    else if(result.num_space_lines > (result.num_tab_lines * 4))
+        info.type = IndentInfo::IndentType::Space;
+    else if(result.num_tab_lines > (result.num_space_lines * 4))
+        info.type = IndentInfo::IndentType::Tab;
+    /*else
+        {
+            const auto sci = plugin.getSciCallFunctor();
+            const bool useTab = sci.call<bool>(SCI_GETUSETABS);
+            info.type = useTab ? IndentType::Tab : IndentType::Space;
+        }*/
+
+    // decide `num`
+    if(info.type == IndentInfo::IndentType::Space) {
+
+        // indent size => count(space-indented lines with incompatible indentation)
+        int margins[MAX_INDENT+1] = {0};
+
+        // for each depth option, count the incompatible lines
+        for(int i = MIN_DEPTH; i <= MAX_DEPTH; i++) {
+            for(int k = MIN_INDENT; k <= MAX_INDENT; k++) {
+                if(i % k == 0) continue;
+                margins[k] += result.depth_counts[i];
+            }
+        }
+
+        // choose the last indent with the smallest margin (ties go to larger indent)
+        // Considers margins within grace of zero as =zero,
+        // so occasional typos don't force smaller indentation
+        int which = MIN_INDENT;
+        for(int i = MIN_INDENT; i <= MAX_INDENT; ++i) {
+            if(result.depth_counts[i] == 0) continue;
+            if(margins[i] <= margins[which] || margins[i] < result.grace) which = i;
+        }
+
+        info.num = which;
+    }
+
+    return info;
+}
+
+}
 
 bool PlainTextEditor::load(const QString &path)
 {
@@ -77,6 +179,17 @@ bool PlainTextEditor::load(const QString &path)
         if (read(&f)) {
             setPath(path);
             loadConfig();
+            if (AppConfig::instance().editorDetectIdent()) {
+                auto info = npp_detectident::detectIndentInfo(this);
+                if (info.type == npp_detectident::IndentInfo::IndentInfo::IndentType::Tab) {
+                    setTabIndents(true);
+                } else if (info.type == npp_detectident::IndentInfo::IndentInfo::IndentType::Space) {
+                    setTabIndents(false);
+                    setIndentationWidth(info.num);
+                } else {
+                    // Nothing to do... fallback to config
+                }
+            }
             return true;
         }
     }

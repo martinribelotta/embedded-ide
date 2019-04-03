@@ -1,3 +1,4 @@
+#include "appconfig.h"
 #include "codetexteditor.h"
 
 #include <QFileInfo>
@@ -52,8 +53,7 @@ CodeTextEditor::CodeTextEditor(QWidget *parent) : PlainTextEditor(parent)
 {
 }
 
-CodeTextEditor::~CodeTextEditor()
-= default;
+CodeTextEditor::~CodeTextEditor() = default;
 
 bool CodeTextEditor::load(const QString &path)
 {
