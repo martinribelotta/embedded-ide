@@ -149,6 +149,7 @@ void ConfigWidget::load()
     ui->saveOnActionTarget->setChecked(conf.editorSaveOnAction());
     ui->editorReplaceTabs->setChecked(conf.editorTabsToSpaces());
     ui->editorTabWidth->setValue(conf.editorTabWidth());
+    ui->editorDetectIdent->setChecked(conf.editorDetectIdent());
     ui->formatterStyle->setCurrentText(conf.editorFormatterStyle());
     ui->formatterExtra->setText(conf.editorFormatterExtra());
     ui->templateSettings->setRepositoryUrl(conf.templatesUrl());
