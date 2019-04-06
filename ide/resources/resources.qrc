@@ -140,5 +140,12 @@
         <file>images/actions/zoom-fit-best.svg</file>
         <file>images/actions/zoom-in.svg</file>
         <file>images/actions/zoom-out.svg</file>
+        <file>images/actions/debug-step-over-v2.svg</file>
+        <file>images/actions/debug-step-into-v2.svg</file>
+        <file>images/actions/debug-step-out-v2.svg</file>
+        <file>images/actions/debug-init.svg</file>
+        <file>images/actions/debug-run-v2.svg</file>
+        <file>images/actions/debug-pause-v2.svg</file>
+        <file>images/actions/debug-stop-v2.svg</file>
     </qresource>
 </RCC>

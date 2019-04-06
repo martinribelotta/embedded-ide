@@ -23,8 +23,14 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     QApplication::setWindowIcon(QIcon(":/images/embedded-ide.svg"));
 
-    QObject::connect(&AppConfig::instance(), &AppConfig::configChanged, [](AppConfig *config)
+    auto checkDarkStyle = [&app](AppConfig *config) {
+        app.setStyleSheet( config->useDarkStyle()?
+            AppConfig::readEntireTextFile(":/qdarkstyle/style.qss"): ""
+        );
+    };
+    QObject::connect(&AppConfig::instance(), &AppConfig::configChanged, [&checkDarkStyle](AppConfig *config)
     {
+        checkDarkStyle(config);
         switch (config->networkProxyType()) {
         case AppConfig::NetworkProxyType::None:
             QNetworkProxy::setApplicationProxy(QNetworkProxy::NoProxy);
@@ -45,6 +51,8 @@ int main(int argc, char *argv[])
         }
     });
     AppConfig::instance().load();
+    checkDarkStyle(&AppConfig::instance());
+
 
     QCommandLineParser opt;
     opt.addHelpOption();

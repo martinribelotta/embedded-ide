@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS = ide
+SUBDIRS = ide socketwaiter

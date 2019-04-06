@@ -1,6 +1,7 @@
 #include "appconfig.h"
 #include "formfindreplace.h"
 #include "plaintexteditor.h"
+#include "textmessagebrocker.h"
 
 #include <QDomDocument>
 #include <Qsci/qscistyle.h>
@@ -53,6 +54,21 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
 
     auto findDialog = new FormFindReplace(this);
     findDialog->hide();
+
+    TextMessageBrocker::instance().subscribe("", [this](const QString& msg) {
+        QRegularExpression re(R"((.+?)\:(\d+))");
+        auto m = re.match(msg);
+        if (m.hasMatch()) {
+            auto file = m.captured(1);
+            auto line = m.captured(2).toInt();
+            this->setCursor(QPoint{ line, 0 });
+            if (file == this->path()) {
+                markerAdd(line, SC_MARK_BACKGROUND);
+            } else {
+                markerDeleteAll(SC_MARK_BACKGROUND);
+            }
+        }
+    });
 
 #define _(keycode, functor) do { \
         auto acc = new QAction(this); \
@@ -360,6 +376,7 @@ void PlainTextEditor::loadConfigWithStyle(const QString& style, const QFont& edi
     setMarginSensitivity(1, true);
     markerDefine(QsciScintilla::Circle, SC_MARK_CIRCLE);
     markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
+    markerDefine(QsciScintilla::Background, SC_MARK_BACKGROUND);
     // setMargins(3);
     setMarkerBackgroundColor(QColor("#1111ee"), SC_MARK_CIRCLE);
     setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);

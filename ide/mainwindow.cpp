@@ -48,6 +48,9 @@ MainWindow::MainWindow(QWidget *parent) :
     priv(new Priv_t)
 {
     ui->setupUi(this);
+
+    ui->buttonDebugLaunch->setVisible(AppConfig::instance().useDevelopMode());
+
     ui->stackedWidget->setCurrentWidget(ui->welcomePage);
     ui->documentContainer->setComboBox(ui->documentSelector);
     auto version = tr("%1 build at %2").arg(VERSION).arg(BUILD_DATE);
@@ -234,10 +237,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager));
 
-    connect(&AppConfig::instance(), &AppConfig::configChanged, [this]() {
+    connect(&AppConfig::instance(), &AppConfig::configChanged, [this](AppConfig *cfg) {
         if (ui->buttonTools->menu())
             ui->buttonTools->menu()->deleteLater();
         ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager));
+        ui->buttonDebugLaunch->setVisible(cfg->useDevelopMode());
     });
 
     auto findInFilesCallback = [this]() {
@@ -259,6 +263,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->buttonQuit, &QToolButton::clicked, this, &MainWindow::close);
     connect(new QShortcut(QKeySequence("ALT+F4"), this), &QShortcut::activated, this, &MainWindow::close);
+
+    connect(ui->buttonDebugLaunch, &QToolButton::toggled, [this](bool en) {
+        if (en) {
+            ui->stack1->setCurrentWidget(ui->pageDebug);
+        } else {
+            ui->stack1->setCurrentWidget(ui->actionViewer);
+        }
+    });
 }
 
 MainWindow::~MainWindow()

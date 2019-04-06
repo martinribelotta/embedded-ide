@@ -134,6 +134,7 @@ void ConfigWidget::save()
     conf.setNetworkProxyPassword(ui->password->text());
     conf.setProjectTemplatesAutoUpdate(ui->autoUpdateProjectTmplates->isChecked());
     conf.setUseDevelopMode(ui->useDevelopment->isChecked());
+    conf.setUseDarkStyle(ui->useDarkStyle->isChecked());
     conf.save();
 }
 
@@ -175,4 +176,5 @@ void ConfigWidget::load()
     ui->password->setText(conf.networkProxyPassword());
     ui->autoUpdateProjectTmplates->setChecked(conf.projectTemplatesAutoUpdate());
     ui->useDevelopment->setChecked(conf.useDevelopMode());
+    ui->useDarkStyle->setChecked(conf.useDarkStyle());
 }

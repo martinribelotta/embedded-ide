@@ -339,6 +339,11 @@ bool AppConfig::useDevelopMode() const
     return CFG_LOCAL.value("useDevelopMode").toBool();
 }
 
+bool AppConfig::useDarkStyle() const
+{
+    return CFG_LOCAL.value("useDarkStyle").toBool();
+}
+
 QByteArray AppConfig::fileHash(const QString &filename)
 {
     auto path = QDir(workspacePath()).filePath("hashes.json");
@@ -548,6 +553,11 @@ void AppConfig::setProjectTemplatesAutoUpdate(bool en)
 void AppConfig::setUseDevelopMode(bool use)
 {
     CFG_LOCAL.insert("useDevelopMode", use);
+}
+
+void AppConfig::setUseDarkStyle(bool use)
+{
+    CFG_LOCAL.insert("useDarkStyle", use);
 }
 
 void AppConfig::addHash(const QString &filename, const QByteArray &hash)

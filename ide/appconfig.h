@@ -61,6 +61,7 @@ public:
     bool projectTemplatesAutoUpdate() const;
 
     bool useDevelopMode() const;
+    bool useDarkStyle() const;
 
     QByteArray fileHash(const QString& filename);
 
@@ -101,6 +102,7 @@ public slots:
     void setProjectTemplatesAutoUpdate(bool en);
 
     void setUseDevelopMode(bool use);
+    void setUseDarkStyle(bool use);
 
     void addHash(const QString& filename, const QByteArray& hash);
     void purgeHash();
