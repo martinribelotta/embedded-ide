@@ -182,12 +182,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonReload, &QToolButton::clicked, priv->projectManager, &ProjectManager::reloadProject);
     connect(priv->projectManager, &ProjectManager::projectOpened, [this](const QString& makefile) {
         for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(true);
+        QFileInfo mkInfo(makefile);
+        auto filepath = mkInfo.absoluteFilePath();
+        auto dirpath = mkInfo.absolutePath();
         ui->stackedWidget->setCurrentWidget(ui->mainPage);
-        priv->fileManager->openPath(QFileInfo(makefile).absolutePath());
-        AppConfig::instance().appendToRecentProjects(QFileInfo(makefile).absoluteFilePath());
+        priv->fileManager->openPath(dirpath);
+        AppConfig::instance().appendToRecentProjects(filepath);
         AppConfig::instance().save();
+        qputenv("CURRENT_PROJECT_FILE", filepath.toLocal8Bit());
+        qputenv("CURRENT_PROJECT_DIR", dirpath.toLocal8Bit());
     });
     connect(priv->projectManager, &ProjectManager::projectClosed, [this, makeRecentProjects]() {
+        qputenv("CURRENT_PROJECT_FILE", "");
+        qputenv("CURRENT_PROJECT_DIR", "");
         bool ok = ui->documentContainer->aboutToCloseAll();
         qDebug() << "can close" << ok;
         if (ok) {
