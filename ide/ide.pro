@@ -7,7 +7,7 @@ DESTDIR  = ../build
 
 QT       += core gui svg xml network
 
-CONFIG += qscintilla2
+CONFIG += qscintilla2 lrelease embed_translations
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -158,3 +158,5 @@ DISTFILES += \
     skeleton/ftdi-tools.sh \
     skeleton/embedded-ide.hardconf \
     skeleton/embedded-ide.desktop
+
+TRANSLATIONS = translations/es.ts

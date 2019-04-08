@@ -37,6 +37,7 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
     ui(new Ui::ConfigWidget)
 {
     ui->setupUi(this);
+    ui->languageList->addItems(QStringList{ "" } + AppConfig::langList());
     ui->tabWidget->setCurrentIndex(0);
     for(const auto& fi: QDir(":/styles").entryInfoList({ "*.xml" }))
         ui->editorStyle->addItem(fi.baseName());
@@ -135,6 +136,7 @@ void ConfigWidget::save()
     conf.setProjectTemplatesAutoUpdate(ui->autoUpdateProjectTmplates->isChecked());
     conf.setUseDevelopMode(ui->useDevelopment->isChecked());
     conf.setUseDarkStyle(ui->useDarkStyle->isChecked());
+    conf.setLanguage(ui->languageList->currentText());
     conf.save();
 }
 
@@ -177,4 +179,5 @@ void ConfigWidget::load()
     ui->autoUpdateProjectTmplates->setChecked(conf.projectTemplatesAutoUpdate());
     ui->useDevelopment->setChecked(conf.useDevelopMode());
     ui->useDarkStyle->setChecked(conf.useDarkStyle());
+    ui->languageList->setCurrentText(conf.language());
 }

@@ -26,14 +26,9 @@ public:
 #define CFG_GLOBAL (priv->global)
 #define CFG_LOCAL (priv->local)
 
-const QJsonValue& valueOrDefault(const QJsonValue& v, const QJsonValue& d)
+static const QJsonValue& valueOrDefault(const QJsonValue& v, const QJsonValue& d)
 {
     return v.isUndefined()? d : v;
-}
-
-const QJsonObject& objectOrDefault(const QJsonObject& v, const QJsonObject& d)
-{
-    return v.empty()? d : v;
 }
 
 static QByteArray readEntireFile(const QString& path, const QByteArray& ifFail = QByteArray())
@@ -60,14 +55,25 @@ const QString DEFAULT_GLOBAL_RES = ":/default-global.json";
 const QString DEFAULT_LOCAL_RES = ":/default-local.json";
 const QString DEFAULT_LOCAL_TEMPLATE =
 #ifdef Q_OS_UNIX
-        "../share/embedded-ide/embedded-ide.hardconf";
+    "../share/embedded-ide/embedded-ide.hardconf";
 #else
-        "default-local.json";
+    "default-local.json";
+#endif
+const QString DEFAULT_TRANSLATIONS =
+#ifdef Q_OS_UNIX
+    "../share/embedded-ide/translations/";
+#else
+    "translations.json";
 #endif
 
 static QString defaultLocalTemplateConfig()
 {
     return QDir(QApplication::applicationDirPath()).absoluteFilePath(DEFAULT_LOCAL_TEMPLATE);
+}
+
+static QString externalTranslationsPath()
+{
+    return QDir(QApplication::applicationDirPath()).absoluteFilePath(DEFAULT_TRANSLATIONS);
 }
 
 static void addResourcesFont()
@@ -192,6 +198,20 @@ const QString& AppConfig::ensureExist(const QString& d)
     if (!QDir(d).exists())
         QDir::root().mkpath(d);
     return d;
+}
+
+QStringList AppConfig::langList()
+{
+    QStringList langs;
+    for(const auto& p: langPaths())
+        for(const auto& l: QDir(p).entryInfoList({ "*.qm" }))
+            langs += l.baseName();
+    return langs;
+}
+
+QStringList AppConfig::langPaths()
+{
+    return { externalTranslationsPath(), ":/i18n/" };
 }
 
 QString AppConfig::projectsPath() const { return ensureExist(QDir(workspacePath()).absoluteFilePath("projects")); }
@@ -342,6 +362,11 @@ bool AppConfig::useDevelopMode() const
 bool AppConfig::useDarkStyle() const
 {
     return CFG_LOCAL.value("useDarkStyle").toBool();
+}
+
+QString AppConfig::language() const
+{
+    return CFG_LOCAL.value("lang").toString();
 }
 
 QByteArray AppConfig::fileHash(const QString &filename)
@@ -558,6 +583,11 @@ void AppConfig::setUseDevelopMode(bool use)
 void AppConfig::setUseDarkStyle(bool use)
 {
     CFG_LOCAL.insert("useDarkStyle", use);
+}
+
+void AppConfig::setLanguage(const QString &lang)
+{
+    CFG_LOCAL.insert("lang", lang);
 }
 
 void AppConfig::addHash(const QString &filename, const QByteArray &hash)

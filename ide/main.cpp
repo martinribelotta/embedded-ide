@@ -10,6 +10,7 @@
 #include <QNetworkProxyFactory>
 #include <QProcess>
 #include <QTimer>
+#include <QTranslator>
 
 #include <QtDebug>
 
@@ -19,18 +20,37 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("none");
     QCoreApplication::setOrganizationDomain("unknown.tk");
 
-
     QApplication app(argc, argv);
     QApplication::setWindowIcon(QIcon(":/images/embedded-ide.svg"));
+    QTranslator tr;
+    for(const auto& p: AppConfig::langPaths()) {
+        if (tr.load(QLocale::system().name(), p)) {
+            if (app.installTranslator(&tr)) {
+                qDebug() << "load translations" << QLocale::system().name();
+                break;
+            }
+        }
+    }
 
-    auto checkDarkStyle = [&app](AppConfig *config) {
+    auto checkConfig = [&app, &tr](AppConfig *config) {
         app.setStyleSheet( config->useDarkStyle()?
             AppConfig::readEntireTextFile(":/qdarkstyle/style.qss"): ""
         );
+        auto selectedLang = config->language();
+        if (!selectedLang.isEmpty()) {
+            for(const auto& p: AppConfig::langPaths()) {
+                if (tr.load(selectedLang, p)) {
+                    if (app.installTranslator(&tr)) {
+                        qDebug() << "load translations" << QLocale::system().name();
+                        break;
+                    }
+                }
+            }
+        }
     };
-    QObject::connect(&AppConfig::instance(), &AppConfig::configChanged, [&checkDarkStyle](AppConfig *config)
+    QObject::connect(&AppConfig::instance(), &AppConfig::configChanged, [&checkConfig](AppConfig *config)
     {
-        checkDarkStyle(config);
+        checkConfig(config);
         switch (config->networkProxyType()) {
         case AppConfig::NetworkProxyType::None:
             QNetworkProxy::setApplicationProxy(QNetworkProxy::NoProxy);
@@ -51,7 +71,7 @@ int main(int argc, char *argv[])
         }
     });
     AppConfig::instance().load();
-    checkDarkStyle(&AppConfig::instance());
+    checkConfig(&AppConfig::instance());
 
 
     QCommandLineParser opt;

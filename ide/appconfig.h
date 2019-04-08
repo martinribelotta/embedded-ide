@@ -23,6 +23,8 @@ public:
     static QByteArray readEntireTextFile(const QString& path);
     static QIODevice *writeEntireTextFile(const QString& text, const QString& path);
     static const QString& ensureExist(const QString& d);
+    static QStringList langList();
+    static QStringList langPaths();
 
     enum class NetworkProxyType { None, System, Custom };
     Q_ENUM(NetworkProxyType)
@@ -62,6 +64,8 @@ public:
 
     bool useDevelopMode() const;
     bool useDarkStyle() const;
+
+    QString language() const;
 
     QByteArray fileHash(const QString& filename);
 
@@ -103,6 +107,7 @@ public slots:
 
     void setUseDevelopMode(bool use);
     void setUseDarkStyle(bool use);
+    void setLanguage(const QString& lang);
 
     void addHash(const QString& filename, const QByteArray& hash);
     void purgeHash();
