@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
     opt.addOptions({
                        { "msgbox", "Show message box", "text" },
                        { "error", "Show error text", "text" },
+                       { "input", "Read input text", "text" },
                        { "yesno", "Show [yes] [no] msbox", "text" }
                        // TODO add more commands like kdialog/zenity/xdialog/dialog
                    });
@@ -25,6 +26,16 @@ int main(int argc, char *argv[])
         QTimer::singleShot(0, [&opt]() {
             QMessageBox::critical(nullptr, qAppName(), opt.value("msgbox"), QMessageBox::Close);
             QApplication::instance()->exit(0);
+        });
+    } else if (opt.isSet("input")) {
+        QTimer::singleShot(0, [&opt]() {
+            bool ok = false;
+            auto text = QInputDialog::getText(nullptr, qAppName(), opt.value("input"), QLineEdit::Normal, "", &ok);
+            if (ok) {
+                QTextStream out( stdout );
+                out << text << "\n";
+            }
+            QApplication::instance()->exit(ok? 0 : 1);
         });
     } else if (opt.isSet("yesno")) {
         QTimer::singleShot(0, [&opt]() {

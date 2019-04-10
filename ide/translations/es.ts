@@ -174,42 +174,47 @@
         <translation>Comportamiento</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="394"/>
+        <location filename="../configwidget.ui" line="414"/>
         <source>Log View Font</source>
         <translation>Fuente del visor de logs</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="401"/>
+        <location filename="../configwidget.ui" line="428"/>
         <source>Use dark style</source>
         <translation>Usar tema oscuro</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="421"/>
+        <location filename="../configwidget.ui" line="435"/>
         <source>Check for project templates updates at start up</source>
         <translation>Verificar por actualización de los template al iniciar el programa</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="444"/>
+        <location filename="../configwidget.ui" line="496"/>
+        <source>Current language</source>
+        <translation>Lenguaje en uso</translation>
+    </message>
+    <message>
+        <location filename="../configwidget.ui" line="421"/>
         <source>Format Style</source>
         <translation>Estilo del formateador</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="451"/>
+        <location filename="../configwidget.ui" line="388"/>
         <source>Format extra paramters:</source>
         <translation>Parametros extra del formateador:</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="472"/>
+        <location filename="../configwidget.ui" line="455"/>
         <source>Use in-progress/development characteristics</source>
         <translation>Usar caracteristicas en progreso/desarrollo</translation>
     </message>
     <message>
-        <location filename="../configwidget.cpp" line="68"/>
+        <location filename="../configwidget.cpp" line="69"/>
         <source>Select workspace directory</source>
         <translation>Seleccionar directorio del area de trabajo</translation>
     </message>
     <message>
-        <location filename="../configwidget.cpp" line="86"/>
+        <location filename="../configwidget.cpp" line="87"/>
         <source>Select directory</source>
         <translation>Seleccionar directorio</translation>
     </message>
