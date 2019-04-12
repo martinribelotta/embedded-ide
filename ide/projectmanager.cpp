@@ -10,7 +10,9 @@
 #include <QBuffer>
 #include <QFileInfo>
 #include <QFileSystemModel>
+#include <QGridLayout>
 #include <QHeaderView>
+#include <QLabel>
 #include <QListView>
 #include <QProcess>
 #include <QPushButton>
@@ -39,6 +41,7 @@ public:
     ProcessManager *pman{ nullptr };
     QFileInfo makeFile;
     ICodeModelProvider *codeModelProvider{ nullptr };
+    QTimer clearMessageTimer;
 
     void doCloseProject() {
         allTargets.clear();
@@ -51,6 +54,9 @@ public:
         if (pman->isRunning(DISCOVER_PROC))
             pman->terminate(DISCOVER_PROC, true, 1000);
         makeFile = QFileInfo();
+
+        for(auto *p: pman->findChildren<QProcess*>())
+            ChildProcess::safeStop(p);
     }
 };
 
@@ -80,6 +86,16 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
     priv->targetView = view;
     priv->targetView->setModel(new QStandardItemModel(priv->targetView));
     priv->pman = pman;
+
+    auto label = new QLabel(view);
+    auto g = new QGridLayout(view);
+    g->addWidget(label, 1, 1);
+    g->setRowStretch(0, 1);
+    g->setColumnStretch(0, 1);
+    TextMessageBrocker::instance().subscribe("actionLabel", [label](const QString& s) {
+        label->setText(s);
+    });
+    connect(&priv->clearMessageTimer, &QTimer::timeout, [this]() { clearMessage(); });
     priv->pman->setTerminationHandler(DISCOVER_PROC, [this](QProcess *make, int code, QProcess::ExitStatus status) {
         Q_UNUSED(code);
         if (status == QProcess::NormalExit) {
@@ -105,8 +121,7 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
                 }
             }
         }
-        TextMessageBrocker::instance().publish("actionLabel", tr("Finish target discover"));
-        QTimer::singleShot(3000, []() { TextMessageBrocker::instance().publish("actionLabel", QString()); });
+        showMessageTimed(tr("Finish target discover"));
     });
 }
 
@@ -172,13 +187,14 @@ void ProjectManager::createProject(const QString& projectFilePath, const QString
         Q_UNUSED(err);
         TextMessageBrocker::instance().publish("stderrLog", tr("Diff error: %1").arg(p->errorString()));
     };
-    ChildProcess::create(this)
+    auto& p = ChildProcess::create(this)
             .makeDeleteLater()
             .changeCWD(projectFilePath)
             .onStarted(onStartCb)
             .onFinished(onFinishCb)
-            .onError(onErrCb)
-            .start("patch", { "-p1" });
+            .onError(onErrCb);
+    p.start("patch", { "-p1" });
+    deleteOnCloseProject(&p);
 }
 
 void ProjectManager::createProjectFromTGZ(const QString &projectFilePath, const QString &tgzFile)
@@ -193,12 +209,13 @@ void ProjectManager::createProjectFromTGZ(const QString &projectFilePath, const 
         Q_UNUSED(err);
         TextMessageBrocker::instance().publish("stderrLog", tr("tar error: %1").arg(p->errorString()));
     };
-    ChildProcess::create(this)
+    auto& p = ChildProcess::create(this)
         .makeDeleteLater()
         .changeCWD(projectFilePath)
         .onFinished(onFinishCb)
-        .onError(onErrCb)
-        .start("tar", { "-x", "-v", "-z", "-f", tgzFile, "-C", projectFilePath });
+        .onError(onErrCb);
+    p.start("tar", { "-x", "-v", "-z", "-f", tgzFile, "-C", projectFilePath });
+    deleteOnCloseProject(&p);
 }
 
 void ProjectManager::exportCurrentProjectTo(const QString &fileName)
@@ -261,9 +278,11 @@ void ProjectManager::openProject(const QString &makefile)
                           { { "LC_ALL", "C" } },
                           QFileInfo(makefile).absolutePath());
         priv->makeFile = QFileInfo(makefile);
-        priv->codeModelProvider->startIndexingProject(projectPath());
         emit projectOpened(makefile);
-        TextMessageBrocker::instance().publish("actionLabel", tr("Discovering targets..."));
+        showMessageTimed(tr("Discovering targets..."));
+        QTimer::singleShot(100, [this]() {
+            priv->codeModelProvider->startIndexingProject(projectPath());
+        });
     };
 
     // FIXME: Unnecesary if force to close project after open other
@@ -286,4 +305,27 @@ void ProjectManager::reloadProject()
     auto project = projectFile();
     priv->doCloseProject();
     openProject(project);
+}
+
+void ProjectManager::showMessage(const QString &msg)
+{
+    priv->clearMessageTimer.stop();
+    TextMessageBrocker::instance().publish("actionLabel", msg);
+}
+
+void ProjectManager::showMessageTimed(const QString &msg, int millis)
+{
+    showMessage(msg);
+    clearMessageTimed(millis);
+}
+
+void ProjectManager::clearMessage()
+{
+    TextMessageBrocker::instance().publish("actionLabel", {});
+}
+
+void ProjectManager::clearMessageTimed(int millis)
+{
+    priv->clearMessageTimer.setInterval(millis);
+    QMetaObject::invokeMethod(&priv->clearMessageTimer, "start");
 }

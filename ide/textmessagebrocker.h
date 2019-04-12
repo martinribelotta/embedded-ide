@@ -34,6 +34,7 @@ public:
         });
         return *this;
     }
+
 signals:
     void published(const QString& topic, const QString& message);
 

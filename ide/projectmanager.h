@@ -28,6 +28,10 @@ public:
     QStringList dependenciesForTarget(const QString& target);
     QStringList targetsOfDependency(const QString& dep);
 
+    void deleteOnCloseProject(QObject *p) {
+        connect(this, &ProjectManager::projectClosed, p, &QObject::deleteLater);
+    }
+
 signals:
     void projectOpened(const QString& makePath);
     void projectClosed();
@@ -44,6 +48,11 @@ public slots:
     void openProject(const QString& makefile);
     void closeProject();
     void reloadProject();
+
+    void showMessage(const QString& msg);
+    void showMessageTimed(const QString& msg, int millis = 3000);
+    void clearMessage();
+    void clearMessageTimed(int millis = 3000);
 
 private:
     class Priv_t;

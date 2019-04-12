@@ -9,8 +9,10 @@ class ChildProcess : public QProcess
 public:
     static ChildProcess& create(QObject *parent = nullptr) { return *new ChildProcess(parent); }
 
+    static QProcess *safeStop(QProcess *p);
+
     explicit ChildProcess(QObject *parent = nullptr): QProcess(parent) {}
-    virtual ~ChildProcess() {}
+    virtual ~ChildProcess();
 
     ChildProcess& changeCWD(const QString& path) {
         setWorkingDirectory(path);
@@ -56,7 +58,9 @@ public:
 
     template<typename T> ChildProcess& onReadyReadStdout(T f)
     {
-        connect(this, &QProcess::readyReadStandardOutput, [this, f]() { f(this); });
+        connect(this, &QProcess::readyReadStandardOutput, [this, f]() {
+            f(this);
+        });
         return *this;
     }
 

@@ -86,13 +86,6 @@ MainWindow::MainWindow(QWidget *parent) :
         priv->console->writeHtml(msg);
     });
 
-    auto label = new QLabel(ui->actionViewer);
-    auto g = new QGridLayout(ui->actionViewer);
-    g->addWidget(label, 1, 1);
-    g->setRowStretch(0, 1);
-    g->setColumnStretch(0, 1);
-    TextMessageBrocker::instance().subscribe("actionLabel", label, &QLabel::setText);
-
     connect(priv->buildManager, &BuildManager::buildStarted, [this]() { ui->actionViewer->setEnabled(false); });
     connect(priv->buildManager, &BuildManager::buildTerminated, [this]() { ui->actionViewer->setEnabled(true); });
     connect(priv->projectManager, &ProjectManager::targetTriggered, [this](const QString& target) {
@@ -282,6 +275,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    TextMessageBrocker::instance().disconnect();
     delete priv;
     delete ui;
 }

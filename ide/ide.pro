@@ -5,9 +5,10 @@
 #-------------------------------------------------
 DESTDIR  = ../build
 
-QT       += core gui svg xml network
+QT       += core gui svg xml network concurrent
 
-CONFIG += qscintilla2 lrelease embed_translations
+#CONFIG += qscintilla2 lrelease embed_translations
+CONFIG += qscintilla2
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

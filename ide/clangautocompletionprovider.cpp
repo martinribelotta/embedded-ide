@@ -11,6 +11,8 @@
 #include <QRegularExpressionMatch>
 #include <QTimer>
 
+#include <QtConcurrent>
+
 #include <QtDebug>
 
 static QString getToken(QTextStream *s)
@@ -107,6 +109,7 @@ public:
     QHash<QString, ICodeModelProvider::FileReferenceList> nameMap;
     QStringList includes;
     QStringList defines;
+    QByteArray buffer;
 };
 
 ClangAutocompletionProvider::ClangAutocompletionProvider(ProjectManager *proj, QObject *parent):
@@ -123,34 +126,37 @@ ClangAutocompletionProvider::~ClangAutocompletionProvider()
 void ClangAutocompletionProvider::startIndexingProject(const QString &path)
 {
     priv->nameMap.clear();
-    ChildProcess::create(this)
+    auto& p = ChildProcess::create(this)
     .changeCWD(path)
-    .makeDeleteLater()
-    .onError([](QProcess *ctags, QProcess::ProcessError) {
-        TextMessageBrocker::instance().publish("actionLabel", tr("ctags error: %1").arg(ctags->errorString()));
-        QTimer::singleShot(3000, []() { TextMessageBrocker::instance().publish("actionLabel", QString()); });
+    .onError([this](QProcess *ctags, QProcess::ProcessError) {
+        priv->project->showMessageTimed(tr("ctags error: %1").arg(ctags->errorString()), 5000);
     })
     .onFinished([this](QProcess *ctags, int exitStatus) {
         qDebug() << "ctags end with" << exitStatus;
-        ctags->setReadChannel(QProcess::StandardOutput);
-        while(ctags->bytesAvailable() > 0) {
-            auto line = ctags->readLine();
-            auto entry = QJsonDocument::fromJson(line).object();
-            if (!entry.isEmpty()) {
-                auto name = entry.value("name").toString();
-                auto text = entry.value("text").toString();
-                ICodeModelProvider::FileReference r = {
-                    entry.value("path").toString(),
-                    entry.value("line").toInt(), 0,
-                    text, // meta
-                };
-                priv->nameMap[name].append(r);
+        QtConcurrent::run([ctags, this]() {
+            ctags->setReadChannel(QProcess::StandardOutput);
+            while(ctags->bytesAvailable() > 0) {
+                auto line = ctags->readLine();
+                auto entry = QJsonDocument::fromJson(line).object();
+                if (!entry.isEmpty()) {
+                    auto name = entry.value("name").toString();
+                    auto text = entry.value("text").toString();
+                    ICodeModelProvider::FileReference r = {
+                        entry.value("path").toString(),
+                        entry.value("line").toInt(), 0,
+                        text, // meta
+                    };
+                    priv->nameMap[name].append(r);
+                }
+                if (!priv->project->isProjectOpen())
+                    break;
             }
-        }
-        TextMessageBrocker::instance().publish("actionLabel", tr("Index finished"));
-        QTimer::singleShot(3000, []() { TextMessageBrocker::instance().publish("actionLabel", QString()); });
-    })
-    .start("universal-ctags", {
+            priv->project->showMessageTimed(tr("Index finished"));
+            ctags->deleteLater();
+        });
+        priv->project->showMessage(tr("ctags end, processing..."));
+    });
+    p.start("universal-ctags", {
                  "--map-R=-.s",
                  "-n", "-R", "-e",
                  "--all-kinds=*",
@@ -159,14 +165,15 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
                  "-x",
                  R"(--_xformat={ "name": "%N", "lang": "%l", "type": "%K", "path": "%F", "line": %n, "text": "%C" })"
              });
-    TextMessageBrocker::instance().publish("actionLabel", tr("Start indexing"));
+    priv->project->showMessage(tr("Indexing by ctags..."));
+    priv->project->deleteOnCloseProject(&p);
 }
 
 void ClangAutocompletionProvider::startIndexingFile(const QString &path)
 {
     Q_UNUSED(path);
     auto targets = priv->project->targetsOfDependency(path);
-    ChildProcess::create(this)
+    auto& p = ChildProcess::create(this)
             .makeDeleteLater()
             .changeCWD(priv->project->projectPath())
             .onFinished([this](QProcess *make, int exitCode)
@@ -206,7 +213,7 @@ void ClangAutocompletionProvider::startIndexingFile(const QString &path)
             parameterList.append("-E");
             parameterList.append("-v");
             qDebug() << parameterList;
-            ChildProcess::create(this)
+            auto& p = ChildProcess::create(this)
                     .changeCWD(make->workingDirectory())
                     .mergeStdOutAndErr()
                     .makeDeleteLater()
@@ -219,9 +226,13 @@ void ClangAutocompletionProvider::startIndexingFile(const QString &path)
                 Q_UNUSED(err);
                 qDebug() << "CC ERROR: " << cc->program() << cc->arguments() << "\n"
                          << "\t" << cc->errorString();
-            }).start(compiler, parameterList);
+            });
+            p.start(compiler, parameterList);
+            priv->project->deleteOnCloseProject(&p);
         }
-    }).start("make", QStringList{ "-B", "-n" } + targets);
+    });
+    p.start("make", QStringList{ "-B", "-n" } + targets);
+    priv->project->deleteOnCloseProject(&p);
 }
 
 void ClangAutocompletionProvider::referenceOf(const QString &entity, ICodeModelProvider::FindReferenceCallback_t cb)
@@ -239,7 +250,7 @@ static QString parseCompletion(const QString& text)
 
 void ClangAutocompletionProvider::completionAt(const ICodeModelProvider::FileReference &ref, const QString &unsaved, ICodeModelProvider::CompletionCallback_t cb)
 {
-    ChildProcess::create(this)
+    auto& p = ChildProcess::create(this)
             .makeDeleteLater()
             .changeCWD(priv->project->projectPath())
             .onStarted([unsaved](QProcess *clang) {
@@ -262,7 +273,8 @@ void ClangAutocompletionProvider::completionAt(const ICodeModelProvider::FileRef
             list.append(parseCompletion(m.captured(1)));
         }
         cb(list);
-    }).start("clang", QStringList{
+    });
+    p.start("clang", QStringList{
                  "-x", "c", "-fcolor-diagnostics", "-fsyntax-only",
                  "-Xclang", "-code-completion-macros",
                  "-Xclang", "-code-completion-patterns",
@@ -270,4 +282,5 @@ void ClangAutocompletionProvider::completionAt(const ICodeModelProvider::FileRef
                  "-Xclang", QString("-code-completion-at=-:%1:%2").arg(ref.line + 1).arg(ref.column + 1),
                  "-"
              } + priv->defines + priv->includes);
+    priv->project->deleteOnCloseProject(&p);
 }

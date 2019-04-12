@@ -14,11 +14,13 @@ public:
     virtual ~ICodeModelProvider();
     struct FileReference {
         QString path;
-        int line;
-        int column;
+        int line = -1;
+        int column = -1;
         QString meta;
 
         QUrl encode() const;
+
+        bool isEmpty() const { return path.isEmpty() && meta.isEmpty() && line == -1 && column == -1; }
 
         static FileReference decode(const QUrl& url);
     };
