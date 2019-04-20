@@ -13,6 +13,7 @@
 #include <QMetaEnum>
 #include <QFontDatabase>
 #include <QSaveFile>
+#include <QStandardPaths>
 
 #include <QtDebug>
 
@@ -21,10 +22,22 @@ class AppConfig::Priv_t
 public:
     QJsonObject global;
     QJsonObject local;
+    QProcessEnvironment sysenv;
 };
 
 #define CFG_GLOBAL (priv->global)
 #define CFG_LOCAL (priv->local)
+
+
+static const QString BUNDLE_GLOBAL_PATH = ":/default-global.json";
+static const QString BUNDLE_LOCAL_PATH = ":/default-local.json";
+
+#ifdef Q_OS_WIN
+static const QChar PATH_SEP = ';';
+#else
+static const QChar PATH_SEP = ':';
+#endif
+
 
 static const QJsonValue& valueOrDefault(const QJsonValue& v, const QJsonValue& d)
 {
@@ -49,31 +62,42 @@ static bool writeEntireFile(const QString& path, const QByteArray& data)
     return f.commit();
 }
 
-static QString globalConfigFilePath() { return QDir::home().absoluteFilePath(".embedded_ide-config.json"); }
-
-const QString DEFAULT_GLOBAL_RES = ":/default-global.json";
-const QString DEFAULT_LOCAL_RES = ":/default-local.json";
-const QString DEFAULT_LOCAL_TEMPLATE =
-#ifdef Q_OS_UNIX
-    "../share/embedded-ide/embedded-ide.hardconf";
-#else
-    "default-local.json";
-#endif
-const QString DEFAULT_TRANSLATIONS =
-#ifdef Q_OS_UNIX
-    "../share/embedded-ide/translations/";
-#else
-    "translations.json";
-#endif
-
-static QString defaultLocalTemplateConfig()
+static QJsonObject loadJson(const QString& path)
 {
-    return QDir(QApplication::applicationDirPath()).absoluteFilePath(DEFAULT_LOCAL_TEMPLATE);
+    QJsonParseError err;
+    auto doc = QJsonDocument::fromJson(readEntireFile(path), &err);
+    if (err.error != QJsonParseError::NoError) {
+        qDebug() << "error reading" << path << err.errorString();
+    }
+    return doc.object();
 }
 
-static QString externalTranslationsPath()
+static QString globalConfigFilePath()
 {
-    return QDir(QApplication::applicationDirPath()).absoluteFilePath(DEFAULT_TRANSLATIONS);
+    return QDir::home().absoluteFilePath(".embedded_ide-config.json");
+}
+
+static QDir sharedDir()
+{
+    return QDir(QApplication::applicationDirPath()).absoluteFilePath(
+#ifdef Q_OS_UNIX
+        "../share/embedded-ide/"
+#else
+        "./"
+#endif
+    );
+}
+
+static const QString systemGlobalConfigPath() {
+    return sharedDir().absoluteFilePath("embedded_ide-config.json");
+}
+
+static const QString systemLocalConfigPath() {
+    return sharedDir().absoluteFilePath("embedded-ide.hardconf");
+}
+
+static const QString systemTranslationPath() {
+    return sharedDir().absoluteFilePath("translations/");
 }
 
 static void addResourcesFont()
@@ -81,26 +105,6 @@ static void addResourcesFont()
     for(const auto& fontPath: QDir(":/fonts/").entryInfoList({ "*.ttf" }))
         QFontDatabase::addApplicationFont(fontPath.absoluteFilePath());
 }
-/*
-static bool completeToLeft(QJsonObject& a, const QJsonObject& b)
-{
-    bool hasReplace = false;
-    for(const auto& k: b.keys()) {
-        auto v = a.value(k);
-        if (v.isUndefined() || v.isNull()) {
-            v = b.value(k);
-            hasReplace = true;
-        }
-        if (v.isObject()) {
-            auto o = v.toObject();
-            hasReplace |= completeToLeft(o, b.value(k).toObject());
-            v = o;
-        }
-        a.insert(k, v);
-    }
-    return hasReplace;
-}
-*/
 
 static bool completeToLeft(QJsonObject& left, const QJsonObject& right)
 {
@@ -122,6 +126,9 @@ static bool completeToLeft(QJsonObject& left, const QJsonObject& right)
 
 AppConfig::AppConfig() : QObject(QApplication::instance()), priv(new Priv_t)
 {
+    priv->sysenv = QProcessEnvironment::systemEnvironment();
+    addResourcesFont();
+
     adjustEnv();
     load();
     adjustEnv();
@@ -142,25 +149,32 @@ AppConfig &AppConfig::instance()
 
 void AppConfig::adjustEnv()
 {
+    if (!priv->sysenv.contains("HOME")) {
+        auto homePath = QDir::home().absolutePath();
+        auto homePaths = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
+        if (!homePaths.isEmpty())
+            homePath = homePaths.first();
+        qputenv("HOME", homePath.toLocal8Bit());
+    }
+
     qputenv("APPLICATION_DIR_PATH", QApplication::applicationDirPath().toLocal8Bit());
     qputenv("APPLICATION_FILE_PATH", QApplication::applicationFilePath().toLocal8Bit());
-    qputenv("WORKSPACE_PATH", workspacePath().toLocal8Bit());
-    qputenv("WORKSPACE_PROJECT_PATH", projectsPath().toLocal8Bit());
-    qputenv("WORKSPACE_TEMPLATE_PATH", templatesPath().toLocal8Bit());
-    qputenv("WORKSPACE_CONFIG_FILE", localConfigFilePath().toLocal8Bit());
+    if (!CFG_LOCAL.isEmpty()) {
+        qputenv("WORKSPACE_PATH", workspacePath().toLocal8Bit());
+        qputenv("WORKSPACE_PROJECT_PATH", projectsPath().toLocal8Bit());
+        qputenv("WORKSPACE_TEMPLATE_PATH", templatesPath().toLocal8Bit());
+        qputenv("WORKSPACE_CONFIG_FILE", localConfigFilePath().toLocal8Bit());
+    } else {
+        qputenv("WORKSPACE_PATH", "");
+        qputenv("WORKSPACE_PROJECT_PATH", "");
+        qputenv("WORKSPACE_TEMPLATE_PATH", "");
+        qputenv("WORKSPACE_CONFIG_FILE", "");
+    }
 
-#ifdef Q_OS_WIN
-    QChar PATH_SEP = ';';
-#else
-    QChar PATH_SEP = ':';
-#endif
-    auto env = QProcessEnvironment::systemEnvironment();
-    auto old = env.value("PATH");
+    auto old = priv->sysenv.value("PATH");
     auto extras = additionalPaths().join(PATH_SEP);
     auto path = QString("%1%2%3").arg(extras).arg(PATH_SEP).arg(old);
     qputenv("PATH", path.toLocal8Bit());
-
-    addResourcesFont();
 }
 
 QString AppConfig::replaceWithEnv(const QString &str)
@@ -211,14 +225,23 @@ QStringList AppConfig::langList()
 
 QStringList AppConfig::langPaths()
 {
-    return { externalTranslationsPath(), ":/i18n/" };
+    return { systemTranslationPath(), ":/i18n/" };
 }
 
-QString AppConfig::projectsPath() const { return ensureExist(QDir(workspacePath()).absoluteFilePath("projects")); }
+QString AppConfig::projectsPath() const
+{
+    return ensureExist(QDir(workspacePath()).absoluteFilePath("projects"));
+}
 
-QString AppConfig::templatesPath() const { return ensureExist(QDir(workspacePath()).absoluteFilePath("templates")); }
+QString AppConfig::templatesPath() const
+{
+    return ensureExist(QDir(workspacePath()).absoluteFilePath("templates"));
+}
 
-QString AppConfig::localConfigFilePath() const { return QDir(ensureExist(workspacePath())).absoluteFilePath("config.json"); }
+QString AppConfig::localConfigFilePath() const
+{
+    return QDir(ensureExist(workspacePath())).absoluteFilePath("config.json");
+}
 
 QHash<QString, QString> AppConfig::externalTools() const
 {
@@ -381,17 +404,19 @@ QByteArray AppConfig::fileHash(const QString &filename)
 
 void AppConfig::load()
 {
-    auto docBundle = QJsonDocument::fromJson(readEntireTextFile(DEFAULT_LOCAL_RES)).object();
-    QJsonParseError err;
-    auto docLocal = QJsonDocument::fromJson(readEntireTextFile(defaultLocalTemplateConfig()), &err).object();
-    if (err.error != QJsonParseError::NoError) {
-        qDebug() << err.errorString();
-    }
-    CFG_LOCAL = QJsonDocument::fromJson(readEntireTextFile(localConfigFilePath())).object();
+    auto bundleGlobalCfg = loadJson(BUNDLE_GLOBAL_PATH);
+    auto systemGlobalCfg = loadJson(systemGlobalConfigPath());
+    CFG_GLOBAL = loadJson(globalConfigFilePath());
+    completeToLeft(systemGlobalCfg, bundleGlobalCfg);
+    if (completeToLeft(CFG_GLOBAL, systemGlobalCfg))
+        writeEntireFile(globalConfigFilePath(), QJsonDocument(CFG_GLOBAL).toJson());
 
-    completeToLeft(docLocal, docBundle);
-    if (completeToLeft(CFG_LOCAL, docLocal))
-        save();
+    auto bundleLocalCfg = loadJson(BUNDLE_LOCAL_PATH);
+    auto systemLocalCfg = loadJson(systemLocalConfigPath());
+    CFG_LOCAL = loadJson(localConfigFilePath());
+    completeToLeft(systemLocalCfg, bundleLocalCfg);
+    if (completeToLeft(CFG_LOCAL, systemLocalCfg))
+        writeEntireFile(localConfigFilePath(), QJsonDocument(CFG_LOCAL).toJson());
 
     projectsPath();
     templatesPath();
@@ -403,6 +428,7 @@ void AppConfig::save()
 {
     writeEntireFile(globalConfigFilePath(), QJsonDocument(CFG_GLOBAL).toJson());
     writeEntireFile(localConfigFilePath(), QJsonDocument(CFG_LOCAL).toJson());
+    adjustEnv();
     emit configChanged(this);
 }
 

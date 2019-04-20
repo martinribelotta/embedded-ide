@@ -7,8 +7,7 @@ DESTDIR  = ../build
 
 QT       += core gui svg xml network concurrent
 
-#CONFIG += qscintilla2 lrelease embed_translations
-CONFIG += qscintilla2
+CONFIG += qscintilla2 lrelease embed_translations
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -153,6 +152,7 @@ unix {
 }
 
 DISTFILES += \
+    resources/styles/tomorrow.xml \
     skeleton/desktop-integration.sh \
     skeleton/embedded-ide.sh \
     skeleton/embedded-ide.sh.wrapper \

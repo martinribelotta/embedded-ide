@@ -18,6 +18,11 @@ public:
         int column = -1;
         QString meta;
 
+        FileReference(const QString& p, int l, int c, const QString& m):  path(p),
+                                                                          line(l),
+                                                                          column(c),
+                                                                          meta(m) {}
+
         QUrl encode() const;
 
         bool isEmpty() const { return path.isEmpty() && meta.isEmpty() && line == -1 && column == -1; }

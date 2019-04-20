@@ -187,8 +187,9 @@ void CPPTextEditor::triggerAutocompletion()
     if (codeModel()) {
         int line, index;
         getCursorPosition(&line, &index);
-        codeModel()->completionAt({ path(), line, index, QString() }, text(),
-                                  [this](const QStringList& completions)
+        codeModel()->completionAt(
+            ICodeModelProvider::FileReference{ path(), line, index, QString() }, text(),
+            [this](const QStringList& completions)
         {
             auto w = wordUnderCursor();
             auto filtered = completions.filter(QRegularExpression(QString(R"(^%1)").arg(w)));

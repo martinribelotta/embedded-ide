@@ -29,7 +29,7 @@ public:
     virtual void triggerAutocompletion();
 
 public slots:
-    void loadConfigWithStyle(const QString& style, const QFont &editorFont, int tabs, bool tabSpace);
+    void loadConfigWithStyle(const QString& style, const QFont &editorFont, int tabs, bool tabsToSpace);
     void loadConfig();
 
 private slots:

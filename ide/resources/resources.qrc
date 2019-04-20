@@ -147,5 +147,6 @@
         <file>images/actions/debug-run-v2.svg</file>
         <file>images/actions/debug-pause-v2.svg</file>
         <file>images/actions/debug-stop-v2.svg</file>
+        <file>styles/tomorrow.xml</file>
     </qresource>
 </RCC>

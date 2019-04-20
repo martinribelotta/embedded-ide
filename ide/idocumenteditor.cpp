@@ -22,8 +22,14 @@ void DocumentEditorFactory::registerDocumentInterface(IDocumentEditorCreator *cr
 
 IDocumentEditor *DocumentEditorFactory::create(const QString &path, QWidget *parent)
 {
-    auto mime = QMimeDatabase().mimeTypeForFile(path);
-    auto suffixes = QStringList(QFileInfo(path).suffix()) << mime.suffixes();
+    QMimeDatabase db;
+    auto mime = db.mimeTypeForFile(path);
+    auto info = QFileInfo(path);
+    auto suffixes = QStringList(info.suffix()) << mime.suffixes();
+    if (info.size() == 0) {
+        // FIXME: Force the content type of empty files to plain-text
+        mime = db.mimeTypeForData(QByteArray{"\n"});
+    }
 
     // Try first from suffix
     for(auto c: creators)

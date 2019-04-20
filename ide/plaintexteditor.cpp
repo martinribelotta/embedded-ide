@@ -349,13 +349,13 @@ void PlainTextEditor::contextMenuEvent(QContextMenuEvent *event)
     createContextualMenu()->exec(event->globalPos());
 }
 
-void PlainTextEditor::loadConfigWithStyle(const QString& style, const QFont& editorFont, int tabs, bool tabSpace)
+void PlainTextEditor::loadConfigWithStyle(const QString& style, const QFont& editorFont, int tabs, bool tabsToSpace)
 {
     setFont(editorFont);
     if (lexer())
         lexer()->setDefaultFont(editorFont);
     loadStyle(QString(":/styles/%1.xml").arg(style));
-    setIndentationsUseTabs(tabSpace);
+    setIndentationsUseTabs(!tabsToSpace);
     setTabWidth(tabs);
 
     setAutoIndent(true);
@@ -402,8 +402,11 @@ bool PlainTextEditor::loadStyle(const QString &xmlStyleFile)
     }
     QDomDocument doc;
     QString errorMsg;
-    if (!doc.setContent(&file, &errorMsg)) {
-        qDebug() << "cannot load" << xmlStyleFile << "style:" << errorMsg;
+    int eLine, eCol;
+    if (!doc.setContent(&file, &errorMsg, &eLine, &eCol)) {
+        qDebug() << "cannot load" << xmlStyleFile
+                 << "style:" << errorMsg
+                 << "at" << eLine << ":" << eCol;
         return false;
     }
     QDomElement root = doc.firstChildElement("NotepadPlus");
@@ -428,6 +431,10 @@ bool PlainTextEditor::loadStyle(const QString &xmlStyleFile)
             //int fontSize = wStyle.attribute("fontSize", QString("%1").arg(font().pixelSize())).toInt();
             if (styleID == 0) {
                 if (name == "Global override") {
+                    setColor(fgColor);
+                    setPaper(bgColor);
+                    goto set_global;
+                } else if (name == "Default Style") {
                     setColor(fgColor);
                     setPaper(bgColor);
                     goto set_global;
