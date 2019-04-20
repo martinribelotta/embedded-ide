@@ -30,7 +30,6 @@ private slots:
     void menuNewFile();
     void menuNewDirectory();
     void menuNewSymlink();
-    void menuItemProperties();
     void menuItemExecute();
     void menuItemOpenExternal();
     void menuItemRename();

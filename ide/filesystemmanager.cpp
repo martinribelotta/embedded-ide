@@ -126,7 +126,6 @@ void FileSystemManager::customContextMenu(const QPoint &pos)
 #ifdef Q_OS_UNIX
     _("insert-link-symbolic", tr("New Symlink"), &FileSystemManager::menuNewSymlink);
 #endif
-    _("edit-find", tr("Properties"), &FileSystemManager::menuItemProperties);
     _("run-build-file", tr("Execute"), &FileSystemManager::menuItemExecute)->setEnabled(isExec(info));
     _("window-new", tr("Open External"), &FileSystemManager::menuItemOpenExternal);
     m->addSeparator();
@@ -225,11 +224,6 @@ void FileSystemManager::menuNewSymlink()
 #else
     QMessageBox::critical(view->window(), tr("Link creation fail"), tr("ERROR: Not implemented"));
 #endif
-}
-
-void FileSystemManager::menuItemProperties()
-{
-    // TODO add property dialog
 }
 
 void FileSystemManager::menuItemExecute()
