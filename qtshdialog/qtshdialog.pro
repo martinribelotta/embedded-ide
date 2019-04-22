@@ -3,6 +3,7 @@
 # Project created by QtCreator 2019-04-20T20:30:42
 #
 #-------------------------------------------------
+DESTDIR  = ../build
 
 QT       += core gui uitools qml
 
