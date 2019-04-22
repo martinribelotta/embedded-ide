@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS = ide socketwaiter qtdialog
+SUBDIRS = ide socketwaiter qtshdialog
