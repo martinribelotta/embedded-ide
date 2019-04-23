@@ -54,7 +54,7 @@ public:
     QStringList targets;
     targetMap_t allTargets;
     targetMap_t allRefs;
-    QRegularExpression targetFilter{ R"(^(?!Makefile)[a-zA-Z0-9_\-]+$)", QRegularExpression::MultilineOption };
+    QRegularExpression targetFilter{ R"(^(?!Makefile)[a-zA-Z0-9_\\-]+$)", QRegularExpression::MultilineOption };
     QListView *targetView{ nullptr };
     ProcessManager *pman{ nullptr };
     QFileInfo makeFile;
@@ -81,8 +81,7 @@ public:
 static QPair<targetMap_t, targetMap_t> findAllTargets(QIODevice *in)
 {
     QPair<targetMap_t, targetMap_t> map;
-    QRegularExpression re(R"(^([^\#\s][^\%\=]*?):[^\=]\s*([^#
-]*?)\s*$)");
+    QRegularExpression re(R"(^([^\#\s][^\%\=]*?):[^\=]\s*([^#\r\n]*?)\s*$)");
     while (!in->atEnd()) {
         auto line = in->readLine();
         auto me = re.match(line);

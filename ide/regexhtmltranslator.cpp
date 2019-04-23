@@ -27,8 +27,7 @@ const RegexList_t RegexHTMLTranslator::DEFAULT_REGEX =
         QLatin1String{ h } \
     }
 
-    _(R"((?
-))", "\1<br>"),
+    _(R"((\r?\n))", "\\1<br>"),
     _(R"( )", "&nbsp;"),
     _(R"(^(\<br\>)?(.*?):(\d+):(\d+)?(:?)(.*?)(\<br\>)?$)",
       R"(\1<font color="red">\2:\3:\4\5 <a href="file:\2#\3#\4">\6</a></font>\7)"),

@@ -41,7 +41,7 @@ static QString getToken(QTextStream *s)
     while(!s->atEnd()) {
         QChar c;
         *s >> c;
-        if (QString(" 	").contains(c)) {
+        if (QString(" \t").contains(c)) {
             if (!cuoting.isNull()) {
                 token += c;
                 continue;
@@ -63,7 +63,7 @@ static QString getToken(QTextStream *s)
             token += c;
             continue;
         }
-        escaped = !cuoting.isNull() && (c == '\');
+        escaped = !cuoting.isNull() && (c == '\\');
         token += c;
     }
     return token;
@@ -79,8 +79,7 @@ static QStringList cmdLineTokenizer(const QString& line)
     return tokens;
 }
 
-static const QRegularExpression EOL(R"([
-])");
+static const QRegularExpression EOL(R"([\r\n])");
 
 static void parseCompilerInfo(const QString& text, QStringList *incs, QStringList *defs)
 {
@@ -95,7 +94,7 @@ static void parseCompilerInfo(const QString& text, QStringList *incs, QStringLis
 #else
         QString symbol = m.captured(1).remove(EOL);
         QString value = m.captured(2).remove(EOL);
-        if (value.contains(QRegularExpression("[ \t]")))
+        if (value.contains(QRegularExpression("[ \\t]")))
             value = value.prepend('"').append('"');
         defs->append(QString("%1=%2").arg(symbol).arg(value));
 #endif
@@ -104,8 +103,7 @@ static void parseCompilerInfo(const QString& text, QStringList *incs, QStringLis
     Q_UNUSED(defs);
 #endif
     bool onIncludes = false;
-    for(const QString& line: text.split('
-')) {
+    for(const QString& line: text.split('\n')) {
         if (!onIncludes) {
             if (line.startsWith("#include <")) {
                 onIncludes = true;
@@ -244,9 +242,8 @@ void ClangAutocompletionProvider::startIndexingFile(const QString &path)
                 qDebug() << "Defines:" << priv->defines;
             }).onError([](QProcess *cc, QProcess::ProcessError err) {
                 Q_UNUSED(err);
-                qDebug() << "CC ERROR: " << cc->program() << cc->arguments() << "
-"
-                         << "	" << cc->errorString();
+                qDebug() << "CC ERROR: " << cc->program() << cc->arguments() << "\n"
+                         << "\t" << cc->errorString();
             });
             p.start(compiler, parameterList);
             priv->project->deleteOnCloseProject(&p);
@@ -264,7 +261,7 @@ void ClangAutocompletionProvider::referenceOf(const QString &entity, ICodeModelP
 static QString parseCompletion(const QString& text)
 {
     return text.startsWith("Pattern : ")?
-                QString(text).remove("Pattern : ").remove(QRegularExpression(R"([\[|\<]\#[^\#]*\#[\]|\>])")) :
+                QString(text).remove("Pattern : ").remove(QRegularExpression(R"([\[|\\<]\#[^\#]*\#[\]|\>])")) :
                 text.contains(':')?
                     QString(text.split(':').at(0)).trimmed() : text;
 }
@@ -286,8 +283,7 @@ void ClangAutocompletionProvider::completionAt(const ICodeModelProvider::FileRef
         // qDebug() << "clang finish:" << exitStatus;
         QStringList list;
         QString out = clang->readAllStandardOutput();
-        // qDebug() << "clang out:
-" << out;
+        // qDebug() << "clang out:\n" << out;
         QRegularExpression re(R"(^COMPLETION: (.*?)$)", QRegularExpression::MultilineOption);
         auto it = re.globalMatch(out);
         while(it.hasNext()) {

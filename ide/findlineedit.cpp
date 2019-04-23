@@ -41,8 +41,7 @@ FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
     optionsButton->setStyleSheet(INNER_BUTTON_STYLE);
     clearButton->setStyleSheet(INNER_BUTTON_STYLE);
     int frameWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-    setStyleSheet(QString("QLineEdit { padding-right: %1px; padding-left: %2px }
-"
+    setStyleSheet(QString("QLineEdit { padding-right: %1px; padding-left: %2px }\n"
                           "QToolButton::menu-indicator { image: none; }")
                   .arg(clearButton->sizeHint().width() + frameWidth + 1)
                   .arg(optionsButton->sizeHint().width() + frameWidth + 1));

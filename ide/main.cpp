@@ -112,9 +112,7 @@ int main(int argc, char *argv[])
     if (opt.isSet("debug")) {
         QString debugString = "[%{type}] %{appname} (%{file}:%{line}) - %{message}";
         if (opt.isSet("stacktrace"))
-            debugString += "
-	%{backtrace separator=\"
-	\"}";
+            debugString += "\n\t%{backtrace separator=\"\n\t\"}";
         qSetMessagePattern(debugString);
     } else
         qSetMessagePattern("");

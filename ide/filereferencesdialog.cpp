@@ -36,8 +36,7 @@ FileReferencesDialog::FileReferencesDialog(const ICodeModelProvider::FileReferen
     if (!refList.isEmpty()) {
         for(const auto& r: refList) {
             auto url = r.encode();
-            auto item = new QListWidgetItem(QString("%1: %2
-%3").arg(r.path).arg(r.line).arg(r.meta));
+            auto item = new QListWidgetItem(QString("%1: %2\n%3").arg(r.path).arg(r.line).arg(r.meta));
             item->setData(Qt::UserRole, url);
             ui->listWidget->addItem(item);
         }

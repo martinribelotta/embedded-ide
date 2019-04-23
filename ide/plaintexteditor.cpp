@@ -138,7 +138,7 @@ ParseResult parseDocument(QsciScintilla *doc) {
         auto pos = doc->SendScintilla(QsciScintilla::SCI_POSITIONFROMLINE, i);
         auto lineHeadChar = doc->SendScintilla(QsciScintilla::SCI_GETCHARAT, pos);
 
-        if(lineHeadChar == '	') result.num_tab_lines++;
+        if(lineHeadChar == '\t') result.num_tab_lines++;
 
         if(lineHeadChar == ' ') {
             result.num_space_lines++;
@@ -556,7 +556,7 @@ QStringList PlainTextEditor::allWords()
 {
     QStringList words;
     QString s = text();
-    QRegularExpression re(R"(\w+)");
+    QRegularExpression re(R"(\b\w+\b)");
     auto mi = re.globalMatch(s);
     while (mi.hasNext())
         words.append(mi.next().captured());

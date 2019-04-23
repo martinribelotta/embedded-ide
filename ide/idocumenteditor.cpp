@@ -46,8 +46,7 @@ IDocumentEditor *DocumentEditorFactory::create(const QString &path, QWidget *par
     auto suffixes = QStringList(info.suffix()) << mime.suffixes();
     if (info.size() == 0) {
         // FIXME: Force the content type of empty files to plain-text
-        mime = db.mimeTypeForData(QByteArray{"
-"});
+        mime = db.mimeTypeForData(QByteArray{"\n"});
     }
 
     // Try first from suffix

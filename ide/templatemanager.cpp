@@ -189,11 +189,9 @@ void TemplateManager::msgLog(const QString &text, const QColor &color)
 }
 
 void TemplateManager::logError(const QString &text) {
-    msgLog(text + "
-", Qt::red);
+    msgLog(text + "\n", Qt::red);
 }
 
 void TemplateManager::logMsg(const QString &text) {
-    msgLog(text + "
-", Qt::darkBlue);
+    msgLog(text + "\n", Qt::darkBlue);
 }
