@@ -212,16 +212,18 @@ int main(int argc, char *argv[])
             endl(out() << "Uncaught exception at line script:"
                        << result.property("lineNumber").toInt()
                        << ":" << result.toString());
-        bool ok = false;
-        script = readAll(jsFileName, &ok);
-        if (!ok) {
-            endl(out() << "Error loading file " << jsFileName << ": " << script);
-        } else {
-            result = js.evaluate(script, jsFileName);
-            if (result.isError())
-                endl(out() << "Uncaught exception at line script:"
-                           << result.property("lineNumber").toInt()
-                           << ":" << result.toString());
+        if (!jsFileName.isEmpty()) {
+            bool ok = false;
+            script = readAll(jsFileName, &ok);
+            if (!ok) {
+                endl(out() << "Error loading file " << jsFileName << ": " << script);
+            } else {
+                result = js.evaluate(script, jsFileName);
+                if (result.isError())
+                    endl(out() << "Uncaught exception at " << jsFileName << ":"
+                               << result.property("lineNumber").toInt()
+                               << ":" << result.toString());
+            }
         }
     });
 
