@@ -29,7 +29,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mainPage">
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -441,32 +441,6 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="styleSheet">
-           <string notr="true">QComboBox {
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    padding: 1px 18px 1px 13px;
-    min-width: 6em;
-}
-
-QComboBox::drop-down {
-    subcontrol-origin: padding;
-    subcontrol-position: top right;
-    width: 15px;
-
-    border-left-width: 0px;
-    border-left-color: darkgray;
-    border-left-style: solid;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-}
-
-QComboBox QAbstractItemView {
-    border: 1px solid black;
-    padding-left: 13px;
-}
-</string>
-          </property>
           <layout class="QGridLayout" name="gridLayout">
            <property name="leftMargin">
             <number>0</number>
@@ -548,7 +522,7 @@ QComboBox QAbstractItemView {
              </property>
              <property name="minimumSize">
               <size>
-               <width>135</width>
+               <width>0</width>
                <height>29</height>
               </size>
              </property>
@@ -1171,12 +1145,12 @@ QComboBox QAbstractItemView {
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="editionButtons">
+  <buttongroup name="projectButtons">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="projectButtons">
+  <buttongroup name="editionButtons">
    <property name="exclusive">
     <bool>false</bool>
    </property>
