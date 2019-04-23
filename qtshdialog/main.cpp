@@ -198,7 +198,6 @@ int main(int argc, char *argv[])
     publishToJs(js, w, js.globalObject());
 
     QTimer::singleShot(0, [w, &js, &exprList, &jsFileName]() {
-        auto script = w->property("script").toString();
         for(const auto& e: exprList) {
             auto r = js.evaluate(e);
             if (r.isError()) {
@@ -207,18 +206,21 @@ int main(int argc, char *argv[])
                            << ":" << r.toString());
             }
         }
-        auto result = js.evaluate(script, QString("%1.script").arg(w->objectName()));
-        if (result.isError())
-            endl(out() << "Uncaught exception at line script:"
-                       << result.property("lineNumber").toInt()
-                       << ":" << result.toString());
+        auto script = w->property("script").toString();
+        if (!script.isEmpty()) {
+            auto result = js.evaluate(script, QString("%1.script").arg(w->objectName()));
+            if (result.isError())
+                endl(out() << "Uncaught exception at line script:"
+                           << result.property("lineNumber").toInt()
+                           << ":" << result.toString());
+        }
         if (!jsFileName.isEmpty()) {
             bool ok = false;
             script = readAll(jsFileName, &ok);
             if (!ok) {
                 endl(out() << "Error loading file " << jsFileName << ": " << script);
             } else {
-                result = js.evaluate(script, jsFileName);
+                auto result = js.evaluate(script, jsFileName);
                 if (result.isError())
                     endl(out() << "Uncaught exception at " << jsFileName << ":"
                                << result.property("lineNumber").toInt()
