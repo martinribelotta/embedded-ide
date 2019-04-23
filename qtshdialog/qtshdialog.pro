@@ -6,6 +6,7 @@
 DESTDIR  = ../build
 
 QT       += core gui uitools qml
+CONFIG   -= qml_debug
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

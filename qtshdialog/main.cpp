@@ -87,6 +87,38 @@ void publishToJs(QJSEngine& js, QObject *obj, QJSValue parent) {
         publishToJs(js, child, jsObj);
 }
 
+static constexpr auto USAGE_HELP = R"(usage:
+   %1 [options] filename.ui [filename.js]
+Options:
+  --no-label             Not show QLabel and derived
+  --no-empty             Not show unnamed objects
+  --no-layout            Not show QLayout and derived
+  --no-internal          Not show internal properties
+  --no-all               Not show any properties except specified with --show
+  --show=object.property With --no-all, show sepcified property
+  --exec=expression      Execute script before show ui
+Files:
+    filename.ui:         Required ui file for gui
+    filename.js:         Optional javascript, execured after all --exec=
+)";
+
+void usage() {
+    auto name = QFileInfo(QApplication::instance()->applicationFilePath()).fileName();
+    flush(out() << QString(USAGE_HELP).arg(name));
+}
+
+static QString readAll(const QString& path, bool *ok=nullptr) {
+    QFile f{path};
+    if (!f.open(QFile::ReadOnly)) {
+        if (ok)
+            *ok = false;
+        return f.errorString();
+    }
+    if (ok)
+        *ok = true;
+    return QTextStream{&f}.readAll();
+}
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -126,7 +158,7 @@ int main(int argc, char *argv[])
     }
 
     if (uiFileName.isEmpty()) {
-        endl(out() << "usage: " << argv[0] << " <--no-[label|empty|layout|internal]> <filename.ui>");
+        usage();
         return -1;
     }
 
@@ -147,7 +179,7 @@ int main(int argc, char *argv[])
     js.installExtensions(QJSEngine::ConsoleExtension);
     publishToJs(js, w, js.globalObject());
 
-    QTimer::singleShot(0, [w, &js, &exprList]() {
+    QTimer::singleShot(0, [w, &js, &exprList, &jsFileName]() {
         auto script = w->property("script").toString();
         for(const auto& e: exprList) {
             auto r = js.evaluate(e);
@@ -162,6 +194,17 @@ int main(int argc, char *argv[])
             endl(out() << "Uncaught exception at line script:"
                        << result.property("lineNumber").toInt()
                        << ":" << result.toString());
+        bool ok = false;
+        script = readAll(jsFileName, &ok);
+        if (!ok) {
+            endl(out() << "Error loading file " << jsFileName << ": " << script);
+        } else {
+            result = js.evaluate(script, jsFileName);
+            if (result.isError())
+                endl(out() << "Uncaught exception at line script:"
+                           << result.property("lineNumber").toInt()
+                           << ":" << result.toString());
+        }
     });
 
     QDialog *d = qobject_cast<QDialog*>(w);
