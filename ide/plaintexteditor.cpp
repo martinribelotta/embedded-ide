@@ -216,9 +216,9 @@ bool PlainTextEditor::load(const QString &path)
             if (AppConfig::instance().editorDetectIdent()) {
                 auto info = npp_detectident::detectIndentInfo(this);
                 if (info.type == npp_detectident::IndentInfo::IndentInfo::IndentType::Tab) {
-                    setTabIndents(true);
+                    setIndentationsUseTabs(true);
                 } else if (info.type == npp_detectident::IndentInfo::IndentInfo::IndentType::Space) {
-                    setTabIndents(false);
+                    setIndentationsUseTabs(false);
                     setIndentationWidth(info.num);
                 } else {
                     // Nothing to do... fallback to config

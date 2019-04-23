@@ -67,6 +67,12 @@
 #include <Qsci/qscilexerxml.h>
 #include <Qsci/qscilexeryaml.h>
 
+static const QStringList MAKEFILES_NAME = {
+    "makefile",
+    "Makefile",
+    "GNUMakefile",
+};
+
 CodeTextEditor::CodeTextEditor(QWidget *parent) : PlainTextEditor(parent)
 {
 }
@@ -76,7 +82,13 @@ CodeTextEditor::~CodeTextEditor() = default;
 bool CodeTextEditor::load(const QString &path)
 {
     setLexer(lexerFromFile(path));
-    return PlainTextEditor::load(path);
+    auto r = PlainTextEditor::load(path);
+    QFileInfo info(path);
+    auto name = info.fileName();
+    auto suffix = info.suffix();
+    if (suffix == "mk" || MAKEFILES_NAME.contains(name))
+        setIndentationsUseTabs(true);
+    return r;
 }
 
 template<typename T> T *helperCreator() { return new T(); }
