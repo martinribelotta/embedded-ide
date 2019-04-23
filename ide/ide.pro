@@ -5,7 +5,7 @@
 #-------------------------------------------------
 DESTDIR  = ../build
 
-QT       += core gui svg xml network concurrent
+QT       += core gui svg xml network concurrent uitools qml
 
 CONFIG += qscintilla2 lrelease embed_translations
 
