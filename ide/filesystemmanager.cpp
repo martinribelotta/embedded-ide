@@ -82,7 +82,6 @@ FileSystemManager::FileSystemManager(QTreeView *v, QObject *parent) : QObject(pa
     view->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(view, &QTreeView::customContextMenuRequested, this, &FileSystemManager::customContextMenu);
     connect(new QShortcut{QKeySequence{"DEL"}, v}, &QShortcut::activated, this, &FileSystemManager::menuItemDelete);
-    connect(new QShortcut{QKeySequence{"F2"}, v}, &QShortcut::activated, this, &FileSystemManager::menuItemRename);
 }
 
 FileSystemManager::~FileSystemManager()

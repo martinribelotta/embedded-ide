@@ -36,6 +36,8 @@
 #include "clangautocompletionprovider.h"
 #include "textmessagebrocker.h"
 #include "regexhtmltranslator.h"
+#include "templatemanager.h"
+#include "templateitemwidget.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -48,6 +50,7 @@
 #include <QStandardItemModel>
 #include <QFileSystemWatcher>
 #include <QTextBrowser>
+#include <QDialogButtonBox>
 
 #include <QtDebug>
 
@@ -68,6 +71,43 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->buttonDebugLaunch->setVisible(AppConfig::instance().useDevelopMode());
+    ui->updateAvailable->setVisible(false);
+
+    auto tman = new TemplateManager();
+    tman->setRepositoryUrl(AppConfig::instance().templatesUrl());
+    connect(tman, &TemplateManager::message, [](const QString& msg) {
+        qDebug() << "tman msg:" << msg;
+    });
+    connect(tman, &TemplateManager::errorMessage, [](const QString& msg) {
+        qDebug() << "tman err:" << msg;
+    });
+    connect(tman, &TemplateManager::haveMetadata, [this, tman]() {
+        bool canUpdate = false;
+        auto list = tman->itemWidgets();
+        for(auto *witem: list) {
+            auto item = witem->templateItem();
+            canUpdate = canUpdate || (item.state() == TemplateItem::State::Updatable);
+        }
+        ui->updateAvailable->setVisible(canUpdate);
+    });
+    connect(ui->updateAvailable, &QToolButton::clicked, [this, tman]() {
+        QDialog d(this);
+        auto z = this->size();
+        z.scale(this->size() * 0.9, Qt::KeepAspectRatio);
+        d.resize(z);
+        auto l = new QVBoxLayout(&d);
+        auto bb = new QDialogButtonBox(QDialogButtonBox::Close, &d);
+        l->addWidget(tman);
+        l->addWidget(bb);
+        connect(bb, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+        connect(bb, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+        d.exec();
+        ui->updateAvailable->hide();
+        tman->setParent(nullptr);
+        tman->startUpdate();
+    });
+    tman->startUpdate();
+
 
     ui->stackedWidget->setCurrentWidget(ui->welcomePage);
     ui->documentContainer->setComboBox(ui->documentSelector);

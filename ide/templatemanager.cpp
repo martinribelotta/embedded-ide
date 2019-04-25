@@ -119,12 +119,11 @@ TemplateManager::TemplateManager(QWidget *parent) :
             emit message(tr("Metadata download finished"));
             ui->selectAll->click();
             AppConfig::instance().purgeHash();
+            emit haveMetadata();
             int elementCount = ui->widgetList->count();
             auto onDownloadEnd =  [this, percentChange, elementCount, net](const TemplateItem& templateItem) {
                 AppConfig::instance().addHash(templateItem.file().absoluteFilePath(), templateItem.hash());
                 auto item = ui->widgetList->takeItem(0);
-                ui->widgetList->itemWidget(item)->deleteLater();
-                ui->widgetList->removeItemWidget(item);
                 delete item;
                 percentChange(quint64(elementCount - ui->widgetList->count()), quint64(elementCount));
                 if (ui->widgetList->count() > 0)
@@ -155,16 +154,33 @@ QUrl TemplateManager::repositoryUrl() const
     return QUrl(ui->repoUrl->text());
 }
 
+QList<TemplateItemWidget *> TemplateManager::itemWidgets() const
+{
+    QList<TemplateItemWidget *> list;
+    for(int i=0; i<ui->widgetList->count(); i++) {
+        auto item = ui->widgetList->item(i);
+        auto w = qobject_cast<TemplateItemWidget*>(ui->widgetList->itemWidget(item));
+        if (w)
+            list.append(w);
+    }
+    return list;
+}
+
 void TemplateManager::setRepositoryUrl(const QUrl &url)
 {
     ui->repoUrl->setText(url.toString());
+}
+
+void TemplateManager::startUpdate()
+{
+    ui->updateRepository->click();
 }
 
 void TemplateManager::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
     if (property("firstTime").toBool()) {
-        ui->updateRepository->click();
+        startUpdate();
         setProperty("firstTime", false);
     }
 }

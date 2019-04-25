@@ -27,6 +27,7 @@ class TemplateManager;
 }
 
 class QListWidgetItem;
+class TemplateItemWidget;
 
 class TemplateManager : public QWidget
 {
@@ -38,12 +39,16 @@ public:
 
     QUrl repositoryUrl() const;
 
+    QList<TemplateItemWidget*> itemWidgets() const;
+
 signals:
     void errorMessage(const QString& text);
     void message(const QString& text);
+    void haveMetadata();
 
 public slots:
     void setRepositoryUrl(const QUrl& url);
+    void startUpdate();
 
 private slots:
     void msgLog(const QString& text, const QColor& color);

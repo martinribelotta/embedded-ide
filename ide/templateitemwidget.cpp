@@ -114,7 +114,6 @@ void TemplateItemWidget::setTemplate(const TemplateItem &item)
 
 void TemplateItemWidget::startDownload(QNetworkAccessManager *net)
 {
-    qDebug() << _item.file().fileName() << _item.url().toString();
     if (!isChecked()) {
         emit downloadMessage(tr("Skipping %1").arg(_item.file().fileName()));
         emit downloadEnd(_item);
