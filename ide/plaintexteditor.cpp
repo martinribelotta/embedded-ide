@@ -370,8 +370,10 @@ void PlainTextEditor::contextMenuEvent(QContextMenuEvent *event)
 void PlainTextEditor::loadConfigWithStyle(const QString& style, const QFont& editorFont, int tabs, bool tabsToSpace)
 {
     setFont(editorFont);
-    if (lexer())
+    if (lexer()) {
         lexer()->setDefaultFont(editorFont);
+        lexer()->setFont(editorFont);
+    }
     loadStyle(QString(":/styles/%1.xml").arg(style));
     setIndentationsUseTabs(!tabsToSpace);
     setTabWidth(tabs);
