@@ -143,6 +143,7 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
                                  .arg(QString("%1").arg(column).leftJustified(8, ' '))
                                  .arg(textInFile));
                 posItem->setData(QVariant::fromValue(FilePos{ line, column, info.absoluteFilePath() }));
+                posItem->setData(Qt::AlignBaseline, Qt::TextAlignmentRole);
                 fileItem->appendRow(posItem);
                 QCoreApplication::processEvents();
             } while (doc->findNext());
