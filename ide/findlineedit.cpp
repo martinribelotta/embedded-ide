@@ -48,11 +48,13 @@ FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
     layout->addWidget(optionsButton, 0, Qt::AlignLeft);
     layout->addWidget(clearButton, 0, Qt::AlignRight);
     layout->setMargin(0);
+    const auto margin = frameWidth * 2 + 2;
+    layout->setContentsMargins(margin, 0, margin, 0);
     layout->setSpacing(0);
     connect(clearButton, SIGNAL(clicked()), this, SLOT(clear()));
     QSize msz = minimumSizeHint();
-    setMinimumSize(qMax(msz.width(), clearButton->sizeHint().height() + frameWidth * 2 + 2),
-                   qMax(msz.height(), clearButton->sizeHint().height() + frameWidth * 2 + 2));
+    setMinimumSize(qMax(msz.width(), clearButton->sizeHint().height() + margin),
+                   qMax(msz.height(), clearButton->sizeHint().height() + margin));
 }
 
 void FindLineEdit::addMenuActions(const QHash<QString, QString> &actionList)
