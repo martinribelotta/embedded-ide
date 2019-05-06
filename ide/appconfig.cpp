@@ -261,12 +261,24 @@ QString AppConfig::localConfigFilePath() const
     return QDir(ensureExist(workspacePath())).absoluteFilePath("config.json");
 }
 
-QHash<QString, QString> AppConfig::externalTools() const
+QList<QPair<QString, QString> > AppConfig::externalTools() const
 {
-    QHash<QString, QString> map;
-    auto tools = CFG_LOCAL["externalTools"].toObject();
-    for(auto it=tools.begin(); it != tools.end(); ++it)
-        map.insert(it.key(), it.value().toString());
+    QList<QPair<QString, QString> > map;
+    auto vtools = CFG_LOCAL["externalTools"];
+    if (vtools.isObject()) {
+        auto tools = vtools.toObject();
+        for (const auto& k: tools.keys())
+            map.append({ k, tools.value(k).toString() });
+    } else if (vtools.isArray()) {
+        for (const auto v: vtools.toArray()) {
+            auto o = v.toObject();
+            auto ks = o.keys();
+            if (!ks.first().isEmpty()) {
+                auto k = ks.first();
+                map.append({ k, o.value(k).toString() });
+            }
+        }
+    }
     return map;
 }
 
@@ -455,12 +467,12 @@ void AppConfig::setWorkspacePath(const QString &path)
     CFG_GLOBAL.insert("workspacePath", path);
 }
 
-void AppConfig::setExternalTools(const QHash<QString, QString> &tools)
+void AppConfig::setExternalTools(const QList<QPair<QString, QString> > &tools)
 {
-    QJsonObject o;
-    for (auto it=tools.begin(); it != tools.end(); ++it)
-        o.insert(it.key(), it.value());
-    CFG_LOCAL.insert("externalTools", o);
+    QJsonArray a;
+    for (const auto& it: tools)
+        a.append(QJsonObject{ { it.first, it.second } });
+    CFG_LOCAL.insert("externalTools", a);
 }
 
 void AppConfig::appendToRecentProjects(const QString &path)

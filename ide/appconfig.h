@@ -52,7 +52,7 @@ public:
     QString templatesPath() const;
     QString localConfigFilePath() const;
 
-    QHash<QString, QString> externalTools() const;
+    QList<QPair<QString, QString> > externalTools() const;
     QFileInfoList recentProjects() const;
 
     QStringList additionalPaths(bool raw = false) const;
@@ -96,7 +96,7 @@ public slots:
 
     void setWorkspacePath(const QString& path);
 
-    void setExternalTools(const QHash<QString, QString> &tools);
+    void setExternalTools(const QList<QPair<QString, QString> > &tools);
     void appendToRecentProjects(const QString& path);
 
     void setAdditionalPaths(const QStringList& paths);

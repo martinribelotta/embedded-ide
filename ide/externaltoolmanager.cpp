@@ -85,8 +85,8 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
     });
 
     auto tools = AppConfig::instance().externalTools();
-    for(auto it=tools.begin(); it!=tools.end(); ++it)
-        model->appendRow(makeItem(it.key(), it.value()));
+    for(const auto& it: tools)
+        model->appendRow(makeItem(it.first, it.second));
 }
 
 ExternalToolManager::~ExternalToolManager()
@@ -99,9 +99,9 @@ QMenu *ExternalToolManager::makeMenu(QWidget *parent, ProcessManager *pman, Proj
     auto p = pman->processFor(BuildManager::PROCESS_NAME);
     auto m = new QMenu(parent);
     auto t = AppConfig::instance().externalTools();
-    for(auto it = t.begin(); it != t.end(); ++it) {
-        auto cmd = it.value();
-        m->addAction(QIcon(":/images/actions/run-build.svg"), it.key(), [p, cmd, proj]() {
+    for(const auto& it: t) {
+        auto cmd = it.second;
+        m->addAction(QIcon(":/images/actions/run-build.svg"), it.first, [p, cmd, proj]() {
             p->setWorkingDirectory(proj->projectPath());
             p->start(AppConfig::replaceWithEnv(cmd));
         });
@@ -111,11 +111,11 @@ QMenu *ExternalToolManager::makeMenu(QWidget *parent, ProcessManager *pman, Proj
         ExternalToolManager d(parent);
         if (d.exec()) {
             auto model = qobject_cast<QStandardItemModel*>(d.ui->tableView->model());
-            QHash<QString, QString> map;
+            QList<QPair<QString, QString>> map;
             for(int i=0; i<model->rowCount(); i++) {
                 auto name = model->item(i, 0)->text();
                 auto cmd = model->item(i, 1)->text();
-                map.insert(name, cmd);
+                map.append({ name, cmd });
             }
             AppConfig::instance().setExternalTools(map);
             AppConfig::instance().save();
