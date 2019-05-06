@@ -21,6 +21,13 @@
 
 #include <QObject>
 
+namespace TextMessages {
+constexpr auto STDERR_LOG = "stderrLog";
+constexpr auto STDOUT_LOG = "stdoutLog";
+constexpr auto ACTION_LABEL = "actionLabel";
+constexpr auto DEBUG_IP_CHANGE = "debug_ip_change";
+};
+
 class TextMessageBrocker : public QObject
 {
     Q_OBJECT

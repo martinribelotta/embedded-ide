@@ -158,7 +158,7 @@ static STDCALL char* tempMemoryAllocation(unsigned long memoryNeeded)
 static STDCALL void tempError(int errorNumber, const char* errorMessage)
 {
     qDebug() << errorNumber << errorMessage;
-    TextMessageBrocker::instance().publish("stderrLog", QString("%1: %2").arg(errorNumber).arg(errorMessage));
+    TextMessageBrocker::instance().publish(TextMessages::STDERR_LOG, QString("%1: %2").arg(errorNumber).arg(errorMessage));
 }
 
 void CPPTextEditor::formatCode()

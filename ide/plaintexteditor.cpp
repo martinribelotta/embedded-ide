@@ -73,7 +73,8 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
     auto findDialog = new FormFindReplace(this);
     findDialog->hide();
 
-    TextMessageBrocker::instance().subscribe("", [this](const QString& msg) {
+    TextMessageBrocker::instance().subscribe(TextMessages::DEBUG_IP_CHANGE,
+                                             [this](const QString& msg) {
         QRegularExpression re(R"((.+?)\:(\d+))");
         auto m = re.match(msg);
         if (m.hasMatch()) {

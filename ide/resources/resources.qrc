@@ -148,5 +148,8 @@
         <file>images/actions/debug-pause-v2.svg</file>
         <file>images/actions/debug-stop-v2.svg</file>
         <file>styles/tomorrow.xml</file>
+        <file>images/screens/EmbeddedIDE_02.svg</file>
+        <file>images/screens/EmbeddedIDE_02_es.svg</file>
+        <file>images/screens/EmbeddedIDE_02_es.png</file>
     </qresource>
 </RCC>

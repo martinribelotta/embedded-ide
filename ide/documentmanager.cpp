@@ -29,11 +29,13 @@
 #include "textmessagebrocker.h"
 #include "imageviewer.h"
 
+#include <QApplication>
 #include <QComboBox>
 #include <QDir>
 #include <QFileInfo>
 #include <QLabel>
 #include <QMimeDatabase>
+#include <QShortcut>
 #include <QSortFilterProxyModel>
 #include <QStackedLayout>
 
@@ -66,9 +68,15 @@ DocumentManager::DocumentManager(QWidget *parent) :
     DocumentEditorFactory::instance()->registerDocumentInterface(BinaryViewer::creator());
 
     auto label = new QLabel(this);
-    label->setPixmap(QPixmap(":/images/screens/EmbeddedIDE_02.png"));
+    label->setPixmap(QPixmap(tr(":/images/screens/EmbeddedIDE_02.png")));
     label->setAlignment(Qt::AlignHCenter | Qt::AlignCenter);
     priv->stack->addWidget(label);
+
+#define SHCUT(seq, ...) connect(new QShortcut(QKeySequence(seq), window()), &QShortcut::activated, __VA_ARGS__);
+    SHCUT("CTRL+SHIFT+X", this, &DocumentManager::closeCurrent);
+    SHCUT("CTRL+SHIFT+R", this, &DocumentManager::reloadDocumentCurrent);
+    // SHCUT("CTRL+S", this, &DocumentManager::saveCurrent);
+#undef SHCUT
 }
 
 DocumentManager::~DocumentManager()
@@ -159,7 +167,7 @@ void DocumentManager::openDocument(const QString &filePath)
     if (QFileInfo(path).isDir())
         return;
     if (!QFileInfo(path).exists()) {
-        TextMessageBrocker::instance().publish("stderrLog", tr("%1 not exist").arg(filePath));
+        TextMessageBrocker::instance().publish(TextMessages::STDERR_LOG, tr("%1 not exist").arg(filePath));
         return;
     }
     if (QFileInfo(path).isRelative())

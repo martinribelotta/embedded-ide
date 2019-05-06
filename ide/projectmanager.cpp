@@ -110,7 +110,7 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
     g->addWidget(label, 1, 1);
     g->setRowStretch(0, 1);
     g->setColumnStretch(0, 1);
-    TextMessageBrocker::instance().subscribe("actionLabel", [label](const QString& s) {
+    TextMessageBrocker::instance().subscribe(TextMessages::ACTION_LABEL, [label](const QString& s) {
         label->setText(s);
     });
     connect(&priv->clearMessageTimer, &QTimer::timeout, [this]() { clearMessage(); });
@@ -198,12 +198,12 @@ void ProjectManager::createProject(const QString& projectFilePath, const QString
     };
     auto onFinishCb = [this, projectFilePath](QProcess *p, int exitCode) {
         Q_UNUSED(p);
-        TextMessageBrocker::instance().publish("stdoutLog", tr("Diff terminate. Exit code %1").arg(exitCode));
+        TextMessageBrocker::instance().publish(TextMessages::STDOUT_LOG, tr("Diff terminate. Exit code %1").arg(exitCode));
         openProject(QDir(projectFilePath).filePath("Makefile"));
     };
     auto onErrCb = [](QProcess *p, QProcess::ProcessError err) {
         Q_UNUSED(err);
-        TextMessageBrocker::instance().publish("stderrLog", tr("Diff error: %1").arg(p->errorString()));
+        TextMessageBrocker::instance().publish(TextMessages::STDERR_LOG, tr("Diff error: %1").arg(p->errorString()));
     };
     auto& p = ChildProcess::create(this)
             .makeDeleteLater()
@@ -220,12 +220,12 @@ void ProjectManager::createProjectFromTGZ(const QString &projectFilePath, const 
     AppConfig::ensureExist(projectFilePath);
     auto onFinishCb = [this, projectFilePath](QProcess *p, int exitCode) {
         Q_UNUSED(p);
-        TextMessageBrocker::instance().publish("stdoutLog", tr("tar terminate. Exit code %1").arg(exitCode));
+        TextMessageBrocker::instance().publish(TextMessages::STDOUT_LOG, tr("tar terminate. Exit code %1").arg(exitCode));
         openProject(QDir(projectFilePath).filePath("Makefile"));
     };
     auto onErrCb = [](QProcess *p, QProcess::ProcessError err) {
         Q_UNUSED(err);
-        TextMessageBrocker::instance().publish("stderrLog", tr("tar error: %1").arg(p->errorString()));
+        TextMessageBrocker::instance().publish(TextMessages::STDERR_LOG, tr("tar error: %1").arg(p->errorString()));
     };
     auto& p = ChildProcess::create(this)
         .makeDeleteLater()
@@ -270,12 +270,12 @@ void ProjectManager::exportToDiff(const QString &patchFile)
     priv->pman->setStdoutInterceptor(EXPORT_PROC, [](QProcess* p, const QString& text) {
         QString s{ text };
         TextMessageBrocker::instance()
-            .publish("stdoutLog",
+            .publish(TextMessages::STDOUT_LOG,
                      RegexHTMLTranslator::CONSOLE_TRANSLATOR(p, s));
     });
     priv->pman->start(EXPORT_PROC, "diff", { "-N", "-u", "-r", tmpDir.absolutePath(), "." }, {}, projectPath());
     TextMessageBrocker::instance()
-        .publish("stdoutLog",
+        .publish(TextMessages::STDOUT_LOG,
                  tr(R"(<font color="blue">Exporting to %1</font><br>)").arg(patchFile));
 }
 
@@ -283,7 +283,7 @@ void ProjectManager::exportToTarGz(const QString &tgzFile)
 {
     priv->pman->start(BuildManager::PROCESS_NAME, "tar", { "-c", "-z", "-v", "-f", tgzFile, "." }, {}, projectPath());
     TextMessageBrocker::instance()
-        .publish("stdoutLog",
+        .publish(TextMessages::STDOUT_LOG,
                  tr(R"(<font color="blue">Exporting to %1</font><br>)").arg(tgzFile));
 }
 
@@ -328,7 +328,7 @@ void ProjectManager::reloadProject()
 void ProjectManager::showMessage(const QString &msg)
 {
     priv->clearMessageTimer.stop();
-    TextMessageBrocker::instance().publish("actionLabel", msg);
+    TextMessageBrocker::instance().publish(TextMessages::ACTION_LABEL, msg);
 }
 
 void ProjectManager::showMessageTimed(const QString &msg, int millis)
@@ -339,7 +339,7 @@ void ProjectManager::showMessageTimed(const QString &msg, int millis)
 
 void ProjectManager::clearMessage()
 {
-    TextMessageBrocker::instance().publish("actionLabel", {});
+    TextMessageBrocker::instance().publish(TextMessages::ACTION_LABEL, {});
 }
 
 void ProjectManager::clearMessageTimed(int millis)

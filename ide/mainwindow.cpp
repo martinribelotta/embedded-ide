@@ -136,11 +136,11 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->documentContainer->setFocus();
     });
 
-    TextMessageBrocker::instance().subscribe("stderrLog", [this](const QString& msg) {
+    TextMessageBrocker::instance().subscribe(TextMessages::STDERR_LOG, [this](const QString& msg) {
         priv->console->writeHtml(msg);
     });
 
-    TextMessageBrocker::instance().subscribe("stdoutLog", [this](const QString& msg) {
+    TextMessageBrocker::instance().subscribe(TextMessages::STDOUT_LOG, [this](const QString& msg) {
         priv->console->writeHtml(msg);
     });
 

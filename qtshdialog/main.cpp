@@ -19,6 +19,7 @@
 #include <QApplication>
 #include <QDialog>
 #include <QFile>
+#include <QFileDialog>
 #include <QFileInfo>
 #include <QJSEngine>
 #include <QJsonObject>
@@ -30,6 +31,8 @@
 #include <QTimer>
 #include <QUiLoader>
 #include <QWidget>
+
+#include <cstdio>
 
 static bool noEmpty = false;
 static bool noInternal = false;
@@ -137,6 +140,43 @@ static QString readAll(const QString& path, bool *ok=nullptr) {
     return QTextStream{&f}.readAll();
 }
 
+class Services: public QObject {
+    Q_OBJECT
+
+public slots:
+    QString getOpenFileName(QWidget *parent = nullptr,
+                                   const QString &caption = QString(),
+                                   const QString &dir = QString(),
+                                   const QString &filter = QString())
+    {
+        return QFileDialog::getOpenFileName(parent, caption, dir, filter);
+    }
+
+    QString getSaveFileName(QWidget *parent = nullptr,
+                                   const QString &caption = QString(),
+                                   const QString &dir = QString(),
+                                   const QString &filter = QString())
+    {
+        return QFileDialog::getSaveFileName(parent, caption, dir, filter);
+    }
+
+    QString getExistingDirectory(QWidget *parent = nullptr,
+                                        const QString &caption = QString(),
+                                        const QString &dir = QString())
+    {
+        return QFileDialog::getExistingDirectory(parent, caption, dir);
+    }
+
+    QStringList getOpenFileNames(QWidget *parent = nullptr,
+                                        const QString &caption = QString(),
+                                        const QString &dir = QString(),
+                                        const QString &filter = QString())
+    {
+        return QFileDialog::getOpenFileNames(parent, caption, dir, filter);
+    }
+
+};
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -196,6 +236,7 @@ int main(int argc, char *argv[])
     QJSEngine js;
     js.installExtensions(QJSEngine::ConsoleExtension);
     publishToJs(js, w, js.globalObject());
+    js.globalObject().setProperty("Services", js.newQObject(new Services));
 
     QTimer::singleShot(0, [w, &js, &exprList, &jsFileName]() {
         for(const auto& e: exprList) {
@@ -241,3 +282,5 @@ int main(int argc, char *argv[])
     dump(w);
     return r;
 }
+
+#include <main.moc>
