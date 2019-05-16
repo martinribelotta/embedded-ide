@@ -84,6 +84,11 @@ static QPair<targetMap_t, targetMap_t> findAllTargets(QIODevice *in)
     QRegularExpression re(R"(^([^\#\s][^\%\=]*?):[^\=]\s*([^#\r\n]*?)\s*$)");
     while (!in->atEnd()) {
         auto line = in->readLine();
+        if (line.startsWith("# Not a target:")) {
+            in->readLine();
+            in->readLine();
+            line = in->readLine();
+        }
         auto me = re.match(line);
         if (me.hasMatch()) {
             auto tgt = me.captured(1);
