@@ -92,7 +92,11 @@ static QJsonObject loadJson(const QString& path)
 
 static QString globalConfigFilePath()
 {
-    return QDir::home().absoluteFilePath(".embedded_ide-config.json");
+    static const auto name = "." + QApplication::instance()->applicationDirPath()
+                                       .replace("/", "-")
+                                       .replace("\\", "-")
+                                       .replace(":", "") + ".json";
+    return QDir::home().absoluteFilePath(name);
 }
 
 static QDir sharedDir()
