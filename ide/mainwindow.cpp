@@ -86,7 +86,9 @@ MainWindow::MainWindow(QWidget *parent) :
         auto list = tman->itemWidgets();
         for(auto *witem: list) {
             auto item = witem->templateItem();
-            canUpdate = canUpdate || (item.state() == TemplateItem::State::Updatable);
+            canUpdate = canUpdate ||
+                (item.state() == TemplateItem::State::Updatable) ||
+                (item.state() == TemplateItem::State::New);
         }
         ui->updateAvailable->setVisible(canUpdate);
     });
