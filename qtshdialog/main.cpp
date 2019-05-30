@@ -186,32 +186,29 @@ int main(int argc, char *argv[])
     QRegularExpression execRe(R"(^\-\-exec\=(.*)$)", QRegularExpression::MultilineOption);
     for (int i=1; i<argc; i++) {
         auto p = QString{argv[i]};
-        if (p == "--no-label")
+        if (p == "--no-label") {
             noLabel = true;
-        if (p == "--no-empty")
+        } else if (p == "--no-empty") {
             noEmpty = true;
-        if (p == "--no-layout")
+        } else if (p == "--no-layout") {
             noLayout = true;
-        if (p == "--no-internal")
+        } else if (p == "--no-internal") {
             noInternal = true;
-        if (p == "--no-all")
+        } else if (p == "--no-all") {
             noAll = true;
-
-        if (QFileInfo{p}.suffix() == "ui")
+        } else if (QFileInfo{p}.suffix() == "ui") {
             uiFileName = p;
-
-        if (QFileInfo{p}.suffix() == "js")
+        } else if (QFileInfo{p}.suffix() == "js") {
             jsFileName = p;
-
-        if (p.startsWith("--show=")) {
+        } else if (p.startsWith("--show=")) {
             auto name = p.split("=").at(1);
             propertyList.append(name);
-        }
-
-        auto m = execRe.match(p);
-        if (m.hasMatch()) {
-            auto expr = m.captured(1);
-            exprList.append(expr);
+        } else {
+            auto m = execRe.match(p);
+            if (m.hasMatch()) {
+                auto expr = m.captured(1);
+                exprList.append(expr);
+            }
         }
     }
 
@@ -220,7 +217,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    QFile f{argv[1]};
+    QFile f{uiFileName};
     if (!f.open(QFile::ReadOnly)) {
         endl(out() << "error open file " << argv[1] << ": " << f.errorString());
         return -1;

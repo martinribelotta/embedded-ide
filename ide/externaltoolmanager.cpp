@@ -23,8 +23,35 @@
 #include "ui_externaltoolmanager.h"
 #include "projectmanager.h"
 
+#include <QFileDialog>
+#include <QItemDelegate>
+#include <QLineEdit>
 #include <QMenu>
+#include <QMouseEvent>
 #include <QStandardItemModel>
+
+#include <QtDebug>
+
+class ButtonEditorItemDelegate: public QItemDelegate
+{
+public:
+    using func_t = std::function<void(const QModelIndex& m)>;
+    ButtonEditorItemDelegate(const func_t& f) : func(f) {}
+    virtual QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
+    {
+        auto w = QItemDelegate::createEditor(parent, option, index);
+        QLineEdit* e = qobject_cast<QLineEdit*>(w);
+        if (e) {
+            auto a = e->addAction(QIcon(":/images/actions/application-menu.svg"), QLineEdit::TrailingPosition);
+            connect(a, &QAction::triggered, [index, this]() {
+                func(index);
+            });
+        }
+        return w;
+    }
+private:
+    func_t func;
+};
 
 static QList<QStandardItem*> makeItem(const QString& name=QString(), const QString& command=QString())
 {
@@ -41,6 +68,18 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
     auto model = new QStandardItemModel(this);
     model->setHorizontalHeaderLabels({ tr("Description"), tr("Command") });
     ui->tableView->setModel(model);
+    auto delegate = new ButtonEditorItemDelegate([this, model](const QModelIndex& m)
+    {
+        auto item = model->itemFromIndex(m);
+        if (item) {
+            auto s = QFileDialog::getOpenFileName(window());
+            if (!s.isEmpty())
+                item->setText(s);
+        } else {
+            qDebug() << "no item";
+        }
+    });
+    ui->tableView-> setItemDelegateForColumn(1, delegate);
     connect(ui->itemAdd, &QToolButton::clicked, [model]() {
         model->appendRow(makeItem());
     });
