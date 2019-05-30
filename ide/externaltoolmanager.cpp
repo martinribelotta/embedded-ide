@@ -36,14 +36,14 @@ template<typename Functor>
 class ButtonEditorItemDelegate: public QItemDelegate
 {
 public:
-    using func_t = std::function<void(const QModelIndex& m)>;
-    ButtonEditorItemDelegate(const Functor& f) : func(f) {}
+    ButtonEditorItemDelegate(const QString& ict, const Functor& f) : iconToolTip(ict), func(f) {}
     virtual QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         auto w = QItemDelegate::createEditor(parent, option, index);
         QLineEdit* e = qobject_cast<QLineEdit*>(w);
         if (e) {
             auto a = e->addAction(QIcon(":/images/actions/document-open.svg"), QLineEdit::TrailingPosition);
+            a->setToolTip(iconToolTip);
             connect(a, &QAction::triggered, [index, this]() {
                 func(index);
             });
@@ -51,6 +51,7 @@ public:
         return w;
     }
 private:
+    QString iconToolTip;
     Functor func;
 };
 
@@ -80,8 +81,8 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
             qDebug() << "no item";
         }
     };
-    auto delegate = new ButtonEditorItemDelegate<decltype (delegateFunc)>(delegateFunc);
-    ui->tableView-> setItemDelegateForColumn(1, delegate);
+    auto delegate = new ButtonEditorItemDelegate<decltype (delegateFunc)>(tr("Select File"), delegateFunc);
+    ui->tableView->setItemDelegateForColumn(1, delegate);
     connect(ui->itemAdd, &QToolButton::clicked, [model]() {
         model->appendRow(makeItem());
     });
