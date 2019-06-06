@@ -42,6 +42,8 @@ public:
     ~ProjectIconProvider() override;
     QIcon icon(const QFileInfo &info) const override
     {
+        if (info.isDir())
+            return QIcon(":/images/mimetypes/folder.svg");
         QMimeDatabase db;
         auto t = db.mimeTypeForFile(info);
         if (t.isValid()) {

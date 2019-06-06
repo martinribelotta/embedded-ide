@@ -32,17 +32,18 @@
 
 #include <QtDebug>
 
+template<typename Functor>
 class ButtonEditorItemDelegate: public QItemDelegate
 {
 public:
-    using func_t = std::function<void(const QModelIndex& m)>;
-    ButtonEditorItemDelegate(const func_t& f) : func(f) {}
+    ButtonEditorItemDelegate(const QString& ict, const Functor& f) : iconToolTip(ict), func(f) {}
     virtual QWidget * createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         auto w = QItemDelegate::createEditor(parent, option, index);
         QLineEdit* e = qobject_cast<QLineEdit*>(w);
         if (e) {
-            auto a = e->addAction(QIcon(":/images/actions/application-menu.svg"), QLineEdit::TrailingPosition);
+            auto a = e->addAction(QIcon(":/images/actions/document-open.svg"), QLineEdit::TrailingPosition);
+            a->setToolTip(iconToolTip);
             connect(a, &QAction::triggered, [index, this]() {
                 func(index);
             });
@@ -50,7 +51,8 @@ public:
         return w;
     }
 private:
-    func_t func;
+    QString iconToolTip;
+    Functor func;
 };
 
 static QList<QStandardItem*> makeItem(const QString& name=QString(), const QString& command=QString())
@@ -68,7 +70,7 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
     auto model = new QStandardItemModel(this);
     model->setHorizontalHeaderLabels({ tr("Description"), tr("Command") });
     ui->tableView->setModel(model);
-    auto delegate = new ButtonEditorItemDelegate([this, model](const QModelIndex& m)
+    auto delegateFunc = [this, model](const QModelIndex& m)
     {
         auto item = model->itemFromIndex(m);
         if (item) {
@@ -78,8 +80,9 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
         } else {
             qDebug() << "no item";
         }
-    });
-    ui->tableView-> setItemDelegateForColumn(1, delegate);
+    };
+    auto delegate = new ButtonEditorItemDelegate<decltype (delegateFunc)>(tr("Select File"), delegateFunc);
+    ui->tableView->setItemDelegateForColumn(1, delegate);
     connect(ui->itemAdd, &QToolButton::clicked, [model]() {
         model->appendRow(makeItem());
     });
