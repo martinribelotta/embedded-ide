@@ -39,11 +39,13 @@ class FindInFilesDialog : public QDialog
 
 public:
     explicit FindInFilesDialog(const QString& path, QWidget *parent = nullptr);
-    virtual ~FindInFilesDialog();
+    virtual ~FindInFilesDialog() override;
 
 signals:
     void queryToOpen(const QString& path, int line, int column);
 
+protected:
+    virtual void closeEvent(QCloseEvent *) override;
 private:
     Ui::FindInFilesDialog *ui;
 };

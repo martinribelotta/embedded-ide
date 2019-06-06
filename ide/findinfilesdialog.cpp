@@ -24,6 +24,7 @@
 #include <QFileDialog>
 #include <QListView>
 #include <QMenu>
+#include <QScopeGuard>
 #include <QStandardItemModel>
 #include <QWidgetAction>
 
@@ -103,6 +104,8 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
     auto doc = new QsciScintilla(this);
     doc->hide();
     connect(ui->buttonFind, &QToolButton::clicked, [this, model, doc]() {
+        auto guard = qScopeGuard([this]() { setProperty("onProcessLoop", false); } );
+        setProperty("onProcessLoop", true);
         model->clear();
         ui->buttonStop->setEnabled(true);
         ui->buttonFind->setDisabled(true);
@@ -115,8 +118,10 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
         bool isWWord = ui->textToFind->isPropertyChecked("wword");
         QDirIterator it(ui->textDirectory->text(), filters,
                         QDir::NoFilter, QDirIterator::Subdirectories);
-        while (it.hasNext()) {
+        while (it.hasNext() && property("onProcessLoop").toBool()) {
             QCoreApplication::processEvents();
+            if (!property("onProcessLoop").toBool())
+                break;
             ui->labelStatus->setText(tr("Scanning file:"));
             ui->labelFilename->setText(QFontMetrics(ui->labelStatus->font())
                                        .elidedText(it.next(), Qt::ElideLeft, ui->labelStatus->width()));
@@ -146,7 +151,7 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
                 posItem->setData(Qt::AlignBaseline, Qt::TextAlignmentRole);
                 fileItem->appendRow(posItem);
                 QCoreApplication::processEvents();
-            } while (doc->findNext());
+            } while (doc->findNext() && property("onProcessLoop").toBool());
         }
         ui->buttonStop->setDisabled(true);
         ui->buttonFind->setEnabled(true);
@@ -167,4 +172,9 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
 FindInFilesDialog::~FindInFilesDialog()
 {
     delete ui;
+}
+
+void FindInFilesDialog::closeEvent(QCloseEvent *)
+{
+    setProperty("onProcessLoop", false);
 }
