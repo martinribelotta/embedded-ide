@@ -2,7 +2,7 @@
 
 set -e
 
-sudo add-apt-repository --yes ppa:beineri/opt-qt593-trusty
+sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.3-xenial
 sudo apt-get update -qq
 
 cd /tmp/
@@ -11,7 +11,7 @@ sudo cp linuxdeployqt-continuous-x86_64.AppImage /usr/bin/linuxdeployqt
 sudo chmod a+x /usr/bin/linuxdeployqt
 cd -
 
-sudo apt-get install -y xpra build-essential qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev wget fuse
+sudo apt-get install -y xpra build-essential qt512base qt512tools qt512svg qt512imageformats qt512x11extras libglu1-mesa-dev wget fuse
 
 mkdir -p /tmp/qsci
 cp ./ci/BuildQSCI.mk /tmp/qsci
