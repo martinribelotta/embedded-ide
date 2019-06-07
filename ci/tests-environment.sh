@@ -15,3 +15,9 @@ sudo chmod +rx /usr/local/lib/appimagekit
 cd -
 
 sudo apt-get install -y xpra build-essential qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev wget fuse
+
+mkdir -p /tmp/qsci
+cp ./ci/BuildQSCI.mk /tmp/qsci
+cd /tmp/qsci
+make -f BuildQSCI.mk
+cd -
