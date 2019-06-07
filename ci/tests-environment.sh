@@ -14,4 +14,4 @@ sudo cp -r squashfs-root/usr/lib/appimagekit /usr/local/lib/
 sudo chmod +rx /usr/local/lib/appimagekit
 cd -
 
-apt-get install -y build-essential qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev wget fuse
+sudo apt-get install -y build-essential qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev wget fuse
