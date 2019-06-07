@@ -21,4 +21,4 @@ $(BINARY_BUILD): $(SOURCE_DIR)
 	cd $(BUILD_DIR) && \
 	/opt/qt*/bin/qmake && \
 	make -j4 && \
-	make install
+	sudo make install
