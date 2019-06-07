@@ -24,7 +24,6 @@
 #include <QFileDialog>
 #include <QListView>
 #include <QMenu>
-#include <QScopeGuard>
 #include <QStandardItemModel>
 #include <QWidgetAction>
 
@@ -104,7 +103,6 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
     auto doc = new QsciScintilla(this);
     doc->hide();
     connect(ui->buttonFind, &QToolButton::clicked, [this, model, doc]() {
-        auto guard = qScopeGuard([this]() { setProperty("onProcessLoop", false); } );
         setProperty("onProcessLoop", true);
         model->clear();
         ui->buttonStop->setEnabled(true);
@@ -158,6 +156,7 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
         ui->treeView->expandAll();
         ui->labelStatus->setText(tr("Done"));
         ui->labelFilename->clear();
+        setProperty("onProcessLoop", false);
     });
 
     connect(ui->buttonChoseDirectory, &QToolButton::clicked, [this]() {
