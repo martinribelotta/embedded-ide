@@ -14,6 +14,9 @@ env:
 before_install:
   - chmod a+x ./ci/tests-environment.sh
   - ./ci/tests-environment.sh
+  - mkdir -p /tmp/qsci
+  - cp ./ci/BuildQSCI.mk /tmp/qsci
+  - make -C /tmp/qsci -f BuildQSCI.mk
 
 before_script:
   - git fetch --unshallow
