@@ -115,7 +115,11 @@ CONFIG += mobility
 MOBILITY = 
 
 RESOURCES += \
-    resources/resources.qrc
+    resources/fonts.qrc \
+    resources/iconactions.qrc \
+    resources/mimetypes.qrc \
+    resources/resources.qrc \
+    resources/styles.qrc
 
 win32 {
     QMAKE_LFLAGS += -lqscintilla2_qt5

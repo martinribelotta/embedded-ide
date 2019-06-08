@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/FiraCode-Bold.ttf</file>
+        <file>fonts/FiraCode-Light.ttf</file>
+        <file>fonts/FiraCode-Medium.ttf</file>
+        <file>fonts/FiraCode-Regular.ttf</file>
+        <file>fonts/FiraCode-Retina.ttf</file>
+        <file>fonts/UbuntuMono-B.ttf</file>
+        <file>fonts/UbuntuMono-BI.ttf</file>
+        <file>fonts/UbuntuMono-R.ttf</file>
+        <file>fonts/UbuntuMono-RI.ttf</file>
+    </qresource>
+</RCC>
