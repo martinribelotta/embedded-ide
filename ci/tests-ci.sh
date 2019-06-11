@@ -2,7 +2,7 @@
 
 set -x
 
-source /opt/qt*/bin/qt*-env.sh
+# source /opt/qt*/bin/qt*-env.sh
 INSTALL_DIR=/tmp/embedded-ide
 APP_IMAGE_NAME=Embedded_IDE-x86_64.AppImage
 DEPLOY_OPT=-no-translations -verbose=2 -executable=$INSTALL_DIR/usr/bin/embedded-ide

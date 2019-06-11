@@ -10,7 +10,7 @@ sudo fallocate -l 1G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
-
+	
 sudo apt-get install -y gcc-8 g++-8 xpra build-essential qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev wget fuse
 gcc --version
 # sudo update-alternatives --remove-all gcc
