@@ -12,8 +12,8 @@ DESKTOP_FILE=$INSTALL_DIR/usr/share/applications/embedded-ide.desktop
 
 wget https://github.com/martinribelotta/embedded-ide-builder/blob/master/linux-x86_64/universal-ctags?raw=true -O /tmp/universal-ctags
 
+echo ************** LINUX BUILD ***********************
 
-pwd && ls
 /opt/qt*/bin/qmake CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
 make -j
 make install INSTALL_ROOT=${INSTALL_DIR}
@@ -25,5 +25,13 @@ cp /opt/qt*/plugins/imageformats/libqsvg.so $INSTALL_DIR/usr/plugins/imageformat
 cp /tmp/universal-ctags $INSTALL_DIR/usr/bin
 chmod a+x $INSTALL_DIR/usr/bin/universal-ctags
 linuxdeployqt $DESKTOP_FILE -appimage
+
+echo ************** WINDOWS BUILD ***********************
+
+make distclean
+i686-w64-mingw32.static-qmake-qt5  CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
+make -j
+mv build embedded-ide
+zip -9 -r ./Embedded_IDE-win32.zip embedded-ide
 
 set -e
