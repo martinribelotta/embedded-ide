@@ -12,7 +12,7 @@ VERSION=$(git rev-parse --short HEAD)
 
 INSTALL_DIR=/tmp/embedded-ide
 APP_IMAGE_NAME=Embedded_IDE-x86_64.AppImage
-DEPLOY_OPT=-no-translations -verbose=2 -executable=$INSTALL_DIR/usr/bin/embedded-ide
+DEPLOY_OPT="-no-translations -verbose=2 -executable=$INSTALL_DIR/usr/bin/embedded-ide"
 DESKTOP_FILE=$INSTALL_DIR/usr/share/applications/embedded-ide.desktop
 
 wget https://github.com/martinribelotta/embedded-ide-builder/blob/master/linux-x86_64/universal-ctags?raw=true -O /tmp/universal-ctags
