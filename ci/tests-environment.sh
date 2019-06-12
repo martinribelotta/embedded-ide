@@ -11,7 +11,7 @@ echo "deb http://pkg.mxe.cc/repos/apt trusty main" \
 #    | sudo tee /etc/apt/apt.conf.d/99myown
 sudo apt-key adv --keyserver x-hkp://keys.gnupg.net \
     --recv-keys D43A795B73B16ABE9643FE1AFD8FFF16DB45C6AB
-sudo apt-get update -qq 
+sudo apt-get update -qq --allow-unauthenticated
 sudo fallocate -l 1G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
@@ -19,7 +19,7 @@ sudo swapon /swapfile
 
 MXE=mxe-i686-w64-mingw32.static-
 
-sudo apt-get install -y \
+sudo apt-get install -y --allow-unauthenticated \
 	gcc-8 g++-8 build-essential \
 	qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev \
 	wget fuse \
