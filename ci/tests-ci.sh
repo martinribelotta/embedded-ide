@@ -1,9 +1,11 @@
 #!/bin/bash
 
 set -x
-set -e
 
 source /opt/qt*/bin/qt*-env.sh
+
+set -e
+
 qmake --version
 
 VERSION=$(git rev-parse --short HEAD)
