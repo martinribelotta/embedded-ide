@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>styles/Bespin.xml</file>
+        <file>styles/Black board.xml</file>
+        <file>styles/Choco.xml</file>
+        <file>styles/Deep Black.xml</file>
+        <file>styles/Default.xml</file>
+        <file>styles/Hello Kitty.xml</file>
+        <file>styles/HotFudgeSundae.xml</file>
+        <file>styles/khaki.xml</file>
+        <file>styles/Material-Dark.xml</file>
+        <file>styles/Mono Industrial.xml</file>
+        <file>styles/Monokai.xml</file>
+        <file>styles/MossyLawn.xml</file>
+        <file>styles/Navajo.xml</file>
+        <file>styles/Obsidian.xml</file>
+        <file>styles/Plastic Code Wrap.xml</file>
+        <file>styles/Ruby Blue.xml</file>
+        <file>styles/Solarized.xml</file>
+        <file>styles/Solarized-light.xml</file>
+        <file>styles/tomorrow.xml</file>
+        <file>styles/Twilight.xml</file>
+        <file>styles/Vibrant Ink.xml</file>
+        <file>styles/vim Dark Blue.xml</file>
+        <file>styles/Zenburn.xml</file>
+    </qresource>
+</RCC>
