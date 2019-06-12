@@ -35,11 +35,11 @@ export MXEQT=${MXE}/i686-w64-mingw32.shared/qt5
 export PATH=${MXE}/bin:${PATH}
 ${MXEQT}/bin/qmake CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
 make -j4
-mv build embedded-ide
-pydeployqt --objdump ${MXE_PREFIX}-objdump ${PWD}/embedded-ide.exe \
+pydeployqt --objdump ${MXE_PREFIX}-objdump ${PWD}/build/embedded-ide.exe \
 	--libs ${MXE}/${MXE_PREFIX}/bin/:${MXEQT}/bin/:${MXEQT}/lib/ \
 	--extradll Qt5Svg.dll:libjpeg-9.dll \
 	--qmake ${MXEQT}/bin/qmake
+mv build embedded-ide
 zip -9 -r Embedded_IDE-win32.zip embedded-ide
 
 set -e
