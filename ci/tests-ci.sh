@@ -1,9 +1,12 @@
 #!/bin/bash
 
 set -x
+set -e
 
 source /opt/qt*/bin/qt*-env.sh
 qmake --version
+
+VERSION=$(git rev-parse --short HEAD)
 
 INSTALL_DIR=/tmp/embedded-ide
 APP_IMAGE_NAME=Embedded_IDE-x86_64.AppImage
@@ -40,6 +43,4 @@ pydeployqt --objdump ${MXE_PREFIX}-objdump ${PWD}/build/embedded-ide.exe \
 	--extradll Qt5Svg.dll:libjpeg-9.dll \
 	--qmake ${MXEQT}/bin/qmake
 mv build embedded-ide
-zip -9 -r Embedded_IDE-win32.zip embedded-ide
-
-set -e
+zip -9 -r Embedded_IDE-${VERSION}-win32.zip embedded-ide
