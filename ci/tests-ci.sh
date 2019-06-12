@@ -29,6 +29,7 @@ linuxdeployqt $DESKTOP_FILE -appimage
 echo ************** WINDOWS BUILD ***********************
 
 make distclean
+export PATH=/usr/lib/mxe/usr/bin:$PATH
 /usr/lib/mxe/usr/i686-w64-mingw32.shared/qt5/bin/qmake \
 	CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
 make -j
