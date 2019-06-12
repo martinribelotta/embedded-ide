@@ -7,9 +7,11 @@ sudo add-apt-repository --yes ppa:beineri/opt-qt593-trusty
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 echo "deb http://pkg.mxe.cc/repos/apt/debian trusty main" \
     | sudo tee /etc/apt/sources.list.d/mxeapt.list
+echo 'APT::Get::AllowUnauthenticated "true";' \
+    | sudo tee /etc/apt/apt.conf.d/99myown
 sudo apt-key adv --keyserver x-hkp://keys.gnupg.net \
     --recv-keys D43A795B73B16ABE9643FE1AFD8FFF16DB45C6AB
-sudo apt-get update -qq
+sudo apt-get update -qq --allow-unauthenticated 
 sudo fallocate -l 1G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
