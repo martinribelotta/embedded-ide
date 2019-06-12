@@ -6,6 +6,7 @@ set -x
 sudo add-apt-repository --yes ppa:beineri/opt-qt593-trusty
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 echo "deb https://pkg.mxe.cc/repos/apt trusty main" | sudo tee /etc/apt/sources.list.d/mxe.list
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
 sudo apt-get update -qq
 sudo fallocate -l 1G /swapfile
 sudo chmod 600 /swapfile
