@@ -12,10 +12,10 @@ echo "deb http://pkg.mxe.cc/repos/apt trusty main" \
 
 sudo apt-get update -qq --allow-unauthenticated
 
-#sudo fallocate -l 1G /swapfile
-#sudo chmod 600 /swapfile
-#sudo mkswap /swapfile
-#sudo swapon /swapfile
+sudo fallocate -l 1G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
 
 sudo wget https://raw.githubusercontent.com/digitalist/pydeployqt/master/deploy.py -O /usr/bin/pydeployqt
 sudo chmod a+x /usr/bin/pydeployqt
