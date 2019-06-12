@@ -17,7 +17,7 @@ sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 
-sudo wget https://raw.githubusercontent.com/digitalist/pydeployqt/master/deploy.py -O /usr/bin/pydeployqt
+sudo wget https://raw.githubusercontent.com/martinribelotta/pydeployqt/master/deploy.py -O /usr/bin/pydeployqt
 sudo chmod a+x /usr/bin/pydeployqt
 
 MXE=mxe-i686-w64-mingw32.shared-

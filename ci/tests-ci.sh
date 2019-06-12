@@ -29,13 +29,17 @@ linuxdeployqt $DESKTOP_FILE -appimage
 echo ************** WINDOWS BUILD ***********************
 
 make distclean
-export PATH=/usr/lib/mxe/usr/bin:$PATH
-/usr/lib/mxe/usr/i686-w64-mingw32.shared/qt5/bin/qmake \
-	CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
-make -j
+export MXE_PREFIX=i686-w64-mingw32.shared
+export MXE=/usr/lib/mxe/usr
+export MXEQT=${MXE}/i686-w64-mingw32.shared/qt5
+export PATH=${MXE}/bin:${PATH}
+${MXEQT}/bin/qmake CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
+make -j4
 mv build embedded-ide
-pydeployqt --objdump /usr/lib/mxe/usr/bin/i686-w64-mingw32.shared-objdump \
-	embedded-ide/embedded-ide.exe
-zip -9 -r ./Embedded_IDE-win32.zip embedded-ide
+pydeployqt --objdump ${MXE_PREFIX}-objdump ${PWD}/embedded-ide.exe \
+	--libs ${MXE}/${MXE_PREFIX}/bin/:${MXEQT}/bin/:${MXEQT}/lib/ \
+	--extradll Qt5Svg.dll:libjpeg-9.dll \
+	--qmake ${MXEQT}/bin/qmake
+zip -9 -r Embedded_IDE-win32.zip embedded-ide
 
 set -e
