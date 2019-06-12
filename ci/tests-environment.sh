@@ -10,19 +10,13 @@ echo "deb http://pkg.mxe.cc/repos/apt trusty main" \
 #echo 'APT::Get::AllowUnauthenticated "true";' \
 #    | sudo tee /etc/apt/apt.conf.d/99myown
 
-sudo tee /etc/apt/preferences.d/mxe-libav-forceoff > /dev/null <<EOF
-Package: mxe-i686-w64-mingw32.static-gst-libav
-Pin: origin ""
-Pin-Priority: -1
-EOF
-
 sudo apt-get update -qq --allow-unauthenticated
 sudo fallocate -l 1G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 
-MXE=mxe-i686-w64-mingw32.static-
+MXE=mxe-i686-w64-mingw32.shared-
 
 
 sudo apt-get install -y --allow-unauthenticated \
