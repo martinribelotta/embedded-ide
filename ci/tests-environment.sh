@@ -10,7 +10,7 @@ echo "deb http://pkg.mxe.cc/repos/apt trusty main" \
 #echo 'APT::Get::AllowUnauthenticated "true";' \
 #    | sudo tee /etc/apt/apt.conf.d/99myown
 
-cat | sudo tee /etc/apt/preferences.d/mxe-libav-forceoff <<EOF
+sudo tee " /etc/apt/preferences.d/mxe-libav-forceoff" > /dev/null <<EOF
 Package: mxe-i686-w64-mingw32.static-gst-libav
 Pin: origin ""
 Pin-Priority: -1
