@@ -3,9 +3,6 @@ sudo: required
 dist: trusty
 
 os: linux
-branches:
-  only:
-    - ci
 
 env:
   global:
