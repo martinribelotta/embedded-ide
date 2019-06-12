@@ -21,7 +21,7 @@ sudo apt-get install -y --allow-unauthenticated \
 	gcc-8 g++-8 build-essential \
 	qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev \
 	wget fuse \
-	${MXE}qt5 ${MXE}gcc ${MXE}qscintilla2
+	${MXE}qt5 ${MXE}qtsvg ${MXE}qtdeclarative ${MXE}gcc ${MXE}qscintilla2
 
 gcc --version
 # sudo update-alternatives --remove-all gcc

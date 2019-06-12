@@ -29,7 +29,8 @@ linuxdeployqt $DESKTOP_FILE -appimage
 echo ************** WINDOWS BUILD ***********************
 
 make distclean
-i686-w64-mingw32.static-qmake-qt5  CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
+/usr/lib/mxe/usr/i686-w64-mingw32.static/qt5/bin/qmake \
+	CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
 make -j
 mv build embedded-ide
 zip -9 -r ./Embedded_IDE-win32.zip embedded-ide
