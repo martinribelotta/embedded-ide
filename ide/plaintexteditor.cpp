@@ -378,6 +378,8 @@ void PlainTextEditor::loadConfigWithStyle(const QString& style, const QFont& edi
     }
     setIndentationsUseTabs(!tabsToSpace);
     setTabWidth(tabs);
+    setWhitespaceVisibility(WsVisible);
+    setTabDrawMode(TabLongArrow);
 
     setAutoIndent(true);
     setBraceMatching(StrictBraceMatch);

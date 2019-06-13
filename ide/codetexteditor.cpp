@@ -86,8 +86,10 @@ bool CodeTextEditor::load(const QString &path)
     QFileInfo info(path);
     auto name = info.fileName();
     auto suffix = info.suffix();
-    if (suffix == "mk" || MAKEFILES_NAME.contains(name))
+    if (suffix == "mk" || MAKEFILES_NAME.contains(name)) {
+        setTabIndents(false);
         setIndentationsUseTabs(true);
+    }
     return r;
 }
 
