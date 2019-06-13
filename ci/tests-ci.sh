@@ -80,12 +80,10 @@ cat > ${INSTALL_DIR}/usr/share/embedded-ide/embedded-ide.hardconf <<"EOF"
 EOF
 
 linuxdeployqt $DESKTOP_FILE $DEPLOY_OPT -appimage
-linuxdeployqt $INSTALL_DIR/usr/bin/qtshdialog -no-translations -verbose=2 -no-plugins
-linuxdeployqt $INSTALL_DIR/usr/bin/socketwaiter -no-translations -verbose=2 -no-plugins
 cp /opt/qt*/lib/libQt5Svg.so.5 $INSTALL_DIR/usr/lib
+cp /opt/qt*/lib/libQt5Qml.so.5 $INSTALL_DIR/usr/lib
 cp /opt/qt*/plugins/imageformats/libqsvg.so $INSTALL_DIR/usr/plugins/imageformats/
-cp /tmp/universal-ctags $INSTALL_DIR/usr/bin
-chmod a+x $INSTALL_DIR/usr/bin/universal-ctags
+instal -m 0755 /tmp/universal-ctags $INSTALL_DIR/usr/bin
 linuxdeployqt $DESKTOP_FILE -appimage
 
 echo ************** WINDOWS BUILD ***********************
