@@ -23,8 +23,8 @@ echo ************** LINUX BUILD ***********************
 /opt/qt*/bin/qmake CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
 make -j4
 make install INSTALL_ROOT=${INSTALL_DIR}
-install ${BASE}/embedded_ide-config.json.unix ${INSTALL_DIR}/usr/share/embedded-ide/embedded_ide-config.json
-install ${BASE}/embedded-ide.hardconf.unix ${INSTALL_DIR}/usr/share/embedded-ide/embedded-ide.hardconf
+install ${BASE}/ci/embedded_ide-config.json.unix ${INSTALL_DIR}/usr/share/embedded-ide/embedded_ide-config.json
+install ${BASE}/ci/embedded-ide.hardconf.unix ${INSTALL_DIR}/usr/share/embedded-ide/embedded-ide.hardconf
 linuxdeployqt $DESKTOP_FILE $DEPLOY_OPT -appimage
 cp /opt/qt*/lib/libQt5Svg.so.5 $INSTALL_DIR/usr/lib
 cp /opt/qt*/lib/libQt5Qml.so.5 $INSTALL_DIR/usr/lib
@@ -53,7 +53,7 @@ pydeployqt --objdump ${MXE_PREFIX}-objdump ${PWD}/build/embedded-ide.exe \
 	--libs ${MXE}/${MXE_PREFIX}/bin/:${MXEQT}/bin/:${MXEQT}/lib/ \
 	--extradll Qt5Svg.dll:Qt5Qml.dll:libjpeg-9.dll \
 	--qmake ${MXEQT}/bin/qmake
-install ${BASE}/embedded_ide-config.json.win build/embedded_ide-config.json
-install ${BASE}/embedded-ide.hardconf.win build/embedded-ide.hardconf
+install ${BASE}/ci/embedded_ide-config.json.win build/embedded_ide-config.json
+install ${BASE}/ci/embedded-ide.hardconf.win build/embedded-ide.hardconf
 mv build embedded-ide
 zip -9 -r Embedded_IDE-${VERSION}-win32.zip embedded-ide
