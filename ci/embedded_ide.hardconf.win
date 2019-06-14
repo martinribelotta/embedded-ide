@@ -1,0 +1,48 @@
+{
+        "additionalPaths": [
+           "${APPLICATION_DIR_PATH}",
+           "${APPLICATION_DIR_PATH}/../tools/arm-none-eabi-gcc/bin",
+           "${APPLICATION_DIR_PATH}/../tools/openocd/bin",
+           "${APPLICATION_DIR_PATH}/../tools/system",
+           "${APPLICATION_DIR_PATH}/../tools/zenity",
+           "${APPLICATION_DIR_PATH}/../tools/drivers"
+           "${APPLICATION_DIR_PATH}/../tools/serial-terminal"
+        ],
+        "editor": {
+            "font": {
+                "name": "Ubuntu Mono",
+                "size": 12
+            },
+            "formatterStyle": "linux",
+            "saveOnAction": false,
+            "style": "Default",
+            "tabWidth": 3,
+            "tabsOnSpaces": true
+        },
+        "externalTools": [
+            { "Launch Zadig": "cmd /C start zadigv2.0.1.154.exe" },
+            { "Serial Terminal": "cmd /C start Terminal.exe" }
+        ],
+        "history": [ ],
+        "logger": {
+            "font": {
+                "name": "Ubuntu Mono",
+                "size": 10
+            }
+        },
+        "network": {
+            "proxy": {
+                "host": "",
+                "pass": "",
+                "port": "",
+                "type": "None",
+                "useCredentials": false,
+                "user": ""
+            }
+        },
+        "templates": {
+            "autoUpdate": true,
+            "url": "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents"
+        },
+        "useDevelopMode": false
+}
