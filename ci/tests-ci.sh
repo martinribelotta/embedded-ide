@@ -92,7 +92,7 @@ cd /tmp
 chmod a+x ${APPIMAGE}
 ${APPIMAGE} --appimage-extract
 mv squashfs-root Embedded_IDE-${VERSION}-x86_64
-tar -jcvf ${APPIMAGE_DIR}/../Embedded_IDE-${VERSION}-x86_64.tar.bz2 Embedded_IDE-${VERSION}-x86_64
+tar -jcvf ${APPIMAGE_DIR}/Embedded_IDE-${VERSION}-x86_64.tar.bz2 Embedded_IDE-${VERSION}-x86_64
 )
 echo ************** WINDOWS BUILD ***********************
 
