@@ -23,8 +23,8 @@ echo ************** LINUX BUILD ***********************
 /opt/qt*/bin/qmake CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
 make -j4
 make install INSTALL_ROOT=${INSTALL_DIR}
-install ${BASE}/ci/embedded_ide-config.json.unix ${INSTALL_DIR}/usr/share/embedded-ide/embedded_ide-config.json
-install ${BASE}/ci/embedded-ide.hardconf.unix ${INSTALL_DIR}/usr/share/embedded-ide/embedded-ide.hardconf
+install ${BASE}/embedded_ide-config.json.unix ${INSTALL_DIR}/usr/share/embedded-ide/embedded_ide-config.json
+install ${BASE}/embedded-ide.hardconf.unix ${INSTALL_DIR}/usr/share/embedded-ide/embedded-ide.hardconf
 linuxdeployqt $DESKTOP_FILE $DEPLOY_OPT -appimage
 cp /opt/qt*/lib/libQt5Svg.so.5 $INSTALL_DIR/usr/lib
 cp /opt/qt*/lib/libQt5Qml.so.5 $INSTALL_DIR/usr/lib
@@ -37,7 +37,7 @@ cd /tmp
 chmod a+x ${APPIMAGE}
 ${APPIMAGE} --appimage-extract
 mv squashfs-root Embedded_IDE-${VERSION}-x86_64
-tar -jcvf ${BASE}/Embedded_IDE-${VERSION}-x86_64.tar.bz2 Embedded_IDE-${VERSION}-x86_64
+tar -jcvf ${BASE}/../Embedded_IDE-${VERSION}-x86_64.tar.bz2 Embedded_IDE-${VERSION}-x86_64
 )
 
 echo ************** WINDOWS BUILD ***********************
