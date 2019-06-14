@@ -83,7 +83,7 @@ linuxdeployqt $DESKTOP_FILE $DEPLOY_OPT -appimage
 cp /opt/qt*/lib/libQt5Svg.so.5 $INSTALL_DIR/usr/lib
 cp /opt/qt*/lib/libQt5Qml.so.5 $INSTALL_DIR/usr/lib
 cp /opt/qt*/plugins/imageformats/libqsvg.so $INSTALL_DIR/usr/plugins/imageformats/
-instal -m 0755 /tmp/universal-ctags $INSTALL_DIR/usr/bin
+install -m 0755 /tmp/universal-ctags $INSTALL_DIR/usr/bin
 linuxdeployqt $DESKTOP_FILE -appimage
 (
 APPIMAGE_DIR=${PWD}
