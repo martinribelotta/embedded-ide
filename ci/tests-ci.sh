@@ -123,7 +123,7 @@ cat > embedded-ide/embedded-ide.hardconf <<"EOF"
            "${APPLICATION_DIR_PATH}/../tools/openocd/bin",
            "${APPLICATION_DIR_PATH}/../tools/system",
            "${APPLICATION_DIR_PATH}/../tools/zenity",
-           "${APPLICATION_DIR_PATH}/../tools/drivers"
+           "${APPLICATION_DIR_PATH}/../tools/drivers",
            "${APPLICATION_DIR_PATH}/../tools/serial-terminal"
         ],
         "editor": {
