@@ -23,7 +23,7 @@ public:
         updateView();
     }
     virtual QString path() const override { return widget()->windowFilePath(); }
-    virtual void setPath(const QString& path) override { widget()->setWindowFilePath(path); }
+    virtual void setPath(const QString& path) override;
     virtual bool isReadonly() const override { return editor->isReadonly(); }
     virtual void setReadonly(bool rdOnly) override { return editor->setReadonly(rdOnly); }
     virtual bool isModified() const override { return editor->isModified(); }
@@ -42,6 +42,7 @@ protected:
 private:
     MarkdownView *view;
     CodeTextEditor *editor;
+    QTimer *renderTimer;
 };
 
 #endif // MARKDOWNEDITOR_H

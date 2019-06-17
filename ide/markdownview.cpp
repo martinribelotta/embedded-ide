@@ -29,7 +29,7 @@ QString MarkdownView::renderHtml(const QString &markdownText)
         );
     auto renderer = hoedown_html_renderer_new(flags, 0);
     auto document = hoedown_document_new(renderer, exts, 16);
-    auto html = hoedown_buffer_new(1);
+    auto html = hoedown_buffer_new(size_t(utf8.size()));
     hoedown_document_render(document, html, ptr, size_t(utf8.size()));
     auto htmlText = QString::fromUtf8(reinterpret_cast<const char*>(html->data),
                                       int(html->size));
