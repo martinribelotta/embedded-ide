@@ -34,7 +34,7 @@ class ICodeModelProvider;
 class IDocumentEditor
 {
 public:
-    typedef std::function<void (IDocumentEditor*, bool)> ModifyObserver_t;
+    using ModifyObserver_t = std::function<void (IDocumentEditor *, bool)>;
 
     virtual ~IDocumentEditor();
 

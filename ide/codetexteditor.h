@@ -26,9 +26,9 @@ class CodeTextEditor : public PlainTextEditor
     Q_OBJECT
 public:
     explicit CodeTextEditor(QWidget *parent = nullptr);
-    virtual ~CodeTextEditor() override;
+    ~CodeTextEditor() override;
 
-    virtual bool load(const QString &path) override;
+    bool load(const QString &path) override;
 
     static IDocumentEditorCreator *creator();
 

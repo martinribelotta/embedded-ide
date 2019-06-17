@@ -28,6 +28,7 @@
 #include "unsavedfilesdialog.h"
 #include "textmessagebrocker.h"
 #include "imageviewer.h"
+#include "markdowneditor.h"
 
 #include <QApplication>
 #include <QComboBox>
@@ -61,6 +62,7 @@ DocumentManager::DocumentManager(QWidget *parent) :
     priv->stack->setMargin(0);
 
     DocumentEditorFactory::instance()->registerDocumentInterface(CPPTextEditor::creator());
+    DocumentEditorFactory::instance()->registerDocumentInterface(MarkdownEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(ImageViewer::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(CodeTextEditor::creator());
     DocumentEditorFactory::instance()->registerDocumentInterface(PlainTextEditor::creator());

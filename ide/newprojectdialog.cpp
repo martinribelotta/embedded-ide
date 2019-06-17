@@ -18,6 +18,7 @@
  */
 #include "appconfig.h"
 #include "newprojectdialog.h"
+#include "templatefile.h"
 #include "ui_newprojectdialog.h"
 
 #include <QCheckBox>
@@ -30,17 +31,6 @@
 #include <QStyledItemDelegate>
 
 #include <QtDebug>
-
-static const QString textBeforeDiff(const QString& text, int *startOfDiff = nullptr)
-{
-    QRegularExpressionMatch m = QRegularExpression(R"((^[\s\S]*?)^diff )", QRegularExpression::MultilineOption).match(text);
-    if (m.hasMatch()) {
-        if (startOfDiff)
-            *startOfDiff = m.capturedEnd(1);
-        return m.captured(1);
-    }
-    return QString();
-}
 
 class ItemDelegate: public QItemDelegate
 {
@@ -73,21 +63,21 @@ public:
         return item;
     }
 
-    static QStandardItemModel *extractParameterToModel(QTableView *parent, const QString& diffText, int offset)
+    static QStandardItemModel *extractParameterToModel(QTableView *parent, const QList<DiffParameter> &parameters)
     {
         auto model = new QStandardItemModel(parent);
         QRegularExpression re(R"(\$\{\{(?P<name>[a-zA-Z_0-9]+)(?:\s+(?P<type>string|items)\:(?P<params>.*?))?\}\})",
                               QRegularExpression::MultilineOption);
-        auto it = re.globalMatch(diffText, offset);
-        while (it.hasNext()) {
-            auto m = it.next();
-            QString name = m.captured("name");
-            QString type = m.captured("type");
-            QString params = m.captured("params");
-            QString visualName = name;
-            visualName.replace('_', ' ');
+        for(const auto& p: parameters) {
+            const auto& name = p.name;
+            const auto& type = p.type;
+            const auto& params = p.params;
+            const auto visualName = QString(name).replace('_', ' ');
             if (!type.isEmpty() && !params.isEmpty())
-                model->appendRow({ addUserData(new QStandardItem(visualName), name), addUserData(new QStandardItem(), type, params ) });
+                model->appendRow({
+                    addUserData(new QStandardItem(visualName), name),
+                    addUserData(new QStandardItem(), type, params )
+                });
         }
         model->setHorizontalHeaderLabels({ QObject::tr("Name"), QObject::tr("Value") });
         return model;
@@ -166,13 +156,13 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
 
     auto templateSelectedCallback = [this](int index) {
         auto path = ui->templateName->itemData(index).toString();
-        if (QFileInfo(path).suffix().compare("template", Qt::CaseInsensitive) == 0) {
-            auto text = AppConfig::readEntireTextFile(path);
-            int startOfDiff = 0;
-            ui->infoView->setHtml(textBeforeDiff(text, &startOfDiff));
+        auto tm = TemplateFile{QFileInfo{path}};
+        if (tm.type() == TemplateFile::Type::DiffFile) {
+            DiffFile dFile{path};
+            ui->infoView->setHtml(dFile.manifest);
             if (ui->parameterTable->model())
                 ui->parameterTable->model()->deleteLater();
-            ui->parameterTable->setModel(ItemDelegate::extractParameterToModel(ui->parameterTable, text, startOfDiff));
+            ui->parameterTable->setModel(ItemDelegate::extractParameterToModel(ui->parameterTable, dFile.parameters));
             ui->parameterTable->resizeColumnToContents(0);
             ui->parameterTable->resizeRowsToContents();
         } else {
@@ -180,6 +170,7 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
             if (ui->parameterTable->model())
                 ui->parameterTable->model()->deleteLater();
             // TODO? extract metadata from tar.gz and show it?
+            qDebug() << int(tm.type()) << tm.meta();
         }
     };
     connect(ui->templateName, QOverload<int>::of(&QComboBox::currentIndexChanged), templateSelectedCallback);

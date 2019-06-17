@@ -26,19 +26,19 @@ class PlainTextEditor : public IDocumentEditor, public QsciScintilla
 {
 public:
     explicit PlainTextEditor(QWidget *parent = nullptr);
-    virtual ~PlainTextEditor() override;
+    ~PlainTextEditor() override;
 
-    virtual const QWidget *widget() const override { return this; }
-    virtual QWidget *widget() override { return this; }
-    virtual bool load(const QString& path) override;
-    virtual bool save(const QString& path) override;
-    virtual void reload() override;
+    const QWidget *widget() const override { return this; }
+    QWidget *widget() override { return this; }
+    bool load(const QString &path) override;
+    bool save(const QString &path) override;
+    void reload() override;
     virtual bool isReadonly() const override;
-    virtual void setReadonly(bool rdOnly) override;
-    virtual bool isModified() const override;
-    virtual void setModified(bool m) override;
-    virtual QPoint cursor() const override;
-    virtual void setCursor(const QPoint& pos) override;
+    void setReadonly(bool rdOnly) override;
+    bool isModified() const override;
+    void setModified(bool m) override;
+    QPoint cursor() const override;
+    void setCursor(const QPoint &pos) override;
 
     static IDocumentEditorCreator *creator();
 
@@ -55,8 +55,8 @@ private slots:
     int findText(const QString &text, int flags, int start, int *targend);
 
 protected:
-    virtual void closeEvent(QCloseEvent *event) override;
-    virtual void contextMenuEvent(QContextMenuEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
     bool loadStyle(const QString &xmlStyleFile);
     QStringList allWords();

@@ -102,7 +102,6 @@ static const QHash<QString, creator_t> EXTENTION_MAP = {
 #if QSCINTILLA_VERSION > 0x020900
     _("json", QsciLexerJSON),
     _("md", QsciLexerMarkdown),
-    _("md", QsciLexerMarkdown),
 #endif
     _("sh", QsciLexerBash),
     _("diff", QsciLexerDiff),

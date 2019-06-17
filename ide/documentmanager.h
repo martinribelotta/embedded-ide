@@ -31,7 +31,7 @@ class DocumentManager : public QWidget
     Q_OBJECT
 public:
     explicit DocumentManager(QWidget *parent = nullptr);
-    virtual ~DocumentManager() override;
+    ~DocumentManager() override;
 
     void setComboBox(QComboBox *cb);
 

@@ -29,17 +29,21 @@ include(../mapview/mapview.pri)
 include(3rdpart/qhexview/qhexview.pri)
 include(3rdpart/astyle/astyle.pri)
 include(3rdpart/qdarkstyle/qdarkstype.pri)
+include(3rdpart/maddy/maddy.pri)
 #linux:!android: include(3rdpart/backward/backward.pri)
 #include(3rdpart/qt-promise/qt-promise.pri)
 
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
+    markdowneditor.cpp \
+    markdownview.cpp \
         projectmanager.cpp \
         documentmanager.cpp \
         idocumenteditor.cpp \
         plaintexteditor.cpp \
         filesystemmanager.cpp \
+    templatefile.cpp \
         unsavedfilesdialog.cpp \
         processmanager.cpp \
         consoleinterceptor.cpp \
@@ -68,11 +72,15 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
+    markdowneditor.h \
+    markdownview.h \
         projectmanager.h \
         documentmanager.h \
         idocumenteditor.h \
         plaintexteditor.h \
         filesystemmanager.h \
+    tar.h \
+    templatefile.h \
         unsavedfilesdialog.h \
         processmanager.h \
         consoleinterceptor.h \

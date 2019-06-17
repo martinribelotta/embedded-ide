@@ -43,7 +43,7 @@
    <item row="1" column="3">
     <widget class="QToolButton" name="pathSelect">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
+      <iconset resource="resources/iconactions.qrc">
        <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
      </property>
     </widget>
@@ -80,7 +80,7 @@
    <item row="3" column="3">
     <widget class="QToolButton" name="templateSelect">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
+      <iconset resource="resources/iconactions.qrc">
        <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
      </property>
     </widget>
@@ -90,7 +90,7 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QTextBrowser" name="infoView"/>
+     <widget class="MarkdownView" name="infoView"/>
      <widget class="QTableView" name="parameterTable">
       <property name="selectionBehavior">
        <enum>QAbstractItemView::SelectRows</enum>
@@ -126,7 +126,7 @@
       <string>Create</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
+      <iconset resource="resources/iconactions.qrc">
        <normaloff>:/images/actions/dialog-ok-apply.svg</normaloff>:/images/actions/dialog-ok-apply.svg</iconset>
      </property>
      <property name="iconSize">
@@ -146,7 +146,7 @@
       <string>Cancel</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
+      <iconset resource="resources/iconactions.qrc">
        <normaloff>:/images/actions/dialog-close.svg</normaloff>:/images/actions/dialog-close.svg</iconset>
      </property>
      <property name="iconSize">
@@ -159,8 +159,15 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MarkdownView</class>
+   <extends>QTextBrowser</extends>
+   <header>markdownview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
-  <include location="resources/resources.qrc"/>
+  <include location="resources/iconactions.qrc"/>
  </resources>
  <connections>
   <connection>
