@@ -1,5 +1,7 @@
 #include "markdowneditor.h"
 
+#include <markdownview.h>
+
 #include <QHBoxLayout>
 #include <QToolButton>
 #include <QGridLayout>
@@ -8,16 +10,15 @@
 #include <QtConcurrent>
 #include <QFutureWatcher>
 
-#include <maddy/parser.h>
-
 MarkdownEditor::MarkdownEditor(QWidget *parent): QWidget(parent)
 {
     auto l = new QHBoxLayout(this);
     auto s = new QSplitter(Qt::Horizontal, this);
+    auto reload = new QToolButton(this);
     editor = new CodeTextEditor(this);
     view = new MarkdownView(this);
-    auto reload = new QToolButton(view);
     reload->setIcon(QIcon(":/images/actions/view-refresh.svg"));
+    reload->setIconSize(QSize(16, 16));
     view->setCornerWidget(reload);
     s->addWidget(editor);
     s->addWidget(view);
@@ -90,9 +91,7 @@ void MarkdownEditor::updateView()
     auto watch = new QFutureWatcher<QString>(this);
     auto text = editor->text();
     auto f = QtConcurrent::run([text]() {
-        maddy::Parser p;
-        std::stringstream s(text.toStdString());
-        return QString::fromStdString(p.Parse(s));
+        return MarkdownView::renderHtml(text);
     });
     watch->setFuture(f);
     view->clear();

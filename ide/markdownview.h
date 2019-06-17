@@ -9,6 +9,8 @@ class MarkdownView : public QTextBrowser
 public:
     explicit MarkdownView(QWidget *parent = nullptr);
 
+    static QString renderHtml(const QString& markdownText);
+
 signals:
 
 public slots:

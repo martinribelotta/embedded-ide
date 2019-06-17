@@ -5,7 +5,8 @@
 #include <idocumenteditor.h>
 
 #include <codetexteditor.h>
-#include <markdownview.h>
+
+class MarkdownView;
 
 class MarkdownEditor: public QWidget, public IDocumentEditor
 {
