@@ -11,6 +11,8 @@
 #include <QtConcurrent>
 #include <QFutureWatcher>
 
+static constexpr auto DEFAULT_REFRESH_DELAY_MS = 500;
+
 MarkdownEditor::MarkdownEditor(QWidget *parent): QWidget(parent)
 {
     auto l = new QHBoxLayout(this);
@@ -28,14 +30,11 @@ MarkdownEditor::MarkdownEditor(QWidget *parent): QWidget(parent)
     l->setContentsMargins(0, 0, 0, 0);
     l->setSpacing(0);
     connect(reload, &QToolButton::clicked, this, &MarkdownEditor::updateView);
-    connect(editor, &PlainTextEditor::modificationChanged, [this]() {
-        notifyModifyObservers();
-    });
-    connect(editor, &PlainTextEditor::textChanged, [this]() {
-        renderTimer->start(1000);
-    });
-    renderTimer->setSingleShot(true);
+    connect(editor, &PlainTextEditor::modificationChanged, [this]() { notifyModifyObservers(); });
+    connect(editor, &PlainTextEditor::textChanged, [this]() { renderTimer->start(); });
     connect(renderTimer, &QTimer::timeout, this, &MarkdownEditor::updateView);
+    renderTimer->setInterval(DEFAULT_REFRESH_DELAY_MS);
+    renderTimer->setSingleShot(true);
 }
 
 bool MarkdownEditor::load(const QString &path) {
@@ -122,7 +121,9 @@ void MarkdownEditor::updateView()
         renderTimer->blockSignals(false);
     });
 #else
+    auto pos = view->verticalScrollBar()->value();
     view->setMarkdown(editor->text());
+    view->verticalScrollBar()->setValue(pos);
 #endif
 }
 
