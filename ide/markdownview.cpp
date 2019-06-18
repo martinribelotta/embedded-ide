@@ -3,6 +3,16 @@
 #include <3rdpart/hoedown/src/document.h>
 #include <3rdpart/hoedown/src/html.h>
 
+static constexpr auto DEFAULT_STYLESHEET = R"(
+pre {
+    background: #ffe4a4;
+    padding: 10px;
+}
+code {
+    background: #ffe4a4;
+}
+)";
+
 MarkdownView::MarkdownView(QWidget *parent) : QTextBrowser(parent)
 {
 }
@@ -42,4 +52,5 @@ QString MarkdownView::renderHtml(const QString &markdownText)
 void MarkdownView::setMarkdown(const QString &markdown)
 {
     setHtml(renderHtml(markdown));
+    document()->setDefaultStyleSheet(DEFAULT_STYLESHEET);
 }
