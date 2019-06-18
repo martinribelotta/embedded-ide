@@ -71,6 +71,7 @@ SOURCES += \
     imageviewer.cpp
 
 HEADERS += \
+    buttoneditoritemdelegate.h \
         mainwindow.h \
     markdowneditor.h \
     markdownview.h \

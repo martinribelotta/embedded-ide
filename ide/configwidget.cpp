@@ -20,6 +20,7 @@
 #include "ui_configwidget.h"
 
 #include "appconfig.h"
+#include "buttoneditoritemdelegate.h"
 
 #include <QStringListModel>
 #include <QFileInfo>
@@ -62,6 +63,7 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
     ui->codeEditor->load(":/reference-code.c");
     ui->codeEditor->setReadonly(true);
     ui->formatterStyle->addItems(ASTYLE_STYLES);
+
     auto updateEditor = [this]() {
         // Defer execution to next event loop due sender actualization
         QTimer::singleShot(0, [this]() {
@@ -75,6 +77,18 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
             ui->codeEditor->reload();
         });
     };
+
+    auto delegateFunc = [this](const QModelIndex& m)
+    {
+        auto model = ui->additionalPathList->model();
+        auto currPath = AppConfig::replaceWithEnv(model->data(m).toString());
+        auto newPath = QFileDialog::getExistingDirectory(window(), tr("Select directory"), currPath);
+        if (!newPath.isEmpty())
+            model->setData(m, newPath);
+    };
+
+    auto delegate = new ButtonEditorItemDelegate<decltype (delegateFunc)>(tr("Select File"), delegateFunc);
+    ui->additionalPathList->setItemDelegateForColumn(0, delegate);
 
     connect(ui->editorStyle, &QComboBox::currentTextChanged, updateEditor);
     connect(ui->editorFontName, &QComboBox::currentTextChanged, updateEditor);
