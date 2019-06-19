@@ -83,7 +83,7 @@
                <string>Reload Project</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/resources.qrc">
+               <iconset resource="resources/iconactions.qrc">
                 <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
               </property>
               <property name="iconSize">
@@ -106,7 +106,7 @@
                <string>Close Project</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/resources.qrc">
+               <iconset resource="resources/iconactions.qrc">
                 <normaloff>:/images/actions/document-close.svg</normaloff>:/images/actions/document-close.svg</iconset>
               </property>
               <property name="iconSize">
@@ -169,7 +169,7 @@
                <string>Export project</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/resources.qrc">
+               <iconset resource="resources/iconactions.qrc">
                 <normaloff>:/images/actions/document-export.svg</normaloff>:/images/actions/document-export.svg</iconset>
               </property>
               <property name="iconSize">
@@ -195,7 +195,7 @@
                <string>Find in files</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/resources.qrc">
+               <iconset resource="resources/iconactions.qrc">
                 <normaloff>:/images/actions/edit-find-replace.svg</normaloff>:/images/actions/edit-find-replace.svg</iconset>
               </property>
               <property name="iconSize">
@@ -218,7 +218,7 @@
                <string>Tool menu</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/resources.qrc">
+               <iconset resource="resources/iconactions.qrc">
                 <normaloff>:/images/actions/run-build-configure.svg</normaloff>:/images/actions/run-build-configure.svg</iconset>
               </property>
               <property name="iconSize">
@@ -257,7 +257,7 @@
                <string>Configuration</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/resources.qrc">
+               <iconset resource="resources/iconactions.qrc">
                 <normaloff>:/images/actions/configure.svg</normaloff>:/images/actions/configure.svg</iconset>
               </property>
               <property name="iconSize">
@@ -280,7 +280,7 @@
                <string>Launch Debug</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/resources.qrc">
+               <iconset resource="resources/iconactions.qrc">
                 <normaloff>:/images/actions/debug-init.svg</normaloff>:/images/actions/debug-init.svg</iconset>
               </property>
               <property name="iconSize">
@@ -329,7 +329,7 @@
                 <string>Configuration</string>
                </property>
                <property name="icon">
-                <iconset resource="resources/resources.qrc">
+                <iconset resource="resources/iconactions.qrc">
                  <normaloff>:/images/actions/debug-run-v2.svg</normaloff>:/images/actions/debug-run-v2.svg</iconset>
                </property>
                <property name="iconSize">
@@ -362,7 +362,7 @@
                 <string>Configuration</string>
                </property>
                <property name="icon">
-                <iconset resource="resources/resources.qrc">
+                <iconset resource="resources/iconactions.qrc">
                  <normaloff>:/images/actions/debug-step-over-v2.svg</normaloff>:/images/actions/debug-step-over-v2.svg</iconset>
                </property>
                <property name="iconSize">
@@ -382,7 +382,7 @@
                 <string>Configuration</string>
                </property>
                <property name="icon">
-                <iconset resource="resources/resources.qrc">
+                <iconset resource="resources/iconactions.qrc">
                  <normaloff>:/images/actions/debug-step-into-v2.svg</normaloff>:/images/actions/debug-step-into-v2.svg</iconset>
                </property>
                <property name="iconSize">
@@ -402,7 +402,7 @@
                 <string>Configuration</string>
                </property>
                <property name="icon">
-                <iconset resource="resources/resources.qrc">
+                <iconset resource="resources/iconactions.qrc">
                  <normaloff>:/images/actions/debug-step-out-v2.svg</normaloff>:/images/actions/debug-step-out-v2.svg</iconset>
                </property>
                <property name="iconSize">
@@ -466,7 +466,7 @@
               <string>Close current</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/resources.qrc">
+              <iconset resource="resources/iconactions.qrc">
                <normaloff>:/images/actions/document-close.svg</normaloff>:/images/actions/document-close.svg</iconset>
              </property>
              <property name="iconSize">
@@ -492,7 +492,7 @@
               <string>Save current</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/resources.qrc">
+              <iconset resource="resources/iconactions.qrc">
                <normaloff>:/images/actions/document-save.svg</normaloff>:/images/actions/document-save.svg</iconset>
              </property>
              <property name="iconSize">
@@ -537,7 +537,7 @@
               <string>Close all</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/resources.qrc">
+              <iconset resource="resources/iconactions.qrc">
                <normaloff>:/images/actions/document-close-all.svg</normaloff>:/images/actions/document-close-all.svg</iconset>
              </property>
              <property name="iconSize">
@@ -563,7 +563,7 @@
               <string>Save all</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/resources.qrc">
+              <iconset resource="resources/iconactions.qrc">
                <normaloff>:/images/actions/document-save-all.svg</normaloff>:/images/actions/document-save-all.svg</iconset>
              </property>
              <property name="iconSize">
@@ -633,7 +633,7 @@
               <string>Reload Document</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/resources.qrc">
+              <iconset resource="resources/iconactions.qrc">
                <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
              </property>
              <property name="iconSize">
@@ -748,6 +748,19 @@
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_5">
+         <item row="0" column="0" rowspan="4">
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
          <item row="2" column="3">
           <spacer name="horizontalSpacer_8">
            <property name="orientation">
@@ -763,6 +776,212 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="0" column="3">
+          <widget class="QToolButton" name="updateAvailable">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>Template Update Available</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resources/iconactions.qrc">
+             <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4" rowspan="4">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="2">
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="2" column="1">
+            <widget class="QToolButton" name="buttonQuit">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Exit from application</string>
+             </property>
+             <property name="text">
+              <string>Exit from app</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources/iconactions.qrc">
+               <normaloff>:/images/actions/application-exit.svg</normaloff>:/images/actions/application-exit.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" rowspan="3">
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>80</width>
+               <height>2</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="3" rowspan="3">
+            <spacer name="horizontalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>80</width>
+               <height>2</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLabel" name="label_4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>101</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;ALT+F4&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;CTRL+SHIFT+P&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QToolButton" name="buttonConfiguration">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Open Confioguration</string>
+             </property>
+             <property name="text">
+              <string>Configuration</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources/iconactions.qrc">
+               <normaloff>:/images/actions/configure.svg</normaloff>:/images/actions/configure.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QToolButton" name="buttonExternalTools">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Open Confioguration</string>
+             </property>
+             <property name="text">
+              <string>External tools</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources/iconactions.qrc">
+               <normaloff>:/images/actions/run-build-configure.svg</normaloff>:/images/actions/run-build-configure.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item row="0" column="2">
           <layout class="QGridLayout" name="gridLayout_3">
@@ -781,7 +1000,7 @@
               <string>Open Project</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/resources.qrc">
+              <iconset resource="resources/iconactions.qrc">
                <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
              </property>
              <property name="iconSize">
@@ -832,7 +1051,7 @@
               <string>New Project</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/resources.qrc">
+              <iconset resource="resources/iconactions.qrc">
                <normaloff>:/images/actions/document-new.svg</normaloff>:/images/actions/document-new.svg</iconset>
              </property>
              <property name="iconSize">
@@ -949,164 +1168,6 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="4" rowspan="4">
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="3" column="2">
-          <layout class="QGridLayout" name="gridLayout_4">
-           <item row="1" column="2">
-            <widget class="QLabel" name="label_4">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>101</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;ALT+F4&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QToolButton" name="buttonQuit">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Exit from application</string>
-             </property>
-             <property name="text">
-              <string>Exit from app</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources/resources.qrc">
-               <normaloff>:/images/actions/application-exit.svg</normaloff>:/images/actions/application-exit.svg</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-             <property name="autoRaise">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QToolButton" name="buttonConfiguration">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Open Confioguration</string>
-             </property>
-             <property name="text">
-              <string>Configuration</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources/resources.qrc">
-               <normaloff>:/images/actions/configure.svg</normaloff>:/images/actions/configure.svg</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-             <property name="autoRaise">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" rowspan="2">
-            <spacer name="horizontalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>80</width>
-               <height>2</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="3" rowspan="2">
-            <spacer name="horizontalSpacer_9">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>80</width>
-               <height>2</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_3">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;CTRL+SHIFT+P&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="0" column="0" rowspan="4">
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
          <item row="2" column="1">
           <spacer name="horizontalSpacer_7">
            <property name="orientation">
@@ -1122,32 +1183,6 @@
             </size>
            </property>
           </spacer>
-         </item>
-         <item row="0" column="3">
-          <widget class="QToolButton" name="updateAvailable">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="toolTip">
-            <string>Template Update Available</string>
-           </property>
-           <property name="icon">
-            <iconset resource="resources/resources.qrc">
-             <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="autoRaise">
-            <bool>true</bool>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>
@@ -1168,15 +1203,16 @@
  </customwidgets>
  <resources>
   <include location="resources/resources.qrc"/>
+  <include location="resources/iconactions.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="projectButtons">
+  <buttongroup name="editionButtons">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="editionButtons">
+  <buttongroup name="projectButtons">
    <property name="exclusive">
     <bool>false</bool>
    </property>

@@ -165,7 +165,6 @@ unix {
 }
 
 DISTFILES += \
-    resources/styles/tomorrow.xml \
     skeleton/desktop-integration.sh \
     skeleton/embedded-ide.sh \
     skeleton/embedded-ide.sh.wrapper \

@@ -295,12 +295,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonDocumentSaveAll, &QToolButton::clicked, ui->documentContainer, &DocumentManager::saveAll);
     connect(ui->buttonDocumentReload, &QToolButton::clicked, ui->documentContainer, &DocumentManager::reloadDocumentCurrent);
 
-    ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager));
+    auto setExternalTools = [this]() {
+        auto m = ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager);
+        ui->buttonTools->setMenu(m);
+        ui->buttonExternalTools->setMenu(m);
+    };
+    setExternalTools();
 
-    connect(&AppConfig::instance(), &AppConfig::configChanged, [this](AppConfig *cfg) {
+    connect(&AppConfig::instance(), &AppConfig::configChanged, [this, setExternalTools](AppConfig *cfg) {
         if (ui->buttonTools->menu())
             ui->buttonTools->menu()->deleteLater();
-        ui->buttonTools->setMenu(ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager));
+        setExternalTools();
         ui->buttonDebugLaunch->setVisible(cfg->useDevelopMode());
     });
 
