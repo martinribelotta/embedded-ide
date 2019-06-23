@@ -109,13 +109,13 @@ make -j4
 #	--qmake ${MXEQT}/bin/qmake
 mv build ${MXE_PKG}
 
-cat > embedded-ide/embedded_ide-config.json <<"EOF"
+cat > ${MXE_PKG}/embedded_ide-config.json <<"EOF"
 {
    "workspacePath": "${APPLICATION_DIR_PATH}/../embedded-ide-workspace"
 }
 EOF
 
-cat > embedded-ide/embedded-ide.hardconf <<"EOF"
+cat > ${MXE_PKG}/embedded-ide.hardconf <<"EOF"
 {
         "additionalPaths": [
            "${APPLICATION_DIR_PATH}",
