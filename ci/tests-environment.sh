@@ -16,11 +16,12 @@ sudo swapon /swapfile
 sudo wget https://raw.githubusercontent.com/martinribelotta/pydeployqt/master/deploy.py -O /usr/bin/pydeployqt
 sudo chmod a+x /usr/bin/pydeployqt
 
+MXE=mxe-${MXE_TRIPLE}
 sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
 	wget fuse gcc-8 g++-8 build-essential \
 	qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev \
-	${MXE_TRIPLE}-gcc ${MXE_TRIPLE}-g++ \
-	${MXE_TRIPLE}-qtbase ${MXE_TRIPLE}-qtsvg ${MXE_TRIPLE}-qscintilla2
+	${MXE}-gcc ${MXE}-g++ \
+	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2
 
 gcc --version
 # sudo update-alternatives --remove-all gcc
