@@ -19,7 +19,7 @@ wget https://github.com/martinribelotta/embedded-ide-builder/blob/master/linux-x
 
 echo ************** LINUX BUILD ***********************
 
-/opt/qt*/bin/qmake CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
+qmake CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
 make -j4
 make install INSTALL_ROOT=${INSTALL_DIR}
 
@@ -97,17 +97,17 @@ tar -jcvf ${APPIMAGE_DIR}/Embedded_IDE-${VERSION}-x86_64.tar.bz2 Embedded_IDE-${
 echo ************** WINDOWS BUILD ***********************
 
 make distclean
-export MXE_PREFIX=i686-w64-mingw32.shared
-export MXE=/usr/lib/mxe/usr
-export MXEQT=${MXE}/i686-w64-mingw32.shared/qt5
-export PATH=${MXE}/bin:${PATH}
+MXE=/usr/lib/mxe/usr
+MXEQT=${MXE}/${MXE_TRIPLE}/qt5
+PATH=${MXE}/bin:${PATH}
+MXE_PKG=Embedded_IDE-${VERSION}-win32
 ${MXEQT}/bin/qmake CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
 make -j4
-pydeployqt --objdump ${MXE_PREFIX}-objdump ${PWD}/build/embedded-ide.exe \
-	--libs ${MXE}/${MXE_PREFIX}/bin/:${MXEQT}/bin/:${MXEQT}/lib/ \
+pydeployqt --objdump ${MXE_TRIPLE}-objdump ${PWD}/build/embedded-ide.exe \
+	--libs ${MXE}/${MXE_TRIPLE}/bin/:${MXEQT}/bin/:${MXEQT}/lib/ \
 	--extradll Qt5Svg.dll:Qt5Qml.dll:libjpeg-9.dll \
 	--qmake ${MXEQT}/bin/qmake
-mv build embedded-ide
+mv build ${MXE_PKG}
 
 cat > embedded-ide/embedded_ide-config.json <<"EOF"
 {
@@ -165,4 +165,5 @@ cat > embedded-ide/embedded-ide.hardconf <<"EOF"
         "useDevelopMode": false
 }
 EOF
-zip -9 -r Embedded_IDE-${VERSION}-win32.zip embedded-ide
+
+zip -9 -r ${MXE_PKG}.zip ${MXE_PKG}

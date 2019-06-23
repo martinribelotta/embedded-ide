@@ -5,11 +5,7 @@ set -x
 
 sudo add-apt-repository --yes ppa:beineri/opt-qt593-trusty
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-echo "deb http://pkg.mxe.cc/repos/apt trusty main" \
-    | sudo tee /etc/apt/sources.list.d/mxeapt.list
-#echo 'APT::Get::AllowUnauthenticated "true";' \
-##    | sudo tee /etc/apt/apt.conf.d/99myown
-
+echo "deb http://pkg.mxe.cc/repos/apt trusty main" | sudo tee /etc/apt/sources.list.d/mxeapt.list
 sudo apt-get update -qq --allow-unauthenticated
 
 sudo fallocate -l 1G /swapfile
@@ -20,14 +16,11 @@ sudo swapon /swapfile
 sudo wget https://raw.githubusercontent.com/martinribelotta/pydeployqt/master/deploy.py -O /usr/bin/pydeployqt
 sudo chmod a+x /usr/bin/pydeployqt
 
-MXE=mxe-i686-w64-mingw32.shared-
-
-sudo apt-get install -y --allow-unauthenticated \
-	gcc-8 g++-8 build-essential \
+sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
+	wget fuse gcc-8 g++-8 build-essential \
 	qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev \
-	wget fuse \
-	${MXE}gcc ${MXE}g++ \
-	${MXE}qtbase ${MXE}qtsvg ${MXE}qttools ${MXE}qtwinextras ${MXE}qscintilla2
+	${MXE_TRIPLE}-gcc ${MXE_TRIPLE}-g++ \
+	${MXE_TRIPLE}-qtbase ${MXE_TRIPLE}-qtsvg ${MXE_TRIPLE}-qscintilla2
 
 gcc --version
 # sudo update-alternatives --remove-all gcc
