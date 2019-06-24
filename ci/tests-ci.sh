@@ -103,10 +103,10 @@ PATH=${MXE}/bin:${PATH}
 MXE_PKG=Embedded_IDE-${VERSION}-win32
 ${MXEQT}/bin/qmake CONFIG+=release CONFIG+=force_debug_info embedded-ide.pro
 make -j4
-#pydeployqt --objdump ${MXE_TRIPLE}-objdump ${PWD}/build/embedded-ide.exe \
-#	--libs ${MXE}/${MXE_TRIPLE}/bin/:${MXEQT}/bin/:${MXEQT}/lib/ \
-#	--extradll Qt5Svg.dll:Qt5Qml.dll:libjpeg-9.dll \
-#	--qmake ${MXEQT}/bin/qmake
+pydeployqt --objdump ${MXE_TRIPLE}-objdump ${PWD}/build/embedded-ide.exe \
+	--libs ${MXE}/${MXE_TRIPLE}/bin/:${MXEQT}/bin/:${MXEQT}/lib/ \
+	--extradll Qt5Svg.dll:Qt5Qml.dll:libjpeg-9.dll \
+	--qmake ${MXEQT}/bin/qmake
 mv build ${MXE_PKG}
 
 cat > ${MXE_PKG}/embedded_ide-config.json <<"EOF"
