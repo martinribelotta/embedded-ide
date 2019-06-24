@@ -7,7 +7,7 @@ os: linux
 env:
   global:
     - DISPLAY=:99
-    - MXE_TRIPLE=i686-w64-mingw32.static
+    - MXE_TRIPLE=i686-w64-mingw32.dynamic
 
 before_install:
   - chmod a+x ./ci/tests-environment.sh
