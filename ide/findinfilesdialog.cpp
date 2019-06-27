@@ -158,6 +158,12 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
         ui->labelFilename->clear();
         setProperty("onProcessLoop", false);
     });
+    connect(this, &QDialog::finished, [this]() {
+        setProperty("onProcessLoop", false);
+    });
+    connect(ui->buttonStop, &QToolButton::clicked, [this]() {
+        setProperty("onProcessLoop", false);
+    });
 
     connect(ui->buttonChoseDirectory, &QToolButton::clicked, [this]() {
         QString path = QFileDialog::getExistingDirectory(this,

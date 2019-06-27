@@ -368,9 +368,9 @@ void PlainTextEditor::contextMenuEvent(QContextMenuEvent *event)
     createContextualMenu()->exec(event->globalPos());
 }
 
-void PlainTextEditor::loadConfigWithStyle(const QString& style, const QFont& editorFont, int tabs, bool tabsToSpace)
+void PlainTextEditor::loadConfigWithStyle(const QString& styleName, const QFont& editorFont, int tabs, bool tabsToSpace)
 {
-    loadStyle(QString(":/styles/%1.xml").arg(style));
+    loadStyle(QString(":/styles/%1.xml").arg(styleName));
     setFont(editorFont);
     if (lexer()) {
         lexer()->setDefaultFont(editorFont);
@@ -408,6 +408,14 @@ void PlainTextEditor::loadConfigWithStyle(const QString& style, const QFont& edi
 
     SendScintilla(SCI_INDICSETSTYLE, 0, INDIC_ROUNDBOX);
     SendScintilla(SCI_INDICSETFORE, 0, 255);
+    auto fg = color();
+    auto bg = paper();
+    qDebug() << "color" << fg;
+    qDebug() << "paper" << bg;
+    setWhitespaceBackgroundColor(bg);
+    setWhitespaceForegroundColor(fg);
+    setIndentationGuidesBackgroundColor(bg);
+    setIndentationGuidesForegroundColor(fg);
 }
 
 void PlainTextEditor::loadConfig()
