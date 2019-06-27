@@ -309,17 +309,20 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->buttonDebugLaunch->setVisible(cfg->useDevelopMode());
     });
 
-    auto findInFilesCallback = [this]() {
+    auto findInFilesDialog = new FindInFilesDialog(this);
+    auto findInFilesCallback = [this, findInFilesDialog]() {
         auto path = priv->projectManager->projectPath();
         if (!path.isEmpty()) {
-            auto d = new FindInFilesDialog(path, this);
-            connect(d, &FindInFilesDialog::finished, d, &QObject::deleteLater);
-            connect(d, &FindInFilesDialog::queryToOpen, [this](const QString& path, int line, int column) {
+            connect(findInFilesDialog, &FindInFilesDialog::queryToOpen,
+                    [this](const QString& path, int line, int column)
+            {
                 activateWindow();
                 ui->documentContainer->setFocus();
                 ui->documentContainer->openDocumentHere(path, line, column);
             });
-            d->show();
+            if (findInFilesDialog->findPath().isEmpty())
+                findInFilesDialog->setFindPath(path);
+            findInFilesDialog->show();
         }
     };
 

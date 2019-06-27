@@ -38,8 +38,13 @@ class FindInFilesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit FindInFilesDialog(const QString& path, QWidget *parent = nullptr);
+    explicit FindInFilesDialog(QWidget *parent = nullptr);
     virtual ~FindInFilesDialog() override;
+
+    QString findPath() const;
+
+public slots:
+    void setFindPath(const QString& path);
 
 signals:
     void queryToOpen(const QString& path, int line, int column);

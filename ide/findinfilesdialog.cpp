@@ -43,7 +43,7 @@ Q_DECLARE_METATYPE(FilePos)
 const QStringList STANDARD_FILTERS =
         { "*.*", "*.c", "*.cpp", "*.h", "*.hpp", "*.txt" };
 
-FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
+FindInFilesDialog::FindInFilesDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::FindInFilesDialog)
 {
@@ -59,7 +59,6 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
                                       { tr("Wole Words"), "wword" },
                                   });
     ui->labelStatus->setText(tr("Ready"));
-    ui->textDirectory->setText(path);
 
     auto filterMenu = new QMenu(this);
     auto listViewAction = new QWidgetAction(filterMenu);
@@ -177,6 +176,16 @@ FindInFilesDialog::FindInFilesDialog(const QString& path, QWidget *parent) :
 FindInFilesDialog::~FindInFilesDialog()
 {
     delete ui;
+}
+
+QString FindInFilesDialog::findPath() const
+{
+    return ui->textDirectory->text();
+}
+
+void FindInFilesDialog::setFindPath(const QString &path)
+{
+    ui->textDirectory->setText(path);
 }
 
 void FindInFilesDialog::closeEvent(QCloseEvent *)
