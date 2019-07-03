@@ -151,6 +151,15 @@ AppConfig::AppConfig() : QObject(QApplication::instance()), priv(new Priv_t)
 {
     priv->sysenv = QProcessEnvironment::systemEnvironment();
     addResourcesFont();
+    connect(this, &AppConfig::configChanged, [this]() {
+        if (useDarkStyle()) {
+            QIcon::setThemeSearchPaths({ ":/images/dark" });
+            QIcon::setThemeName("dark");
+        } else {
+            QIcon::setThemeSearchPaths({ ":/images/light" });
+            QIcon::setThemeName("light");
+        }
+    });
 
     adjustEnv();
     load();
@@ -467,12 +476,6 @@ void AppConfig::load()
 
     projectsPath();
     templatesPath();
-
-    QIcon::setThemeSearchPaths({
-        ":/images/dark",
-        ":/images/light"
-    });
-    QIcon::setThemeName(useDarkStyle()? "dark" : "light");
 
     emit configChanged(this);
 }

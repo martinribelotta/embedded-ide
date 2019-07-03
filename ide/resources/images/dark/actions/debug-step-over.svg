@@ -1,121 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="128"
-   height="128"
-   viewBox="0 0 128 128"
-   id="svg2"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="action-debug-next.svg">
-  <defs
-     id="defs4">
-    <marker
-       inkscape:stockid="Arrow1Send"
-       orient="auto"
-       refY="0.0"
-       refX="0.0"
-       id="Arrow1Send"
-       style="overflow:visible;"
-       inkscape:isstock="true">
-      <path
-         id="path4826"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#4d4d4d;stroke-width:1pt;stroke-opacity:1;fill:#4d4d4d;fill-opacity:1"
-         transform="scale(0.2) rotate(180) translate(6,0)" />
-    </marker>
-    <marker
-       inkscape:stockid="Arrow1Lend"
-       orient="auto"
-       refY="0.0"
-       refX="0.0"
-       id="Arrow1Lend"
-       style="overflow:visible;"
-       inkscape:isstock="true">
-      <path
-         id="path4814"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#4d4d4d;stroke-width:1pt;stroke-opacity:1;fill:#4d4d4d;fill-opacity:1"
-         transform="scale(0.8) rotate(180) translate(12.5,0)" />
-    </marker>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs id="defs3051">
+    <style type="text/css" id="current-color-scheme">
+      .ColorScheme-Text {
+        color:#eff0f1;
+      }
+      .ColorScheme-NeutralText {
+        color:#f67400;
+      }
+      </style>
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="4.265625"
-     inkscape:cx="53.475819"
-     inkscape:cy="82.754579"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     units="px"
-     inkscape:window-width="1306"
-     inkscape:window-height="741"
-     inkscape:window-x="60"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1" />
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Capa 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-924.36216)">
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="24.146521"
-       y="1018.135"
-       id="text3374"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3376"
-         x="24.146521"
-         y="1018.135"
-         style="font-size:70px;fill:#4d4d4d;fill-opacity:1">{}</tspan></text>
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#4d4d4d;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 13.976714,989.68477 0,-41.37729 101.040296,0 0,41.37729"
-       id="path4160"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
-    <path
-       sodipodi:type="star"
-       style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4162"
-       sodipodi:sides="3"
-       sodipodi:cx="114.54814"
-       sodipodi:cy="985.81659"
-       sodipodi:r1="8.9207544"
-       sodipodi:r2="4.4603777"
-       sodipodi:arg1="1.5707963"
-       sodipodi:arg2="2.6179939"
-       inkscape:flatsided="false"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="m 114.54814,994.73734 -3.8628,-6.69056 -3.8628,-6.69057 7.7256,0 7.7256,0 -3.8628,6.69057 z"
-       inkscape:transform-center-y="2.2301887" />
-  </g>
+  <path style="fill:currentColor;fill-opacity:1;stroke:none" 
+     d="M 4 4 L 4 8 L 4 20 L 5 20 L 20 20 L 20 19 L 20 10 L 19 10 L 19 19 L 5 19 L 5 8 L 14 8 L 14 6 L 14 4 L 4 4 z M 10.427734 10 C 9.3616444 10 8.9140625 10.352248 8.9140625 11.253906 L 8.9140625 12.476562 C 8.9140625 13.033475 8.8935575 13.677734 8.3046875 13.677734 L 8 13.677734 L 8 14.322266 L 8.3046875 14.322266 C 8.8935775 14.322266 8.9140625 14.966527 8.9140625 15.523438 L 8.9140625 16.746094 C 8.9140625 17.647754 9.3616444 18 10.427734 18 L 10.427734 17.408203 C 9.7170144 17.408203 9.7070312 17.169044 9.7070312 16.302734 L 9.7070312 15.294922 C 9.7070312 14.879462 9.583415 14.260256 8.984375 14.003906 C 9.583415 13.747556 9.7070312 13.130314 9.7070312 12.714844 L 9.7070312 11.697266 C 9.7070312 10.830962 9.7170344 10.591797 10.427734 10.591797 L 10.427734 10 z M 13.564453 10 L 13.564453 10.591797 C 14.275183 10.591797 14.292969 10.830963 14.292969 11.697266 L 14.292969 12.714844 C 14.292969 13.130314 14.416575 13.747556 15.015625 14.003906 C 14.416575 14.260256 14.292969 14.879462 14.292969 15.294922 L 14.292969 16.302734 C 14.292969 17.169044 14.275269 17.408203 13.564453 17.408203 L 13.564453 18 C 14.630553 18 15.085934 17.647754 15.085938 16.746094 L 15.085938 15.523438 C 15.085938 14.966525 15.126338 14.322266 15.705078 14.322266 L 16 14.322266 L 16 13.677734 L 15.705078 13.677734 C 15.126338 13.677734 15.085934 13.033473 15.085938 12.476562 L 15.085938 11.253906 C 15.085938 10.352248 14.630553 10 13.564453 10 z "
+     class="ColorScheme-Text"
+     />
+  <path
+     style="fill:currentColor;fill-opacity:1;stroke:none" 
+     class="ColorScheme-NeutralText"
+     d="M 16 4 L 18 7 L 20 4 L 16 4 z "
+      />
 </svg>
