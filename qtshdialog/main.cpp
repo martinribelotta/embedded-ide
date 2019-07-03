@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include <QAbstractItemView>
 #include <QApplication>
 #include <QDialog>
 #include <QFile>
@@ -27,12 +28,16 @@
 #include <QLayout>
 #include <QMetaProperty>
 #include <QRegularExpression>
+#include <QStandardItemModel>
+#include <QStringListModel>
 #include <QTextStream>
 #include <QTimer>
 #include <QUiLoader>
 #include <QWidget>
 
 #include <cstdio>
+
+#include <qjsonmodel.h>
 
 static bool noEmpty = false;
 static bool noInternal = false;
@@ -144,6 +149,12 @@ class Services: public QObject {
     Q_OBJECT
 
 public slots:
+
+    void setData(QAbstractItemView *v, const QJsonValue& val)
+    {
+        v->setModel(new QJsonModel(val.toString(), v));
+    }
+
     QString getOpenFileName(QWidget *parent = nullptr,
                                    const QString &caption = QString(),
                                    const QString &dir = QString(),

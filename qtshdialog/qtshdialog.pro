@@ -26,6 +26,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+include(3rdpart/QJsonModel/QJsonModel.pri)
+
 SOURCES += \
         main.cpp
 
