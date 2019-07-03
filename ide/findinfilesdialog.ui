@@ -41,8 +41,7 @@
        <item>
         <widget class="QToolButton" name="buttonChoseDirectory">
          <property name="icon">
-          <iconset resource="resources/resources.qrc">
-           <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
+          <iconset theme="document-open"/>
          </property>
         </widget>
        </item>
@@ -73,8 +72,7 @@
        <item>
         <widget class="QToolButton" name="buttonSelectfilePattern">
          <property name="icon">
-          <iconset resource="resources/resources.qrc">
-           <normaloff>:/images/actions/application-menu.svg</normaloff>:/images/actions/application-menu.svg</iconset>
+          <iconset theme="application-menu"/>
          </property>
         </widget>
        </item>
@@ -105,8 +103,7 @@
        <item>
         <widget class="QToolButton" name="buttonFind">
          <property name="icon">
-          <iconset resource="resources/resources.qrc">
-           <normaloff>:/images/actions/edit-find.svg</normaloff>:/images/actions/edit-find.svg</iconset>
+          <iconset theme="edit-find"/>
          </property>
         </widget>
        </item>
@@ -154,8 +151,7 @@
         <bool>false</bool>
        </property>
        <property name="icon">
-        <iconset resource="resources/resources.qrc">
-         <normaloff>:/images/actions/dialog-cancel.svg</normaloff>:/images/actions/dialog-cancel.svg</iconset>
+        <iconset theme="dialog-cancel"/>
        </property>
       </widget>
      </item>
@@ -180,9 +176,7 @@
   <tabstop>buttonChoseDirectory</tabstop>
   <tabstop>buttonStop</tabstop>
  </tabstops>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>textToFind</sender>

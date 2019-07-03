@@ -45,8 +45,7 @@
       <string>Save</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/document-save-all.svg</normaloff>:/images/actions/document-save-all.svg</iconset>
+      <iconset theme="document-save-all"/>
      </property>
      <property name="iconSize">
       <size>
@@ -74,8 +73,7 @@
       <string>Discart</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/edit-delete.svg</normaloff>:/images/actions/edit-delete.svg</iconset>
+      <iconset theme="edit-delete"/>
      </property>
      <property name="iconSize">
       <size>
@@ -103,8 +101,7 @@
       <string>Select All</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/dialog-ok-apply.svg</normaloff>:/images/actions/dialog-ok-apply.svg</iconset>
+      <iconset theme="dialog-ok-apply"/>
      </property>
      <property name="iconSize">
       <size>
@@ -145,8 +142,7 @@
       <string>Cancel</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/dialog-cancel.svg</normaloff>:/images/actions/dialog-cancel.svg</iconset>
+      <iconset theme="dialog-cancel"/>
      </property>
      <property name="iconSize">
       <size>
@@ -158,8 +154,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

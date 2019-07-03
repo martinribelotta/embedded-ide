@@ -170,7 +170,8 @@ MainWindow::MainWindow(QWidget *parent) :
         auto m = dynamic_cast<QStandardItemModel*>(ui->recentProjectsView->model());
         m->clear();
         for(const auto& e: AppConfig::instance().recentProjects()) {
-            auto item = new QStandardItem(QIcon(":/images/mimetypes/text-x-makefile.svg"), e.dir().dirName());
+            auto item = new QStandardItem(
+                QIcon(FileSystemManager::mimeIconPath("text-x-makefile")), e.dir().dirName());
             item->setData(e.absoluteFilePath());
             item->setToolTip(e.absoluteFilePath());
             m->appendRow(item);

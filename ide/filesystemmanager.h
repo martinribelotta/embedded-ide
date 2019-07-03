@@ -35,6 +35,8 @@ public:
 
     static QIcon iconForFile(const QFileInfo &info);
 
+    static QString mimeIconPath(const QString& mimeName);
+
 signals:
     void requestFileOpen(const QString& path);
 

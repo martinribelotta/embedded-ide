@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include "appconfig.h"
 #include "findlineedit.h"
 
 #include <QHBoxLayout>
@@ -31,8 +32,8 @@ FindLineEdit::FindLineEdit(QWidget *parent) : QLineEdit(parent)
     auto layout = new QHBoxLayout(this);
     auto clearButton = new QToolButton(this);
     optionsButton = new QToolButton(this);
-    optionsButton->setIcon(QIcon(":/images/actions/application-menu.svg"));
-    clearButton->setIcon(QIcon(":/images/actions/edit-clear.svg"));
+    optionsButton->setIcon(QIcon(AppConfig::resourceImage({ "actions", "application-menu" })));
+    clearButton->setIcon(QIcon(AppConfig::resourceImage({ "actions", "edit-clear" })));
     optionsButton->setFocusPolicy(Qt::NoFocus);
     optionsButton->setPopupMode(QToolButton::InstantPopup);
     optionsButton->setCursor(Qt::ArrowCursor);

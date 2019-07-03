@@ -37,8 +37,7 @@
    <item>
     <widget class="QToolButton" name="currentDownload">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/edit-download.svg</normaloff>:/images/actions/edit-download.svg</iconset>
+      <iconset theme="edit-download"/>
      </property>
     </widget>
    </item>
@@ -58,15 +57,12 @@
    <item>
     <widget class="QToolButton" name="deleteFile">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/list-remove.svg</normaloff>:/images/actions/list-remove.svg</iconset>
+      <iconset theme="list-remove"/>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -193,7 +193,7 @@ void CPPTextEditor::formatCode()
 QMenu *CPPTextEditor::createContextualMenu()
 {
     auto menu = CodeTextEditor::createContextualMenu();
-    menu->addAction(QIcon(":/images/actions/code-context.svg"),
+    menu->addAction(QIcon(AppConfig::resourceImage({ "actions", "code-context" })),
                     tr("Find Reference"),
                     this, &CPPTextEditor::findReference)
             ->setShortcut(QKeySequence("CTRL+ENTER"));

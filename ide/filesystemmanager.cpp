@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include "appconfig.h"
 #include "filesystemmanager.h"
 
 #include <QCheckBox>
@@ -43,14 +44,14 @@ public:
     QIcon icon(const QFileInfo &info) const override
     {
         if (info.isDir())
-            return QIcon(":/images/mimetypes/folder.svg");
+            return QIcon(FileSystemManager::mimeIconPath("folder"));
         QMimeDatabase db;
         auto t = db.mimeTypeForFile(info);
         if (t.isValid()) {
-            auto resName = QString(":/images/mimetypes/%1.svg").arg(t.iconName());
+            auto resName = FileSystemManager::mimeIconPath(t.iconName());
             if (QFile(resName).exists())
                 return QIcon(resName);
-            resName = QString(":/images/mimetypes/%1.svg").arg(t.genericIconName());
+            resName = FileSystemManager::mimeIconPath(t.genericIconName());
             if (QFile(resName).exists())
                 return QIcon(resName);
         }
@@ -92,6 +93,11 @@ FileSystemManager::~FileSystemManager()
 QIcon FileSystemManager::iconForFile(const QFileInfo &info)
 {
     return ProjectIconProvider().icon(info);
+}
+
+QString FileSystemManager::mimeIconPath(const QString &mimeName)
+{
+    return AppConfig::resourceImage({ "mimetypes", mimeName });
 }
 
 void FileSystemManager::openPath(const QString &path)
@@ -138,7 +144,7 @@ void FileSystemManager::customContextMenu(const QPoint &pos)
     auto info = model->fileInfo(index);
     auto m = new QMenu(view);
 #define _(icon, text, slot) \
-    m->addAction(QIcon(":/images/actions/" icon ".svg"), text, this, slot)
+    m->addAction(QIcon(AppConfig::resourceImage({ "actions", icon })), text, this, slot)
 
     _("document-new", tr("New File"), &FileSystemManager::menuNewFile);
     _("folder-new", tr("New Directory"), &FileSystemManager::menuNewDirectory);

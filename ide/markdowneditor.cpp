@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include "appconfig.h"
 #include "markdowneditor.h"
 
 #include <markdownview.h>
@@ -39,7 +40,7 @@ MarkdownEditor::MarkdownEditor(QWidget *parent): QWidget(parent)
     renderTimer = new QTimer(this);
     editor = new CodeTextEditor(this);
     view = new MarkdownView(this);
-    reload->setIcon(QIcon(":/images/actions/view-refresh.svg"));
+    reload->setIcon(QIcon(AppConfig::resourceImage({ "actions", "view-refresh" })));
     reload->setIconSize(QSize(16, 16));
     view->setCornerWidget(reload);
     s->addWidget(editor);

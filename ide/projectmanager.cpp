@@ -134,7 +134,7 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
                     auto button = new QPushButton;
                     auto name = QString(t).replace('_', ' ');
                     targetModel->appendRow(item);
-                    button->setIcon(QIcon(":/images/actions/run-build.svg"));
+                    button->setIcon(QIcon(AppConfig::resourceImage({ "actions", "run-build" })));
                     button->setIconSize(QSize(16, 16));
                     button->setText(name);
                     button->setStyleSheet("text-align: left; padding: 4px;");

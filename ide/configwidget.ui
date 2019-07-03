@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="editorSettings">
       <attribute name="title">
@@ -146,8 +146,7 @@
        <item row="0" column="2">
         <widget class="QToolButton" name="projectPathSetButton">
          <property name="icon">
-          <iconset resource="resources/resources.qrc">
-           <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
+          <iconset theme="document-open"/>
          </property>
         </widget>
        </item>
@@ -166,8 +165,7 @@
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset resource="resources/resources.qrc">
-              <normaloff>:/images/actions/list-add.svg</normaloff>:/images/actions/list-add.svg</iconset>
+             <iconset theme="list-add"/>
             </property>
             <property name="iconSize">
              <size>
@@ -183,8 +181,7 @@
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset resource="resources/resources.qrc">
-              <normaloff>:/images/actions/list-remove.svg</normaloff>:/images/actions/list-remove.svg</iconset>
+             <iconset theme="list-remove"/>
             </property>
             <property name="iconSize">
              <size>
@@ -524,9 +521,7 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

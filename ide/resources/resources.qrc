@@ -1,16 +1,24 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/screens/EmbeddedIDE_02.png</file>
-        <file>images/screens/EmbeddedIDE_02.svg</file>
-        <file>images/screens/EmbeddedIDE_02_es.svg</file>
-        <file>images/screens/EmbeddedIDE_02_es.png</file>
-        <file>images/embedded-ide-mono.svg</file>
-        <file>images/embedded-ide.ico</file>
-        <file>images/embedded-ide.png</file>
-        <file>images/embedded-ide.svg</file>
-        <file>default-global.json</file>
-        <file>default-local.json</file>
-        <file>reference-code.c</file>
-        <file>templates/empty.template</file>
+    <file>images/light/screens/EmbeddedIDE_02.png</file>
+    <file>images/light/screens/EmbeddedIDE_02.svg</file>
+    <file>images/light/screens/EmbeddedIDE_02_es.svg</file>
+    <file>images/light/screens/EmbeddedIDE_02_es.png</file>
+    <file>images/light/embedded-ide-mono.svg</file>
+    <file>images/light/embedded-ide.ico</file>
+    <file>images/light/embedded-ide.png</file>
+    <file>images/light/embedded-ide.svg</file>
+    <file>images/dark/screens/EmbeddedIDE_02.png</file>
+    <file>images/dark/screens/EmbeddedIDE_02.svg</file>
+    <file>images/dark/screens/EmbeddedIDE_02_es.svg</file>
+    <file>images/dark/screens/EmbeddedIDE_02_es.png</file>
+    <file>images/dark/embedded-ide-mono.svg</file>
+    <file>images/dark/embedded-ide.ico</file>
+    <file>images/dark/embedded-ide.png</file>
+    <file>images/dark/embedded-ide.svg</file>
+    <file>default-global.json</file>
+    <file>default-local.json</file>
+    <file>reference-code.c</file>
+    <file>templates/empty.template</file>
     </qresource>
 </RCC>

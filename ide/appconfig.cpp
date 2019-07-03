@@ -32,6 +32,7 @@
 #include <QFontDatabase>
 #include <QSaveFile>
 #include <QStandardPaths>
+#include <QToolButton>
 
 #include <QtDebug>
 
@@ -250,6 +251,18 @@ QStringList AppConfig::langPaths()
     return { systemTranslationPath(), ":/i18n/" };
 }
 
+QString AppConfig::resourceImage(const QString &path, const QString &ext)
+{
+    auto style = instance().useDarkStyle()? "dark" : "light";
+    auto s = QString(":/images/%1/%2.%3").arg(style).arg(path).arg(ext);
+    return s;
+}
+
+QString AppConfig::resourceImage(const QStringList &pathPart, const QString &ext)
+{
+    return AppConfig::resourceImage(pathPart.join(QDir::separator()), ext);
+}
+
 QString AppConfig::projectsPath() const
 {
     return ensureExist(QDir(workspacePath()).absoluteFilePath("projects"));
@@ -454,6 +467,12 @@ void AppConfig::load()
 
     projectsPath();
     templatesPath();
+
+    QIcon::setThemeSearchPaths({
+        ":/images/dark",
+        ":/images/light"
+    });
+    QIcon::setThemeName(useDarkStyle()? "dark" : "light");
 
     emit configChanged(this);
 }

@@ -22,12 +22,8 @@
       </item>
       <item row="0" column="1">
        <widget class="QToolButton" name="updateRepository">
-        <property name="text">
-         <string>...</string>
-        </property>
         <property name="icon">
-         <iconset resource="resources/resources.qrc">
-          <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
+         <iconset theme="view-refresh"/>
         </property>
        </widget>
       </item>
@@ -37,8 +33,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/resources.qrc">
-          <normaloff>:/images/actions/edit-select-all.svg</normaloff>:/images/actions/edit-select-all.svg</iconset>
+         <iconset theme="edit-select-all"/>
         </property>
        </widget>
       </item>
@@ -48,8 +43,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/resources.qrc">
-          <normaloff>:/images/actions/deletecell.svg</normaloff>:/images/actions/deletecell.svg</iconset>
+         <iconset theme="deletecell"/>
         </property>
        </widget>
       </item>
@@ -59,8 +53,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/resources.qrc">
-          <normaloff>:/images/actions/edit-download.svg</normaloff>:/images/actions/edit-download.svg</iconset>
+         <iconset theme="edit-download"/>
         </property>
        </widget>
       </item>
@@ -98,8 +91,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

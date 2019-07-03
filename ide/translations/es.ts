@@ -102,118 +102,118 @@
         <translation>PATH del area de trabajo</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="157"/>
+        <location filename="../configwidget.ui" line="156"/>
         <source>Additional PATHs</source>
         <translation>PATHs adicionales</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="166"/>
-        <location filename="../configwidget.ui" line="183"/>
+        <location filename="../configwidget.ui" line="165"/>
+        <location filename="../configwidget.ui" line="181"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="217"/>
+        <location filename="../configwidget.ui" line="214"/>
         <source>Templates</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="222"/>
+        <location filename="../configwidget.ui" line="219"/>
         <source>Proxy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="228"/>
+        <location filename="../configwidget.ui" line="225"/>
         <source>HTTP proxy for network access</source>
         <translation>Proxy HTTP para acceso a red</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="236"/>
+        <location filename="../configwidget.ui" line="233"/>
         <source>None</source>
         <translation>Ninguno</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="246"/>
+        <location filename="../configwidget.ui" line="243"/>
         <source>System proxy</source>
         <translation>Proxy del sistema</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="256"/>
+        <location filename="../configwidget.ui" line="253"/>
         <source>Custom proxy</source>
         <translation>Proxy manual</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="270"/>
+        <location filename="../configwidget.ui" line="267"/>
         <source>Host</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="280"/>
+        <location filename="../configwidget.ui" line="277"/>
         <source>localhost</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="287"/>
+        <location filename="../configwidget.ui" line="284"/>
         <source>Port</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="297"/>
+        <location filename="../configwidget.ui" line="294"/>
         <source>3128</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="319"/>
+        <location filename="../configwidget.ui" line="316"/>
         <source>Proxy authentication</source>
         <translation>Autenticación del proxy</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="331"/>
+        <location filename="../configwidget.ui" line="328"/>
         <source>Username</source>
         <translation>Nombre de usuario</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="345"/>
+        <location filename="../configwidget.ui" line="342"/>
         <source>Password</source>
         <translation>Contraseña</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="366"/>
+        <location filename="../configwidget.ui" line="363"/>
         <source>Behavior</source>
         <translation>Comportamiento</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="414"/>
+        <location filename="../configwidget.ui" line="411"/>
         <source>Log View Font</source>
         <translation>Fuente del visor de logs</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="428"/>
+        <location filename="../configwidget.ui" line="425"/>
         <source>Use dark style</source>
         <translation>Usar tema oscuro</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="435"/>
+        <location filename="../configwidget.ui" line="432"/>
         <source>Check for project templates updates at start up</source>
         <translation>Verificar por actualización de los template al iniciar el programa</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="496"/>
+        <location filename="../configwidget.ui" line="493"/>
         <source>Current language</source>
         <translation>Lenguaje en uso</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="421"/>
+        <location filename="../configwidget.ui" line="418"/>
         <source>Format Style</source>
         <translation>Estilo del formateador</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="388"/>
+        <location filename="../configwidget.ui" line="385"/>
         <source>Format extra paramters:</source>
         <translation>Parametros extra del formateador:</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="455"/>
+        <location filename="../configwidget.ui" line="452"/>
         <source>Use in-progress/development characteristics</source>
         <translation>Usar caracteristicas en progreso/desarrollo</translation>
     </message>
@@ -250,12 +250,16 @@
 <context>
     <name>DocumentManager</name>
     <message>
-        <location filename="../documentmanager.cpp" line="73"/>
         <source>:/images/screens/EmbeddedIDE_02.png</source>
-        <translation>:/images/screens/EmbeddedIDE_02_es.png</translation>
+        <translation type="vanished">:/images/screens/EmbeddedIDE_02_es.png</translation>
     </message>
     <message>
-        <location filename="../documentmanager.cpp" line="172"/>
+        <location filename="../documentmanager.cpp" line="74"/>
+        <source>EmbeddedIDE_02</source>
+        <translation>EmbeddedIDE_02_es</translation>
+    </message>
+    <message>
+        <location filename="../documentmanager.cpp" line="173"/>
         <source>%1 not exist</source>
         <translation>%1 no existe</translation>
     </message>
@@ -273,7 +277,7 @@
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../externaltoolmanager.ui" line="50"/>
+        <location filename="../externaltoolmanager.ui" line="49"/>
         <source>Accept</source>
         <translation>Aceptar</translation>
     </message>
@@ -296,17 +300,17 @@
 <context>
     <name>FileSystemManager</name>
     <message>
-        <location filename="../filesystemmanager.cpp" line="143"/>
+        <location filename="../filesystemmanager.cpp" line="149"/>
         <source>New File</source>
         <translation>Nuevo Archivo</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="144"/>
+        <location filename="../filesystemmanager.cpp" line="150"/>
         <source>New Directory</source>
         <translation>Nuevo Directorio</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="146"/>
+        <location filename="../filesystemmanager.cpp" line="152"/>
         <source>New Symlink</source>
         <translation>Nuvo enlace simbolico</translation>
     </message>
@@ -315,83 +319,83 @@
         <translation type="vanished">Propiedades</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="148"/>
+        <location filename="../filesystemmanager.cpp" line="154"/>
         <source>Execute</source>
         <translation>Ejecutar</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="149"/>
+        <location filename="../filesystemmanager.cpp" line="155"/>
         <source>Open External</source>
         <translation>Abrir externamente</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="151"/>
+        <location filename="../filesystemmanager.cpp" line="157"/>
         <source>Rename</source>
         <translation>Renombrar</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="152"/>
+        <location filename="../filesystemmanager.cpp" line="158"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="177"/>
+        <location filename="../filesystemmanager.cpp" line="183"/>
         <source>File name</source>
         <translation>Nombre de archivo</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="178"/>
+        <location filename="../filesystemmanager.cpp" line="184"/>
         <source>Create file on %1</source>
         <translation>Crear archivo en %1</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="183"/>
+        <location filename="../filesystemmanager.cpp" line="189"/>
         <source>Error creating file</source>
         <translation>Error creando archivo</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="206"/>
+        <location filename="../filesystemmanager.cpp" line="212"/>
         <source>Folder name</source>
         <translation>Nombre del directorio</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="207"/>
+        <location filename="../filesystemmanager.cpp" line="213"/>
         <source>Create folder on %1</source>
         <translation>Crear directorio en %1</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="233"/>
+        <location filename="../filesystemmanager.cpp" line="239"/>
         <source>Link target</source>
         <translation>Objetivo del enlace</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="242"/>
-        <location filename="../filesystemmanager.cpp" line="244"/>
+        <location filename="../filesystemmanager.cpp" line="248"/>
+        <location filename="../filesystemmanager.cpp" line="250"/>
         <source>Link creation fail</source>
         <translation>Error al crear el link</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="242"/>
+        <location filename="../filesystemmanager.cpp" line="248"/>
         <source>ERROR: %1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="244"/>
+        <location filename="../filesystemmanager.cpp" line="250"/>
         <source>ERROR: Not implemented</source>
         <translation>ERROR: No implementado</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="289"/>
+        <location filename="../filesystemmanager.cpp" line="295"/>
         <source>Delete files</source>
         <translation>Borrar archivos</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="294"/>
+        <location filename="../filesystemmanager.cpp" line="300"/>
         <source>Do this operation for all items</source>
         <translation>Hacer esta operación para todos los elementos</translation>
     </message>
     <message>
-        <location filename="../filesystemmanager.cpp" line="307"/>
+        <location filename="../filesystemmanager.cpp" line="313"/>
         <source>Realy remove %1</source>
         <translation>Realmente borrar %1</translation>
     </message>
@@ -409,12 +413,12 @@
         <translation>Directorio</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.ui" line="54"/>
+        <location filename="../findinfilesdialog.ui" line="53"/>
         <source>File pattern</source>
         <translation>Patron de archivos</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.ui" line="86"/>
+        <location filename="../findinfilesdialog.ui" line="84"/>
         <source>Text to find</source>
         <translation>Texto a buscar</translation>
     </message>
@@ -439,22 +443,22 @@
         <translation>Listo</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="123"/>
+        <location filename="../findinfilesdialog.cpp" line="122"/>
         <source>Scanning file:</source>
         <translation>Inspeccionando archivos:</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="144"/>
+        <location filename="../findinfilesdialog.cpp" line="143"/>
         <source>Line %1 Char %2: %3</source>
         <translation>Linea %1 caracter %2: %3</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="157"/>
+        <location filename="../findinfilesdialog.cpp" line="156"/>
         <source>Done</source>
         <translation>Listo</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="164"/>
+        <location filename="../findinfilesdialog.cpp" line="169"/>
         <source>Select directory</source>
         <translation>Seleccionar directorio</translation>
     </message>
@@ -467,7 +471,7 @@
         <translation>Buscar</translation>
     </message>
     <message>
-        <location filename="../formfindreplace.ui" line="68"/>
+        <location filename="../formfindreplace.ui" line="66"/>
         <source>Replace</source>
         <translation>Reemplazar</translation>
     </message>
@@ -540,7 +544,7 @@
         <location filename="../mainwindow.ui" line="362"/>
         <location filename="../mainwindow.ui" line="382"/>
         <location filename="../mainwindow.ui" line="402"/>
-        <location filename="../mainwindow.ui" line="929"/>
+        <location filename="../mainwindow.ui" line="927"/>
         <source>Configuration</source>
         <translation>Configuración</translation>
     </message>
@@ -580,28 +584,28 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; color:#000000;&quot;&gt;Embedded IDE&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#000000;&quot;&gt;versión {{version}}&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#000000;&quot;&gt;copyright © 2016-2018 por&lt;br/&gt;Martin Ribelotta&lt;br/&gt;&lt;/span&gt;&lt;a href=&quot;martinribelotta@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;martinribelotta@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#000000;&quot;&gt;Este programa esta bajo la GPL v3 o superior&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="900"/>
+        <location filename="../mainwindow.ui" line="898"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;ALT+F4&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="830"/>
+        <location filename="../mainwindow.ui" line="829"/>
         <source>Exit from application</source>
         <translation>Salir de la aplicación</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="833"/>
+        <location filename="../mainwindow.ui" line="832"/>
         <source>Exit from app</source>
         <translation>Salir de la aplicación</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="926"/>
-        <location filename="../mainwindow.ui" line="958"/>
+        <location filename="../mainwindow.ui" line="924"/>
+        <location filename="../mainwindow.ui" line="955"/>
         <source>Open Confioguration</source>
         <translation>Abrir Configuración</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="913"/>
+        <location filename="../mainwindow.ui" line="911"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;CTRL+SHIFT+P&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
@@ -611,43 +615,43 @@
         <translation>Disponible Actualizacion de Platillas</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1149"/>
+        <location filename="../mainwindow.ui" line="1143"/>
         <source>Recent Projects</source>
         <translation>Proyectos recientes</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="997"/>
+        <location filename="../mainwindow.ui" line="993"/>
         <source>Open Existing Project</source>
         <translation>Abrir proyecto existente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="961"/>
+        <location filename="../mainwindow.ui" line="958"/>
         <source>External tools</source>
         <translation>Herramientas Externas</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1000"/>
-        <location filename="../mainwindow.cpp" line="190"/>
+        <location filename="../mainwindow.ui" line="996"/>
+        <location filename="../mainwindow.cpp" line="191"/>
         <source>Open Project</source>
         <translation>Abrir proyecto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1035"/>
+        <location filename="../mainwindow.ui" line="1030"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;CTRL+O&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1048"/>
+        <location filename="../mainwindow.ui" line="1043"/>
         <source>Create New Project</source>
         <translation>Crear nuevo proyecto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1051"/>
+        <location filename="../mainwindow.ui" line="1046"/>
         <source>New Project</source>
         <translation>Nuevo Proyecto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1080"/>
+        <location filename="../mainwindow.ui" line="1074"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;CTRL+N&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
@@ -657,17 +661,17 @@
         <translation>%1 construido en %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="190"/>
+        <location filename="../mainwindow.cpp" line="191"/>
         <source>Makefile (Makefile);;All files (*)</source>
         <translation>Makefile (Makefile);;Todos los archivos (*)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="213"/>
+        <location filename="../mainwindow.cpp" line="214"/>
         <source>New File</source>
         <translation>Nuevo Archivo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="214"/>
+        <location filename="../mainwindow.cpp" line="215"/>
         <source>Templates (*.template);;Compressed tar with gzip (*.tar.gz);;All files (*)</source>
         <translation>Templates (*.template);;tar comprimido con gzip (*.tar.gz);;Todos los archivos (*)</translation>
     </message>
@@ -713,7 +717,7 @@
 <context>
     <name>MarkdownEditor</name>
     <message>
-        <location filename="../markdowneditor.cpp" line="115"/>
+        <location filename="../markdowneditor.cpp" line="134"/>
         <source>&lt;h3&gt;Rendering...&lt;/h3&gt;</source>
         <translation>&lt;h3&gt;Redibujando...&lt;/h3&gt;</translation>
     </message>
@@ -737,17 +741,17 @@
         <translation>Directorio del proyecto</translation>
     </message>
     <message>
-        <location filename="../newprojectdialog.ui" line="54"/>
+        <location filename="../newprojectdialog.ui" line="53"/>
         <source>Project name and path</source>
         <translation>Nombre y directorio del proyecto</translation>
     </message>
     <message>
-        <location filename="../newprojectdialog.ui" line="126"/>
+        <location filename="../newprojectdialog.ui" line="124"/>
         <source>Create</source>
         <translation>Crear</translation>
     </message>
     <message>
-        <location filename="../newprojectdialog.ui" line="146"/>
+        <location filename="../newprojectdialog.ui" line="143"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -876,7 +880,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../externaltoolmanager.cpp" line="130"/>
+        <location filename="../externaltoolmanager.cpp" line="132"/>
         <source>Open Tool Manager</source>
         <translation>Abrir manejador de herramientas</translation>
     </message>
@@ -972,10 +976,9 @@
         <translation>URL del repositorio</translation>
     </message>
     <message>
-        <location filename="../templatemanager.ui" line="26"/>
-        <location filename="../templatemanager.ui" line="37"/>
-        <location filename="../templatemanager.ui" line="48"/>
-        <location filename="../templatemanager.ui" line="59"/>
+        <location filename="../templatemanager.ui" line="33"/>
+        <location filename="../templatemanager.ui" line="43"/>
+        <location filename="../templatemanager.ui" line="53"/>
         <source>...</source>
         <translation></translation>
     </message>
@@ -1018,28 +1021,28 @@
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../unsavedfilesdialog.ui" line="71"/>
+        <location filename="../unsavedfilesdialog.ui" line="70"/>
         <source>Unselect All</source>
         <translation>Deseleccionar todos</translation>
     </message>
     <message>
-        <location filename="../unsavedfilesdialog.ui" line="74"/>
+        <location filename="../unsavedfilesdialog.ui" line="73"/>
         <source>Discart</source>
         <translation>Descartar</translation>
     </message>
     <message>
-        <location filename="../unsavedfilesdialog.ui" line="100"/>
-        <location filename="../unsavedfilesdialog.ui" line="103"/>
+        <location filename="../unsavedfilesdialog.ui" line="98"/>
+        <location filename="../unsavedfilesdialog.ui" line="101"/>
         <source>Select All</source>
         <translation>Seleccionar todos</translation>
     </message>
     <message>
-        <location filename="../unsavedfilesdialog.ui" line="142"/>
+        <location filename="../unsavedfilesdialog.ui" line="139"/>
         <source>Abort action</source>
         <translation>Abortar accion</translation>
     </message>
     <message>
-        <location filename="../unsavedfilesdialog.ui" line="145"/>
+        <location filename="../unsavedfilesdialog.ui" line="142"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>

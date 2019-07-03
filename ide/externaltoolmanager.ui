@@ -20,8 +20,7 @@
       <string>Cancel</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/dialog-close.svg</normaloff>:/images/actions/dialog-close.svg</iconset>
+      <iconset theme="dialog-close"/>
      </property>
      <property name="iconSize">
       <size>
@@ -50,8 +49,7 @@
       <string>Accept</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/dialog-ok-apply.svg</normaloff>:/images/actions/dialog-ok-apply.svg</iconset>
+      <iconset theme="dialog-ok-apply"/>
      </property>
      <property name="iconSize">
       <size>
@@ -67,8 +65,7 @@
    <item row="1" column="3">
     <widget class="QToolButton" name="itemDown">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/go-down.svg</normaloff>:/images/actions/go-down.svg</iconset>
+      <iconset theme="go-down"/>
      </property>
      <property name="iconSize">
       <size>
@@ -97,8 +94,7 @@
    <item row="1" column="1">
     <widget class="QToolButton" name="itemDel">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/list-remove.svg</normaloff>:/images/actions/list-remove.svg</iconset>
+      <iconset theme="list-remove"/>
      </property>
      <property name="iconSize">
       <size>
@@ -114,8 +110,7 @@
    <item row="1" column="0">
     <widget class="QToolButton" name="itemAdd">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/list-add.svg</normaloff>:/images/actions/list-add.svg</iconset>
+      <iconset theme="list-add"/>
      </property>
      <property name="iconSize">
       <size>
@@ -131,8 +126,7 @@
    <item row="1" column="2">
     <widget class="QToolButton" name="itemUp">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/go-up.svg</normaloff>:/images/actions/go-up.svg</iconset>
+      <iconset theme="go-up"/>
      </property>
      <property name="iconSize">
       <size>
@@ -147,9 +141,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>pushButton</sender>

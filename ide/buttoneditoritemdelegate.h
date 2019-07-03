@@ -1,6 +1,8 @@
 #ifndef BUTTONEDITORITEMDELEGATE_H
 #define BUTTONEDITORITEMDELEGATE_H
 
+#include "appconfig.h"
+
 #include <QItemDelegate>
 #include <QWidget>
 #include <QLineEdit>
@@ -16,7 +18,8 @@ public:
         auto w = QItemDelegate::createEditor(parent, option, index);
         QLineEdit* e = qobject_cast<QLineEdit*>(w);
         if (e) {
-            auto a = e->addAction(QIcon(":/images/actions/document-open.svg"), QLineEdit::TrailingPosition);
+            auto a = e->addAction(QIcon(AppConfig::resourceImage({ "actions", "document-open" })),
+                QLineEdit::TrailingPosition);
             a->setToolTip(iconToolTip);
             connect(a, &QAction::triggered, [index, this]() {
                 func(index);

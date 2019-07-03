@@ -29,7 +29,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mainPage">
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -83,8 +83,8 @@
                <string>Reload Project</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/iconactions.qrc">
-                <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
+               <iconset theme="view-refresh">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -106,8 +106,8 @@
                <string>Close Project</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/iconactions.qrc">
-                <normaloff>:/images/actions/document-close.svg</normaloff>:/images/actions/document-close.svg</iconset>
+               <iconset theme="document-close">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -169,8 +169,8 @@
                <string>Export project</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/iconactions.qrc">
-                <normaloff>:/images/actions/document-export.svg</normaloff>:/images/actions/document-export.svg</iconset>
+               <iconset theme="document-export">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -195,8 +195,8 @@
                <string>Find in files</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/iconactions.qrc">
-                <normaloff>:/images/actions/edit-find-replace.svg</normaloff>:/images/actions/edit-find-replace.svg</iconset>
+               <iconset theme="edit-find-replace">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -218,8 +218,8 @@
                <string>Tool menu</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/iconactions.qrc">
-                <normaloff>:/images/actions/run-build-configure.svg</normaloff>:/images/actions/run-build-configure.svg</iconset>
+               <iconset theme="run-build-configure">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -257,8 +257,8 @@
                <string>Configuration</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/iconactions.qrc">
-                <normaloff>:/images/actions/configure.svg</normaloff>:/images/actions/configure.svg</iconset>
+               <iconset theme="configure">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -280,8 +280,8 @@
                <string>Launch Debug</string>
               </property>
               <property name="icon">
-               <iconset resource="resources/iconactions.qrc">
-                <normaloff>:/images/actions/debug-init.svg</normaloff>:/images/actions/debug-init.svg</iconset>
+               <iconset theme="debug-init">
+                <normaloff>.</normaloff>.</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -329,8 +329,8 @@
                 <string>Configuration</string>
                </property>
                <property name="icon">
-                <iconset resource="resources/iconactions.qrc">
-                 <normaloff>:/images/actions/debug-run-v2.svg</normaloff>:/images/actions/debug-run-v2.svg</iconset>
+                <iconset theme="debug-run-v2">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -362,8 +362,8 @@
                 <string>Configuration</string>
                </property>
                <property name="icon">
-                <iconset resource="resources/iconactions.qrc">
-                 <normaloff>:/images/actions/debug-step-over-v2.svg</normaloff>:/images/actions/debug-step-over-v2.svg</iconset>
+                <iconset theme="debug-step-over-v2">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -382,8 +382,8 @@
                 <string>Configuration</string>
                </property>
                <property name="icon">
-                <iconset resource="resources/iconactions.qrc">
-                 <normaloff>:/images/actions/debug-step-into-v2.svg</normaloff>:/images/actions/debug-step-into-v2.svg</iconset>
+                <iconset theme="debug-step-into-v2">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -402,8 +402,8 @@
                 <string>Configuration</string>
                </property>
                <property name="icon">
-                <iconset resource="resources/iconactions.qrc">
-                 <normaloff>:/images/actions/debug-step-out-v2.svg</normaloff>:/images/actions/debug-step-out-v2.svg</iconset>
+                <iconset theme="debug-step-out-v2">
+                 <normaloff>.</normaloff>.</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -466,8 +466,8 @@
               <string>Close current</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/document-close.svg</normaloff>:/images/actions/document-close.svg</iconset>
+              <iconset theme="document-close">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -492,8 +492,8 @@
               <string>Save current</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/document-save.svg</normaloff>:/images/actions/document-save.svg</iconset>
+              <iconset theme="document-save">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -537,8 +537,8 @@
               <string>Close all</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/document-close-all.svg</normaloff>:/images/actions/document-close-all.svg</iconset>
+              <iconset theme="document-close-all">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -563,8 +563,8 @@
               <string>Save all</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/document-save-all.svg</normaloff>:/images/actions/document-save-all.svg</iconset>
+              <iconset theme="document-save-all">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -633,8 +633,8 @@
               <string>Reload Document</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
+              <iconset theme="view-refresh">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -698,7 +698,7 @@
             </size>
            </property>
            <property name="pixmap">
-            <pixmap resource="resources/resources.qrc">:/images/embedded-ide.png</pixmap>
+            <pixmap resource="resources/resources.qrc">:/images/light/embedded-ide.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -789,8 +789,8 @@
             <string>Template Update Available</string>
            </property>
            <property name="icon">
-            <iconset resource="resources/iconactions.qrc">
-             <normaloff>:/images/actions/view-refresh.svg</normaloff>:/images/actions/view-refresh.svg</iconset>
+            <iconset theme="view-refresh">
+             <normaloff>.</normaloff>.</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -833,8 +833,8 @@
               <string>Exit from app</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/application-exit.svg</normaloff>:/images/actions/application-exit.svg</iconset>
+              <iconset theme="application-exit">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -929,8 +929,8 @@
               <string>Configuration</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/configure.svg</normaloff>:/images/actions/configure.svg</iconset>
+              <iconset theme="configure">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -961,8 +961,8 @@
               <string>External tools</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/run-build-configure.svg</normaloff>:/images/actions/run-build-configure.svg</iconset>
+              <iconset theme="run-build-configure">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1000,8 +1000,8 @@
               <string>Open Project</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
+              <iconset theme="document-open">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1051,8 +1051,8 @@
               <string>New Project</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/iconactions.qrc">
-               <normaloff>:/images/actions/document-new.svg</normaloff>:/images/actions/document-new.svg</iconset>
+              <iconset theme="document-new">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1203,7 +1203,6 @@
  </customwidgets>
  <resources>
   <include location="resources/resources.qrc"/>
-  <include location="resources/iconactions.qrc"/>
  </resources>
  <connections/>
  <buttongroups>

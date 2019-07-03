@@ -121,13 +121,15 @@ QMenu *ExternalToolManager::makeMenu(QWidget *parent, ProcessManager *pman, Proj
     auto t = AppConfig::instance().externalTools();
     for(const auto& it: t) {
         auto cmd = it.second;
-        m->addAction(QIcon(":/images/actions/run-build.svg"), it.first, [p, cmd, proj]() {
+        m->addAction(QIcon(AppConfig::resourceImage({ "actions", "run-build" })),
+                     it.first, [p, cmd, proj]() {
             p->setWorkingDirectory(proj->projectPath());
             p->start(AppConfig::replaceWithEnv(cmd));
         });
     }
     m->addSeparator();
-    m->addAction(QIcon(":/images/actions/window-new.svg"), QObject::tr("Open Tool Manager"), [parent]() {
+    m->addAction(QIcon(AppConfig::resourceImage({ "actions", "window-new" })),
+                 QObject::tr("Open Tool Manager"), [parent]() {
         ExternalToolManager d(parent);
         if (d.exec()) {
             auto model = qobject_cast<QStandardItemModel*>(d.ui->tableView->model());

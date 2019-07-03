@@ -589,7 +589,7 @@ void PlainTextEditor::triggerAutocompletion()
 QMenu *PlainTextEditor::createContextualMenu()
 {
 #define _(en, icon, text, keys, functor) do { \
-    auto a = m->addAction(QIcon(":/images/actions/" icon ".svg"), text, functor); \
+    auto a = m->addAction(QIcon(AppConfig::resourceImage({ "actions", icon })), text, functor); \
     a->setShortcut(QKeySequence(keys)); \
     a->setEnabled(en); \
 } while(0)

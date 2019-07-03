@@ -32,7 +32,7 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     const auto size = QSize(16, 16);
     auto gl = new QGridLayout(textBrowser);
     auto bclr = new QToolButton(textBrowser);
-    bclr->setIcon(QIcon(":/images/actions/edit-clear.svg"));
+    bclr->setIcon(QIcon(AppConfig::resourceImage({ "actions", "edit-clear" })));
     bclr->setAutoRaise(true);
     bclr->setIconSize(size);
     bclr->setToolTip(tr("Clear Console"));
@@ -40,7 +40,7 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
 
     auto bstop = new QToolButton(textBrowser);
     bstop->setEnabled(false);
-    bstop->setIcon(QIcon(":/images/actions/window-close.svg"));
+    bstop->setIcon(QIcon(AppConfig::resourceImage({ "actions", "window-close" })));
     bstop->setAutoRaise(true);
     bstop->setIconSize(size);
     bstop->setToolTip(tr("Stop Current Process"));

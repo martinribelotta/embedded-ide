@@ -43,8 +43,7 @@
    <item row="1" column="3">
     <widget class="QToolButton" name="pathSelect">
      <property name="icon">
-      <iconset resource="resources/iconactions.qrc">
-       <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
+      <iconset theme="document-open"/>
      </property>
     </widget>
    </item>
@@ -80,8 +79,7 @@
    <item row="3" column="3">
     <widget class="QToolButton" name="templateSelect">
      <property name="icon">
-      <iconset resource="resources/iconactions.qrc">
-       <normaloff>:/images/actions/document-open.svg</normaloff>:/images/actions/document-open.svg</iconset>
+      <iconset theme="document-open"/>
      </property>
     </widget>
    </item>
@@ -126,8 +124,7 @@
       <string>Create</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/iconactions.qrc">
-       <normaloff>:/images/actions/dialog-ok-apply.svg</normaloff>:/images/actions/dialog-ok-apply.svg</iconset>
+      <iconset theme="dialog-ok-apply"/>
      </property>
      <property name="iconSize">
       <size>
@@ -146,8 +143,7 @@
       <string>Cancel</string>
      </property>
      <property name="icon">
-      <iconset resource="resources/iconactions.qrc">
-       <normaloff>:/images/actions/dialog-close.svg</normaloff>:/images/actions/dialog-close.svg</iconset>
+      <iconset theme="dialog-close"/>
      </property>
      <property name="iconSize">
       <size>
@@ -166,9 +162,7 @@
    <header>markdownview.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources/iconactions.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonOk</sender>

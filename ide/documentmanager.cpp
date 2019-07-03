@@ -29,6 +29,7 @@
 #include "textmessagebrocker.h"
 #include "imageviewer.h"
 #include "markdowneditor.h"
+#include "appconfig.h"
 
 #include <QApplication>
 #include <QComboBox>
@@ -70,7 +71,7 @@ DocumentManager::DocumentManager(QWidget *parent) :
     DocumentEditorFactory::instance()->registerDocumentInterface(BinaryViewer::creator());
 
     auto label = new QLabel(this);
-    label->setPixmap(QPixmap(tr(":/images/screens/EmbeddedIDE_02.png")));
+    label->setPixmap(QPixmap(AppConfig::resourceImage({ "screens", tr("EmbeddedIDE_02") }, "png")));
     label->setAlignment(Qt::AlignHCenter | Qt::AlignCenter);
     priv->stack->addWidget(label);
 
@@ -194,8 +195,9 @@ void DocumentManager::openDocument(const QString &filePath)
                     auto path = ed->path();
                     auto idx = priv->combo->findData(path);
                     if (idx != -1) {
-                        priv->combo->setItemIcon(idx, m? QIcon(":/images/actions/document-close.svg") :
-                                                         FileSystemManager::iconForFile(QFileInfo(path)));
+                        priv->combo->setItemIcon(idx,
+                            m? QIcon(AppConfig::resourceImage({ "actions", "document-close" })) :
+                              FileSystemManager::iconForFile(QFileInfo(path)));
                     }
                     emit documentModified(path, ed, m);
                 });

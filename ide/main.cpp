@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("unknown.tk");
 
     QApplication app(argc, argv);
-    QApplication::setWindowIcon(QIcon(":/images/embedded-ide.svg"));
+    QApplication::setWindowIcon(QIcon(AppConfig::resourceImage("embedded-ide" )));
     QTranslator tr;
     for(const auto& p: AppConfig::langPaths()) {
         if (tr.load(QLocale::system().name(), p)) {

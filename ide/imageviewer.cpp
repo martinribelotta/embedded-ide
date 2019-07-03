@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include "appconfig.h"
 #include "imageviewer.h"
 
 #include <QImageReader>
@@ -28,7 +29,7 @@
 template<typename F>
 static QToolButton *createButton(const QString& name, QWidget *parent, F& func) {
     auto b = new QToolButton(parent);
-    b->setIcon(QIcon(QString(":/images/actions/%1.svg").arg(name)));
+    b->setIcon(QIcon(AppConfig::resourceImage({ "actions", name })));
     b->setIconSize(QSize(22, 22));
     b->setAutoRaise(true);
     QObject::connect(b, &QToolButton::clicked, func);
@@ -38,7 +39,7 @@ static QToolButton *createButton(const QString& name, QWidget *parent, F& func) 
 template<typename F>
 static QToolButton *createToggleButton(const QString& name, QWidget *parent, F& func) {
     auto b = new QToolButton(parent);
-    b->setIcon(QIcon(QString(":/images/actions/%1.svg").arg(name)));
+    b->setIcon(QIcon(AppConfig::resourceImage({ "actions", name })));
     b->setIconSize(QSize(22, 22));
     b->setAutoRaise(true);
     b->setCheckable(true);

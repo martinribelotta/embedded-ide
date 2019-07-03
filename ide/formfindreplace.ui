@@ -49,16 +49,14 @@
    <item row="0" column="2">
     <widget class="QToolButton" name="buttonFind">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/edit-find.svg</normaloff>:/images/actions/edit-find.svg</iconset>
+      <iconset theme="edit-find"/>
      </property>
     </widget>
    </item>
    <item row="0" column="3">
     <widget class="QToolButton" name="buttonFindPrev_2">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/dialog-close.svg</normaloff>:/images/actions/dialog-close.svg</iconset>
+      <iconset theme="dialog-close"/>
      </property>
     </widget>
    </item>
@@ -82,8 +80,7 @@
    <item row="1" column="2">
     <widget class="QToolButton" name="buttonReplace">
      <property name="icon">
-      <iconset resource="resources/resources.qrc">
-       <normaloff>:/images/actions/edit-find-replace.svg</normaloff>:/images/actions/edit-find-replace.svg</iconset>
+      <iconset theme="edit-find-replace"/>
      </property>
     </widget>
    </item>
@@ -96,9 +93,7 @@
    <header>findlineedit.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonFindPrev_2</sender>
