@@ -13,7 +13,7 @@ sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 
-sudo sh ./extract-qt-installer
+sudo sh ci/extract-qt-installer
 
 sudo wget https://raw.githubusercontent.com/martinribelotta/pydeployqt/master/deploy.py -O /usr/bin/pydeployqt
 sudo chmod a+x /usr/bin/pydeployqt
