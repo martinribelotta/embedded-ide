@@ -13,8 +13,6 @@ sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 
-sudo sh ci/extract-qt-installer
-
 sudo wget https://raw.githubusercontent.com/martinribelotta/pydeployqt/master/deploy.py -O /usr/bin/pydeployqt
 sudo chmod a+x /usr/bin/pydeployqt
 
@@ -23,6 +21,9 @@ sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-over
 	7z wget fuse gcc-8 g++-8 build-essential libglu1-mesa-dev \
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
+
+
+sudo sh ci/extract-qt-installer
 
 gcc --version
 # sudo update-alternatives --remove-all gcc
