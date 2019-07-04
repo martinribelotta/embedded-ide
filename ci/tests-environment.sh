@@ -18,7 +18,7 @@ sudo chmod a+x /usr/bin/pydeployqt
 
 MXE=mxe-${MXE_TRIPLE}
 sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
-	7z wget fuse gcc-8 g++-8 build-essential libglu1-mesa-dev \
+	p7zip-full wget fuse gcc-8 g++-8 build-essential libglu1-mesa-dev \
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
 
