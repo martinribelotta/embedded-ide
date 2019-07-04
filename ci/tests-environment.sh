@@ -13,7 +13,7 @@ sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 
-wget -O https://download.qt.io/archive/online_installers/3.1/qt-unified-linux-x64-3.1.1-online.run /tmp/qt-installer
+wget https://download.qt.io/archive/online_installers/3.1/qt-unified-linux-x64-3.1.1-online.run -O /tmp/qt-installer
 chmod a+x /tmp/qt-installer
 sudo /tmp/qt-installer --script qt-installer-silent.js
 
