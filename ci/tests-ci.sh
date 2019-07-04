@@ -2,7 +2,8 @@
 
 set -x
 
-source /opt/qt*/bin/qt*-env.sh
+QTPATH=$(readlink -f /opt/Qt/5.9*/gcc_64)
+PATH=${QTPATH}/bin:${PATH}
 
 set -e
 
@@ -80,9 +81,9 @@ cat > ${INSTALL_DIR}/usr/share/embedded-ide/embedded-ide.hardconf <<"EOF"
 EOF
 
 linuxdeployqt $DESKTOP_FILE $DEPLOY_OPT -appimage
-cp /opt/qt*/lib/libQt5Svg.so.5 $INSTALL_DIR/usr/lib
-cp /opt/qt*/lib/libQt5Qml.so.5 $INSTALL_DIR/usr/lib
-cp /opt/qt*/plugins/imageformats/libqsvg.so $INSTALL_DIR/usr/plugins/imageformats/
+cp ${QTPATH}/lib/libQt5Svg.so.5 $INSTALL_DIR/usr/lib
+cp ${QTPATH}/lib/libQt5Qml.so.5 $INSTALL_DIR/usr/lib
+cp ${QTPATH}/plugins/imageformats/libqsvg.so $INSTALL_DIR/usr/plugins/imageformats/
 install -m 0755 /tmp/universal-ctags $INSTALL_DIR/usr/bin
 linuxdeployqt $DESKTOP_FILE -appimage
 (

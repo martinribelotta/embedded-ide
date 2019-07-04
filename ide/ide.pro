@@ -130,8 +130,9 @@ RESOURCES += \
     resources/resources.qrc \
     resources/styles.qrc
 
+QMAKE_LFLAGS += -lqscintilla2_qt5
+
 win32 {
-    QMAKE_LFLAGS += -lqscintilla2_qt5
     QMAKE_CXXFLAGS += -g3
     QMAKE_CFLAGS += -g3
 }
