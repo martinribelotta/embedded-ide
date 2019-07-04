@@ -148,7 +148,7 @@ unix {
     desktopfile.files = skeleton/embedded-ide.desktop
     desktopfile.path = $$PREFIX/share/applications
 
-    iconfiles.files = resources/images/embedded-ide.svg resources/images/embedded-ide.png
+    iconfiles.files = resources/images/light/embedded-ide.svg resources/light/images/embedded-ide.png
     iconfiles.path = $$PREFIX/share/icons/default/256x256/apps/
 
     scripts.path = $$PREFIX/bin
