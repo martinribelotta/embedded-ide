@@ -19,6 +19,6 @@ $(SOURCE_DIR): $(SOURCE_TARGZ)
 $(BINARY_BUILD): $(SOURCE_DIR)
 	mkdir -p $(BUILD_DIR) && \
 	cd $(BUILD_DIR) && \
-	/opt/qt*/bin/qmake && \
+	qmake && \
 	make -j4 && \
 	sudo make install

@@ -2,8 +2,8 @@
 
 set -x
 
-QTPATH=$(readlink -f /opt/Qt/5.12*/gcc_64)
-PATH=${QTPATH}/bin:${PATH}
+export QTDIR=/opt/qt/5.12*/gcc_64/
+PATH=${QTDIR}/bin:${PATH}
 
 set -e
 

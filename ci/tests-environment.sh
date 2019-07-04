@@ -22,8 +22,8 @@ sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-over
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
 
-
 sudo sh ci/extract-qt-installer
+export QTDIR=/opt/qt/5.12*/gcc_64/
 
 gcc --version
 # sudo update-alternatives --remove-all gcc
@@ -33,6 +33,7 @@ gcc --version
 mkdir -p /tmp/qsci
 cp ./ci/BuildQSCI.mk /tmp/qsci
 cd /tmp/qsci
+export PATH=${QTDIR}/bin:${PATH}
 make -f BuildQSCI.mk
 
 cd /tmp/

@@ -8,4 +8,4 @@ PKG=$(cat ci/qt5124-linux-packages)
 mkdir -p /opt/qt/
 (cd /opt/qt &&
 wget ${PKG} &&
-for f in *; do 7z x $f; done)
+for f in *; do 7z x $f > /dev/null; done)
