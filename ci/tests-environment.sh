@@ -13,16 +13,14 @@ sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 
-wget https://download.qt.io/archive/online_installers/3.1/qt-unified-linux-x64-3.1.1-online.run -O /tmp/qt-installer
-chmod a+x /tmp/qt-installer
-sudo /tmp/qt-installer --script qt-installer-silent.js
+sudo sh ./extract-qt-installer
 
 sudo wget https://raw.githubusercontent.com/martinribelotta/pydeployqt/master/deploy.py -O /usr/bin/pydeployqt
 sudo chmod a+x /usr/bin/pydeployqt
 
 MXE=mxe-${MXE_TRIPLE}
 sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
-	wget fuse gcc-8 g++-8 build-essential libglu1-mesa-dev \
+	7z wget fuse gcc-8 g++-8 build-essential libglu1-mesa-dev \
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
 

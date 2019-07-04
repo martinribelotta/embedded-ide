@@ -2,7 +2,7 @@
 
 set -x
 
-QTPATH=$(readlink -f /opt/Qt/5.9*/gcc_64)
+QTPATH=$(readlink -f /opt/Qt/5.12*/gcc_64)
 PATH=${QTPATH}/bin:${PATH}
 
 set -e
