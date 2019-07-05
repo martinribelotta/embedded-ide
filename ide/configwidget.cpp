@@ -26,8 +26,6 @@
 #include <QFileInfo>
 #include <QFileDialog>
 
-#include <QtDebug>
-
 static const QStringList ASTYLE_STYLES = {
     "1tbs",
     "allman",
@@ -140,11 +138,11 @@ void ConfigWidget::save()
     conf.setEditorStyle(ui->editorStyle->currentText());
     auto editorFont = ui->editorFontName->currentFont();
     editorFont.setPointSize(ui->editorFontSize->value());
-    qDebug() << editorFont;
     conf.setEditorFont(editorFont);
     conf.setEditorSaveOnAction(ui->saveOnActionTarget->isChecked());
     conf.setEditorTabsToSpaces(ui->editorReplaceTabs->isChecked());
     conf.setEditorTabWidth(ui->editorTabWidth->value());
+    conf.setEditorShowSpaces(ui->editorShowSpaces->isChecked());
     conf.setEditorFormatterStyle(ui->formatterStyle->currentText());
     conf.setEditorDetectIdent(ui->editorDetectIdent->isChecked());
     conf.setTemplatesUrl(ui->templateSettings->repositoryUrl().toString());
@@ -186,11 +184,11 @@ void ConfigWidget::load()
     ui->editorReplaceTabs->setChecked(conf.editorTabsToSpaces());
     ui->editorTabWidth->setValue(conf.editorTabWidth());
     ui->editorDetectIdent->setChecked(conf.editorDetectIdent());
+    ui->editorShowSpaces->setChecked(conf.editorShowSpaces());
     ui->formatterStyle->setCurrentText(conf.editorFormatterStyle());
     ui->formatterExtra->setText(conf.editorFormatterExtra());
     ui->templateSettings->setRepositoryUrl(conf.templatesUrl());
     auto loggerFont = conf.loggerFont();
-    qDebug() << "logger font" << loggerFont;
     ui->loggerFontName->setCurrentFont(loggerFont);
     ui->loggerFontSize->setValue(loggerFont.pointSize());
     ui->proxyHost->setText(conf.networkProxyHost());

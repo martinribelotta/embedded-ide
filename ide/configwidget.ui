@@ -24,6 +24,13 @@
        <string>Editor</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="3" column="0" colspan="3">
+        <widget class="QCheckBox" name="saveOnActionTarget">
+         <property name="text">
+          <string>Save editor contents on target action</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_4">
          <property name="sizePolicy">
@@ -37,40 +44,29 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+       <item row="7" column="0" colspan="3">
+        <widget class="QSpinBox" name="editorTabWidth">
+         <property name="suffix">
+          <string> spaces</string>
          </property>
-         <property name="text">
-          <string>Color style</string>
+         <property name="prefix">
+          <string>Tab width is </string>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QFontComboBox" name="editorFontName">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>80</number>
+         </property>
+         <property name="value">
+          <number>4</number>
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="3">
-        <widget class="QCheckBox" name="editorReplaceTabs">
+       <item row="6" column="0">
+        <widget class="QCheckBox" name="editorDetectIdent">
          <property name="text">
-          <string>Replace tabs with spaces</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="3">
-        <widget class="QCheckBox" name="saveOnActionTarget">
-         <property name="text">
-          <string>Save editor contents on target action</string>
+          <string>Detect file identation</string>
          </property>
         </widget>
        </item>
@@ -97,29 +93,40 @@
        <item row="2" column="0" colspan="3">
         <widget class="CPPTextEditor" name="codeEditor" native="true"/>
        </item>
-       <item row="6" column="0" colspan="3">
-        <widget class="QSpinBox" name="editorTabWidth">
-         <property name="suffix">
-          <string> spaces</string>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="prefix">
-          <string>Tab width is </string>
+         <property name="text">
+          <string>Color style</string>
          </property>
-         <property name="minimum">
-          <number>1</number>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFontComboBox" name="editorFontName">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="maximum">
-          <number>80</number>
-         </property>
-         <property name="value">
-          <number>4</number>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="3">
+        <widget class="QCheckBox" name="editorShowSpaces">
+         <property name="text">
+          <string>Show spaces in editor</string>
          </property>
         </widget>
        </item>
        <item row="5" column="0">
-        <widget class="QCheckBox" name="editorDetectIdent">
+        <widget class="QCheckBox" name="editorReplaceTabs">
          <property name="text">
-          <string>Detect file identation</string>
+          <string>Replace tabs with spaces</string>
          </property>
         </widget>
        </item>
@@ -146,7 +153,8 @@
        <item row="0" column="2">
         <widget class="QToolButton" name="projectPathSetButton">
          <property name="icon">
-          <iconset theme="document-open"/>
+          <iconset theme="document-open">
+           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>
@@ -165,7 +173,8 @@
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="list-add"/>
+             <iconset theme="list-add">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -181,7 +190,8 @@
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="list-remove"/>
+             <iconset theme="list-remove">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="iconSize">
              <size>

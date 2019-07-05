@@ -378,8 +378,10 @@ void PlainTextEditor::loadConfigWithStyle(const QString& styleName, const QFont&
     }
     setIndentationsUseTabs(!tabsToSpace);
     setTabWidth(tabs);
-    setWhitespaceVisibility(WsVisible);
-    setTabDrawMode(TabLongArrow);
+    if (AppConfig::instance().editorShowSpaces()) {
+        setWhitespaceVisibility(WsVisible);
+        setTabDrawMode(TabLongArrow);
+    }
 
     setAutoIndent(true);
     setBraceMatching(StrictBraceMatch);
@@ -412,10 +414,12 @@ void PlainTextEditor::loadConfigWithStyle(const QString& styleName, const QFont&
     auto bg = paper();
     qDebug() << "color" << fg;
     qDebug() << "paper" << bg;
-    setWhitespaceBackgroundColor(bg);
-    setWhitespaceForegroundColor(fg);
-    setIndentationGuidesBackgroundColor(bg);
-    setIndentationGuidesForegroundColor(fg);
+    if (AppConfig::instance().editorShowSpaces()) {
+        setWhitespaceBackgroundColor(bg);
+        setWhitespaceForegroundColor(fg);
+        setIndentationGuidesBackgroundColor(bg);
+        setIndentationGuidesForegroundColor(fg);
+    }
 }
 
 void PlainTextEditor::loadConfig()

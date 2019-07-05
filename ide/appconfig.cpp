@@ -386,6 +386,11 @@ int AppConfig::editorTabWidth() const
     return CFG_LOCAL.value("editor").toObject().value("tabWidth").toInt();
 }
 
+bool AppConfig::editorShowSpaces() const
+{
+    return CFG_LOCAL.value("editor").toObject().value("showSpaces").toBool();
+}
+
 QString AppConfig::editorFormatterStyle() const
 {
     return CFG_LOCAL.value("editor").toObject().value("formatterStyle").toString();
@@ -576,6 +581,13 @@ void AppConfig::setEditorTabWidth(int n)
 {
     auto ed = CFG_LOCAL["editor"].toObject();
     ed.insert("tabWidth", n);
+    CFG_LOCAL["editor"] = ed;
+}
+
+void AppConfig::setEditorShowSpaces(bool show)
+{
+    auto ed = CFG_LOCAL["editor"].toObject();
+    ed.insert("showSpaces", show);
     CFG_LOCAL["editor"] = ed;
 }
 

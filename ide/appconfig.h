@@ -68,6 +68,7 @@ public:
     bool editorSaveOnAction() const;
     bool editorTabsToSpaces() const;
     int editorTabWidth() const;
+    bool editorShowSpaces() const;
     QString editorFormatterStyle() const;
     QString editorFormatterExtra() const;
     bool editorDetectIdent() const;
@@ -111,6 +112,7 @@ public slots:
     void setEditorSaveOnAction(bool enable);
     void setEditorTabsToSpaces(bool enable);
     void setEditorTabWidth(int n);
+    void setEditorShowSpaces(bool show);
     void setEditorFormatterStyle(const QString& name);
     void setEditorFormatterExtra(const QString& text);
     void setEditorDetectIdent(bool enable);
