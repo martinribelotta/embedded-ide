@@ -537,8 +537,7 @@
               <string>Close all</string>
              </property>
              <property name="icon">
-              <iconset theme="document-close-all">
-               <normaloff>.</normaloff>.</iconset>
+              <iconset theme="document-close-all"/>
              </property>
              <property name="iconSize">
               <size>
@@ -1206,12 +1205,12 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="editionButtons">
+  <buttongroup name="projectButtons">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="projectButtons">
+  <buttongroup name="editionButtons">
    <property name="exclusive">
     <bool>false</bool>
    </property>

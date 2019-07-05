@@ -38,6 +38,8 @@ TemplateManager::TemplateManager(QWidget *parent) :
     ui(new Ui::TemplateManager)
 {
     ui->setupUi(this);
+    AppConfig::fixIconTheme(this);
+    ui->unselectAll->setIcon(QIcon{AppConfig::resourceImage({ "actions", "deletecell" })});
     setProperty("firstTime", true);
     auto net = new QNetworkAccessManager(this);
 

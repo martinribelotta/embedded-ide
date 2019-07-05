@@ -156,5 +156,7 @@
         <file>images/dark/actions/zoom-out.svg</file>
         <file>images/light/index.theme</file>
         <file>images/dark/index.theme</file>
+        <file>images/light/actions/dialog-ok.svg</file>
+        <file>images/dark/actions/dialog-ok.svg</file>
     </qresource>
 </RCC>

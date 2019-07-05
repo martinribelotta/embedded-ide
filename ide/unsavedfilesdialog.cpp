@@ -18,6 +18,7 @@
  */
 #include "unsavedfilesdialog.h"
 #include "ui_unsavedfilesdialog.h"
+#include "appconfig.h"
 
 #include "filesystemmanager.h"
 
@@ -29,6 +30,7 @@ UnsavedFilesDialog::UnsavedFilesDialog(const QStringList& unsaved, QWidget *pare
     ui(new Ui::UnsavedFilesDialog)
 {
     ui->setupUi(this);
+    AppConfig::fixIconTheme(this);
     auto m = new QStandardItemModel(this);
     ui->listView->setModel(m);
     for(const auto& a: unsaved) {

@@ -48,6 +48,8 @@ FindInFilesDialog::FindInFilesDialog(QWidget *parent) :
     ui(new Ui::FindInFilesDialog)
 {
     ui->setupUi(this);
+    AppConfig::fixIconTheme(this);
+
     auto model = new QStandardItemModel(this);
     ui->treeView->setModel(model);
     auto protoItem = new QStandardItem();

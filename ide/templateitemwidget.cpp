@@ -56,6 +56,7 @@ TemplateItemWidget::TemplateItemWidget(QWidget *parent) :
     ui(new Ui::TemplateItemWidget)
 {
     ui->setupUi(this);
+    AppConfig::fixIconTheme(this);
     connect(ui->currentDownload, &QToolButton::clicked, [this]() { emit downloadStart(_item); });
     connect(ui->deleteFile, &QToolButton::clicked, [this]() {
         QFile f(_item.file().absoluteFilePath());

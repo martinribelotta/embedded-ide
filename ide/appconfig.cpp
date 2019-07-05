@@ -151,7 +151,8 @@ AppConfig::AppConfig() : QObject(QApplication::instance()), priv(new Priv_t)
 {
     priv->sysenv = QProcessEnvironment::systemEnvironment();
     addResourcesFont();
-    connect(this, &AppConfig::configChanged, [this]() {
+    /*
+     connect(this, &AppConfig::configChanged, [this]() {
         if (useDarkStyle()) {
             QIcon::setThemeSearchPaths({ ":/images/dark" });
             QIcon::setThemeName("dark");
@@ -159,7 +160,7 @@ AppConfig::AppConfig() : QObject(QApplication::instance()), priv(new Priv_t)
             QIcon::setThemeSearchPaths({ ":/images/light" });
             QIcon::setThemeName("light");
         }
-    });
+    });*/
 
     adjustEnv();
     load();
@@ -270,6 +271,20 @@ QString AppConfig::resourceImage(const QString &path, const QString &ext)
 QString AppConfig::resourceImage(const QStringList &pathPart, const QString &ext)
 {
     return AppConfig::resourceImage(pathPart.join(QDir::separator()), ext);
+}
+
+void AppConfig::fixIconTheme(QWidget *w)
+{
+    for (auto *b: w->findChildren<QAbstractButton*>()) {
+        auto iconName = b->icon().name();
+        if (!iconName.isEmpty()) {
+            auto resPath = resourceImage({ "actions", iconName });
+            b->setIcon(QIcon(resPath));
+            // qDebug() << b->objectName() << "change" << iconName << "for" << resPath;
+        } else {
+            // qDebug() << "button" << b->objectName() << "no icon";
+        }
+    }
 }
 
 QString AppConfig::projectsPath() const

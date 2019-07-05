@@ -56,6 +56,7 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
     ui(new Ui::ConfigWidget)
 {
     ui->setupUi(this);
+    AppConfig::fixIconTheme(this);
     ui->languageList->addItems(QStringList{ "" } + AppConfig::langList());
     ui->tabWidget->setCurrentIndex(0);
     for(const auto& fi: QDir(":/styles").entryInfoList({ "*.xml" }))

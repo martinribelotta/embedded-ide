@@ -3,7 +3,7 @@
 set -e
 set -x
 
-# sudo add-apt-repository --yes ppa:beineri/opt-qt593-trusty
+sudo add-apt-repository --yes ppa:beineri/opt-qt593-trusty
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 echo "deb http://pkg.mxe.cc/repos/apt trusty main" | sudo tee /etc/apt/sources.list.d/mxeapt.list
 sudo apt-get update -qq --allow-unauthenticated
@@ -18,12 +18,13 @@ sudo chmod a+x /usr/bin/pydeployqt
 
 MXE=mxe-${MXE_TRIPLE}
 sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
-	libxkbcommon-x11-0 p7zip-full wget fuse gcc-8 g++-8 build-essential libglu1-mesa-dev \
+	wget fuse gcc-8 g++-8 build-essential \
+	qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev \
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
 
-sudo sh ci/extract-qt-installer
-export QTDIR=$(readlink -f /opt/qt/5.12*/gcc_64)
+# sudo sh ci/extract-qt-installer
+export QTDIR=$(readlink -f /opt/qt*/bin/)
 
 gcc --version
 # sudo update-alternatives --remove-all gcc

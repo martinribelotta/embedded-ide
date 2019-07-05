@@ -70,6 +70,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // FIXME: Workaround for no themed icons in some Qt builds
+    AppConfig::fixIconTheme(this);
+    ui->buttonDocumentCloseAll->setIcon(QIcon{AppConfig::resourceImage({ "actions", "document-close-all" })});
+
+    ui->buttonReload->setIcon(QIcon(AppConfig::resourceImage({"actions", "view-refresh"})));
+
     ui->buttonDebugLaunch->setVisible(AppConfig::instance().useDevelopMode());
     ui->updateAvailable->setVisible(false);
 

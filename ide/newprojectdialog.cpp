@@ -140,6 +140,7 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     ui(new Ui::NewProjectDialog)
 {
     ui->setupUi(this);
+    AppConfig::fixIconTheme(this);
     ui->parameterTable->setItemDelegateForColumn(1, new ItemDelegate(this));
     for(const QFileInfo& info: QDir(":/templates").entryInfoList({ "*.template" }))
         ui->templateName->addItem(info.baseName(), info.absoluteFilePath());

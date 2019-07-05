@@ -45,6 +45,7 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
     ui(new Ui::ExternalToolManager)
 {
     ui->setupUi(this);
+    AppConfig::fixIconTheme(this);
     auto model = new QStandardItemModel(this);
     model->setHorizontalHeaderLabels({ tr("Description"), tr("Command") });
     ui->tableView->setModel(model);

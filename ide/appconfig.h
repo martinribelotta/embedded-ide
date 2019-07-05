@@ -45,6 +45,7 @@ public:
     static QStringList langPaths();
     static QString resourceImage(const QString& path, const QString& ext="svg");
     static QString resourceImage(const QStringList& pathPart, const QString& ext="svg");
+    static void fixIconTheme(QWidget *w);
 
     enum class NetworkProxyType { None, System, Custom };
     Q_ENUM(NetworkProxyType)
