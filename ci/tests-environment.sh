@@ -24,7 +24,7 @@ sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-over
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
 
 # sudo sh ci/extract-qt-installer
-export QTDIR=$(readlink -f /opt/qt*/bin/)
+export QTDIR=$(readlink -f /opt/qt*/)
 
 gcc --version
 # sudo update-alternatives --remove-all gcc

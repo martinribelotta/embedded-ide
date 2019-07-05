@@ -2,7 +2,7 @@
 
 set -x
 
-export QTDIR=$(readlink -f /opt/qt*/bin/)
+export QTDIR=$(readlink -f /opt/qt*/)
 PATH=${QTDIR}/bin:${PATH}
 
 set -e
