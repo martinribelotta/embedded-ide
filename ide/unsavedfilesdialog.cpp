@@ -30,7 +30,14 @@ UnsavedFilesDialog::UnsavedFilesDialog(const QStringList& unsaved, QWidget *pare
     ui(new Ui::UnsavedFilesDialog)
 {
     ui->setupUi(this);
-    AppConfig::fixIconTheme(this);
+#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
+    _(buttonSave, "document-save-all");
+    _(buttonDiscart, "edit-delete");
+    _(buttonSelectAll, "dialog-ok-apply");
+
+    _(buttonCancel, "dialog-cancel");
+#undef _
+
     auto m = new QStandardItemModel(this);
     ui->listView->setModel(m);
     for(const auto& a: unsaved) {

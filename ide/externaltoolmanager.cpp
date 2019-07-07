@@ -45,7 +45,15 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
     ui(new Ui::ExternalToolManager)
 {
     ui->setupUi(this);
-    AppConfig::fixIconTheme(this);
+#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
+    _(itemDown, "go-down");
+    _(itemUp, "go-up");
+    _(itemDel, "list-remove");
+    _(itemAdd, "list-add");
+
+    _(pushButton_2, "dialog-close");
+    _(pushButton, "dialog-ok-apply");
+#undef _
     auto model = new QStandardItemModel(this);
     model->setHorizontalHeaderLabels({ tr("Description"), tr("Command") });
     ui->tableView->setModel(model);

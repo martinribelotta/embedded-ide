@@ -70,9 +70,31 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // FIXME: Workaround for no themed icons in some Qt builds
-    AppConfig::fixIconTheme(this);
-    ui->buttonDocumentCloseAll->setIcon(QIcon{AppConfig::resourceImage({ "actions", "document-close-all" })});
+#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
+    _(buttonDocumentCloseAll, "document-close-all");
+    _(buttonReload, "view-refresh");
+    _(buttonCloseProject, "document-close");
+    _(buttonExport, "document-export");
+    _(buttonFindAll, "edit-find-replace");
+    _(buttonTools, "run-build-configure");
+    _(buttonConfigurationMain, "configure");
+    _(buttonDebugLaunch, "debug-init");
+    _(buttonDebugRun, "debug-run-v2");
+    _(buttonDebugStepOver, "debug-step-over-v2");
+    _(buttonDebugStepInto, "debug-step-into-v2");
+    _(buttonDebugRunToEOF, "debug-step-out-v2");
+    _(buttonDocumentClose, "document-close");
+    _(buttonDocumentSave, "document-save");
+    _(buttonDocumentCloseAll, "document-close-all");
+    _(buttonDocumentSaveAll, "document-save-all");
+    _(buttonDocumentReload, "view-refresh");
+    _(updateAvailable, "view-refresh");
+    _(buttonQuit, "application-exit");
+    _(buttonConfiguration, "configure");
+    _(buttonExternalTools, "run-build-configure");
+    _(buttonOpenProject, "document-open");
+    _(buttonNewProject, "document-new");
+#undef _
 
     ui->buttonReload->setIcon(QIcon(AppConfig::resourceImage({"actions", "view-refresh"})));
 

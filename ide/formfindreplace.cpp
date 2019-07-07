@@ -18,11 +18,12 @@
  */
 #include "formfindreplace.h"
 #include "Qsci/qsciscintilla.h"
+#include "appconfig.h"
+
 #include "ui_formfindreplace.h"
 
 #include <QKeyEvent>
 #include <QMessageBox>
-
 #include <QtDebug>
 
 FormFindReplace::FormFindReplace(QsciScintilla *ed) :
@@ -31,7 +32,12 @@ FormFindReplace::FormFindReplace(QsciScintilla *ed) :
     editor(ed)
 {
     ui->setupUi(this);
-    setAutoFillBackground(true);
+#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
+    _(buttonFind, "edit-find");
+    _(buttonFindPrev_2, "dialog-close");
+    _(buttonReplace, "edit-find-replace");
+#undef _
+
     ui->textToFind->addMenuActions({
         { tr("Regular Expression"), "regex" },
         { tr("Case Sensitive"), "case" },

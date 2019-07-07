@@ -56,7 +56,11 @@ TemplateItemWidget::TemplateItemWidget(QWidget *parent) :
     ui(new Ui::TemplateItemWidget)
 {
     ui->setupUi(this);
-    AppConfig::fixIconTheme(this);
+#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
+    _(currentDownload, "edit-download");
+    _(deleteFile, "list-remove");
+#undef _
+
     connect(ui->currentDownload, &QToolButton::clicked, [this]() { emit downloadStart(_item); });
     connect(ui->deleteFile, &QToolButton::clicked, [this]() {
         QFile f(_item.file().absoluteFilePath());

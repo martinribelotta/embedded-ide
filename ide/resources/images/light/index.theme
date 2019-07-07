@@ -1,7 +1,7 @@
 [Icon Theme]
 Name=Dark
 Comment=Icon theme dark
-Directories=actions,mimetypes
+Directories=actions
 
 [actions]
 Size=22
@@ -9,10 +9,3 @@ Type=Scalable
 MinSize=1
 MaxSize=256
 Context=Actions
-
-[mimetypes]
-Size=22
-Type=Scalable
-MinSize=1
-MaxSize=256
-Context=MimeTypes

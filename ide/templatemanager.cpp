@@ -38,7 +38,13 @@ TemplateManager::TemplateManager(QWidget *parent) :
     ui(new Ui::TemplateManager)
 {
     ui->setupUi(this);
-    AppConfig::fixIconTheme(this);
+#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
+    _(updateRepository, "view-refresh");
+    _(selectAll, "edit-select-all");
+    _(unselectAll, "deletecell");
+    _(downloadFromRepo, "edit-download");
+#undef _
+
     ui->unselectAll->setIcon(QIcon{AppConfig::resourceImage({ "actions", "deletecell" })});
     setProperty("firstTime", true);
     auto net = new QNetworkAccessManager(this);

@@ -48,7 +48,12 @@ FindInFilesDialog::FindInFilesDialog(QWidget *parent) :
     ui(new Ui::FindInFilesDialog)
 {
     ui->setupUi(this);
-    AppConfig::fixIconTheme(this);
+#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
+    _(buttonChoseDirectory, "document-open");
+    _(buttonSelectfilePattern, "application-menu");
+    _(buttonFind, "edit-find");
+    _(buttonStop, "dialog-cancel");
+#undef _
 
     auto model = new QStandardItemModel(this);
     ui->treeView->setModel(model);

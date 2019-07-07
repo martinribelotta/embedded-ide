@@ -54,7 +54,13 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
     ui(new Ui::ConfigWidget)
 {
     ui->setupUi(this);
-    AppConfig::fixIconTheme(this);
+#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
+    _(projectPathSetButton, "document-open");
+    _(tbPathAdd, "list-add");
+    _(tbPathRm, "list-remove");
+#undef _
+
+
     ui->languageList->addItems(QStringList{ "" } + AppConfig::langList());
     ui->tabWidget->setCurrentIndex(0);
     for(const auto& fi: QDir(":/styles").entryInfoList({ "*.xml" }))

@@ -140,7 +140,14 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     ui(new Ui::NewProjectDialog)
 {
     ui->setupUi(this);
-    AppConfig::fixIconTheme(this);
+#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
+    _(pathSelect, "document-open");
+    _(templateSelect, "document-open");
+
+    _(buttonOk, "dialog-ok-apply");
+    _(buttonCancel, "dialog-close");
+#undef _
+
     ui->parameterTable->setItemDelegateForColumn(1, new ItemDelegate(this));
     for(const QFileInfo& info: QDir(":/templates").entryInfoList({ "*.template" }))
         ui->templateName->addItem(info.baseName(), info.absoluteFilePath());
