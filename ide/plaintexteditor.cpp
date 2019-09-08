@@ -514,6 +514,9 @@ set_global:
 
                 style.apply(this);
             }
+            if (name == "Caret colour") {
+                setCaretForegroundColor(fgColor);
+            }
             wStyle = wStyle.nextSiblingElement("WidgetStyle");
         }
     }

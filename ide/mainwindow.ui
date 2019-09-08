@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>642</width>
-    <height>551</height>
+    <height>557</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -49,15 +49,15 @@
         <number>1</number>
        </property>
        <item>
-        <widget class="QSplitter" name="splitter_3">
+        <widget class="QSplitter" name="horizontalSplitterTop">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <widget class="QSplitter" name="splitter">
+         <widget class="QSplitter" name="verticalSplitterLeft">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <widget class="QWidget" name="widget" native="true">
+          <widget class="QWidget" name="widgetProjectView" native="true">
            <layout class="QGridLayout" name="gridLayout_2">
             <property name="leftMargin">
              <number>0</number>
@@ -302,9 +302,9 @@
             </item>
            </layout>
           </widget>
-          <widget class="QStackedWidget" name="stack1">
+          <widget class="QStackedWidget" name="bottomLeftStack">
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="pageDebug">
             <layout class="QGridLayout" name="gridLayout_6">
@@ -434,7 +434,7 @@
            </widget>
           </widget>
          </widget>
-         <widget class="QWidget" name="widget_2" native="true">
+         <widget class="QWidget" name="widgetDocumentViewer" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>1</horstretch>
@@ -537,7 +537,8 @@
               <string>Close all</string>
              </property>
              <property name="icon">
-              <iconset theme="document-close-all"/>
+              <iconset theme="document-close-all">
+               <normaloff>.</normaloff>.</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -580,7 +581,7 @@
             </widget>
            </item>
            <item row="1" column="0" colspan="6">
-            <widget class="QSplitter" name="splitter_2">
+            <widget class="QSplitter" name="splitterDocumentViewer">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                <horstretch>1</horstretch>
@@ -652,7 +653,7 @@
           <zorder>buttonDocumentSaveAll</zorder>
           <zorder>buttonDocumentSave</zorder>
           <zorder>documentSelector</zorder>
-          <zorder>splitter_2</zorder>
+          <zorder>splitterDocumentViewer</zorder>
           <zorder>buttonDocumentReload</zorder>
          </widget>
         </widget>
@@ -936,41 +937,6 @@
                <width>22</width>
                <height>22</height>
               </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextBesideIcon</enum>
-             </property>
-             <property name="autoRaise">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QToolButton" name="buttonExternalTools">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Open Confioguration</string>
-             </property>
-             <property name="text">
-              <string>External tools</string>
-             </property>
-             <property name="icon">
-              <iconset theme="run-build-configure">
-               <normaloff>.</normaloff>.</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="popupMode">
-              <enum>QToolButton::InstantPopup</enum>
              </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextBesideIcon</enum>

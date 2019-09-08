@@ -7,9 +7,14 @@ DESTDIR  = ../build
 
 QT       += core gui svg xml network concurrent uitools
 
-CONFIG += qscintilla2 lrelease embed_translations
+CONFIG += qscintilla2
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += widgets
+    greaterThan(QT_MINOR_VERSION, 11) {
+        CONFIG += lrelease embed_translations
+    }
+}
 
 TARGET = embedded-ide
 TEMPLATE = app

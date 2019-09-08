@@ -69,6 +69,8 @@ MainWindow::MainWindow(QWidget *parent) :
     priv(new Priv_t)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentWidget(ui->welcomePage);
+    ui->bottomLeftStack->setCurrentWidget(ui->actionViewer);
 
     auto loadIcons = [this]() {
 #define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
@@ -92,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _(updateAvailable, "view-refresh");
     _(buttonQuit, "application-exit");
     _(buttonConfiguration, "configure");
-    _(buttonExternalTools, "run-build-configure");
+    // _(buttonExternalTools, "run-build-configure");
     _(buttonOpenProject, "document-open");
     _(buttonNewProject, "document-new");
 #undef _
@@ -331,7 +333,7 @@ MainWindow::MainWindow(QWidget *parent) :
     auto setExternalTools = [this]() {
         auto m = ExternalToolManager::makeMenu(this, priv->pman, priv->projectManager);
         ui->buttonTools->setMenu(m);
-        ui->buttonExternalTools->setMenu(m);
+        // ui->buttonExternalTools->setMenu(m);
     };
     setExternalTools();
 
@@ -367,9 +369,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->buttonDebugLaunch, &QToolButton::toggled, [this](bool en) {
         if (en) {
-            ui->stack1->setCurrentWidget(ui->pageDebug);
+            ui->bottomLeftStack->setCurrentWidget(ui->pageDebug);
         } else {
-            ui->stack1->setCurrentWidget(ui->actionViewer);
+            ui->bottomLeftStack->setCurrentWidget(ui->actionViewer);
         }
     });
 }
