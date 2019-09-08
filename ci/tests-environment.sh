@@ -26,7 +26,7 @@ MXE=mxe-${MXE_TRIPLE}
 
 sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
 	wget fuse gcc-8 g++-8 build-essential \
-	libglu1-mesa-dev libxkbcommon-dev \
+	libglu1-mesa-dev libxkbcommon-dev libxkbcommon-x11-0 \
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
 
