@@ -110,12 +110,18 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
     priv->targetView->setModel(new QStandardItemModel(priv->targetView));
     priv->pman = pman;
 
+    connect(&AppConfig::instance(), &AppConfig::configChanged, [view]() {
+        for(auto *button: view->findChildren<QPushButton*>())
+            button->setIcon(QIcon(AppConfig::resourceImage({ "actions", "run-build" })));
+    });
+
     auto label = new QLabel(view);
     auto g = new QGridLayout(view);
     g->addWidget(label, 1, 1);
     g->setRowStretch(0, 1);
     g->setColumnStretch(0, 1);
     TextMessageBrocker::instance().subscribe(TextMessages::ACTION_LABEL, [label](const QString& s) {
+        label->setVisible(!s.isEmpty());
         label->setText(s);
     });
     connect(&priv->clearMessageTimer, &QTimer::timeout, [this]() { clearMessage(); });

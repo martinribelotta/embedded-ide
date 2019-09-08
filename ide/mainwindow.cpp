@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    auto loadIcons = [this]() {
 #define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
     _(buttonDocumentCloseAll, "document-close-all");
     _(buttonReload, "view-refresh");
@@ -95,6 +96,9 @@ MainWindow::MainWindow(QWidget *parent) :
     _(buttonOpenProject, "document-open");
     _(buttonNewProject, "document-new");
 #undef _
+    };
+    loadIcons();
+    connect(&AppConfig::instance(), &AppConfig::configChanged, loadIcons);
 
     ui->buttonReload->setIcon(QIcon(AppConfig::resourceImage({"actions", "view-refresh"})));
 
