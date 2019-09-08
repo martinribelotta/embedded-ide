@@ -3,8 +3,7 @@
 set -x
 set -e
 
-B=$(dirname $(readlink -f $0))
-PKG=$(cat ${B}/qt5124-linux-packages)
+PKG=$(cat ci/qt5124-linux-packages)
 
 mkdir -p /opt/qt/
 (cd /opt/qt &&

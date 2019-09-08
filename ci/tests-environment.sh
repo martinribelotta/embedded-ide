@@ -1,7 +1,5 @@
 #!/bin/bash
 
-B=$(dirname $(readlink $0))
-
 set -e
 set -x
 
@@ -32,7 +30,7 @@ sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-over
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
 
-sudo bash ${B}/extract-qt-installer
+sudo bash ci/extract-qt-installer
 export QTDIR=$(readlink -f /opt/qt*/5.12.4/gcc_64/bin)
 
 gcc --version
