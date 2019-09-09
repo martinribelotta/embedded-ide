@@ -3,7 +3,7 @@
 set -e
 set -x
 
-# sudo add-apt-repository --yes ppa:beineri/opt-qt593-trusty
+sudo add-apt-repository --yes ppa:beineri/opt-qt593-trusty
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 echo "deb http://pkg.mxe.cc/repos/apt trusty main" | sudo tee /etc/apt/sources.list.d/mxeapt.list
 sudo apt-get update -qq --allow-unauthenticated
