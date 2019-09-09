@@ -17,21 +17,21 @@ sudo wget https://raw.githubusercontent.com/martinribelotta/pydeployqt/master/de
 sudo chmod a+x /usr/bin/pydeployqt
 
 MXE=mxe-${MXE_TRIPLE}
-#sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
-	#wget fuse gcc-8 g++-8 build-essential \
-	#qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev \
-	#${MXE}-gcc ${MXE}-g++ \
-	#${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
-#export QTDIR=$(readlink -f /opt/qt*/)
-
 sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
 	wget fuse gcc-8 g++-8 build-essential \
-	libglu1-mesa-dev libxkbcommon-dev libxkbcommon-x11-0 \
+	qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev \
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
+export QTDIR=$(readlink -f /opt/qt*/)
 
-sudo bash ci/extract-qt-installer
-export QTDIR=$(readlink -f /opt/qt*/5.12.4/gcc_64)
+#~ sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
+	#~ wget fuse gcc-8 g++-8 build-essential \
+	#~ libglu1-mesa-dev libxkbcommon-dev libxkbcommon-x11-0 \
+	#~ ${MXE}-gcc ${MXE}-g++ \
+	#~ ${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
+
+#~ sudo bash ci/extract-qt-installer
+#~ export QTDIR=$(readlink -f /opt/qt*/5.12.4/gcc_64)
 
 gcc --version
 # sudo update-alternatives --remove-all gcc
