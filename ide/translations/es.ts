@@ -57,179 +57,184 @@
         <translation>Editor</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="36"/>
+        <location filename="../configwidget.ui" line="43"/>
         <source>Editor Font</source>
         <translation>Fuentes del editor</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="49"/>
+        <location filename="../configwidget.ui" line="105"/>
         <source>Color style</source>
         <translation>Estilo de color</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="66"/>
+        <location filename="../configwidget.ui" line="129"/>
         <source>Replace tabs with spaces</source>
         <translation>Reeplazar tabs con espacios</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="73"/>
+        <location filename="../configwidget.ui" line="30"/>
         <source>Save editor contents on target action</source>
         <translation>Guardar contenido del editor al ejecutar una acción</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="103"/>
+        <location filename="../configwidget.ui" line="50"/>
         <source> spaces</source>
         <translation> espacios</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="106"/>
+        <location filename="../configwidget.ui" line="53"/>
         <source>Tab width is </source>
         <translation>Ancho del tab es </translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="122"/>
+        <location filename="../configwidget.ui" line="69"/>
         <source>Detect file identation</source>
         <translation>Detectar identación del archivo</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="130"/>
+        <location filename="../configwidget.ui" line="122"/>
+        <source>Show spaces in editor</source>
+        <translation>Mostrar espacios en el editor</translation>
+    </message>
+    <message>
+        <location filename="../configwidget.ui" line="137"/>
         <source>Paths</source>
         <translation>Paths</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="136"/>
+        <location filename="../configwidget.ui" line="143"/>
         <source>Workspace PATH</source>
         <translation>PATH del area de trabajo</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="156"/>
+        <location filename="../configwidget.ui" line="164"/>
         <source>Additional PATHs</source>
         <translation>PATHs adicionales</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="165"/>
-        <location filename="../configwidget.ui" line="181"/>
+        <location filename="../configwidget.ui" line="173"/>
+        <location filename="../configwidget.ui" line="190"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="214"/>
+        <location filename="../configwidget.ui" line="224"/>
         <source>Templates</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="219"/>
+        <location filename="../configwidget.ui" line="229"/>
         <source>Proxy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="225"/>
+        <location filename="../configwidget.ui" line="235"/>
         <source>HTTP proxy for network access</source>
         <translation>Proxy HTTP para acceso a red</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="233"/>
+        <location filename="../configwidget.ui" line="243"/>
         <source>None</source>
         <translation>Ninguno</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="243"/>
+        <location filename="../configwidget.ui" line="253"/>
         <source>System proxy</source>
         <translation>Proxy del sistema</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="253"/>
+        <location filename="../configwidget.ui" line="263"/>
         <source>Custom proxy</source>
         <translation>Proxy manual</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="267"/>
+        <location filename="../configwidget.ui" line="277"/>
         <source>Host</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="277"/>
+        <location filename="../configwidget.ui" line="287"/>
         <source>localhost</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="284"/>
+        <location filename="../configwidget.ui" line="294"/>
         <source>Port</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="294"/>
+        <location filename="../configwidget.ui" line="304"/>
         <source>3128</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="316"/>
+        <location filename="../configwidget.ui" line="326"/>
         <source>Proxy authentication</source>
         <translation>Autenticación del proxy</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="328"/>
+        <location filename="../configwidget.ui" line="338"/>
         <source>Username</source>
         <translation>Nombre de usuario</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="342"/>
+        <location filename="../configwidget.ui" line="352"/>
         <source>Password</source>
         <translation>Contraseña</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="363"/>
+        <location filename="../configwidget.ui" line="373"/>
         <source>Behavior</source>
         <translation>Comportamiento</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="411"/>
+        <location filename="../configwidget.ui" line="421"/>
         <source>Log View Font</source>
         <translation>Fuente del visor de logs</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="425"/>
+        <location filename="../configwidget.ui" line="435"/>
         <source>Use dark style</source>
         <translation>Usar tema oscuro</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="432"/>
+        <location filename="../configwidget.ui" line="442"/>
         <source>Check for project templates updates at start up</source>
         <translation>Verificar por actualización de los template al iniciar el programa</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="493"/>
+        <location filename="../configwidget.ui" line="503"/>
         <source>Current language</source>
         <translation>Lenguaje en uso</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="418"/>
+        <location filename="../configwidget.ui" line="428"/>
         <source>Format Style</source>
         <translation>Estilo del formateador</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="385"/>
+        <location filename="../configwidget.ui" line="395"/>
         <source>Format extra paramters:</source>
         <translation>Parametros extra del formateador:</translation>
     </message>
     <message>
-        <location filename="../configwidget.ui" line="452"/>
+        <location filename="../configwidget.ui" line="462"/>
         <source>Use in-progress/development characteristics</source>
         <translation>Usar caracteristicas en progreso/desarrollo</translation>
     </message>
     <message>
-        <location filename="../configwidget.cpp" line="90"/>
+        <location filename="../configwidget.cpp" line="95"/>
         <source>Select File</source>
         <translation>Seleccionar archivo</translation>
     </message>
     <message>
-        <location filename="../configwidget.cpp" line="101"/>
+        <location filename="../configwidget.cpp" line="106"/>
         <source>Select workspace directory</source>
         <translation>Seleccionar directorio del area de trabajo</translation>
     </message>
     <message>
-        <location filename="../configwidget.cpp" line="85"/>
-        <location filename="../configwidget.cpp" line="119"/>
+        <location filename="../configwidget.cpp" line="90"/>
+        <location filename="../configwidget.cpp" line="124"/>
         <source>Select directory</source>
         <translation>Seleccionar directorio</translation>
     </message>
@@ -282,17 +287,17 @@
         <translation>Aceptar</translation>
     </message>
     <message>
-        <location filename="../externaltoolmanager.cpp" line="49"/>
+        <location filename="../externaltoolmanager.cpp" line="58"/>
         <source>Description</source>
         <translation>Descripción</translation>
     </message>
     <message>
-        <location filename="../externaltoolmanager.cpp" line="49"/>
+        <location filename="../externaltoolmanager.cpp" line="58"/>
         <source>Command</source>
         <translation>Comando</translation>
     </message>
     <message>
-        <location filename="../externaltoolmanager.cpp" line="62"/>
+        <location filename="../externaltoolmanager.cpp" line="71"/>
         <source>Select File</source>
         <translation>Seleccionar archivo</translation>
     </message>
@@ -423,42 +428,42 @@
         <translation>Texto a buscar</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="57"/>
+        <location filename="../findinfilesdialog.cpp" line="64"/>
         <source>Regular Expression</source>
         <translation>Expresion regular</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="58"/>
+        <location filename="../findinfilesdialog.cpp" line="65"/>
         <source>Case Sensitive</source>
         <translation>Sensible a las mayusculas</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="59"/>
+        <location filename="../findinfilesdialog.cpp" line="66"/>
         <source>Wole Words</source>
         <translation>Solo palabras completas</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="61"/>
+        <location filename="../findinfilesdialog.cpp" line="68"/>
         <source>Ready</source>
         <translation>Listo</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="122"/>
+        <location filename="../findinfilesdialog.cpp" line="129"/>
         <source>Scanning file:</source>
         <translation>Inspeccionando archivos:</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="143"/>
+        <location filename="../findinfilesdialog.cpp" line="150"/>
         <source>Line %1 Char %2: %3</source>
         <translation>Linea %1 caracter %2: %3</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="156"/>
+        <location filename="../findinfilesdialog.cpp" line="163"/>
         <source>Done</source>
         <translation>Listo</translation>
     </message>
     <message>
-        <location filename="../findinfilesdialog.cpp" line="169"/>
+        <location filename="../findinfilesdialog.cpp" line="176"/>
         <source>Select directory</source>
         <translation>Seleccionar directorio</translation>
     </message>
@@ -476,37 +481,37 @@
         <translation>Reemplazar</translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="36"/>
+        <location filename="../formfindreplace.cpp" line="42"/>
         <source>Regular Expression</source>
         <translation>Expresion regular</translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="37"/>
+        <location filename="../formfindreplace.cpp" line="43"/>
         <source>Case Sensitive</source>
         <translation>Sensible a las mayusculas</translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="38"/>
+        <location filename="../formfindreplace.cpp" line="44"/>
         <source>Wole Words</source>
         <translation>Solo palabras completas</translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="39"/>
+        <location filename="../formfindreplace.cpp" line="45"/>
         <source>Selection Only</source>
         <translation>Solo en la selección</translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="40"/>
+        <location filename="../formfindreplace.cpp" line="46"/>
         <source>Wrap search</source>
         <translation>Reiniciar desde el principio</translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="41"/>
+        <location filename="../formfindreplace.cpp" line="47"/>
         <source>Backward search</source>
         <translation>Busqueda hacia atras</translation>
     </message>
     <message>
-        <location filename="../formfindreplace.cpp" line="44"/>
+        <location filename="../formfindreplace.cpp" line="50"/>
         <source>Replace All</source>
         <translation>Reemplazar todo</translation>
     </message>
@@ -544,7 +549,7 @@
         <location filename="../mainwindow.ui" line="362"/>
         <location filename="../mainwindow.ui" line="382"/>
         <location filename="../mainwindow.ui" line="402"/>
-        <location filename="../mainwindow.ui" line="927"/>
+        <location filename="../mainwindow.ui" line="929"/>
         <source>Configuration</source>
         <translation>Configuración</translation>
     </message>
@@ -584,28 +589,27 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; color:#000000;&quot;&gt;Embedded IDE&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; color:#000000;&quot;&gt;versión {{version}}&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-style:italic; color:#000000;&quot;&gt;copyright © 2016-2018 por&lt;br/&gt;Martin Ribelotta&lt;br/&gt;&lt;/span&gt;&lt;a href=&quot;martinribelotta@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;martinribelotta@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; color:#000000;&quot;&gt;Este programa esta bajo la GPL v3 o superior&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="898"/>
+        <location filename="../mainwindow.ui" line="900"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;ALT+F4&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="829"/>
+        <location filename="../mainwindow.ui" line="830"/>
         <source>Exit from application</source>
         <translation>Salir de la aplicación</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="832"/>
+        <location filename="../mainwindow.ui" line="833"/>
         <source>Exit from app</source>
         <translation>Salir de la aplicación</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="924"/>
-        <location filename="../mainwindow.ui" line="955"/>
+        <location filename="../mainwindow.ui" line="926"/>
         <source>Open Confioguration</source>
         <translation>Abrir Configuración</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="911"/>
+        <location filename="../mainwindow.ui" line="913"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;CTRL+SHIFT+P&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
@@ -615,63 +619,62 @@
         <translation>Disponible Actualizacion de Platillas</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1143"/>
+        <location filename="../mainwindow.ui" line="1114"/>
         <source>Recent Projects</source>
         <translation>Proyectos recientes</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="993"/>
+        <location filename="../mainwindow.ui" line="962"/>
         <source>Open Existing Project</source>
         <translation>Abrir proyecto existente</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="958"/>
         <source>External tools</source>
-        <translation>Herramientas Externas</translation>
+        <translation type="vanished">Herramientas Externas</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="996"/>
-        <location filename="../mainwindow.cpp" line="191"/>
+        <location filename="../mainwindow.ui" line="965"/>
+        <location filename="../mainwindow.cpp" line="225"/>
         <source>Open Project</source>
         <translation>Abrir proyecto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1030"/>
+        <location filename="../mainwindow.ui" line="1000"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;CTRL+O&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1043"/>
+        <location filename="../mainwindow.ui" line="1013"/>
         <source>Create New Project</source>
         <translation>Crear nuevo proyecto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1046"/>
+        <location filename="../mainwindow.ui" line="1016"/>
         <source>New Project</source>
         <translation>Nuevo Proyecto</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1074"/>
+        <location filename="../mainwindow.ui" line="1045"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#264367;&quot;&gt;CTRL+N&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="116"/>
+        <location filename="../mainwindow.cpp" line="150"/>
         <source>%1 build at %2</source>
         <translation>%1 construido en %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="191"/>
+        <location filename="../mainwindow.cpp" line="225"/>
         <source>Makefile (Makefile);;All files (*)</source>
         <translation>Makefile (Makefile);;Todos los archivos (*)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="214"/>
+        <location filename="../mainwindow.cpp" line="248"/>
         <source>New File</source>
         <translation>Nuevo Archivo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="215"/>
+        <location filename="../mainwindow.cpp" line="249"/>
         <source>Templates (*.template);;Compressed tar with gzip (*.tar.gz);;All files (*)</source>
         <translation>Templates (*.template);;tar comprimido con gzip (*.tar.gz);;Todos los archivos (*)</translation>
     </message>
@@ -756,22 +759,22 @@
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../newprojectdialog.cpp" line="169"/>
+        <location filename="../newprojectdialog.cpp" line="177"/>
         <source>&lt;h1&gt;Compressed project in tar.gz from:&lt;/h1&gt;&lt;p&gt;&lt;tt&gt;%1&lt;/tt&gt;</source>
         <translation>&lt;h1&gt;Proyecto comprimido en tar.gz desde:&lt;/h1&gt;&lt;p&gt;&lt;tt&gt;%1&lt;/tt&gt;</translation>
     </message>
     <message>
-        <location filename="../newprojectdialog.cpp" line="178"/>
+        <location filename="../newprojectdialog.cpp" line="186"/>
         <source>Select Directory</source>
         <translation>Seleccionar directorio</translation>
     </message>
     <message>
-        <location filename="../newprojectdialog.cpp" line="185"/>
+        <location filename="../newprojectdialog.cpp" line="193"/>
         <source>Select File</source>
         <translation>Seleccionar archivo</translation>
     </message>
     <message>
-        <location filename="../newprojectdialog.cpp" line="187"/>
+        <location filename="../newprojectdialog.cpp" line="195"/>
         <source>Templates (*.template);;Tar compressed with gzip (*.tar.gz);;All files (*)</source>
         <translation>Templates (*.template);;Tar comprimido con gzip (*.tar.gz);;Todos los archivos (*)</translation>
     </message>
@@ -804,37 +807,37 @@
         <translation>Abortar</translation>
     </message>
     <message>
-        <location filename="../plaintexteditor.cpp" line="600"/>
+        <location filename="../plaintexteditor.cpp" line="607"/>
         <source>Undo</source>
         <translation>Deshacer</translation>
     </message>
     <message>
-        <location filename="../plaintexteditor.cpp" line="601"/>
+        <location filename="../plaintexteditor.cpp" line="608"/>
         <source>Redo</source>
         <translation>Rehacer</translation>
     </message>
     <message>
-        <location filename="../plaintexteditor.cpp" line="603"/>
+        <location filename="../plaintexteditor.cpp" line="610"/>
         <source>Cut</source>
         <translation>Cortar</translation>
     </message>
     <message>
-        <location filename="../plaintexteditor.cpp" line="604"/>
+        <location filename="../plaintexteditor.cpp" line="611"/>
         <source>Copy</source>
         <translation>Copiar</translation>
     </message>
     <message>
-        <location filename="../plaintexteditor.cpp" line="605"/>
+        <location filename="../plaintexteditor.cpp" line="612"/>
         <source>Paste</source>
         <translation>Pegar</translation>
     </message>
     <message>
-        <location filename="../plaintexteditor.cpp" line="606"/>
+        <location filename="../plaintexteditor.cpp" line="613"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
     <message>
-        <location filename="../plaintexteditor.cpp" line="608"/>
+        <location filename="../plaintexteditor.cpp" line="615"/>
         <source>Select All</source>
         <translation>Seleccionar todo</translation>
     </message>
@@ -842,37 +845,37 @@
 <context>
     <name>ProjectManager</name>
     <message>
-        <location filename="../projectmanager.cpp" line="147"/>
+        <location filename="../projectmanager.cpp" line="153"/>
         <source>Finish target discover</source>
         <translation>Finalizado descubrimiento de objetivos</translation>
     </message>
     <message>
-        <location filename="../projectmanager.cpp" line="206"/>
+        <location filename="../projectmanager.cpp" line="212"/>
         <source>Diff terminate. Exit code %1</source>
         <translation>Diff termino. Codigo de salida %1</translation>
     </message>
     <message>
-        <location filename="../projectmanager.cpp" line="211"/>
+        <location filename="../projectmanager.cpp" line="217"/>
         <source>Diff error: %1</source>
         <translation>Error de diff: %1</translation>
     </message>
     <message>
-        <location filename="../projectmanager.cpp" line="228"/>
+        <location filename="../projectmanager.cpp" line="234"/>
         <source>tar terminate. Exit code %1</source>
         <translation>Tar termino. Codigo de salida %1</translation>
     </message>
     <message>
-        <location filename="../projectmanager.cpp" line="233"/>
+        <location filename="../projectmanager.cpp" line="239"/>
         <source>tar error: %1</source>
         <translation>Error de tar: %1</translation>
     </message>
     <message>
-        <location filename="../projectmanager.cpp" line="268"/>
+        <location filename="../projectmanager.cpp" line="274"/>
         <source>Export sucessfull</source>
         <translation>Exportado exitoso</translation>
     </message>
     <message>
-        <location filename="../projectmanager.cpp" line="305"/>
+        <location filename="../projectmanager.cpp" line="311"/>
         <source>Discovering targets...</source>
         <translation>Descubriendo objetivos...</translation>
     </message>
@@ -880,7 +883,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../externaltoolmanager.cpp" line="132"/>
+        <location filename="../externaltoolmanager.cpp" line="141"/>
         <source>Open Tool Manager</source>
         <translation>Abrir manejador de herramientas</translation>
     </message>
@@ -898,72 +901,72 @@
 <context>
     <name>TemplateItemWidget</name>
     <message>
-        <location filename="../templateitemwidget.cpp" line="63"/>
+        <location filename="../templateitemwidget.cpp" line="68"/>
         <source>Remove File %1 ok</source>
         <translation>Archivo %1 borrado correctamente</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="65"/>
+        <location filename="../templateitemwidget.cpp" line="70"/>
         <source>Error %1 removing %2</source>
         <translation>Error %1 borrando archivo %2</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="92"/>
+        <location filename="../templateitemwidget.cpp" line="97"/>
         <source>New</source>
         <translation>Nuevo</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="96"/>
+        <location filename="../templateitemwidget.cpp" line="101"/>
         <source>Updated</source>
         <translation>Actualizado</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="100"/>
+        <location filename="../templateitemwidget.cpp" line="105"/>
         <source>Updatable</source>
         <translation>Actualizable</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="104"/>
+        <location filename="../templateitemwidget.cpp" line="109"/>
         <source>Local</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="118"/>
+        <location filename="../templateitemwidget.cpp" line="123"/>
         <source>Skipping %1</source>
         <translation>%1 saltado</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="124"/>
+        <location filename="../templateitemwidget.cpp" line="129"/>
         <source>%1 not downloadable</source>
         <translation>%1 no es descargable</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="128"/>
+        <location filename="../templateitemwidget.cpp" line="133"/>
         <source>%1 already updated</source>
         <translation>%1 ya actualizado</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="136"/>
+        <location filename="../templateitemwidget.cpp" line="141"/>
         <source>Cannot start download to %1</source>
         <translation>No se puede iniciar descarga a %1</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="142"/>
+        <location filename="../templateitemwidget.cpp" line="147"/>
         <source>Cannot create file %1: %2</source>
         <translation>No se puede crear archivo %1: %2</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="146"/>
+        <location filename="../templateitemwidget.cpp" line="151"/>
         <source>Start download of %1...</source>
         <translation>Iniciando descarga de %1...</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="163"/>
+        <location filename="../templateitemwidget.cpp" line="168"/>
         <source>Cannot write temporay file %1 to %2</source>
         <translation>No se puede escribir archivo temporal %1 a %2</translation>
     </message>
     <message>
-        <location filename="../templateitemwidget.cpp" line="166"/>
+        <location filename="../templateitemwidget.cpp" line="171"/>
         <source>Download of %1 finished ok</source>
         <translation>Descarga de %1 termino exitosamente</translation>
     </message>
@@ -983,22 +986,22 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../templatemanager.cpp" line="76"/>
+        <location filename="../templatemanager.cpp" line="84"/>
         <source>Downloading metadata...</source>
         <translation>Descargando metadatos...</translation>
     </message>
     <message>
-        <location filename="../templatemanager.cpp" line="79"/>
+        <location filename="../templatemanager.cpp" line="87"/>
         <source>Cannot download template metadata!</source>
         <translation>No se puede descargar metadatos!</translation>
     </message>
     <message>
-        <location filename="../templatemanager.cpp" line="88"/>
+        <location filename="../templatemanager.cpp" line="96"/>
         <source>Network error downloading template metadata: %1</source>
         <translation>Error de red descargando metadatos de las plantillas: %1</translation>
     </message>
     <message>
-        <location filename="../templatemanager.cpp" line="119"/>
+        <location filename="../templatemanager.cpp" line="127"/>
         <source>Metadata download finished</source>
         <translation>Descarga de metadatos finalizada</translation>
     </message>

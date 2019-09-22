@@ -1,16 +1,10 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2018-02-24T13:51:54
-#
-#-------------------------------------------------
 DESTDIR  = ../build
 
-QT       += core gui svg xml network concurrent uitools
+QT += core gui widgets svg xml network concurrent uitools
 
 CONFIG += qscintilla2
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets
     greaterThan(QT_MINOR_VERSION, 11) {
         CONFIG += lrelease embed_translations
     }
@@ -19,10 +13,8 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 TARGET = embedded-ide
 TEMPLATE = app
 
-# The following define makes your compiler emit warnings if you use
-# any feature of Qt which has been marked as deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
+TRANSLATIONS = translations/es.ts
+
 DEFINES += QT_DEPRECATED_WARNINGS
 
 # You can also make your code fail to compile if you use deprecated APIs.
@@ -30,13 +22,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-include(../mapview/mapview.pri)
-include(3rdpart/qhexview/qhexview.pri)
-include(3rdpart/astyle/astyle.pri)
-include(3rdpart/qdarkstyle/qdarkstype.pri)
-include(3rdpart/hoedown/hoedown.pri)
+include($$PWD/../mapview/mapview.pri)
+include($$PWD/../3rdpart/qhexview/qhexview.pri)
+include($$PWD/../3rdpart/astyle/astyle.pri)
+include($$PWD/../3rdpart/qdarkstyle/qdarkstype.pri)
+include($$PWD/../3rdpart/hoedown/hoedown.pri)
+
 #linux:!android: include(3rdpart/backward/backward.pri)
 #include(3rdpart/qt-promise/qt-promise.pri)
+
+INCLUDEPATH += $$PWD/../3rdpart
 
 SOURCES += \
         main.cpp \
@@ -176,6 +171,5 @@ DISTFILES += \
     skeleton/embedded-ide.sh.wrapper \
     skeleton/ftdi-tools.sh \
     skeleton/embedded-ide.hardconf \
-    skeleton/embedded-ide.desktop
-
-TRANSLATIONS = translations/es.ts
+    skeleton/embedded-ide.desktop \
+    translations/es.ts

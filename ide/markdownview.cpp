@@ -18,8 +18,8 @@
  */
 #include "markdownview.h"
 
-#include <3rdpart/hoedown/src/document.h>
-#include <3rdpart/hoedown/src/html.h>
+#include <hoedown/src/document.h>
+#include <hoedown/src/html.h>
 
 static constexpr auto DEFAULT_STYLESHEET = R"(
 pre {
