@@ -267,6 +267,22 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(new QShortcut(QKeySequence("CTRL+SHIFT+P"), this), &QShortcut::activated, openConfigurationCallback);
     connect(new QShortcut(QKeySequence("CTRL+SHIFT+Q"), this), &QShortcut::activated, priv->projectManager, &ProjectManager::closeProject);
 
+    setProperty("documentOnly", false);
+    connect(new QShortcut(QKeySequence("CTRL+SHIFT+C"), this), &QShortcut::activated, [this]() {
+        auto state = property("documentOnly").toBool();
+        if (state) {
+            ui->horizontalSplitterTop->restoreState(property("topSplitterState").toByteArray());
+            ui->splitterDocumentViewer->restoreState(property("docSplitterState").toByteArray());
+        } else {
+            setProperty("topSplitterState", ui->horizontalSplitterTop->saveState());
+            setProperty("docSplitterState", ui->splitterDocumentViewer->saveState());
+            ui->horizontalSplitterTop->setSizes({ 0, 100 });
+            ui->splitterDocumentViewer->setSizes({ 100, 0 });
+            ui->documentContainer->setFocus();
+        }
+        setProperty("documentOnly", !state);
+    });
+
     connect(ui->buttonReload, &QToolButton::clicked, priv->projectManager, &ProjectManager::reloadProject);
     connect(priv->projectManager, &ProjectManager::projectOpened, [this](const QString& makefile) {
         for(auto& btn: ui->projectButtons->buttons()) btn->setEnabled(true);
