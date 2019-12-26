@@ -67,7 +67,7 @@ TemplateItemWidget::TemplateItemWidget(QWidget *parent) :
         if (f.remove())
             emit downloadMessage(tr("Remove File %1 ok").arg(f.fileName()));
         else
-            emit downloadError(tr("Error %1 removing %2").arg(f.errorString()).arg(f.fileName()));
+            emit downloadError(tr("Error %1 removing %2").arg(f.errorString(), f.fileName()));
     });
 }
 
@@ -110,12 +110,11 @@ void TemplateItemWidget::setTemplate(const TemplateItem &item)
         break;
     }
     ui->urlLabel->setText(tr(R"(<a href="%1">%2</a>&nbsp;<tt style="color: %3">[%4]</tt>)")
-                          .arg(item.url().url())
-                          .arg(item.url().fileName())
-                          .arg(color.name())
-                          .arg(state));
+                          .arg(item.url().url(), item.url().fileName(), color.name(), state));
     ui->progress->setValue(0);
 }
+
+constexpr auto PERCENT = 100.00;
 
 void TemplateItemWidget::startDownload(QNetworkAccessManager *net)
 {
@@ -144,7 +143,7 @@ void TemplateItemWidget::startDownload(QNetworkAccessManager *net)
     auto file = new QSaveFile(_item.file().absoluteFilePath(), this);
     connect(reply, &QNetworkReply::destroyed, file, &QFile::deleteLater);
     if (!file->open(QFile::WriteOnly)) {
-        emit downloadError(tr("Cannot create file %1: %2").arg(file->fileName()).arg(file->errorString()));
+        emit downloadError(tr("Cannot create file %1: %2").arg(file->fileName(), file->errorString()));
         reply->deleteLater();
         return;
     }
@@ -157,7 +156,7 @@ void TemplateItemWidget::startDownload(QNetworkAccessManager *net)
         reply->deleteLater();
     });
     connect(reply, &QNetworkReply::downloadProgress, [this](quint64 rcv, quint64 total) {
-        ui->progress->setValue(int(rcv*100.00/total)/100);
+        ui->progress->setValue(int(rcv * PERCENT / total) / int(PERCENT));
     });
     connect(reply, &QNetworkReply::readyRead, [reply, file]() {
         file->write(reply->readAll());
@@ -165,9 +164,9 @@ void TemplateItemWidget::startDownload(QNetworkAccessManager *net)
     connect(reply, &QNetworkReply::finished, [this, reply, file]() {
         auto targetName = _item.file().absoluteFilePath();
         if (!file->commit())
-            emit downloadError(tr("Cannot write temporay file %1 to %2").arg(file->fileName()).arg(targetName));
+            emit downloadError(tr("Cannot write temporay file %1 to %2").arg(file->fileName(), targetName));
         reply->deleteLater();
-        ui->progress->setValue(100);
+        ui->progress->setValue(int(PERCENT));
         emit downloadMessage(tr("Download of %1 finished ok").arg(_item.file().fileName()));
         emit downloadEnd(_item);
     });

@@ -18,15 +18,15 @@
  */
 #include "childprocess.h"
 
-QProcess *ChildProcess::safeStop(QProcess *p)
+QProcess *ChildProcess::safeStop(QProcess *p, int timeoutMilis)
 {
     p->blockSignals(true);
     if (p->state() == QProcess::Running) {
         p->terminate();
-        p->waitForFinished(100);
+        p->waitForFinished(timeoutMilis);
         if (p->state() == QProcess::Running) {
             p->kill();
-            p->waitForFinished(100);
+            p->waitForFinished(timeoutMilis);
         }
     }
     p->blockSignals(false);

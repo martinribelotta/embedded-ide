@@ -60,7 +60,7 @@ signals:
 public slots:
     void createProject(const QString& projectFilePath, const QString& templateFile);
     void createProjectFromTGZ(const QString& projectFilePath, const QString& tgzFile);
-    void exportCurrentProjectTo(const QString& patchFile);
+    void exportCurrentProjectTo(const QString& fileName);
     void exportToDiff(const QString &patchFile);
     void exportToTarGz(const QString &tgzFile);
     void openProject(const QString& makefile);

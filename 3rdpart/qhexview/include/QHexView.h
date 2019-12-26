@@ -39,11 +39,11 @@ class QHexView: public QAbstractScrollArea
 
 
 
-		QHexView(QWidget *parent = 0);
+        QHexView(QWidget *parent = nullptr);
 		~QHexView();
 
-	public slots:
-		void setData(DataStorage *pData);
+    public slots:
+        void setData(QHexView::DataStorage *pData);
 		void clear();
 		void showFromOffset(std::size_t offset);
 

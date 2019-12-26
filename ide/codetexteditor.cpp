@@ -178,7 +178,7 @@ static const QHash<QString, creator_t> MIMETYPE_MAP = {
 class CodeEditorCreator: public IDocumentEditorCreator
 {
 public:
-    ~CodeEditorCreator() override;
+    ~CodeEditorCreator() override = default;
     bool canHandleExtentions(const QStringList &suffixes) const override  {
         for (const auto& suffix: suffixes)
             if (EXTENTION_MAP.contains(suffix))
@@ -228,6 +228,3 @@ QsciLexer *CodeTextEditor::lexerFromFile(const QString& name)
     qDebug() << "No lexer found";
     return nullptr;
 }
-
-CodeEditorCreator::~CodeEditorCreator()
-= default;

@@ -21,6 +21,8 @@
 #include <hoedown/src/document.h>
 #include <hoedown/src/html.h>
 
+static constexpr auto DEFAULT_NESTING = 16;
+
 static constexpr auto DEFAULT_STYLESHEET = R"(
 pre {
     background: #ffe4a4;
@@ -40,9 +42,9 @@ QString MarkdownView::renderHtml(const QString &markdownText)
     if (markdownText.isEmpty())
         return "<html></html>";
     auto utf8 = markdownText.toUtf8();
-    auto ptr = reinterpret_cast<const uint8_t*>(utf8.data());
+    auto ptr = reinterpret_cast<const uint8_t*>(utf8.constData());
     hoedown_html_flags flags = HOEDOWN_HTML_USE_XHTML;
-    hoedown_extensions exts = static_cast<hoedown_extensions>(
+    auto exts = static_cast<hoedown_extensions>(
             HOEDOWN_EXT_TABLES |
             HOEDOWN_EXT_FENCED_CODE |
             HOEDOWN_EXT_FOOTNOTES |
@@ -58,7 +60,7 @@ QString MarkdownView::renderHtml(const QString &markdownText)
             HOEDOWN_EXT_MATH_EXPLICIT
         );
     auto renderer = hoedown_html_renderer_new(flags, 0);
-    auto document = hoedown_document_new(renderer, exts, 16);
+    auto document = hoedown_document_new(renderer, exts, DEFAULT_NESTING);
     auto html = hoedown_buffer_new(size_t(utf8.size()));
     hoedown_document_render(document, html, ptr, size_t(utf8.size()));
     auto htmlText = QString::fromUtf8(reinterpret_cast<const char*>(html->data),

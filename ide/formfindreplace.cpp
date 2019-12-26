@@ -88,7 +88,7 @@ void FormFindReplace::keyPressEvent(QKeyEvent *event)
 
 bool FormFindReplace::eventFilter(QObject *watched, QEvent *event)
 {
-    Q_UNUSED(watched);
+    Q_UNUSED(watched)
     switch (event->type()) {
     case QEvent::KeyPress:
         if (isVisible()) {
@@ -144,8 +144,9 @@ void FormFindReplace::on_buttonReplace_clicked()
 
 void FormFindReplace::on_textToFind_textChanged(const QString &text)
 {
-    Q_UNUSED(text);
-    int line, pos;
+    Q_UNUSED(text)
+    int line;
+    int pos;
     auto p = property("currentPos").toPoint();
     if (!p.isNull()) {
         line = p.x();

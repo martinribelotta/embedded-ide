@@ -27,7 +27,7 @@ class ChildProcess : public QProcess
 public:
     static ChildProcess& create(QObject *parent = nullptr) { return *new ChildProcess(parent); }
 
-    static QProcess *safeStop(QProcess *p);
+    static QProcess *safeStop(QProcess *p, int timeoutMilis = 100);
 
     explicit ChildProcess(QObject *parent = nullptr): QProcess(parent) {}
     virtual ~ChildProcess();
@@ -93,7 +93,6 @@ public:
         connect(this, &QProcess::stateChanged, [this, f](ProcessState st) { f(this, st); });
         return *this;
     }
-
 
 signals:
 

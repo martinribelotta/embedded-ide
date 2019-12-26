@@ -40,16 +40,15 @@ static const QStringList C_MIMETYPE = { "text/x-c++src", "text/x-c++hdr" };
 static const QStringList CXX_MIMETYPE = { "text/x-c", "text/x-csrc", "text/x-chdr" };
 
 class MyQsciLexerCPP: public QsciLexerCPP {
-protected:
-    uint32_t dummy{ 0 };
-    mutable QLatin1String keywordList;
+private:
+    QLatin1String keywordList;
 public:
     MyQsciLexerCPP(QObject *parent = nullptr, bool caseInsensitiveKeywords = false) :
         QsciLexerCPP(parent, caseInsensitiveKeywords)
     {
         setFoldCompact(false);
     }
-    ~MyQsciLexerCPP() override;
+    ~MyQsciLexerCPP() override = default;
 
     void refreshProperties() override
     {
@@ -97,9 +96,9 @@ bool CPPTextEditor::load(const QString &path)
 class CPPEditorCreator: public IDocumentEditorCreator
 {
 public:
-    ~CPPEditorCreator() override;
+    ~CPPEditorCreator() override = default;
 
-    static bool in(const QMimeType& t, const QStringList list) {
+    static bool in(const QMimeType& t, const QStringList& list) {
         for(const auto& mtype: list)
             if (t.inherits(mtype))
                 return true;
@@ -163,7 +162,8 @@ static STDCALL void tempError(int errorNumber, const char* errorMessage)
 
 void CPPTextEditor::formatCode()
 {
-    int l, i;
+    int l;
+    int i;
     getCursorPosition(&l, &i);
     auto inText = selectedText();
     if (inText.isEmpty()) {
@@ -174,15 +174,12 @@ void CPPTextEditor::formatCode()
     char* utf8In = rawText.data();
     auto& cfg = AppConfig::instance();
     const auto style = cfg.editorFormatterStyle();
-    const auto indentType = cfg.editorTabsToSpaces()? "spaces" : "tab";
-    int indentCount = cfg.editorTabWidth();
+    const auto indentType = QString{cfg.editorTabsToSpaces()? "spaces" : "tab"};
+    const auto indentCount = QString("%1").arg(cfg.editorTabWidth());
     auto extraAstyleParams = cfg.editorFormatterExtra();
     char* utf8Out = AStyleMain(utf8In,
-                               (QString("--style=%1 --indent=%2=%3 %4")
-                                .arg(style)
-                                .arg(indentType)
-                                .arg(indentCount)
-                                .arg(extraAstyleParams)).toLatin1().data(),
+                               QString("--style=%1 --indent=%2=%3 %4")
+                                   .arg(style, indentType, indentCount, extraAstyleParams).toLatin1().data(),
                                tempError,
                                tempMemoryAllocation);
     replaceSelectedText(QString::fromUtf8(utf8Out));
@@ -203,7 +200,8 @@ QMenu *CPPTextEditor::createContextualMenu()
 void CPPTextEditor::triggerAutocompletion()
 {
     if (codeModel()) {
-        int line, index;
+        int line;
+        int index;
         getCursorPosition(&line, &index);
         codeModel()->completionAt(
             ICodeModelProvider::FileReference{ path(), line, index, QString() }, text(),
@@ -227,9 +225,3 @@ QsciLexer *CPPTextEditor::lexerFromFile(const QString &name)
     setProperty("isCXX", CPPEditorCreator::in(QMimeDatabase().mimeTypeForFile(name), CXX_MIMETYPE));
     return new MyQsciLexerCPP(this);
 }
-
-MyQsciLexerCPP::~MyQsciLexerCPP()
-= default;
-
-CPPEditorCreator::~CPPEditorCreator()
-= default;

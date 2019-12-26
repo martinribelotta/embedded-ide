@@ -122,7 +122,7 @@ public slots:
     void setNetworkProxyHost(const QString& name);
     void setNetworkProxyPort(const QString& port);
     void setNetworkProxyUseCredentials(bool use);
-    void setNetworkProxyType(NetworkProxyType type);
+    void setNetworkProxyType(AppConfig::NetworkProxyType type);
     void setNetworkProxyUsername(const QString& user);
     void setNetworkProxyPassword(const QString& pass);
 

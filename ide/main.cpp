@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     QTranslator tr;
     for(const auto& p: AppConfig::langPaths()) {
         if (tr.load(QLocale::system().name(), p)) {
-            if (app.installTranslator(&tr)) {
+            if (QApplication::installTranslator(&tr)) {
                 qDebug() << "load translations" << QLocale::system().name();
                 break;
             }
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
         if (!selectedLang.isEmpty()) {
             for(const auto& p: AppConfig::langPaths()) {
                 if (tr.load(selectedLang, p)) {
-                    if (app.installTranslator(&tr)) {
+                    if (QApplication::installTranslator(&tr)) {
                         qDebug() << "load translations" << QLocale::system().name();
                         break;
                     }

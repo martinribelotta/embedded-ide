@@ -43,6 +43,8 @@
 
 #include <QtDebug>
 
+constexpr auto TARGETVIEW_ICON_SIZE = QSize(16, 16);
+
 const QString SPACE_SEPARATORS = R"(\s)";
 const QString DISCOVER_PROC = "makeDiscover";
 const QString EXPORT_PROC = "exporter";
@@ -70,7 +72,7 @@ public:
         targetView->setModel(new QStandardItemModel(targetView));
 
         if (pman->isRunning(DISCOVER_PROC))
-            pman->terminate(DISCOVER_PROC, true, 1000);
+            pman->terminate(DISCOVER_PROC, true);
         makeFile = QFileInfo();
 
         for(auto *p: pman->findChildren<QProcess*>())
@@ -126,12 +128,13 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
     });
     connect(&priv->clearMessageTimer, &QTimer::timeout, [this]() { clearMessage(); });
     priv->pman->setTerminationHandler(DISCOVER_PROC, [this](QProcess *make, int code, QProcess::ExitStatus status) {
-        Q_UNUSED(code);
+        Q_UNUSED(code)
         if (status == QProcess::NormalExit) {
             auto res = findAllTargets(make);
             priv->allTargets = res.first;
             priv->allRefs = res.second;
-            priv->targets = priv->allTargets.keys().filter(priv->targetFilter);
+            const auto targetKeys = priv->allTargets.keys();
+            priv->targets = targetKeys.filter(priv->targetFilter);
             priv->targets.sort();
             auto targetModel = qobject_cast<QStandardItemModel*>(priv->targetView->model());
             if (targetModel) {
@@ -141,7 +144,7 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
                     auto name = QString(t).replace('_', ' ');
                     targetModel->appendRow(item);
                     button->setIcon(QIcon(AppConfig::resourceImage({ "actions", "run-build" })));
-                    button->setIconSize(QSize(16, 16));
+                    button->setIconSize(TARGETVIEW_ICON_SIZE);
                     button->setText(name);
                     button->setStyleSheet("text-align: left; padding: 4px;");
                     priv->targetView->setIndexWidget(item->index(), button);
@@ -309,7 +312,8 @@ void ProjectManager::openProject(const QString &makefile)
         priv->makeFile = QFileInfo(makefile);
         emit projectOpened(makefile);
         showMessageTimed(tr("Discovering targets..."));
-        QTimer::singleShot(100, [this]() {
+        constexpr auto DO_OPEN_DELAY_MS = 100;
+        QTimer::singleShot(DO_OPEN_DELAY_MS, [this]() {
             priv->codeModelProvider->startIndexingProject(projectPath());
         });
     };

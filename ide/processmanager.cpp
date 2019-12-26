@@ -19,7 +19,7 @@
 #include "processmanager.h"
 
 #ifdef Q_OS_UNIX
-#include <signal.h>
+#include <csignal>
 
 #elif defined(Q_OS_WIN)
 // #error TODO windows unsupported kill method
@@ -108,6 +108,6 @@ bool ProcessManager::terminate(const QString &name, bool canKill, int timeout)
             return true;
         } 
             return false;
-    } else
+    } 
         return true;
 }

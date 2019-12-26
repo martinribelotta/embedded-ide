@@ -28,7 +28,7 @@ FileReferencesDialog::FileReferencesDialog(const ICodeModelProvider::FileReferen
 {
     ui->setupUi(this);
     connect(ui->listWidget, &QListWidget::itemActivated, [this](QListWidgetItem *item) {
-        auto url = item->data(Qt::UserRole).value<QUrl>();
+        auto url = item->data(Qt::UserRole).toUrl();
         auto ref = ICodeModelProvider::FileReference::decode(url);
         emit itemClicked(ref.path, ref.line);
         accept();

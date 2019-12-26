@@ -1,8 +1,8 @@
 /*
  * This file is part of Embedded-IDE
- * 
+ *
  * Copyright 2019 Martin Ribelotta <martinribelotta@gmail.com>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -26,8 +26,8 @@
 #include <QMenu>
 #include <QStandardItemModel>
 #include <QWidgetAction>
-
 #include <Qsci/qsciscintilla.h>
+#include <utility>
 
 struct FilePos {
     int line{ 0 };
@@ -35,7 +35,7 @@ struct FilePos {
     QString path;
 
     FilePos() = default;
-    FilePos(int l, int c, const QString& p): line(l), column(c), path(p) {}
+    FilePos(int l, int c, QString p) : line(l), column(c), path(std::move(p)) {}
 };
 
 Q_DECLARE_METATYPE(FilePos)
@@ -143,14 +143,16 @@ FindInFilesDialog::FindInFilesDialog(QWidget *parent) :
             fileItem->setText(info.absoluteFilePath().remove(ui->textDirectory->text() + QDir::separator()));
             model->appendRow(fileItem);
             do {
-                int line, column;
+                int line;
+                int column;
                 doc->getCursorPosition(&line, &column);
-                QString textInFile = doc->text(line);
+                auto textInFile = doc->text(line);
                 auto posItem = model->itemPrototype()->clone();
-                posItem->setText(tr("Line %1 Char %2: %3")
-                                 .arg(QString("%1").arg(line).leftJustified(8, ' '))
-                                 .arg(QString("%1").arg(column).leftJustified(8, ' '))
-                                 .arg(textInFile));
+                constexpr auto JUSTIFY = 8;
+                posItem->setText(tr("Line %1 Char %2: %3").arg(
+                    QString("%1").arg(line).leftJustified(JUSTIFY, ' '),
+                    QString("%1").arg(column).leftJustified(JUSTIFY, ' '),
+                    textInFile));
                 posItem->setData(QVariant::fromValue(FilePos{ line, column, info.absoluteFilePath() }));
                 posItem->setData(Qt::AlignBaseline, Qt::TextAlignmentRole);
                 fileItem->appendRow(posItem);

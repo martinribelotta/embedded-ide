@@ -28,7 +28,7 @@ bool BinaryViewer::load(const QString &path)
         setData(new DataStorageFile(path));
         setPath(path);
         return true;
-    } catch(std::runtime_error) {
+    } catch(const std::runtime_error&) {
         return false;
     }
 }
@@ -47,7 +47,7 @@ void BinaryViewer::setCursor(const QPoint &pos)
 class BinaryViewerCreator: public IDocumentEditorCreator
 {
 public:
-    ~BinaryViewerCreator() override;
+    ~BinaryViewerCreator() override = default;
     bool canHandleMime(const QMimeType &mime) const override {
         return mime.inherits("application/octet-stream");
     }
@@ -61,6 +61,3 @@ IDocumentEditorCreator *BinaryViewer::creator()
 {
     return IDocumentEditorCreator::staticCreator<BinaryViewerCreator>();
 }
-
-BinaryViewerCreator::~BinaryViewerCreator()
-= default;

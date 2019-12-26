@@ -127,7 +127,7 @@ void DocumentManager::setComboBox(QComboBox *cb)
 QStringList DocumentManager::unsavedDocuments() const
 {
     QStringList unsaved;
-    for(auto d: priv->mapedWidgets.values())
+    for(const auto& d: priv->mapedWidgets)
         if (d->isModified())
             unsaved.append(d->path());
     return unsaved;
@@ -169,7 +169,7 @@ void DocumentManager::openDocument(const QString &filePath)
     QString path = absoluteTo(priv->projectManager->projectPath(), filePath);
     if (QFileInfo(path).isDir())
         return;
-    if (!QFileInfo(path).exists()) {
+    if (!QFileInfo::exists(path)) {
         TextMessageBrocker::instance().publish(TextMessages::STDERR_LOG, tr("%1 not exist").arg(filePath));
         return;
     }
@@ -249,7 +249,8 @@ bool DocumentManager::closeDocument(const QString &filePath)
 
 bool DocumentManager::closeAll()
 {
-    for(auto& path: priv->mapedWidgets.keys())
+    const auto keys = priv->mapedWidgets.keys();
+    for(const auto& path: keys)
         if (!closeDocument(path))
             return false;
     return true;
@@ -286,7 +287,8 @@ void DocumentManager::saveDocument(const QString &path)
 
 void DocumentManager::saveAll()
 {
-    for(auto& path: priv->mapedWidgets.keys())
+    const auto keys = priv->mapedWidgets.keys();
+    for(const auto& path: keys)
         saveDocument(path);
 }
 

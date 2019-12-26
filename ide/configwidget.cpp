@@ -164,9 +164,8 @@ void ConfigWidget::save()
         }
         if(ui->userProxy->isChecked()) {
             return AppConfig::NetworkProxyType::Custom;
-        } else {
-            return AppConfig::NetworkProxyType::None;
         }
+        { return AppConfig::NetworkProxyType::None;}
     }());
     conf.setNetworkProxyUsername(ui->username->text());
     conf.setNetworkProxyPassword(ui->password->text());

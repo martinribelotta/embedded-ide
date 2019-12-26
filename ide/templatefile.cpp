@@ -57,19 +57,27 @@ TemplateFile::Type TemplateFile::type() const
     return Type::Unknown;
 }
 
+template<typename T1, typename T2>
+static auto roundupTo(T1 v, T2 n)
+{
+    v = (((v) + (n - 1)) & ~(n - 1));
+    return v;
+}
+
 TemplateFile::Metadata TemplateFile::extractMeta(const QString &path)
 {
     Metadata meta;
     QFile f(path);
     if (f.open(QFile::ReadOnly)) {
-        posix_header h;
+        posix_header h{};
         do {
             auto len = f.read(reinterpret_cast<char*>(&h), sizeof(h));
             if (len == sizeof(h)) {
                 if (QLatin1Literal(h.magic, TMAGLEN) == "ustar ") {
                     QFileInfo finfo(h.name);
                     bool ok = false;
-                    auto size = QString(h.size).toLong(&ok, 8);
+                    constexpr auto octRadix = 8;
+                    auto size = QString(h.size).toLong(&ok, octRadix);
                     if (!ok)
                         break;
                     auto pos = f.pos();
@@ -77,7 +85,8 @@ TemplateFile::Metadata TemplateFile::extractMeta(const QString &path)
                         auto data = f.read(size);
                         meta.insert(finfo.filePath(), data);
                     }
-                    size = (((size) + 511) & ~511); // Roudup to 512
+                    constexpr auto CHUNCK_SIZE = 512;
+                    size = roundupTo(size, CHUNCK_SIZE);
                     f.seek(pos + size);
                 } else {
                     break;

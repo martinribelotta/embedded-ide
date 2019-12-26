@@ -66,8 +66,8 @@ public:
     static QStandardItemModel *extractParameterToModel(QTableView *parent, const QList<DiffParameter> &parameters)
     {
         auto model = new QStandardItemModel(parent);
-        QRegularExpression re(R"(\$\{\{(?P<name>[a-zA-Z_0-9]+)(?:\s+(?P<type>string|items)\:(?P<params>.*?))?\}\})",
-                              QRegularExpression::MultilineOption);
+        /*QRegularExpression re(R"(\$\{\{(?P<name>[a-zA-Z_0-9]+)(?:\s+(?P<type>string|items)\:(?P<params>.*?))?\}\})",
+                              QRegularExpression::MultilineOption);*/
         for(const auto& p: parameters) {
             const auto& name = p.name;
             const auto& type = p.type;

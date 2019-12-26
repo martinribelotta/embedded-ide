@@ -1,8 +1,8 @@
 /*
  * This file is part of Embedded-IDE
- * 
+ *
  * Copyright 2019 Martin Ribelotta <martinribelotta@gmail.com>
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -68,8 +68,7 @@ static QByteArray readEntireFile(const QString& path, const QByteArray& ifFail =
     QFile f(path);
     if (f.open(QFile::ReadOnly))
         return QTextStream(&f).readAll().toUtf8();
-    else
-        return ifFail;
+    return ifFail;
 }
 
 static bool writeEntireFile(const QString& path, const QByteArray& data)
@@ -83,7 +82,7 @@ static bool writeEntireFile(const QString& path, const QByteArray& data)
 
 static QJsonObject loadJson(const QString& path)
 {
-    QJsonParseError err;
+    QJsonParseError err{};
     auto doc = QJsonDocument::fromJson(readEntireFile(path), &err);
     if (err.error != QJsonParseError::NoError) {
         qDebug() << "error reading" << path << err.errorString();
@@ -93,7 +92,7 @@ static QJsonObject loadJson(const QString& path)
 
 static QString globalConfigFilePath()
 {
-    static const auto name = "." + QApplication::instance()->applicationDirPath()
+    static const auto name = "." + QApplication::applicationDirPath()
                                        .replace("/", "-")
                                        .replace("\\", "-")
                                        .replace(":", "") + ".json";
@@ -111,15 +110,15 @@ static QDir sharedDir()
     );
 }
 
-static const QString systemGlobalConfigPath() {
+static QString systemGlobalConfigPath() {
     return sharedDir().absoluteFilePath("embedded_ide-config.json");
 }
 
-static const QString systemLocalConfigPath() {
+static QString systemLocalConfigPath() {
     return sharedDir().absoluteFilePath("embedded-ide.hardconf");
 }
 
-static const QString systemTranslationPath() {
+static QString systemTranslationPath() {
     return sharedDir().absoluteFilePath("translations/");
 }
 
@@ -264,7 +263,7 @@ QStringList AppConfig::langPaths()
 QString AppConfig::resourceImage(const QString &path, const QString &ext)
 {
     auto style = instance().useDarkStyle()? "dark" : "light";
-    auto s = QString(":/images/%1/%2.%3").arg(style).arg(path).arg(ext);
+    auto s = QString(":/images/%1/%2.%3").arg(style, path, ext);
     return s;
 }
 
@@ -713,7 +712,7 @@ void AppConfig::purgeHash()
     auto path = QDir(workspacePath()).filePath("hashes.json");
     auto o = QJsonDocument::fromJson(readEntireTextFile(path)).object();
     for(auto& k: o.keys())
-        if (!QFileInfo(QDir(templatesPath()).filePath(k)).exists())
+        if (!QFileInfo::exists(QDir(templatesPath()).filePath(k)))
             o.remove(k);
     writeEntireFile(path, QJsonDocument(o).toJson());
 }

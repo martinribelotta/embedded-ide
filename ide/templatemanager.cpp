@@ -54,7 +54,9 @@ TemplateManager::TemplateManager(QWidget *parent) :
             rcv = 0;
             total = 1;
         }
-        ui->totalProgressBar->setValue(int(quint64(rcv*1000000)/quint64(total*10000)));
+        constexpr auto FRAC_A = 1000000;
+        constexpr auto FRAC_B = FRAC_A / 100;
+        ui->totalProgressBar->setValue(int(quint64(rcv * FRAC_A) / quint64(total * FRAC_B)));
     };
 
     auto setSelectAllItems = [this](bool select) {
@@ -100,7 +102,8 @@ TemplateManager::TemplateManager(QWidget *parent) :
         connect(reply, &QNetworkReply::finished, [this, percentChange, reply, net]() {
             reply->deleteLater();
             ui->groupBox->setEnabled(true);
-            ui->totalProgressBar->setValue(100);
+            constexpr auto PERCENT = 100;
+            ui->totalProgressBar->setValue(PERCENT);
             auto contents = QJsonDocument::fromJson(reply->readAll());
             for (const auto entry : contents.array()) {
                 auto oEntry = entry.toObject();

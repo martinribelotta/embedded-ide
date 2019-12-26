@@ -63,6 +63,8 @@ public:
     BuildManager *buildManager;
 };
 
+static constexpr auto MainWindowSIZE = QSize{900, 600};
+
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWindow),
@@ -119,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent) :
         bool canUpdate = false;
         auto list = tman->itemWidgets();
         for(auto *witem: list) {
-            auto item = witem->templateItem();
+            const auto& item = witem->templateItem();
             canUpdate = canUpdate ||
                 (item.state() == TemplateItem::State::Updatable) ||
                 (item.state() == TemplateItem::State::New);
@@ -127,9 +129,10 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->updateAvailable->setVisible(canUpdate);
     });
     connect(ui->updateAvailable, &QToolButton::clicked, [this, tman]() {
+        static constexpr auto SIZE_GROW = 0.9;
         QDialog d(this);
         auto z = this->size();
-        z.scale(this->size() * 0.9, Qt::KeepAspectRatio);
+        z.scale(this->size() * SIZE_GROW, Qt::KeepAspectRatio);
         d.resize(z);
         auto l = new QVBoxLayout(&d);
         auto bb = new QDialogButtonBox(QDialogButtonBox::Close, &d);
@@ -147,9 +150,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->stackedWidget->setCurrentWidget(ui->welcomePage);
     ui->documentContainer->setComboBox(ui->documentSelector);
-    auto version = tr("%1 build at %2").arg(VERSION).arg(BUILD_DATE);
+    auto version = tr("%1 build at %2").arg(VERSION, BUILD_DATE);
     ui->labelVersion->setText(ui->labelVersion->text().replace("{{version}}", version));
-    resize(900, 600);
+    resize(MainWindowSIZE);
 
     priv->pman = new ProcessManager(this);
     priv->console = new ConsoleInterceptor(ui->logView, priv->pman, BuildManager::PROCESS_NAME, this);
@@ -163,9 +166,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->logView, &QTextBrowser::anchorClicked, [this](const QUrl& url) {
         auto path = url.path();
         auto lr = url.fragment().split('#');
-        bool ok1 = false, ok2 = false;
-        int line = lr.size()>0? lr.at(0).toInt(&ok1, 10) : 1;
-        int chdr = lr.size()>1? lr.at(1).toInt(&ok2, 10) : 1;
+        auto ok1 = false;
+        auto ok2 = false;
+        constexpr auto DEC_RADIX = 10;
+        int line = !lr.empty()? lr.at(0).toInt(&ok1, DEC_RADIX) : 1;
+        int chdr = lr.size()>1? lr.at(1).toInt(&ok2, DEC_RADIX) : 1;
         if (!ok1) line = 1;
         if (!ok2) chdr = 1;
         ui->documentContainer->openDocumentHere(path, line, chdr);
@@ -276,8 +281,9 @@ MainWindow::MainWindow(QWidget *parent) :
         } else {
             setProperty("topSplitterState", ui->horizontalSplitterTop->saveState());
             setProperty("docSplitterState", ui->splitterDocumentViewer->saveState());
-            ui->horizontalSplitterTop->setSizes({ 0, 100 });
-            ui->splitterDocumentViewer->setSizes({ 100, 0 });
+            constexpr auto DEFAULT_SPLITTER_SIZE = 100;
+            ui->horizontalSplitterTop->setSizes({ 0, DEFAULT_SPLITTER_SIZE });
+            ui->splitterDocumentViewer->setSizes({ DEFAULT_SPLITTER_SIZE, 0 });
             ui->documentContainer->setFocus();
         }
         setProperty("documentOnly", !state);

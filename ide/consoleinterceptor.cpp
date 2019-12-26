@@ -44,7 +44,10 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     bstop->setAutoRaise(true);
     bstop->setIconSize(size);
     bstop->setToolTip(tr("Stop Current Process"));
-    connect(bstop, &QToolButton::clicked, [pman, pname]() { pman->terminate(pname, true, 300); });
+    connect(bstop, &QToolButton::clicked, [pman, pname]() {
+        constexpr auto TIMEOUT = 300;
+        pman->terminate(pname, true, TIMEOUT);
+    });
     connect(pman->processFor(pname), &QProcess::stateChanged,
             [bstop](QProcess::ProcessState state) { bstop->setEnabled(state == QProcess::Running); });
 
@@ -54,7 +57,6 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     gl->setRowStretch(1, 1);
     gl->setContentsMargins(0, 0, textBrowser->verticalScrollBar()->sizeHint().width(), 0);
     gl->setSpacing(0);
-    auto f(AppConfig::instance().loggerFont());
     textBrowser->setFont(QFont("Courier"));
     connect(&AppConfig::instance(), &AppConfig::configChanged, [textBrowser](AppConfig *conf) {
         textBrowser->setFont(conf->loggerFont());

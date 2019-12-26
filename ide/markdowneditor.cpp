@@ -31,6 +31,7 @@
 #include <QFutureWatcher>
 
 static constexpr auto DEFAULT_REFRESH_DELAY_MS = 500;
+static constexpr auto RELOAD_ICON_SIZE = QSize{16, 16};
 
 MarkdownEditor::MarkdownEditor(QWidget *parent): QWidget(parent)
 {
@@ -41,7 +42,7 @@ MarkdownEditor::MarkdownEditor(QWidget *parent): QWidget(parent)
     editor = new CodeTextEditor(this);
     view = new MarkdownView(this);
     reload->setIcon(QIcon(AppConfig::resourceImage({ "actions", "view-refresh" })));
-    reload->setIconSize(QSize(16, 16));
+    reload->setIconSize(RELOAD_ICON_SIZE);
     view->setCornerWidget(reload);
     s->addWidget(editor);
     s->addWidget(view);
@@ -87,7 +88,7 @@ class MarkdownEditorCreator: public IDocumentEditorCreator
 public:
     ~MarkdownEditorCreator() override;
 
-    static bool in(const QMimeType& t, const QStringList list) {
+    static bool in(const QMimeType &t, const QStringList &list) {
         for(const auto& mtype: list)
             if (t.inherits(mtype))
                 return true;
@@ -102,9 +103,7 @@ public:
     }
 
     bool canHandleMime(const QMimeType &mime) const override {
-        if (in(mime, MARKDOWN_MIMETYPE))
-            return true;
-        return false;
+        return in(mime, MARKDOWN_MIMETYPE);
     }
 
     IDocumentEditor *create(QWidget *parent = nullptr) const override {

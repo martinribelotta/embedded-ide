@@ -60,7 +60,7 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
     });
     connect(this, &PlainTextEditor::userListActivated,
             [this](int id, const QString& text) {
-        Q_UNUSED(id);
+        Q_UNUSED(id)
         auto position = static_cast<unsigned long>(SendScintilla(SCI_GETCURRENTPOS));
         auto start = SendScintilla(SCI_WORDSTARTPOSITION, position, true);
         auto end = SendScintilla(SCI_WORDENDPOSITION, position, true);
@@ -116,15 +116,15 @@ constexpr auto MIN_DEPTH = MIN_INDENT; // ignore lines below this indentation le
 constexpr auto MAX_DEPTH = 3*MAX_INDENT; // ignore lines beyond this indentation level
 
 // % of lines allowed to contradict indentation option without penalty
-constexpr auto GRACE_FREQUENCY = 1/50.0f;
+constexpr auto GRACE_FREQUENCY = 1 / 50.0F;
 
 struct ParseResult {
     int num_tab_lines = 0;
     int num_space_lines = 0;
-    float grace = 0.0f;
+    float grace = 0.0F;
 
     // indentation => count(lines of that exact indentation)
-    int depth_counts[MAX_DEPTH+1] = {0};
+    std::array<int, MAX_DEPTH+1> depth_counts = {0};
 };
 
 ParseResult parseDocument(QsciScintilla *doc) {
@@ -133,8 +133,9 @@ ParseResult parseDocument(QsciScintilla *doc) {
     const int num_lines = doc->lines();
     result.grace = float(num_lines) * GRACE_FREQUENCY;
     for(int i = 0; i < num_lines; ++i) {
-        const int depth = doc->indentation(i);
-        if(depth < MIN_DEPTH || depth > MAX_DEPTH) continue;
+        auto depth = static_cast<const decltype (result.depth_counts)::size_type>(doc->indentation(i));
+        if(depth < MIN_DEPTH || depth > MAX_DEPTH)
+            continue;
 
         auto pos = doc->SendScintilla(QsciScintilla::SCI_POSITIONFROMLINE, i);
         auto lineHeadChar = doc->SendScintilla(QsciScintilla::SCI_GETCHARAT, pos);
@@ -143,7 +144,7 @@ ParseResult parseDocument(QsciScintilla *doc) {
 
         if(lineHeadChar == ' ') {
             result.num_space_lines++;
-            result.depth_counts[depth]++;
+            result.depth_counts.at(depth)++;
         }
     }
 
@@ -180,26 +181,28 @@ IndentInfo detectIndentInfo(QsciScintilla *doc) {
     if(info.type == IndentInfo::IndentType::Space) {
 
         // indent size => count(space-indented lines with incompatible indentation)
-        int margins[MAX_INDENT+1] = {0};
+        std::array<int, MAX_INDENT+1> margins = {0};
+        using margins_size = decltype (margins)::size_type;
 
         // for each depth option, count the incompatible lines
-        for(int i = MIN_DEPTH; i <= MAX_DEPTH; i++) {
-            for(int k = MIN_INDENT; k <= MAX_INDENT; k++) {
-                if(i % k == 0) continue;
-                margins[k] += result.depth_counts[i];
+        for(margins_size i = MIN_DEPTH; i <= MAX_DEPTH; i++) {
+            for(margins_size k = MIN_INDENT; k <= MAX_INDENT; k++) {
+                if(i % k == 0)
+                    continue;
+                margins.at(k) += result.depth_counts.at(i);
             }
         }
 
         // choose the last indent with the smallest margin (ties go to larger indent)
         // Considers margins within grace of zero as =zero,
         // so occasional typos don't force smaller indentation
-        int which = MIN_INDENT;
-        for(int i = MIN_INDENT; i <= MAX_INDENT; ++i) {
-            if(result.depth_counts[i] == 0) continue;
-            if(margins[i] <= margins[which] || margins[i] < result.grace) which = i;
+        margins_size which = MIN_INDENT;
+        for(margins_size i = MIN_INDENT; i <= MAX_INDENT; ++i) {
+            if(result.depth_counts.at(i) == 0) continue;
+            if(margins.at(i) <= margins.at(which) || margins.at(i) < result.grace) which = i;
         }
 
-        info.num = which;
+        info.num = static_cast<int>(which);
     }
 
     return info;
@@ -277,7 +280,8 @@ void PlainTextEditor::setModified(bool m)
 
 QPoint PlainTextEditor::cursor() const
 {
-    int line, col;
+    int line;
+    int col;
     getCursorPosition(&line, &col);
     return {col, line};
 }
@@ -308,7 +312,8 @@ IDocumentEditorCreator *PlainTextEditor::creator()
 
 QString PlainTextEditor::wordUnderCursor() const
 {
-    int line, col;
+    int line;
+    int col;
     getCursorPosition(&line, &col);
     return wordAtLineIndex(line, col);
 }
@@ -364,7 +369,7 @@ void PlainTextEditor::closeEvent(QCloseEvent *event)
 
 void PlainTextEditor::contextMenuEvent(QContextMenuEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     createContextualMenu()->exec(event->globalPos());
 }
 
@@ -395,25 +400,26 @@ void PlainTextEditor::loadConfigWithStyle(const QString& styleName, const QFont&
     setMarginLineNumbers(0, true);
     // setMarginsBackgroundColor(QColor("#cccccc"));
 
-    SendScintilla(SCI_SETMULTIPLESELECTION, 1l, 0l);
-    SendScintilla(SCI_SETADDITIONALSELECTIONTYPING, 1l, 0l);
+    SendScintilla(SCI_SETMULTIPLESELECTION, 1L, 0L);
+    SendScintilla(SCI_SETADDITIONALSELECTIONTYPING, 1L, 0L);
 
     setMarginSensitivity(1, true);
     markerDefine(QsciScintilla::Circle, SC_MARK_CIRCLE);
     markerDefine(QsciScintilla::RightArrow, SC_MARK_ARROW);
     markerDefine(QsciScintilla::Background, SC_MARK_BACKGROUND);
     // setMargins(3);
-    setMarkerBackgroundColor(QColor("#1111ee"), SC_MARK_CIRCLE);
-    setMarkerBackgroundColor(QColor("#ee1111"), SC_MARK_ARROW);
+    static constexpr auto CIRCLE_BG_COLOR = 0x1111ee;
+    static constexpr auto ARROW_BG_COLOR = 0xee1111;
+    setMarkerBackgroundColor(QColor(CIRCLE_BG_COLOR), SC_MARK_CIRCLE);
+    setMarkerBackgroundColor(QColor(ARROW_BG_COLOR), SC_MARK_ARROW);
     setAnnotationDisplay(AnnotationIndented);
     adjustLineNumberMargin();
 
+    constexpr auto INDIC_COLOR = 255;
     SendScintilla(SCI_INDICSETSTYLE, 0, INDIC_ROUNDBOX);
-    SendScintilla(SCI_INDICSETFORE, 0, 255);
+    SendScintilla(SCI_INDICSETFORE, 0, INDIC_COLOR);
     auto fg = color();
     auto bg = paper();
-    qDebug() << "color" << fg;
-    qDebug() << "paper" << bg;
     if (AppConfig::instance().editorShowSpaces()) {
         setWhitespaceBackgroundColor(bg);
         setWhitespaceForegroundColor(fg);
@@ -437,7 +443,7 @@ bool PlainTextEditor::loadStyle(const QString &xmlStyleFile)
     }
     QDomDocument doc;
     QString errorMsg;
-    int eLine, eCol;
+    int eLine; int eCol;
     if (!doc.setContent(&file, &errorMsg, &eLine, &eCol)) {
         qDebug() << "cannot load" << xmlStyleFile
                  << "style:" << errorMsg
@@ -449,7 +455,7 @@ bool PlainTextEditor::loadStyle(const QString &xmlStyleFile)
         qDebug() << "cannot load" << xmlStyleFile << "not contain NotepadPlus tag";
         return false;
     }
-    if (true) {
+    {
         QDomElement globalStyles = root.firstChildElement("GlobalStyles");
         if (globalStyles.isNull()) {
             qDebug() << "cannot load" << xmlStyleFile << "not GlobalStyles";

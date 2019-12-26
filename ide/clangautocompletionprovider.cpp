@@ -100,7 +100,7 @@ static void parseCompilerInfo(const QString& text, QStringList *incs, QStringLis
 #endif
     }
 #else
-    Q_UNUSED(defs);
+    Q_UNUSED(defs)
 #endif
     bool onIncludes = false;
     for(const QString& line: text.split('\n')) {
@@ -147,7 +147,8 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
     auto& p = ChildProcess::create(this)
     .changeCWD(path)
     .onError([this](QProcess *ctags, QProcess::ProcessError) {
-        priv->project->showMessageTimed(tr("ctags error: %1").arg(ctags->errorString()), 5000);
+        constexpr auto TIMEOUT = 5000;
+        priv->project->showMessageTimed(tr("ctags error: %1").arg(ctags->errorString()), TIMEOUT);
     })
     .onFinished([this](QProcess *ctags, int exitStatus) {
         qDebug() << "ctags end with" << exitStatus;
@@ -189,7 +190,7 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
 
 void ClangAutocompletionProvider::startIndexingFile(const QString &path)
 {
-    Q_UNUSED(path);
+    Q_UNUSED(path)
     auto targets = priv->project->targetsOfDependency(path);
     auto& p = ChildProcess::create(this)
             .makeDeleteLater()
@@ -241,7 +242,7 @@ void ClangAutocompletionProvider::startIndexingFile(const QString &path)
                 qDebug() << "Includes:" << priv->includes;
                 qDebug() << "Defines:" << priv->defines;
             }).onError([](QProcess *cc, QProcess::ProcessError err) {
-                Q_UNUSED(err);
+                Q_UNUSED(err)
                 qDebug() << "CC ERROR: " << cc->program() << cc->arguments() << "\n"
                          << "\t" << cc->errorString();
             });
@@ -278,7 +279,7 @@ void ClangAutocompletionProvider::completionAt(const ICodeModelProvider::FileRef
     }).onError([](QProcess *clang, QProcess::ProcessError err) {
         qDebug() << "clang error:" << clang->errorString() << err;
     }).onFinished([cb](QProcess *clang, int exitStatus) {
-        Q_UNUSED(exitStatus);
+        Q_UNUSED(exitStatus)
         clang->deleteLater();
         // qDebug() << "clang finish:" << exitStatus;
         QStringList list;

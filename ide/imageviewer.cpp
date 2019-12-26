@@ -26,11 +26,15 @@
 #include <QToolButton>
 #include <QVariant>
 
+static constexpr auto ICON_SIZE = QSize{22, 22};
+static constexpr auto ZOOMOUT_FACTOR = 1.1;
+static constexpr auto ZOOMIN_FACTOR = 0.99;
+
 template<typename F>
 static QToolButton *createButton(const QString& name, QWidget *parent, F& func) {
     auto b = new QToolButton(parent);
     b->setIcon(QIcon(AppConfig::resourceImage({ "actions", name })));
-    b->setIconSize(QSize(22, 22));
+    b->setIconSize(ICON_SIZE);
     b->setAutoRaise(true);
     QObject::connect(b, &QToolButton::clicked, func);
     return b;
@@ -40,7 +44,7 @@ template<typename F>
 static QToolButton *createToggleButton(const QString& name, QWidget *parent, F& func) {
     auto b = new QToolButton(parent);
     b->setIcon(QIcon(AppConfig::resourceImage({ "actions", name })));
-    b->setIconSize(QSize(22, 22));
+    b->setIconSize(ICON_SIZE);
     b->setAutoRaise(true);
     b->setCheckable(true);
     QObject::connect(b, &QToolButton::toggled, func);
@@ -52,7 +56,7 @@ class AspectRatioLabel : public QLabel
 public:
     explicit AspectRatioLabel(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags()) :
         QLabel(parent, f) {}
-    virtual ~AspectRatioLabel() override;
+    ~AspectRatioLabel() override;
 
 public slots:
     void setPixmap(const QPixmap& pm) {
@@ -112,8 +116,8 @@ ImageViewer::ImageViewer(QWidget *parent) : QWidget(parent)
 
     setProperty("factor", 1.0);
     auto doScale = [label](double f) { label->resize(label->size() * f); };
-    auto zoomIn = [doScale]() { doScale(1.1); };
-    auto zoomOut = [doScale]() { doScale(0.99); };
+    auto zoomIn = [doScale]() { doScale(ZOOMOUT_FACTOR); };
+    auto zoomOut = [doScale]() { doScale(ZOOMIN_FACTOR); };
     auto zoomFit = [area, label](bool check) {
         area->setWidgetResizable(check);
         if (!check) {
