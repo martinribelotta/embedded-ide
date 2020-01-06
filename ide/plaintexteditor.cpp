@@ -124,7 +124,7 @@ struct ParseResult {
     float grace = 0.0F;
 
     // indentation => count(lines of that exact indentation)
-    std::array<int, MAX_DEPTH+1> depth_counts = {0};
+    std::array<int, MAX_DEPTH+1> depth_counts = { { 0 } };
 };
 
 ParseResult parseDocument(QsciScintilla *doc) {
