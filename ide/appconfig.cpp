@@ -468,6 +468,16 @@ QString AppConfig::language() const
     return CFG_LOCAL.value("lang").toString();
 }
 
+int AppConfig::numberOfJobs() const
+{
+    return CFG_LOCAL.value("numberOfJobs").toInt(1);
+}
+
+bool AppConfig::numberOfJobsOptimal() const
+{
+    return CFG_LOCAL.value("numberOfJobsOptimal").toBool(false);
+}
+
 QByteArray AppConfig::fileHash(const QString &filename)
 {
     auto path = QDir(workspacePath()).filePath("hashes.json");
@@ -697,6 +707,16 @@ void AppConfig::setUseDarkStyle(bool use)
 void AppConfig::setLanguage(const QString &lang)
 {
     CFG_LOCAL.insert("lang", lang);
+}
+
+void AppConfig::setNumberOfJobs(int n)
+{
+    CFG_LOCAL.insert("numberOfJobs", n);
+}
+
+void AppConfig::setNumberOfJobsOptimal(bool en)
+{
+    CFG_LOCAL.insert("numberOfJobsOptimal", en);
 }
 
 void AppConfig::addHash(const QString &filename, const QByteArray &hash)

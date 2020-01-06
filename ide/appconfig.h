@@ -89,6 +89,9 @@ public:
 
     QString language() const;
 
+    int numberOfJobs() const;
+    bool numberOfJobsOptimal() const;
+
     QByteArray fileHash(const QString& filename);
 
 signals:
@@ -131,6 +134,9 @@ public slots:
     void setUseDevelopMode(bool use);
     void setUseDarkStyle(bool use);
     void setLanguage(const QString& lang);
+
+    void setNumberOfJobs(int n);
+    void setNumberOfJobsOptimal(bool en);
 
     void addHash(const QString& filename, const QByteArray& hash);
     void purgeHash();

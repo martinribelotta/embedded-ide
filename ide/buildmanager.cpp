@@ -16,15 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#include "appconfig.h"
 #include "buildmanager.h"
 #include "processmanager.h"
 #include "projectmanager.h"
 
 #include <QFileInfo>
 
+#include <QThread>
 #include <QtDebug>
 
 const QString BuildManager::PROCESS_NAME = "makeBuild";
+
+static int getOptimalNumberOfJobs()
+{
+    return QThread::idealThreadCount();
+}
 
 BuildManager::BuildManager(ProjectManager *_proj, ProcessManager *_pman, QObject *parent) :
     QObject(parent),
@@ -33,8 +40,8 @@ BuildManager::BuildManager(ProjectManager *_proj, ProcessManager *_pman, QObject
 {
     pman->setErrorHandler(PROCESS_NAME, [](QProcess *proc, QProcess::ProcessError err) {
         // TODO Implement this (maybe unnecesary?)
-        Q_UNUSED(proc);
-        Q_UNUSED(err);
+        Q_UNUSED(proc)
+        Q_UNUSED(err)
     });
     pman->setTerminationHandler(PROCESS_NAME, [this](QProcess *proc, int code, QProcess::ExitStatus status) {
         emit buildTerminated(code, status == QProcess::NormalExit? tr("Exit normal") : proc->errorString());
@@ -43,6 +50,9 @@ BuildManager::BuildManager(ProjectManager *_proj, ProcessManager *_pman, QObject
 
 void BuildManager::startBuild(const QString &target)
 {
-    pman->start(PROCESS_NAME, "make", { "-f", proj->projectFile(), target }, {}, proj->projectPath());
+    auto &c = AppConfig::instance();
+    auto nJobs = c.numberOfJobsOptimal()? getOptimalNumberOfJobs() : c.numberOfJobs();
+    auto params = QStringList{ "-j", QString("%1").arg(nJobs), "-f", proj->projectFile(), target };
+    pman->start(PROCESS_NAME, "make", params, {}, proj->projectPath());
     emit buildStarted(target);
 }

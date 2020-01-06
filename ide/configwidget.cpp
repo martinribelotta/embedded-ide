@@ -173,6 +173,8 @@ void ConfigWidget::save()
     conf.setUseDevelopMode(ui->useDevelopment->isChecked());
     conf.setUseDarkStyle(ui->useDarkStyle->isChecked());
     conf.setLanguage(ui->languageList->currentText());
+    conf.setNumberOfJobs(ui->numberOfJobs->value());
+    conf.setNumberOfJobsOptimal(ui->numberOfJobsOptimal->isChecked());
     conf.save();
 }
 
@@ -216,4 +218,6 @@ void ConfigWidget::load()
     ui->useDevelopment->setChecked(conf.useDevelopMode());
     ui->useDarkStyle->setChecked(conf.useDarkStyle());
     ui->languageList->setCurrentText(conf.language());
+    ui->numberOfJobs->setValue(conf.numberOfJobs());
+    ui->numberOfJobsOptimal->setChecked(conf.numberOfJobsOptimal());
 }

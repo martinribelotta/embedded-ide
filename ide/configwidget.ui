@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>601</width>
+    <width>638</width>
     <height>485</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="editorSettings">
       <attribute name="title">
@@ -373,7 +373,17 @@
        <string>Behavior</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
-       <item row="9" column="0" colspan="3">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Format Style</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1" colspan="2">
+        <widget class="QComboBox" name="languageList"/>
+       </item>
+       <item row="11" column="0" colspan="3">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -386,66 +396,6 @@
          </property>
         </spacer>
        </item>
-       <item row="3" column="1" colspan="2">
-        <widget class="QComboBox" name="formatterStyle"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Format extra paramters:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QFontComboBox" name="loggerFontName">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="fontFilters">
-          <set>QFontComboBox::MonospacedFonts</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Log View Font</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Format Style</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QCheckBox" name="useDarkStyle">
-         <property name="text">
-          <string>Use dark style</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QCheckBox" name="autoUpdateProjectTmplates">
-         <property name="text">
-          <string>Check for project templates updates at start up</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="2">
         <widget class="QSpinBox" name="loggerFontSize">
          <property name="minimum">
@@ -456,14 +406,10 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
-        <widget class="QCheckBox" name="useDevelopment">
-         <property name="text">
-          <string>Use in-progress/development characteristics</string>
-         </property>
-        </widget>
+       <item row="3" column="1" colspan="2">
+        <widget class="QComboBox" name="formatterStyle"/>
        </item>
-       <item row="7" column="0" colspan="3">
+       <item row="9" column="0" colspan="3">
         <widget class="QWidget" name="widget_2" native="true">
          <property name="minimumSize">
           <size>
@@ -480,6 +426,33 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
        <item row="4" column="1" colspan="2">
         <widget class="QLineEdit" name="formatterExtra"/>
        </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QCheckBox" name="useDarkStyle">
+         <property name="text">
+          <string>Use dark style</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Format extra paramters:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Log View Font</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0" colspan="3">
         <widget class="QWidget" name="widget" native="true">
          <property name="minimumSize">
@@ -494,13 +467,61 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="1" colspan="2">
-        <widget class="QComboBox" name="languageList"/>
+       <item row="1" column="1">
+        <widget class="QFontComboBox" name="loggerFontName">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="fontFilters">
+          <set>QFontComboBox::MonospacedFonts</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QCheckBox" name="useDevelopment">
+         <property name="text">
+          <string>Use in-progress/development characteristics</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QCheckBox" name="autoUpdateProjectTmplates">
+         <property name="text">
+          <string>Check for project templates updates at start up</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="8" column="0">
         <widget class="QLabel" name="label_9">
          <property name="text">
           <string>Current language</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Number of jobs in Makefile</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="QSpinBox" name="numberOfJobs">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="2">
+        <widget class="QCheckBox" name="numberOfJobsOptimal">
+         <property name="text">
+          <string>Optimal</string>
          </property>
         </widget>
        </item>
@@ -573,11 +594,11 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
    <hints>
     <hint type="sourcelabel">
      <x>119</x>
-     <y>147</y>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
-     <x>126</x>
-     <y>182</y>
+     <x>119</x>
+     <y>76</y>
     </hint>
    </hints>
   </connection>
@@ -588,12 +609,12 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>429</x>
-     <y>160</y>
+     <x>119</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
-     <x>429</x>
-     <y>182</y>
+     <x>119</x>
+     <y>76</y>
     </hint>
    </hints>
   </connection>
@@ -604,12 +625,12 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>46</x>
-     <y>147</y>
+     <x>57</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
-     <x>73</x>
-     <y>421</y>
+     <x>84</x>
+     <y>76</y>
     </hint>
    </hints>
   </connection>
@@ -620,12 +641,28 @@ border-bottom-color: rgb(0, 0, 0, 96);</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>85</x>
-     <y>385</y>
+     <x>43</x>
+     <y>62</y>
     </hint>
     <hint type="destinationlabel">
-     <x>83</x>
-     <y>415</y>
+     <x>94</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>numberOfJobsOptimal</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>numberOfJobs</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>578</x>
+     <y>303</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>477</x>
+     <y>301</y>
     </hint>
    </hints>
   </connection>
