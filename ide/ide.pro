@@ -3,6 +3,7 @@ DESTDIR  = ../build
 QT += core gui widgets svg xml network concurrent uitools
 
 CONFIG += qscintilla2
+CONFIG += c++14
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     greaterThan(QT_MINOR_VERSION, 11) {
