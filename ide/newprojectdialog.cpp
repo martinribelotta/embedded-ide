@@ -174,7 +174,18 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
             ui->parameterTable->resizeColumnToContents(0);
             ui->parameterTable->resizeRowsToContents();
         } else {
-            ui->infoView->setHtml(tr("<h1>Compressed project in tar.gz from:</h1><p><tt>%1</tt>").arg(path));
+            if (tm.type() == TemplateFile::Type::TarGzWithMetaFile) {
+                auto mdName = tm.getFirstMetadataName();
+                auto mdContent = tm.meta().value(mdName);
+                auto mdSuffix = QFileInfo{mdName}.suffix();
+                if (QStringList{ "htm", "html" }.contains(mdSuffix))
+                    ui->infoView->setHtml(mdContent);
+                else if (mdSuffix == "md")
+                    ui->infoView->setHtml(MarkdownView::renderHtml(mdContent));
+                else
+                    ui->infoView->setPlainText(mdContent);
+            } else
+                ui->infoView->setHtml(tr("<h1>Compressed project in tar.gz from:</h1><p><tt>%1</tt>").arg(path));
             if (ui->parameterTable->model())
                 ui->parameterTable->model()->deleteLater();
             // TODO? extract metadata from tar.gz and show it?

@@ -19,6 +19,7 @@
 #include "templatefile.h"
 #include "tar.h"
 #include "appconfig.h"
+#include <zlib.h>
 
 #include <QRegularExpressionMatch>
 
@@ -29,15 +30,15 @@ static const QStringList DIFF_EXTENTIONS = {
 };
 
 static const QStringList METADATA_FILENAMES = {
-    "MANIFEST.txt",
     "MANIFEST.md",
-    "MANIFEST.html",
-    "MANIFEST.htm",
-    "MANIFEST",
-    "README.txt",
     "README.md",
+    "MANIFEST.html",
     "README.html",
+    "MANIFEST.htm",
     "README.htm",
+    "MANIFEST.txt",
+    "README.txt",
+    "MANIFEST",
     "README"
 };
 
@@ -57,8 +58,16 @@ TemplateFile::Type TemplateFile::type() const
     return Type::Unknown;
 }
 
+QString TemplateFile::getFirstMetadataName() const
+{
+    for(const auto& name: METADATA_FILENAMES)
+        if (infometa.contains(name))
+            return name;
+    return {};
+}
+
 template<typename T1, typename T2>
-static auto roundupTo(T1 v, T2 n)
+static T1 roundupTo(T1 v, T2 n)
 {
     v = (((v) + (n - 1)) & ~(n - 1));
     return v;
@@ -67,11 +76,11 @@ static auto roundupTo(T1 v, T2 n)
 TemplateFile::Metadata TemplateFile::extractMeta(const QString &path)
 {
     Metadata meta;
-    QFile f(path);
-    if (f.open(QFile::ReadOnly)) {
+    gzFile f = gzopen(path.toLocal8Bit().constData(), "rb");
+    if (f) {
         posix_header h{};
         do {
-            auto len = f.read(reinterpret_cast<char*>(&h), sizeof(h));
+            auto len = gzread(f, reinterpret_cast<char*>(&h), sizeof(h));
             if (len == sizeof(h)) {
                 if (QLatin1Literal(h.magic, TMAGLEN) == "ustar ") {
                     QFileInfo finfo(h.name);
@@ -80,21 +89,25 @@ TemplateFile::Metadata TemplateFile::extractMeta(const QString &path)
                     auto size = QString(h.size).toLong(&ok, octRadix);
                     if (!ok)
                         break;
-                    auto pos = f.pos();
-                    if (METADATA_FILENAMES.contains(finfo.filePath())) {
-                        auto data = f.read(size);
-                        meta.insert(finfo.filePath(), data);
+                    auto pos = gztell(f);
+                    auto name = finfo.fileName();
+                    if (METADATA_FILENAMES.contains(name)) {
+                        auto ptr = new char[size_t(size)];
+                        auto readed = gzread(f, ptr, static_cast<unsigned int>(size));
+                        QByteArray data{ptr, readed};
+                        meta.insert(name, data);
+                        delete[] ptr;
                     }
                     constexpr auto CHUNCK_SIZE = 512;
                     size = roundupTo(size, CHUNCK_SIZE);
-                    f.seek(pos + size);
+                    gzseek(f, pos + size, SEEK_SET);
                 } else {
                     break;
                 }
             } else {
                 break;
             }
-        } while(!f.atEnd());
+        } while(!gzeof(f));
     }
     return meta;
 }

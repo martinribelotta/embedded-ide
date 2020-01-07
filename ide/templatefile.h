@@ -38,6 +38,8 @@ public:
     Type type() const;
     Metadata meta() const { return infometa; }
 
+    QString getFirstMetadataName() const;
+
     static Metadata extractMeta(const QString& path);
 private:
     QFileInfo info;

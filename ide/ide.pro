@@ -133,6 +133,8 @@ RESOURCES += \
 
 QMAKE_LFLAGS += -lqscintilla2_qt5
 
+LIBS += -lz
+
 win32 {
     QMAKE_CXXFLAGS += -g3
     QMAKE_CFLAGS += -g3
