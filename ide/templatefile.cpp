@@ -42,28 +42,24 @@ static const QStringList METADATA_FILENAMES = {
     "README"
 };
 
+const QString TemplateFile::TEMPLATE_FILEDIALOG_FILTER =
+    QObject::tr("All knowed template formats (*.template *.tar.gz);;"
+                "Templates (*.template);;"
+                "Compressed tar with gzip (*.tar.gz);;"
+                "All files (*)");
+
 TemplateFile::TemplateFile(const QFileInfo& path)
-    : info(path), infometa(extractMeta(path.absoluteFilePath()))
+    : info(path)
 {
 }
 
 TemplateFile::Type TemplateFile::type() const
 {
-    if (!infometa.isEmpty())
-        return Type::TarGzWithMetaFile;
     if (info.completeSuffix().toLower() == "tar.gz")
         return Type::TarGzFile;
     if (DIFF_EXTENTIONS.contains(info.suffix().toLower()))
         return Type::DiffFile;
     return Type::Unknown;
-}
-
-QString TemplateFile::getFirstMetadataName() const
-{
-    for(const auto& name: METADATA_FILENAMES)
-        if (infometa.contains(name))
-            return name;
-    return {};
 }
 
 template<typename T1, typename T2>
@@ -73,9 +69,28 @@ static T1 roundupTo(T1 v, T2 n)
     return v;
 }
 
-TemplateFile::Metadata TemplateFile::extractMeta(const QString &path)
+DiffFile::DiffFile(const QString &path)
 {
-    Metadata meta;
+    constexpr auto RE_E = R"(\$\{\{(?P<name>[a-zA-Z_0-9]+)(?:\s+(?P<type>string|items)\:(?P<params>.*?))?\}\})";
+    name = path;
+    diffText = AppConfig::readEntireTextFile(name);
+    auto m = QRegularExpression(R"((^[\s\S]*?)^diff )", QRegularExpression::MultilineOption).match(diffText);
+    int startOfDiff = m.hasMatch()? m.capturedEnd(1) : 0;
+    if (startOfDiff > 0)
+        manifest = diffText.mid(0, startOfDiff - 1);
+    QRegularExpression re(RE_E, QRegularExpression::MultilineOption);
+    for (auto it = re.globalMatch(diffText, startOfDiff); it.hasNext(); ) {
+        auto m = it.next();
+        QString name = m.captured("name");
+        QString type = m.captured("type");
+        QString params = m.captured("params");
+        if (!type.isEmpty() && !params.isEmpty())
+            parameters.append({ name, type, params });
+    }
+}
+
+TarGzFile::TarGzFile(const QString &path)
+{
     gzFile f = gzopen(path.toLocal8Bit().constData(), "rb");
     if (f) {
         posix_header h{};
@@ -85,18 +100,21 @@ TemplateFile::Metadata TemplateFile::extractMeta(const QString &path)
                 if (QLatin1Literal(h.magic, TMAGLEN) == "ustar ") {
                     QFileInfo finfo(h.name);
                     bool ok = false;
-                    constexpr auto octRadix = 8;
-                    auto size = QString(h.size).toLong(&ok, octRadix);
+                    constexpr auto OCT_RADIX = 8;
+                    auto size = QString(h.size).toLong(&ok, OCT_RADIX);
                     if (!ok)
                         break;
                     auto pos = gztell(f);
                     auto name = finfo.fileName();
                     if (METADATA_FILENAMES.contains(name)) {
-                        auto ptr = new char[size_t(size)];
+                        QByteArray buffer;
+                        buffer.resize(static_cast<int>(size));
+                        auto *ptr = buffer.data();
                         auto readed = gzread(f, ptr, static_cast<unsigned int>(size));
-                        QByteArray data{ptr, readed};
-                        meta.insert(name, data);
-                        delete[] ptr;
+                        buffer.resize(readed);
+                        metadata = QString::fromLocal8Bit(buffer);
+                        metadataSuffix = finfo.suffix();
+                        break;
                     }
                     constexpr auto CHUNCK_SIZE = 512;
                     size = roundupTo(size, CHUNCK_SIZE);
@@ -108,28 +126,5 @@ TemplateFile::Metadata TemplateFile::extractMeta(const QString &path)
                 break;
             }
         } while(!gzeof(f));
-    }
-    return meta;
-}
-
-DiffFile::DiffFile(const QString &path)
-{
-    name = path;
-    diffText = AppConfig::readEntireTextFile(name);
-    QRegularExpressionMatch m = QRegularExpression(R"((^[\s\S]*?)^diff )", QRegularExpression::MultilineOption)
-                                    .match(diffText);
-    int startOfDiff = m.hasMatch()? m.capturedEnd(1) : 0;
-    if (startOfDiff > 0)
-        manifest = diffText.mid(0, startOfDiff - 1);
-    QRegularExpression re(R"(\$\{\{(?P<name>[a-zA-Z_0-9]+)(?:\s+(?P<type>string|items)\:(?P<params>.*?))?\}\})",
-                          QRegularExpression::MultilineOption);
-    auto it = re.globalMatch(diffText, startOfDiff);
-    while (it.hasNext()) {
-        auto m = it.next();
-        QString name = m.captured("name");
-        QString type = m.captured("type");
-        QString params = m.captured("params");
-        if (!type.isEmpty() && !params.isEmpty())
-            parameters.append({ name, type, params });
     }
 }

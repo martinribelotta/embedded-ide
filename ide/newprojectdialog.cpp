@@ -151,7 +151,7 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     ui->parameterTable->setItemDelegateForColumn(1, new ItemDelegate(this));
     for(const QFileInfo& info: QDir(":/templates").entryInfoList({ "*.template" }))
         ui->templateName->addItem(info.baseName(), info.absoluteFilePath());
-    for(const QFileInfo& info: QDir(AppConfig::instance().templatesPath()).entryInfoList({ "*.template" }))
+    for(const QFileInfo& info: QDir(AppConfig::instance().templatesPath()).entryInfoList({ "*.template", "*.tar.gz" }))
         if (ui->templateName->findData(info.absoluteFilePath()) == -1)
             ui->templateName->addItem(info.baseName(), info.absoluteFilePath());
 
@@ -163,34 +163,28 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     connect(ui->projectPath, &QLineEdit::textChanged, completePath);
 
     auto templateSelectedCallback = [this](int index) {
+        if (ui->parameterTable->model()) {
+            ui->parameterTable->model()->deleteLater();
+            ui->parameterTable->setModel(nullptr);
+        }
         auto path = ui->templateName->itemData(index).toString();
         auto tm = TemplateFile{QFileInfo{path}};
         if (tm.type() == TemplateFile::Type::DiffFile) {
             DiffFile dFile{path};
             ui->infoView->setHtml(dFile.manifest);
-            if (ui->parameterTable->model())
-                ui->parameterTable->model()->deleteLater();
             ui->parameterTable->setModel(ItemDelegate::extractParameterToModel(ui->parameterTable, dFile.parameters));
             ui->parameterTable->resizeColumnToContents(0);
             ui->parameterTable->resizeRowsToContents();
-        } else {
-            if (tm.type() == TemplateFile::Type::TarGzWithMetaFile) {
-                auto mdName = tm.getFirstMetadataName();
-                auto mdContent = tm.meta().value(mdName);
-                auto mdSuffix = QFileInfo{mdName}.suffix();
-                if (QStringList{ "htm", "html" }.contains(mdSuffix))
-                    ui->infoView->setHtml(mdContent);
-                else if (mdSuffix == "md")
-                    ui->infoView->setHtml(MarkdownView::renderHtml(mdContent));
-                else
-                    ui->infoView->setPlainText(mdContent);
-            } else
-                ui->infoView->setHtml(tr("<h1>Compressed project in tar.gz from:</h1><p><tt>%1</tt>").arg(path));
-            if (ui->parameterTable->model())
-                ui->parameterTable->model()->deleteLater();
-            // TODO? extract metadata from tar.gz and show it?
-            qDebug() << int(tm.type()) << tm.meta();
-        }
+        } else if (tm.type() == TemplateFile::Type::TarGzFile) {
+            TarGzFile tFile{path};
+            if (QStringList{ "htm", "html" }.contains(tFile.metadataSuffix))
+                ui->infoView->setHtml(tFile.metadata);
+            else if (tFile.metadataSuffix == "md")
+                ui->infoView->setHtml(MarkdownView::renderHtml(tFile.metadata));
+            else
+                ui->infoView->setPlainText(tFile.metadata);
+        } else
+            ui->infoView->setHtml(tr("<h1>Compressed project in tar.gz from:</h1><p><tt>%1</tt>").arg(path));
     };
     connect(ui->templateName, QOverload<int>::of(&QComboBox::currentIndexChanged), templateSelectedCallback);
     connect(ui->pathSelect, &QToolButton::clicked, [this]() {
@@ -200,12 +194,8 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     });
     connect(ui->templateSelect, &QToolButton::clicked, [this]() {
         auto dir = AppConfig::instance().templatesPath();
-        auto path = QFileDialog::getOpenFileName(this,
-                                                 tr("Select File"),
-                                                 dir,
-                                                 tr("Templates (*.template);;"
-                                                    "Tar compressed with gzip (*.tar.gz);;"
-                                                    "All files (*)"));
+        auto path = QFileDialog::getOpenFileName(this, tr("Select File"), dir,
+                                                 TemplateFile::TEMPLATE_FILEDIALOG_FILTER);
         if (!path.isEmpty()) {
             ui->templateName->insertItem(0, QFileInfo(path).baseName(), path);
             ui->templateName->setCurrentIndex(0);

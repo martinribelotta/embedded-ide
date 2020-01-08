@@ -33,6 +33,8 @@
 #include <QMessageBox>
 #include <QScrollBar>
 
+static const QStringList KNOWED_TEMPLATE_SUFFIX{ "template", "tar.gz" };
+
 TemplateManager::TemplateManager(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TemplateManager)
@@ -108,7 +110,7 @@ TemplateManager::TemplateManager(QWidget *parent) :
             for (const auto entry : contents.array()) {
                 auto oEntry = entry.toObject();
                 auto name = oEntry.value("name").toString();
-                if ("template" == QFileInfo(name).suffix()) {
+                if (KNOWED_TEMPLATE_SUFFIX.contains(QFileInfo(name).suffix())) {
                     auto url = QUrl(oEntry.value("download_url").toString());
                     auto hash = QByteArray::fromHex(oEntry.value("sha").toString().toLatin1());
                     auto templateItem = TemplateItem(url, hash);
@@ -189,7 +191,7 @@ void TemplateManager::startUpdate()
 
 void TemplateManager::showEvent(QShowEvent *event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     if (property("firstTime").toBool()) {
         startUpdate();
         setProperty("firstTime", false);

@@ -21,6 +21,13 @@ struct DiffFile {
     DiffFile(const QString& path);
 };
 
+struct TarGzFile {
+    QString metadataSuffix;
+    QString metadata;
+
+    TarGzFile(const QString& path);
+};
+
 class TemplateFile
 {
 public:
@@ -28,22 +35,16 @@ public:
         Unknown,
         DiffFile,
         TarGzFile,
-        TarGzWithMetaFile,
     };
 
-    using Metadata = QHash<QString, QByteArray>;
+    static const QString TEMPLATE_FILEDIALOG_FILTER;
 
     TemplateFile(const QFileInfo& path);
 
     Type type() const;
-    Metadata meta() const { return infometa; }
 
-    QString getFirstMetadataName() const;
-
-    static Metadata extractMeta(const QString& path);
 private:
     QFileInfo info;
-    Metadata infometa;
 };
 
 #endif // TEMPLATEFILE_H

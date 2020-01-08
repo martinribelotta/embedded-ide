@@ -211,12 +211,12 @@ void ProjectManager::createProject(const QString& projectFilePath, const QString
         p->closeWriteChannel();
     };
     auto onFinishCb = [this, projectFilePath](QProcess *p, int exitCode) {
-        Q_UNUSED(p);
+        Q_UNUSED(p)
         TextMessageBrocker::instance().publish(TextMessages::STDOUT_LOG, tr("Diff terminate. Exit code %1").arg(exitCode));
         openProject(QDir(projectFilePath).filePath("Makefile"));
     };
     auto onErrCb = [](QProcess *p, QProcess::ProcessError err) {
-        Q_UNUSED(err);
+        Q_UNUSED(err)
         TextMessageBrocker::instance().publish(TextMessages::STDERR_LOG, tr("Diff error: %1").arg(p->errorString()));
     };
     auto& p = ChildProcess::create(this)
@@ -233,12 +233,12 @@ void ProjectManager::createProjectFromTGZ(const QString &projectFilePath, const 
 {
     AppConfig::ensureExist(projectFilePath);
     auto onFinishCb = [this, projectFilePath](QProcess *p, int exitCode) {
-        Q_UNUSED(p);
+        Q_UNUSED(p)
         TextMessageBrocker::instance().publish(TextMessages::STDOUT_LOG, tr("tar terminate. Exit code %1").arg(exitCode));
         openProject(QDir(projectFilePath).filePath("Makefile"));
     };
     auto onErrCb = [](QProcess *p, QProcess::ProcessError err) {
-        Q_UNUSED(err);
+        Q_UNUSED(err)
         TextMessageBrocker::instance().publish(TextMessages::STDERR_LOG, tr("tar error: %1").arg(p->errorString()));
     };
     auto& p = ChildProcess::create(this)
@@ -265,7 +265,7 @@ void ProjectManager::exportToDiff(const QString &patchFile)
     if (!tmpDir.exists())
         QDir::root().mkpath(tmpDir.absolutePath());
     priv->pman->setTerminationHandler(EXPORT_PROC, [this, tmpDir, patchFile](QProcess *p, int code, QProcess::ExitStatus status) {
-        Q_UNUSED(code);
+        Q_UNUSED(code)
         QDir::root().rmpath(tmpDir.absolutePath());
         if (status == QProcess::NormalExit) {
             QFile f(patchFile);

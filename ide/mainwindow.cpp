@@ -38,6 +38,7 @@
 #include "regexhtmltranslator.h"
 #include "templatemanager.h"
 #include "templateitemwidget.h"
+#include "templatefile.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -131,9 +132,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->updateAvailable, &QToolButton::clicked, [this, tman]() {
         static constexpr auto SIZE_GROW = 0.9;
         QDialog d(this);
-        auto z = this->size();
-        z.scale(this->size() * SIZE_GROW, Qt::KeepAspectRatio);
-        d.resize(z);
+        d.resize(this->size().scaled(this->size() * SIZE_GROW, Qt::KeepAspectRatio));
         auto l = new QVBoxLayout(&d);
         auto bb = new QDialogButtonBox(QDialogButtonBox::Close, &d);
         l->addWidget(tman);
@@ -251,9 +250,7 @@ MainWindow::MainWindow(QWidget *parent) :
     };
     auto exportCallback = [this, clearMessageCallback]() {
         auto path = QFileDialog::getSaveFileName(this, tr("New File"), AppConfig::instance().templatesPath(),
-                                                 tr("Templates (*.template);;"
-                                                    "Compressed tar with gzip (*.tar.gz);;"
-                                                    "All files (*)"));
+                                                 TemplateFile::TEMPLATE_FILEDIALOG_FILTER);
         if (!path.isEmpty()) {
             if (QFileInfo(path).suffix().isEmpty())
                 path.append(".template");
@@ -336,8 +333,8 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     };
     connect(ui->documentContainer, &DocumentManager::documentModified, [this](const QString& path, IDocumentEditor *iface, bool modify){
-        Q_UNUSED(path);
-        Q_UNUSED(iface);
+        Q_UNUSED(path)
+        Q_UNUSED(iface)
         ui->buttonDocumentSave->setEnabled(modify);
         ui->buttonDocumentSaveAll->setEnabled(ui->documentContainer->unsavedDocuments().count() > 0);
     });
