@@ -281,10 +281,10 @@ void ProjectManager::exportToDiff(const QString &patchFile)
             emit exportFinish(p->errorString());
         p->deleteLater();
     });
-    priv->pman->setStdoutInterceptor(EXPORT_PROC, [](QProcess* p, const QString& text) {
+    priv->pman->setStderrInterceptor(EXPORT_PROC, [](QProcess* p, const QString& text) {
         QString s{ text };
         TextMessageBrocker::instance()
-            .publish(TextMessages::STDOUT_LOG,
+            .publish(TextMessages::STDERR_LOG,
                      RegexHTMLTranslator::CONSOLE_TRANSLATOR(p, s));
     });
     priv->pman->start(EXPORT_PROC, "diff", { "-N", "-u", "-r", tmpDir.absolutePath(), "." }, {}, projectPath());
