@@ -43,6 +43,11 @@
 
 #include <QtDebug>
 
+
+constexpr size_t operator "" _KB(unsigned long long size) { return static_cast<size_t>(size * 1024); }
+constexpr size_t operator "" _MB(unsigned long long size) { return static_cast<size_t>(size * 1024 * 1024); }
+constexpr size_t operator "" _GB(unsigned long long size) { return static_cast<size_t>(size * 1024 * 1024 * 1024); }
+
 constexpr auto TARGETVIEW_ICON_SIZE = QSize(16, 16);
 
 const QString SPACE_SEPARATORS = R"(\s)";
@@ -270,7 +275,10 @@ void ProjectManager::exportToDiff(const QString &patchFile)
         if (status == QProcess::NormalExit) {
             QFile f(patchFile);
             if (f.open(QFile::WriteOnly)) {
-                f.write(p->readAllStandardOutput());
+                auto BLOCK_SIZE = 1024_KB;
+                p->setCurrentReadChannel(QProcess::StandardOutput);
+                while (p->bytesAvailable() > 0)
+                    f.write(p->read(BLOCK_SIZE));
                 f.close();
             }
             if (f.error() == QFile::NoError)

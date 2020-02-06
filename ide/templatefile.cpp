@@ -74,7 +74,8 @@ DiffFile::DiffFile(const QString &path)
     constexpr auto RE_E = R"(\$\{\{(?P<name>[a-zA-Z_0-9]+)(?:\s+(?P<type>string|items)\:(?P<params>.*?))?\}\})";
     name = path;
     diffText = AppConfig::readEntireTextFile(name);
-    auto m = QRegularExpression(R"((^[\s\S]*?)^diff )", QRegularExpression::MultilineOption).match(diffText);
+    auto m = QRegularExpression(R"(([\S\s]+?)(?:^diff\s[\S\s]+?)?^\-\-\-\s)",
+                                QRegularExpression::MultilineOption).match(diffText);
     int startOfDiff = m.hasMatch()? m.capturedEnd(1) : 0;
     if (startOfDiff > 0)
         manifest = diffText.mid(0, startOfDiff - 1);
