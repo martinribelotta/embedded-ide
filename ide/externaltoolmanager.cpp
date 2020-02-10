@@ -45,15 +45,17 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
     ui(new Ui::ExternalToolManager)
 {
     ui->setupUi(this);
-#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
-    _(itemDown, "go-down");
-    _(itemUp, "go-up");
-    _(itemDel, "list-remove");
-    _(itemAdd, "list-add");
+    const struct { QAbstractButton *b; const char *name; } buttonmap[] = {
+        { ui->itemDown, "go-down" },
+        { ui->itemUp, "go-up" },
+        { ui->itemDel, "list-remove" },
+        { ui->itemAdd, "list-add" },
+        { ui->pushButton_2, "dialog-close" },
+        { ui->pushButton, "dialog-ok-apply" },
+    };
+    for (const auto& e: buttonmap)
+        e.b->setIcon(QIcon{AppConfig::resourceImage({ "actions", e.name })});
 
-    _(pushButton_2, "dialog-close");
-    _(pushButton, "dialog-ok-apply");
-#undef _
     auto model = new QStandardItemModel(this);
     model->setHorizontalHeaderLabels({ tr("Description"), tr("Command") });
     ui->tableView->setModel(model);

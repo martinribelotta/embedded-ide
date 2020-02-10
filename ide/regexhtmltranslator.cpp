@@ -20,19 +20,17 @@
 
 #include <QtDebug>
 
+static RegexEntry mkEntry(const QString& r, const auto& h) {
+    return RegexEntry{QRegularExpression{ r, QRegularExpression::MultilineOption }, QLatin1String{ h } };
+}
+
 const RegexList_t RegexHTMLTranslator::DEFAULT_REGEX =
     {
-#define _(r, h) RegexEntry{ \
-        QRegularExpression{ r, QRegularExpression::MultilineOption }, \
-        QLatin1String{ h } \
-    }
-
-    _(R"((\r?\n))", "\\1<br>"),
-    _(R"( )", "&nbsp;"),
-    _(R"(^(\<br\>)?(.*?):(\d+):(\d+)?(:?)(.*?)(\<br\>)?$)",
-      R"(\1<font color="red">\2:\3:\4\5 <a href="file:\2#\3#\4">\6</a></font>\7)"),
-
-#undef _
+    mkEntry(R"((\r?\n))", "\\1<br>"),
+    mkEntry(R"( )", "&nbsp;"),
+    mkEntry(
+        R"(^(\<br\>)?(.*?):(\d+):(\d+)?(:?)(.*?)(\<br\>)?$)",
+        R"(\1<font color="red">\2:\3:\4\5 <a href="file:\2#\3#\4">\6</a></font>\7)"),
     };
 
 RegexHTMLTranslator RegexHTMLTranslator::CONSOLE_TRANSLATOR{};

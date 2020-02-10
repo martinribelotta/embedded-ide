@@ -89,17 +89,16 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
         }
     });
 
-#define _(keycode, functor) do { \
-        auto acc = new QAction(this); \
-        acc->setShortcut(QKeySequence(keycode)); \
-        connect(acc, &QAction::triggered, functor); \
-        addAction(acc); \
-    } while(0)
-    _("ctrl+s", [this]() { save(path()); });
-    _("ctrl+r", [this]() { load(path()); });
-    _("ctrl+space", [this]() { triggerAutocompletion(); });
-    _("ctrl+f", [findDialog]() { findDialog->show(); });
-#undef _
+    auto mkAction = [this](const auto& keycode, const auto& functor) {
+        auto acc = new QAction(this);
+        acc->setShortcut(QKeySequence(keycode));
+        connect(acc, &QAction::triggered, functor);
+        addAction(acc);
+    };
+    mkAction("ctrl+s", [this]() { save(path()); });
+    mkAction("ctrl+r", [this]() { load(path()); });
+    mkAction("ctrl+space", [this]() { triggerAutocompletion(); });
+    mkAction("ctrl+f", [findDialog]() { findDialog->show(); });
 }
 
 PlainTextEditor::~PlainTextEditor() = default;
@@ -601,24 +600,23 @@ void PlainTextEditor::triggerAutocompletion()
 
 QMenu *PlainTextEditor::createContextualMenu()
 {
-#define _(en, icon, text, keys, functor) do { \
-    auto a = m->addAction(QIcon(AppConfig::resourceImage({ "actions", icon })), text, functor); \
-    a->setShortcut(QKeySequence(keys)); \
-    a->setEnabled(en); \
-} while(0)
-
     auto m = new QMenu(this);
     bool isSelected = !selectedText().isEmpty();
     bool canPaste = static_cast<bool>(SendScintilla(SCI_CANPASTE));
-    _(isUndoAvailable(), "edit-undo", tr("Undo"), "Ctrl+Z", [this]() { undo(); });
-    _(isRedoAvailable(), "edit-redo", tr("Redo"), "Ctrl+Shift+Z", [this]() { redo(); });
+    auto mkAction = [this, m](const auto& en, const auto& icon, const auto& text, const auto& keys, const auto &functor) {
+        auto a = m->addAction(QIcon(AppConfig::resourceImage({ "actions", icon })), text, functor);
+        a->setShortcut(QKeySequence(keys));
+        a->setEnabled(en);
+    };
+    mkAction(isUndoAvailable(), "edit-undo", tr("Undo"), "Ctrl+Z", [this]() { undo(); });
+    mkAction(isRedoAvailable(), "edit-redo", tr("Redo"), "Ctrl+Shift+Z", [this]() { redo(); });
     m->addSeparator();
-    _(isSelected, "edit-cut", tr("Cut"), "Ctrl+X", [this]() { cut(); });
-    _(isSelected, "edit-copy", tr("Copy"), "Ctrl+C", [this]() { copy(); });
-    _(canPaste, "edit-paste", tr("Paste"), "Ctrl+V", [this]() { paste(); });
-    _(isSelected, "edit-delete", tr("Delete"), "DEL", [this]() { removeSelectedText(); });
+    mkAction(isSelected, "edit-cut", tr("Cut"), "Ctrl+X", [this]() { cut(); });
+    mkAction(isSelected, "edit-copy", tr("Copy"), "Ctrl+C", [this]() { copy(); });
+    mkAction(canPaste, "edit-paste", tr("Paste"), "Ctrl+V", [this]() { paste(); });
+    mkAction(isSelected, "edit-delete", tr("Delete"), "DEL", [this]() { removeSelectedText(); });
     m->addSeparator();
-    _(true, "edit-select-all", tr("Select All"), "CTRL+A", [this]() { selectAll(); });
-#undef _
+    mkAction(true, "edit-select-all", tr("Select All"), "CTRL+A", [this]() { selectAll(); });
+
     return m;
 }

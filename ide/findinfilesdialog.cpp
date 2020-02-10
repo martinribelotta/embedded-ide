@@ -48,12 +48,14 @@ FindInFilesDialog::FindInFilesDialog(QWidget *parent) :
     ui(new Ui::FindInFilesDialog)
 {
     ui->setupUi(this);
-#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
-    _(buttonChoseDirectory, "document-open");
-    _(buttonSelectfilePattern, "application-menu");
-    _(buttonFind, "edit-find");
-    _(buttonStop, "dialog-cancel");
-#undef _
+    const struct { QAbstractButton *b; const char *name; } buttonmap[]={
+        { ui->buttonChoseDirectory, "document-open" },
+        { ui->buttonSelectfilePattern, "application-menu" },
+        { ui->buttonFind, "edit-find" },
+        { ui->buttonStop, "dialog-cancel" },
+    };
+    for (const auto& e: buttonmap)
+        e.b->setIcon(QIcon{AppConfig::resourceImage({ "actions", e.name })});
 
     auto model = new QStandardItemModel(this);
     ui->treeView->setModel(model);

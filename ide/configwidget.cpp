@@ -54,12 +54,13 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
     ui(new Ui::ConfigWidget)
 {
     ui->setupUi(this);
-#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
-    _(projectPathSetButton, "document-open");
-    _(tbPathAdd, "list-add");
-    _(tbPathRm, "list-remove");
-#undef _
-
+    const struct { QToolButton *b; const char *icon; } buttonmap[] = {
+        { ui->projectPathSetButton, "document-open" },
+        { ui->tbPathAdd, "list-add" },
+        { ui->tbPathRm, "list-remove" },
+    };
+    for (const auto& e: buttonmap)
+        e.b->setIcon(QIcon{AppConfig::resourceImage({ "actions", e.icon })});
 
     ui->languageList->addItems(QStringList{ "" } + AppConfig::langList());
     ui->tabWidget->setCurrentIndex(0);

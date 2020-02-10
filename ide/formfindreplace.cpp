@@ -32,12 +32,13 @@ FormFindReplace::FormFindReplace(QsciScintilla *ed) :
     editor(ed)
 {
     ui->setupUi(this);
-
-#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
-    _(buttonFind, "edit-find");
-    _(buttonFindPrev_2, "dialog-close");
-    _(buttonReplace, "edit-find-replace");
-#undef _
+    const struct { QAbstractButton *b; const char *name; } buttonmap[]={
+        { ui->buttonFind, "edit-find" },
+        { ui->buttonFindPrev_2, "dialog-close" },
+        { ui->buttonReplace, "edit-find-replace" },
+    };
+    for (const auto& e: buttonmap)
+        e.b->setIcon(QIcon{AppConfig::resourceImage({ "actions", e.name })});
 
     ui->textToFind->addMenuActions({
         { tr("Regular Expression"), "regex" },

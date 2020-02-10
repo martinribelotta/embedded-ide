@@ -40,12 +40,14 @@ TemplateManager::TemplateManager(QWidget *parent) :
     ui(new Ui::TemplateManager)
 {
     ui->setupUi(this);
-#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
-    _(updateRepository, "view-refresh");
-    _(selectAll, "edit-select-all");
-    _(unselectAll, "deletecell");
-    _(downloadFromRepo, "edit-download");
-#undef _
+    const struct { QAbstractButton *b; const char *name; } buttonmap[] = {
+        { ui->updateRepository, "view-refresh" },
+        { ui->selectAll, "edit-select-all" },
+        { ui->unselectAll, "deletecell" },
+        { ui->downloadFromRepo, "edit-download" },
+    };
+    for (const auto& e: buttonmap)
+        e.b->setIcon(QIcon{AppConfig::resourceImage({ "actions", e.name })});
 
     ui->unselectAll->setIcon(QIcon{AppConfig::resourceImage({ "actions", "deletecell" })});
     setProperty("firstTime", true);

@@ -30,13 +30,14 @@ UnsavedFilesDialog::UnsavedFilesDialog(const QStringList& unsaved, QWidget *pare
     ui(new Ui::UnsavedFilesDialog)
 {
     ui->setupUi(this);
-#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
-    _(buttonSave, "document-save-all");
-    _(buttonDiscart, "edit-delete");
-    _(buttonSelectAll, "dialog-ok-apply");
-
-    _(buttonCancel, "dialog-cancel");
-#undef _
+    const struct { QAbstractButton *b; const char *name; } buttonmap[] = {
+        { ui->buttonSave, "document-save-all" },
+        { ui->buttonDiscart, "edit-delete" },
+        { ui->buttonSelectAll, "dialog-ok-apply" },
+        { ui->buttonCancel, "dialog-cancel" },
+    };
+    for (const auto& e: buttonmap)
+        e.b->setIcon(QIcon{AppConfig::resourceImage({ "actions", e.name })});
 
     auto m = new QStandardItemModel(this);
     ui->listView->setModel(m);

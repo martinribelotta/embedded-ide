@@ -75,11 +75,12 @@ DocumentManager::DocumentManager(QWidget *parent) :
     label->setAlignment(Qt::AlignHCenter | Qt::AlignCenter);
     priv->stack->addWidget(label);
 
-#define SHCUT(seq, ...) connect(new QShortcut(QKeySequence(seq), window()), &QShortcut::activated, __VA_ARGS__);
-    SHCUT("CTRL+SHIFT+X", this, &DocumentManager::closeCurrent);
-    SHCUT("CTRL+SHIFT+R", this, &DocumentManager::reloadDocumentCurrent);
-    // SHCUT("CTRL+S", this, &DocumentManager::saveCurrent);
-#undef SHCUT
+    auto shCut = [this](const QString& seq, const auto& functor) {
+        connect(new QShortcut(QKeySequence(seq), window()), &QShortcut::activated, this, functor);
+    };
+    shCut("CTRL+SHIFT+X", &DocumentManager::closeCurrent);
+    shCut("CTRL+SHIFT+R", &DocumentManager::reloadDocumentCurrent);
+    // SHCUT("CTRL+S", &DocumentManager::saveCurrent);
 }
 
 DocumentManager::~DocumentManager()

@@ -98,32 +98,34 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->setCurrentWidget(ui->welcomePage);
     ui->bottomLeftStack->setCurrentWidget(ui->actionViewer);
 
-    auto loadIcons = [this]() {
-#define _(b, name) ui->b->setIcon(QIcon{AppConfig::resourceImage({ "actions", name })})
-    _(buttonDocumentCloseAll, "document-close-all");
-    _(buttonReload, "view-refresh");
-    _(buttonCloseProject, "document-close");
-    _(buttonExport, "document-export");
-    _(buttonFindAll, "edit-find-replace");
-    _(buttonTools, "run-build-configure");
-    _(buttonConfigurationMain, "configure");
-    _(buttonDebugLaunch, "debug-init");
-    _(buttonDebugRun, "debug-run-v2");
-    _(buttonDebugStepOver, "debug-step-over-v2");
-    _(buttonDebugStepInto, "debug-step-into-v2");
-    _(buttonDebugRunToEOF, "debug-step-out-v2");
-    _(buttonDocumentClose, "document-close");
-    _(buttonDocumentSave, "document-save");
-    _(buttonDocumentCloseAll, "document-close-all");
-    _(buttonDocumentSaveAll, "document-save-all");
-    _(buttonDocumentReload, "view-refresh");
-    _(updateAvailable, "view-refresh");
-    _(buttonQuit, "application-exit");
-    _(buttonConfiguration, "configure");
-    // _(buttonExternalTools, "run-build-configure");
-    _(buttonOpenProject, "document-open");
-    _(buttonNewProject, "document-new");
-#undef _
+    const struct { QToolButton *b; const char *icon; } buttonmap[] = {
+        { ui->buttonDocumentCloseAll, "document-close-all" },
+        { ui->buttonReload, "view-refresh" },
+        { ui->buttonCloseProject, "document-close" },
+        { ui->buttonExport, "document-export" },
+        { ui->buttonFindAll, "edit-find-replace" },
+        { ui->buttonTools, "run-build-configure" },
+        { ui->buttonConfigurationMain, "configure" },
+        { ui->buttonDebugLaunch, "debug-init" },
+        { ui->buttonDebugRun, "debug-run-v2" },
+        { ui->buttonDebugStepOver, "debug-step-over-v2" },
+        { ui->buttonDebugStepInto, "debug-step-into-v2" },
+        { ui->buttonDebugRunToEOF, "debug-step-out-v2" },
+        { ui->buttonDocumentClose, "document-close" },
+        { ui->buttonDocumentSave, "document-save" },
+        { ui->buttonDocumentCloseAll, "document-close-all" },
+        { ui->buttonDocumentSaveAll, "document-save-all" },
+        { ui->buttonDocumentReload, "view-refresh" },
+        { ui->updateAvailable, "view-refresh" },
+        { ui->buttonQuit, "application-exit" },
+        { ui->buttonConfiguration, "configure" },
+        // { ui->buttonExternalTools, "run-build-configure" },
+        { ui->buttonOpenProject, "document-open" },
+        { ui->buttonNewProject, "document-new" },
+    };
+    auto loadIcons = [this, buttonmap]() {
+        for (const auto& e: buttonmap)
+            e.b->setIcon(QIcon{AppConfig::resourceImage({ "actions", e.icon })});
     };
     loadIcons();
     connect(&AppConfig::instance(), &AppConfig::configChanged, loadIcons);
