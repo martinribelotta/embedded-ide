@@ -78,7 +78,7 @@ static QString kindToIcon(const QString& kind)
         { "function", "function" },
         { "macro", "macro" },
         { "object", "unknown" },
-        { "prototype", "unknown" },
+        { "prototype", "function" },
         { "section", "unknown" },
         { "struct", "class" },
         { "symbol", "class" },

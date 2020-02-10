@@ -16,7 +16,7 @@ APP_IMAGE_NAME=Embedded_IDE-x86_64.AppImage
 DEPLOY_OPT="-no-translations -verbose=2 -executable=$INSTALL_DIR/usr/bin/embedded-ide"
 DESKTOP_FILE=$INSTALL_DIR/usr/share/applications/embedded-ide.desktop
 
-wget https://github.com/martinribelotta/embedded-ide-builder/blob/master/linux-x86_64/universal-ctags?raw=true -O /tmp/universal-ctags
+wget https://raw.githubusercontent.com/martinribelotta/embedded-ide-builder/master/linux-x86_64/universal-ctags -O /tmp/universal-ctags
 
 echo ************** LINUX BUILD ***********************
 
