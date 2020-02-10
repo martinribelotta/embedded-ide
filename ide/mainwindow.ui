@@ -458,103 +458,6 @@
             <number>0</number>
            </property>
            <item row="0" column="4">
-            <widget class="QToolButton" name="buttonDocumentClose">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>Close current</string>
-             </property>
-             <property name="icon">
-              <iconset theme="document-close">
-               <normaloff>.</normaloff>.</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="autoRaise">
-              <bool>true</bool>
-             </property>
-             <attribute name="buttonGroup">
-              <string notr="true">editionButtons</string>
-             </attribute>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QToolButton" name="buttonDocumentSave">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>Save current</string>
-             </property>
-             <property name="icon">
-              <iconset theme="document-save">
-               <normaloff>.</normaloff>.</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="autoRaise">
-              <bool>true</bool>
-             </property>
-             <attribute name="buttonGroup">
-              <string notr="true">editionButtons</string>
-             </attribute>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QComboBox" name="documentSelector">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>1</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>29</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="5">
-            <widget class="QToolButton" name="buttonDocumentCloseAll">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>Close all</string>
-             </property>
-             <property name="icon">
-              <iconset theme="document-close-all">
-               <normaloff>.</normaloff>.</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>22</width>
-               <height>22</height>
-              </size>
-             </property>
-             <property name="autoRaise">
-              <bool>true</bool>
-             </property>
-             <attribute name="buttonGroup">
-              <string notr="true">editionButtons</string>
-             </attribute>
-            </widget>
-           </item>
-           <item row="0" column="3">
             <widget class="QToolButton" name="buttonDocumentSaveAll">
              <property name="enabled">
               <bool>false</bool>
@@ -580,7 +483,33 @@
              </attribute>
             </widget>
            </item>
-           <item row="1" column="0" colspan="6">
+           <item row="0" column="6">
+            <widget class="QToolButton" name="buttonDocumentCloseAll">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Close all</string>
+             </property>
+             <property name="icon">
+              <iconset theme="document-close-all">
+               <normaloff>.</normaloff>.</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">editionButtons</string>
+             </attribute>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="7">
             <widget class="QSplitter" name="splitterDocumentViewer">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -624,7 +553,52 @@
              </widget>
             </widget>
            </item>
-           <item row="0" column="1">
+           <item row="0" column="5">
+            <widget class="QToolButton" name="buttonDocumentClose">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Close current</string>
+             </property>
+             <property name="icon">
+              <iconset theme="document-close">
+               <normaloff>.</normaloff>.</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">editionButtons</string>
+             </attribute>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QComboBox" name="documentSelector">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>29</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
             <widget class="QToolButton" name="buttonDocumentReload">
              <property name="enabled">
               <bool>false</bool>
@@ -647,6 +621,51 @@
              </property>
             </widget>
            </item>
+           <item row="0" column="3">
+            <widget class="QToolButton" name="buttonDocumentSave">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Save current</string>
+             </property>
+             <property name="icon">
+              <iconset theme="document-save">
+               <normaloff>.</normaloff>.</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">editionButtons</string>
+             </attribute>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="symbolSelector">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>29</height>
+              </size>
+             </property>
+            </widget>
+           </item>
           </layout>
           <zorder>buttonDocumentCloseAll</zorder>
           <zorder>buttonDocumentClose</zorder>
@@ -655,6 +674,7 @@
           <zorder>documentSelector</zorder>
           <zorder>splitterDocumentViewer</zorder>
           <zorder>buttonDocumentReload</zorder>
+          <zorder>symbolSelector</zorder>
          </widget>
         </widget>
        </item>

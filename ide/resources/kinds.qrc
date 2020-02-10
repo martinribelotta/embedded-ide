@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/light/categories/class.svg</file>
+        <file>images/light/categories/enum.svg</file>
+        <file>images/light/categories/function.svg</file>
+        <file>images/light/categories/macro.svg</file>
+        <file>images/light/categories/unknown.svg</file>
+        <file>images/light/categories/variable.svg</file>
+    </qresource>
+</RCC>

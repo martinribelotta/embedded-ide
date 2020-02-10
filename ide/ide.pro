@@ -127,6 +127,7 @@ MOBILITY =
 RESOURCES += \
     resources/fonts.qrc \
     resources/iconactions.qrc \
+    resources/kinds.qrc \
     resources/mimetypes.qrc \
     resources/resources.qrc \
     resources/styles.qrc

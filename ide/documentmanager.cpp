@@ -166,6 +166,8 @@ void DocumentManager::setProjectManager(const ProjectManager *projectManager)
 
 void DocumentManager::openDocument(const QString &filePath)
 {
+    if (filePath == documentCurrent())
+        return;
     QString path = absoluteTo(priv->projectManager->projectPath(), filePath);
     if (QFileInfo(path).isDir())
         return;
@@ -217,7 +219,12 @@ void DocumentManager::openDocumentHere(const QString &path, int line, int col)
 {
     qDebug() << "open document here" << path << line << col;
     openDocument(path);
-    auto ed = documentEditor(path);
+    gotoDocumentPlace(line, col);
+}
+
+void DocumentManager::gotoDocumentPlace(int line, int col)
+{
+    auto ed = documentEditorCurrent();
     if (ed)
         ed->setCursor(QPoint(col, line));
 }

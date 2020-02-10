@@ -36,6 +36,7 @@ public:
 
     void referenceOf(const QString& entity, FindReferenceCallback_t cb) override;
     void completionAt(const FileReference& ref, const QString& unsaved, CompletionCallback_t cb) override;
+    void requestSymbolForFile(const QString& path, SymbolRequestCallback_t cb) override;
 
 private:
     class Priv_t;

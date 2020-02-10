@@ -66,6 +66,29 @@ public:
 
 static constexpr auto MainWindowSIZE = QSize{900, 600};
 
+static QString kindToIcon(const QString& kind)
+{
+    static const QHash<QString, QString> map{
+        { "array", "variable" },
+        { "boolean", "variable" },
+        { "chapter", "variable" },
+        { "enum", "enum" },
+        { "enumerator", "enum" },
+        { "externvar", "variable" },
+        { "function", "function" },
+        { "macro", "macro" },
+        { "object", "unknown" },
+        { "prototype", "unknown" },
+        { "section", "unknown" },
+        { "struct", "class" },
+        { "symbol", "class" },
+        { "typedef", "class" },
+        { "union", "class" },
+        { "variable", "variable" },
+    };
+    return map.value(kind, "unknown");
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWindow),
@@ -322,6 +345,8 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->buttonDocumentReload->setEnabled(haveDocuments);
         ui->buttonDocumentSave->setEnabled(isModified);
         ui->buttonDocumentSaveAll->setEnabled(ui->documentContainer->unsavedDocuments().count() > 0);
+        ui->symbolSelector->setEnabled(false);
+        ui->symbolSelector->clear();
         if (current) {
             auto m = qobject_cast<QFileSystemModel*>(ui->fileViewer->model());
             if (m) {
@@ -330,16 +355,49 @@ MainWindow::MainWindow(QWidget *parent) :
                     ui->fileViewer->setCurrentIndex(i);
                 }
             }
+
         }
     };
-    connect(ui->documentContainer, &DocumentManager::documentModified, [this](const QString& path, IDocumentEditor *iface, bool modify){
+    connect(ui->documentContainer, &DocumentManager::documentModified,
+            [this](const QString& path, IDocumentEditor *iface, bool modify){
         Q_UNUSED(path)
         Q_UNUSED(iface)
         ui->buttonDocumentSave->setEnabled(modify);
         ui->buttonDocumentSaveAll->setEnabled(ui->documentContainer->unsavedDocuments().count() > 0);
     });
-
+    connect(ui->symbolSelector, qOverload<int>(&QComboBox::activated), [this](int idx) {
+        auto var = ui->symbolSelector->itemData(idx);
+        if (var.isNull())
+            return;
+        auto meta = var.value<ICodeModelProvider::Symbol>();
+        ui->documentContainer->gotoDocumentPlace(meta.ref.line, meta.ref.column);
+        auto ed = ui->documentContainer->documentEditorCurrent();
+        if (ed)
+            ed->widget()->setFocus();
+    });
     connect(ui->documentContainer, &DocumentManager::documentFocushed, enableEdition);
+    connect(ui->documentContainer, &DocumentManager::documentFocushed, [this](const QString& path) {
+        priv->projectManager->codeModel()->requestSymbolForFile(
+                    path, [this](const ICodeModelProvider::SymbolSetMap& items) {
+            ui->symbolSelector->clear();
+            if (items.isEmpty())
+                return;
+            auto b = ui->symbolSelector->blockSignals(true);
+            ui->symbolSelector->addItem(tr("<Select Symbol>"));
+            for (auto it = items.cbegin(); it != items.cend(); ++it) {
+                ICodeModelProvider::SymbolSet list = it.value();
+                for (const auto& e: list.toList()) {
+                    auto iconKind = kindToIcon(e.type);
+                    auto icon = QIcon{AppConfig::instance().resourceImage({ "categories", iconKind })};
+                    ui->symbolSelector->addItem(icon,
+                                tr("[%1] %2").arg(e.type, e.name), QVariant::fromValue(e));
+                }
+
+            }
+            ui->symbolSelector->setEnabled(ui->symbolSelector->count() > 0);
+            ui->symbolSelector->blockSignals(b);
+        });
+    });
     connect(ui->documentContainer, &DocumentManager::documentClosed, enableEdition);
 
     connect(priv->projectManager, &ProjectManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);

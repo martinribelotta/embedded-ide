@@ -30,33 +30,61 @@ class ICodeModelProvider
 {
 public:
     virtual ~ICodeModelProvider();
+
     struct FileReference {
         QString path;
         int line = -1;
         int column = -1;
         QString meta;
 
-        FileReference(const QString& p, int l, int c, const QString& m):  path(p),
-                                                                          line(l),
-                                                                          column(c),
-                                                                          meta(m) {}
-
+        FileReference() {}
+        FileReference(const QString& p, int l, int c, const QString& m);
         QUrl encode() const;
-
-        bool isEmpty() const { return path.isEmpty() && meta.isEmpty() && line == -1 && column == -1; }
-
+        bool isEmpty() const;
         static FileReference decode(const QUrl& url);
-    };
-    typedef QList<FileReference> FileReferenceList;
 
-    typedef std::function<void (const FileReferenceList& ref)> FindReferenceCallback_t;
-    typedef std::function<void (const QStringList& completionList)> CompletionCallback_t;
+        bool operator ==(const FileReference& other) const;
+    };
+    struct Symbol {
+        QString name;
+        QString expression;
+        QString lang;
+        QString type;
+        FileReference ref;
+
+        bool operator ==(const Symbol& other) const { return toString() == other.toString(); }
+
+        QString toString() const;
+    };
+
+    using SymbolList = QList<Symbol>;
+    using FileReferenceList = QList<FileReference>;
+    using SymbolSet = QSet<ICodeModelProvider::Symbol>;
+    using SymbolSetMap = QHash<QString, SymbolSet>;
+
+    using FindReferenceCallback_t = std::function<void (const FileReferenceList& ref)>;
+    using CompletionCallback_t = std::function<void (const QStringList& completionList)>;
+    using SymbolRequestCallback_t = std::function<void (const SymbolSetMap& completionList)>;
 
     virtual void startIndexingProject(const QString& path) = 0;
     virtual void startIndexingFile(const QString& path) = 0;
 
     virtual void referenceOf(const QString& entity, FindReferenceCallback_t cb) = 0;
     virtual void completionAt(const FileReference& ref, const QString& unsaved, CompletionCallback_t cb) = 0;
+    virtual void requestSymbolForFile(const QString& path, SymbolRequestCallback_t cb) = 0;
 };
+
+Q_DECLARE_METATYPE(ICodeModelProvider::FileReference)
+Q_DECLARE_METATYPE(ICodeModelProvider::Symbol)
+
+inline uint qHash(const ICodeModelProvider::FileReference &t, uint seed = 0)
+{
+    return qHash(t.encode(), seed);
+}
+
+inline uint qHash(const ICodeModelProvider::Symbol &t, uint seed = 0)
+{
+    return qHash(t.toString(), seed);
+}
 
 #endif // ICPPCODEMODELPROVIDER_H

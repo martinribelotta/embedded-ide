@@ -20,6 +20,11 @@
 
 #include <QUrlQuery>
 
+ICodeModelProvider::FileReference::FileReference(const QString &p, int l, int c, const QString &m):
+    path(p), line(l), column(c), meta(m)
+{
+}
+
 QUrl ICodeModelProvider::FileReference::encode() const
 {
     auto url = QUrl::fromLocalFile(path);
@@ -31,11 +36,28 @@ QUrl ICodeModelProvider::FileReference::encode() const
     return url;
 }
 
+bool ICodeModelProvider::FileReference::isEmpty() const
+{
+    return path.isEmpty() &&
+           meta.isEmpty() &&
+           line == -1 &&
+           column == -1;
+}
+
 ICodeModelProvider::FileReference ICodeModelProvider::FileReference::decode(const QUrl &url)
 {
     QUrlQuery q(url.query());
     return { url.toLocalFile(), q.queryItemValue("line").toInt(), 0, q.queryItemValue("meta") };
 }
 
-ICodeModelProvider::~ICodeModelProvider()
-= default;
+bool ICodeModelProvider::FileReference::operator ==(const ICodeModelProvider::FileReference &other) const
+{
+    return path == other.path && meta == other.meta && line == other.line && column == other.column;
+}
+
+ICodeModelProvider::~ICodeModelProvider() {}
+
+QString ICodeModelProvider::Symbol::toString() const
+{
+    return QString{"%1, %2, %3, %4, %5"}.arg(name, expression, lang, type, ref.encode().toString());
+}

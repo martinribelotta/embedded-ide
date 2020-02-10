@@ -120,11 +120,14 @@ static void parseCompilerInfo(const QString& text, QStringList *incs, QStringLis
     }
 }
 
+
 class ClangAutocompletionProvider::Priv_t
 {
 public:
+
     ProjectManager *project{ nullptr };
     QHash<QString, ICodeModelProvider::FileReferenceList> nameMap;
+    QHash<QString, ICodeModelProvider::SymbolSetMap> symbolsForFiles;
     QStringList includes;
     QStringList defines;
     QByteArray buffer;
@@ -154,18 +157,41 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
         qDebug() << "ctags end with" << exitStatus;
         QtConcurrent::run([ctags, this]() {
             ctags->setReadChannel(QProcess::StandardOutput);
+            QDir cwd{ctags->workingDirectory()};
             while(ctags->bytesAvailable() > 0) {
                 auto line = ctags->readLine();
                 auto entry = QJsonDocument::fromJson(line).object();
                 if (!entry.isEmpty()) {
                     auto name = entry.value("name").toString();
                     auto text = entry.value("text").toString();
-                    ICodeModelProvider::FileReference r = {
-                        entry.value("path").toString(),
-                        entry.value("line").toInt(), 0,
-                        text, // meta
+                    auto type = entry.value("type").toString();
+                    auto lang = entry.value("lang").toString();
+                    auto path = entry.value("path").toString();
+                    auto line = entry.value("line").toInt();
+                    static const QStringList TYPES{
+                        "array",
+                        "boolean",
+                        "chapter",
+                        "enum",
+                        "enumerator",
+                        "externvar",
+                        "function",
+                        "macro",
+                        "object",
+                        "prototype",
+                        "section",
+                        "struct",
+                        "symbol",
+                        "typedef",
+                        "union",
+                        "variable",
                     };
-                    priv->nameMap[name].append(r);
+                    if (TYPES.contains(type)) {
+                        ICodeModelProvider::FileReference ref{ path, line, 0, text };
+                        ICodeModelProvider::Symbol sym{ name, text, lang, type, ref };
+                        priv->nameMap[name].append(ref);
+                        priv->symbolsForFiles[cwd.absoluteFilePath(path)][sym.type].insert(sym);
+                    }
                 }
                 if (!priv->project->isProjectOpen())
                     break;
@@ -302,4 +328,9 @@ void ClangAutocompletionProvider::completionAt(const ICodeModelProvider::FileRef
                  "-"
              } + priv->defines + priv->includes);
     priv->project->deleteOnCloseProject(&p);
+}
+
+void ClangAutocompletionProvider::requestSymbolForFile(const QString &path, ICodeModelProvider::SymbolRequestCallback_t cb)
+{
+    cb(priv->symbolsForFiles.value(path));
 }

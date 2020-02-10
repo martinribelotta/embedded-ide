@@ -53,6 +53,7 @@ signals:
 public slots:
     void openDocument(const QString& filePath);
     void openDocumentHere(const QString& path, int line, int col);
+    void gotoDocumentPlace(int line, int col);
     bool closeDocument(const QString& filePath);
     bool closeCurrent() { return closeDocument(documentCurrent()); }
     bool closeAll();
