@@ -165,16 +165,16 @@ void DocumentManager::setProjectManager(const ProjectManager *projectManager)
     priv->projectManager = projectManager;
 }
 
-void DocumentManager::openDocument(const QString &filePath)
+IDocumentEditor *DocumentManager::openDocument(const QString &filePath)
 {
     if (filePath == documentCurrent())
-        return;
+        return nullptr;
     QString path = absoluteTo(priv->projectManager->projectPath(), filePath);
     if (QFileInfo(path).isDir())
-        return;
+        return nullptr;
     if (!QFileInfo::exists(path)) {
         TextMessageBrocker::instance().publish(TextMessages::STDERR_LOG, tr("%1 not exist").arg(filePath));
-        return;
+        return nullptr;
     }
     if (QFileInfo(path).isRelative())
         path = QDir(priv->projectManager->projectPath()).absoluteFilePath(path);
@@ -217,20 +217,15 @@ void DocumentManager::openDocument(const QString &filePath)
         emit documentFocushed(path);
     } else
         emit documentNotFound(path);
+    return item;
 }
 
 void DocumentManager::openDocumentHere(const QString &path, int line, int col)
 {
     qDebug() << "open document here" << path << line << col;
-    openDocument(path);
-    gotoDocumentPlace(line, col);
-}
-
-void DocumentManager::gotoDocumentPlace(int line, int col)
-{
-    auto ed = documentEditorCurrent();
+    auto ed = openDocument(path);
     if (ed)
-        ed->setCursor(QPoint(col, line));
+        ed->setCursor({ col, line });
 }
 
 bool DocumentManager::closeDocument(const QString &filePath)

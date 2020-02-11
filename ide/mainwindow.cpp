@@ -384,10 +384,11 @@ MainWindow::MainWindow(QWidget *parent) :
         if (var.isNull())
             return;
         auto meta = var.value<ICodeModelProvider::Symbol>();
-        ui->documentContainer->gotoDocumentPlace(meta.ref.line, meta.ref.column);
         auto ed = ui->documentContainer->documentEditorCurrent();
-        if (ed)
+        if (ed) {
+            ed->setCursor({ meta.ref.column, meta.ref.line });
             ed->widget()->setFocus();
+        }
     });
     connect(ui->documentContainer, &DocumentManager::documentPositionModified,
             [this](const QString& path, int l, int c) {
@@ -404,8 +405,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->symbolSelector->setCurrentIndex(idx);
         ui->symbolSelector->blockSignals(b);
     });
-    connect(ui->documentContainer, &DocumentManager::documentFocushed, enableEdition);
-    connect(ui->documentContainer, &DocumentManager::documentFocushed, [this](const QString& path) {
+    auto requestSymbolsForFile =  [this](const QString& path) {
         priv->projectManager->codeModel()->requestSymbolForFile(
                     path, [this](const ICodeModelProvider::SymbolSetMap& items) {
             ui->symbolSelector->clear();
@@ -443,7 +443,9 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->symbolSelector->setEnabled(ui->symbolSelector->count() > 0);
             ui->symbolSelector->blockSignals(b);
         });
-    });
+    };
+    connect(ui->documentContainer, &DocumentManager::documentFocushed, enableEdition);
+    connect(ui->documentContainer, &DocumentManager::documentFocushed, requestSymbolsForFile);
     connect(ui->documentContainer, &DocumentManager::documentClosed, enableEdition);
 
     connect(priv->projectManager, &ProjectManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
