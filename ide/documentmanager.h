@@ -49,6 +49,7 @@ signals:
     void documentNotFound(const QString& path);
     void documentClosed(const QString& path);
     void documentModified(const QString& path, IDocumentEditor *iface, bool modify);
+    void documentPositionModified(const QString& path, int line, int col);
 
 public slots:
     void openDocument(const QString& filePath);

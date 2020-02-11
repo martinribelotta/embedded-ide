@@ -55,6 +55,14 @@
 
 #include <QtDebug>
 
+struct LineRange {
+    int first, second, idx;
+};
+
+Q_DECLARE_METATYPE(LineRange)
+
+using LineRangeList = QList<LineRange>;
+
 class MainWindow::Priv_t {
 public:
     ProjectManager *projectManager;
@@ -62,9 +70,15 @@ public:
     ProcessManager *pman;
     ConsoleInterceptor *console;
     BuildManager *buildManager;
+    LineRangeList lineRanges;
+    QString lastDir;
+    bool documentOnly = false;
+    QByteArray topSplitterState;
+    QByteArray docSplitterState;
 };
 
-static constexpr auto MainWindowSIZE = QSize{900, 600};
+
+static constexpr auto MAINWINDOW_SIZE = QSize{900, 600};
 
 static QString kindToIcon(const QString& kind)
 {
@@ -176,7 +190,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->documentContainer->setComboBox(ui->documentSelector);
     auto version = tr("%1 build at %2").arg(VERSION, BUILD_DATE);
     ui->labelVersion->setText(ui->labelVersion->text().replace("{{version}}", version));
-    resize(MainWindowSIZE);
+    resize(MAINWINDOW_SIZE);
 
     priv->pman = new ProcessManager(this);
     priv->console = new ConsoleInterceptor(ui->logView, priv->pman, BuildManager::PROCESS_NAME, this);
@@ -248,14 +262,12 @@ MainWindow::MainWindow(QWidget *parent) :
     });
 
     auto openProjectCallback = [this]() {
-        auto lastDir = property("lastDir").toString();
+        auto lastDir = priv->lastDir;
         if (lastDir.isEmpty())
             lastDir = AppConfig::instance().projectsPath();
         auto path = QFileDialog::getOpenFileName(this, tr("Open Project"), lastDir, tr("Makefile (Makefile);;All files (*)"));
-        if (!path.isEmpty()) {
+        if (!path.isEmpty())
             openProject(path);
-            setProperty("lastDir", QFileInfo(QFileInfo(path).absolutePath()).absolutePath());
-        }
     };
     auto newProjectCallback = [this]() {
         NewProjectDialog d(this);
@@ -294,21 +306,21 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(new QShortcut(QKeySequence("CTRL+SHIFT+P"), this), &QShortcut::activated, openConfigurationCallback);
     connect(new QShortcut(QKeySequence("CTRL+SHIFT+Q"), this), &QShortcut::activated, priv->projectManager, &ProjectManager::closeProject);
 
-    setProperty("documentOnly", false);
+    priv->documentOnly = false;
     connect(new QShortcut(QKeySequence("CTRL+SHIFT+C"), this), &QShortcut::activated, [this]() {
-        auto state = property("documentOnly").toBool();
+        auto state = priv->documentOnly;
         if (state) {
-            ui->horizontalSplitterTop->restoreState(property("topSplitterState").toByteArray());
-            ui->splitterDocumentViewer->restoreState(property("docSplitterState").toByteArray());
+            ui->horizontalSplitterTop->restoreState(priv->topSplitterState);
+            ui->splitterDocumentViewer->restoreState(priv->docSplitterState);
         } else {
-            setProperty("topSplitterState", ui->horizontalSplitterTop->saveState());
-            setProperty("docSplitterState", ui->splitterDocumentViewer->saveState());
+            priv->topSplitterState = ui->horizontalSplitterTop->saveState();
+            priv->docSplitterState = ui->splitterDocumentViewer->saveState();
             constexpr auto DEFAULT_SPLITTER_SIZE = 100;
             ui->horizontalSplitterTop->setSizes({ 0, DEFAULT_SPLITTER_SIZE });
             ui->splitterDocumentViewer->setSizes({ DEFAULT_SPLITTER_SIZE, 0 });
             ui->documentContainer->setFocus();
         }
-        setProperty("documentOnly", !state);
+        priv->documentOnly = !state;
     });
 
     connect(ui->buttonReload, &QToolButton::clicked, priv->projectManager, &ProjectManager::reloadProject);
@@ -377,24 +389,56 @@ MainWindow::MainWindow(QWidget *parent) :
         if (ed)
             ed->widget()->setFocus();
     });
+    connect(ui->documentContainer, &DocumentManager::documentPositionModified,
+            [this](const QString& path, int l, int c) {
+        Q_UNUSED(c)
+        Q_UNUSED(path)
+        int idx = 0;
+        for (const auto& e: priv->lineRanges) {
+            if (l >= e.first && l < e.second) {
+                idx = e.idx;
+                break;
+            }
+        }
+        auto b = ui->symbolSelector->blockSignals(true);
+        ui->symbolSelector->setCurrentIndex(idx);
+        ui->symbolSelector->blockSignals(b);
+    });
     connect(ui->documentContainer, &DocumentManager::documentFocushed, enableEdition);
     connect(ui->documentContainer, &DocumentManager::documentFocushed, [this](const QString& path) {
         priv->projectManager->codeModel()->requestSymbolForFile(
                     path, [this](const ICodeModelProvider::SymbolSetMap& items) {
             ui->symbolSelector->clear();
+            priv->lineRanges.clear();
             if (items.isEmpty())
                 return;
             auto b = ui->symbolSelector->blockSignals(true);
+            auto& lineNumbers = priv->lineRanges;
             ui->symbolSelector->addItem(tr("<Select Symbol>"));
             for (auto it = items.cbegin(); it != items.cend(); ++it) {
                 ICodeModelProvider::SymbolSet list = it.value();
                 for (const auto& e: list.toList()) {
-                    auto iconKind = kindToIcon(e.type);
-                    auto icon = QIcon{AppConfig::instance().resourceImage({ "categories", iconKind })};
-                    ui->symbolSelector->addItem(icon,
-                                tr("[%1] %2").arg(e.type, e.name), QVariant::fromValue(e));
+                    lineNumbers += { e.ref.line, e.ref.line, ui->symbolSelector->count() };
+                    ui->symbolSelector->addItem(QIcon{AppConfig::instance().resourceImage(
+                                                      { "categories", kindToIcon(e.type) }
+                                                  )},
+                                                tr("[%1] %2").arg(e.type, e.name),
+                                                QVariant::fromValue(e));
                 }
-
+            }
+            if (!lineNumbers.isEmpty()) {
+                std::sort(lineNumbers.begin(), lineNumbers.end(),
+                          [](const LineRange& a, const LineRange& b) {
+                    return a.first < b.first;
+                });
+                auto prev = lineNumbers.begin();
+                for (auto it = ++lineNumbers.begin(); it != lineNumbers.end(); ++it) {
+                    prev->second = it->first;
+                    prev = it;
+                }
+                // FIXME: Ideally, second of the last is line number of the doc,
+                // but the max int value work same for this purponse
+                prev->second = std::numeric_limits<decltype(lineNumbers.end()->second)>::max();
             }
             ui->symbolSelector->setEnabled(ui->symbolSelector->count() > 0);
             ui->symbolSelector->blockSignals(b);

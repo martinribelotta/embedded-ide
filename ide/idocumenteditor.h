@@ -35,6 +35,7 @@ class IDocumentEditor
 {
 public:
     using ModifyObserver_t = std::function<void (IDocumentEditor *, bool)>;
+    using CursorObserver_t = std::function<void (IDocumentEditor *, int line, int col)>;
 
     virtual ~IDocumentEditor();
 
@@ -54,9 +55,8 @@ public:
 
     void setDocumentManager(DocumentManager *man) { this->man = man; }
     DocumentManager *documentManager() const { return this->man; }
-    void addModifyObserver(ModifyObserver_t fptr) {
-        modifyObserverList.append(fptr);
-    }
+    void addModifyObserver(ModifyObserver_t fptr) { modifyObserverList.append(fptr); }
+    void addCursorObserver(CursorObserver_t fptr) { cursorObserverList.append(fptr); }
 
     void setCodeModel(ICodeModelProvider *m) { _codeModel = m; }
     ICodeModelProvider *codeModel() const { return _codeModel; }
@@ -67,8 +67,14 @@ protected:
             a(this, isModified());
     }
 
+    void notifyCursorOvserver(int line, int col) {
+        for(auto& a: cursorObserverList)
+            a(this, line, col);
+    }
+
 private:
     QList<ModifyObserver_t> modifyObserverList;
+    QList<CursorObserver_t> cursorObserverList;
     ICodeModelProvider *_codeModel = nullptr;
     DocumentManager *man = nullptr;
 };

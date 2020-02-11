@@ -38,6 +38,8 @@ PlainTextEditor::PlainTextEditor(QWidget *parent) : QsciScintilla(parent)
     loadConfig();
     connect(&AppConfig::instance(), &AppConfig::configChanged, this, &PlainTextEditor::loadConfig);
     connect(this, &QsciScintilla::linesChanged, this, &PlainTextEditor::adjustLineNumberMargin);
+    connect(this, &QsciScintilla::cursorPositionChanged,
+            [this](int line, int col) { notifyCursorOvserver(line + 1, col + 1); });
     connect(this, &QsciScintilla::selectionChanged, [this](){
         auto editorLength = SendScintilla(SCI_GETLENGTH);
         SendScintilla(SCI_SETINDICATORCURRENT, 0);

@@ -204,6 +204,9 @@ void DocumentManager::openDocument(const QString &filePath)
                     }
                     emit documentModified(path, ed, m);
                 });
+                item->addCursorObserver([this](IDocumentEditor *ed, int line, int col) {
+                    emit documentPositionModified(ed->path(), line, col);
+                });
                 item->setDocumentManager(this);
             }
         }
