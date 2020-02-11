@@ -65,9 +65,11 @@ public:
     using FindReferenceCallback_t = std::function<void (const FileReferenceList& ref)>;
     using CompletionCallback_t = std::function<void (const QStringList& completionList)>;
     using SymbolRequestCallback_t = std::function<void (const SymbolSetMap& completionList)>;
+    using FinishIndexProjectCallback_t = std::function<void ()>;
+    using FinishIndexFileCallback_t = std::function<void ()>;
 
-    virtual void startIndexingProject(const QString& path) = 0;
-    virtual void startIndexingFile(const QString& path) = 0;
+    virtual void startIndexingProject(const QString& path, FinishIndexProjectCallback_t cb) = 0;
+    virtual void startIndexingFile(const QString& path, FinishIndexFileCallback_t cb) = 0;
 
     virtual void referenceOf(const QString& entity, FindReferenceCallback_t cb) = 0;
     virtual void completionAt(const FileReference& ref, const QString& unsaved, CompletionCallback_t cb) = 0;

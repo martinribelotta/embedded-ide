@@ -31,8 +31,8 @@ public:
     explicit ClangAutocompletionProvider(ProjectManager *proj, QObject *parent);
     virtual ~ClangAutocompletionProvider() override;
 
-    void startIndexingProject(const QString& path) override;
-    void startIndexingFile(const QString& path) override;
+    void startIndexingProject(const QString& path, FinishIndexProjectCallback_t cb) override;
+    void startIndexingFile(const QString& path, FinishIndexFileCallback_t cb) override;
 
     void referenceOf(const QString& entity, FindReferenceCallback_t cb) override;
     void completionAt(const FileReference& ref, const QString& unsaved, CompletionCallback_t cb) override;

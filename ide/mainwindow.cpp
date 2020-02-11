@@ -441,12 +441,17 @@ MainWindow::MainWindow(QWidget *parent) :
                 prev->second = std::numeric_limits<decltype(lineNumbers.end()->second)>::max();
             }
             ui->symbolSelector->setEnabled(ui->symbolSelector->count() > 0);
+            if (ui->symbolSelector->count() > 0)
+                ui->symbolSelector->setCurrentIndex(0);
             ui->symbolSelector->blockSignals(b);
         });
     };
     connect(ui->documentContainer, &DocumentManager::documentFocushed, enableEdition);
-    connect(ui->documentContainer, &DocumentManager::documentFocushed, requestSymbolsForFile);
     connect(ui->documentContainer, &DocumentManager::documentClosed, enableEdition);
+    connect(ui->documentContainer, &DocumentManager::documentFocushed, requestSymbolsForFile);
+    connect(priv->projectManager, &ProjectManager::indexFinished, [requestSymbolsForFile, this]() {
+        requestSymbolsForFile(ui->documentContainer->documentCurrent());
+    });
 
     connect(priv->projectManager, &ProjectManager::requestFileOpen, ui->documentContainer, &DocumentManager::openDocument);
     connect(ui->buttonDocumentClose, &QToolButton::clicked, ui->documentContainer, &DocumentManager::closeCurrent);

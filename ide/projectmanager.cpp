@@ -322,7 +322,9 @@ void ProjectManager::openProject(const QString &makefile)
         showMessageTimed(tr("Discovering targets..."));
         constexpr auto DO_OPEN_DELAY_MS = 100;
         QTimer::singleShot(DO_OPEN_DELAY_MS, [this]() {
-            priv->codeModelProvider->startIndexingProject(projectPath());
+            priv->codeModelProvider->startIndexingProject(projectPath(), [this] {
+                emit indexFinished();
+            });
         });
     };
 

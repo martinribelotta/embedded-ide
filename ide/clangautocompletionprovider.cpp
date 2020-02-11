@@ -144,7 +144,7 @@ ClangAutocompletionProvider::~ClangAutocompletionProvider()
     delete priv;
 }
 
-void ClangAutocompletionProvider::startIndexingProject(const QString &path)
+void ClangAutocompletionProvider::startIndexingProject(const QString &path, FinishIndexProjectCallback_t cb)
 {
     priv->nameMap.clear();
     auto& p = ChildProcess::create(this)
@@ -153,9 +153,9 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
         constexpr auto TIMEOUT = 5000;
         priv->project->showMessageTimed(tr("ctags error: %1").arg(ctags->errorString()), TIMEOUT);
     })
-    .onFinished([this](QProcess *ctags, int exitStatus) {
+    .onFinished([this, cb](QProcess *ctags, int exitStatus) {
         qDebug() << "ctags end with" << exitStatus;
-        QtConcurrent::run([ctags, this]() {
+        QtConcurrent::run([ctags, this, cb]() {
             ctags->setReadChannel(QProcess::StandardOutput);
             QDir cwd{ctags->workingDirectory()};
             while(ctags->bytesAvailable() > 0) {
@@ -198,6 +198,7 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
             }
             priv->project->showMessageTimed(tr("Index finished"));
             ctags->deleteLater();
+            cb();
         });
         priv->project->showMessage(tr("ctags end, processing..."));
     });
@@ -214,14 +215,14 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path)
     priv->project->deleteOnCloseProject(&p);
 }
 
-void ClangAutocompletionProvider::startIndexingFile(const QString &path)
+void ClangAutocompletionProvider::startIndexingFile(const QString &path, FinishIndexFileCallback_t cb)
 {
     Q_UNUSED(path)
     auto targets = priv->project->targetsOfDependency(path);
     auto& p = ChildProcess::create(this)
             .makeDeleteLater()
             .changeCWD(priv->project->projectPath())
-            .onFinished([this](QProcess *make, int exitCode)
+            .onFinished([this, cb](QProcess *make, int exitCode)
     {
         qDebug() << "make discover exit with" << exitCode;
         QString out = make->readAllStandardOutput();
@@ -274,6 +275,7 @@ void ClangAutocompletionProvider::startIndexingFile(const QString &path)
             });
             p.start(compiler, parameterList);
             priv->project->deleteOnCloseProject(&p);
+            cb();
         }
     });
     p.start("make", QStringList{ "-B", "-n" } + targets);

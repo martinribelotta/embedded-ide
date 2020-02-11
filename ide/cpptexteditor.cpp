@@ -83,13 +83,12 @@ CPPTextEditor::CPPTextEditor(QWidget *parent) : CodeTextEditor(parent)
     connect(new QShortcut(QKeySequence("Ctrl+i"), this), &QShortcut::activated, this, &CPPTextEditor::formatCode);
 }
 
-CPPTextEditor::~CPPTextEditor()
-= default;
+CPPTextEditor::~CPPTextEditor() = default;
 
 bool CPPTextEditor::load(const QString &path)
 {
     if (codeModel())
-        codeModel()->startIndexingFile(path);
+        codeModel()->startIndexingFile(path, [] {});
     return CodeTextEditor::load(path);
 }
 

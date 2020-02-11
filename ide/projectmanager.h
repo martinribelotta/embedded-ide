@@ -56,6 +56,7 @@ signals:
     void targetTriggered(const QString& target);
     void requestFileOpen(const QString& path);
     void exportFinish(const QString& exportMessage);
+    void indexFinished();
 
 public slots:
     void createProject(const QString& projectFilePath, const QString& templateFile);
