@@ -6,5 +6,11 @@
         <file>images/light/categories/macro.svg</file>
         <file>images/light/categories/unknown.svg</file>
         <file>images/light/categories/variable.svg</file>
+        <file>images/dark/categories/class.svg</file>
+        <file>images/dark/categories/enum.svg</file>
+        <file>images/dark/categories/function.svg</file>
+        <file>images/dark/categories/macro.svg</file>
+        <file>images/dark/categories/unknown.svg</file>
+        <file>images/dark/categories/variable.svg</file>
     </qresource>
 </RCC>

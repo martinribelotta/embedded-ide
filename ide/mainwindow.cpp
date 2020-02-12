@@ -140,6 +140,21 @@ MainWindow::MainWindow(QWidget *parent) :
     auto loadIcons = [this, buttonmap]() {
         for (const auto& e: buttonmap)
             e.b->setIcon(QIcon{AppConfig::resourceImage({ "actions", e.icon })});
+        auto l = QWidgetList{
+            ui->labelConfiguration,
+            ui->labelExit,
+            ui->labelNewProject,
+            ui->labelOpenProject
+        };
+        for (QWidget *e: l) {
+            auto p = e->palette();
+            if (AppConfig::instance().useDarkStyle())
+                p.setColor(QPalette::Text, p.color(QPalette::Text).lighter());
+            else
+                p.setColor(QPalette::Text, p.color(QPalette::Text).darker());
+            e->setPalette(p);
+        }
+
     };
     loadIcons();
     connect(&AppConfig::instance(), &AppConfig::configChanged, loadIcons);
