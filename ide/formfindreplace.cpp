@@ -28,7 +28,7 @@
 
 FormFindReplace::FormFindReplace(QsciScintilla *ed) :
     QWidget(ed->viewport()),
-    ui(new Ui::FormFindReplace),
+    ui(std::make_unique<Ui::FormFindReplace>()),
     editor(ed)
 {
     ui->setupUi(this);
@@ -61,7 +61,6 @@ FormFindReplace::FormFindReplace(QsciScintilla *ed) :
 
 FormFindReplace::~FormFindReplace()
 {
-    delete ui;
 }
 
 void FormFindReplace::showEvent(QShowEvent *event)

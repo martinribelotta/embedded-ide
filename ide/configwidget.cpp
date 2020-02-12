@@ -51,7 +51,7 @@ static const QStringList ASTYLE_STYLES = {
 
 ConfigWidget::ConfigWidget(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ConfigWidget)
+    ui(std::make_unique<Ui::ConfigWidget>())
 {
     ui->setupUi(this);
     const struct { QToolButton *b; const char *icon; } buttonmap[] = {
@@ -134,7 +134,6 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
 
 ConfigWidget::~ConfigWidget()
 {
-    delete ui;
 }
 
 void ConfigWidget::save()

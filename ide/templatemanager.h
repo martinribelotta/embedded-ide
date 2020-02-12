@@ -22,6 +22,8 @@
 #include <QUrl>
 #include <QWidget>
 
+#include <memory>
+
 namespace Ui {
 class TemplateManager;
 }
@@ -59,7 +61,7 @@ protected:
     void showEvent(QShowEvent *event);
 
 private:
-    Ui::TemplateManager *ui;
+    std::unique_ptr<Ui::TemplateManager> ui;
     QHash<QString, QListWidgetItem*> itemList;
 
     void updateLocalTemplates();

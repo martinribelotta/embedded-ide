@@ -146,30 +146,16 @@ static bool completeToLeft(QJsonObject& left, const QJsonObject& right)
     return modify;
 }
 
-AppConfig::AppConfig() : QObject(QApplication::instance()), priv(new Priv_t)
+AppConfig::AppConfig() : QObject(QApplication::instance()), priv(std::make_unique<Priv_t>())
 {
     priv->sysenv = QProcessEnvironment::systemEnvironment();
     addResourcesFont();
-
-//    connect(this, &AppConfig::configChanged, [this]() {
-//        if (useDarkStyle()) {
-//            QIcon::setThemeSearchPaths({ ":/images/dark" });
-//            QIcon::setThemeName("dark");
-//        } else {
-//            QIcon::setThemeSearchPaths({ ":/images/light" });
-//            QIcon::setThemeName("light");
-//        }
-//    });
-
     adjustEnv();
     load();
     adjustEnv();
 }
 
-AppConfig::~AppConfig()
-{
-    delete priv;
-}
+AppConfig::~AppConfig() { }
 
 AppConfig &AppConfig::instance()
 {
@@ -221,16 +207,6 @@ QString AppConfig::replaceWithEnv(const QString &str)
 QByteArray AppConfig::readEntireTextFile(const QString &path)
 {
     return readEntireFile(path);
-}
-
-QIODevice *AppConfig::writeEntireTextFile(const QString& text, const QString& path)
-{
-    auto *f = new QFile(path, QApplication::instance());
-    if (f->open(QFile::WriteOnly)) {
-        f->write(text.toLocal8Bit());
-    }
-    f->deleteLater();
-    return f;
 }
 
 QString AppConfig::workspacePath() const

@@ -22,24 +22,24 @@
 #include <QObject>
 #include <QDir>
 
+#include <memory>
+
 class AppConfig : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(AppConfig)
 
 private:
-    class Priv_t;
-    Priv_t *priv;
-
     explicit AppConfig();
-    virtual ~AppConfig();
+    virtual ~AppConfig() override;
     void adjustEnv();
 
+    class Priv_t;
+    std::unique_ptr<Priv_t> priv;
 public:
     static AppConfig &instance();
     static QString replaceWithEnv(const QString& str);
     static QByteArray readEntireTextFile(const QString& path);
-    static QIODevice *writeEntireTextFile(const QString& text, const QString& path);
     static const QString& ensureExist(const QString& d);
     static QStringList langList();
     static QStringList langPaths();

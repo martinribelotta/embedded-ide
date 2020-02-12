@@ -45,7 +45,7 @@ const QStringList STANDARD_FILTERS =
 
 FindInFilesDialog::FindInFilesDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::FindInFilesDialog)
+    ui(std::make_unique<Ui::FindInFilesDialog>())
 {
     ui->setupUi(this);
     const struct { QAbstractButton *b; const char *name; } buttonmap[]={
@@ -186,7 +186,6 @@ FindInFilesDialog::FindInFilesDialog(QWidget *parent) :
 
 FindInFilesDialog::~FindInFilesDialog()
 {
-    delete ui;
 }
 
 QString FindInFilesDialog::findPath() const

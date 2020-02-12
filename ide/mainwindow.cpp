@@ -105,8 +105,8 @@ static QString kindToIcon(const QString& kind)
 
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::MainWindow),
-    priv(new Priv_t)
+    ui(std::make_unique<Ui::MainWindow>()),
+    priv(std::make_unique<Priv_t>())
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->welcomePage);
@@ -524,8 +524,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     TextMessageBrocker::instance().disconnect();
-    delete priv;
-    delete ui;
 }
 
 void MainWindow::openProject(const QString &path)

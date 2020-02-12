@@ -23,6 +23,8 @@
 #include <QFuture>
 #include <QEvent>
 
+#include <memory>
+
 class ProjectView;
 class DocumentArea;
 
@@ -52,7 +54,7 @@ signals:
 protected:
     virtual void closeEvent(QCloseEvent *) override;
 private:
-    Ui::FindInFilesDialog *ui;
+    std::unique_ptr<Ui::FindInFilesDialog> ui;
 };
 
 #endif // FINDINFILESDIALOG_H

@@ -22,6 +22,8 @@
 #include <QFileInfo>
 #include <QObject>
 
+#include <memory>
+
 class QTreeView;
 
 class FileSystemManager : public QObject

@@ -23,6 +23,8 @@
 #include <QUrl>
 #include <QWidget>
 
+#include <memory>
+
 namespace Ui {
 class TemplateItemWidget;
 }
@@ -84,7 +86,7 @@ signals:
     void downloadError(const QString& msg);
 
 private:
-    Ui::TemplateItemWidget *ui;
+    std::unique_ptr<Ui::TemplateItemWidget> ui;
     TemplateItem _item;
 };
 

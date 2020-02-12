@@ -21,6 +21,8 @@
 
 #include <QDialog>
 
+#include <memory>
+
 namespace Ui {
 class ConfigWidget;
 }
@@ -41,7 +43,7 @@ protected:
     void showEvent(QShowEvent *) { load(); }
 
 private:
-    Ui::ConfigWidget *ui;
+    std::unique_ptr<Ui::ConfigWidget> ui;
 };
 
 #endif // CONFIGWIDGET_H

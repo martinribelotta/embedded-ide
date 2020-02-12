@@ -24,7 +24,7 @@
 
 FileReferencesDialog::FileReferencesDialog(const ICodeModelProvider::FileReferenceList &refList, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::FileReferencesDialog)
+    ui(std::make_unique<Ui::FileReferencesDialog>())
 {
     ui->setupUi(this);
     connect(ui->listWidget, &QListWidget::itemActivated, [this](QListWidgetItem *item) {
@@ -47,5 +47,4 @@ FileReferencesDialog::FileReferencesDialog(const ICodeModelProvider::FileReferen
 
 FileReferencesDialog::~FileReferencesDialog()
 {
-    delete ui;
 }

@@ -21,6 +21,8 @@
 
 #include <QWidget>
 
+#include <memory>
+
 namespace Ui {
 class MainWindow;
 }
@@ -40,9 +42,10 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
 private:
-    Ui::MainWindow *ui;
     class Priv_t;
-    Priv_t *priv;
+
+    std::unique_ptr<Ui::MainWindow> ui;
+    std::unique_ptr<Priv_t> priv;
 };
 
 #endif // MAINWINDOW_H

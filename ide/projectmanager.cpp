@@ -111,7 +111,7 @@ static QPair<targetMap_t, targetMap_t> findAllTargets(QIODevice *in)
 
 ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *parent) :
     QObject(parent),
-    priv(new Priv_t)
+    priv(std::make_unique<Priv_t>())
 {
     priv->targetView = view;
     priv->targetView->setModel(new QStandardItemModel(priv->targetView));
@@ -164,7 +164,6 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
 
 ProjectManager::~ProjectManager()
 {
-    delete priv;
 }
 
 QString ProjectManager::projectName() const

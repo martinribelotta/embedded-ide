@@ -22,6 +22,8 @@
 #include <QDialog>
 #include <QFileInfo>
 
+#include <memory>
+
 namespace Ui {
 class NewProjectDialog;
 }
@@ -39,7 +41,7 @@ public:
     QFileInfo selectedTemplateFile() const;
     bool isTemplate() const;
 private:
-    Ui::NewProjectDialog *ui;
+    std::unique_ptr<Ui::NewProjectDialog> ui;
 };
 
 #endif // NEWPROJECTDIALOG_H

@@ -23,6 +23,8 @@
 #include <QVariant>
 #include <QFile>
 
+#include <memory>
+
 class QListView;
 
 class ProcessManager;
@@ -34,7 +36,7 @@ class ProjectManager : public QObject
     Q_DISABLE_COPY(ProjectManager)
 public:
     explicit ProjectManager(QListView *view, ProcessManager *pman, QObject *parent = nullptr);
-    virtual ~ProjectManager();
+    virtual ~ProjectManager() override;
 
     QString projectName() const;
     QString projectPath() const;
@@ -75,7 +77,7 @@ public slots:
 
 private:
     class Priv_t;
-    Priv_t *priv;
+    std::unique_ptr<Priv_t> priv;
 };
 
 #endif // PROJECTMANAGER_H

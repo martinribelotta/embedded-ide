@@ -27,7 +27,7 @@
 
 UnsavedFilesDialog::UnsavedFilesDialog(const QStringList& unsaved, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::UnsavedFilesDialog)
+    ui(std::make_unique<Ui::UnsavedFilesDialog>())
 {
     ui->setupUi(this);
     const struct { QAbstractButton *b; const char *name; } buttonmap[] = {
@@ -62,7 +62,6 @@ UnsavedFilesDialog::UnsavedFilesDialog(const QStringList& unsaved, QWidget *pare
 
 UnsavedFilesDialog::~UnsavedFilesDialog()
 {
-    delete ui;
 }
 
 QStringList UnsavedFilesDialog::checkedForSave() const

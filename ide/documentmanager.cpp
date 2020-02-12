@@ -57,7 +57,7 @@ public:
 
 DocumentManager::DocumentManager(QWidget *parent) :
     QWidget(parent),
-    priv(new Priv_t)
+    priv(std::make_unique<Priv_t>())
 {
     priv->stack = new QStackedLayout(this);
     priv->stack->setMargin(0);
@@ -85,7 +85,6 @@ DocumentManager::DocumentManager(QWidget *parent) :
 
 DocumentManager::~DocumentManager()
 {
-    delete priv;
 }
 
 void DocumentManager::setComboBox(QComboBox *cb)

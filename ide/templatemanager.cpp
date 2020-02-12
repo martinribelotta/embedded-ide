@@ -37,7 +37,7 @@ static const QStringList KNOWED_TEMPLATE_SUFFIX{ "template", "tar.gz" };
 
 TemplateManager::TemplateManager(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::TemplateManager)
+    ui(std::make_unique<Ui::TemplateManager>())
 {
     ui->setupUi(this);
     const struct { QAbstractButton *b; const char *name; } buttonmap[] = {
@@ -161,7 +161,6 @@ TemplateManager::TemplateManager(QWidget *parent) :
 
 TemplateManager::~TemplateManager()
 {
-    delete ui;
 }
 
 QUrl TemplateManager::repositoryUrl() const

@@ -42,7 +42,7 @@ static QList<QStandardItem*> makeItem(const QString& name=QString(), const QStri
 
 ExternalToolManager::ExternalToolManager(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ExternalToolManager)
+    ui(std::make_unique<Ui::ExternalToolManager>())
 {
     ui->setupUi(this);
     const struct { QAbstractButton *b; const char *name; } buttonmap[] = {
@@ -122,7 +122,6 @@ ExternalToolManager::ExternalToolManager(QWidget *parent) :
 
 ExternalToolManager::~ExternalToolManager()
 {
-    delete ui;
 }
 
 QMenu *ExternalToolManager::makeMenu(QWidget *parent, ProcessManager *pman, ProjectManager *proj)

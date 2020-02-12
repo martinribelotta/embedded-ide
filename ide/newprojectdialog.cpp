@@ -137,7 +137,7 @@ public:
 
 NewProjectDialog::NewProjectDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::NewProjectDialog)
+    ui(std::make_unique<Ui::NewProjectDialog>())
 {
     ui->setupUi(this);
     const struct { QAbstractButton *b; const char *name; } buttonmap[] = {
@@ -210,7 +210,6 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
 
 NewProjectDialog::~NewProjectDialog()
 {
-    delete ui;
 }
 
 QString NewProjectDialog::absoluteProjectPath() const

@@ -21,6 +21,8 @@
 
 #include <QWidget>
 
+#include <memory>
+
 class IDocumentEditor;
 class ProjectManager;
 
@@ -31,7 +33,7 @@ class DocumentManager : public QWidget
     Q_OBJECT
 public:
     explicit DocumentManager(QWidget *parent = nullptr);
-    ~DocumentManager() override;
+    virtual ~DocumentManager() override;
 
     void setComboBox(QComboBox *cb);
 
@@ -70,7 +72,7 @@ protected:
 
 private:
     class Priv_t;
-    Priv_t *priv;
+    std::unique_ptr<Priv_t> priv;
 };
 
 #endif // DOCUMENTMANAGER_H

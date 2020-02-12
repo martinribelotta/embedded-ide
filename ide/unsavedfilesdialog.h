@@ -21,6 +21,8 @@
 
 #include <QDialog>
 
+#include <memory>
+
 namespace Ui {
 class UnsavedFilesDialog;
 }
@@ -36,7 +38,7 @@ public:
     QStringList checkedForSave() const;
 
 private:
-    Ui::UnsavedFilesDialog *ui;
+    std::unique_ptr<Ui::UnsavedFilesDialog> ui;
 };
 
 #endif // UNSAVEDFILESDIALOG_H

@@ -134,15 +134,12 @@ public:
 };
 
 ClangAutocompletionProvider::ClangAutocompletionProvider(ProjectManager *proj, QObject *parent):
-    QObject(parent), priv(new Priv_t)
+    QObject(parent), priv(std::make_unique<Priv_t>())
 {
     priv->project = proj;
 }
 
-ClangAutocompletionProvider::~ClangAutocompletionProvider()
-{
-    delete priv;
-}
+ClangAutocompletionProvider::~ClangAutocompletionProvider() {}
 
 void ClangAutocompletionProvider::startIndexingProject(const QString &path, FinishIndexProjectCallback_t cb)
 {

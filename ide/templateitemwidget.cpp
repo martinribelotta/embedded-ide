@@ -53,7 +53,7 @@ TemplateItem::State TemplateItem::state() const
 
 TemplateItemWidget::TemplateItemWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::TemplateItemWidget)
+    ui(std::make_unique<Ui::TemplateItemWidget>())
 {
     ui->setupUi(this);
     const struct { QAbstractButton *b; const char *name; } buttonmap[] = {
@@ -75,7 +75,6 @@ TemplateItemWidget::TemplateItemWidget(QWidget *parent) :
 
 TemplateItemWidget::~TemplateItemWidget()
 {
-    delete ui;
 }
 
 void TemplateItemWidget::setChecked(bool ck)

@@ -22,6 +22,8 @@
 #include <QObject>
 #include <icodemodelprovider.h>
 
+#include <memory>
+
 class ProjectManager;
 
 class ClangAutocompletionProvider: public QObject, public ICodeModelProvider
@@ -40,7 +42,7 @@ public:
 
 private:
     class Priv_t;
-    Priv_t *priv;
+    std::unique_ptr<Priv_t> priv;
 };
 
 #endif // CLANGAUTOCOMPLETIONPROVIDER_H

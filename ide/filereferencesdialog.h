@@ -22,6 +22,8 @@
 #include <QDialog>
 #include "icodemodelprovider.h"
 
+#include <memory>
+
 namespace Ui {
 class FileReferencesDialog;
 }
@@ -38,7 +40,7 @@ signals:
     void itemClicked(const QString& path, int line);
 
 private:
-    Ui::FileReferencesDialog *ui;
+    std::unique_ptr<Ui::FileReferencesDialog> ui;
 };
 
 #endif // FILEREFERENCESDIALOG_H

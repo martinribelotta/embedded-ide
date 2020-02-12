@@ -21,6 +21,8 @@
 
 #include <QWidget>
 
+#include <memory>
+
 namespace Ui {
 class FormFindReplace;
 }
@@ -51,7 +53,7 @@ private slots:
     void on_textToFind_returnPressed();
 
 private:
-    Ui::FormFindReplace *ui;
+    std::unique_ptr<Ui::FormFindReplace> ui;
     QsciScintilla *editor;
 };
 

@@ -21,6 +21,8 @@
 
 #include <QDialog>
 
+#include <memory>
+
 namespace Ui {
 class ExternalToolManager;
 }
@@ -42,7 +44,7 @@ public:
     static QMenu *makeMenu(QWidget *parent, ProcessManager *pman, ProjectManager *proj);
 
 private:
-    Ui::ExternalToolManager *ui;
+    std::unique_ptr<Ui::ExternalToolManager> ui;
 };
 
 #endif // EXTERNALTOOLMANAGER_H
