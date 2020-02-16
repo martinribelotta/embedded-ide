@@ -208,13 +208,33 @@ MainWindow::MainWindow(QWidget *parent) :
     resize(MAINWINDOW_SIZE);
 
     priv->pman = new ProcessManager(this);
-    priv->console = new ConsoleInterceptor(ui->logView, priv->pman, BuildManager::PROCESS_NAME, this);
+
+    priv->console = new ConsoleInterceptor(ui->logView, this);
     priv->console->addStdErrFilter(RegexHTMLTranslator::CONSOLE_TRANSLATOR);
+    priv->console->addStdOutFilter(RegexHTMLTranslator::CONSOLE_TRANSLATOR);
+    connect(priv->console->clearButton(), &QToolButton::clicked,
+            ui->logView, &QTextBrowser::clear);
+    connect(priv->pman->processFor(BuildManager::PROCESS_NAME), &QProcess::stateChanged,
+            [this](QProcess::ProcessState state) {
+                priv->console->killButton()->setEnabled(state == QProcess::Running);
+            });
+    priv->pman->setStderrInterceptor(BuildManager::PROCESS_NAME, [this](QProcess *p, const QString& text) {
+        priv->console->appendToConsole(QProcess::StandardError, p, text);
+    });
+    priv->pman->setStdoutInterceptor(BuildManager::PROCESS_NAME, [this](QProcess *p, const QString& text) {
+        priv->console->appendToConsole(QProcess::StandardOutput, p, text);
+    });
+
     priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);
-    priv->buildManager = new BuildManager(priv->projectManager, priv->pman, this);
-    priv->fileManager = new FileSystemManager(ui->fileViewer, this);
-    ui->documentContainer->setProjectManager(priv->projectManager);
     priv->projectManager->setCodeModelProvider(new ClangAutocompletionProvider(priv->projectManager, this));
+    ui->documentContainer->setProjectManager(priv->projectManager);
+
+    priv->buildManager = new BuildManager(priv->projectManager, priv->pman, this);
+    connect(priv->console->killButton(), &QToolButton::clicked,
+            priv->buildManager, &BuildManager::cancelBuild);
+
+    priv->fileManager = new FileSystemManager(ui->fileViewer, this);
+
 
     connect(ui->logView, &QTextBrowser::anchorClicked, [this](const QUrl& url) {
         auto path = url.path();

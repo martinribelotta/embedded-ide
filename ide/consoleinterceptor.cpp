@@ -26,33 +26,26 @@
 #include <QScrollBar>
 #include <QToolButton>
 
-ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager *pman, const QString& pname, QObject *parent) :
+ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, QObject *parent) :
     QObject(parent), browser(textBrowser)
 {
     const auto size = QSize(16, 16);
     auto gl = new QGridLayout(textBrowser);
-    auto bclr = new QToolButton(textBrowser);
-    bclr->setIcon(QIcon(AppConfig::resourceImage({ "actions", "edit-clear" })));
-    bclr->setAutoRaise(true);
-    bclr->setIconSize(size);
-    bclr->setToolTip(tr("Clear Console"));
-    connect(bclr, &QToolButton::clicked, textBrowser, &QTextBrowser::clear);
+    m_clearButton = new QToolButton(textBrowser);
+    m_clearButton->setIcon(QIcon(AppConfig::resourceImage({ "actions", "edit-clear" })));
+    m_clearButton->setAutoRaise(true);
+    m_clearButton->setIconSize(size);
+    m_clearButton->setToolTip(tr("Clear Console"));
 
-    auto bstop = new QToolButton(textBrowser);
-    bstop->setEnabled(false);
-    bstop->setIcon(QIcon(AppConfig::resourceImage({ "actions", "window-close" })));
-    bstop->setAutoRaise(true);
-    bstop->setIconSize(size);
-    bstop->setToolTip(tr("Stop Current Process"));
-    connect(bstop, &QToolButton::clicked, [pman, pname]() {
-        constexpr auto TIMEOUT = 300;
-        pman->terminate(pname, true, TIMEOUT);
-    });
-    connect(pman->processFor(pname), &QProcess::stateChanged,
-            [bstop](QProcess::ProcessState state) { bstop->setEnabled(state == QProcess::Running); });
+    m_killButton = new QToolButton(textBrowser);
+    m_killButton->setEnabled(false);
+    m_killButton->setIcon(QIcon(AppConfig::resourceImage({ "actions", "window-close" })));
+    m_killButton->setAutoRaise(true);
+    m_killButton->setIconSize(size);
+    m_killButton->setToolTip(tr("Stop Current Process"));
 
-    gl->addWidget(bclr,  0, 1);
-    gl->addWidget(bstop, 0, 2);
+    gl->addWidget(m_clearButton,  0, 1);
+    gl->addWidget(m_killButton, 0, 2);
     gl->setColumnStretch(0, 1);
     gl->setRowStretch(1, 1);
     gl->setContentsMargins(0, 0, textBrowser->verticalScrollBar()->sizeHint().width(), 0);
@@ -60,14 +53,6 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager
     textBrowser->setFont(QFont("Courier"));
     connect(&AppConfig::instance(), &AppConfig::configChanged, [textBrowser](AppConfig *conf) {
         textBrowser->setFont(conf->loggerFont());
-    });
-
-
-    pman->setStderrInterceptor(pname, [this](QProcess *p, const QString& text) {
-        appendToConsole(QProcess::StandardError, p, text);
-    });
-    pman->setStdoutInterceptor(pname, [this](QProcess *p, const QString& text) {
-        appendToConsole(QProcess::StandardError, p, text);
     });
 }
 

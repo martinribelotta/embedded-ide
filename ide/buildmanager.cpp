@@ -56,3 +56,8 @@ void BuildManager::startBuild(const QString &target)
     pman->start(PROCESS_NAME, "make", params, {}, proj->projectPath());
     emit buildStarted(target);
 }
+
+void BuildManager::cancelBuild()
+{
+    pman->terminate(BuildManager::PROCESS_NAME, true);
+}

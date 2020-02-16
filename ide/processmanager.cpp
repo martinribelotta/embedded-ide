@@ -34,8 +34,7 @@ ProcessManager::ProcessManager(QObject *parent) :
 {
 }
 
-ProcessManager::~ProcessManager()
-= default;
+ProcessManager::~ProcessManager() = default;
 
 QProcess *ProcessManager::processFor(const QString &name)
 {

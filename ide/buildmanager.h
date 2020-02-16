@@ -39,6 +39,7 @@ signals:
 
 public slots:
     void startBuild(const QString& target);
+    void cancelBuild();
 
 private:
     ProjectManager *proj;

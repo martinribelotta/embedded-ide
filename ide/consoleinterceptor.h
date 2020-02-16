@@ -23,6 +23,7 @@
 #include <QProcess>
 
 #include <functional>
+#include <QToolButton>
 
 class QTextBrowser;
 class QProcess;
@@ -36,8 +37,11 @@ class ConsoleInterceptor : public QObject
     Q_OBJECT
 public:
 
-    explicit ConsoleInterceptor(QTextBrowser *textBrowser, ProcessManager *pman, const QString &pname, QObject *parent = nullptr);
+    explicit ConsoleInterceptor(QTextBrowser *textBrowser, QObject *parent = nullptr);
     virtual ~ConsoleInterceptor();
+
+    QToolButton *killButton() { return m_killButton; }
+    QToolButton *clearButton() { return m_clearButton; }
 
     static void writeMessageTo(QTextBrowser *browser, const QString& message, const QColor& color);
     static void writeHtmlTo(QTextBrowser *browser, const QString& html);
@@ -53,6 +57,8 @@ public slots:
     void writeHtml(const QString& html);
 
 private:
+    QToolButton *m_killButton;
+    QToolButton *m_clearButton;
     QTextBrowser *browser;
     QList<ConsoleInterceptorFilter> stdoutFilters;
     QList<ConsoleInterceptorFilter> stderrFilters;
