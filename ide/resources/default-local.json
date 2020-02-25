@@ -4,7 +4,7 @@
         ],
         "editor": {
             "font": {
-                "name": "Ubuntu Mono Regular",
+                "name": "Ubuntu Mono",
                 "size": 12
             },
             "formatterStyle": "linux",
@@ -16,9 +16,10 @@
         "externalTools": {
         },
         "history": [ ],
+        "lang": "",
         "logger": {
             "font": {
-                "name": "Ubuntu Mono Regular",
+                "name": "Ubuntu Mono",
                 "size": 10
             }
         },
@@ -32,9 +33,12 @@
                 "user": ""
             }
         },
+        "numberOfJobs": 1,
+        "numberOfJobsOptimal": false,
         "templates": {
             "autoUpdate": true,
             "url": "https://api.github.com/repos/ciaa/EmbeddedIDE-templates/contents"
         },
+        "useDarkStyle": false,
         "useDevelopMode": false
 }

@@ -26,6 +26,8 @@
 #include <QFileInfo>
 #include <QFileDialog>
 
+#include <QtDebug>
+
 static const QStringList ASTYLE_STYLES = {
     "1tbs",
     "allman",

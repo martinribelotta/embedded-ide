@@ -33,6 +33,7 @@
 #include <QSaveFile>
 #include <QStandardPaths>
 #include <QToolButton>
+#include <QDateTime>
 
 #include <QtDebug>
 
@@ -83,6 +84,8 @@ static bool writeEntireFile(const QString& path, const QByteArray& data)
 static QJsonObject loadJson(const QString& path)
 {
     QJsonParseError err{};
+    if (!QFileInfo{path}.exists())
+        return {};
     auto doc = QJsonDocument::fromJson(readEntireFile(path), &err);
     if (err.error != QJsonParseError::NoError) {
         qDebug() << "error reading" << path << err.errorString();
@@ -126,24 +129,6 @@ static void addResourcesFont()
 {
     for(const auto& fontPath: QDir(":/fonts/").entryInfoList({ "*.ttf" }))
         QFontDatabase::addApplicationFont(fontPath.absoluteFilePath());
-}
-
-static bool completeToLeft(QJsonObject& left, const QJsonObject& right)
-{
-    bool modify = false;
-    for(const auto& k: right.keys()) {
-        if (left.contains(k)) {
-            auto obj = left[k].toObject();
-            if (completeToLeft(obj, left[k].toObject())) {
-                modify = true;
-                left.insert(k, obj);
-            }
-        } else {
-            modify = true;
-            left.insert(k, right[k]);
-        }
-    }
-    return modify;
 }
 
 AppConfig::AppConfig() : QObject(QApplication::instance()), priv(std::make_unique<Priv_t>())
@@ -464,21 +449,29 @@ QByteArray AppConfig::fileHash(const QString &filename)
     return QByteArray::fromHex(v.toString().toLatin1());
 }
 
+static QString templateGlobalConfigPath()
+{
+    QFileInfo sysGlobalPath{systemGlobalConfigPath()};
+    return sysGlobalPath.exists()? sysGlobalPath.absoluteFilePath() : BUNDLE_GLOBAL_PATH;
+}
+
+static QString templateLocalConfigPath()
+{
+    QFileInfo sysLocalPath{systemLocalConfigPath()};
+    return sysLocalPath.exists()? sysLocalPath.absoluteFilePath() : BUNDLE_LOCAL_PATH;
+}
+
 void AppConfig::load()
 {
-    auto bundleGlobalCfg = loadJson(BUNDLE_GLOBAL_PATH);
-    auto systemGlobalCfg = loadJson(systemGlobalConfigPath());
-    CFG_GLOBAL = loadJson(globalConfigFilePath());
-    completeToLeft(systemGlobalCfg, bundleGlobalCfg);
-    if (completeToLeft(CFG_GLOBAL, systemGlobalCfg))
-        writeEntireFile(globalConfigFilePath(), QJsonDocument(CFG_GLOBAL).toJson());
+    QFileInfo globalCfgInfo{globalConfigFilePath()};
+    if (!globalCfgInfo.exists())
+        QFile::copy(templateGlobalConfigPath(), globalCfgInfo.absoluteFilePath());
+    priv->global = loadJson(globalCfgInfo.absoluteFilePath());
 
-    auto bundleLocalCfg = loadJson(BUNDLE_LOCAL_PATH);
-    auto systemLocalCfg = loadJson(systemLocalConfigPath());
-    CFG_LOCAL = loadJson(localConfigFilePath());
-    completeToLeft(systemLocalCfg, bundleLocalCfg);
-    if (completeToLeft(CFG_LOCAL, systemLocalCfg))
-        writeEntireFile(localConfigFilePath(), QJsonDocument(CFG_LOCAL).toJson());
+    QFileInfo localCfgInfo{localConfigFilePath()};
+    if (!localCfgInfo.exists())
+        QFile::copy(templateLocalConfigPath(), localCfgInfo.absoluteFilePath());
+    priv->local = loadJson(localCfgInfo.absoluteFilePath());
 
     projectsPath();
     templatesPath();
