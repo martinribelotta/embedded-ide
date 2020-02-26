@@ -34,6 +34,7 @@
 #include <QStandardPaths>
 #include <QToolButton>
 #include <QDateTime>
+#include <QOperatingSystemVersion>
 
 #include <QtDebug>
 
@@ -93,24 +94,38 @@ static QJsonObject loadJson(const QString& path)
     return doc.object();
 }
 
+static bool isAppImage()
+{
+    return !qgetenv("APPIMAGE").isEmpty();
+}
+
+static bool isWindows()
+{
+    return QOperatingSystemVersion::current().type() == QOperatingSystemVersion::Windows;
+}
+
+static QString appFilePath()
+{
+    return isAppImage()? qgetenv("APPIMAGE") : QApplication::applicationFilePath();
+}
+
+static QString appDirPath()
+{
+    return isAppImage()? QFileInfo(qgetenv("APPIMAGE")).absolutePath() : QApplication::applicationDirPath();
+}
+
 static QString globalConfigFilePath()
 {
-    static const auto name = "." + QApplication::applicationDirPath()
-                                       .replace("/", "-")
-                                       .replace("\\", "-")
-                                       .replace(":", "") + ".json";
+    auto name = "." + appDirPath().replace("/", "-")
+                                  .replace("\\", "-")
+                                  .replace(":", "") + ".json";
     return QDir::home().absoluteFilePath(name);
 }
 
 static QDir sharedDir()
 {
-    return QDir(QApplication::applicationDirPath()).absoluteFilePath(
-#ifdef Q_OS_UNIX
-        "../share/embedded-ide/"
-#else
-        "./"
-#endif
-    );
+    auto sharedDirPath = (isAppImage() || isWindows())? "./" : "../share/embedded-ide";
+    return QDir(appDirPath()).absoluteFilePath(sharedDirPath);
 }
 
 static QString systemGlobalConfigPath() {
@@ -160,8 +175,8 @@ void AppConfig::adjustEnv()
         qputenv("HOME", homePath.toLocal8Bit());
     }
 
-    qputenv("APPLICATION_DIR_PATH", QApplication::applicationDirPath().toLocal8Bit());
-    qputenv("APPLICATION_FILE_PATH", QApplication::applicationFilePath().toLocal8Bit());
+    qputenv("APPLICATION_DIR_PATH", appDirPath().toLocal8Bit());
+    qputenv("APPLICATION_FILE_PATH", appFilePath().toLocal8Bit());
     if (!CFG_LOCAL.isEmpty()) {
         qputenv("WORKSPACE_PATH", workspacePath().toLocal8Bit());
         qputenv("WORKSPACE_PROJECT_PATH", projectsPath().toLocal8Bit());
