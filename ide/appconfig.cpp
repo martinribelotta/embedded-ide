@@ -46,19 +46,8 @@ public:
     QProcessEnvironment sysenv;
 };
 
-#define CFG_GLOBAL (priv->global)
-#define CFG_LOCAL (priv->local)
-
-
 static const QString BUNDLE_GLOBAL_PATH = ":/default-global.json";
 static const QString BUNDLE_LOCAL_PATH = ":/default-local.json";
-
-#ifdef Q_OS_WIN
-static const QChar PATH_SEP = ';';
-#else
-static const QChar PATH_SEP = ':';
-#endif
-
 
 static const QJsonValue& valueOrDefault(const QJsonValue& v, const QJsonValue& d)
 {
@@ -128,15 +117,18 @@ static QDir sharedDir()
     return QDir(appDirPath()).absoluteFilePath(sharedDirPath);
 }
 
-static QString systemGlobalConfigPath() {
+static QString systemGlobalConfigPath()
+{
     return sharedDir().absoluteFilePath("embedded_ide-config.json");
 }
 
-static QString systemLocalConfigPath() {
+static QString systemLocalConfigPath()
+{
     return sharedDir().absoluteFilePath("embedded-ide.hardconf");
 }
 
-static QString systemTranslationPath() {
+static QString systemTranslationPath()
+{
     return sharedDir().absoluteFilePath("translations/");
 }
 
@@ -155,7 +147,9 @@ AppConfig::AppConfig() : QObject(QApplication::instance()), priv(std::make_uniqu
     adjustEnv();
 }
 
-AppConfig::~AppConfig() { }
+AppConfig::~AppConfig()
+{
+}
 
 AppConfig &AppConfig::instance()
 {
@@ -177,7 +171,7 @@ void AppConfig::adjustEnv()
 
     qputenv("APPLICATION_DIR_PATH", appDirPath().toLocal8Bit());
     qputenv("APPLICATION_FILE_PATH", appFilePath().toLocal8Bit());
-    if (!CFG_LOCAL.isEmpty()) {
+    if (!priv->local.isEmpty()) {
         qputenv("WORKSPACE_PATH", workspacePath().toLocal8Bit());
         qputenv("WORKSPACE_PROJECT_PATH", projectsPath().toLocal8Bit());
         qputenv("WORKSPACE_TEMPLATE_PATH", templatesPath().toLocal8Bit());
@@ -190,8 +184,9 @@ void AppConfig::adjustEnv()
     }
 
     auto old = priv->sysenv.value("PATH");
-    auto extras = additionalPaths().join(PATH_SEP);
-    auto path = QString("%1%2%3").arg(extras).arg(PATH_SEP).arg(old);
+    auto separator = isWindows()? ";" : ":";
+    auto extras = additionalPaths().join(separator);
+    auto path = QString("%1%2%3").arg(extras).arg(separator).arg(old);
     qputenv("PATH", path.toLocal8Bit());
 }
 
@@ -212,7 +207,7 @@ QByteArray AppConfig::readEntireTextFile(const QString &path)
 QString AppConfig::workspacePath() const
 {
     QJsonValue defaultPath = QDir::home().absoluteFilePath(".embedded_ide-workspace");
-    return replaceWithEnv(valueOrDefault(CFG_GLOBAL.value("workspacePath"), defaultPath).toString());
+    return replaceWithEnv(valueOrDefault((priv->global).value("workspacePath"), defaultPath).toString());
 }
 
 const QString& AppConfig::ensureExist(const QString& d)
@@ -281,7 +276,7 @@ QString AppConfig::localConfigFilePath() const
 QList<QPair<QString, QString> > AppConfig::externalTools() const
 {
     QList<QPair<QString, QString> > map;
-    auto vtools = CFG_LOCAL["externalTools"];
+    auto vtools = priv->local["externalTools"];
     if (vtools.isObject()) {
         auto tools = vtools.toObject();
         for (const auto& k: tools.keys())
@@ -307,7 +302,7 @@ QFileInfoList AppConfig::recentProjects() const
         if (info.isFile())
             list.append(info);
     }
-    auto history = CFG_LOCAL["history"].toArray();
+    auto history = priv->local["history"].toArray();
     for(const auto e: history) {
         QFileInfo info(e.toString());
         if (info.exists() && !list.contains(info))
@@ -320,27 +315,27 @@ QStringList AppConfig::additionalPaths(bool raw) const
 {
     QStringList paths;
     if (raw)
-        for(const auto e: CFG_LOCAL.value("additionalPaths").toArray())
+        for(const auto e: priv->local.value("additionalPaths").toArray())
             paths.append(e.toString());
     else
-        for(const auto e: CFG_LOCAL.value("additionalPaths").toArray())
+        for(const auto e: priv->local.value("additionalPaths").toArray())
             paths.append(replaceWithEnv(e.toString()));
     return paths;
 }
 
 QString AppConfig::templatesUrl() const
 {
-    return CFG_LOCAL.value("templates").toObject().value("url").toString();
+    return priv->local.value("templates").toObject().value("url").toString();
 }
 
 QString AppConfig::editorStyle() const
 {
-    return valueOrDefault(CFG_LOCAL.value("editor").toObject().value("style"), "Default").toString();
+    return valueOrDefault(priv->local.value("editor").toObject().value("style"), "Default").toString();
 }
 
 QFont AppConfig::editorFont() const
 {
-    auto ed = CFG_LOCAL.value("editor").toObject();
+    auto ed = priv->local.value("editor").toObject();
     auto f = ed.value("font").toObject();
     auto name = f.value("name").toString();
     auto size = f.value("size").toInt(-1);
@@ -349,42 +344,42 @@ QFont AppConfig::editorFont() const
 
 bool AppConfig::editorSaveOnAction() const
 {
-    return CFG_LOCAL.value("editor").toObject().value("saveOnAction").toBool();
+    return priv->local.value("editor").toObject().value("saveOnAction").toBool();
 }
 
 bool AppConfig::editorTabsToSpaces() const
 {
-    return CFG_LOCAL.value("editor").toObject().value("tabsOnSpaces").toBool();
+    return priv->local.value("editor").toObject().value("tabsOnSpaces").toBool();
 }
 
 int AppConfig::editorTabWidth() const
 {
-    return CFG_LOCAL.value("editor").toObject().value("tabWidth").toInt();
+    return priv->local.value("editor").toObject().value("tabWidth").toInt();
 }
 
 bool AppConfig::editorShowSpaces() const
 {
-    return CFG_LOCAL.value("editor").toObject().value("showSpaces").toBool();
+    return priv->local.value("editor").toObject().value("showSpaces").toBool();
 }
 
 QString AppConfig::editorFormatterStyle() const
 {
-    return CFG_LOCAL.value("editor").toObject().value("formatterStyle").toString();
+    return priv->local.value("editor").toObject().value("formatterStyle").toString();
 }
 
 QString AppConfig::editorFormatterExtra() const
 {
-    return CFG_LOCAL.value("editor").toObject().value("formatterExtra").toString();
+    return priv->local.value("editor").toObject().value("formatterExtra").toString();
 }
 
 bool AppConfig::editorDetectIdent() const
 {
-    return CFG_LOCAL.value("editor").toObject().value("detectIdent").toBool();
+    return priv->local.value("editor").toObject().value("detectIdent").toBool();
 }
 
 QFont AppConfig::loggerFont() const
 {
-    auto ed = CFG_LOCAL.value("logger").toObject();
+    auto ed = priv->local.value("logger").toObject();
     auto f = ed.value("font").toObject();
     auto name = f.value("name").toString();
     auto size = f.value("size").toInt(-1);
@@ -393,22 +388,22 @@ QFont AppConfig::loggerFont() const
 
 QString AppConfig::networkProxyHost() const
 {
-    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("host").toString();
+    return priv->local.value("network").toObject().value("proxy").toObject().value("host").toString();
 }
 
 QString AppConfig::networkProxyPort() const
 {
-    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("port").toString();
+    return priv->local.value("network").toObject().value("proxy").toObject().value("port").toString();
 }
 
 bool AppConfig::networkProxyUseCredentials() const
 {
-    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("useCredentials").toBool();
+    return priv->local.value("network").toObject().value("proxy").toObject().value("useCredentials").toBool();
 }
 
 AppConfig::NetworkProxyType AppConfig::networkProxyType() const
 {
-    auto type = CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("type").toString();
+    auto type = priv->local.value("network").toObject().value("proxy").toObject().value("type").toString();
     bool ok = false;
     auto t = NetworkProxyType(QMetaEnum::fromType<AppConfig::NetworkProxyType>().keyToValue(type.toLatin1().data(), &ok));
     return ok? t : NetworkProxyType::None;
@@ -416,42 +411,42 @@ AppConfig::NetworkProxyType AppConfig::networkProxyType() const
 
 QString AppConfig::networkProxyUsername() const
 {
-    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("user").toString();
+    return priv->local.value("network").toObject().value("proxy").toObject().value("user").toString();
 }
 
 QString AppConfig::networkProxyPassword() const
 {
-    return CFG_LOCAL.value("network").toObject().value("proxy").toObject().value("pass").toString();
+    return priv->local.value("network").toObject().value("proxy").toObject().value("pass").toString();
 }
 
 bool AppConfig::projectTemplatesAutoUpdate() const
 {
-    return CFG_LOCAL.value("templates").toObject().value("autoUpdate").toBool();
+    return priv->local.value("templates").toObject().value("autoUpdate").toBool();
 }
 
 bool AppConfig::useDevelopMode() const
 {
-    return CFG_LOCAL.value("useDevelopMode").toBool();
+    return priv->local.value("useDevelopMode").toBool();
 }
 
 bool AppConfig::useDarkStyle() const
 {
-    return CFG_LOCAL.value("useDarkStyle").toBool();
+    return priv->local.value("useDarkStyle").toBool();
 }
 
 QString AppConfig::language() const
 {
-    return CFG_LOCAL.value("lang").toString();
+    return priv->local.value("lang").toString();
 }
 
 int AppConfig::numberOfJobs() const
 {
-    return CFG_LOCAL.value("numberOfJobs").toInt(1);
+    return priv->local.value("numberOfJobs").toInt(1);
 }
 
 bool AppConfig::numberOfJobsOptimal() const
 {
-    return CFG_LOCAL.value("numberOfJobsOptimal").toBool(false);
+    return priv->local.value("numberOfJobsOptimal").toBool(false);
 }
 
 QByteArray AppConfig::fileHash(const QString &filename)
@@ -496,15 +491,15 @@ void AppConfig::load()
 
 void AppConfig::save()
 {
-    writeEntireFile(globalConfigFilePath(), QJsonDocument(CFG_GLOBAL).toJson());
-    writeEntireFile(localConfigFilePath(), QJsonDocument(CFG_LOCAL).toJson());
+    writeEntireFile(globalConfigFilePath(), QJsonDocument((priv->global)).toJson());
+    writeEntireFile(localConfigFilePath(), QJsonDocument(priv->local).toJson());
     adjustEnv();
     emit configChanged(this);
 }
 
 void AppConfig::setWorkspacePath(const QString &path)
 {
-    CFG_GLOBAL.insert("workspacePath", path);
+    (priv->global).insert("workspacePath", path);
 }
 
 void AppConfig::setExternalTools(const QList<QPair<QString, QString> > &tools)
@@ -512,16 +507,16 @@ void AppConfig::setExternalTools(const QList<QPair<QString, QString> > &tools)
     QJsonArray a;
     for (const auto& it: tools)
         a.append(QJsonObject{ { it.first, it.second } });
-    CFG_LOCAL.insert("externalTools", a);
+    priv->local.insert("externalTools", a);
 }
 
 void AppConfig::appendToRecentProjects(const QString &path)
 {
     if (!path.startsWith(projectsPath())) {
-        QJsonArray history = CFG_LOCAL["history"].toArray();
+        QJsonArray history = priv->local["history"].toArray();
         if (!history.contains(path))
             history.append(path);
-        CFG_LOCAL["history"] = history;
+        priv->local["history"] = history;
     }
 }
 
@@ -530,177 +525,177 @@ void AppConfig::setAdditionalPaths(const QStringList &paths)
     QJsonArray array;
     for(const auto& p: paths)
         array.append(p);
-    CFG_LOCAL.insert("additionalPaths", array);
+    priv->local.insert("additionalPaths", array);
 }
 
 void AppConfig::setTemplatesUrl(const QString &url)
 {
-    auto t = CFG_LOCAL["templates"].toObject();
+    auto t = priv->local["templates"].toObject();
     t.insert("url", url);
-    CFG_LOCAL["templates"] = t;
+    priv->local["templates"] = t;
 }
 
 void AppConfig::setEditorStyle(const QString &name)
 {
-    auto ed = CFG_LOCAL["editor"].toObject();
+    auto ed = priv->local["editor"].toObject();
     ed.insert("style", name);
-    CFG_LOCAL["editor"] = ed;
+    priv->local["editor"] = ed;
 }
 
 void AppConfig::setEditorFont(const QFont &f)
 {
-    auto ed = CFG_LOCAL["editor"].toObject();
+    auto ed = priv->local["editor"].toObject();
     ed["font"] = QJsonObject{
         { "name", f.family() },
         { "size", f.pointSize() }
     };
-    CFG_LOCAL["editor"] = ed;
+    priv->local["editor"] = ed;
 }
 
 void AppConfig::setEditorSaveOnAction(bool enable)
 {
-    auto ed = CFG_LOCAL["editor"].toObject();
+    auto ed = priv->local["editor"].toObject();
     ed.insert("saveOnAction", enable);
-    CFG_LOCAL["editor"] = ed;
+    priv->local["editor"] = ed;
 }
 
 void AppConfig::setEditorTabsToSpaces(bool enable)
 {
-    auto ed = CFG_LOCAL["editor"].toObject();
+    auto ed = priv->local["editor"].toObject();
     ed.insert("tabsOnSpaces", enable);
-    CFG_LOCAL["editor"] = ed;
+    priv->local["editor"] = ed;
 }
 
 void AppConfig::setEditorTabWidth(int n)
 {
-    auto ed = CFG_LOCAL["editor"].toObject();
+    auto ed = priv->local["editor"].toObject();
     ed.insert("tabWidth", n);
-    CFG_LOCAL["editor"] = ed;
+    priv->local["editor"] = ed;
 }
 
 void AppConfig::setEditorShowSpaces(bool show)
 {
-    auto ed = CFG_LOCAL["editor"].toObject();
+    auto ed = priv->local["editor"].toObject();
     ed.insert("showSpaces", show);
-    CFG_LOCAL["editor"] = ed;
+    priv->local["editor"] = ed;
 }
 
 void AppConfig::setEditorFormatterStyle(const QString &name)
 {
-    auto ed = CFG_LOCAL["editor"].toObject();
+    auto ed = priv->local["editor"].toObject();
     ed.insert("formatterStyle", name);
-    CFG_LOCAL["editor"] = ed;
+    priv->local["editor"] = ed;
 }
 
 void AppConfig::setEditorFormatterExtra(const QString &text)
 {
-    auto ed = CFG_LOCAL["editor"].toObject();
+    auto ed = priv->local["editor"].toObject();
     ed.insert("formatterExtra", text);
-    CFG_LOCAL["editor"] = ed;
+    priv->local["editor"] = ed;
 }
 
 void AppConfig::setEditorDetectIdent(bool enable)
 {
-    auto ed = CFG_LOCAL["editor"].toObject();
+    auto ed = priv->local["editor"].toObject();
     ed.insert("detectIdent", enable);
-    CFG_LOCAL["editor"] = ed;
+    priv->local["editor"] = ed;
 }
 
 void AppConfig::setLoggerFont(const QFont &f)
 {
-    auto log = CFG_LOCAL["logger"].toObject();
+    auto log = priv->local["logger"].toObject();
     log.insert("font", QJsonObject{
                    { "name", f.family() },
                    { "size", f.pointSize() }
                });
-    CFG_LOCAL["logger"] = log;
+    priv->local["logger"] = log;
 }
 
 void AppConfig::setNetworkProxyHost(const QString &name)
 {
-    auto net = CFG_LOCAL["network"].toObject();
+    auto net = priv->local["network"].toObject();
     auto proxy = net.value("proxy").toObject();
     proxy.insert("host", name);
     net["proxy"] = proxy;
-    CFG_LOCAL["network"] = net;
+    priv->local["network"] = net;
 }
 
 void AppConfig::setNetworkProxyPort(const QString &port)
 {
-    auto net = CFG_LOCAL["network"].toObject();
+    auto net = priv->local["network"].toObject();
     auto proxy = net.value("proxy").toObject();
     proxy.insert("port", port);
     net["proxy"] = proxy;
-    CFG_LOCAL["network"] = net;
+    priv->local["network"] = net;
 }
 
 void AppConfig::setNetworkProxyUseCredentials(bool use)
 {
-    auto net = CFG_LOCAL["network"].toObject();
+    auto net = priv->local["network"].toObject();
     auto proxy = net.value("proxy").toObject();
     proxy.insert("useCredentials", use);
     net["proxy"] = proxy;
-    CFG_LOCAL["network"] = net;
+    priv->local["network"] = net;
 }
 
 void AppConfig::setNetworkProxyType(AppConfig::NetworkProxyType type)
 {
     auto typeName = QString(QMetaEnum::fromType<AppConfig::NetworkProxyType>().valueToKey(int(type)));
-    auto net = CFG_LOCAL["network"].toObject();
+    auto net = priv->local["network"].toObject();
     auto proxy = net.value("proxy").toObject();
     proxy.insert("type", typeName);
     net["proxy"] = proxy;
-    CFG_LOCAL["network"] = net;
+    priv->local["network"] = net;
 }
 
 void AppConfig::setNetworkProxyUsername(const QString &user)
 {
-    auto net = CFG_LOCAL["network"].toObject();
+    auto net = priv->local["network"].toObject();
     auto proxy = net.value("proxy").toObject();
     proxy.insert("user", user);
     net["proxy"] = proxy;
-    CFG_LOCAL["network"] = net;
+    priv->local["network"] = net;
 }
 
 void AppConfig::setNetworkProxyPassword(const QString &pass)
 {
-    auto net = CFG_LOCAL["network"].toObject();
+    auto net = priv->local["network"].toObject();
     auto proxy = net.value("proxy").toObject();
     proxy.insert("pass", pass);
     net["proxy"] = proxy;
-    CFG_LOCAL["network"] = net;
+    priv->local["network"] = net;
 }
 
 void AppConfig::setProjectTemplatesAutoUpdate(bool en)
 {
-    auto t = CFG_LOCAL["templates"].toObject();
+    auto t = priv->local["templates"].toObject();
     t.insert("autoUpdate", en);
-    CFG_LOCAL["templates"] = t;
+    priv->local["templates"] = t;
 }
 
 void AppConfig::setUseDevelopMode(bool use)
 {
-    CFG_LOCAL.insert("useDevelopMode", use);
+    priv->local.insert("useDevelopMode", use);
 }
 
 void AppConfig::setUseDarkStyle(bool use)
 {
-    CFG_LOCAL.insert("useDarkStyle", use);
+    priv->local.insert("useDarkStyle", use);
 }
 
 void AppConfig::setLanguage(const QString &lang)
 {
-    CFG_LOCAL.insert("lang", lang);
+    priv->local.insert("lang", lang);
 }
 
 void AppConfig::setNumberOfJobs(int n)
 {
-    CFG_LOCAL.insert("numberOfJobs", n);
+    priv->local.insert("numberOfJobs", n);
 }
 
 void AppConfig::setNumberOfJobsOptimal(bool en)
 {
-    CFG_LOCAL.insert("numberOfJobsOptimal", en);
+    priv->local.insert("numberOfJobsOptimal", en);
 }
 
 void AppConfig::addHash(const QString &filename, const QByteArray &hash)
