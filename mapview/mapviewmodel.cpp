@@ -130,7 +130,7 @@ struct MemRegion_t {
 bool MapViewModel::load(const QString &path)
 {
     QFile file(path);
-    if (!file.open(QFile::ReadOnly)) {
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
         qDebug() << file.errorString();
         return false;
     }
