@@ -183,7 +183,7 @@ QString ProjectManager::projectFile() const
 
 bool ProjectManager::isProjectOpen() const
 {
-    return priv->makeFile.exists();
+    return priv? priv->makeFile.exists() : false;
 }
 
 ICodeModelProvider *ProjectManager::codeModel() const

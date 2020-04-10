@@ -77,7 +77,7 @@ CodeTextEditor::CodeTextEditor(QWidget *parent) : PlainTextEditor(parent)
 {
 }
 
-CodeTextEditor::~CodeTextEditor() = default;
+CodeTextEditor::~CodeTextEditor() {}
 
 bool CodeTextEditor::load(const QString &path)
 {

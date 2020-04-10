@@ -41,7 +41,8 @@
        <item>
         <widget class="QToolButton" name="buttonChoseDirectory">
          <property name="icon">
-          <iconset theme="document-open"/>
+          <iconset theme="document-open">
+           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>
@@ -72,7 +73,8 @@
        <item>
         <widget class="QToolButton" name="buttonSelectfilePattern">
          <property name="icon">
-          <iconset theme="application-menu"/>
+          <iconset theme="application-menu">
+           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>
@@ -103,7 +105,8 @@
        <item>
         <widget class="QToolButton" name="buttonFind">
          <property name="icon">
-          <iconset theme="edit-find"/>
+          <iconset theme="edit-find">
+           <normaloff>.</normaloff>.</iconset>
          </property>
         </widget>
        </item>
@@ -133,6 +136,16 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
+      <widget class="QToolButton" name="buttonExpandAll">
+       <property name="text">
+        <string>expand all</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="labelStatus"/>
      </item>
      <item>
@@ -151,7 +164,8 @@
         <bool>false</bool>
        </property>
        <property name="icon">
-        <iconset theme="dialog-cancel"/>
+        <iconset theme="dialog-cancel">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>

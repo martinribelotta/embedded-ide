@@ -103,8 +103,19 @@ FindInFilesDialog::FindInFilesDialog(QWidget *parent) :
         auto item = model->itemFromIndex(index);
         if (item) {
             auto pos = item->data().value<FilePos>();
-            emit queryToOpen(pos.path, pos.line, pos.column);
-            accept();
+            if (!pos.path.isEmpty()) {
+                emit queryToOpen(pos.path, pos.line, pos.column);
+                accept();
+            }
+        }
+    });
+    connect(ui->buttonExpandAll, &QToolButton::toggled, [this](bool b) {
+        if (b) {
+            ui->buttonExpandAll->setText(tr("Collapse All"));
+            ui->treeView->expandAll();
+        } else {
+            ui->buttonExpandAll->setText(tr("Expand All"));
+            ui->treeView->collapseAll();
         }
     });
 
@@ -163,7 +174,7 @@ FindInFilesDialog::FindInFilesDialog(QWidget *parent) :
         }
         ui->buttonStop->setDisabled(true);
         ui->buttonFind->setEnabled(true);
-        ui->treeView->expandAll();
+        // ui->treeView->expandAll();
         ui->labelStatus->setText(tr("Done"));
         ui->labelFilename->clear();
         setProperty("onProcessLoop", false);
