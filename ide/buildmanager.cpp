@@ -53,7 +53,7 @@ void BuildManager::startBuild(const QString &target)
     auto &c = AppConfig::instance();
     auto nJobs = c.numberOfJobsOptimal()? getOptimalNumberOfJobs() : c.numberOfJobs();
     auto params = QStringList{ "-j", QString("%1").arg(nJobs), "-f", proj->projectFile(), target };
-    pman->start(PROCESS_NAME, "make", params, {}, proj->projectPath());
+    pman->start(PROCESS_NAME, "make", params, { { "LC_ALL", "C" }, { "LANG", "C" } }, proj->projectPath());
     emit buildStarted(target);
 }
 

@@ -219,6 +219,7 @@ void ClangAutocompletionProvider::startIndexingFile(const QString &path, FinishI
     auto& p = ChildProcess::create(this)
             .makeDeleteLater()
             .changeCWD(priv->project->projectPath())
+            .setenv({ { "LC_ALL", "C" }, { "LANG", "C" } })
             .onFinished([this, cb](QProcess *make, int exitCode)
     {
         qDebug() << "make discover exit with" << exitCode;

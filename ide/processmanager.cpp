@@ -83,13 +83,14 @@ void ProcessManager::start(const QString &name, const QString &command, const QS
 {
     auto proc = processFor(name);
     if (!extraEnv.isEmpty()) {
-        auto env = proc->processEnvironment();
+        auto env = QProcessEnvironment::systemEnvironment();
         for (auto it = extraEnv.begin(); it != extraEnv.end(); it++)
             env.insert(it.key(), it.value());
         proc->setProcessEnvironment(env);
     }
     proc->setWorkingDirectory(workingDir);
-    qDebug() << "START:" << command << args;
+    auto penv = proc->processEnvironment().toStringList();
+    qDebug() << "START:" << command << args << penv;
     proc->start(command, args);
 }
 

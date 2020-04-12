@@ -28,9 +28,6 @@ const RegexList_t RegexHTMLTranslator::DEFAULT_REGEX =
     {
     mkEntry(R"((\r?\n))", "\\1<br>"),
     mkEntry(R"( )", "&nbsp;"),
-    mkEntry(
-        R"(^(\<br\>)?(.*?):(\d+):(\d+)?(:?)(.*?)(\<br\>)?$)",
-        R"(\1<font color="red">\2:\3:\4\5 <a href="file:\2#\3#\4">\6</a></font>\7)"),
     };
 
 RegexHTMLTranslator RegexHTMLTranslator::CONSOLE_TRANSLATOR{};

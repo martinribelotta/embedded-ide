@@ -39,6 +39,7 @@
 #include "templatemanager.h"
 #include "templateitemwidget.h"
 #include "templatefile.h"
+#include "processlinebufferizer.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -75,6 +76,7 @@ public:
     bool documentOnly = false;
     QByteArray topSplitterState;
     QByteArray docSplitterState;
+    QVector<QString> trackedBuildPath;
 };
 
 
@@ -210,20 +212,82 @@ MainWindow::MainWindow(QWidget *parent) :
     priv->pman = new ProcessManager(this);
 
     priv->console = new ConsoleInterceptor(ui->logView, this);
+    auto currentPathTracker = [this](QProcess *p, QString& s) -> QString& {
+        Q_UNUSED(p)
+        auto &stack = priv->trackedBuildPath;
+        static QRegularExpression re(R"(make\[(\d+)\]\: (Entering|Leaving) directory \'([^\']*)\')");
+        auto m = re.match(s);
+        if (m.hasMatch()) {
+            auto level = m.captured(1).toInt();
+            auto path = m.captured(3);
+            if (stack.size() < level) {
+                stack.resize(level);
+            }
+            stack[level - 1] = path;
+        }
+        return s;
+    };
+    auto errorStringFinder = [this](QProcess *p, QString& s) -> QString& {
+        Q_UNUSED(p)
+        static QRegularExpression errRe(
+            R"(^(?<pre>\<br\>)?(?<file>.*?):(?<line>\d+):(?<col>\d+)?(?<ddot>:?)(?<msg>.*?)(?<pos>\<br\>)?$)", QRegularExpression::MultilineOption);
+        auto mit = errRe.globalMatch(s);
+        while (mit.hasNext()) {
+            auto mm = mit.next();
+            auto pre = mm.captured("pre");
+            auto file = mm.captured("file");
+            if (!priv->trackedBuildPath.isEmpty())
+                file.prepend(priv->trackedBuildPath.last() + QDir::separator());
+            auto line = mm.captured("line");
+            auto col = mm.captured("col");
+            auto ddot = mm.captured("ddot");
+            auto msg = mm.captured("msg");
+            auto pos = mm.captured("pos");
+            auto replacedString = QString(
+              R"(%1<font color="red">%2:%3:%4%5 <a href="file:%2#%3#%4">%6</a></font>%7)")
+              .arg(pre, file, line, col, ddot, msg, pos);
+            s.replace(mm.capturedStart(), mm.capturedLength(), replacedString);
+        }
+        return s;
+    };
+    priv->console->addStdErrFilter(currentPathTracker);
+    priv->console->addStdOutFilter(currentPathTracker);
     priv->console->addStdErrFilter(RegexHTMLTranslator::CONSOLE_TRANSLATOR);
     priv->console->addStdOutFilter(RegexHTMLTranslator::CONSOLE_TRANSLATOR);
+    priv->console->addStdErrFilter(errorStringFinder);
+    priv->console->addStdOutFilter(errorStringFinder);
+
     connect(priv->console->clearButton(), &QToolButton::clicked,
             ui->logView, &QTextBrowser::clear);
     connect(priv->pman->processFor(BuildManager::PROCESS_NAME), &QProcess::stateChanged,
             [this](QProcess::ProcessState state) {
                 priv->console->killButton()->setEnabled(state == QProcess::Running);
             });
+#if 0
     priv->pman->setStderrInterceptor(BuildManager::PROCESS_NAME, [this](QProcess *p, const QString& text) {
         priv->console->appendToConsole(QProcess::StandardError, p, text);
     });
     priv->pman->setStdoutInterceptor(BuildManager::PROCESS_NAME, [this](QProcess *p, const QString& text) {
         priv->console->appendToConsole(QProcess::StandardOutput, p, text);
     });
+#else
+    auto makeProc = priv->pman->processFor(BuildManager::PROCESS_NAME);
+    auto stderrLinerize = new ProcessLineBufferizer(ProcessLineBufferizer::StderrChannel, makeProc);
+    auto stdoutLinerize = new ProcessLineBufferizer(ProcessLineBufferizer::StdoutChannel, makeProc);
+    connect(stdoutLinerize, &ProcessLineBufferizer::haveLine, this, [this, makeProc](const QString& line) {
+            priv->console->appendToConsole(QProcess::StandardOutput, makeProc, line);
+    });
+    connect(stderrLinerize, &ProcessLineBufferizer::haveLine, this, [this, makeProc](const QString& line) {
+            priv->console->appendToConsole(QProcess::StandardError, makeProc, line);
+    });
+    connect(priv->buildManager, &BuildManager::buildTerminated,
+            [stdoutLinerize, stderrLinerize](int, const QString&)
+            {
+                stdoutLinerize->flush();
+                stderrLinerize->flush();
+            });
+
+#endif
 
     priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);
     priv->projectManager->setCodeModelProvider(new ClangAutocompletionProvider(priv->projectManager, this));
@@ -234,7 +298,6 @@ MainWindow::MainWindow(QWidget *parent) :
             priv->buildManager, &BuildManager::cancelBuild);
 
     priv->fileManager = new FileSystemManager(ui->fileViewer, this);
-
 
     connect(ui->logView, &QTextBrowser::anchorClicked, [this](const QUrl& url) {
         auto path = url.path();
@@ -258,8 +321,13 @@ MainWindow::MainWindow(QWidget *parent) :
         priv->console->writeHtml(msg);
     });
 
-    connect(priv->buildManager, &BuildManager::buildStarted, [this]() { ui->actionViewer->setEnabled(false); });
-    connect(priv->buildManager, &BuildManager::buildTerminated, [this]() { ui->actionViewer->setEnabled(true); });
+    connect(priv->buildManager, &BuildManager::buildStarted, [this]() {
+        priv->trackedBuildPath.clear();
+        ui->actionViewer->setEnabled(false);
+    });
+    connect(priv->buildManager, &BuildManager::buildTerminated, [this]() {
+        ui->actionViewer->setEnabled(true);
+    });
     connect(priv->projectManager, &ProjectManager::targetTriggered, [this](const QString& target) {
         ui->logView->clear();
         auto unsaved = ui->documentContainer->unsavedDocuments();

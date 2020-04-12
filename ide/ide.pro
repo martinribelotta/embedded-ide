@@ -39,6 +39,7 @@ SOURCES += \
         mainwindow.cpp \
     markdowneditor.cpp \
     markdownview.cpp \
+    processlinebufferizer.cpp \
         projectmanager.cpp \
         documentmanager.cpp \
         idocumenteditor.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
         mainwindow.h \
     markdowneditor.h \
     markdownview.h \
+    processlinebufferizer.h \
         projectmanager.h \
         documentmanager.h \
         idocumenteditor.h \

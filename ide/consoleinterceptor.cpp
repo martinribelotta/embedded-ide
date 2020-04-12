@@ -56,7 +56,7 @@ ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, QObject *paren
     });
 }
 
-ConsoleInterceptor::~ConsoleInterceptor() = default;
+ConsoleInterceptor::~ConsoleInterceptor() {}
 
 void ConsoleInterceptor::writeMessageTo(QTextBrowser *browser, const QString &message, const QColor &color)
 {

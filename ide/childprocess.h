@@ -49,7 +49,7 @@ public:
     }
 
     ChildProcess& setenv(const QHash<QString, QString> &extraEnv) {
-        QProcessEnvironment env = processEnvironment();
+        auto env = QProcessEnvironment::systemEnvironment();
         for(auto it = extraEnv.begin(); it != extraEnv.end(); ++it)
             env.insert(it.key(), it.value());
         setProcessEnvironment(env);

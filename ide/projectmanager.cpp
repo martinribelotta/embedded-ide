@@ -314,7 +314,7 @@ void ProjectManager::openProject(const QString &makefile)
         priv->pman->start(DISCOVER_PROC,
                           "make",
                           { "-B", "-p", "-r", "-n", "-f", makefile },
-                          { { "LC_ALL", "C" } },
+                          { { "LC_ALL", "C" }, /*{ "LANG", "C" }*/ },
                           QFileInfo(makefile).absolutePath());
         priv->makeFile = QFileInfo(makefile);
         emit projectOpened(makefile);
