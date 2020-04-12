@@ -24,13 +24,14 @@
 
 #include <functional>
 #include <QToolButton>
+#include <QTextCharFormat>
 
 class QTextBrowser;
 class QProcess;
 
 class ProcessManager;
 
-using ConsoleInterceptorFilter = std::function<QString& (QProcess *p, QString& s)>;
+using ConsoleInterceptorFilter = std::function<bool (QTextBrowser *b, QString& s)>;
 
 class ConsoleInterceptor : public QObject
 {
@@ -43,7 +44,8 @@ public:
     QToolButton *killButton() { return m_killButton; }
     QToolButton *clearButton() { return m_clearButton; }
 
-    static void writeMessageTo(QTextBrowser *browser, const QString& message, const QColor& color);
+    static void writeMessageTo(QTextBrowser *browser, const QString& message, const QColor& color={});
+    static void writeMessageTo(QTextBrowser *browser, const QString& message, const QTextCharFormat &fmt);
     static void writeHtmlTo(QTextBrowser *browser, const QString& html);
 
     void addStdOutFilter(const ConsoleInterceptorFilter& f) { stdoutFilters.append(f); }
@@ -53,7 +55,8 @@ public:
 signals:
 
 public slots:
-    void writeMessage(const QString& message, const QColor& color);
+    void writeMessage(const QString& message, const QColor& color={});
+    void writeFmtMessage(const QString& message, const QTextCharFormat& fmt);
     void writeHtml(const QString& html);
 
 private:

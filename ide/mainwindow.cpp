@@ -212,10 +212,11 @@ MainWindow::MainWindow(QWidget *parent) :
     priv->pman = new ProcessManager(this);
 
     priv->console = new ConsoleInterceptor(ui->logView, this);
-    auto currentPathTracker = [this](QProcess *p, QString& s) -> QString& {
-        Q_UNUSED(p)
+
+    auto currentPathTracker = [this](QTextBrowser *b, QString& s) -> bool {
+        Q_UNUSED(b)
         auto &stack = priv->trackedBuildPath;
-        static QRegularExpression re(R"(make\[(\d+)\]\: (Entering|Leaving) directory \'([^\']*)\')");
+        static const QRegularExpression re(R"(make\[(\d+)\]\: (Entering|Leaving) directory \'([^\']*)\')");
         auto m = re.match(s);
         if (m.hasMatch()) {
             auto level = m.captured(1).toInt();
@@ -225,69 +226,64 @@ MainWindow::MainWindow(QWidget *parent) :
             }
             stack[level - 1] = path;
         }
-        return s;
+        return false;
     };
-    auto errorStringFinder = [this](QProcess *p, QString& s) -> QString& {
-        Q_UNUSED(p)
-        static QRegularExpression errRe(
-            R"(^(?<pre>\<br\>)?(?<file>.*?):(?<line>\d+):(?<col>\d+)?(?<ddot>:?)(?<msg>.*?)(?<pos>\<br\>)?$)", QRegularExpression::MultilineOption);
+    auto errorStringFinder = [this](QTextBrowser *b, QString& s) -> bool {
+        Q_UNUSED(b)
+        static const QRegularExpression errRe(
+            R"(^(?<file>.*?):(?<line>\d+):(?<col>\d+)?(?<ddot>:?)(?<msg>.*?)$)",
+            QRegularExpression::MultilineOption
+        );
         auto mit = errRe.globalMatch(s);
+        int count = 0;
+        int pos = 0;
         while (mit.hasNext()) {
             auto mm = mit.next();
-            auto pre = mm.captured("pre");
-            auto file = mm.captured("file");
-            if (!priv->trackedBuildPath.isEmpty())
+            int reStart = mm.capturedStart();
+            if (reStart > pos) {
+                ConsoleInterceptor::writeMessageTo(b, s.mid(pos, reStart - pos));
+            }
+            QString file = mm.captured("file");
+            if (!priv->trackedBuildPath.isEmpty() && !QFileInfo(file).isAbsolute())
                 file.prepend(priv->trackedBuildPath.last() + QDir::separator());
             auto line = mm.captured("line");
             auto col = mm.captured("col");
             auto ddot = mm.captured("ddot");
             auto msg = mm.captured("msg");
-            auto pos = mm.captured("pos");
-            auto replacedString = QString(
-              R"(%1<font color="red">%2:%3:%4%5 <a href="file:%2#%3#%4">%6</a></font>%7)")
-              .arg(pre, file, line, col, ddot, msg, pos);
-            s.replace(mm.capturedStart(), mm.capturedLength(), replacedString);
+            auto url = ICodeModelProvider::FileReference(file, line.toInt(), col.toInt(), msg).encode();
+            auto err = QString("%2:%3:%4%5 ").arg(file, line, col, ddot);
+            ConsoleInterceptor::writeMessageTo(b, err, Qt::red);
+            QTextCharFormat linkFmt;
+            linkFmt.setAnchor(true);
+            linkFmt.setAnchorHref(url.toString());
+            linkFmt.setForeground(b->palette().link().color());
+            ConsoleInterceptor::writeMessageTo(b, msg, linkFmt);
+            pos = mm.capturedEnd();
+            count++;
         }
-        return s;
+        if (pos < s.length()) {
+            ConsoleInterceptor::writeMessageTo(b, s.mid(pos));
+        }
+        return count > 0;
     };
     priv->console->addStdErrFilter(currentPathTracker);
     priv->console->addStdOutFilter(currentPathTracker);
-    priv->console->addStdErrFilter(RegexHTMLTranslator::CONSOLE_TRANSLATOR);
-    priv->console->addStdOutFilter(RegexHTMLTranslator::CONSOLE_TRANSLATOR);
     priv->console->addStdErrFilter(errorStringFinder);
     priv->console->addStdOutFilter(errorStringFinder);
 
     connect(priv->console->clearButton(), &QToolButton::clicked,
             ui->logView, &QTextBrowser::clear);
-    connect(priv->pman->processFor(BuildManager::PROCESS_NAME), &QProcess::stateChanged,
+
+    auto makeProc = priv->pman->processFor(BuildManager::PROCESS_NAME);
+    connect(makeProc, &QProcess::stateChanged,
             [this](QProcess::ProcessState state) {
                 priv->console->killButton()->setEnabled(state == QProcess::Running);
             });
-#if 0
-    priv->pman->setStderrInterceptor(BuildManager::PROCESS_NAME, [this](QProcess *p, const QString& text) {
-        priv->console->appendToConsole(QProcess::StandardError, p, text);
-    });
-    priv->pman->setStdoutInterceptor(BuildManager::PROCESS_NAME, [this](QProcess *p, const QString& text) {
-        priv->console->appendToConsole(QProcess::StandardOutput, p, text);
-    });
-#else
-    auto makeProc = priv->pman->processFor(BuildManager::PROCESS_NAME);
-    auto stderrLinerize = new ProcessLineBufferizer(ProcessLineBufferizer::StderrChannel, makeProc);
-    auto stdoutLinerize = new ProcessLineBufferizer(ProcessLineBufferizer::StdoutChannel, makeProc);
-    connect(stdoutLinerize, &ProcessLineBufferizer::haveLine, this, [this, makeProc](const QString& line) {
-            priv->console->appendToConsole(QProcess::StandardOutput, makeProc, line);
-    });
-    connect(stderrLinerize, &ProcessLineBufferizer::haveLine, this, [this, makeProc](const QString& line) {
+    auto makeLinerize = new ProcessLineBufferizer(ProcessLineBufferizer::MergedChannel, makeProc);
+    connect(makeLinerize, &ProcessLineBufferizer::haveLine, this, [this, makeProc](const QString& line) {
             priv->console->appendToConsole(QProcess::StandardError, makeProc, line);
     });
-    connect(priv->buildManager, &BuildManager::buildTerminated,
-            [stdoutLinerize, stderrLinerize](int, const QString&)
-            {
-                stdoutLinerize->flush();
-                stderrLinerize->flush();
-            });
-
-#endif
+    connect(priv->buildManager, &BuildManager::buildTerminated, makeLinerize, &ProcessLineBufferizer::flush);
 
     priv->projectManager = new ProjectManager(ui->actionViewer, priv->pman, this);
     priv->projectManager->setCodeModelProvider(new ClangAutocompletionProvider(priv->projectManager, this));
@@ -300,25 +296,17 @@ MainWindow::MainWindow(QWidget *parent) :
     priv->fileManager = new FileSystemManager(ui->fileViewer, this);
 
     connect(ui->logView, &QTextBrowser::anchorClicked, [this](const QUrl& url) {
-        auto path = url.path();
-        auto lr = url.fragment().split('#');
-        auto ok1 = false;
-        auto ok2 = false;
-        constexpr auto DEC_RADIX = 10;
-        int line = !lr.empty()? lr.at(0).toInt(&ok1, DEC_RADIX) : 1;
-        int chdr = lr.size()>1? lr.at(1).toInt(&ok2, DEC_RADIX) : 1;
-        if (!ok1) line = 1;
-        if (!ok2) chdr = 1;
-        ui->documentContainer->openDocumentHere(path, line, chdr);
+        auto ref = ICodeModelProvider::FileReference::decode(url);
+        ui->documentContainer->openDocumentHere(ref.path, ref.line, ref.column);
         ui->documentContainer->setFocus();
     });
 
     TextMessageBrocker::instance().subscribe(TextMessages::STDERR_LOG, [this](const QString& msg) {
-        priv->console->writeHtml(msg);
+        priv->console->writeMessage(msg);
     });
 
     TextMessageBrocker::instance().subscribe(TextMessages::STDOUT_LOG, [this](const QString& msg) {
-        priv->console->writeHtml(msg);
+        priv->console->writeMessage(msg);
     });
 
     connect(priv->buildManager, &BuildManager::buildStarted, [this]() {

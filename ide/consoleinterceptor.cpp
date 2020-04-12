@@ -60,15 +60,21 @@ ConsoleInterceptor::~ConsoleInterceptor() {}
 
 void ConsoleInterceptor::writeMessageTo(QTextBrowser *browser, const QString &message, const QColor &color)
 {
+    QTextCharFormat fmt;
+    fmt.setForeground(color.isValid()? color : browser->palette().text().color());
+    writeMessageTo(browser, message, fmt);
+}
+
+void ConsoleInterceptor::writeMessageTo(QTextBrowser *browser, const QString &message, const QTextCharFormat &fmt)
+{
     auto cursor = browser->textCursor();
     cursor.beginEditBlock();
     cursor.movePosition(QTextCursor::End);
-    QTextCharFormat fmt;
     auto font = AppConfig::instance().loggerFont();
-    fmt.setFontFamily(font.family());
-    fmt.setFontPointSize(font.pointSize());
-    fmt.setForeground(color);
-    cursor.setCharFormat(fmt);
+    QTextCharFormat fmt2(fmt);
+    fmt2.setFontFamily(font.family());
+    fmt2.setFontPointSize(font.pointSize());
+    cursor.setCharFormat(fmt2);
     cursor.insertText(message);
     cursor.endEditBlock();
     browser->verticalScrollBar()->setValue(browser->verticalScrollBar()->maximum());
@@ -89,13 +95,19 @@ void ConsoleInterceptor::appendToConsole(QProcess::ProcessChannel s, QProcess *p
     const auto& filters = s == QProcess::StandardError? stderrFilters : stdoutFilters;
     QString processedText{ text };
     for(const auto& c: filters)
-        processedText = c(p, processedText);
-    writeHtml(processedText);
+        if (c(browser, processedText))
+            return;
+    writeMessage(processedText, browser->palette().text().color());
 }
 
 void ConsoleInterceptor::writeMessage(const QString &message, const QColor &color)
 {
     writeMessageTo(browser, message, color);
+}
+
+void ConsoleInterceptor::writeFmtMessage(const QString &message, const QTextCharFormat &fmt)
+{
+    writeMessageTo(browser, message, fmt);
 }
 
 void ConsoleInterceptor::writeHtml(const QString &html)

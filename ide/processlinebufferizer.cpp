@@ -8,9 +8,14 @@ ProcessLineBufferizer::ProcessLineBufferizer(Channel ch, QProcess *parent) : QOb
         connect(parent, &QProcess::readyReadStandardError, this, [this, parent]() {
             pushData(parent->readAllStandardError());
         });
-    } else {
+    } else if (ch == StdoutChannel) {
         connect(parent, &QProcess::readyReadStandardOutput, this, [this, parent]() {
             pushData(parent->readAllStandardOutput());
+        });
+    } else if (ch == MergedChannel) {
+        parent->setProcessChannelMode(QProcess::MergedChannels);
+        connect(parent, &QProcess::readyRead, this, [this, parent]() {
+            pushData(parent->readAll());
         });
     }
 }

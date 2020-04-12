@@ -10,7 +10,7 @@ class ProcessLineBufferizer : public QObject
     Q_OBJECT
 public:
     enum Channel {
-        StdoutChannel, StderrChannel
+        StdoutChannel, StderrChannel, MergedChannel
     };
 
     explicit ProcessLineBufferizer(Channel ch, QProcess *parent = nullptr);
