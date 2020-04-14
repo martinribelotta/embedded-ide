@@ -261,10 +261,11 @@ MainWindow::MainWindow(QWidget *parent) :
             pos = mm.capturedEnd();
             count++;
         }
-        if (pos < s.length()) {
+        if (count > 0 && pos < s.length()) {
             ConsoleInterceptor::writeMessageTo(b, s.mid(pos));
+            return true;
         }
-        return count > 0;
+        return false;
     };
     priv->console->addStdErrFilter(currentPathTracker);
     priv->console->addStdOutFilter(currentPathTracker);
