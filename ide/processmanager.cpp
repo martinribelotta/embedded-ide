@@ -34,7 +34,7 @@ ProcessManager::ProcessManager(QObject *parent) :
 {
 }
 
-ProcessManager::~ProcessManager() = default;
+ProcessManager::~ProcessManager() {}
 
 QProcess *ProcessManager::processFor(const QString &name)
 {
@@ -42,6 +42,7 @@ QProcess *ProcessManager::processFor(const QString &name)
     if (!proc) {
         proc = new QProcess(this);
         proc->setObjectName(name);
+        proc->setTextModeEnabled(true);
     }
     return proc;
 }

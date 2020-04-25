@@ -70,6 +70,7 @@ void printProperty(QObject *obj, const QString& name, const QString& type, const
     auto fullName = (parentsOf(obj) << name).join(".");
     if (noAll && !propertyList.contains(fullName))
         return;
+
     endl(out() << "property:" << fullName << "[" << type << "]:" << value.toString());
 }
 
@@ -152,7 +153,14 @@ public slots:
 
     void setData(QAbstractItemView *v, const QJsonValue& val)
     {
-        v->setModel(new QJsonModel(val.toString(), v));
+        auto model = new QJsonModel(v);
+        auto str = val.toString();
+        bool loaded = QFileInfo(str).isFile()? model->load(str) : model->loadJson(str.toLocal8Bit());
+        if (!loaded) {
+            out() << "Error loading json\n";
+        } else {
+            v->setModel(model);
+        }
     }
 
     QString getOpenFileName(QWidget *parent = nullptr,

@@ -25,6 +25,7 @@
 #include <QGridLayout>
 #include <QScrollBar>
 #include <QToolButton>
+#include <QEvent>
 
 ConsoleInterceptor::ConsoleInterceptor(QTextBrowser *textBrowser, QObject *parent) :
     QObject(parent), browser(textBrowser)
@@ -70,11 +71,7 @@ void ConsoleInterceptor::writeMessageTo(QTextBrowser *browser, const QString &me
     auto cursor = browser->textCursor();
     cursor.beginEditBlock();
     cursor.movePosition(QTextCursor::End);
-    auto font = AppConfig::instance().loggerFont();
-    QTextCharFormat fmt2(fmt);
-    fmt2.setFontFamily(font.family());
-    fmt2.setFontPointSize(font.pointSize());
-    cursor.setCharFormat(fmt2);
+    cursor.setCharFormat(fmt);
     cursor.insertText(message);
     cursor.endEditBlock();
     browser->verticalScrollBar()->setValue(browser->verticalScrollBar()->maximum());

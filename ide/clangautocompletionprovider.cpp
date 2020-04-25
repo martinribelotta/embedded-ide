@@ -199,6 +199,7 @@ void ClangAutocompletionProvider::startIndexingProject(const QString &path, Fini
         });
         priv->project->showMessage(tr("ctags end, processing..."));
     });
+    p.setTextModeEnabled(true);
     p.start("universal-ctags", {
                  "--map-R=-.s",
                  "-n", "-R", "-e",

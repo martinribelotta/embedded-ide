@@ -123,7 +123,7 @@ QJsonTreeItem* QJsonTreeItem::load(const QJsonValue& value, QJsonTreeItem* paren
         for (QJsonValue v : value.toArray()){
 
             QJsonTreeItem * child = load(v,rootItem);
-            child->setKey(QString::number(index));
+            child->setKey({}); // QString::number(index));
             child->setType(v.type());
             rootItem->appendChild(child);
             ++index;
@@ -200,7 +200,8 @@ bool QJsonModel::load(QIODevice *device)
 
 bool QJsonModel::loadJson(const QByteArray &json)
 {
-    auto const& jdoc = QJsonDocument::fromJson(json);
+    QJsonParseError err;
+    auto const& jdoc = QJsonDocument::fromJson(json, &err);
 
     if (!jdoc.isNull())
     {
@@ -217,6 +218,7 @@ bool QJsonModel::loadJson(const QByteArray &json)
         endResetModel();
         return true;
     }
+    QTextStream(stdout) << err.errorString() << "\n";
 
     qDebug()<<Q_FUNC_INFO<<"cannot load json";
     return false;
@@ -234,6 +236,8 @@ QVariant QJsonModel::data(const QModelIndex &index, int role) const
 
 
     if (role == Qt::DisplayRole) {
+        if (item->key().isEmpty())
+            return QString("%1").arg(item->value());
 
         if (index.column() == 0)
             return QString("%1").arg(item->key());
