@@ -29,6 +29,7 @@
 
 #include <QtConcurrent>
 #include <QFutureWatcher>
+#include <QCloseEvent>
 
 static constexpr auto DEFAULT_REFRESH_DELAY_MS = 500;
 static constexpr auto RELOAD_ICON_SIZE = QSize{16, 16};

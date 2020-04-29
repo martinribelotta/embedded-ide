@@ -134,7 +134,7 @@ RESOURCES += \
     resources/resources.qrc \
     resources/styles.qrc
 
-QMAKE_LFLAGS += -lqscintilla2_qt5
+#QMAKE_LFLAGS += -lqscintilla2_qt5
 
 LIBS += -lz
 

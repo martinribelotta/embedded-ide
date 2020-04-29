@@ -38,13 +38,13 @@ public:
     }
 
     ChildProcess& makeDeleteLater() {
-        connect(this, QOverload<int>::of(&ChildProcess::finished), this, &ChildProcess::deleteLater);
+        connect(this, QOverload<int, ExitStatus>::of(&ChildProcess::finished), this, &ChildProcess::deleteLater);
         connect(this, &ChildProcess::errorOccurred, this, &ChildProcess::deleteLater);
         return *this;
     }
 
     ChildProcess& mergeStdOutAndErr() {
-        setReadChannelMode(MergedChannels);
+        setProcessChannelMode(MergedChannels);
         return *this;
     }
 
@@ -58,7 +58,7 @@ public:
 
     template<typename T> ChildProcess& onFinished(T f)
     {
-        connect(this, QOverload<int>::of(&QProcess::finished), [this, f](int e) { f(this, e); });
+        connect(this, QOverload<int, ExitStatus>::of(&QProcess::finished), [this, f](int e) { f(this, e); });
         return *this;
     }
 

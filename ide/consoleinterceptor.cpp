@@ -89,6 +89,7 @@ void ConsoleInterceptor::writeHtmlTo(QTextBrowser *browser, const QString &html)
 
 void ConsoleInterceptor::appendToConsole(QProcess::ProcessChannel s, QProcess *p, const QString &text)
 {
+    Q_UNUSED(p)
     const auto& filters = s == QProcess::StandardError? stderrFilters : stdoutFilters;
     QString processedText{ text };
     for(const auto& c: filters)

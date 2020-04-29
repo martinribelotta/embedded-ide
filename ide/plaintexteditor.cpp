@@ -30,6 +30,7 @@
 #include <QMessageBox>
 #include <QRegularExpression>
 #include <QtDebug>
+#include <QCloseEvent>
 
 #include <cmath>
 
@@ -322,7 +323,11 @@ QString PlainTextEditor::wordUnderCursor() const
 void PlainTextEditor::adjustLineNumberMargin()
 {
     QFontMetrics m(font());
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+    setMarginWidth(0, m.horizontalAdvance(QString().fill('0', 2 + static_cast<int>(std::log10(lines())))));
+#else
     setMarginWidth(0, m.width(QString().fill('0', 2 + static_cast<int>(std::log10(lines())))));
+#endif
 }
 
 int PlainTextEditor::findText(const QString &text, int flags, int start, int *targend)
@@ -605,7 +610,7 @@ QMenu *PlainTextEditor::createContextualMenu()
     auto m = new QMenu(this);
     bool isSelected = !selectedText().isEmpty();
     bool canPaste = static_cast<bool>(SendScintilla(SCI_CANPASTE));
-    auto mkAction = [this, m](const auto& en, const auto& icon, const auto& text, const auto& keys, const auto &functor) {
+    auto mkAction = [m](const auto& en, const auto& icon, const auto& text, const auto& keys, const auto &functor) {
         auto a = m->addAction(QIcon(AppConfig::resourceImage({ "actions", icon })), text, functor);
         a->setShortcut(QKeySequence(keys));
         a->setEnabled(en);
