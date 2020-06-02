@@ -21,10 +21,14 @@
 
 #include "appconfig.h"
 #include "buttoneditoritemdelegate.h"
+#include "envinputdialog.h"
 
 #include <QStringListModel>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QTimer>
+#include <QInputDialog>
+#include <QStandardItemModel>
 
 #include <QtDebug>
 
@@ -51,6 +55,35 @@ static const QStringList ASTYLE_STYLES = {
     "whitesmith"
 };
 
+class EnvironmentModel: public QStandardItemModel {
+public:
+    EnvironmentModel(const QMap<QString, QString>& m, QTableView *parent = nullptr):
+        QStandardItemModel(parent)
+    {
+        setHorizontalHeaderLabels({ tr("Name"), tr("Value") });
+        for (auto it = m.constBegin(); it != m.constEnd(); ++it)
+            appendEntry(it.key(), it.value());
+        connect(this, &QStandardItemModel::itemChanged, [parent]() {
+            parent->resizeColumnToContents(0);
+        });
+    }
+
+    void appendEntry(const QString& key, const QString& val)
+    {
+        appendRow({new QStandardItem(key), new QStandardItem(val)});
+    }
+
+    QMap<QString, QString> toMap() const {
+        QMap<QString, QString> m;
+        for (int r = 0; r < rowCount(); r++) {
+            auto k = item(r, 0)->text();
+            auto v = item(r, 1)->text();
+            m.insert(k, v);
+        }
+        return m;
+    }
+};
+
 ConfigWidget::ConfigWidget(QWidget *parent) :
     QDialog(parent),
     ui(std::make_unique<Ui::ConfigWidget>())
@@ -60,6 +93,8 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
         { ui->projectPathSetButton, "document-open" },
         { ui->tbPathAdd, "list-add" },
         { ui->tbPathRm, "list-remove" },
+        { ui->tbEnvAdd, "list-add" },
+        { ui->tbEnvRm, "list-remove" },
     };
     for (const auto& e: buttonmap)
         e.b->setIcon(QIcon{AppConfig::resourceImage({ "actions", e.icon })});
@@ -132,6 +167,25 @@ ConfigWidget::ConfigWidget(QWidget *parent) :
             m->setStringList(list);
         }
     });
+    connect(ui->tbEnvRm, &QToolButton::clicked, [this]() {
+        auto idx = ui->additionalEnvTable->currentIndex().row();
+        if (idx != -1) {
+            auto m = qobject_cast<QStandardItemModel*>(ui->additionalEnvTable->model());
+            if (m) {
+                m->removeRows(idx, 1);
+                ui->additionalEnvTable->selectionModel()->clear();
+            }
+        }
+    });
+    connect(ui->tbEnvAdd, &QToolButton::clicked, [this]() {
+        EnvInputDialog d(window());
+        if (d.exec() == QDialog::Accepted) {
+            auto m = static_cast<EnvironmentModel*>(ui->additionalEnvTable->model());
+            if (m) {
+                m->appendEntry(d.envName(), d.envValue());
+            }
+        }
+    });
 }
 
 ConfigWidget::~ConfigWidget()
@@ -143,6 +197,9 @@ void ConfigWidget::save()
     auto &conf = AppConfig::instance();
     conf.setWorkspacePath(ui->workspacePath->text());
     conf.setAdditionalPaths(qobject_cast<QStringListModel*>(ui->additionalPathList->model())->stringList());
+    auto envModel = static_cast<EnvironmentModel*>(ui->additionalEnvTable->model());
+    if (envModel)
+        conf.setAdditionalEnv(envModel->toMap());
     conf.setEditorStyle(ui->editorStyle->currentText());
     auto editorFont = ui->editorFontName->currentFont();
     editorFont.setPointSize(ui->editorFontSize->value());
@@ -184,7 +241,9 @@ void ConfigWidget::load()
 {
     auto &conf = AppConfig::instance();
     ui->workspacePath->setText(conf.workspacePath());
-    ui->additionalPathList->setModel(new QStringListModel(conf.additionalRawPaths(), this));
+    ui->additionalPathList->setModel(new QStringListModel(conf.additionalPaths(), this));
+    ui->additionalEnvTable->setModel(new EnvironmentModel(conf.additionalEnv(), ui->additionalEnvTable));
+    ui->additionalEnvTable->resizeColumnToContents(0);
     ui->editorStyle->setCurrentText(conf.editorStyle());
     auto editorFont = conf.editorFont();
     ui->editorFontName->setCurrentFont(editorFont);

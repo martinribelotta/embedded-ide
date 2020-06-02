@@ -135,7 +135,7 @@ ParseResult parseDocument(QsciScintilla *doc) {
     const int num_lines = doc->lines();
     result.grace = float(num_lines) * GRACE_FREQUENCY;
     for(int i = 0; i < num_lines; ++i) {
-        auto depth = static_cast<const decltype (result.depth_counts)::size_type>(doc->indentation(i));
+        const auto depth = static_cast<decltype (result.depth_counts)::size_type>(doc->indentation(i));
         if(depth < MIN_DEPTH || depth > MAX_DEPTH)
             continue;
 

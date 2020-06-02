@@ -20,7 +20,8 @@
 
 #include <QtDebug>
 
-static RegexEntry mkEntry(const QString& r, const auto& h) {
+template<typename T>
+static RegexEntry mkEntry(const QString& r, const T& h) {
     return RegexEntry{QRegularExpression{ r, QRegularExpression::MultilineOption }, QLatin1String{ h } };
 }
 

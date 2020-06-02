@@ -58,8 +58,8 @@ public:
     QList<QPair<QString, QString> > externalTools() const;
     QFileInfoList recentProjects() const;
 
-    QStringList additionalPaths(bool raw = false) const;
-    QStringList additionalRawPaths() const { return additionalPaths(true); }
+    QStringList additionalPaths() const;
+    QMap<QString, QString> additionalEnv() const;
 
     QString templatesUrl() const;
 
@@ -107,6 +107,7 @@ public slots:
     void appendToRecentProjects(const QString& path);
 
     void setAdditionalPaths(const QStringList& paths);
+    void setAdditionalEnv(const QMap<QString, QString> &env);
 
     void setTemplatesUrl(const QString& url);
 

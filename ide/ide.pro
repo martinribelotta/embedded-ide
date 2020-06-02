@@ -4,11 +4,10 @@ QT += core gui widgets svg xml network concurrent uitools
 
 CONFIG += qscintilla2
 CONFIG += c++14
+CONFIG += warn_off
 
-greaterThan(QT_MAJOR_VERSION, 4) {
-    greaterThan(QT_MINOR_VERSION, 11) {
-        CONFIG += lrelease embed_translations
-    }
+greaterThan(QT_MINOR_VERSION, 11) {
+    CONFIG += lrelease embed_translations
 }
 
 TARGET = embedded-ide
@@ -35,6 +34,7 @@ include($$PWD/../3rdpart/hoedown/hoedown.pri)
 INCLUDEPATH += $$PWD/../3rdpart
 
 SOURCES += \
+    envinputdialog.cpp \
         main.cpp \
         mainwindow.cpp \
     markdowneditor.cpp \
@@ -74,6 +74,7 @@ SOURCES += \
 
 HEADERS += \
     buttoneditoritemdelegate.h \
+    envinputdialog.h \
         mainwindow.h \
     markdowneditor.h \
     markdownview.h \
@@ -112,6 +113,7 @@ HEADERS += \
     imageviewer.h
 
 FORMS += \
+    envinputdialog.ui \
         mainwindow.ui \
         unsavedfilesdialog.ui \
         formfindreplace.ui \

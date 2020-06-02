@@ -185,9 +185,16 @@ void AppConfig::adjustEnv()
 
     auto old = priv->sysenv.value("PATH");
     auto separator = isWindows()? ";" : ":";
-    auto extras = additionalPaths().join(separator);
+    auto extras = replaceWithEnv(additionalPaths().join(separator));
     auto path = QString("%1%2%3").arg(extras).arg(separator).arg(old);
     qputenv("PATH", path.toLocal8Bit());
+
+    auto extraEnv = additionalEnv();
+    for (auto it = extraEnv.constBegin(); it != extraEnv.constEnd(); ++it) {
+        auto key = it.key().toLocal8Bit();
+        auto val = replaceWithEnv(it.value()).toLocal8Bit();
+        qputenv(key.constData(), val);
+    }
 }
 
 QString AppConfig::replaceWithEnv(const QString &str)
@@ -311,16 +318,32 @@ QFileInfoList AppConfig::recentProjects() const
     return list;
 }
 
-QStringList AppConfig::additionalPaths(bool raw) const
+QStringList AppConfig::additionalPaths() const
 {
     QStringList paths;
-    if (raw)
-        for(const auto e: priv->local.value("additionalPaths").toArray())
-            paths.append(e.toString());
-    else
-        for(const auto e: priv->local.value("additionalPaths").toArray())
-            paths.append(replaceWithEnv(e.toString()));
+    for(const auto e: priv->local.value("additionalPaths").toArray())
+        paths.append(e.toString());
     return paths;
+}
+
+static void objectToMap(QMap<QString, QString>& map, const QJsonObject& obj)
+{
+    for (auto it = obj.constBegin(); it != obj.constEnd(); ++it)
+        map.insert(it.key(), it.value().toString());
+}
+
+QMap<QString, QString> AppConfig::additionalEnv() const
+{
+    QMap<QString, QString> map;
+    auto env = priv->local.value("additionalEnv");
+    qDebug() << env.toString();
+    if (env.isArray()) {
+        for (const auto& e: env.toArray())
+            objectToMap(map, e.toObject());
+    } else {
+        objectToMap(map, env.toObject());
+    }
+    return map;
 }
 
 QString AppConfig::templatesUrl() const
@@ -526,6 +549,14 @@ void AppConfig::setAdditionalPaths(const QStringList &paths)
     for(const auto& p: paths)
         array.append(p);
     priv->local.insert("additionalPaths", array);
+}
+
+void AppConfig::setAdditionalEnv(const QMap<QString, QString> &env)
+{
+    QJsonArray array;
+    for (auto it= env.constBegin(); it!=env.constEnd(); ++it)
+        array.append(QJsonObject{{ it.key(), it.value() }});
+    priv->local.insert("additionalEnv", array);
 }
 
 void AppConfig::setTemplatesUrl(const QString &url)
