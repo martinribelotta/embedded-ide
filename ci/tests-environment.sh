@@ -48,10 +48,10 @@ URLS="https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/li
      https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage \
      https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage"
 
-wget -P /usr/bin $URLS
+sudo wget -P /usr/bin $URLS
 for url in $URLS
 do
 	F=$(basename $url)
 	P=/usr/bin/$F
-	chmod a+x $P
+	sudo chmod a+x $P
 done
