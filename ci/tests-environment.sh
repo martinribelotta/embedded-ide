@@ -3,7 +3,7 @@
 set -e
 set -x
 
-sudo add-apt-repository --yes ppa:beineri/opt-qt593-trusty
+sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.8-xenial
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 echo "deb http://pkg.mxe.cc/repos/apt trusty main" | sudo tee /etc/apt/sources.list.d/mxeapt.list
 sudo apt-get update -qq --allow-unauthenticated
@@ -19,7 +19,7 @@ sudo chmod a+x /usr/bin/pydeployqt
 MXE=mxe-${MXE_TRIPLE}
 sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
 	wget fuse gcc-8 g++-8 build-essential \
-	qt59base qt59tools qt59svg qt59imageformats qt59x11extras libglu1-mesa-dev \
+	qt512base qt512tools qt512svg qt512imageformats qt512x11extras libglu1-mesa-dev \
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
 export QTDIR=$(readlink -f /opt/qt*/)
@@ -44,8 +44,14 @@ cd /tmp/qsci
 export PATH=${QTDIR}/bin:${PATH}
 make -f BuildQSCI.mk
 
-cd /tmp/
-wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-sudo cp linuxdeployqt-continuous-x86_64.AppImage /usr/bin/linuxdeployqt
-sudo chmod a+x /usr/bin/linuxdeployqt
-cd -
+URLS="https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage \
+     https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage \
+     https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage"
+
+wget -P /usr/bin $URLS
+for url in $URLS
+do
+	F=$(basename $url)
+	P=/usr/bin/$F
+	chmod a+x $P
+done

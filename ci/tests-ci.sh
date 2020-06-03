@@ -4,6 +4,7 @@ set -x
 
 export QTDIR=$(readlink -f /opt/qt*/)
 PATH=${QTDIR}/bin:${PATH}
+export QMAKE=${QTDIR}/bin/qmake
 
 set -e
 
@@ -80,12 +81,10 @@ cat > ${INSTALL_DIR}/usr/share/embedded-ide/embedded-ide.hardconf <<"EOF"
 }
 EOF
 
-linuxdeployqt $DESKTOP_FILE $DEPLOY_OPT -appimage
-cp ${QTDIR}/lib/libQt5Svg.so.5 $INSTALL_DIR/usr/lib
-cp ${QTDIR}/lib/libQt5Qml.so.5 $INSTALL_DIR/usr/lib
-cp ${QTDIR}/plugins/imageformats/libqsvg.so $INSTALL_DIR/usr/plugins/imageformats/
 install -m 0755 /tmp/universal-ctags $INSTALL_DIR/usr/bin
-linuxdeployqt $DESKTOP_FILE -appimage
+
+linuxdeploy-x86_64.AppImage --plugin qt --output appimage --appdir=$INSTALL_DIR
+
 (
 APPIMAGE_DIR=${PWD}
 APPIMAGE=${PWD}/Embedded_IDE-${VERSION}-x86_64.AppImage
