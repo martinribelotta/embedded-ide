@@ -1,18 +1,24 @@
 #!/bin/sh
-
+B=$(dirname $(realpath $0))
 set -x
 set -e
-
-PKG=$(cat ci/qt5124-linux-packages)
+MAJOR=5
+MINOR=12
+REV=9
+#VER=5124
+VER=${MAJOR}${MINOR}${REV}
+VERSION=${MAJOR}.${MINOR}.${REV}
+PKG=$(cat ${B}/qt${VER}-linux-packages)
 
 mkdir -p /opt/qt/
-(cd /opt/qt &&
+(
+cd /opt/q &&
 wget ${PKG} &&
 for f in *; do 7z x $f > /dev/null; done &&
-cat <<EOF > 5.12.4/gcc_64/bin/qt.conf
+cat <<EOF > ${VERSION}/gcc_64/bin/qt.conf
 [Paths]
 Prefix=..
 EOF
-sed -i -r 's/QT_EDITION = Enterprise/QT_EDITION = OpenSource/' 5.12.4/gcc_64/mkspecs/qconfig.pri 
-sed -i -r 's/QT_LICHECK = lichec.*/QT_LICHECK = /' 5.12.4/gcc_64/mkspecs/qconfig.pri 
+sed -i -r 's/QT_EDITION = Enterprise/QT_EDITION = OpenSource/' ${VERSION}/gcc_64/mkspecs/qconfig.pri 
+sed -i -r 's/QT_LICHECK = lichec.*/QT_LICHECK = /' ${VERSION}/gcc_64/mkspecs/qconfig.pri 
 )

@@ -3,7 +3,8 @@
 set -e
 set -x
 
-sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.8-xenial
+# sudo add-apt-repository --yes ppa:beineri/opt-qt-5.12.8-xenial
+
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 echo "deb http://pkg.mxe.cc/repos/apt trusty main" | sudo tee /etc/apt/sources.list.d/mxeapt.list
 sudo apt-get update -qq --allow-unauthenticated
@@ -17,21 +18,21 @@ sudo wget https://raw.githubusercontent.com/martinribelotta/pydeployqt/master/de
 sudo chmod a+x /usr/bin/pydeployqt
 
 MXE=mxe-${MXE_TRIPLE}
+#sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
+	#wget fuse gcc-8 g++-8 build-essential p7zip-full \
+	#qt512base qt512tools qt512svg qt512imageformats qt512x11extras libglu1-mesa-dev \
+	#${MXE}-gcc ${MXE}-g++ \
+	#${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
+#export QTDIR=$(readlink -f /opt/qt*/)
+
 sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
-	wget fuse gcc-8 g++-8 build-essential \
-	qt512base qt512tools qt512svg qt512imageformats qt512x11extras libglu1-mesa-dev \
+	wget fuse gcc-8 g++-8 build-essential p7zip-full \
+	libglu1-mesa-dev libxkbcommon-dev libxkbcommon-x11-0 \
 	${MXE}-gcc ${MXE}-g++ \
 	${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
-export QTDIR=$(readlink -f /opt/qt*/)
 
-#~ sudo apt-get install -y --allow-unauthenticated -o Dpkg::Options::="--force-overwrite" \
-	#~ wget fuse gcc-8 g++-8 build-essential \
-	#~ libglu1-mesa-dev libxkbcommon-dev libxkbcommon-x11-0 \
-	#~ ${MXE}-gcc ${MXE}-g++ \
-	#~ ${MXE}-qtbase ${MXE}-qtsvg ${MXE}-qscintilla2 ${MXE}-qttools
-
-#~ sudo bash ci/extract-qt-installer
-#~ export QTDIR=$(readlink -f /opt/qt*/5.12.4/gcc_64)
+sudo bash ci/extract-qt-installer
+export QTDIR=$(readlink -f /opt/qt*/5.12.*/gcc_64)
 
 gcc --version
 # sudo update-alternatives --remove-all gcc
