@@ -12,7 +12,7 @@ PKG=$(cat ${B}/qt${VER}-linux-packages)
 
 mkdir -p /opt/qt/
 (
-cd /opt/q &&
+cd /opt/qt &&
 wget ${PKG} &&
 for f in *; do 7z x $f > /dev/null; done &&
 cat <<EOF > ${VERSION}/gcc_64/bin/qt.conf
