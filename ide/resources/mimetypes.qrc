@@ -1,65 +1,67 @@
-<!DOCTYPE RCC>
-<RCC version="1.0">
-<qresource prefix="/">
-<file>images/light/mimetypes/application-x-executable-script.svg</file>
-<file>images/light/mimetypes/application-x-java.svg</file>
-<file>images/light/mimetypes/application-x-javascript.svg</file>
-<file>images/light/mimetypes/application-x-m4.svg</file>
-<file>images/light/mimetypes/application-x-python-bytecode.svg</file>
-<file>images/light/mimetypes/application-x-zerosize.svg</file>
-<file>images/light/mimetypes/folder.svg</file>
-<file>images/light/mimetypes/image-x-generic.svg</file>
-<file>images/light/mimetypes/inode-directory.svg</file>
-<file>images/light/mimetypes/text-html.svg</file>
-<file>images/light/mimetypes/text-markdown.svg</file>
-<file>images/light/mimetypes/text-plain.svg</file>
-<file>images/light/mimetypes/text-x-c++hdr.svg</file>
-<file>images/light/mimetypes/text-x-c++src.svg</file>
-<file>images/light/mimetypes/text-x-chdr.svg</file>
-<file>images/light/mimetypes/text-x-csrc.svg</file>
-<file>images/light/mimetypes/text-x-generic.svg</file>
-<file>images/light/mimetypes/text-x-hex.svg</file>
-<file>images/light/mimetypes/text-x-java.svg</file>
-<file>images/light/mimetypes/text-x-javascript.svg</file>
-<file>images/light/mimetypes/text-x-makefile.svg</file>
-<file>images/light/mimetypes/text-x-markdown.svg</file>
-<file>images/light/mimetypes/text-x-patch.svg</file>
-<file>images/light/mimetypes/text-x-plain.svg</file>
-<file>images/light/mimetypes/text-x-python.svg</file>
-<file>images/light/mimetypes/text-x-readme.svg</file>
-<file>images/light/mimetypes/text-x-script.svg</file>
-<file>images/light/mimetypes/text-x-texinfo.svg</file>
-<file>images/light/mimetypes/text-xml.svg</file>
-<file>images/light/mimetypes/unknown.svg</file>
-<file>images/dark/mimetypes/application-x-executable-script.svg</file>
-<file>images/dark/mimetypes/application-x-java.svg</file>
-<file>images/dark/mimetypes/application-x-javascript.svg</file>
-<file>images/dark/mimetypes/application-x-m4.svg</file>
-<file>images/dark/mimetypes/application-x-python-bytecode.svg</file>
-<file>images/dark/mimetypes/application-x-zerosize.svg</file>
-<file>images/dark/mimetypes/folder.svg</file>
-<file>images/dark/mimetypes/image-x-generic.svg</file>
-<file>images/dark/mimetypes/inode-directory.svg</file>
-<file>images/dark/mimetypes/text-html.svg</file>
-<file>images/dark/mimetypes/text-markdown.svg</file>
-<file>images/dark/mimetypes/text-plain.svg</file>
-<file>images/dark/mimetypes/text-x-c++hdr.svg</file>
-<file>images/dark/mimetypes/text-x-c++src.svg</file>
-<file>images/dark/mimetypes/text-x-chdr.svg</file>
-<file>images/dark/mimetypes/text-x-csrc.svg</file>
-<file>images/dark/mimetypes/text-x-generic.svg</file>
-<file>images/dark/mimetypes/text-x-hex.svg</file>
-<file>images/dark/mimetypes/text-x-java.svg</file>
-<file>images/dark/mimetypes/text-x-javascript.svg</file>
-<file>images/dark/mimetypes/text-x-makefile.svg</file>
-<file>images/dark/mimetypes/text-x-markdown.svg</file>
-<file>images/dark/mimetypes/text-x-patch.svg</file>
-<file>images/dark/mimetypes/text-x-plain.svg</file>
-<file>images/dark/mimetypes/text-x-python.svg</file>
-<file>images/dark/mimetypes/text-x-readme.svg</file>
-<file>images/dark/mimetypes/text-x-script.svg</file>
-<file>images/dark/mimetypes/text-x-texinfo.svg</file>
-<file>images/dark/mimetypes/text-xml.svg</file>
-<file>images/dark/mimetypes/unknown.svg</file>
-</qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>images/light/mimetypes/application-x-executable-script.svg</file>
+        <file>images/light/mimetypes/application-x-java.svg</file>
+        <file>images/light/mimetypes/application-x-javascript.svg</file>
+        <file>images/light/mimetypes/application-x-m4.svg</file>
+        <file>images/light/mimetypes/application-x-python-bytecode.svg</file>
+        <file>images/light/mimetypes/application-x-zerosize.svg</file>
+        <file>images/light/mimetypes/folder.svg</file>
+        <file>images/light/mimetypes/image-x-generic.svg</file>
+        <file>images/light/mimetypes/inode-directory.svg</file>
+        <file>images/light/mimetypes/text-html.svg</file>
+        <file>images/light/mimetypes/text-markdown.svg</file>
+        <file>images/light/mimetypes/text-plain.svg</file>
+        <file>images/light/mimetypes/text-x-c++hdr.svg</file>
+        <file>images/light/mimetypes/text-x-c++src.svg</file>
+        <file>images/light/mimetypes/text-x-chdr.svg</file>
+        <file>images/light/mimetypes/text-x-csrc.svg</file>
+        <file>images/light/mimetypes/text-x-generic.svg</file>
+        <file>images/light/mimetypes/text-x-hex.svg</file>
+        <file>images/light/mimetypes/text-x-java.svg</file>
+        <file>images/light/mimetypes/text-x-javascript.svg</file>
+        <file>images/light/mimetypes/text-x-makefile.svg</file>
+        <file>images/light/mimetypes/text-x-markdown.svg</file>
+        <file>images/light/mimetypes/text-x-patch.svg</file>
+        <file>images/light/mimetypes/text-x-plain.svg</file>
+        <file>images/light/mimetypes/text-x-python.svg</file>
+        <file>images/light/mimetypes/text-x-readme.svg</file>
+        <file>images/light/mimetypes/text-x-script.svg</file>
+        <file>images/light/mimetypes/text-x-texinfo.svg</file>
+        <file>images/light/mimetypes/text-xml.svg</file>
+        <file>images/light/mimetypes/unknown.svg</file>
+        <file>images/dark/mimetypes/application-x-executable-script.svg</file>
+        <file>images/dark/mimetypes/application-x-java.svg</file>
+        <file>images/dark/mimetypes/application-x-javascript.svg</file>
+        <file>images/dark/mimetypes/application-x-m4.svg</file>
+        <file>images/dark/mimetypes/application-x-python-bytecode.svg</file>
+        <file>images/dark/mimetypes/application-x-zerosize.svg</file>
+        <file>images/dark/mimetypes/folder.svg</file>
+        <file>images/dark/mimetypes/image-x-generic.svg</file>
+        <file>images/dark/mimetypes/inode-directory.svg</file>
+        <file>images/dark/mimetypes/text-html.svg</file>
+        <file>images/dark/mimetypes/text-markdown.svg</file>
+        <file>images/dark/mimetypes/text-plain.svg</file>
+        <file>images/dark/mimetypes/text-x-c++hdr.svg</file>
+        <file>images/dark/mimetypes/text-x-c++src.svg</file>
+        <file>images/dark/mimetypes/text-x-chdr.svg</file>
+        <file>images/dark/mimetypes/text-x-csrc.svg</file>
+        <file>images/dark/mimetypes/text-x-generic.svg</file>
+        <file>images/dark/mimetypes/text-x-hex.svg</file>
+        <file>images/dark/mimetypes/text-x-java.svg</file>
+        <file>images/dark/mimetypes/text-x-javascript.svg</file>
+        <file>images/dark/mimetypes/text-x-makefile.svg</file>
+        <file>images/dark/mimetypes/text-x-markdown.svg</file>
+        <file>images/dark/mimetypes/text-x-patch.svg</file>
+        <file>images/dark/mimetypes/text-x-plain.svg</file>
+        <file>images/dark/mimetypes/text-x-python.svg</file>
+        <file>images/dark/mimetypes/text-x-readme.svg</file>
+        <file>images/dark/mimetypes/text-x-script.svg</file>
+        <file>images/dark/mimetypes/text-x-texinfo.svg</file>
+        <file>images/dark/mimetypes/text-xml.svg</file>
+        <file>images/dark/mimetypes/unknown.svg</file>
+        <file>images/light/mimetypes/archive.svg</file>
+        <file>images/light/mimetypes/git.svg</file>
+        <file>images/light/mimetypes/svn.svg</file>
+    </qresource>
 </RCC>

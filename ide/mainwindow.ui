@@ -970,7 +970,7 @@
          </item>
          <item row="0" column="2">
           <layout class="QGridLayout" name="gridLayout_3">
-           <item row="2" column="1">
+           <item row="3" column="1">
             <widget class="QToolButton" name="buttonOpenProject">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1002,24 +1002,21 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="labelOpenProject">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+           <item row="1" column="0" rowspan="3">
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <property name="minimumSize">
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
               <size>
-               <width>101</width>
-               <height>0</height>
+               <width>80</width>
+               <height>2</height>
               </size>
              </property>
-             <property name="text">
-              <string>CTRL+O</string>
-             </property>
-            </widget>
+            </spacer>
            </item>
            <item row="1" column="1">
             <widget class="QToolButton" name="buttonNewProject">
@@ -1053,20 +1050,7 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="labelNewProject">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-               <horstretch>101</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>CTRL+N</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3" rowspan="2">
+           <item row="1" column="3" rowspan="3">
             <spacer name="horizontalSpacer_5">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -1082,21 +1066,82 @@
              </property>
             </spacer>
            </item>
-           <item row="1" column="0" rowspan="2">
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+           <item row="3" column="2">
+            <widget class="QLabel" name="labelOpenProject">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
+             <property name="minimumSize">
               <size>
-               <width>80</width>
-               <height>2</height>
+               <width>101</width>
+               <height>0</height>
               </size>
              </property>
-            </spacer>
+             <property name="text">
+              <string>CTRL+O</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="labelNewProject">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>101</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>CTRL+N</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QToolButton" name="buttonNewProjectFromRemote">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Create New Project From Remote URL</string>
+             </property>
+             <property name="text">
+              <string>From Remote</string>
+             </property>
+             <property name="icon">
+              <iconset theme="document-new">
+               <normaloff>.</normaloff>.</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>22</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLabel" name="labelNewProject_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>101</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>CTRL+SHIFT+N</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -1191,12 +1236,12 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="projectButtons">
+  <buttongroup name="editionButtons">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="editionButtons">
+  <buttongroup name="projectButtons">
    <property name="exclusive">
     <bool>false</bool>
    </property>

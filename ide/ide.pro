@@ -27,6 +27,7 @@ include($$PWD/../3rdpart/qhexview/qhexview.pri)
 include($$PWD/../3rdpart/astyle/astyle.pri)
 include($$PWD/../3rdpart/qdarkstyle/qdarkstype.pri)
 include($$PWD/../3rdpart/hoedown/hoedown.pri)
+include($$PWD/../3rdpart/qt-mustache-master/qt-mustache.pri)
 
 #linux:!android: include(3rdpart/backward/backward.pri)
 #include(3rdpart/qt-promise/qt-promise.pri)
@@ -35,10 +36,12 @@ INCLUDEPATH += $$PWD/../3rdpart
 
 SOURCES += \
     envinputdialog.cpp \
+    findmakefiledialog.cpp \
         main.cpp \
         mainwindow.cpp \
     markdowneditor.cpp \
     markdownview.cpp \
+    newprojectfromremotedialog.cpp \
     processlinebufferizer.cpp \
         projectmanager.cpp \
         documentmanager.cpp \
@@ -75,9 +78,11 @@ SOURCES += \
 HEADERS += \
     buttoneditoritemdelegate.h \
     envinputdialog.h \
+    findmakefiledialog.h \
         mainwindow.h \
     markdowneditor.h \
     markdownview.h \
+    newprojectfromremotedialog.h \
     processlinebufferizer.h \
         projectmanager.h \
         documentmanager.h \
@@ -114,7 +119,9 @@ HEADERS += \
 
 FORMS += \
     envinputdialog.ui \
+    findmakefiledialog.ui \
         mainwindow.ui \
+    newprojectfromremotedialog.ui \
         unsavedfilesdialog.ui \
         formfindreplace.ui \
     configwidget.ui \

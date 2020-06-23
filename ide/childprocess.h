@@ -97,6 +97,10 @@ public:
 signals:
 
 public slots:
+    void stopSafety() {
+        safeStop(this);
+        emit finished(exitCode());
+    }
 };
 
 #endif // CHILDPROCESS_H

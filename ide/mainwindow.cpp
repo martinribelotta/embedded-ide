@@ -40,6 +40,8 @@
 #include "templateitemwidget.h"
 #include "templatefile.h"
 #include "processlinebufferizer.h"
+#include "newprojectfromremotedialog.h"
+#include "findmakefiledialog.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -138,6 +140,7 @@ MainWindow::MainWindow(QWidget *parent) :
         // { ui->buttonExternalTools, "run-build-configure" },
         { ui->buttonOpenProject, "document-open" },
         { ui->buttonNewProject, "document-new" },
+        { ui->buttonNewProjectFromRemote, "document-new" },
     };
     auto loadIcons = [this, buttonmap]() {
         for (const auto& e: buttonmap)
@@ -372,6 +375,17 @@ MainWindow::MainWindow(QWidget *parent) :
             }
         }
     };
+    auto newProjectFromRemoteCallback = [this, makeRecentProjects]() {
+        NewProjectFromRemoteDialog d(this);
+        if (d.exec()) {
+            FindMakefileDialog fd(d.projectPath(), this);
+            if (fd.exec()) {
+                auto projectFile = fd.fileName();
+                openProject(projectFile);
+            }
+        }
+        makeRecentProjects();
+    };
     auto openConfigurationCallback = [this]() {
         ConfigWidget d(this);
         if (d.exec())
@@ -390,6 +404,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonOpenProject, &QToolButton::clicked, openProjectCallback);
     connect(ui->buttonExport, &QToolButton::clicked, exportCallback);
     connect(ui->buttonNewProject, &QToolButton::clicked, newProjectCallback);
+    connect(ui->buttonNewProjectFromRemote, &QToolButton::clicked, newProjectFromRemoteCallback);
     connect(ui->buttonConfiguration, &QToolButton::clicked, openConfigurationCallback);
     connect(ui->buttonConfigurationMain, &QToolButton::clicked, openConfigurationCallback);
     connect(ui->buttonCloseProject, &QToolButton::clicked, priv->projectManager, &ProjectManager::closeProject);
