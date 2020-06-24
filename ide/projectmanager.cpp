@@ -19,6 +19,7 @@
 #include "appconfig.h"
 #include "buildmanager.h"
 #include "childprocess.h"
+#include "findandopenfiledialog.h"
 #include "icodemodelprovider.h"
 #include "processmanager.h"
 #include "projectmanager.h"
@@ -120,6 +121,19 @@ ProjectManager::ProjectManager(QListView *view, ProcessManager *pman, QObject *p
     connect(&AppConfig::instance(), &AppConfig::configChanged, [view]() {
         for(auto *button: view->findChildren<QPushButton*>())
             button->setIcon(QIcon(AppConfig::resourceImage({ "actions", "run-build" })));
+    });
+
+    TextMessageBrocker::instance().subscribe("findAndOpen", [this](const QString& path) {
+        auto files = FindAndOpenFileDialog::findFilesInPath(path, projectPath());
+        if (files.length() == 1) {
+            requestFileOpen(files.first());
+        } else {
+            FindAndOpenFileDialog d(priv->targetView->window());
+            d.setFileList(projectPath(), files);
+            if (d.exec()) {
+                requestFileOpen(d.selectedFile());
+            }
+        }
     });
 
     auto label = new QLabel(view);

@@ -320,6 +320,14 @@ QString PlainTextEditor::wordUnderCursor() const
     return wordAtLineIndex(line, col);
 }
 
+QString PlainTextEditor::lineUnderCursor() const
+{
+    int line;
+    int col;
+    getCursorPosition(&line, &col);
+    return text(line);
+}
+
 void PlainTextEditor::adjustLineNumberMargin()
 {
     QFontMetrics m(font());

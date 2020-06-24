@@ -33,9 +33,13 @@ public:
 
     static IDocumentEditorCreator *creator();
 
+signals:
+    void queryToOpen(const QString& path);
+
 private slots:
     void findReference();
     void formatCode();
+    void openIncludeInCursor();
 
 protected:
     QMenu *createContextualMenu() override;

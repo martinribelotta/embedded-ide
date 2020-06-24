@@ -43,6 +43,7 @@ public:
     static IDocumentEditorCreator *creator();
 
     QString wordUnderCursor() const;
+    QString lineUnderCursor() const;
 
     virtual void triggerAutocompletion();
 

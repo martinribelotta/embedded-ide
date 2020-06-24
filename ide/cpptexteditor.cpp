@@ -39,6 +39,11 @@ static const QStringList C_CXX_EXTENSIONS = { "c", "cpp", "h", "hpp", "cc", "hh"
 static const QStringList C_MIMETYPE = { "text/x-c++src", "text/x-c++hdr" };
 static const QStringList CXX_MIMETYPE = { "text/x-c", "text/x-csrc", "text/x-chdr" };
 
+static inline void triggerFindAndOpen(const QString& filePath)
+{
+    TextMessageBrocker::instance().publish("findAndOpen", filePath);
+}
+
 class MyQsciLexerCPP: public QsciLexerCPP {
 private:
     QLatin1String keywordList;
@@ -81,6 +86,7 @@ CPPTextEditor::CPPTextEditor(QWidget *parent) : CodeTextEditor(parent)
     setAutoCompletionSource(AcsNone);
     connect(new QShortcut(QKeySequence("Ctrl+Return"), this), &QShortcut::activated, this, &CPPTextEditor::findReference);
     connect(new QShortcut(QKeySequence("Ctrl+i"), this), &QShortcut::activated, this, &CPPTextEditor::formatCode);
+    connect(new QShortcut(QKeySequence("Ctrl+Shift+i"), this), &QShortcut::activated, this, &CPPTextEditor::openIncludeInCursor);
 }
 
 CPPTextEditor::~CPPTextEditor() = default;
@@ -186,6 +192,16 @@ void CPPTextEditor::formatCode()
     ensureLineVisible(l);
 }
 
+void CPPTextEditor::openIncludeInCursor()
+{
+    static const QRegularExpression incRe(R"(^\s*\#\s*include(?:_next)?\s+[\<\"](.*)[\>\"])");
+    auto m = incRe.match(lineUnderCursor());
+    if (m.hasMatch()) {
+        auto file = m.captured(1);
+        triggerFindAndOpen(file);
+    }
+}
+
 QMenu *CPPTextEditor::createContextualMenu()
 {
     auto menu = CodeTextEditor::createContextualMenu();
@@ -193,6 +209,15 @@ QMenu *CPPTextEditor::createContextualMenu()
                     tr("Find Reference"),
                     this, &CPPTextEditor::findReference)
             ->setShortcut(QKeySequence("CTRL+ENTER"));
+    static const QRegularExpression incRe(R"(^\s*\#\s*include(?:_next)?\s+[\<\"](.*)[\>\"])");
+    auto m = incRe.match(lineUnderCursor());
+    if (m.hasMatch()) {
+        auto file = m.captured(1);
+        menu->addAction(QIcon(AppConfig::resourceImage({"actions", "document-open"})),
+                        tr("Open Include"), this, [file]() {
+            triggerFindAndOpen(file);
+        })->setShortcut(QKeySequence("Ctrl+Shift+i"));
+    }
     return menu;
 }
 

@@ -36,6 +36,7 @@ INCLUDEPATH += $$PWD/../3rdpart
 
 SOURCES += \
     envinputdialog.cpp \
+    findandopenfiledialog.cpp \
     findmakefiledialog.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -78,6 +79,7 @@ SOURCES += \
 HEADERS += \
     buttoneditoritemdelegate.h \
     envinputdialog.h \
+    findandopenfiledialog.h \
     findmakefiledialog.h \
         mainwindow.h \
     markdowneditor.h \
@@ -119,6 +121,7 @@ HEADERS += \
 
 FORMS += \
     envinputdialog.ui \
+    findandopenfiledialog.ui \
     findmakefiledialog.ui \
         mainwindow.ui \
     newprojectfromremotedialog.ui \
